@@ -1,8 +1,7 @@
 #pragma once
 
-class Light : public IGameObject
+struct Light
 {
-public:
 	Vector3 DirDirection;
 	float pad;
 	Vector3 DirColor;
@@ -20,14 +19,14 @@ public:
 	Vector3 spDirection;
 	float spAngle;
 
-	void SetDirLig(float x, float y, float z);
+	/*void SetDirLig(float x, float y, float z);
 	void SetDirColor(float red, float green, float blue);
 
 	void SetPtPos(float x, float y, float z);
 	void SetPtColor(float red, float green, float blue);
 
-	void SetSpDir(float x, float y, float z);
+	void SetSpDir(float x, float y, float z);*/
 
-	void Normalize(Vector3 v);
+	void Update();
 };
 

@@ -288,6 +288,7 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ModelRender.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -359,6 +360,7 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="BackGround.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="ModelRender.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />

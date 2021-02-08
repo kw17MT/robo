@@ -9,7 +9,7 @@ cbuffer ModelCb : register(b0){
 	float4x4 mView;
 	float4x4 mProj;
 };
-cbuffer DirectionLightCb : register (b1) {
+cbuffer LightCb : register (b1) {
 	float3 ligDir;
 	float3 ligColor;
 

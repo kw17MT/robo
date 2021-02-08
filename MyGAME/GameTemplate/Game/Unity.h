@@ -3,7 +3,8 @@ class Unity : public IGameObject
 {
 private:
 	Model model;
-	Skeleton skeleton;
+	ModelInitData data;
+	
 public:
 	Unity();
 	~Unity();
