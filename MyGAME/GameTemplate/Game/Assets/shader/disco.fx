@@ -16,6 +16,7 @@ cbuffer Disco : register (b1)
 	float3 discoDir;
 	float3 discoColor;
 	float discoRange;
+	float3 eyePos;
 }
 	
 
@@ -100,19 +101,28 @@ SPSIn VSSkinMain( SVSIn vsIn )
 //ピクセルシェーダーのエントリー関数。
 float4 PSMain(SPSIn psIn) : SV_Target0
 {
-	
-	
-	//拡散反射
-	float t = dot(discoDir, psIn.worldPos);
+	//拡散反射/////////////////////////////////////////////////////////////////////////
+
+	float t = dot(discoDir, psIn.normal);
 	t *= -1.0f;
 	if (t < 0.0f) { t = 0.0f; }
 
 	float3 diff = discoColor * t;
+	///////////////////////////////////////////////////////////////////////////////////
 
-	/*float3 2Surface = psIn.worldPos - discoPos;*/
+	//鏡面反射光///////////////////////////////////////////////////////////////////////
+	float3 ref = reflect(discoDir, psIn.normal);
+	float3 toEye = psIn.worldPos - eyePos;
+	toEye = normalize(toEye);
+	t = dot(ref, toEye);
+	if (t < 0.0f) { t = 0.0f; }
+	t = pow(t, 3.0f);
+
+	float3 = spec = discoColor * t;
+	///////////////////////////////////////////////////////////////////////////////////
 
 
 	float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
-	albedoColor.xyz *= diff;
+	albedoColor.xyz *= (diff + spec);
 	return albedoColor;
 }

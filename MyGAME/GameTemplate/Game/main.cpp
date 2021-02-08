@@ -70,6 +70,25 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	
 	lig.spAngle = Math::DegToRad(30.0f);
 
+	struct Disco
+	{
+		Vector3 discoPos;
+		float pad4;
+		Vector3 discoDir;
+		float pad;
+		Vector3 discoColor;
+		float discoRange;
+		Vector3 eyePos;
+	};
+
+	Disco disco;
+	disco.discoPos = { 0.0f,150.0f,0.0f };
+	disco.discoDir = { 0.0f,1.0f,0.0f };
+	disco.discoColor = { 1.0f,1.0f,1.0f };
+	disco.discoDir.Normalize();
+	disco.discoRange = 100.0f;
+	disco.eyePos = g_camera3D->GetPosition();
+
 	//Unity—p
 	ModelInitData modeldata;
 	modeldata.m_tkmFilePath = "Assets/modelData/unityChan.tkm";
@@ -99,30 +118,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	Model Light;
 	Light.Init(lightdata);
 
-	struct Disco
-	{
-		Vector3 discoPos;
-		float pad4;
-		Vector3 discoDir;
-		float pad;
-		Vector3 discoColor;
-		float discoRange;
-	};
-
-	Disco d;
-	d.discoPos = { 0.0f,150.0f,0.0f };
-	d.discoDir = { 0.0f,1.0f,0.0f };
-	d.discoColor = { 10.0f,0.0f,10.0f };
-	d.discoDir.Normalize();
-	d.discoRange = 100.0f;
+	
 
 	ModelInitData discodata;
 	discodata.m_tkmFilePath = "Assets/modelData/light.tkm";
 
-	discodata.m_fxFilePath = "Assets/shader/disco.fx";
+	discodata.m_fxFilePath = "Assets/shader/model.fx";
 
-	discodata.m_expandConstantBuffer = &d;
-	discodata.m_expandConstantBufferSize = sizeof(d);
+	discodata.m_expandConstantBuffer = &disco;
+	discodata.m_expandConstantBufferSize = sizeof(disco);
 
 	Model Disco;
 	Disco.Init(discodata);
@@ -159,7 +163,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		lig.ptPosition.z -= g_pad[0]->GetLStickYF() * 5.0f;
 
 		Light.UpdateWorldMatrix(lig.ptPosition, g_quatIdentity, g_vec3One);
-		Disco.UpdateWorldMatrix(d.discoPos, g_quatIdentity, g_vec3One);
+		Disco.UpdateWorldMatrix(disco.discoPos, g_quatIdentity, g_vec3One);
 
 		Unity.Draw(renderContext);
 		Stage.Draw(renderContext);
