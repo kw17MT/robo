@@ -1,0 +1,10 @@
+tkmFile　を参考に　TklFile.h(cpp)　を作成した。
+→TklファイルからのSkeleton,Pos,Scale,　と　Rot,Modelのパスを用いる。
+
+
+
+
+Hook
+Initの引数にHook関数を持ってくる。
+Hookがなかったら（FALSE)、マップチップを作成する。
+TRUEならば、マップチップは作成しなくていい。
