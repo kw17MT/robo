@@ -8,6 +8,8 @@
 #define INPUT_DEADZONE  ( 0.24f * FLOAT(0x7FFF) )  // Default to 24% of the +/- 32767 range.   This is a reasonable default value but can be altered if needed.
 std::array<GamePad*, GamePad::CONNECT_PAD_MAX> g_pad;
 
+int padNum = 0;
+
 namespace {
 	/*!
 	*@brief	仮想ボタンとXBoxコントローラのボタンとの関連付けを表す構造体。
@@ -68,6 +70,9 @@ GamePad::GamePad()
 	memset(&m_state, 0, sizeof(m_state));
 	memset(m_trigger, 0, sizeof(m_trigger));
 	memset(m_press, 0, sizeof(m_press));
+
+	m_padNo = padNum;
+	padNum++;
 }
 GamePad::~GamePad()
 {
@@ -83,20 +88,18 @@ void GamePad::Update()
 {
 	//アクティブパッドを探す。
 	DWORD result = ERROR_DEVICE_NOT_CONNECTED;
-	for (int i = m_padNo; i < MAX_PAD; i++) {
-		if (m_padStates[i] == EnXInputPadState::Undef) {
-			//このパッドは未調査。
-			result = XInputGetState(i, &m_state.state);
-			if (result == ERROR_SUCCESS) {
-				//接続できた。
-				m_padStates[i] = EnXInputPadState::Connect;
-				break;
-			}
-			else {
-				//繋がっていない。
-				//次のパッドを調べる。
-				m_padStates[i] = EnXInputPadState::Disconnect;
-			}
+	if (m_padStates[m_padNo] == EnXInputPadState::Undef) {
+		//このパッドは未調査。
+		result = XInputGetState(m_padNo, &m_state.state);
+		if (result == ERROR_SUCCESS) {
+			//接続できた。
+			m_padStates[m_padNo] = EnXInputPadState::Connect;
+			//break;
+		}
+		else {
+			//繋がっていない。
+			//次のパッドを調べる。
+			m_padStates[m_padNo] = EnXInputPadState::Disconnect;
 		}
 	}
 		

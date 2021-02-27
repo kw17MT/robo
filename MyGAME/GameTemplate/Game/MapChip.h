@@ -1,4 +1,6 @@
 #pragma once
+#include "Light.h"
+
 class MapChip
 {
 public:
@@ -9,7 +11,9 @@ public:
 	/// <param name="pos">位置</param>
 	/// <param name="scale">拡大率</param>
 	/// <param name="rot">回転</param>
-	void Init(const char* path01, Vector3 pos, Vector3 scale, Quaternion rot );
+	void Init(const char* path01, Vector3 pos, Vector3 scale, Quaternion rot);
+
+	//使用するシェーダーを設定。
 	void Draw();
 
 private:

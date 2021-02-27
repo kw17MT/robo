@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Level.h"
+#include "Light.h"
 
 
 void Level::Init(const char* a, std::function<bool(ObjectData& objectData)> hookFunc )
@@ -53,6 +54,8 @@ void Level::Init(const char* a, std::function<bool(ObjectData& objectData)> hook
 			wcstombs_s(&convertedChars, nstring, newsize, filePath, _TRUNCATE);
 			//文字列の連結
 			_mbscat_s((unsigned char*)nstring, newsize + strConSize, (unsigned char*)strCon);
+
+
 
 
 			//Hookが登録済みならばマップチップは作成不要
@@ -142,25 +145,27 @@ void Level::MatrixTklToLevel()
 		//コピー終わり。
 		});
 
+
+	//不要かも		コードの書き方として参考になり得るため今のところ残している。
 	//親座標系の行列になっているので、親が存在しているボーンからは親座標系をかき消していく。
-	for (auto& bone : m_bonelist) {
-		if (bone->GetParentBoneNo() != -1) {
-			//親ボーンが存在するとき
-			//親ボーンを取得しておく。
-			auto& parentBone = m_bonelist.at(bone->GetParentBoneNo());
-			//親とする配列に子供を入れて登録しておく。
-			parentBone->AddChild(bone.get());
-			//親のバインドポーズの取得。
-			Matrix parentInv = parentBone->GetInvBindPoseMatrix();
-			//子どものマトリックスに変換する。
-			Matrix LocalMat = bone->GetBindPoseMatrix() * parentInv;
-			bone->SetLocalMatrix(LocalMat);
-		}
-		else {
-			//もともとのマトリックスを入れておく。
-			bone->SetLocalMatrix(bone->GetBindPoseMatrix());
-		}
-		m_matrixlist = std::make_unique<Matrix[]>(m_bonelist.size());	
-		m_isInited = true;
-	}
+	//for (auto& bone : m_bonelist) {
+	//	if (bone->GetParentBoneNo() != -1) {
+	//		//親ボーンが存在するとき
+	//		//親ボーンを取得しておく。
+	//		auto& parentBone = m_bonelist.at(bone->GetParentBoneNo());
+	//		//親とする配列に子供を入れて登録しておく。
+	//		parentBone->AddChild(bone.get());
+	//		//親のバインドポーズの取得。
+	//		Matrix parentInv = parentBone->GetInvBindPoseMatrix();
+	//		//子どものマトリックスに変換する。
+	//		Matrix LocalMat = bone->GetBindPoseMatrix() * parentInv;
+	//		bone->SetLocalMatrix(LocalMat);
+	//	}
+	//	else {
+	//		//もともとのマトリックスを入れておく。
+	//		bone->SetLocalMatrix(bone->GetBindPoseMatrix());
+	//	}
+	//	m_matrixlist = std::make_unique<Matrix[]>(m_bonelist.size());	
+	//	m_isInited = true;
+	//}
 }

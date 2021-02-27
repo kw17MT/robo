@@ -191,9 +191,6 @@
     <ClCompile Include="..\..\ExEngine\physics\PhysicsStaticObject.cpp">
       <Filter>ExEngine\physics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MiniEngine\font\FontEngine.cpp">
-      <Filter>MiniEngine\font</Filter>
-    </ClCompile>
     <ClCompile Include="BackGround.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -201,9 +198,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Unity.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Light.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">
@@ -214,6 +208,15 @@
     </ClCompile>
     <ClCompile Include="MapChip.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRender.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\font\Font.cpp">
+      <Filter>MiniEngine\font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\font\FontEngine.cpp">
+      <Filter>MiniEngine\font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -385,12 +388,6 @@
     <ClInclude Include="..\..\ExEngine\physics\PhysicsStaticObject.h">
       <Filter>ExEngine\physics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MiniEngine\font\FontEngine.h">
-      <Filter>MiniEngine\font</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MiniEngine\font\Font.h">
-      <Filter>MiniEngine\font</Filter>
-    </ClInclude>
     <ClInclude Include="BackGround.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -398,9 +395,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Unity.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Level.h">
@@ -411,6 +405,15 @@
     </ClInclude>
     <ClInclude Include="MapChip.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRender.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\font\Font.h">
+      <Filter>MiniEngine\font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\font\FontEngine.h">
+      <Filter>MiniEngine\font</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

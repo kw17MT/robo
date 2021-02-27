@@ -2,47 +2,22 @@
 #include "Light.h"
 #include "math.h"
 
-////ディレクションライトの向きを決める。
-//void Light::SetDirLig(float x, float y, float z)
+//Light::Light()
 //{
-//	DirDirection.x = x;
-//	DirDirection.y = y;
-//	DirDirection.z = z;
-//}
+//	//ディレクションライト
+//	DirDirection = { 1.0f,0.0f,0.0f };
+//	DirDirection.Normalize();
+//	DirColor = { 1.0f,1.0f,1.0f };
+//	eyePos = g_camera3D->GetPosition();
 //
-////ディレクションライトの色を決める。
-//void Light::SetDirColor(float red, float green, float blue)
-//{
-//	DirColor.x = red;
-//	DirColor.y = green;
-//	DirColor.z = blue;
-//}
+//	//ポイントライト
+//	ptPosition = { 0.0f, 60.0f,0.0f };
+//	ptColor = { 0.0f, 100.0f,100.0f };
+//	ptRange = 300.0f;
 //
-////ポイントライトの向きを決める。
-//void Light::SetPtPos(float x, float y, float z)
-//{
-//	ptPosition.x = x;
-//	ptPosition.y = y;
-//	ptPosition.z = z;
-//}
+//	//スポットライト
+//	spDirection = { 1.0f,-1.0f,0.0f };
+//	spDirection.Normalize();
 //
-////ポイントライトの色を決める。
-//void Light::SetPtColor(float red, float green, float blue)
-//{
-//	ptColor.x = red;
-//	ptColor.x = green;
-//	ptColor.x = blue;
+//	spAngle = Math::DegToRad(30.0f);
 //}
-//
-////スポットライトの方向を決める。
-//void Light::SetSpDir(float x, float y, float z)
-//{
-//	spDirection.x = x;
-//	spDirection.y = y;
-//	spDirection.z = z;
-//}
-
-void Light::Update()
-{
-	
-}

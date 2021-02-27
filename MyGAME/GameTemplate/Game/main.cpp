@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "system/system.h"
 #include "Level.h"
+#include "ModelRender.h"
+#include "Light.h"
+#include <string>
 
 
 // ウィンドウプログラムのメイン関数。
@@ -20,7 +23,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ディレクションライト、ポイントライト
 	//一緒くたにしないと両方のライトの影響を受けなくなる。
 	
-	g_lig.DirDirection = { 1.0f,0.0f,0.0f };
+	g_lig.DirDirection = { -1.0f,1.0f,0.0f };
 	g_lig.DirDirection.Normalize();
 	g_lig.DirColor = { 1.0f,1.0f,1.0f };
 	g_lig.eyePos = g_camera3D->GetPosition();
@@ -36,41 +39,27 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	
 	g_lig.spAngle = Math::DegToRad(30.0f);
 
-	//Unity用
-	ModelInitData modeldata;
-	modeldata.m_tkmFilePath = "Assets/modelData/unityChan.tkm";
-	modeldata.m_fxFilePath = "Assets/shader/model.fx";
-	
-	modeldata.m_expandConstantBuffer = &g_lig;
-	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
-	
-	Model Unity;
-	Unity.Init(modeldata);
-
-	//ステージ用
-	modeldata.m_tkmFilePath = "Assets/modelData/bg/bg.tkm";
-
-	Model Stage;
-	Stage.Init(modeldata);
 
 	//ライト用
-	ModelInitData lightdata;
-	lightdata.m_tkmFilePath = "Assets/modelData/light.tkm";
+	//ModelInitData lightdata;
+	//lightdata.m_tkmFilePath = "Assets/modelData/light.tkm";
 
-	lightdata.m_fxFilePath = "Assets/shader/model.fx";
+	//lightdata.m_fxFilePath = "Assets/shader/model.fx";
 
-	lightdata.m_expandConstantBuffer = &g_lig;
-	lightdata.m_expandConstantBufferSize = sizeof(g_lig);
+	//lightdata.m_expandConstantBuffer = &g_lig;
+	//lightdata.m_expandConstantBufferSize = sizeof(g_lig);
 
-	Model Light;
-	Light.Init(lightdata);
-
-
+	//Model Light;
+	//Light.Init(lightdata);
+	/// レベル表示用
 	Level level;
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	level.Init("Assets/level/level001.tkl", [&](ObjectData& objectData) {return false;});
-	//NewGO<Unity>(0);
-	//NewGO<BackGround>(0);
+
+	ModelRender* re[2];
+	re[0] = NewGO<ModelRender>(0);
+	re[0]->SetPlayerNo(1);
+	re[1] = NewGO<ModelRender>(0);
+	re[1]->SetPlayerNo(2);
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -103,14 +92,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//g_lig.ptPosition.z -= g_pad[0]->GetLStickYF() * 5.0f;
 
 		//Light.UpdateWorldMatrix(g_lig.ptPosition, g_quatIdentity, g_vec3One);
+
+		//文字を出力する。
 		
-		float move = g_pad[0]->GetRStickYF() * 10.0f;
+
+		//カメラの移動
+		float move = g_pad[0]->GetRStickYF() * 30.0f;
 		Vector3 camerapos = g_camera3D->GetPosition();
 		camerapos.z -= move;
 		g_camera3D->SetPosition(camerapos);
 
-		//Unity.Draw(renderContext);
-		//Stage.Draw(renderContext);
 		//Light.Draw(renderContext);
 		level.Draw();
 		//////////////////////////////////////

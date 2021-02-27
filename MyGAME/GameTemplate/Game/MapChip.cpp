@@ -11,6 +11,7 @@ void MapChip::Init(const char* path01, Vector3 pos, Vector3 scale, Quaternion ro
 	m_model.UpdateWorldMatrix(pos, rot, scale);
 }
 
+
 void MapChip::Draw()
 {
 	m_model.Draw(g_graphicsEngine->GetRenderContext());

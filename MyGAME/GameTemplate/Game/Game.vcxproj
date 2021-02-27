@@ -255,6 +255,7 @@
     <ClCompile Include="..\..\MiniEngine\Camera.cpp" />
     <ClCompile Include="..\..\MiniEngine\ConstantBuffer.cpp" />
     <ClCompile Include="..\..\MiniEngine\DescriptorHeap.cpp" />
+    <ClCompile Include="..\..\MiniEngine\font\Font.cpp" />
     <ClCompile Include="..\..\MiniEngine\font\FontEngine.cpp" />
     <ClCompile Include="..\..\MiniEngine\GPUBuffer.cpp" />
     <ClCompile Include="..\..\MiniEngine\GraphicsEngine.cpp" />
@@ -289,10 +290,10 @@
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="Level.cpp" />
-    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="ModelRender.cpp" />
+    <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -364,9 +365,9 @@
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="Level.h" />
-    <ClInclude Include="Light.h" />
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="ModelRender.h" />
+    <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="TklFile.h" />
