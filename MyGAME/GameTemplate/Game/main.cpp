@@ -4,7 +4,7 @@
 #include "ModelRender.h"
 #include "Light.h"
 #include <string>
-
+#include "FontRender.h"
 
 // ウィンドウプログラムのメイン関数。
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
@@ -51,6 +51,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//Model Light;
 	//Light.Init(lightdata);
+
+	FontRender SCORE01;
+	FontRender SCORE02;
+	FontRender TIME;
+	FontRender timer;
+	
+	NewGO<FontRender>(0);
+
 	/// レベル表示用
 	Level level;
 	level.Init("Assets/level/level001.tkl", [&](ObjectData& objectData) {return false;});
@@ -60,6 +68,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	re[0]->SetPlayerNo(1);
 	re[1] = NewGO<ModelRender>(0);
 	re[1]->SetPlayerNo(2);
+	
+	
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -104,6 +114,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		//Light.Draw(renderContext);
 		level.Draw();
+
+		// UIの表示（タイムとスコアｘ２）最前面に出すため、一番最後に書くこと
+		/*SCORE01.Write(L"SCORE :", { -600,-300 });
+		SCORE02.Write(L"SCORE :", { 350,-300 });
+		TIME.Write(L"TIME :", { -100,350 });
+
+
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！
 		//////////////////////////////////////

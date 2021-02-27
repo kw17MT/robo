@@ -2,16 +2,47 @@
 #include "FontRender.h"
 
 
-FontRender::FontRender()
+bool FontRender::Start()
 {
-
+	return true;
 }
 
-void FontRender::WriteFont(const wchar_t* letter, RenderContext& rc)
+wchar_t String2Wcahr(int num) {
+	std::wstring str;
+	str = std::to_wstring(num);				//àÍìxÅAêîílÇwstringå^Ç…ïœä∑Ç∑ÇÈ
+	const wchar_t* wcStr = str.c_str();		//wstringå^Çconst wchar_t*å^Ç…ïœä∑Ç∑ÇÈ
+
+	return *wcStr;
+}
+
+void FontRender::Update()
 {
-	Font font;
+	Font fontTime;
 	Vector4 color = { 1.0f,1.0f,1.0,1.0f };
-	font.Begin(rc);
-	font.Draw(letter, { 400, 0 }, color, 0.0f, 1.0f, { 0.0f, 0.0f });
-	font.End(rc);
+	fontTime.Begin(renderContext);
+	fontTime.Draw(L"TIME :", posTime, color, 0.0f, 1.0f, { 0.0f, 0.0f });
+	fontTime.End(renderContext);
+
+	fontTime.Begin(renderContext);
+	fontTime.Draw(L"SCORE :", posScore01, color, 0.0f, 1.0f, { 0.0f, 0.0f });
+	fontTime.End(renderContext);
+
+	fontTime.Begin(renderContext);
+	fontTime.Draw(L"SCORE :", posScore02, color, 0.0f, 1.0f, { 0.0f, 0.0f });
+	fontTime.End(renderContext);
+
+	/*Counter++;
+	if (Counter == 30) {
+		time--;
+
+		String2Wcahr(time);
+		Counter = 0;
+	}
+
+	const wchar_t wcTime = String2Wcahr(time);
+
+	fontTime.Begin(renderContext);
+	fontTime.Draw(&wcTime, posScore02, color, 0.0f, 1.0f, { 0.0f, 0.0f });
+	fontTime.End(renderContext);*/
+
 }
