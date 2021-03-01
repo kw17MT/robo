@@ -2,14 +2,15 @@
 class SpriteRender
 {
 public:
-	void Init(const char* path, float w, float h);
+	//SpriteRender() {};
+	void Init(float w, float h);
 	bool Start();
 	void Update();
 
 private:
 	Sprite m_sprite;
 	SpriteInitData m_spriteData;
-	Texture m_texture;
+	RenderContext& rc;
 };
 
 

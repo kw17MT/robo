@@ -7,7 +7,7 @@
 class Texture;
 
 //スプライトに設定できる最大テクスチャ数。
-const int MAX_TEXTURE = 16;	
+const int MAX_TEXTURE = 320;	
 //拡張SRVが設定されるレジスタの開始番号。
 const int EXPAND_SRV_REG__START_NO = 10;
 

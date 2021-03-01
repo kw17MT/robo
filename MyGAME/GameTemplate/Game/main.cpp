@@ -5,6 +5,9 @@
 #include "Light.h"
 #include <string>
 #include "FontRender.h"
+#include "SpriteRender.h"
+#include "Guzai.h"
+#include "math.h"
 
 // ウィンドウプログラムのメイン関数。
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
@@ -59,18 +62,36 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	
 	NewGO<FontRender>(0);
 
+	//Sprite sprite;
+	//SpriteInitData spdata;
+	//spdata.m_ddsFilePath[MAX_TEXTURE] = { "Assets/modelData/light.DDS" };		//DDSファイルのファイルパス。
+	//spdata.m_fxFilePath = "Assets/shader/model.fx";						//.fxファイルのファイルパス。
+	//spdata.m_width = 5;										//スプライトの幅。
+	//spdata.m_height = 5;
+	//sprite.Init(spdata);
+
 	/// レベル表示用
 	Level level;
 	level.Init("Assets/level/level001.tkl", [&](ObjectData& objectData) {return false;});
 
+	//プレイヤーのモデルを作成x2
 	ModelRender* re[2];
 	re[0] = NewGO<ModelRender>(0);
 	re[0]->SetPlayerNo(1);
 	re[1] = NewGO<ModelRender>(0);
 	re[1]->SetPlayerNo(2);
-	
-	
 
+	//具材を作成
+	Guzai* g[5];
+	for (int i = 0;i < 5; i++) {
+		g[i] = NewGO<Guzai>(0);
+		g[i]->exist = i;
+	}
+	//何番をとったかのメモ用
+	int noMemo;
+
+
+	
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
 	//////////////////////////////////////
@@ -103,7 +124,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		//Light.UpdateWorldMatrix(g_lig.ptPosition, g_quatIdentity, g_vec3One);
 
-		//文字を出力する。
+		
 		
 
 		//カメラの移動
@@ -114,12 +135,36 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		//Light.Draw(renderContext);
 		level.Draw();
+		//sprite.Draw(renderContext);
 
-		// UIの表示（タイムとスコアｘ２）最前面に出すため、一番最後に書くこと
-		/*SCORE01.Write(L"SCORE :", { -600,-300 });
-		SCORE02.Write(L"SCORE :", { 350,-300 });
-		TIME.Write(L"TIME :", { -100,350 });
+		//具材との距離を測り、一定の距離内でAボタンを押すと、プレイヤーの頭上に具材を持ってくる。////////////////////////////////////
+		Vector3 pl1Diff = re[0]->GetPosition();
+		Vector3 pl2Diff = re[1]->GetPosition();
+		
+		for (int i = 0; i < 5; i++) {
+			Vector3 guzaiDiff = g[i]->GetPosition();
 
+			float diff4pl1 = (guzaiDiff.x - pl1Diff.x) * (guzaiDiff.x - pl1Diff.x) + (guzaiDiff.y - pl1Diff.y) * (guzaiDiff.y - pl1Diff.y) + (guzaiDiff.z - pl1Diff.z) * (guzaiDiff.z - pl1Diff.z);
+			diff4pl1 = sqrt(diff4pl1);
+
+			if (g_pad[0]->IsPress(enButtonA) && re[0]->have == 0) {
+				if (diff4pl1 < 100.0f) {
+					g[i]->state = 1;
+					noMemo = i;
+					re[0]->have = 1;
+				}
+			}
+			if (g[i]->state == 1) {
+				pl1Diff.y += 10.0f;
+				g[i]->SetPosition(pl1Diff);
+			}
+		}
+
+		if (g_pad[0]->IsPress(enButtonB)) {
+			g[noMemo]->state = 0;
+			re[0]->have = 0;
+		}
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！

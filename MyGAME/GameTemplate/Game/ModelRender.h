@@ -8,6 +8,7 @@ private:
 	CharacterController m_charaCon;
 
 	int playerNo = 0;
+	int setPos = 0;
 
 	//Vector3 pos = { 0.0f,0.0f,0.0f };
 	//Vector3 scale = { 1.0f,1.0f,1.0f };
@@ -22,10 +23,14 @@ public:
 	bool Start();
 	void Update();
 
+	Vector3 GetPosition();
+
 	void Render(RenderContext& rc)
 	{
 		model.Draw(rc);
 	}
 
 	void GiveData(const char* ModelPath, const char* ShaderPath);
+
+	int have = 0;
 };

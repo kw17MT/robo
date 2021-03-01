@@ -24,6 +24,14 @@ void FontRender::Update()
 	fontTime.End(renderContext);
 
 	fontTime.Begin(renderContext);
+	fontTime.Draw(L"ITEM", posItem01, color, 0.0f, 1.0f, { 0.0f, 0.0f });
+	fontTime.End(renderContext);
+
+	fontTime.Begin(renderContext);
+	fontTime.Draw(L"ITEM", posItem02, color, 0.0f, 1.0f, { 0.0f, 0.0f });
+	fontTime.End(renderContext);
+
+	fontTime.Begin(renderContext);
 	fontTime.Draw(L"SCORE :", posScore01, color, 0.0f, 1.0f, { 0.0f, 0.0f });
 	fontTime.End(renderContext);
 
@@ -31,11 +39,11 @@ void FontRender::Update()
 	fontTime.Draw(L"SCORE :", posScore02, color, 0.0f, 1.0f, { 0.0f, 0.0f });
 	fontTime.End(renderContext);
 
+
+
 	/*Counter++;
 	if (Counter == 30) {
 		time--;
-
-		String2Wcahr(time);
 		Counter = 0;
 	}
 

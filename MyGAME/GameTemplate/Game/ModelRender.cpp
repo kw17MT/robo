@@ -12,20 +12,20 @@ void ModelRender::GiveData(const char* ModelPath, const char* ShaderPath)
 {
 	ModelInitData modeldata;
 
-	modeldata.m_tkmFilePath = "Assets/modelData/unityChan.tkm";
-	if (ModelPath != nullptr) {
-		modeldata.m_tkmFilePath = ModelPath;
-	}
+	modeldata.m_tkmFilePath = ModelPath;
 	
 	modeldata.m_fxFilePath = "Assets/shader/model.fx";
 	if (ShaderPath != nullptr) {
 		modeldata.m_fxFilePath = ShaderPath;
 	}
 
-	modeldata.m_vsEntryPointFunc = "VSMain";
-	modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
-
 	model.Init(modeldata);
+}
+
+Vector3 ModelRender::GetPosition()
+{
+	Vector3 Pos = m_charaCon.GetPosition();
+	return Pos;
 }
 
 bool ModelRender::Start()
@@ -55,16 +55,26 @@ void ModelRender::Update()
 	m_skeleton.Update(model.GetWorldMatrix());
 
 	Vector3 moveSpeed;
-	moveSpeed.x = g_pad[0]->GetLStickXF() * -1.0f;
-	moveSpeed.z = g_pad[0]->GetLStickYF() * -1.0f;
 
 	if (playerNo == 1) {
-		moveSpeed.x = g_pad[0]->GetLStickXF() * -1.0f;
-		moveSpeed.z = g_pad[0]->GetLStickYF() * -1.0f;
+		moveSpeed.x = g_pad[0]->GetLStickXF() * -3.0f;
+		moveSpeed.z = g_pad[0]->GetLStickYF() * -3.0f;
+
+		if (setPos == 0) {
+			Vector3 Pos1 = { 900.0f, 0.0f, 0.0f };
+			m_charaCon.SetPosition(Pos1);
+			setPos = 1;
+		}
 	}
 	if (playerNo == 2) {
-		moveSpeed.x = g_pad[0]->GetRStickXF() * -1.0f;
-		moveSpeed.z = g_pad[0]->GetRStickYF() * -1.0f;
+		moveSpeed.x = g_pad[0]->GetRStickXF() * -3.0f;
+		moveSpeed.z = g_pad[0]->GetRStickYF() * -3.0f;
+
+		if (setPos == 0) {
+			Vector3 Pos2 = { -900.0f, 0.0f, 0.0f };
+			m_charaCon.SetPosition(Pos2);
+			setPos = 1;
+		}
 	}
 	m_charaCon.Execute(moveSpeed, 1.0f);
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
