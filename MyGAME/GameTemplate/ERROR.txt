@@ -1,0 +1,3 @@
+spriteのバッファオーバーフロー
+
+起動後数秒でGraphicMemoryのLine.125にエラー

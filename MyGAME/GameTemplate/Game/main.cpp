@@ -89,7 +89,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	}
 	//‰½”Ô‚ð‚Æ‚Á‚½‚©‚Ìƒƒ‚—p
 	int noMemo;
-
+	int putNo = 0;
 
 	
 	//////////////////////////////////////
@@ -141,6 +141,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		Vector3 pl1Diff = re[0]->GetPosition();
 		Vector3 pl2Diff = re[1]->GetPosition();
 		
+		Vector3 Kitchen01 = { 900.0f, 0.0f, 00.0f };
+		
 		for (int i = 0; i < 5; i++) {
 			Vector3 guzaiDiff = g[i]->GetPosition();
 
@@ -160,9 +162,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			}
 		}
 
-		if (g_pad[0]->IsPress(enButtonB)) {
+		float Diff2Kit = (Kitchen01.x - pl1Diff.x) * (Kitchen01.x - pl1Diff.x) + (Kitchen01.y - pl1Diff.y) * (Kitchen01.y - pl1Diff.y) + (Kitchen01.z - pl1Diff.z) * (Kitchen01.z - pl1Diff.z);
+		Diff2Kit = sqrt(Diff2Kit);
+
+		if (Diff2Kit < 100.0f && g_pad[0]->IsTrigger(enButtonB)) {
 			g[noMemo]->state = 0;
 			re[0]->have = 0;
+			g[noMemo]->put = 1;
+			Kitchen01.y += putNo * 100.0f;
+			g[noMemo]->SetPosition(Kitchen01);
+			putNo++;
 		}
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

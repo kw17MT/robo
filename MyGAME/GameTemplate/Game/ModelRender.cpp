@@ -57,8 +57,8 @@ void ModelRender::Update()
 	Vector3 moveSpeed;
 
 	if (playerNo == 1) {
-		moveSpeed.x = g_pad[0]->GetLStickXF() * -3.0f;
-		moveSpeed.z = g_pad[0]->GetLStickYF() * -3.0f;
+		moveSpeed.x = g_pad[0]->GetLStickXF() * -10.0f;
+		moveSpeed.z = g_pad[0]->GetLStickYF() * -10.0f;
 
 		if (setPos == 0) {
 			Vector3 Pos1 = { 900.0f, 0.0f, 0.0f };
@@ -67,8 +67,8 @@ void ModelRender::Update()
 		}
 	}
 	if (playerNo == 2) {
-		moveSpeed.x = g_pad[0]->GetRStickXF() * -3.0f;
-		moveSpeed.z = g_pad[0]->GetRStickYF() * -3.0f;
+		moveSpeed.x = g_pad[0]->GetRStickXF() * -10.0f;
+		moveSpeed.z = g_pad[0]->GetRStickYF() * -10.0f;
 
 		if (setPos == 0) {
 			Vector3 Pos2 = { -900.0f, 0.0f, 0.0f };

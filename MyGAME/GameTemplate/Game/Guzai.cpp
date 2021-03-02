@@ -46,8 +46,8 @@ void Guzai::Update()
 	//スケルトンを更新。
 	m_skeleton.Update(model.GetWorldMatrix());
 	wait--;
-	if (wait < 0) {
-		if (state == 0) {
+	if (wait <= 0) {
+		if (state == 0 && put == 0) {
 			Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
 			time++;
 			if (time < 30) {
@@ -66,6 +66,7 @@ void Guzai::Update()
 				time = 0;
 			}
 			m_charaCon.Execute(moveSpeed, 1.0f);
+			wait = 0;
 		}
 	}
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
