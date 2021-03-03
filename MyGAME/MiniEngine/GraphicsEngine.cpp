@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GraphicsEngine.h"
 
+Light g_lig;
+
 GraphicsEngine* g_graphicsEngine = nullptr;	//グラフィックスエンジン
 Camera* g_camera2D = nullptr;				//2Dカメラ。
 Camera* g_camera3D = nullptr;				//3Dカメラ。
@@ -68,7 +70,7 @@ bool GraphicsEngine::Init(HWND hwnd, UINT frameBufferWidth, UINT frameBufferHeig
 	//
 	g_graphicsEngine = this;
 
-	
+
 
 
 	m_frameBufferWidth = frameBufferWidth;
@@ -77,7 +79,7 @@ bool GraphicsEngine::Init(HWND hwnd, UINT frameBufferWidth, UINT frameBufferHeig
 	//デバイスにアクセスするためのインターフェースを作成。
 	auto dxgiFactory = CreateDXGIFactory();
 	//D3Dデバイスの作成。
-	if (!CreateD3DDevice( dxgiFactory ) ) {
+	if (!CreateD3DDevice(dxgiFactory)) {
 		//D3Dデバイスの作成に失敗した。
 		MessageBox(hwnd, TEXT("D3Dデバイスの作成に失敗しました。"), TEXT("エラー"), MB_OK);
 		return false;
@@ -94,7 +96,7 @@ bool GraphicsEngine::Init(HWND hwnd, UINT frameBufferWidth, UINT frameBufferHeig
 		MessageBox(hwnd, TEXT("スワップチェインの作成に失敗しました。"), TEXT("エラー"), MB_OK);
 		return false;
 	}
-	
+
 	//フレームバッファ用のディスクリプタヒープを作成する。
 	if (!CreateDescriptorHeapForFrameBuffer()) {
 		MessageBox(hwnd, TEXT("フレームバッファ用のディスクリプタヒープの作成に失敗しました。"), TEXT("エラー"), MB_OK);
@@ -135,7 +137,7 @@ bool GraphicsEngine::Init(HWND hwnd, UINT frameBufferWidth, UINT frameBufferHeig
 		MessageBox(hwnd, TEXT("GPUと同期をとるためのオブジェクトの作成に失敗しました。"), TEXT("エラー"), MB_OK);
 		return false;
 	}
-	
+
 	//レンダリングコンテキストの作成。
 	m_renderContext.Init(m_commandList);
 
@@ -166,13 +168,14 @@ bool GraphicsEngine::Init(HWND hwnd, UINT frameBufferWidth, UINT frameBufferHeig
 
 	//カメラを初期化する。
 	m_camera2D.SetUpdateProjMatrixFunc(Camera::enUpdateProjMatrixFunc_Ortho);
-	m_camera2D.SetWidth( static_cast<float>(m_frameBufferWidth) );
-	m_camera2D.SetHeight( static_cast<float>(m_frameBufferHeight) );
-	m_camera2D.SetPosition({0.0f, 0.0f, -1.0f});
+	m_camera2D.SetWidth(static_cast<float>(m_frameBufferWidth));
+	m_camera2D.SetHeight(static_cast<float>(m_frameBufferHeight));
+	m_camera2D.SetPosition({ 0.0f, 0.0f, 1.0f });
 	m_camera2D.SetTarget({ 0.0f, 0.0f, 0.0f });
 
-	m_camera3D.SetPosition({0.0f, 50.0f, 200.0f} );
-	m_camera3D.SetTarget({ 0.0f, 50.0f, 0.0f });
+	m_camera3D.SetPosition({ 0.0f, 1500.0f, 200.0f });
+	m_camera3D.SetTarget({ 0.0f, 0.0f, 0.0f });
+	m_camera3D.SetFar(15000);
 
 	g_camera2D = &m_camera2D;
 	g_camera3D = &m_camera3D;
@@ -181,7 +184,7 @@ bool GraphicsEngine::Init(HWND hwnd, UINT frameBufferWidth, UINT frameBufferHeig
 	m_directXTKGfxMemroy = std::make_unique<DirectX::GraphicsMemory>(m_d3dDevice);
 	//フォント描画エンジンを初期化。
 	m_fontEngine.Init();
-	
+
 	return true;
 }
 
@@ -205,7 +208,7 @@ IDXGIFactory4* GraphicsEngine::CreateDXGIFactory()
 	return factory;
 }
 
-bool GraphicsEngine::CreateD3DDevice( IDXGIFactory4* dxgiFactory )
+bool GraphicsEngine::CreateD3DDevice(IDXGIFactory4* dxgiFactory)
 {
 	D3D_FEATURE_LEVEL featureLevels[] = {
 		D3D_FEATURE_LEVEL_12_1,	//Direct3D 12.1の機能を使う。
@@ -220,7 +223,7 @@ bool GraphicsEngine::CreateD3DDevice( IDXGIFactory4* dxgiFactory )
 	for (int i = 0; dxgiFactory->EnumAdapters(i, &adapterTmp) != DXGI_ERROR_NOT_FOUND; i++) {
 		DXGI_ADAPTER_DESC desc;
 		adapterTmp->GetDesc(&desc);
-		
+
 		if (desc.DedicatedVideoMemory > videoMemorySize) {
 			//こちらのビデオメモリの方が多いので、こちらを使う。
 			adapterMaxVideoMemory = adapterTmp;
@@ -248,7 +251,7 @@ bool GraphicsEngine::CreateD3DDevice( IDXGIFactory4* dxgiFactory )
 		//次はAMDが優先。
 		useAdapter = adapterVender[GPU_VenderAMD];
 	}
-	else{
+	else {
 		//NVIDIAとAMDのGPUがなければビデオメモリが一番多いやつを使う。
 		useAdapter = adapterMaxVideoMemory;
 	}
@@ -352,7 +355,7 @@ bool GraphicsEngine::CreateRTVForFameBuffer()
 	}
 	return true;
 }
-bool GraphicsEngine::CreateDSVForFrameBuffer( UINT frameBufferWidth, UINT frameBufferHeight )
+bool GraphicsEngine::CreateDSVForFrameBuffer(UINT frameBufferWidth, UINT frameBufferHeight)
 {
 	D3D12_CLEAR_VALUE dsvClearValue;
 	dsvClearValue.Format = DXGI_FORMAT_D32_FLOAT;
@@ -465,9 +468,7 @@ void GraphicsEngine::EndRender()
 	// レンダリングターゲットへの描き込み完了待ち
 	m_renderContext.WaitUntilFinishDrawingToRenderTarget(m_renderTargets[m_frameIndex]);
 
-
 	m_directXTKGfxMemroy->Commit(m_commandQueue);
-
 	//レンダリングコンテキストを閉じる。
 	m_renderContext.Close();
 
@@ -481,7 +482,6 @@ void GraphicsEngine::EndRender()
 	// Present the frame.
 	m_swapChain->Present(1, 0);
 #endif
-	m_directXTKGfxMemroy->GarbageCollect();
 	//描画完了待ち。
 	WaitDraw();
 }
