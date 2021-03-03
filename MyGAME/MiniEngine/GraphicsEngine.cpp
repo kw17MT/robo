@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "GraphicsEngine.h"
 
-Light g_lig;
-
 GraphicsEngine* g_graphicsEngine = nullptr;	//グラフィックスエンジン
 Camera* g_camera2D = nullptr;				//2Dカメラ。
 Camera* g_camera3D = nullptr;				//3Dカメラ。
@@ -170,12 +168,11 @@ bool GraphicsEngine::Init(HWND hwnd, UINT frameBufferWidth, UINT frameBufferHeig
 	m_camera2D.SetUpdateProjMatrixFunc(Camera::enUpdateProjMatrixFunc_Ortho);
 	m_camera2D.SetWidth( static_cast<float>(m_frameBufferWidth) );
 	m_camera2D.SetHeight( static_cast<float>(m_frameBufferHeight) );
-	m_camera2D.SetPosition({0.0f, 0.0f, 1.0f});
+	m_camera2D.SetPosition({0.0f, 0.0f, -1.0f});
 	m_camera2D.SetTarget({ 0.0f, 0.0f, 0.0f });
 
-	m_camera3D.SetPosition({0.0f, 1500.0f, 200.0f} );
-	m_camera3D.SetTarget({ 0.0f, 0.0f, 0.0f });
-	m_camera3D.SetFar(15000);
+	m_camera3D.SetPosition({0.0f, 50.0f, 200.0f} );
+	m_camera3D.SetTarget({ 0.0f, 50.0f, 0.0f });
 
 	g_camera2D = &m_camera2D;
 	g_camera3D = &m_camera3D;
@@ -458,9 +455,6 @@ void GraphicsEngine::BeginRender()
 	m_renderContext.ClearRenderTargetView(m_currentFrameBufferRTVHandle, clearColor);
 	m_renderContext.ClearDepthStencilView(m_currentFrameBufferDSVHandle, 1.0f);
 
-	//todo フォントのテスト。
-	m_fontEngine.BeginDraw(m_renderContext);
-	m_fontEngine.EndDraw(m_renderContext);
 }
 void GraphicsEngine::ChangeRenderTargetToFrameBuffer(RenderContext& rc)
 {
@@ -470,6 +464,9 @@ void GraphicsEngine::EndRender()
 {
 	// レンダリングターゲットへの描き込み完了待ち
 	m_renderContext.WaitUntilFinishDrawingToRenderTarget(m_renderTargets[m_frameIndex]);
+
+
+	m_directXTKGfxMemroy->Commit(m_commandQueue);
 
 	//レンダリングコンテキストを閉じる。
 	m_renderContext.Close();
@@ -484,6 +481,7 @@ void GraphicsEngine::EndRender()
 	// Present the frame.
 	m_swapChain->Present(1, 0);
 #endif
+	m_directXTKGfxMemroy->GarbageCollect();
 	//描画完了待ち。
 	WaitDraw();
 }

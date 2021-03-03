@@ -60,7 +60,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	FontRender TIME;
 	FontRender timer;
 	
-	NewGO<FontRender>(0);
+	NewGO<FontRender>(10);
 
 	//Sprite sprite;
 	//SpriteInitData spdata;
@@ -68,7 +68,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//spdata.m_fxFilePath = "Assets/shader/model.fx";						//.fxファイルのファイルパス。
 	//spdata.m_width = 5;										//スプライトの幅。
 	//spdata.m_height = 5;
-	//sprite.Init(spdata);
+	//sprite.Init(spdata);p
 
 	/// レベル表示用
 	Level level;
@@ -82,11 +82,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	re[1]->SetPlayerNo(2);
 
 	//具材を作成
-	Guzai* g[5];
+	/*Guzai* g[5];
 	for (int i = 0;i < 5; i++) {
 		g[i] = NewGO<Guzai>(0);
 		g[i]->exist = i;
-	}
+	}*/
 	//何番をとったかのメモ用
 	int noMemo;
 	int putNo = 0;
@@ -138,7 +138,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//sprite.Draw(renderContext);
 
 		//具材との距離を測り、一定の距離内でAボタンを押すと、プレイヤーの頭上に具材を持ってくる。////////////////////////////////////
-		Vector3 pl1Diff = re[0]->GetPosition();
+		/*Vector3 pl1Diff = re[0]->GetPosition();
 		Vector3 pl2Diff = re[1]->GetPosition();
 		
 		Vector3 Kitchen01 = { 900.0f, 0.0f, 00.0f };
@@ -172,7 +172,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			Kitchen01.y += putNo * 100.0f;
 			g[noMemo]->SetPosition(Kitchen01);
 			putNo++;
-		}
+		}*/
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		//////////////////////////////////////
