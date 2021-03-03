@@ -26,9 +26,10 @@ void Level::Init(const char* a, std::function<bool(ObjectData& objectData)> hook
 
 			fix = objData.Rot.y;
 			objData.Rot.y = objData.Rot.z;
-			objData.Rot.x = -fix;
+			objData.Rot.z = -fix;
 
 			std::swap(objData.Scale.y, objData.Scale.z);
+			//ZupÌYup@I‚í‚èB
 
 			objData.name = m_bonelist[i]->GetName();
 			objData.number = m_bonelist[i]->GetNo();

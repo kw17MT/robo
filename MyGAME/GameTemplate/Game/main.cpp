@@ -60,21 +60,32 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	FontRender TIME;
 	FontRender timer;
 	
-	NewGO<FontRender>(10);
+	NewGO<FontRender>(0);
 
+	Sprite sprite01;
+	//Sprite sprite02;
+	//Sprite sprite03;
 
-
-	Sprite sprite;
 	SpriteInitData spdata;
-	spdata.m_ddsFilePath[0] =  "Assets/modelData/light.DDS" ;		//DDSファイルのファイルパス。
+	spdata.m_ddsFilePath[0] =  "Assets/image/menu.dds" ;		//DDSファイルのファイルパス。
 	spdata.m_fxFilePath = "Assets/shader/sprite.fx";				//.fxファイルのファイルパス。
-	spdata.m_width = 15;												//スプライトの幅。
-	spdata.m_height = 15;
-	sprite.Init(spdata);
+	spdata.m_width = 128;												//スプライトの幅。
+	spdata.m_height = 256;
+
+	SpriteInitData spdata1;
+	spdata1.m_ddsFilePath[0] = "Assets/image/menu.dds";		//DDSファイルのファイルパス。
+	spdata1.m_fxFilePath = "Assets/shader/sprite.fx";				//.fxファイルのファイルパス。
+	spdata1.m_width = 128;												//スプライトの幅。
+	spdata1.m_height = 256;
+
+	sprite01.Init(spdata);
+	//sprite02.Init(spdata1);
+	//sprite03.Init(spdata);
+
 
 	/// レベル表示用
 	Level level;
-	level.Init("Assets/level/level001.tkl", [&](ObjectData& objectData) {return false;});
+	level.Init("Assets/level/level_003.tkl", [&](ObjectData& objectData) {return false;});
 
 	//プレイヤーのモデルを作成x2
 	ModelRender* re[2];
@@ -92,7 +103,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//何番をとったかのメモ用
 	int noMemo;
 	int putNo = 0;
-
 	
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -137,8 +147,21 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		//Light.Draw(renderContext);
 		level.Draw();
-		sprite.Draw(renderContext);
+		
+		Vector3 sprite01_pos = { 0.0f, -200.0f, 0.0f };
+		Vector3 sprite02_pos = { 400.0f, -200.0f, 0.0f };
+		Vector3 sprite03_pos = { -400.0f, -200.0f, 0.0f };
+		Quaternion sprite_rot = Quaternion::Identity;
+		Vector3 sprite_scale = { 1.0f,1.0f,1.0f };
+		Vector2 sprite_pivot = { 0.5f,0.5f };
+		sprite01.Update(sprite01_pos, sprite_rot, sprite_scale, sprite_pivot);
+		//sprite02->Update(sprite02_pos, sprite_rot, sprite_scale, sprite_pivot);
+		//sprite03.Update(sprite03_pos, sprite_rot, sprite_scale, sprite_pivot);
 
+		sprite01.Draw(renderContext);
+		//sprite02->Draw(renderContext);
+		//sprite03.Draw(renderContext);
+		
 		//具材との距離を測り、一定の距離内でAボタンを押すと、プレイヤーの頭上に具材を持ってくる。////////////////////////////////////
 		Vector3 pl1Diff = re[0]->GetPosition();
 		Vector3 pl2Diff = re[1]->GetPosition();
@@ -176,10 +199,19 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			putNo++;
 		}
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
+	
 
-		//sprite.Update(const Vector3 & pos, const Quaternion & rot, const Vector3 & scale, const Vector2 & pivot = DEFAULT_PIVOT);
 
+
+		/*Vector3 sprite01_pos = { 0.0f, -200.0f, 0.0f };
+		Vector3 sprite02_pos = { 200.0f, -200.0f, 0.0f };
+		Vector3 sprite03_pos = { -200.0f, -200.0f, 0.0f };
+		Quaternion sprite_rot = Quaternion::Identity;
+		Vector3 sprite_scale = { 1.0f,1.0f,1.0f };
+		Vector2 sprite_pivot = { 0.5f,0.5f };
+		sprite01.Update(sprite01_pos, sprite_rot, sprite_scale, sprite_pivot);
+		sprite02.Update(sprite02_pos, sprite_rot, sprite_scale, sprite_pivot);
+		sprite03.Update(sprite03_pos, sprite_rot, sprite_scale, sprite_pivot);*/
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！
 		//////////////////////////////////////

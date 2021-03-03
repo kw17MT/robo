@@ -67,8 +67,8 @@ void ModelRender::Update()
 		}
 	}
 	if (playerNo == 2) {
-		moveSpeed.x = g_pad[0]->GetRStickXF() * -10.0f;
-		moveSpeed.z = g_pad[0]->GetRStickYF() * -10.0f;
+		moveSpeed.x = g_pad[1]->GetRStickXF() * -10.0f;
+		moveSpeed.z = g_pad[1]->GetRStickYF() * -10.0f;
 
 		if (setPos == 0) {
 			Vector3 Pos2 = { -900.0f, 0.0f, 0.0f };

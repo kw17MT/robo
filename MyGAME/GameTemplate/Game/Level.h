@@ -31,6 +31,7 @@ public:
 	/// </summary>
 	void MatrixTklToLevel();
 
+
 private:
 	bool m_isInited = false;
 	using BonePtr = std::unique_ptr<Bone>;
