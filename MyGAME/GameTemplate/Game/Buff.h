@@ -1,6 +1,6 @@
 #pragma once
 
-class Guzai : public IGameObject
+class Buff : public IGameObject
 {
 private:
 	Model model;
@@ -8,10 +8,15 @@ private:
 	Skeleton m_skeleton;
 	CharacterController m_charaCon;
 
-public:	
+
+
+public:
+	Buff() {}
+	~Buff();
+
 	bool Start();
 	void Update();
-	
+
 	Vector3 GetPosition();
 	void SetPosition(Vector3 pos);
 
@@ -22,11 +27,14 @@ public:
 
 	//Update()でインクリメントする。
 	int time = 0;
+	//何番目に作成された箱か
+	int exist = 0;
+	//Start()で待つ時間を決めている。
+	int wait = 0;
 	//１ならば持たれている。
 	int state = 0;
 	//１ならばもうキッチンに置かれている。
 	int put = 0;
-	//何段積んでるか
-	int stack = 0;
+
 };
 

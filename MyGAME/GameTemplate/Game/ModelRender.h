@@ -1,4 +1,6 @@
 #pragma once
+#include "Guzai.h"
+
 class ModelRender : public IGameObject
 {
 private:

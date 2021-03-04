@@ -170,3 +170,8 @@ void Level::MatrixTklToLevel()
 	//	m_isInited = true;
 	//}
 }
+
+//bool Level::EqualObjectName(const wchar_t* objName)
+//{
+//	return wcscmp(objName, name) == 0;
+//}

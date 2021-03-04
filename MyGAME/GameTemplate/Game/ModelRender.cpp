@@ -37,7 +37,7 @@ bool ModelRender::Start()
 	modeldata.m_vsEntryPointFunc = "VSMain";
 	modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
 
-	modeldata.m_modelUpAxis = enModelUpAxisY;
+	modeldata.m_modelUpAxis = enModelUpAxisZ;
 
 	m_skeleton.Init("Assets/modelData/unityChan.tks");
 	modeldata.m_skeleton = &m_skeleton;
@@ -76,6 +76,11 @@ void ModelRender::Update()
 			setPos = 1;
 		}
 	}
+
+	Vector3 plPos = m_charaCon.GetPosition();
+
+
+
 	m_charaCon.Execute(moveSpeed, 1.0f);
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }

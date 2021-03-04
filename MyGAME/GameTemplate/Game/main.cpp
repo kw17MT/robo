@@ -8,6 +8,8 @@
 #include "SpriteRender.h"
 #include "Guzai.h"
 #include "math.h"
+#include "ObjectGene.h"
+#include "Kitchen.h"
 
 // ウィンドウプログラムのメイン関数。
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
@@ -26,14 +28,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ディレクションライト、ポイントライト
 	//一緒くたにしないと両方のライトの影響を受けなくなる。
 	
-	g_lig.DirDirection = { -1.0f,1.0f,0.0f };
+	g_lig.DirDirection = { -1.0f,-1.0f,0.0f };
 	g_lig.DirDirection.Normalize();
-	g_lig.DirColor = { 1.0f,1.0f,1.0f };
+	g_lig.DirColor = { 0.5f,0.5f,0.5f };
 	g_lig.eyePos = g_camera3D->GetPosition();
 	
 	//ポイントライト
-	g_lig.ptPosition = { 0.0f, 60.0f,0.0f };
-	g_lig.ptColor = { 0.0f, 100.0f,100.0f };
+	g_lig.ptPosition = { 0.0f, 300.0f,0.0f };
+	g_lig.ptColor = { 100.0f, 100.0f,100.0f };
 	g_lig.ptRange = 300.0f;
 
 	//スポットライト
@@ -44,24 +46,28 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 
 	//ライト用
-	//ModelInitData lightdata;
-	//lightdata.m_tkmFilePath = "Assets/modelData/light.tkm";
+	ModelInitData lightdata;
+	lightdata.m_tkmFilePath = "Assets/modelData/light.tkm";
 
-	//lightdata.m_fxFilePath = "Assets/shader/model.fx";
+	lightdata.m_fxFilePath = "Assets/shader/model.fx";
 
-	//lightdata.m_expandConstantBuffer = &g_lig;
-	//lightdata.m_expandConstantBufferSize = sizeof(g_lig);
+	lightdata.m_expandConstantBuffer = &g_lig;
+	lightdata.m_expandConstantBufferSize = sizeof(g_lig);
 
-	//Model Light;
-	//Light.Init(lightdata);
+	Model Light;
+	Light.Init(lightdata);
 
+	//文字の描写///////////////////////////////////////////////////////////////////////
 	FontRender SCORE01;
 	FontRender SCORE02;
 	FontRender TIME;
 	FontRender timer;
 	
 	NewGO<FontRender>(0);
+	///////////////////////////////////////////////////////////////////////////////////
+	NewGO<Kitchen>(0);
 
+	//画像の描写///////////////////////////////////////////////////////////////////////
 	Sprite sprite01;
 	//Sprite sprite02;
 	//Sprite sprite03;
@@ -81,28 +87,28 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	sprite01.Init(spdata);
 	//sprite02.Init(spdata1);
 	//sprite03.Init(spdata);
+	//////////////////////////////////////////////////////////////////////////////////////
 
 
-	/// レベル表示用
+	//レベル表示用////////////////////////////////////////////////////////////////////////
 	Level level;
-	level.Init("Assets/level/level_003.tkl", [&](ObjectData& objectData) {return false;});
+	level.Init("Assets/level/level001.tkl", [&](ObjectData& objectData) {return false;});
+	//////////////////////////////////////////////////////////////////////////////////////
 
-	//プレイヤーのモデルを作成x2
-	ModelRender* re[2];
-	re[0] = NewGO<ModelRender>(0);
-	re[0]->SetPlayerNo(1);
-	re[1] = NewGO<ModelRender>(0);
-	re[1]->SetPlayerNo(2);
 
-	//具材を作成
-	Guzai* g[5];
-	for (int i = 0;i < 5; i++) {
-		g[i] = NewGO<Guzai>(0);
-		g[i]->exist = i;
-	}
-	//何番をとったかのメモ用
-	int noMemo;
-	int putNo = 0;
+	//プレイヤーのモデルを作成x2//////////////////////////////////////////////////////////
+	ModelRender* player[2];
+	player[0] = NewGO<ModelRender>(0,"player01");
+	player[0]->SetPlayerNo(1);
+	player[1] = NewGO<ModelRender>(0,"player02");
+	player[1]->SetPlayerNo(2);
+	//////////////////////////////////////////////////////////////////////////////////////
+
+
+	//具材とバフを作成////////////////////////////////////////////////////////////////////
+	ObjectGene* generator;
+	generator = NewGO<ObjectGene>(0, "gene");
+	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -134,10 +140,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//g_lig.ptPosition.x -= g_pad[0]->GetLStickXF() * 5.0f;
 		//g_lig.ptPosition.z -= g_pad[0]->GetLStickYF() * 5.0f;
 
-		//Light.UpdateWorldMatrix(g_lig.ptPosition, g_quatIdentity, g_vec3One);
+		/*Light.Draw(renderContext);
+		Light.UpdateWorldMatrix(g_lig.ptPosition, g_quatIdentity, g_vec3One);*/
 
-		
-		
+	
 
 		//カメラの移動
 		float move = g_pad[0]->GetRStickYF() * 30.0f;
@@ -162,46 +168,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//sprite02->Draw(renderContext);
 		//sprite03.Draw(renderContext);
 		
-		//具材との距離を測り、一定の距離内でAボタンを押すと、プレイヤーの頭上に具材を持ってくる。////////////////////////////////////
-		Vector3 pl1Diff = re[0]->GetPosition();
-		Vector3 pl2Diff = re[1]->GetPosition();
 		
-		Vector3 Kitchen01 = { 900.0f, 0.0f, 00.0f };
+
 		
-		for (int i = 0; i < 5; i++) {
-			Vector3 guzaiDiff = g[i]->GetPosition();
-
-			float diff4pl1 = (guzaiDiff.x - pl1Diff.x) * (guzaiDiff.x - pl1Diff.x) + (guzaiDiff.y - pl1Diff.y) * (guzaiDiff.y - pl1Diff.y) + (guzaiDiff.z - pl1Diff.z) * (guzaiDiff.z - pl1Diff.z);
-			diff4pl1 = sqrt(diff4pl1);
-
-			if (g_pad[0]->IsPress(enButtonA) && re[0]->have == 0) {
-				if (diff4pl1 < 100.0f) {
-					g[i]->state = 1;
-					noMemo = i;
-					re[0]->have = 1;
-				}
-			}
-			if (g[i]->state == 1) {
-				pl1Diff.y += 10.0f;
-				g[i]->SetPosition(pl1Diff);
-			}
-		}
-
-		float Diff2Kit = (Kitchen01.x - pl1Diff.x) * (Kitchen01.x - pl1Diff.x) + (Kitchen01.y - pl1Diff.y) * (Kitchen01.y - pl1Diff.y) + (Kitchen01.z - pl1Diff.z) * (Kitchen01.z - pl1Diff.z);
-		Diff2Kit = sqrt(Diff2Kit);
-
-		if (Diff2Kit < 100.0f && g_pad[0]->IsTrigger(enButtonB)) {
-			g[noMemo]->state = 0;
-			re[0]->have = 0;
-			g[noMemo]->put = 1;
-			Kitchen01.y += putNo * 100.0f;
-			g[noMemo]->SetPosition(Kitchen01);
-			putNo++;
-		}
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-
-
 
 		/*Vector3 sprite01_pos = { 0.0f, -200.0f, 0.0f };
 		Vector3 sprite02_pos = { 200.0f, -200.0f, 0.0f };
