@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 class Guzai : public IGameObject
 {
@@ -28,5 +29,7 @@ public:
 	int put = 0;
 	//何段積んでるか
 	int stack = 0;
+	//Xボタン長押しで積み上げている具材を全部削除する。そのためのタイマー。
+	int DeleteTimer = 0;
 };
 

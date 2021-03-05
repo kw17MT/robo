@@ -292,6 +292,7 @@
     <ClCompile Include="Buff.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="Guzai.cpp" />
+    <ClCompile Include="GuzaiStack.cpp" />
     <ClCompile Include="Kitchen.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
@@ -373,6 +374,7 @@
     <ClInclude Include="Buff.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="Guzai.h" />
+    <ClInclude Include="GuzaiStack.h" />
     <ClInclude Include="Kitchen.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="MapChip.h" />

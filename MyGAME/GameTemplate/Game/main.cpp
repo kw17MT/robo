@@ -35,7 +35,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	
 	//ポイントライト
 	g_lig.ptPosition = { 0.0f, 300.0f,0.0f };
-	g_lig.ptColor = { 100.0f, 100.0f,100.0f };
+	g_lig.ptColor = { 100.0f, 50.0f,100.0f };
 	g_lig.ptRange = 300.0f;
 
 	//スポットライト
@@ -78,14 +78,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	spdata.m_width = 128;												//スプライトの幅。
 	spdata.m_height = 256;
 
-	SpriteInitData spdata1;
-	spdata1.m_ddsFilePath[0] = "Assets/image/menu.dds";		//DDSファイルのファイルパス。
-	spdata1.m_fxFilePath = "Assets/shader/sprite.fx";				//.fxファイルのファイルパス。
-	spdata1.m_width = 128;												//スプライトの幅。
-	spdata1.m_height = 256;
-
 	sprite01.Init(spdata);
-	//sprite02.Init(spdata1);
+	//sprite02.Init(spdata);
 	//sprite03.Init(spdata);
 	//////////////////////////////////////////////////////////////////////////////////////
 
@@ -161,27 +155,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		Vector3 sprite_scale = { 1.0f,1.0f,1.0f };
 		Vector2 sprite_pivot = { 0.5f,0.5f };
 		sprite01.Update(sprite01_pos, sprite_rot, sprite_scale, sprite_pivot);
-		//sprite02->Update(sprite02_pos, sprite_rot, sprite_scale, sprite_pivot);
+		//sprite02.Update(sprite02_pos, sprite_rot, sprite_scale, sprite_pivot);
 		//sprite03.Update(sprite03_pos, sprite_rot, sprite_scale, sprite_pivot);
 
 		sprite01.Draw(renderContext);
-		//sprite02->Draw(renderContext);
+		//sprite02.Draw(renderContext);
 		//sprite03.Draw(renderContext);
 		
 		
 
-		
-	
-
-		/*Vector3 sprite01_pos = { 0.0f, -200.0f, 0.0f };
-		Vector3 sprite02_pos = { 200.0f, -200.0f, 0.0f };
-		Vector3 sprite03_pos = { -200.0f, -200.0f, 0.0f };
-		Quaternion sprite_rot = Quaternion::Identity;
-		Vector3 sprite_scale = { 1.0f,1.0f,1.0f };
-		Vector2 sprite_pivot = { 0.5f,0.5f };
-		sprite01.Update(sprite01_pos, sprite_rot, sprite_scale, sprite_pivot);
-		sprite02.Update(sprite02_pos, sprite_rot, sprite_scale, sprite_pivot);
-		sprite03.Update(sprite03_pos, sprite_rot, sprite_scale, sprite_pivot);*/
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！
 		//////////////////////////////////////
