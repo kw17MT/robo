@@ -1,4 +1,8 @@
 #pragma once
+#include "Guzai.h"
+#include "ModelRender.h"
+#include "Burger.h"
+
 class Kitchen : public IGameObject
 {
 private:
@@ -7,13 +11,35 @@ private:
 	Skeleton m_skeleton;
 	CharacterController m_charaCon;
 
+
+	Vector3 KitchenPos = { 900.0f, 0.0f, 0.0f };
+
+	//具材がキッチンに置かれると具材CPP側でインクリメント
+	int stack = 0;
+	//次、何番目の要素になるかの番号
+	int nextStackNum = 0;
+	//とりあえず、10個までしか積み上げられない。
+	//バグ防止のため、5個積み上げたらコンベアから具材を持っていけない。
+	Guzai* StackedGuzai[5];
+
 public:
+	//モデルデータの読み込み
 	bool Start();
 	void Update();
+	//具材をキッチンの上に発生させる。
+	void Stack(int num);
+	//キッチン上の具材を全消去
+	void Delete();
+	int DeleteTimer = 0;
+	//privateの変数スタックをインクリメント
+	void PlusStack() { stack++; }
+	//具材5個をハンバーガーに変換する。
+	//消す時遅延を起こしてやらないとエラーを吐くためそれ対策
+	void BornBurger();
+	int Delay = 60;
 
-	void Render(RenderContext& rc)
-	{
-		model.Draw(rc);
-	}
+	void Render(RenderContext& rc) { model.Draw(rc); }
+
+	Burger* bur;
 };
 

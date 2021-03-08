@@ -28,9 +28,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ディレクションライト、ポイントライト
 	//一緒くたにしないと両方のライトの影響を受けなくなる。
 	
-	g_lig.DirDirection = { -1.0f,-1.0f,0.0f };
+	g_lig.DirDirection = { 0.0f,-1.0f,0.0f };
 	g_lig.DirDirection.Normalize();
-	g_lig.DirColor = { 0.5f,0.5f,0.5f };
+	g_lig.DirColor = { 1.0f,1.0f,1.0f };
 	g_lig.eyePos = g_camera3D->GetPosition();
 	
 	//ポイントライト
@@ -65,7 +65,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	
 	NewGO<FontRender>(0);
 	///////////////////////////////////////////////////////////////////////////////////
-	NewGO<Kitchen>(0);
+	//ただの座標が見やすくするためのもの
+	NewGO<Kitchen>(0, "kitchen");
 
 	//画像の描写///////////////////////////////////////////////////////////////////////
 	Sprite sprite01;

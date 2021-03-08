@@ -290,9 +290,9 @@
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="Buff.cpp" />
+    <ClCompile Include="Burger.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="Guzai.cpp" />
-    <ClCompile Include="GuzaiStack.cpp" />
     <ClCompile Include="Kitchen.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
@@ -372,9 +372,9 @@
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="Buff.h" />
+    <ClInclude Include="Burger.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="Guzai.h" />
-    <ClInclude Include="GuzaiStack.h" />
     <ClInclude Include="Kitchen.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="MapChip.h" />

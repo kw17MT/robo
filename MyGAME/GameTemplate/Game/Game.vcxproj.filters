@@ -236,7 +236,7 @@
     <ClCompile Include="Kitchen.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="GuzaiStack.cpp">
+    <ClCompile Include="Burger.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -454,7 +454,7 @@
     <ClInclude Include="Kitchen.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="GuzaiStack.h">
+    <ClInclude Include="Burger.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

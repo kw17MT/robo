@@ -16,10 +16,7 @@ public:
 	Vector3 GetPosition();
 	void SetPosition(Vector3 pos);
 
-	void Render(RenderContext& rc)
-	{
-		model.Draw(rc);
-	}
+	void Render(RenderContext& rc) { model.Draw(rc); }
 
 	//Update()でインクリメントする。
 	int time = 0;
