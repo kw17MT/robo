@@ -75,13 +75,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//Sprite sprite03;
 
 	SpriteRender* sp;
+	
 	sp = NewGO<SpriteRender>(0);
+	sp->Init("Assets/image/menu.dds", 128, 256);
+	Vector3 pos = { 0.0f,0.0f,0.0f };
+	sp->SetPosition(pos);
 
-	SpriteInitData spdata;
+	/*SpriteInitData spdata;
 	spdata.m_ddsFilePath[0] =  "Assets/image/menu.dds" ;
 	spdata.m_fxFilePath = "Assets/shader/sprite.fx";
 	spdata.m_width = 128;
-	spdata.m_height = 256;
+	spdata.m_height = 256;*/
 
 	/*SpriteInitData spdata2;
 	spdata2.m_ddsFilePath[0] = "Assets/image/menu.dds";
@@ -134,6 +138,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//////////////////////////////////////
 		//ここから絵を描くコードを記述する。
 		//////////////////////////////////////
+		level.Draw();
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 
@@ -162,7 +167,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		g_camera3D->SetPosition(camerapos);
 
 		//Light.Draw(renderContext);
-		level.Draw();
+		//level.Draw();
 		
 		//Vector3 sprite01_pos = { 0.0f, -200.0f, 0.0f };
 		//Vector3 sprite02_pos = { 400.0f, -200.0f, 0.0f };
