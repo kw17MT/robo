@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ModelRender.h"
+#include "Guzai.h"
 
 
 /// <summary>

@@ -288,7 +288,6 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TkmFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
-    <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="Buff.cpp" />
     <ClCompile Include="Burger.cpp" />
     <ClCompile Include="FontRender.cpp" />
@@ -311,7 +310,6 @@
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="TklFile.cpp" />
-    <ClCompile Include="Unity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -370,7 +368,6 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TkmFile.h" />
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
-    <ClInclude Include="BackGround.h" />
     <ClInclude Include="Buff.h" />
     <ClInclude Include="Burger.h" />
     <ClInclude Include="FontRender.h" />
@@ -385,7 +382,6 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="TklFile.h" />
-    <ClInclude Include="Unity.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

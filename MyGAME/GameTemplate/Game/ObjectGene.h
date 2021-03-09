@@ -1,6 +1,6 @@
 #pragma once
-#include "Guzai.h"
-#include "Buff.h"
+class Guzai;
+class Buff;
 
 class ObjectGene : public IGameObject
 {

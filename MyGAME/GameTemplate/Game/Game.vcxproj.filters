@@ -191,13 +191,7 @@
     <ClCompile Include="..\..\ExEngine\physics\PhysicsStaticObject.cpp">
       <Filter>ExEngine\physics</Filter>
     </ClCompile>
-    <ClCompile Include="BackGround.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ModelRender.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Unity.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">
@@ -409,13 +403,7 @@
     <ClInclude Include="..\..\ExEngine\physics\PhysicsStaticObject.h">
       <Filter>ExEngine\physics</Filter>
     </ClInclude>
-    <ClInclude Include="BackGround.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ModelRender.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Unity.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Level.h">

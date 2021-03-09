@@ -1,5 +1,9 @@
 #include "stdafx.h"
 #include "Kitchen.h"
+#include "ModelRender.h"
+#include "Burger.h"
+#include "Guzai.h"
+
 
 bool Kitchen::Start()
 {
@@ -56,6 +60,7 @@ void Kitchen::BornBurger()
 			bur->burgerExist = 1;
 			ModelRender* pl = FindGO<ModelRender>("player01");
 			pl->have = 1;
+			Delay = 60;
 		}
 	}
 }

@@ -74,9 +74,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//Sprite sprite03;
 
 	SpriteInitData spdata;
-	spdata.m_ddsFilePath[0] =  "Assets/image/menu.dds" ;		//DDSファイルのファイルパス。
-	spdata.m_fxFilePath = "Assets/shader/sprite.fx";				//.fxファイルのファイルパス。
-	spdata.m_width = 128;												//スプライトの幅。
+	spdata.m_ddsFilePath[0] =  "Assets/image/menu.dds" ;
+	spdata.m_fxFilePath = "Assets/shader/sprite.fx";
+	spdata.m_width = 128;
 	spdata.m_height = 256;
 
 	sprite01.Init(spdata);

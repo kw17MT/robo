@@ -71,26 +71,17 @@ void Guzai::Update()
 	Diff2Kit = sqrt(Diff2Kit);
 
 	//Bボタンを押してキッチンが近くにあったら、今積まれている数に応じておく場所を変える。
+	//キッチン側のスタック数をインクリメント。キッチン側で具材をNewGO。
 	if (g_pad[0]->IsTrigger(enButtonB)) {
 		if (state == 1 && Diff2Kit < 400.0f) {
-			//state = 0;
-			//put = 1;
-			mr->have = 0;
-			//
-			////始めは１になる。
-			//stack = mr->stack;
-
-			//Kitchen01.y += stack * 100.0f;
-			//SetPosition(Kitchen01);
-			//mr->stack++;	
-			DeleteGO(this);
 			Kitchen* ki = FindGO<Kitchen>("kitchen");
 			ki->PlusStack();
+
+			mr->have = 0;
+		
+			DeleteGO(this);
 		}
 	}
-
-	//Xボタン長押しで積まれている具材を全削除。
-	//スタック用のクラスで実装。
 
 	//持たれていない　且つ　一度も置かれていない
 	if (state == 0 && put == 0) {

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Burger.h"
+#include "ModelRender.h"
 
 bool Burger::Start()
 {
@@ -17,8 +18,6 @@ bool Burger::Start()
 
 	model.Init(modeldata);
 
-	Vector3 pos = { 900.0f,100.0f, 0.0f };
-
 	m_charaCon.Init(0.0f, 0.0f, pos);
 
 	return true;
@@ -35,6 +34,14 @@ void Burger::Delete()
 	DeleteGO(bur);
 }
 
+void Burger::GrabBurger()
+{
+	ModelRender* pl = FindGO<ModelRender>("player01");
+	Vector3 plPos = pl->GetPosition();
+
+
+}
+
 void Burger::Update()
 {
 	if (g_pad[0]->IsPress(enButtonX)) {
@@ -42,9 +49,14 @@ void Burger::Update()
 		if (burgerExist == 1 && DeleteTimer == 60) {
 			Delete();
 			DeleteTimer = 0;
+			burgerExist = 0;
 		}
 	}
 
-	m_charaCon.SetPosition({ 900.0f,100.0f,0.0f });
+	//プレイヤーが持てるようにする。
+
+
+
+	m_charaCon.SetPosition(pos);
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }

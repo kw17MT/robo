@@ -1,7 +1,6 @@
 #pragma once
-#include "Guzai.h"
-#include "ModelRender.h"
-#include "Burger.h"
+class Guzai;
+class Burger;
 
 class Kitchen : public IGameObject
 {

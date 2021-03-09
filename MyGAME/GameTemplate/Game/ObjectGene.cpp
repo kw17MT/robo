@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "ObjectGene.h"
+#include "Guzai.h"
+#include "Buff.h"
 
 #include <ctime>        // time
 #include <cstdlib>      // srand,rand

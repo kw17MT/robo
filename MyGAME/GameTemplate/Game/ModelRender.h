@@ -1,5 +1,5 @@
 #pragma once
-#include "Guzai.h"
+class Guzai;
 
 class ModelRender : public IGameObject
 {
