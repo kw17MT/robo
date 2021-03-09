@@ -8,7 +8,7 @@
 bool Guzai::Start()
 {
 	ModelInitData modeldata;
-	modeldata.m_tkmFilePath = "Assets/modelData/box.tkm";
+	modeldata.m_tkmFilePath = "Assets/modelData/aaa.tkm";
 	modeldata.m_fxFilePath = "Assets/shader/model.fx";
 
 	modeldata.m_vsEntryPointFunc = "VSMain";

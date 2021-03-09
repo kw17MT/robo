@@ -36,6 +36,9 @@ public:
 	//消す時遅延を起こしてやらないとエラーを吐くためそれ対策
 	void BornBurger();
 	int Delay = 60;
+	//具材を消す時に、プレイヤーに格納されている種類No.を０で初期化する。
+	//この関数は具材を消す前に使うこと。
+	void ClearNo();
 
 	void Render(RenderContext& rc) { model.Draw(rc); }
 

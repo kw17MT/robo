@@ -8,6 +8,7 @@ private:
 	Skeleton m_skeleton;
 	CharacterController m_charaCon;
 
+
 public:
 	bool Start();
 	void Update();
@@ -20,7 +21,11 @@ public:
 	void Delete();
 	int DeleteTimer = 0;
 	int burgerExist = 0;
+	int putOnKitchen = 0;
 
-	Vector3 pos = { 900.0f,100.0f, 0.0f };
+	void ClearNo();
+
+	Vector3 pos;
+	Vector3 CounterPos = { 900.0f, 100.0f, -400.0f };
 };
 

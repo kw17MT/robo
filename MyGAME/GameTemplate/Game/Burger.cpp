@@ -18,6 +18,8 @@ bool Burger::Start()
 
 	model.Init(modeldata);
 
+	pos = { 900.0f,100.0f, 0.0f };
+
 	m_charaCon.Init(0.0f, 0.0f, pos);
 
 	return true;
@@ -34,12 +36,35 @@ void Burger::Delete()
 	DeleteGO(bur);
 }
 
+//プレイヤーがバーガーを持つ。
 void Burger::GrabBurger()
 {
 	ModelRender* pl = FindGO<ModelRender>("player01");
 	Vector3 plPos = pl->GetPosition();
 
+	float pl2Burger = (plPos.x - pos.x) * (plPos.x - pos.x) + (plPos.y - pos.y) * (plPos.y - pos.y) + (plPos.z - pos.z) * (plPos.z - pos.z);
+	pl2Burger = sqrt(pl2Burger);
 
+	if (g_pad[0]->IsPress(enButtonA) && pl2Burger < 200.0f) {
+		pl->have = 2;
+	}
+
+	if (pl->have == 2) {
+		pos = plPos;
+		pos.y += 100.0f;
+		if (putOnKitchen != 1) {
+			m_charaCon.SetPosition(pos);
+		}
+	}
+}
+
+void Burger::ClearNo()
+{
+	ModelRender* pl = FindGO<ModelRender>("player01");
+
+	for (int i = 0;i < 10; i++) {
+		pl->GuzaiNo[i] = 0;
+	}
 }
 
 void Burger::Update()
@@ -47,16 +72,14 @@ void Burger::Update()
 	if (g_pad[0]->IsPress(enButtonX)) {
 		DeleteTimer++;
 		if (burgerExist == 1 && DeleteTimer == 60) {
+			ClearNo();
 			Delete();
 			DeleteTimer = 0;
 			burgerExist = 0;
 		}
 	}
 
-	//プレイヤーが持てるようにする。
+	GrabBurger();
 
-
-
-	m_charaCon.SetPosition(pos);
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }

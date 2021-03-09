@@ -3,9 +3,9 @@
 #include "Light.h"
 
 
-void Level::Init(const char* a, std::function<bool(ObjectData& objectData)> hookFunc )
+void Level::Init(const char* name, std::function<bool(ObjectData& objectData)> hookFunc )
 {
-	m_tkl.Load(a);
+	m_tkl.Load(name);
 
 	MatrixTklToLevel();
 

@@ -28,5 +28,8 @@ public:
 	int stack = 0;
 	//Xボタン長押しで積み上げている具材を全部削除する。そのためのタイマー。
 	int DeleteTimer = 0;
+	//具材の種類番号
+	//ToDo...変更可能にする。
+	int TypeNo = 1;
 };
 

@@ -10,6 +10,7 @@
 #include "math.h"
 #include "ObjectGene.h"
 #include "Kitchen.h"
+#include "Counter.h"
 
 // ウィンドウプログラムのメイン関数。
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
@@ -69,9 +70,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	NewGO<Kitchen>(0, "kitchen");
 
 	//画像の描写///////////////////////////////////////////////////////////////////////
-	Sprite sprite01;
+	//Sprite sprite01;
 	//Sprite sprite02;
 	//Sprite sprite03;
+
+	SpriteRender* sp;
+	sp = NewGO<SpriteRender>(0);
 
 	SpriteInitData spdata;
 	spdata.m_ddsFilePath[0] =  "Assets/image/menu.dds" ;
@@ -79,8 +83,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	spdata.m_width = 128;
 	spdata.m_height = 256;
 
-	sprite01.Init(spdata);
-	//sprite02.Init(spdata);
+	/*SpriteInitData spdata2;
+	spdata2.m_ddsFilePath[0] = "Assets/image/menu.dds";
+	spdata2.m_fxFilePath = "Assets/shader/sprite.fx";
+	spdata2.m_width = 128;
+	spdata2.m_height = 256;*/
+
+	//sprite01.Init(spdata);
+	//sprite02.Init(spdata2);
 	//sprite03.Init(spdata);
 	//////////////////////////////////////////////////////////////////////////////////////
 
@@ -103,6 +113,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//具材とバフを作成////////////////////////////////////////////////////////////////////
 	ObjectGene* generator;
 	generator = NewGO<ObjectGene>(0, "gene");
+	//////////////////////////////////////////////////////////////////////////////////////
+	
+	//カウンターの作成////////////////////////////////////////////////////////////////////
+	Counter* co;
+	co = NewGO<Counter>(0,"counter");
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//////////////////////////////////////
@@ -149,17 +164,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//Light.Draw(renderContext);
 		level.Draw();
 		
-		Vector3 sprite01_pos = { 0.0f, -200.0f, 0.0f };
-		Vector3 sprite02_pos = { 400.0f, -200.0f, 0.0f };
-		Vector3 sprite03_pos = { -400.0f, -200.0f, 0.0f };
-		Quaternion sprite_rot = Quaternion::Identity;
-		Vector3 sprite_scale = { 1.0f,1.0f,1.0f };
-		Vector2 sprite_pivot = { 0.5f,0.5f };
-		sprite01.Update(sprite01_pos, sprite_rot, sprite_scale, sprite_pivot);
+		//Vector3 sprite01_pos = { 0.0f, -200.0f, 0.0f };
+		//Vector3 sprite02_pos = { 400.0f, -200.0f, 0.0f };
+		//Vector3 sprite03_pos = { -400.0f, -200.0f, 0.0f };
+		//Quaternion sprite_rot = Quaternion::Identity;
+		//Vector3 sprite_scale = { 1.0f,1.0f,1.0f };
+		//Vector2 sprite_pivot = { 0.5f,0.5f };
+		//sprite01.Update(sprite01_pos, sprite_rot, sprite_scale, sprite_pivot);
 		//sprite02.Update(sprite02_pos, sprite_rot, sprite_scale, sprite_pivot);
 		//sprite03.Update(sprite03_pos, sprite_rot, sprite_scale, sprite_pivot);
 
-		sprite01.Draw(renderContext);
+		//sprite01.Draw(renderContext);
 		//sprite02.Draw(renderContext);
 		//sprite03.Draw(renderContext);
 		

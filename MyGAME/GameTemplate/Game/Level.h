@@ -19,7 +19,7 @@ public:
 	/// <summary>
 	/// function<戻り値型（引数）> 関数の名前
 	/// </summary>
-	void Init(const char* a, std::function<bool(ObjectData& objectData) > Hookfunc);	
+	void Init(const char* name, std::function<bool(ObjectData& objectData) > Hookfunc);	
 
 	/// <summary>
 	/// マップチップの数分for文を回してマップチップを描画

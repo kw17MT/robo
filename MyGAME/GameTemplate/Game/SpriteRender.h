@@ -1,8 +1,8 @@
 #pragma once
-class SpriteRender
+class SpriteRender : public IGameObject
 {
 public:
-	//SpriteRender() {};
+	SpriteRender() {};
 	void Init(float w, float h);
 	bool Start();
 	void Update();
@@ -10,7 +10,8 @@ public:
 private:
 	Sprite m_sprite;
 	SpriteInitData m_spriteData;
-	RenderContext& rc;
+
+	void Render(RenderContext& rc) { m_sprite.Draw(rc); }
 };
 
 

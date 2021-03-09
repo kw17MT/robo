@@ -55,13 +55,27 @@ void Kitchen::BornBurger()
 	if (nextStackNum == 5) {
 		Delay--;
 		if (Delay == 0) {
+			ModelRender* pl = FindGO<ModelRender>("player01");
+			pl->have = 1;
+			//ここで具材が持っている種類No.をプレイヤーが持っているNo.格納用配列にいれていく。
+			for (int i = 0;i < nextStackNum; i++) {
+				pl->GuzaiNo[i] = StackedGuzai[i]->TypeNo;
+			}
 			Delete();
 			bur = NewGO<Burger>(0,"burger");
 			bur->burgerExist = 1;
-			ModelRender* pl = FindGO<ModelRender>("player01");
-			pl->have = 1;
+			
 			Delay = 60;
 		}
+	}
+}
+
+void Kitchen::ClearNo()
+{
+	ModelRender* pl = FindGO<ModelRender>("player01");
+
+	for (int i = 0;i < nextStackNum; i++) {
+		pl->GuzaiNo[i] = 0;
 	}
 }
 
@@ -72,6 +86,7 @@ void Kitchen::Update()
 	if (g_pad[0]->IsPress(enButtonX)) {
 		DeleteTimer++;
 		if (DeleteTimer > 50) {
+			ClearNo();
 			Delete();
 		}
 	}
