@@ -80,17 +80,6 @@ void Counter::Delete()
 	}
 }
 
-//bool Counter::Judge()
-//{
-//	Burger* bu = FindGO<Burger>("burger");
-//	ModelRender* pl = FindGO<ModelRender>("player01");
-//
-//	int num = 5;
-//	for (int i = 0; i < num; i++) {
-//		
-//	}
-//
-//}
 
 void Counter::Update()
 {
