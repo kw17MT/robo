@@ -6,12 +6,7 @@
 #include <ctime>
 #include <cstdlib>
 
-//void Guzai::SetGuzai()
-//{
-//
-//}
-
-bool Guzai::Start()
+Guzai::Guzai()
 {
 	//—”‚Å‚Ç‚Ì‹ïŞ‚ª—¬‚ê‚Ä‚­‚é‚©‚ğŒˆ‚ß‚éB
 	std::srand(time(NULL));
@@ -34,7 +29,10 @@ bool Guzai::Start()
 		modeldata.m_tkmFilePath = "Assets/modelData/gu/tomato.tkm";
 		break;
 	}
+}
 
+bool Guzai::Start()
+{
 	modeldata.m_fxFilePath = "Assets/shader/model.fx";
 
 	modeldata.m_vsEntryPointFunc = "VSMain";
@@ -68,7 +66,7 @@ void Guzai::SetPosition(Vector3 pos)
 	m_charaCon.SetPosition(pos);
 }
 
-const char* Guzai::ChangeGuzai(int num)
+void Guzai::ChangeGuzai(int num)
 {
 	TypeNo = num;
 
@@ -89,8 +87,9 @@ const char* Guzai::ChangeGuzai(int num)
 		modeldata.m_tkmFilePath = "Assets/modelData/gu/tomato.tkm";
 		break;
 	}
+	modeldata.m_fxFilePath = "Assets/shader/model.fx";
 
-	return modeldata.m_tkmFilePath;
+	model.Init(modeldata);
 }
 
 void Guzai::Update()

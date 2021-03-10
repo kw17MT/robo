@@ -59,7 +59,7 @@ void Kitchen::Delete()
 //5ŒÂÏ‚ñ‚¾‚çƒo[ƒK[‚É•ÏŠ·
 void Kitchen::BornBurger()
 {
-	if (nextStackNum == 5) {
+	if (nextStackNum >= 1 && g_pad[0]->IsPress(enButtonY)) {
 		Delay--;
 		if (Delay == 0) {
 			ModelRender* pl = FindGO<ModelRender>("player01");
@@ -110,16 +110,6 @@ void Kitchen::Update()
 	if (nextStackNum >= 5) {
 		ModelRender* pl = FindGO<ModelRender>("player01");
 		pl->have = 1;
-	}
-
-	if (g_pad[0]->IsTrigger(enButtonY)) {
-		modeldata.m_tkmFilePath = "Assets/modelData/gu/tomato.tkm";
-
-		modeldata.m_fxFilePath = "Assets/shader/model.fx";
-
-		modeldata.m_modelUpAxis = enModelUpAxisY;
-
-		model.Init(modeldata);
 	}
 
 	BornBurger();

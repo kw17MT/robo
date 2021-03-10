@@ -12,6 +12,7 @@ private:
 
 	//トマトだけで構成されたバーガー
 	int TomatoOnly[5] = { 4,4,4,4,4 };
+
 public:
 	bool Start();
 	void Update();

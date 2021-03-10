@@ -13,6 +13,7 @@ private:
 	int TypeNo = 99;
 
 public:	
+	Guzai();
 	bool Start();
 	void Update();
 	
@@ -23,9 +24,8 @@ public:
 	//つまり、レーン上に出したオブジェクトと新しくキッチン上に出すオブジェクトが違う。
 	//プレイヤー側に保存しているTypeNoをキッチン側でNewGOするオブジェクトに与えてやる。
 	//引数にプレイヤーに格納されている種類ナンバーを与える。
-	const char* ChangeGuzai(int num);
-	//度のモデルを使うか決める。
-	//void SetGuzai();
+	void ChangeGuzai(int num);
+
 	int GetTypeNo() { return TypeNo; }
 
 	void Render(RenderContext& rc) { model.Draw(rc); }
