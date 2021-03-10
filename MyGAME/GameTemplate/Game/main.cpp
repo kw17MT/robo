@@ -47,7 +47,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 
 	//ライト用
-	ModelInitData lightdata;
+	/*ModelInitData lightdata;
 	lightdata.m_tkmFilePath = "Assets/modelData/light.tkm";
 
 	lightdata.m_fxFilePath = "Assets/shader/model.fx";
@@ -56,7 +56,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	lightdata.m_expandConstantBufferSize = sizeof(g_lig);
 
 	Model Light;
-	Light.Init(lightdata);
+	Light.Init(lightdata);*/
 
 	//文字の描写///////////////////////////////////////////////////////////////////////
 	FontRender SCORE01;
@@ -70,32 +70,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	NewGO<Kitchen>(0, "kitchen");
 
 	//画像の描写///////////////////////////////////////////////////////////////////////
-	//Sprite sprite01;
-	//Sprite sprite02;
-	//Sprite sprite03;
-
-	SpriteRender* sp;
+	SpriteRender* sp[3];
 	
-	sp = NewGO<SpriteRender>(0);
-	sp->Init("Assets/image/menu.dds", 128, 256);
-	Vector3 pos = { 0.0f,0.0f,0.0f };
-	sp->SetPosition(pos);
-
-	/*SpriteInitData spdata;
-	spdata.m_ddsFilePath[0] =  "Assets/image/menu.dds" ;
-	spdata.m_fxFilePath = "Assets/shader/sprite.fx";
-	spdata.m_width = 128;
-	spdata.m_height = 256;*/
-
-	/*SpriteInitData spdata2;
-	spdata2.m_ddsFilePath[0] = "Assets/image/menu.dds";
-	spdata2.m_fxFilePath = "Assets/shader/sprite.fx";
-	spdata2.m_width = 128;
-	spdata2.m_height = 256;*/
-
-	//sprite01.Init(spdata);
-	//sprite02.Init(spdata2);
-	//sprite03.Init(spdata);
+	for (int i = 0; i < 3; i++) {
+		sp[i] = NewGO<SpriteRender>(0);
+		sp[i]->Init("Assets/image/menu.dds", 128, 256);
+		Vector3 pos = { -150.0f,-200.0f,0.0f };
+		pos.x += i * 150.0f;
+		sp[i]->SetPosition(pos);
+	}
 	//////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -116,7 +99,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//具材とバフを作成////////////////////////////////////////////////////////////////////
 	ObjectGene* generator;
-	generator = NewGO<ObjectGene>(0, "gene");
+	generator = NewGO<ObjectGene>(1, "gene");
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//カウンターの作成////////////////////////////////////////////////////////////////////
@@ -124,6 +107,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	co = NewGO<Counter>(0,"counter");
 	//////////////////////////////////////////////////////////////////////////////////////
 	
+
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
 	//////////////////////////////////////
@@ -168,22 +152,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		//Light.Draw(renderContext);
 		//level.Draw();
-		
-		//Vector3 sprite01_pos = { 0.0f, -200.0f, 0.0f };
-		//Vector3 sprite02_pos = { 400.0f, -200.0f, 0.0f };
-		//Vector3 sprite03_pos = { -400.0f, -200.0f, 0.0f };
-		//Quaternion sprite_rot = Quaternion::Identity;
-		//Vector3 sprite_scale = { 1.0f,1.0f,1.0f };
-		//Vector2 sprite_pivot = { 0.5f,0.5f };
-		//sprite01.Update(sprite01_pos, sprite_rot, sprite_scale, sprite_pivot);
-		//sprite02.Update(sprite02_pos, sprite_rot, sprite_scale, sprite_pivot);
-		//sprite03.Update(sprite03_pos, sprite_rot, sprite_scale, sprite_pivot);
-
-		//sprite01.Draw(renderContext);
-		//sprite02.Draw(renderContext);
-		//sprite03.Draw(renderContext);
-		
-		
 
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！
