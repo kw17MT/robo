@@ -16,6 +16,9 @@ bool ObjectGene::Start()
 	modeldata.m_vsEntryPointFunc = "VSMain";
 	modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
 
+	modeldata.m_expandConstantBuffer = &g_lig;
+	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
+
 	modeldata.m_modelUpAxis = enModelUpAxisZ;
 
 	m_skeleton.Init("Assets/modelData/unityChan.tks");
@@ -23,7 +26,7 @@ bool ObjectGene::Start()
 
 	model.Init(modeldata);
 
-	Vector3 pos = { 0.0f,200.0f,0.0f };
+	Vector3 pos = { 0.0f,200.0f,-500.0f };
 
 	m_charaCon.Init(40.0f, 100.0f, pos);
 
@@ -52,4 +55,6 @@ void ObjectGene::Update()
 			timer = 0;
 		}
 	}
+
+	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }

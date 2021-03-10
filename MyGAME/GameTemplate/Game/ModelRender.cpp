@@ -40,6 +40,9 @@ bool ModelRender::Start()
 
 	modeldata.m_modelUpAxis = enModelUpAxisZ;
 
+	modeldata.m_expandConstantBuffer = &g_lig;
+	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
+
 	m_skeleton.Init("Assets/modelData/unityChan.tks");
 	modeldata.m_skeleton = &m_skeleton;
 
@@ -79,8 +82,6 @@ void ModelRender::Update()
 	}
 
 	Vector3 plPos = m_charaCon.GetPosition();
-
-
 
 	m_charaCon.Execute(moveSpeed, 1.0f);
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);

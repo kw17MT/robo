@@ -3,21 +3,50 @@
 #include "ModelRender.h"
 #include "math.h"
 #include "Kitchen.h"
+#include <ctime>
+#include <cstdlib>
 
+//void Guzai::SetGuzai()
+//{
+//
+//}
 
 bool Guzai::Start()
 {
-	ModelInitData modeldata;
-	modeldata.m_tkmFilePath = "Assets/modelData/aaa.tkm";
+	//乱数でどの具材が流れてくるかを決める。
+	std::srand(time(NULL));
+	TypeNo = rand() % 5;
+
+	switch (TypeNo) {
+	case 0:
+		modeldata.m_tkmFilePath = "Assets/modelData/gu/cheese.tkm";
+		break;
+	case 1:
+		modeldata.m_tkmFilePath = "Assets/modelData/gu/egg.tkm";
+		break;
+	case 2:
+		modeldata.m_tkmFilePath = "Assets/modelData/gu/lettuce.tkm";
+		break;
+	case 3:
+		modeldata.m_tkmFilePath = "Assets/modelData/gu/patty.tkm";
+		break;
+	case 4:
+		modeldata.m_tkmFilePath = "Assets/modelData/gu/tomato.tkm";
+		break;
+	}
+
 	modeldata.m_fxFilePath = "Assets/shader/model.fx";
 
 	modeldata.m_vsEntryPointFunc = "VSMain";
 	modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
 
-	modeldata.m_modelUpAxis = enModelUpAxisY;
-
 	m_skeleton.Init("Assets/modelData/unityChan.tks");
 	modeldata.m_skeleton = &m_skeleton;
+
+	modeldata.m_expandConstantBuffer = &g_lig;
+	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
+
+	modeldata.m_modelUpAxis = enModelUpAxisY;
 
 	model.Init(modeldata);
 
@@ -37,6 +66,31 @@ Vector3 Guzai::GetPosition()
 void Guzai::SetPosition(Vector3 pos)
 {
 	m_charaCon.SetPosition(pos);
+}
+
+const char* Guzai::ChangeGuzai(int num)
+{
+	TypeNo = num;
+
+	switch (TypeNo) {
+	case 0:
+		modeldata.m_tkmFilePath = "Assets/modelData/gu/cheese.tkm";
+		break;
+	case 1:
+		modeldata.m_tkmFilePath = "Assets/modelData/gu/egg.tkm";
+		break;
+	case 2:
+		modeldata.m_tkmFilePath = "Assets/modelData/gu/lettuce.tkm";
+		break;
+	case 3:
+		modeldata.m_tkmFilePath = "Assets/modelData/gu/patty.tkm";
+		break;
+	case 4:
+		modeldata.m_tkmFilePath = "Assets/modelData/gu/tomato.tkm";
+		break;
+	}
+
+	return modeldata.m_tkmFilePath;
 }
 
 void Guzai::Update()
@@ -75,10 +129,12 @@ void Guzai::Update()
 	if (g_pad[0]->IsTrigger(enButtonB)) {
 		if (state == 1 && Diff2Kit < 400.0f) {
 			Kitchen* ki = FindGO<Kitchen>("kitchen");
+			//キッチンに置いた具材の種類をプレイヤー側に保存
+			mr->GuzaiNo[ki->GetStackNum()] = TypeNo;
 			ki->PlusStack();
 
 			mr->have = 0;
-		
+
 			DeleteGO(this);
 		}
 	}
@@ -86,18 +142,18 @@ void Guzai::Update()
 	//持たれていない　且つ　一度も置かれていない
 	if (state == 0 && put == 0) {
 		Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
-		time++;
-		if (time < 500) {
+		timer++;
+		if (timer < 500) {
 			moveSpeed.z = 2.0f;
 		}
-		if (time >= 500 && time < 600) {
+		if (timer >= 500 && timer < 600) {
 			moveSpeed.x = 2.0f;
 		}
-		if (time >= 600) {
+		if (timer >= 600) {
 			moveSpeed.z = -2.0f;
 		}
 		if (GuzaiPos.z < -1000.0f) {
-			time = 0;
+			timer = 0;
 			DeleteGO(this);
 		}
 		m_charaCon.Execute(moveSpeed, 1.0f);

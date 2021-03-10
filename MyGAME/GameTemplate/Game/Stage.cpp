@@ -18,6 +18,9 @@ bool Stage::Start()
 
 	modeldata.m_modelUpAxis = enModelUpAxisY;
 
+	modeldata.m_expandConstantBuffer = &g_lig;
+	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
+
 
 	model.Init(modeldata);
 

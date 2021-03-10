@@ -2,17 +2,21 @@
 #include "Counter.h"
 #include "ModelRender.h"
 #include "Burger.h"
+#include "Kitchen.h"
 
 bool Counter::Start()
 {
 	ModelInitData modeldata;
-	modeldata.m_tkmFilePath = "Assets/modelData/box.tkm";
+	modeldata.m_tkmFilePath = "Assets/modelData/ches.tkm";
 	modeldata.m_fxFilePath = "Assets/shader/model.fx";
 
 	modeldata.m_vsEntryPointFunc = "VSMain";
 	modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
 
 	modeldata.m_modelUpAxis = enModelUpAxisY;
+
+	modeldata.m_expandConstantBuffer = &g_lig;
+	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
 
 	m_skeleton.Init("Assets/modelData/unityChan.tks");
 	modeldata.m_skeleton = &m_skeleton;
@@ -25,6 +29,22 @@ bool Counter::Start()
 
 	return true;
 }
+
+bool Counter::Judge()
+{
+	Kitchen* ki = FindGO<Kitchen>("kitchen");
+	ModelRender* pl = FindGO<ModelRender>("player01");
+
+	for (int i = 0; i < ki->GetStackNum(); i++) {
+		if (TomatoOnly[i] != pl->GuzaiNo[i]) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+}
+	
 
 //Burgerは出現している。消えてない。
 void Counter::Delete()
@@ -41,7 +61,9 @@ void Counter::Delete()
 
 		//キッチンに置く準備
 		if (g_pad[0]->IsPress(enButtonB) && pl2Counter < 200.0f) {
-			bu->putOnKitchen = 1;
+			if (Judge() == true) {
+				bu->putOnKitchen = 1;
+			}
 		}
 
 		if (bu->putOnKitchen == 1) {

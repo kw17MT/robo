@@ -8,13 +8,16 @@
 bool Kitchen::Start()
 {
 	ModelInitData modeldata;
-	modeldata.m_tkmFilePath = "Assets/modelData/box.tkm";
+	modeldata.m_tkmFilePath = "Assets/modelData/ches.tkm";
 	modeldata.m_fxFilePath = "Assets/shader/model.fx";
 
 	modeldata.m_vsEntryPointFunc = "VSMain";
 	modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
 
 	modeldata.m_modelUpAxis = enModelUpAxisY;
+
+	modeldata.m_expandConstantBuffer = &g_lig;
+	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
 
 	m_skeleton.Init("Assets/modelData/unityChan.tks");
 	modeldata.m_skeleton = &m_skeleton;
@@ -28,9 +31,13 @@ bool Kitchen::Start()
 
 void Kitchen::Stack(int num)
 {
+	ModelRender* pl = FindGO<ModelRender>("player01");
+
 	if (nextStackNum < stack) {
 		StackedGuzai[nextStackNum] = NewGO<Guzai>(0);
 		StackedGuzai[nextStackNum]->put = 1;
+		StackedGuzai[nextStackNum]->ChangeGuzai(pl->GuzaiNo[nextStackNum]);
+		
 		nextStackNum++;
 	}
 }
@@ -56,12 +63,13 @@ void Kitchen::BornBurger()
 		Delay--;
 		if (Delay == 0) {
 			ModelRender* pl = FindGO<ModelRender>("player01");
-			pl->have = 1;
+			
 			//ここで具材が持っている種類No.をプレイヤーが持っているNo.格納用配列にいれていく。
 			for (int i = 0;i < nextStackNum; i++) {
-				pl->GuzaiNo[i] = StackedGuzai[i]->TypeNo;
+				pl->GuzaiNo[i] = StackedGuzai[i]->GetTypeNo();
 			}
 			Delete();
+			pl->have = 1;
 			bur = NewGO<Burger>(0,"burger");
 			bur->burgerExist = 1;
 			
@@ -102,6 +110,16 @@ void Kitchen::Update()
 	if (nextStackNum >= 5) {
 		ModelRender* pl = FindGO<ModelRender>("player01");
 		pl->have = 1;
+	}
+
+	if (g_pad[0]->IsTrigger(enButtonY)) {
+		modeldata.m_tkmFilePath = "Assets/modelData/gu/tomato.tkm";
+
+		modeldata.m_fxFilePath = "Assets/shader/model.fx";
+
+		modeldata.m_modelUpAxis = enModelUpAxisY;
+
+		model.Init(modeldata);
 	}
 
 	BornBurger();

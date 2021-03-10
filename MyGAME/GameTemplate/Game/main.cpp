@@ -29,7 +29,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ディレクションライト、ポイントライト
 	//一緒くたにしないと両方のライトの影響を受けなくなる。
 	
-	g_lig.DirDirection = { 0.0f,-1.0f,0.0f };
+	g_lig.DirDirection = { 0.5f,-1.0f,0.0f };
 	g_lig.DirDirection.Normalize();
 	g_lig.DirColor = { 1.0f,1.0f,1.0f };
 	g_lig.eyePos = g_camera3D->GetPosition();
@@ -66,6 +66,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	
 	NewGO<FontRender>(0);
 	///////////////////////////////////////////////////////////////////////////////////
+
+
 	//ただの座標が見やすくするためのもの
 	NewGO<Kitchen>(0, "kitchen");
 
@@ -73,7 +75,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	SpriteRender* sp[3];
 	
 	for (int i = 0; i < 3; i++) {
-		sp[i] = NewGO<SpriteRender>(0);
+		sp[i] = NewGO<SpriteRender>(2);
 		sp[i]->Init("Assets/image/menu.dds", 128, 256);
 		Vector3 pos = { -150.0f,-200.0f,0.0f };
 		pos.x += i * 150.0f;
@@ -104,7 +106,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	
 	//カウンターの作成////////////////////////////////////////////////////////////////////
 	Counter* co;
-	co = NewGO<Counter>(0,"counter");
+	co = NewGO<Counter>(1,"counter");
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 
@@ -147,7 +149,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//カメラの移動
 		float move = g_pad[0]->GetRStickYF() * 30.0f;
 		Vector3 camerapos = g_camera3D->GetPosition();
-		camerapos.z -= move;
+		camerapos.y -= move;
 		g_camera3D->SetPosition(camerapos);
 
 		//Light.Draw(renderContext);

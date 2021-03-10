@@ -32,6 +32,8 @@ public:
 	int DeleteTimer = 0;
 	//privateの変数スタックをインクリメント
 	void PlusStack() { stack++; }
+	//プレイヤー側に具材の種類を格納する際に使用する。
+	int GetStackNum() { return stack; }
 	//具材5個をハンバーガーに変換する。
 	//消す時遅延を起こしてやらないとエラーを吐くためそれ対策
 	void BornBurger();

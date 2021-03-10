@@ -28,9 +28,6 @@ public:
 	void GiveData(const char* ModelPath, const char* ShaderPath);
 	//プレイヤーが具材を持っているか。１なら具材を持っている。２ならハンバーガーを持っている。
 	int have = 0;
-	//具材をなんか積み上げているか
-	//今はキッチンがY0にあるため、便宜上初期値は１にする。
-	int stack = 1;
 	//積み上げている具材の種類を格納していく。
 	int GuzaiNo[10];
 };

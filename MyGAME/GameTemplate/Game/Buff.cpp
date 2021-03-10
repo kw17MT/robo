@@ -12,6 +12,9 @@ bool Buff::Start()
 	modeldata.m_vsEntryPointFunc = "VSMain";
 	modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
 
+	modeldata.m_expandConstantBuffer = &g_lig;
+	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
+
 	modeldata.m_modelUpAxis = enModelUpAxisY;
 
 	m_skeleton.Init("Assets/modelData/unityChan.tks");

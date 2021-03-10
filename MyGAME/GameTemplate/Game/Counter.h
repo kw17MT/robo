@@ -9,12 +9,15 @@ private:
 
 	Vector3 CounterPos = { 900.0f, 0.0f, 400.0f };
 	Vector3 CounterPos2 = CounterPos;
+
+	//トマトだけで構成されたバーガー
+	int TomatoOnly[5] = { 4,4,4,4,4 };
 public:
 	bool Start();
 	void Update();
 	void Delete();
 
-	//bool Judge();
+	bool Judge();
 
 	void Render(RenderContext& rc) { model.Draw(rc); }
 
