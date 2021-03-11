@@ -56,6 +56,7 @@ bool Counter::Judge()
 			}
 			else {
 				return false;
+				break;
 			}
 		}
 	}
@@ -81,7 +82,7 @@ void Counter::Delete()
 			//キッチンに置く準備
 			//Judge関数でできたハンバーガーの組成があっていたらカウンターに置ける。
 			if (g_pad[0]->IsPress(enButtonB) && pl2Counter < 200.0f) {
-				if (Judge()) {
+				if (Judge() == true) {
 					bu01->putOnKitchen = 1;
 				}
 			}
@@ -119,10 +120,11 @@ void Counter::Delete()
 			//キッチンに置く準備
 			//Judge関数でできたハンバーガーの組成があっていたらカウンターに置ける。
 			if (g_pad[1]->IsPress(enButtonB) && pl2Counter < 200.0f) {
-				//if (Judge()) {
+				if (Judge() == true) {
 					bu02->putOnKitchen = 1;
-				//}
+				}
 			}
+		
 
 			//置いたら30フレーム後に消去
 			//ここでスコアアップさせたい。

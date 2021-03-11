@@ -80,7 +80,7 @@ void Buff::Update()
 		Buff2Pl = sqrt(Buff2Pl);
 
 		//Aボタンを押したとき、プレイヤーは何も持っていない　100より近い位置にいる。
-		if (g_pad[0]->IsTrigger(enButtonA)) {
+		if (g_pad[0]->IsTrigger(enButtonA) && pl01->have == 0) {
 			if (Buff2Pl < 200.0f) {
 				DeleteGO(this);
 			}
@@ -88,7 +88,7 @@ void Buff::Update()
 	}
 	if (BuffNo == 2) {
 		Vector3 BuffPos = m_charaCon.GetPosition();
-		ModelRender* pl02 = FindGO<ModelRender>("player01");
+		ModelRender* pl02 = FindGO<ModelRender>("player02");
 		Vector3 plPos02 = pl02->GetPosition();
 
 		wait--;
@@ -118,7 +118,7 @@ void Buff::Update()
 		Buff2Pl = sqrt(Buff2Pl);
 
 		//Aボタンを押したとき、プレイヤーは何も持っていない　100より近い位置にいる。
-		if (g_pad[1]->IsTrigger(enButtonA)) {
+		if (g_pad[1]->IsTrigger(enButtonA) && pl02->have == 0) {
 			if (Buff2Pl < 200.0f) {
 				DeleteGO(this);
 			}
