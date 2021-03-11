@@ -29,7 +29,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ディレクションライト、ポイントライト
 	//一緒くたにしないと両方のライトの影響を受けなくなる。
 	
-	g_lig.DirDirection = { 0.5f,-1.0f,0.0f };
+	g_lig.DirDirection = { 0.0f,-1.0f,0.0f };
 	g_lig.DirDirection.Normalize();
 	g_lig.DirColor = { 1.0f,1.0f,1.0f };
 	g_lig.eyePos = g_camera3D->GetPosition();
@@ -69,20 +69,40 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 
 	//ただの座標が見やすくするためのもの
-	NewGO<Kitchen>(0, "kitchen");
+	Kitchen* ki01;
+	ki01 = NewGO<Kitchen>(0, "kitchen01");
+	ki01->SetKitchenNo(1);
+	Vector3 kiPos01 = { 900.0f, 0.0f, 0.0f };
+	ki01->SetKitchenPos(kiPos01);
+
+	Kitchen* ki02;
+	ki02 = NewGO<Kitchen>(0, "kitchen02");
+	ki02->SetKitchenNo(2);
+	Vector3 kiPos02 = { -900.0f, 0.0f, 0.0f };
+	ki02->SetKitchenPos(kiPos02);
 
 	//画像の描写///////////////////////////////////////////////////////////////////////
 	SpriteRender* sp[3];
 	
 	for (int i = 0; i < 3; i++) {
 		sp[i] = NewGO<SpriteRender>(2);
-		sp[i]->Init("Assets/image/menu.dds", 128, 256);
+		switch (i) {
+		case 0:
+			sp[i]->Init("Assets/Image/burger_egg.dds", 128, 256);
+			break;
+		case 1:
+			sp[i]->Init("Assets/Image/burger_tomato.dds", 128, 256);
+			break;
+		case 2:
+			sp[i]->Init("Assets/Image/burger_cheese_new.dds", 128, 256);
+			break;
+		}
+		//sp[i]->Init("Assets/Image/burger_cheese.dds", 128, 256);
 		Vector3 pos = { -150.0f,-200.0f,0.0f };
 		pos.x += i * 150.0f;
 		sp[i]->SetPosition(pos);
 	}
 	//////////////////////////////////////////////////////////////////////////////////////
-
 
 	//レベル表示用////////////////////////////////////////////////////////////////////////
 	Level level;
@@ -100,13 +120,31 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 
 	//具材とバフを作成////////////////////////////////////////////////////////////////////
-	ObjectGene* generator;
-	generator = NewGO<ObjectGene>(1, "gene");
+	ObjectGene* generator01;
+	generator01 = NewGO<ObjectGene>(1, "gene01");
+	generator01->SetGeneNo(1);
+	Vector3 PosGene01 = { 500.0f,100.0f,-500.0f };
+	generator01->SetPosition(PosGene01);
+
+	ObjectGene* generator02;
+	generator02 = NewGO<ObjectGene>(1, "gene02");
+	generator02->SetGeneNo(2);
+	Vector3 PosGene02 = { -300.0f,100.0f,-500.0f };
+	generator02->SetPosition(PosGene02);
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//カウンターの作成////////////////////////////////////////////////////////////////////
-	Counter* co;
-	co = NewGO<Counter>(1,"counter");
+	Counter* co01;
+	co01 = NewGO<Counter>(1,"counter01");
+	co01->SetCounterNo(1);
+	Vector3 PosCo01 = { 900.0f, 0.0f, 400.0f };
+	co01->SetPosition(PosCo01);
+
+	Counter* co02;
+	co02 = NewGO<Counter>(1, "counter02");
+	co02->SetCounterNo(2);
+	Vector3 PosCo02 = { -900.0f, 0.0f, 400.0f };
+	co02->SetPosition(PosCo02);
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 

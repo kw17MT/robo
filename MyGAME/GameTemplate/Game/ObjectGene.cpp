@@ -6,8 +6,7 @@
 #include <ctime>        // time
 #include <cstdlib>      // srand,rand
 
-
-bool ObjectGene::Start()
+ObjectGene::ObjectGene()
 {
 	ModelInitData modeldata;
 	modeldata.m_tkmFilePath = "Assets/modelData/unityChan.tkm";
@@ -29,8 +28,23 @@ bool ObjectGene::Start()
 	Vector3 pos = { 0.0f,200.0f,-500.0f };
 
 	m_charaCon.Init(40.0f, 100.0f, pos);
+}
+
+void ObjectGene::SetPosition(Vector3 pos)
+{
+	m_charaCon.SetPosition(pos);
+}
+
+bool ObjectGene::Start()
+{
+	
 
 	return true;
+}
+
+Vector3 ObjectGene::GetPosition()
+{
+	return m_charaCon.GetPosition();
 }
 
 void ObjectGene::Update()
@@ -41,17 +55,23 @@ void ObjectGene::Update()
 
 	if (timer == 50 && randNum != 1) {
 		m_guzai = NewGO<Guzai>(0,"guzai");
+		m_guzai->SetGuzaiNo(GeneNo);
+		m_guzai->SetPosition(m_charaCon.GetPosition());
 		timer = 0;
 	}
 
 	if (timer == 50 && randNum == 1) {
 		if (Buffnum == 0) {
 			m_buff = NewGO<Buff>(0, "buff");
+			m_buff->SetBuffNo(GeneNo);
+			m_buff->SetPosition(m_charaCon.GetPosition());
 			timer = 0;
 			Buffnum = 1;
 		}
 		else {
 			m_guzai = NewGO<Guzai>(0, "guzai");
+			m_guzai->SetGuzaiNo(GeneNo);
+			m_guzai->SetPosition(m_charaCon.GetPosition());
 			timer = 0;
 		}
 	}

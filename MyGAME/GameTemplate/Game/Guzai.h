@@ -9,6 +9,8 @@ private:
 	Skeleton m_skeleton;
 	CharacterController m_charaCon;
 	
+	//どっち側に流れている具材か。
+	int GuzaiNo = 0;
 	//０．チーズ　１．エッグ　２．レタス　３．パテ　４．トマト
 	int TypeNo = 99;
 
@@ -25,6 +27,8 @@ public:
 	//プレイヤー側に保存しているTypeNoをキッチン側でNewGOするオブジェクトに与えてやる。
 	//引数にプレイヤーに格納されている種類ナンバーを与える。
 	void ChangeGuzai(int num);
+	//どちら側に流れている具材か設定する。
+	void SetGuzaiNo(int num) { GuzaiNo = num; }
 
 	int GetTypeNo() { return TypeNo; }
 

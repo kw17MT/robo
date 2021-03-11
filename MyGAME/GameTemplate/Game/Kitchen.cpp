@@ -4,8 +4,7 @@
 #include "Burger.h"
 #include "Guzai.h"
 
-
-bool Kitchen::Start()
+Kitchen::Kitchen()
 {
 	ModelInitData modeldata;
 	modeldata.m_tkmFilePath = "Assets/modelData/ches.tkm";
@@ -24,66 +23,133 @@ bool Kitchen::Start()
 
 	model.Init(modeldata);
 
-	m_charaCon.Init(0.0f, 0.0f, KitchenPos);
+	Vector3 KitchenPos = { 0.0f,0.0f,0.0f };
 
-	return true;
+	m_charaCon.Init(0.0f, 0.0f, KitchenPos);
 }
 
+//具材をセットポジする
+//if2種類で分岐させる。
 void Kitchen::Stack(int num)
 {
-	ModelRender* pl = FindGO<ModelRender>("player01");
+	if (KitchenNo == 1) {
+		ModelRender* pl01 = FindGO<ModelRender>("player01");
 
-	if (nextStackNum < stack) {
-		StackedGuzai[nextStackNum] = NewGO<Guzai>(0);
-		StackedGuzai[nextStackNum]->put = 1;
-		StackedGuzai[nextStackNum]->ChangeGuzai(pl->GuzaiNo[nextStackNum]);
-		
-		nextStackNum++;
+		if (nextStackNum < stack) {
+			StackedGuzai[nextStackNum] = NewGO<Guzai>(0);
+			StackedGuzai[nextStackNum]->put = 1;
+			StackedGuzai[nextStackNum]->ChangeGuzai(pl01->GuzaiNo[nextStackNum]);
+
+			Vector3 GuzaiPos = m_charaCon.GetPosition();
+			GuzaiPos.y += stack * 100.0f;
+			StackedGuzai[nextStackNum]->SetPosition(GuzaiPos);
+
+			nextStackNum++;
+		}
+	}
+
+	if (KitchenNo == 2) {
+		ModelRender* pl02 = FindGO<ModelRender>("player02");
+
+		if (nextStackNum < stack) {
+			StackedGuzai[nextStackNum] = NewGO<Guzai>(0);
+			StackedGuzai[nextStackNum]->put = 1;
+			StackedGuzai[nextStackNum]->ChangeGuzai(pl02->GuzaiNo[nextStackNum]);
+
+			Vector3 GuzaiPos = m_charaCon.GetPosition();
+			GuzaiPos.y += stack * 100.0f;
+			StackedGuzai[nextStackNum]->SetPosition(GuzaiPos);
+
+			nextStackNum++;
+		}
 	}
 }
 
 void Kitchen::Delete()
 {
-	for (int i = 0;i < nextStackNum; i++) {
-		DeleteGO(StackedGuzai[i]);
+	if (KitchenNo == 1) {
+		for (int i = 0;i < nextStackNum; i++) {
+			DeleteGO(StackedGuzai[i]);
+		}
+		stack = 0;
+		nextStackNum = 0;
+		DeleteTimer = 0;
+		ModelRender* pl01 = FindGO<ModelRender>("player01");
+		pl01->have = 0;
 	}
-	stack = 0;
-	nextStackNum = 0;
-	DeleteTimer = 0;
-	ModelRender* pl = FindGO<ModelRender>("player01");
-	pl->have = 0;
+	if (KitchenNo == 2) {
+		for (int i = 0;i < nextStackNum; i++) {
+			DeleteGO(StackedGuzai[i]);
+		}
+		stack = 0;
+		nextStackNum = 0;
+		DeleteTimer = 0;
+		ModelRender* pl02 = FindGO<ModelRender>("player02");
+		pl02->have = 0;
+	}
 }
 
 // Delayは必要
 // ないとエラー
-//5個積んだらバーガーに変換
 void Kitchen::BornBurger()
 {
-	if (nextStackNum >= 1 && g_pad[0]->IsPress(enButtonY)) {
-		Delay--;
-		if (Delay == 0) {
-			ModelRender* pl = FindGO<ModelRender>("player01");
-			
-			//ここで具材が持っている種類No.をプレイヤーが持っているNo.格納用配列にいれていく。
-			for (int i = 0;i < nextStackNum; i++) {
-				pl->GuzaiNo[i] = StackedGuzai[i]->GetTypeNo();
+	if (KitchenNo == 1) {
+		if (nextStackNum >= 1 && g_pad[0]->IsPress(enButtonY)) {
+			Delay--;
+			if (Delay == 0) {
+				ModelRender* pl01 = FindGO<ModelRender>("player01");
+
+				//ここで具材が持っている種類No.をプレイヤーが持っているNo.格納用配列にいれていく。
+				for (int i = 0;i < nextStackNum; i++) {
+					pl01->GuzaiNo[i] = StackedGuzai[i]->GetTypeNo();
+				}
+				Delete();
+				pl01->have = 1;
+				bur = NewGO<Burger>(0, "burger01");
+				bur->SetBurgerNo(1);
+				bur->burgerExist = 1;
+
+				Delay = 60;
 			}
-			Delete();
-			pl->have = 1;
-			bur = NewGO<Burger>(0,"burger");
-			bur->burgerExist = 1;
-			
-			Delay = 60;
+		}
+	}
+	if (KitchenNo == 2) {
+		if (nextStackNum >= 1 && g_pad[1]->IsPress(enButtonY)) {
+			Delay--;
+			if (Delay == 0) {
+				ModelRender* pl02 = FindGO<ModelRender>("player02");
+
+				//ここで具材が持っている種類No.をプレイヤーが持っているNo.格納用配列にいれていく。
+				for (int i = 0;i < nextStackNum; i++) {
+					pl02->GuzaiNo[i] = StackedGuzai[i]->GetTypeNo();
+				}
+				Delete();
+				pl02->have = 1;
+				bur = NewGO<Burger>(0, "burger02");
+				bur->SetBurgerNo(2);
+				bur->burgerExist = 1;
+
+				Delay = 60;
+			}
 		}
 	}
 }
 
 void Kitchen::ClearNo()
 {
-	ModelRender* pl = FindGO<ModelRender>("player01");
+	if (KitchenNo == 1) {
+		ModelRender* pl01 = FindGO<ModelRender>("player01");
 
-	for (int i = 0;i < nextStackNum; i++) {
-		pl->GuzaiNo[i] = 0;
+		for (int i = 0;i < nextStackNum; i++) {
+			pl01->GuzaiNo[i] = 0;
+		}
+	}
+	if (KitchenNo == 2) {
+		ModelRender* pl02 = FindGO<ModelRender>("player02");
+
+		for (int i = 0;i < nextStackNum; i++) {
+			pl02->GuzaiNo[i] = 0;
+		}
 	}
 }
 
@@ -91,7 +157,14 @@ void Kitchen::Update()
 {
 	Stack(stack);
 
-	if (g_pad[0]->IsPress(enButtonX)) {
+	if (g_pad[0]->IsPress(enButtonX) && KitchenNo == 1) {
+		DeleteTimer++;
+		if (DeleteTimer > 50) {
+			ClearNo();
+			Delete();
+		}
+	}
+	if (g_pad[1]->IsPress(enButtonX) && KitchenNo == 2) {
 		DeleteTimer++;
 		if (DeleteTimer > 50) {
 			ClearNo();
@@ -99,17 +172,14 @@ void Kitchen::Update()
 		}
 	}
 
-	//具材をキッチンの上に載せるための座標設定
-	for (int i = 0;i < nextStackNum;i++) {
-		Vector3 GuzaiPos = KitchenPos;
-		GuzaiPos.y = (i + 1) * 100.0f;
-		StackedGuzai[i]->SetPosition(GuzaiPos);
-	}
-
 	//キッチンに5個以上具材があると取れないようにする。
-	if (nextStackNum >= 5) {
-		ModelRender* pl = FindGO<ModelRender>("player01");
-		pl->have = 1;
+	if (nextStackNum >= 5 && KitchenNo == 1) {
+		ModelRender* pl01 = FindGO<ModelRender>("player01");
+		pl01->have = 1;
+	}
+	if (nextStackNum >= 5 && KitchenNo == 2) {
+		ModelRender* pl02 = FindGO<ModelRender>("player02");
+		pl02->have = 1;
 	}
 
 	BornBurger();

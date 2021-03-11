@@ -8,11 +8,15 @@ private:
 	Skeleton m_skeleton;
 	CharacterController m_charaCon;
 
-
+	//‚Ç‚¿‚ç‚É—¬‚ê‚Ä‚¢‚éƒo[ƒK[‚©
+	int BurgerNo = 0;
 public:
+	Burger();
 	bool Start();
 	void Update();
 	void SetPosition(Vector3 pos);
+
+	void SetBurgerNo(int num) { BurgerNo = num; }
 
 	void GrabBurger();
 

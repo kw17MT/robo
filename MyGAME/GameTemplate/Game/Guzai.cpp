@@ -29,10 +29,7 @@ Guzai::Guzai()
 		modeldata.m_tkmFilePath = "Assets/modelData/gu/tomato.tkm";
 		break;
 	}
-}
 
-bool Guzai::Start()
-{
 	modeldata.m_fxFilePath = "Assets/shader/model.fx";
 
 	modeldata.m_vsEntryPointFunc = "VSMain";
@@ -51,7 +48,10 @@ bool Guzai::Start()
 	Vector3 pos = { 0.0f,100.0f,-500.0f };
 
 	m_charaCon.Init(0.0f, 0.0f, pos);
+}
 
+bool Guzai::Start()
+{
 	return true;
 }
 
@@ -97,65 +97,131 @@ void Guzai::Update()
 	//スケルトンを更新。
 	m_skeleton.Update(model.GetWorldMatrix());
 
-	ModelRender* mr = FindGO<ModelRender>("player01");
-	Vector3 plPos = mr->GetPosition();
-	Vector3 GuzaiPos = m_charaCon.GetPosition();
+	if (GuzaiNo == 1) {
+		ModelRender* pl01 = FindGO<ModelRender>("player01");
+		Vector3 plPos = pl01->GetPosition();
+		Vector3 GuzaiPos = m_charaCon.GetPosition();
 
-	Vector3 Kitchen01 = { 900.0f, 0.0f, 0.0f };
+		Vector3 Kitchen01 = { 900.0f, 0.0f, 0.0f };
 
 
-	float guzai2Pl = (GuzaiPos.x - plPos.x) * (GuzaiPos.x - plPos.x) + (GuzaiPos.y - plPos.y) * (GuzaiPos.y - plPos.y) + (GuzaiPos.z - plPos.z) * (GuzaiPos.z - plPos.z);
-	guzai2Pl = sqrt(guzai2Pl);
+		float guzai2Pl = (GuzaiPos.x - plPos.x) * (GuzaiPos.x - plPos.x) + (GuzaiPos.y - plPos.y) * (GuzaiPos.y - plPos.y) + (GuzaiPos.z - plPos.z) * (GuzaiPos.z - plPos.z);
+		guzai2Pl = sqrt(guzai2Pl);
 
-	//Aボタンを押したとき、プレイヤーは何も持っていない　100より近い位置にいる。
-	if (g_pad[0]->IsTrigger(enButtonA)) {
-		if (mr->have == 0 && guzai2Pl < 200.0f) {
-			state = 1;
-			mr->have = 1;
+		//Aボタンを押したとき、プレイヤーは何も持っていない　100より近い位置にいる。
+		if (g_pad[0]->IsTrigger(enButtonA)) {
+			if (pl01->have == 0 && guzai2Pl < 200.0f) {
+				state = 1;
+				pl01->have = 1;
+			}
+		}
+		//持たれていたら具材の位置をプレイヤーの上にする。
+		if (state == 1) {
+			plPos.y += 100.0f;
+			SetPosition(plPos);
+		}
+
+		float Diff2Kit = (Kitchen01.x - plPos.x) * (Kitchen01.x - plPos.x) + (Kitchen01.y - plPos.y) * (Kitchen01.y - plPos.y) + (Kitchen01.z - plPos.z) * (Kitchen01.z - plPos.z);
+		Diff2Kit = sqrt(Diff2Kit);
+
+		//Bボタンを押してキッチンが近くにあったら、今積まれている数に応じておく場所を変える。
+		//キッチン側のスタック数をインクリメント。キッチン側で具材をNewGO。
+		if (g_pad[0]->IsTrigger(enButtonB)) {
+			if (state == 1 && Diff2Kit < 400.0f) {
+				Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
+				//キッチンに置いた具材の種類をプレイヤー側に保存
+				pl01->GuzaiNo[ki01->GetStackNum()] = TypeNo;
+				ki01->PlusStack();
+
+				pl01->have = 0;
+
+				DeleteGO(this);
+			}
+		}
+
+		//持たれていない　且つ　一度も置かれていない
+		if (state == 0 && put == 0) {
+			Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
+			timer++;
+			if (timer < 500) {
+				moveSpeed.z = 2.0f;
+			}
+			if (timer >= 500 && timer < 600) {
+				moveSpeed.x = 2.0f;
+			}
+			if (timer >= 600) {
+				moveSpeed.z = -2.0f;
+			}
+			if (GuzaiPos.z < -1000.0f) {
+				timer = 0;
+				DeleteGO(this);
+			}
+			m_charaCon.Execute(moveSpeed, 1.0f);
 		}
 	}
-	//持たれていたら具材の位置をプレイヤーの上にする。
-	if (state == 1) {
-		plPos.y += 100.0f;
-		SetPosition(plPos);
-	}
 
-	float Diff2Kit = (Kitchen01.x - plPos.x) * (Kitchen01.x - plPos.x) + (Kitchen01.y - plPos.y) * (Kitchen01.y - plPos.y) + (Kitchen01.z - plPos.z) * (Kitchen01.z - plPos.z);
-	Diff2Kit = sqrt(Diff2Kit);
+	if (GuzaiNo == 2) {
+		ModelRender* pl02 = FindGO<ModelRender>("player02");
+		Vector3 plPos = pl02->GetPosition();
+		Vector3 GuzaiPos = m_charaCon.GetPosition();
 
-	//Bボタンを押してキッチンが近くにあったら、今積まれている数に応じておく場所を変える。
-	//キッチン側のスタック数をインクリメント。キッチン側で具材をNewGO。
-	if (g_pad[0]->IsTrigger(enButtonB)) {
-		if (state == 1 && Diff2Kit < 400.0f) {
-			Kitchen* ki = FindGO<Kitchen>("kitchen");
-			//キッチンに置いた具材の種類をプレイヤー側に保存
-			mr->GuzaiNo[ki->GetStackNum()] = TypeNo;
-			ki->PlusStack();
+		Vector3 Kitchen02 = { -900.0f, 0.0f, 0.0f };
 
-			mr->have = 0;
 
-			DeleteGO(this);
+		float guzai2Pl = (GuzaiPos.x - plPos.x) * (GuzaiPos.x - plPos.x) + (GuzaiPos.y - plPos.y) * (GuzaiPos.y - plPos.y) + (GuzaiPos.z - plPos.z) * (GuzaiPos.z - plPos.z);
+		guzai2Pl = sqrt(guzai2Pl);
+
+		//Aボタンを押したとき、プレイヤーは何も持っていない　100より近い位置にいる。
+		if (g_pad[1]->IsTrigger(enButtonA)) {
+			if (pl02->have == 0 && guzai2Pl < 200.0f) {
+				state = 1;
+				pl02->have = 1;
+			}
+		}
+		//持たれていたら具材の位置をプレイヤーの上にする。
+		if (state == 1) {
+			plPos.y += 100.0f;
+			SetPosition(plPos);
+		}
+
+		float Diff2Kit = (Kitchen02.x - plPos.x) * (Kitchen02.x - plPos.x) + (Kitchen02.y - plPos.y) * (Kitchen02.y - plPos.y) + (Kitchen02.z - plPos.z) * (Kitchen02.z - plPos.z);
+		Diff2Kit = sqrt(Diff2Kit);
+
+		//Bボタンを押してキッチンが近くにあったら、今積まれている数に応じておく場所を変える。
+		//キッチン側のスタック数をインクリメント。キッチン側で具材をNewGO。
+		if (g_pad[1]->IsTrigger(enButtonB)) {
+			if (state == 1 && Diff2Kit < 400.0f) {
+				Kitchen* ki02 = FindGO<Kitchen>("kitchen02");
+				//キッチンに置いた具材の種類をプレイヤー側に保存
+				pl02->GuzaiNo[ki02->GetStackNum()] = TypeNo;
+				ki02->PlusStack();
+
+				pl02->have = 0;
+
+				DeleteGO(this);
+			}
+		}
+
+		//持たれていない　且つ　一度も置かれていない
+		if (state == 0 && put == 0) {
+			Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
+			timer++;
+			if (timer < 500) {
+				moveSpeed.z = 2.0f;
+			}
+			if (timer >= 500 && timer < 600) {
+				moveSpeed.x -= 2.0f;
+			}
+			if (timer >= 600) {
+				moveSpeed.z = -2.0f;
+			}
+			if (GuzaiPos.z < -1000.0f) {
+				timer = 0;
+				DeleteGO(this);
+			}
+			m_charaCon.Execute(moveSpeed, 1.0f);
 		}
 	}
 
-	//持たれていない　且つ　一度も置かれていない
-	if (state == 0 && put == 0) {
-		Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
-		timer++;
-		if (timer < 500) {
-			moveSpeed.z = 2.0f;
-		}
-		if (timer >= 500 && timer < 600) {
-			moveSpeed.x = 2.0f;
-		}
-		if (timer >= 600) {
-			moveSpeed.z = -2.0f;
-		}
-		if (GuzaiPos.z < -1000.0f) {
-			timer = 0;
-			DeleteGO(this);
-		}
-		m_charaCon.Execute(moveSpeed, 1.0f);
-	}
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }

@@ -10,9 +10,8 @@ private:
 	Skeleton m_skeleton;
 	CharacterController m_charaCon;
 
-
-	Vector3 KitchenPos = { 900.0f, 0.0f, 0.0f };
-
+	//どっち側のキッチンか
+	int KitchenNo = 0;
 	//具材がキッチンに置かれると具材CPP側でインクリメント
 	int stack = 0;
 	//次、何番目の要素になるかの番号
@@ -22,9 +21,14 @@ private:
 	Guzai* StackedGuzai[5];
 
 public:
-	//モデルデータの読み込み
-	bool Start();
+	Kitchen();
 	void Update();
+	//キッチン番号を設定する。
+	void SetKitchenNo(int num) { KitchenNo = num;}
+	//キッチンの座標を設定する。
+	void SetKitchenPos(Vector3 pos) { m_charaCon.SetPosition(pos); }
+	//キッチンの座標を取得
+	Vector3 GetKitchenPos() { return m_charaCon.GetPosition(); }
 	//具材をキッチンの上に発生させる。
 	void Stack(int num);
 	//キッチン上の具材を全消去

@@ -4,7 +4,7 @@
 #include "Burger.h"
 #include "Kitchen.h"
 
-bool Counter::Start()
+Counter::Counter()
 {
 	ModelInitData modeldata;
 	modeldata.m_tkmFilePath = "Assets/modelData/ches.tkm";
@@ -23,66 +23,128 @@ bool Counter::Start()
 
 	model.Init(modeldata);
 
-	m_charaCon.Init(0.0f, 0.0f, CounterPos);
+	m_charaCon.Init(0.0f, 0.0f, g_vec3One);
+}
 
-	CounterPos2.y += 100.0f;
-
+bool Counter::Start()
+{
 	return true;
 }
 
 bool Counter::Judge()
 {
-	Kitchen* ki = FindGO<Kitchen>("kitchen");
-	ModelRender* pl = FindGO<ModelRender>("player01");
+	if (CounterNo == 1) {
+		Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
+		ModelRender* pl01 = FindGO<ModelRender>("player01");
 
-	for (int i = 0; i < ki->GetStackNum(); i++) {
-		if (TomatoOnly[i] != pl->GuzaiNo[i]) {
-			return false;
+		for (int i = 0; i < ki01->GetStackNum(); i++) {
+			if (TomatoOnly[i] == pl01->GuzaiNo[i]) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
-		else {
-			return true;
+	}
+	if (CounterNo == 2) {
+		Kitchen* ki02 = FindGO<Kitchen>("kitchen02");
+		ModelRender* pl02 = FindGO<ModelRender>("player02");
+
+		for (int i = 0; i < ki02->GetStackNum(); i++) {
+			if (TomatoOnly[i] == pl02->GuzaiNo[i]) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 	}
 }
-	
 
-//Burgerは出現している。消えてない。
+//バーガーを最終的に消してスコアを発生させる。
+//カウンターに近いところでBボタンを押すといったん載せて消す。
 void Counter::Delete()
 {
-	ModelRender* pl = FindGO<ModelRender>("player01");
-	Vector3 plPos = pl->GetPosition();
+	if (CounterNo == 1) {
+		ModelRender* pl01 = FindGO<ModelRender>("player01");
+		Vector3 plPos = pl01->GetPosition();
 
-	float pl2Counter = (plPos.x - CounterPos.x) * (plPos.x - CounterPos.x) + (plPos.y - CounterPos.y) * (plPos.y - CounterPos.y) + (plPos.z - CounterPos.z) * (plPos.z - CounterPos.z);
-	pl2Counter = sqrt(pl2Counter);
+		Vector3 CounterPos01 = m_charaCon.GetPosition();
 
-	//プレイヤーがバーガーをもっていたら
-	if (pl->have == 2) {
-		Burger* bu = FindGO<Burger>("burger");
+		float pl2Counter = (plPos.x - CounterPos01.x) * (plPos.x - CounterPos01.x) + (plPos.y - CounterPos01.y) * (plPos.y - CounterPos01.y) + (plPos.z - CounterPos01.z) * (plPos.z - CounterPos01.z);
+		pl2Counter = sqrt(pl2Counter);
 
-		//キッチンに置く準備
-		if (g_pad[0]->IsPress(enButtonB) && pl2Counter < 200.0f) {
-			if (Judge() == true) {
-				bu->putOnKitchen = 1;
+		//プレイヤーがバーガーをもっていたら
+		if (pl01->have == 2) {
+			Burger* bu01 = FindGO<Burger>("burger01");
+
+			//キッチンに置く準備
+			//Judge関数でできたハンバーガーの組成があっていたらカウンターに置ける。
+			if (g_pad[0]->IsPress(enButtonB) && pl2Counter < 200.0f) {
+				if (Judge()) {
+					bu01->putOnKitchen = 1;
+				}
+			}
+
+			//置いたら30フレーム後に消去
+			//ここでスコアアップさせたい。
+			if (bu01->putOnKitchen == 1) {
+				Delay++;
+				CounterPos01.y += 100.0f;
+				bu01->SetPosition(CounterPos01);
+
+				if (Delay == 30) {
+					DeleteGO(bu01);
+					Delay = 0;
+					pl01->have = 0;
+				}
+
 			}
 		}
+	}
 
-		if (bu->putOnKitchen == 1) {
-			Delay++;
-			bu->SetPosition(CounterPos2);
+	if (CounterNo == 2) {
+		ModelRender* pl02 = FindGO<ModelRender>("player02");
+		Vector3 plPos = pl02->GetPosition();
 
-			if (Delay == 30) {
-				DeleteGO(bu);
-				Delay = 0;
-				pl->have = 0;
+		Vector3 CounterPos02 = m_charaCon.GetPosition();
+
+		float pl2Counter = (plPos.x - CounterPos02.x) * (plPos.x - CounterPos02.x) + (plPos.y - CounterPos02.y) * (plPos.y - CounterPos02.y) + (plPos.z - CounterPos02.z) * (plPos.z - CounterPos02.z);
+		pl2Counter = sqrt(pl2Counter);
+
+		//プレイヤーがバーガーをもっていたら
+		if (pl02->have == 2) {
+			Burger* bu02 = FindGO<Burger>("burger02");
+
+			//キッチンに置く準備
+			//Judge関数でできたハンバーガーの組成があっていたらカウンターに置ける。
+			if (g_pad[1]->IsPress(enButtonB) && pl2Counter < 200.0f) {
+				//if (Judge()) {
+					bu02->putOnKitchen = 1;
+				//}
 			}
-			
+
+			//置いたら30フレーム後に消去
+			//ここでスコアアップさせたい。
+			if (bu02->putOnKitchen == 1) {
+				Delay++;
+				CounterPos02.y += 100.0f;
+				bu02->SetPosition(CounterPos02);
+
+				if (Delay == 30) {
+					DeleteGO(bu02);
+					Delay = 0;
+					pl02->have = 0;
+				}
+
+			}
 		}
 	}
 }
-
 
 void Counter::Update()
 {
 	Delete();
+	Judge();
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }

@@ -3,7 +3,7 @@
 #include "ModelRender.h"
 #include "ObjectGene.h"
 
-bool Buff::Start()
+Buff::Buff() 
 {
 	ModelInitData modeldata;
 	modeldata.m_tkmFilePath = "Assets/modelData/unityChan.tkm";
@@ -25,13 +25,11 @@ bool Buff::Start()
 	Vector3 pos = { 0.0f,100.0f,-500.0f };
 
 	m_charaCon.Init(0.0f, 0.0f, pos);
-
-	return true;
 }
 
-Buff::~Buff()
+bool Buff::Start()
 {
-	
+	return true;
 }
 
 Vector3 Buff::GetPosition()
@@ -49,43 +47,83 @@ void Buff::Update()
 {
 	//スケルトンを更新。
 	m_skeleton.Update(model.GetWorldMatrix());
-	Vector3 BuffPos = m_charaCon.GetPosition();
-	ModelRender* mr = FindGO<ModelRender>("player01");
-	Vector3 plPos = mr->GetPosition();
 
-	wait--;
-	if (wait <= 0) {
-		if (state == 0 && put == 0) {
-			Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
-			time++;
-			if (time < 500) {
-				moveSpeed.z = 2.0f;
+	if (BuffNo == 1) {
+		Vector3 BuffPos = m_charaCon.GetPosition();
+		ModelRender* pl01 = FindGO<ModelRender>("player01");
+		Vector3 plPos01 = pl01->GetPosition();
+
+		wait--;
+		if (wait <= 0) {
+			if (state == 0 && put == 0) {
+				Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
+				time++;
+				if (time < 500) {
+					moveSpeed.z = 2.0f;
+				}
+				if (time >= 500 && time < 600) {
+					moveSpeed.x = 2.0f;
+				}
+				if (time >= 600) {
+					moveSpeed.z = -2.0f;
+				}
+				if (BuffPos.z < -1000.0f) {
+					time = 0;
+					DeleteGO(this);
+				}
+				m_charaCon.Execute(moveSpeed, 1.0f);
+				wait = 0;
 			}
-			if (time >= 500 && time < 600) {
-				moveSpeed.x = 2.0f;
-			}
-			if (time >= 600) {
-				moveSpeed.z = -2.0f;
-			}
-			if (BuffPos.z < -1000.0f) {
-				time = 0;
+		}
+
+		float Buff2Pl = (BuffPos.x - plPos01.x) * (BuffPos.x - plPos01.x) + (BuffPos.y - plPos01.y) * (BuffPos.y - plPos01.y) + (BuffPos.z - plPos01.z) * (BuffPos.z - plPos01.z);
+		Buff2Pl = sqrt(Buff2Pl);
+
+		//Aボタンを押したとき、プレイヤーは何も持っていない　100より近い位置にいる。
+		if (g_pad[0]->IsTrigger(enButtonA)) {
+			if (Buff2Pl < 200.0f) {
 				DeleteGO(this);
 			}
-			m_charaCon.Execute(moveSpeed, 1.0f);
-			wait = 0;
 		}
 	}
-	
-	float Buff2Pl = (BuffPos.x - plPos.x) * (BuffPos.x - plPos.x) + (BuffPos.y - plPos.y) * (BuffPos.y - plPos.y) + (BuffPos.z - plPos.z) * (BuffPos.z - plPos.z);
-	Buff2Pl = sqrt(Buff2Pl);
+	if (BuffNo == 2) {
+		Vector3 BuffPos = m_charaCon.GetPosition();
+		ModelRender* pl02 = FindGO<ModelRender>("player01");
+		Vector3 plPos02 = pl02->GetPosition();
 
-	//Aボタンを押したとき、プレイヤーは何も持っていない　100より近い位置にいる。
-	if (g_pad[0]->IsTrigger(enButtonA)) {
-		if (Buff2Pl < 200.0f) {
-			DeleteGO(this);
+		wait--;
+		if (wait <= 0) {
+			if (state == 0 && put == 0) {
+				Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
+				time++;
+				if (time < 500) {
+					moveSpeed.z = 2.0f;
+				}
+				if (time >= 500 && time < 600) {
+					moveSpeed.x = -2.0f;
+				}
+				if (time >= 600) {
+					moveSpeed.z = -2.0f;
+				}
+				if (BuffPos.z < -1000.0f) {
+					time = 0;
+					DeleteGO(this);
+				}
+				m_charaCon.Execute(moveSpeed, 1.0f);
+				wait = 0;
+			}
+		}
+
+		float Buff2Pl = (BuffPos.x - plPos02.x) * (BuffPos.x - plPos02.x) + (BuffPos.y - plPos02.y) * (BuffPos.y - plPos02.y) + (BuffPos.z - plPos02.z) * (BuffPos.z - plPos02.z);
+		Buff2Pl = sqrt(Buff2Pl);
+
+		//Aボタンを押したとき、プレイヤーは何も持っていない　100より近い位置にいる。
+		if (g_pad[1]->IsTrigger(enButtonA)) {
+			if (Buff2Pl < 200.0f) {
+				DeleteGO(this);
+			}
 		}
 	}
-
 
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }

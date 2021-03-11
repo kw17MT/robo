@@ -8,17 +8,18 @@ private:
 	Skeleton m_skeleton;
 	CharacterController m_charaCon;
 
-
+	//どちらに流れているバフアイテムか
+	int BuffNo = 0;
 
 public:
-	Buff() {}
-	~Buff();
+	Buff();
 
 	bool Start();
 	void Update();
 
 	Vector3 GetPosition();
 	void SetPosition(Vector3 pos);
+	void SetBuffNo(int num) { BuffNo = num; }
 
 	void Render(RenderContext& rc)
 	{
