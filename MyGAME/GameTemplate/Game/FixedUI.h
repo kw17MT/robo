@@ -1,6 +1,6 @@
 #pragma once
 
-class FontRender : public IGameObject
+class FixedUI : public IGameObject
 {
 private:
 	int time = 120;

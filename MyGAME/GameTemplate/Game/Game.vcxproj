@@ -291,7 +291,8 @@
     <ClCompile Include="Buff.cpp" />
     <ClCompile Include="Burger.cpp" />
     <ClCompile Include="Counter.cpp" />
-    <ClCompile Include="FontRender.cpp" />
+    <ClCompile Include="FixedUI.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Guzai.cpp" />
     <ClCompile Include="Kitchen.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -299,6 +300,7 @@
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="ModelRender.cpp" />
     <ClCompile Include="ObjectGene.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -372,13 +374,15 @@
     <ClInclude Include="Buff.h" />
     <ClInclude Include="Burger.h" />
     <ClInclude Include="Counter.h" />
-    <ClInclude Include="FontRender.h" />
+    <ClInclude Include="FixedUI.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Guzai.h" />
     <ClInclude Include="Kitchen.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="ModelRender.h" />
     <ClInclude Include="ObjectGene.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="stdafx.h" />

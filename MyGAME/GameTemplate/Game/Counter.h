@@ -9,6 +9,10 @@ private:
 
 	//トマトだけで構成されたバーガー
 	int TomatoOnly[1] = { 4 };
+	int burger01[3] = { 3,1,2 };
+	int burger02[4] = { 3,4,4,2 };
+	int burger03[4] = { 2,4,0,3 };
+
 	//カウンター番号　１が左、２が右
 	int CounterNo = 0;
 

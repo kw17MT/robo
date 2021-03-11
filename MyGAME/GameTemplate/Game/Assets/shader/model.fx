@@ -118,7 +118,7 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	toEye = normalize(toEye);
 	t = dot(ref, toEye);
 	if (t < 0.0f) { t = 0.0f; }
-	t = pow(t, 2.0f);
+	t = pow(t, 100.0f);
 	float3 dirSpec = ligColor * t;
 	//////////////////////////////////////////////////////////////////////
 
@@ -128,7 +128,7 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	float distance = length(Pt2Surface);
 	float affect = 1.0f - 1.0f / ptRange * distance;
 	if (affect < 0.0f) { affect = 0.0f; }
-	affect = pow(affect, 3.0f);
+	affect = pow(affect, 1.0f);
 
 	Pt2Surface = normalize(Pt2Surface);
 
@@ -144,7 +144,7 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	float3 ptRef = reflect(Pt2Surface, psIn.normal);
 	t = dot(toEye, ptRef);
 	if (t < 0.0f) { t = 0.0f; }
-	t = pow(t, 2.0f);
+	t = pow(t, 5.0f);
 
 	float3 ptSpec = ptColor * t;
 	ptSpec *= affect;
@@ -163,7 +163,7 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	//////////////////////////////////////////////////////////////////////////
 
 	//環境光
-	float3 environment = { 0.2f,0.2f,0.2f };
+	float3 environment = { 0.3f,0.3f,0.3f };
 
 	//最終光
 	float4 finalcolor = g_albedo.Sample(g_sampler, psIn.uv);

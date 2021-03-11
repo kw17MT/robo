@@ -3,6 +3,7 @@
 #include "ModelRender.h"
 #include "Burger.h"
 #include "Kitchen.h"
+#include "Score.h"
 
 Counter::Counter()
 {
@@ -37,8 +38,8 @@ bool Counter::Judge()
 		Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
 		ModelRender* pl01 = FindGO<ModelRender>("player01");
 
-		for (int i = 0; i < ki01->GetStackNum(); i++) {
-			if (TomatoOnly[i] == pl01->GuzaiNo[i]) {
+		for (int i = 0; i <= ki01->GetStackNum(); i++) {
+			if (burger01[i] == pl01->GuzaiNo[i]) {
 				return true;
 			}
 			else {
@@ -50,8 +51,8 @@ bool Counter::Judge()
 		Kitchen* ki02 = FindGO<Kitchen>("kitchen02");
 		ModelRender* pl02 = FindGO<ModelRender>("player02");
 
-		for (int i = 0; i < ki02->GetStackNum(); i++) {
-			if (TomatoOnly[i] == pl02->GuzaiNo[i]) {
+		for (int i = 0; i <= ki02->GetStackNum(); i++) {
+			if (burger02[i] == pl02->GuzaiNo[i]) {
 				return true;
 			}
 			else {
@@ -95,6 +96,10 @@ void Counter::Delete()
 				bu01->SetPosition(CounterPos01);
 
 				if (Delay == 30) {
+					//‚±‚±‚ÅÏ‚İã‚°‚Ä‚½‹ïŞ‚Ì”‚ğScore‚É“n‚µ‚Ä‚ ‚°‚éB
+					Score* sco = FindGO<Score>("score");
+					sco->SetBasePoint01(5);
+					
 					DeleteGO(bu01);
 					Delay = 0;
 					pl01->have = 0;
@@ -134,6 +139,9 @@ void Counter::Delete()
 				bu02->SetPosition(CounterPos02);
 
 				if (Delay == 30) {
+					//‚±‚±‚ÅÏ‚İã‚°‚Ä‚½‹ïŞ‚Ì”‚ğScore‚É“n‚µ‚Ä‚ ‚°‚éB
+					Score* sco = FindGO<Score>("score");
+					sco->SetBasePoint02(5);
 					DeleteGO(bu02);
 					Delay = 0;
 					pl02->have = 0;

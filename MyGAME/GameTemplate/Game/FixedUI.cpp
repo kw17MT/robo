@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "FontRender.h"
+#include "FixedUI.h"
 
 
-bool FontRender::Start()
+bool FixedUI::Start()
 {
 	return true;
 }
@@ -15,7 +15,7 @@ wchar_t String2Wcahr(int num) {
 	return *wcStr;
 }
 
-void FontRender::Update()
+void FixedUI::Update()
 {
 	Font fontTime;
 	Vector4 color = { 1.0f,1.0f,1.0,1.0f };
