@@ -79,6 +79,14 @@ Game::Game()
 	generator02->SetGeneNo(2);
 	Vector3 PosGene02 = { -300.0f,100.0f,-500.0f };
 	generator02->SetPosition(PosGene02);
+
+	//バフアイテムをとった時にアイコンを配置。////////////////////////////////////////////
+	if (player[0]->stateBuff()) {
+		Buff[0] = NewGO<SpriteRender>(2);
+		Buff[0]->Init("Assets/Image/icon_speedup.dds", 128, 128);
+		Vector3 pos = { -500.0f,350.0f,0.0f };
+		Buff[0]->SetPosition(pos);
+	}
 }
 
 Game::~Game()

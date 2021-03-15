@@ -7,25 +7,25 @@ Score::Score()
 	
 }
 
-const wchar_t* Score::FinalScore01()
-{
-	Score01 = BasePoint01 * 100;
-	std::wstring str;
-	str = std::to_wstring(Score01);				//ˆê“xA”’l‚ğwstringŒ^‚É•ÏŠ·‚·‚é
-	const wchar_t* wcStr = str.c_str();		//wstringŒ^‚ğconst wchar_t*Œ^‚É•ÏŠ·‚·‚é
+//const wchar_t* Score::FinalScore01()
+//{
+//	Score01 = BasePoint01 * 100;
+//	std::wstring str;
+//	str = std::to_wstring(Score01);				//ˆê“xA”’l‚ğwstringŒ^‚É•ÏŠ·‚·‚é
+//	const wchar_t* wcStr = str.c_str();		//wstringŒ^‚ğconst wchar_t*Œ^‚É•ÏŠ·‚·‚é
+//
+//	return wcStr;
+//}
 
-	return wcStr;
-}
-
-const wchar_t* Score::FinalScore02()
-{
-	Score02 = BasePoint02 * 100;
-	std::wstring str;
-	str = std::to_wstring(Score02);		
-	const wchar_t* wcStr = str.c_str();
-
-	return wcStr;
-}
+//const wchar_t* Score::FinalScore02()
+//{
+//	Score02 = BasePoint02 * 100;
+//	std::wstring str;
+//	str = std::to_wstring(Score02);		
+//	const wchar_t* wcStr = str.c_str();
+//
+//	return wcStr;
+//}
 
 
 void Score::Update()
@@ -34,9 +34,6 @@ void Score::Update()
 	Font score01;
 	Font score02;
 	Vector4 color = { 1.0f,1.0f,1.0,1.0f };
-
-	/*const wchar_t* sco01 = FinalScore01();
-	const wchar_t* sco02 = FinalScore01();*/
 
 	Score01 = BasePoint01 * 100;
 	std::wstring str01;

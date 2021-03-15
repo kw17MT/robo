@@ -2,6 +2,13 @@
 #include "ModelRender.h"
 #include "Guzai.h"
 
+//具材ナンバー配列のすべての要素を9で初期化
+ModelRender::ModelRender()
+{
+	for (int i = 0; i < 10; i++) {
+		GuzaiNo[i] = 9;
+	}
+}
 
 /// <summary>
 /// モデルを変更するときに使う
@@ -21,6 +28,14 @@ void ModelRender::GiveData(const char* ModelPath, const char* ShaderPath)
 	}
 
 	model.Init(modeldata);
+}
+
+void ModelRender::SetGuzaiNo9()
+{
+	for (int i = 0;i < 10;i++)
+	{
+		GuzaiNo[i] = 9;
+	}
 }
 
 Vector3 ModelRender::GetPosition()
@@ -61,8 +76,20 @@ void ModelRender::Update()
 	Vector3 moveSpeed;
 
 	if (playerNo == 1) {
-		moveSpeed.x = g_pad[0]->GetLStickXF() * -10.0f;
-		moveSpeed.z = g_pad[0]->GetLStickYF() * -10.0f;
+		if (Buff == true) {
+			moveSpeed.x = g_pad[0]->GetLStickXF() * -20.0f;
+			moveSpeed.z = g_pad[0]->GetLStickYF() * -20.0f;
+
+			BuffTime--;
+			if (BuffTime == 0) {
+				Buff = false;
+				BuffTime = 120;
+			}
+		}
+		if(Buff == false) {
+			moveSpeed.x = g_pad[0]->GetLStickXF() * -10.0f;
+			moveSpeed.z = g_pad[0]->GetLStickYF() * -10.0f;
+		}
 
 		if (setPos == 0) {
 			Vector3 Pos1 = { 900.0f, 0.0f, 0.0f };
@@ -71,8 +98,20 @@ void ModelRender::Update()
 		}
 	}
 	if (playerNo == 2) {
-		moveSpeed.x = g_pad[1]->GetLStickXF() * -10.0f;
-		moveSpeed.z = g_pad[1]->GetLStickYF() * -10.0f;
+		if (Buff == true) {
+			moveSpeed.x = g_pad[1]->GetLStickXF() * -20.0f;
+			moveSpeed.z = g_pad[1]->GetLStickYF() * -20.0f;
+
+			BuffTime--;
+			if (BuffTime == 0) {
+				Buff = false;
+				BuffTime = 120;
+			}
+		}
+		if (Buff == false) {
+			moveSpeed.x = g_pad[1]->GetLStickXF() * -10.0f;
+			moveSpeed.z = g_pad[1]->GetLStickYF() * -10.0f;
+		}
 
 		if (setPos == 0) {
 			Vector3 Pos2 = { -900.0f, 0.0f, 0.0f };

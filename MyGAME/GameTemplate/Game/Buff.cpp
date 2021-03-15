@@ -81,7 +81,8 @@ void Buff::Update()
 
 		//Aボタンを押したとき、プレイヤーは何も持っていない　100より近い位置にいる。
 		if (g_pad[0]->IsTrigger(enButtonA) && pl01->have == 0) {
-			if (Buff2Pl < 200.0f) {
+			if (Buff2Pl < 150.0f) {
+				pl01->SetBuffAffect(true);
 				DeleteGO(this);
 			}
 		}
@@ -119,7 +120,8 @@ void Buff::Update()
 
 		//Aボタンを押したとき、プレイヤーは何も持っていない　100より近い位置にいる。
 		if (g_pad[1]->IsTrigger(enButtonA) && pl02->have == 0) {
-			if (Buff2Pl < 200.0f) {
+			if (Buff2Pl < 150.0f) {
+				pl02->SetBuffAffect(true);
 				DeleteGO(this);
 			}
 		}

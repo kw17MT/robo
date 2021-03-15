@@ -9,6 +9,7 @@ private:
 	CharacterController m_charaCon;
 
 	//どちらに流れているバフアイテムか
+	//１、左　２、右
 	int BuffNo = 0;
 
 public:
@@ -36,6 +37,5 @@ public:
 	int state = 0;
 	//１ならばもうキッチンに置かれている。
 	int put = 0;
-
 };
 

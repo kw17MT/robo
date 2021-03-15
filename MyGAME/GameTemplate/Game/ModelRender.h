@@ -12,14 +12,19 @@ private:
 	int playerNo = 0;
 	int setPos = 0;
 
-	
+	bool Buff = false;
+	int BuffTime = 120;
 
 public:
-	ModelRender() {}
+	ModelRender();
 	void SetPlayerNo(int num) { playerNo = num; }
 
 	bool Start();
 	void Update();
+
+	void SetBuffAffect(bool buff) { Buff = buff; }
+	bool stateBuff() { return Buff; }
+	void SetGuzaiNo9();
 
 	Vector3 GetPosition();
 

@@ -3,6 +3,7 @@
 #include "ModelRender.h"
 #include "Burger.h"
 #include "Guzai.h"
+#include "Counter.h"
 
 Kitchen::Kitchen()
 {
@@ -65,27 +66,37 @@ void Kitchen::Stack(int num)
 	}
 }
 
+//積んでいる具材を全部消去する。
+//スタックに使った変数を全部初期化。
 void Kitchen::Delete()
 {
 	if (KitchenNo == 1) {
 		for (int i = 0;i < nextStackNum; i++) {
 			DeleteGO(StackedGuzai[i]);
 		}
+		Counter* co01 = FindGO<Counter>("counter01");
+		co01->SetStackNum(stack);
+
 		stack = 0;
 		nextStackNum = 0;
 		DeleteTimer = 0;
 		ModelRender* pl01 = FindGO<ModelRender>("player01");
 		pl01->have = 0;
+		//pl01->SetGuzaiNo9();
 	}
 	if (KitchenNo == 2) {
 		for (int i = 0;i < nextStackNum; i++) {
 			DeleteGO(StackedGuzai[i]);
 		}
+		Counter* co02 = FindGO<Counter>("counter02");
+		co02->SetStackNum(stack);
+
 		stack = 0;
 		nextStackNum = 0;
 		DeleteTimer = 0;
 		ModelRender* pl02 = FindGO<ModelRender>("player02");
 		pl02->have = 0;
+		//pl02->SetGuzaiNo9();
 	}
 }
 
@@ -119,7 +130,7 @@ void Kitchen::BornBurger()
 			if (Delay == 0) {
 				ModelRender* pl02 = FindGO<ModelRender>("player02");
 
-				//ここで具材が持っている種類No.をプレイヤーが持っているNo.格納用配列にいれていく。
+				//ここで具材の種類No.をプレイヤーが持っているNo.格納用配列にいれていく。
 				for (int i = 0;i < nextStackNum; i++) {
 					pl02->GuzaiNo[i] = StackedGuzai[i]->GetTypeNo();
 				}
@@ -141,14 +152,14 @@ void Kitchen::ClearNo()
 		ModelRender* pl01 = FindGO<ModelRender>("player01");
 
 		for (int i = 0;i < nextStackNum; i++) {
-			pl01->GuzaiNo[i] = 0;
+			pl01->GuzaiNo[i] = 9;
 		}
 	}
 	if (KitchenNo == 2) {
 		ModelRender* pl02 = FindGO<ModelRender>("player02");
 
 		for (int i = 0;i < nextStackNum; i++) {
-			pl02->GuzaiNo[i] = 0;
+			pl02->GuzaiNo[i] = 9;
 		}
 	}
 }

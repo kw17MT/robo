@@ -110,7 +110,7 @@ void Guzai::Update()
 
 		//Aボタンを押したとき、プレイヤーは何も持っていない　100より近い位置にいる。
 		if (g_pad[0]->IsTrigger(enButtonA)) {
-			if (pl01->have == 0 && guzai2Pl < 200.0f) {
+			if (pl01->have == 0 && guzai2Pl < 150.0f) {
 				state = 1;
 				pl01->have = 1;
 			}
@@ -173,7 +173,7 @@ void Guzai::Update()
 
 		//Aボタンを押したとき、プレイヤーは何も持っていない　100より近い位置にいる。
 		if (g_pad[1]->IsTrigger(enButtonA)) {
-			if (pl02->have == 0 && guzai2Pl < 200.0f) {
+			if (pl02->have == 0 && guzai2Pl < 150.0f) {
 				state = 1;
 				pl02->have = 1;
 			}

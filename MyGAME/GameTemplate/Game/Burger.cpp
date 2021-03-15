@@ -2,6 +2,7 @@
 #include "Burger.h"
 #include "ModelRender.h"
 #include "Kitchen.h"
+#include "Counter.h"
 
 Burger::Burger()
 {
@@ -53,10 +54,14 @@ void Burger::SetPosition(Vector3 pos)
 void Burger::Delete()
 {
 	if (BurgerNo == 1) {
+		/*ModelRender* pl01 = FindGO<ModelRender>("palyer01");
+		pl01->SetGuzaiNo9();*/
 		Burger* bur01 = FindGO<Burger>("burger01");
 		DeleteGO(bur01);
 	}
 	if (BurgerNo == 2) {
+		/*ModelRender* pl02 = FindGO<ModelRender>("palyer02");
+		pl02->SetGuzaiNo9();*/
 		Burger* bur02 = FindGO<Burger>("burger02");
 		DeleteGO(bur02);
 	}
@@ -65,7 +70,6 @@ void Burger::Delete()
 //プレイヤーがバーガーを持つ。
 void Burger::GrabBurger()
 {
-
 	if (BurgerNo == 1) {
 		ModelRender* pl01 = FindGO<ModelRender>("player01");
 		Vector3 plPos = pl01->GetPosition();
@@ -113,16 +117,24 @@ void Burger::ClearNo()
 {
 	if (BurgerNo == 1) {
 		ModelRender* pl01 = FindGO<ModelRender>("player01");
+		Counter* co01 = FindGO<Counter>("counter01");
+
+		//カウンターに保存していた、今まで積んできた具材の種類を全部０で初期化する。
+		co01->SetStack0();
 
 		for (int i = 0;i < 10; i++) {
-			pl01->GuzaiNo[i] = 0;
+			pl01->GuzaiNo[i] = 9;
 		}
 	}
 	if (BurgerNo == 2) {
 		ModelRender* pl02 = FindGO<ModelRender>("player02");
+		Counter* co02 = FindGO<Counter>("counter02");
+
+		//カウンターに保存していた、今まで積んできた具材の種類を全部０で初期化する。
+		co02->SetStack0();
 
 		for (int i = 0;i < 10; i++) {
-			pl02->GuzaiNo[i] = 0;
+			pl02->GuzaiNo[i] = 9;
 		}
 	}
 }

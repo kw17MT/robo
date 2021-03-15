@@ -7,14 +7,19 @@ private:
 	Skeleton m_skeleton;
 	CharacterController m_charaCon;
 
-	//トマトだけで構成されたバーガー
-	int TomatoOnly[1] = { 4 };
-	int burger01[3] = { 3,1,2 };
+	//表示できるメニューの種類。
+	int menuNum = 3;
+
+	//０．チーズ　１．エッグ　２．レタス　３．パテ　４．トマト
+
+	int burger01[3] = { 3,0,2 };
 	int burger02[4] = { 3,4,4,2 };
 	int burger03[4] = { 2,4,0,3 };
 
 	//カウンター番号　１が左、２が右
 	int CounterNo = 0;
+	//何段のハンバーガーを作ったのかの変数
+	int StackNum = 0;
 
 public:
 	Counter();
@@ -23,6 +28,8 @@ public:
 	void Delete();
 	void SetPosition(Vector3 pos) { m_charaCon.SetPosition(pos); }
 	void SetCounterNo(int num) { CounterNo = num; }
+	void SetStackNum(int num) { StackNum = num; }
+	void SetStack0() { StackNum = 0; }
 
 	bool Judge();
 

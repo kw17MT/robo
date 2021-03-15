@@ -23,6 +23,7 @@ public:
 	Kitchen* kitchen01;
 	Kitchen* kitchen02;
 	SpriteRender* menu[3];
+	SpriteRender* Buff[2];
 	ModelRender* player[2];
 	ObjectGene* generator01;
 	ObjectGene* generator02;

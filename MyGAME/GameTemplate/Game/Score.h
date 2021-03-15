@@ -18,10 +18,6 @@ public:
 	void SetBasePoint01(int num) { BasePoint01 += num; }
 	void SetBasePoint02(int num) { BasePoint02 += num; }
 
-	//表示するスコアをこの関数で計算し、その文字列を返す。
-	const wchar_t* FinalScore01();
-	const wchar_t* FinalScore02();
-
 	void Update();
 };
 
