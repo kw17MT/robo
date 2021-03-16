@@ -39,6 +39,8 @@ public:
 	int DeleteTimer = 0;
 	//privateの変数スタックをインクリメント
 	void PlusStack() { stack++; }
+	//数えていたStack変数を０に初期化。
+	void SetStack0() { stack = 0; }
 	//プレイヤー側に具材の種類を格納する際に使用する。
 	int GetStackNum() { return stack; }
 	//具材をハンバーガーに変換する。

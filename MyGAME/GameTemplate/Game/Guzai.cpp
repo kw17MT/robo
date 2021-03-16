@@ -45,7 +45,7 @@ Guzai::Guzai()
 
 	model.Init(modeldata);
 
-	Vector3 pos = { 0.0f,100.0f,-500.0f };
+	Vector3 pos = { 0.0f,0.0f,-500.0f };
 
 	m_charaCon.Init(0.0f, 0.0f, pos);
 }
@@ -60,6 +60,7 @@ void Guzai::SetPosition(Vector3 pos)
 {
 	m_charaCon.SetPosition(pos);
 }
+
 
 void Guzai::ChangeGuzai(int num)
 {

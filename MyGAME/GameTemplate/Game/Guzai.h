@@ -9,6 +9,10 @@ private:
 	Skeleton m_skeleton;
 	CharacterController m_charaCon;
 	
+	//Update()でインクリメントする。
+	int timer = 0;
+	//Xボタン長押しで積み上げている具材を全部削除する。そのためのタイマー。
+	int DeleteTimer = 0;
 	//どっち側に流れている具材か。
 	int GuzaiNo = 0;
 	//０．チーズ　１．エッグ　２．レタス　３．パテ　４．トマト
@@ -17,7 +21,6 @@ private:
 public:	
 	//乱数を用いて具材が生まれると同時にどの具材を流すか設定する。
 	Guzai();
-	//Aボタンをおして近くの具材をプレイヤーの頭上に持ってくる。
 
 	void Update();
 	
@@ -36,13 +39,11 @@ public:
 
 	void Render(RenderContext& rc) { model.Draw(rc); }
 
-	//Update()でインクリメントする。
-	int timer = 0;
+	
 	//１ならば持たれている。
 	int state = 0;
 	//１ならばもうキッチンに置かれている。
 	int put = 0;
-	//Xボタン長押しで積み上げている具材を全部削除する。そのためのタイマー。
-	int DeleteTimer = 0;
+	
 };
 

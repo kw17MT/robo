@@ -27,11 +27,6 @@ Counter::Counter()
 	m_charaCon.Init(0.0f, 0.0f, g_vec3One);
 }
 
-bool Counter::Start()
-{
-	return true;
-}
-
 //////////////////////判別するところ////////////////////////////////////////////////////////////////////////////////
 bool Counter::Judge()
 {
@@ -39,18 +34,32 @@ bool Counter::Judge()
 		Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
 		ModelRender* pl01 = FindGO<ModelRender>("player01");
 
+		//最終結果を記録するもの。
 		bool correct01 = true;
+		//判別していく過程で正しかったらインクリメントされていく。正解数みたいなもの。
+		int correctCount01 = 0;
+		//満点となる数。sizeofの中身を変えることでいろんな種類のバーガーに対応できると思う。←変えてもいい。
+		int correctGuzaiNum01 = sizeof(burger01) / sizeof(int);
 
-		for (int i = 0; i <= ki01->GetStackNum(); i++) {
+		//作ったバーガーの層によって回すFOR文の回数が変わる。
+		//StackNumはバーガーができる瞬間にこちら側に保存される。（in Kitchen.cpp)
+		//判別過程で一度でも間違えたらFALSE
+		for (int i = 0; i < StackNum; i++) {
 			if (burger01[i] == pl01->GuzaiNo[i]) {
+				correctCount01++;
 				continue;
-				//return true;
 			}
 			else{
 				correct01 = false;
 				break;
 			}
 		}
+		//ここまでの文では途中まで完璧にできていたらTRUEになる。
+		//したの文で、最終的に層の数が違っていたらFALSEにする。
+		if (correctCount01 != correctGuzaiNum01) {
+			correct01 = false;
+		}
+
 		return correct01;
 	}
 
@@ -59,16 +68,22 @@ bool Counter::Judge()
 		ModelRender* pl02 = FindGO<ModelRender>("player02");
 
 		bool correct02 = true;
+		int correctCount02 = 0;
+		int correctGuzaiNum02 = sizeof(burger01) / sizeof(int);
 
-		for (int i = 0; i < ki02->GetStackNum(); i++) {
-			if (burger02[i] == pl02->GuzaiNo[i]) {
+		for (int i = 0; i < StackNum; i++) {
+			if (burger01[i] == pl02->GuzaiNo[i]) {
+				++correctCount02;
 				continue;
-				//return true;
 			}
 			else {
 				correct02 = false;
 				break;
 			}
+		}
+
+		if (correctCount02 != correctGuzaiNum02) {
+			correct02 = false;
 		}
 		return correct02;
 	}
@@ -85,6 +100,7 @@ void Counter::Delete()
 
 		Vector3 CounterPos01 = m_charaCon.GetPosition();
 
+		//カウンターからプレイヤーの距離
 		float pl2Counter = (plPos.x - CounterPos01.x) * (plPos.x - CounterPos01.x) + (plPos.y - CounterPos01.y) * (plPos.y - CounterPos01.y) + (plPos.z - CounterPos01.z) * (plPos.z - CounterPos01.z);
 		pl2Counter = sqrt(pl2Counter);
 
@@ -93,7 +109,7 @@ void Counter::Delete()
 			Burger* bu01 = FindGO<Burger>("burger01");
 
 			//キッチンに置く準備
-			//Judge関数でできたハンバーガーの組成があっていたらカウンターに置ける。
+			//できたハンバーガーの組成をJudge関数で調べ、あっていたらカウンターに置ける。
 			if (g_pad[0]->IsPress(enButtonB) && pl2Counter < 100.0f) {
 				if (Judge() == true) {
 					bu01->putOnKitchen = 1;
@@ -101,7 +117,6 @@ void Counter::Delete()
 			}
 
 			//置いたら30フレーム後に消去
-			//ここでスコアアップさせたい。
 			if (bu01->putOnKitchen == 1) {
 				Delay++;
 				CounterPos01.y += 100.0f;
@@ -111,6 +126,9 @@ void Counter::Delete()
 					//ここで積み上げてた具材の数をScoreに渡してあげる。
 					Score* sco = FindGO<Score>("score");
 					sco->SetBasePoint01(StackNum);
+
+					//次の具材No.を保存するため、９で初期化。
+					pl01->SetGuzaiNo9();
 					
 					DeleteGO(bu01);
 					Delay = 0;
@@ -135,7 +153,7 @@ void Counter::Delete()
 			Burger* bu02 = FindGO<Burger>("burger02");
 
 			//キッチンに置く準備
-			//Judge関数でできたハンバーガーの組成があっていたらカウンターに置ける。
+			//できたハンバーガーの組成をJudge関数でしらべ、あっていたらカウンターに置ける。
 			if (g_pad[1]->IsPress(enButtonB) && pl2Counter < 100.0f) {
 				if (Judge() == true) {
 					bu02->putOnKitchen = 1;
@@ -143,7 +161,6 @@ void Counter::Delete()
 			}
 
 			//置いたら30フレーム後に消去
-			//ここでスコアアップさせたい。
 			if (bu02->putOnKitchen == 1) {
 				Delay++;
 				CounterPos02.y += 100.0f;
@@ -153,6 +170,10 @@ void Counter::Delete()
 					//ここで積み上げてた具材の数をScoreに渡してあげる。
 					Score* sco = FindGO<Score>("score");
 					sco->SetBasePoint02(StackNum);
+
+					//次の具材No.を保存するため、９で初期化。
+					pl02->SetGuzaiNo9();
+
 					DeleteGO(bu02);
 					Delay = 0;
 					pl02->have = 0;
@@ -167,6 +188,5 @@ void Counter::Delete()
 void Counter::Update()
 {
 	Delete();
-	Judge();
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }
