@@ -39,33 +39,26 @@ bool Counter::Judge()
 		Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
 		ModelRender* pl01 = FindGO<ModelRender>("player01");
 
-		bool a = true;
-		int JudgeCount = 0;
-		//配列の要素数
-		int aa = 3;//sizeof(burger01) / sizeof(int);
+		bool correct01 = true;
 
-		for (int i = 0; i < 3/*ki01->GetStackNum()*/; i++) {
+		for (int i = 0; i <= ki01->GetStackNum(); i++) {
 			if (burger01[i] == pl01->GuzaiNo[i]) {
-				JudgeCount++;
+				continue;
 				//return true;
 			}
 			else{
-				a = false;
+				correct01 = false;
 				break;
 			}
 		}
-
-		if (aa != JudgeCount) {
-			a = false;
-		}
-		return a;
+		return correct01;
 	}
 
 	if (CounterNo == 2) {
 		Kitchen* ki02 = FindGO<Kitchen>("kitchen02");
 		ModelRender* pl02 = FindGO<ModelRender>("player02");
 
-		bool b = true;
+		bool correct02 = true;
 
 		for (int i = 0; i < ki02->GetStackNum(); i++) {
 			if (burger02[i] == pl02->GuzaiNo[i]) {
@@ -73,11 +66,11 @@ bool Counter::Judge()
 				//return true;
 			}
 			else {
-				b = false;
+				correct02 = false;
 				break;
 			}
 		}
-		return b;
+		return correct02;
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -124,7 +117,6 @@ void Counter::Delete()
 					pl01->have = 0;
 					StackNum = 0;
 				}
-
 			}
 		}
 	}
@@ -149,7 +141,6 @@ void Counter::Delete()
 					bu02->putOnKitchen = 1;
 				}
 			}
-		
 
 			//置いたら30フレーム後に消去
 			//ここでスコアアップさせたい。

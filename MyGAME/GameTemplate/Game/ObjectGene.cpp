@@ -30,23 +30,6 @@ ObjectGene::ObjectGene()
 	m_charaCon.Init(40.0f, 100.0f, pos);
 }
 
-void ObjectGene::SetPosition(Vector3 pos)
-{
-	m_charaCon.SetPosition(pos);
-}
-
-bool ObjectGene::Start()
-{
-	
-
-	return true;
-}
-
-Vector3 ObjectGene::GetPosition()
-{
-	return m_charaCon.GetPosition();
-}
-
 void ObjectGene::Update()
 {
 	timer++;
@@ -60,7 +43,9 @@ void ObjectGene::Update()
 		timer = 0;
 	}
 
+	//５０フレーム経った後、ランダムな変数が１の時（10%）
 	if (timer == 50 && randNum == 1) {
+		//バフアイテムが画面に出ていないとき。
 		if (Buffnum == 0) {
 			m_buff = NewGO<Buff>(0, "buff");
 			m_buff->SetBuffNo(GeneNo);
@@ -68,6 +53,7 @@ void ObjectGene::Update()
 			timer = 0;
 			Buffnum = 1;
 		}
+		//バフアイテムが画面に出ているとき、バフアイテムを出さずに具材をだす。
 		else {
 			m_guzai = NewGO<Guzai>(0, "guzai");
 			m_guzai->SetGuzaiNo(GeneNo);

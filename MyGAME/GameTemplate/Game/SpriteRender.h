@@ -12,9 +12,16 @@ private:
 
 public:
 	SpriteRender() {};
+	/// <summary>
+	/// 初期化する関数。
+	/// </summary>
+	/// <param name="name">画像のパス</param>
+	/// <param name="a">表示する横幅</param>
+	/// <param name="b">表示する縦幅</param>
 	void Init(const char* name, int a, int b);
-	void SetPosition(Vector3 pos);
-	void SetScale(Vector3 scale);
+
+	void SetPosition(Vector3 pos){ m_sprite.Update(pos, m_Rot, m_Scale, m_Pivot); }
+	void SetScale(Vector3 scale) { m_sprite.Update(m_Pos, m_Rot, m_Scale, m_Pivot); }
 	
 	void Render(RenderContext& rc) { m_sprite.Draw(rc); }
 };

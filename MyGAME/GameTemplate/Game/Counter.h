@@ -11,7 +11,6 @@ private:
 	int menuNum = 3;
 
 	//０．チーズ　１．エッグ　２．レタス　３．パテ　４．トマト
-
 	int burger01[3] = { 3,0,2 };
 	int burger02[4] = { 3,4,4,2 };
 	int burger03[4] = { 2,4,0,3 };

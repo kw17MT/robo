@@ -46,22 +46,13 @@ bool Burger::Start()
 	return true;
 }
 
-void Burger::SetPosition(Vector3 pos)
-{
-	m_charaCon.SetPosition(pos);
-}
-
 void Burger::Delete()
 {
 	if (BurgerNo == 1) {
-		/*ModelRender* pl01 = FindGO<ModelRender>("palyer01");
-		pl01->SetGuzaiNo9();*/
 		Burger* bur01 = FindGO<Burger>("burger01");
 		DeleteGO(bur01);
 	}
 	if (BurgerNo == 2) {
-		/*ModelRender* pl02 = FindGO<ModelRender>("palyer02");
-		pl02->SetGuzaiNo9();*/
 		Burger* bur02 = FindGO<Burger>("burger02");
 		DeleteGO(bur02);
 	}
@@ -78,10 +69,11 @@ void Burger::GrabBurger()
 		float pl2Burger = (plPos.x - burPos.x) * (plPos.x - burPos.x) + (plPos.y - burPos.y) * (plPos.y - burPos.y) + (plPos.z - burPos.z) * (plPos.z - burPos.z);
 		pl2Burger = sqrt(pl2Burger);
 
-		if (g_pad[0]->IsPress(enButtonA) && pl2Burger < 200.0f) {
+		//Aボタンを押してプレイヤーとバーガーの距離が150以下なら、バーガーを持つ準備をする。
+		if (g_pad[0]->IsPress(enButtonA) && pl2Burger < 150.0f) {
 			pl01->have = 2;
 		}
-
+		//バーガーの位置をプレイヤーの頭上に持ってくる。
 		if (pl01->have == 2) {
 			pos = plPos;
 			pos.y += 100.0f;
@@ -99,10 +91,11 @@ void Burger::GrabBurger()
 		float pl2Burger = (plPos.x - burPos.x) * (plPos.x - burPos.x) + (plPos.y - burPos.y) * (plPos.y - burPos.y) + (plPos.z - burPos.z) * (plPos.z - burPos.z);
 		pl2Burger = sqrt(pl2Burger);
 
+		//Aボタンを押してプレイヤーとバーガーの距離が150以下なら、バーガーを持つ準備をする。
 		if (g_pad[1]->IsPress(enButtonA) && pl2Burger < 200.0f) {
 			pl02->have = 2;
 		}
-
+		//バーガーの位置をプレイヤーの頭上に持ってくる。
 		if (pl02->have == 2) {
 			pos = plPos;
 			pos.y += 100.0f;
@@ -119,9 +112,10 @@ void Burger::ClearNo()
 		ModelRender* pl01 = FindGO<ModelRender>("player01");
 		Counter* co01 = FindGO<Counter>("counter01");
 
-		//カウンターに保存していた、今まで積んできた具材の種類を全部０で初期化する。
+		//カウンターに保存していた、今まで積んできた具材の数を０で初期化する。
 		co01->SetStack0();
 
+		//プレイヤーに保存していた、ハンバーガーを構成する具材を９で初期化。	
 		for (int i = 0;i < 10; i++) {
 			pl01->GuzaiNo[i] = 9;
 		}
@@ -133,6 +127,7 @@ void Burger::ClearNo()
 		//カウンターに保存していた、今まで積んできた具材の種類を全部０で初期化する。
 		co02->SetStack0();
 
+		//プレイヤーに保存していた、ハンバーガーを構成する具材を９で初期化。	
 		for (int i = 0;i < 10; i++) {
 			pl02->GuzaiNo[i] = 9;
 		}

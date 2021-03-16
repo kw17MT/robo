@@ -27,11 +27,6 @@ Buff::Buff()
 	m_charaCon.Init(0.0f, 0.0f, pos);
 }
 
-bool Buff::Start()
-{
-	return true;
-}
-
 Vector3 Buff::GetPosition()
 {
 	Vector3 Pos = m_charaCon.GetPosition();
@@ -53,37 +48,41 @@ void Buff::Update()
 		ModelRender* pl01 = FindGO<ModelRender>("player01");
 		Vector3 plPos01 = pl01->GetPosition();
 
-		wait--;
-		if (wait <= 0) {
-			if (state == 0 && put == 0) {
-				Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
-				time++;
-				if (time < 500) {
-					moveSpeed.z = 2.0f;
-				}
-				if (time >= 500 && time < 600) {
-					moveSpeed.x = 2.0f;
-				}
-				if (time >= 600) {
-					moveSpeed.z = -2.0f;
-				}
-				if (BuffPos.z < -1000.0f) {
-					time = 0;
-					DeleteGO(this);
-				}
-				m_charaCon.Execute(moveSpeed, 1.0f);
-				wait = 0;
-			}
+		//時間経過とともに具材の座標を移動させる。
+		Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
+		time++;
+		if (time < 500) {
+			moveSpeed.z = 2.0f;
 		}
+		if (time >= 500 && time < 600) {
+			moveSpeed.x = 2.0f;
+		}
+		if (time >= 600) {
+			moveSpeed.z = -2.0f;
+		}
+		if (BuffPos.z < -1000.0f) {
+			time = 0;
+			DeleteGO(this);
 
+			ObjectGene* gene01 = FindGO<ObjectGene>("gene01");
+			gene01->Buffnum = 0;
+		}
+		m_charaCon.Execute(moveSpeed, 1.0f);
+
+		//バフアイテムとプレイヤーの距離を測る。
 		float Buff2Pl = (BuffPos.x - plPos01.x) * (BuffPos.x - plPos01.x) + (BuffPos.y - plPos01.y) * (BuffPos.y - plPos01.y) + (BuffPos.z - plPos01.z) * (BuffPos.z - plPos01.z);
 		Buff2Pl = sqrt(Buff2Pl);
 
-		//Aボタンを押したとき、プレイヤーは何も持っていない　100より近い位置にいる。
+		//Aボタンを押したとき、プレイヤーは何も持っていない且つ100より近い位置にいる。
 		if (g_pad[0]->IsTrigger(enButtonA) && pl01->have == 0) {
 			if (Buff2Pl < 150.0f) {
+				//プレイヤーにバフアイテムの効果をあたえる。
+				//TRUEにすると移動速度がアップする。プレイヤー側で時間を測っていて、向こう側で効果を消す。
 				pl01->SetBuffAffect(true);
 				DeleteGO(this);
+
+				ObjectGene* gene01 = FindGO<ObjectGene>("gene01");
+				gene01->Buffnum = 0;
 			}
 		}
 	}
@@ -92,40 +91,43 @@ void Buff::Update()
 		ModelRender* pl02 = FindGO<ModelRender>("player02");
 		Vector3 plPos02 = pl02->GetPosition();
 
-		wait--;
-		if (wait <= 0) {
-			if (state == 0 && put == 0) {
-				Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
-				time++;
-				if (time < 500) {
-					moveSpeed.z = 2.0f;
-				}
-				if (time >= 500 && time < 600) {
-					moveSpeed.x = -2.0f;
-				}
-				if (time >= 600) {
-					moveSpeed.z = -2.0f;
-				}
-				if (BuffPos.z < -1000.0f) {
-					time = 0;
-					DeleteGO(this);
-				}
-				m_charaCon.Execute(moveSpeed, 1.0f);
-				wait = 0;
-			}
+		//時間経過とともに具材の座標を移動させる。
+		Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
+		time++;
+		if (time < 500) {
+			moveSpeed.z = 2.0f;
 		}
+		if (time >= 500 && time < 600) {
+			moveSpeed.x = -2.0f;
+		}
+		if (time >= 600) {
+			moveSpeed.z = -2.0f;
+		}
+		if (BuffPos.z < -1000.0f) {
+			time = 0;
+			DeleteGO(this);
 
+			ObjectGene* gene02 = FindGO<ObjectGene>("gene02");
+			gene02->Buffnum = 0;
+		}
+		m_charaCon.Execute(moveSpeed, 1.0f);
+
+		//バフアイテムとプレイヤーの距離を測る。
 		float Buff2Pl = (BuffPos.x - plPos02.x) * (BuffPos.x - plPos02.x) + (BuffPos.y - plPos02.y) * (BuffPos.y - plPos02.y) + (BuffPos.z - plPos02.z) * (BuffPos.z - plPos02.z);
 		Buff2Pl = sqrt(Buff2Pl);
 
-		//Aボタンを押したとき、プレイヤーは何も持っていない　100より近い位置にいる。
+		//Aボタンを押したとき、プレイヤーは何も持っていない且つ150より近い位置にいる。
 		if (g_pad[1]->IsTrigger(enButtonA) && pl02->have == 0) {
 			if (Buff2Pl < 150.0f) {
+				//プレイヤーにバフアイテムの効果をあたえる。
+				//TRUEにすると移動速度がアップする。プレイヤー側で時間を測っていて、向こう側で効果を消す。
 				pl02->SetBuffAffect(true);
 				DeleteGO(this);
+
+				ObjectGene* gene02 = FindGO<ObjectGene>("gene02");
+				gene02->Buffnum = 0;
 			}
 		}
 	}
-
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }

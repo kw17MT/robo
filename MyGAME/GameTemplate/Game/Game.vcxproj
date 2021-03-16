@@ -302,7 +302,6 @@
     <ClCompile Include="ObjectGene.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
-    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -384,7 +383,6 @@
     <ClInclude Include="ObjectGene.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="SpriteRender.h" />
-    <ClInclude Include="Stage.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="TklFile.h" />

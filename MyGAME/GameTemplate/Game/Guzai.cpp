@@ -50,11 +50,6 @@ Guzai::Guzai()
 	m_charaCon.Init(0.0f, 0.0f, pos);
 }
 
-bool Guzai::Start()
-{
-	return true;
-}
-
 Vector3 Guzai::GetPosition()
 {
 	Vector3 Pos = m_charaCon.GetPosition();
@@ -104,7 +99,7 @@ void Guzai::Update()
 
 		Vector3 Kitchen01 = { 900.0f, 0.0f, 0.0f };
 
-
+		//具材からプレイヤーまでの距離
 		float guzai2Pl = (GuzaiPos.x - plPos.x) * (GuzaiPos.x - plPos.x) + (GuzaiPos.y - plPos.y) * (GuzaiPos.y - plPos.y) + (GuzaiPos.z - plPos.z) * (GuzaiPos.z - plPos.z);
 		guzai2Pl = sqrt(guzai2Pl);
 
@@ -121,6 +116,7 @@ void Guzai::Update()
 			SetPosition(plPos);
 		}
 
+		//キッチンからプレイヤーの距離
 		float Diff2Kit = (Kitchen01.x - plPos.x) * (Kitchen01.x - plPos.x) + (Kitchen01.y - plPos.y) * (Kitchen01.y - plPos.y) + (Kitchen01.z - plPos.z) * (Kitchen01.z - plPos.z);
 		Diff2Kit = sqrt(Diff2Kit);
 
@@ -167,7 +163,7 @@ void Guzai::Update()
 
 		Vector3 Kitchen02 = { -900.0f, 0.0f, 0.0f };
 
-
+		//具材からプレイヤーへの距離
 		float guzai2Pl = (GuzaiPos.x - plPos.x) * (GuzaiPos.x - plPos.x) + (GuzaiPos.y - plPos.y) * (GuzaiPos.y - plPos.y) + (GuzaiPos.z - plPos.z) * (GuzaiPos.z - plPos.z);
 		guzai2Pl = sqrt(guzai2Pl);
 
@@ -184,6 +180,7 @@ void Guzai::Update()
 			SetPosition(plPos);
 		}
 
+		//キッチンからプレイヤーへの距離
 		float Diff2Kit = (Kitchen02.x - plPos.x) * (Kitchen02.x - plPos.x) + (Kitchen02.y - plPos.y) * (Kitchen02.y - plPos.y) + (Kitchen02.z - plPos.z) * (Kitchen02.z - plPos.z);
 		Diff2Kit = sqrt(Diff2Kit);
 

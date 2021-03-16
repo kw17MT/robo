@@ -13,8 +13,10 @@ class Game : public IGameObject
 {
 private:
 public:
+	//オブジェクトやUIの表示
 	Game();
 	~Game();
+	//今は特に役割なし。
 	void Update();
 
 	FixedUI* ui;

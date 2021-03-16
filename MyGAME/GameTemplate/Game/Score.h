@@ -13,7 +13,6 @@ private:
 
 	RenderContext renderContext = g_graphicsEngine->GetRenderContext();
 public:
-	Score();
 	//カウンター側でnumをあてはめ、こちら側のBasePointに加算する。
 	void SetBasePoint01(int num) { BasePoint01 += num; }
 	void SetBasePoint02(int num) { BasePoint02 += num; }

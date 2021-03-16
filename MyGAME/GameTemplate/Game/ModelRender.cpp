@@ -2,9 +2,28 @@
 #include "ModelRender.h"
 #include "Guzai.h"
 
-//具材ナンバー配列のすべての要素を9で初期化
+
 ModelRender::ModelRender()
 {
+	ModelInitData modeldata;
+	modeldata.m_tkmFilePath = "Assets/modelData/unityChan.tkm";
+	modeldata.m_fxFilePath = "Assets/shader/model.fx";
+
+	modeldata.m_vsEntryPointFunc = "VSMain";
+	modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
+
+	modeldata.m_modelUpAxis = enModelUpAxisZ;
+
+	modeldata.m_expandConstantBuffer = &g_lig;
+	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
+
+	m_skeleton.Init("Assets/modelData/unityChan.tks");
+	modeldata.m_skeleton = &m_skeleton;
+
+	model.Init(modeldata);
+
+	//具材ナンバー配列のすべての要素を9で初期化
+	m_charaCon.Init(40.0f, 100.0f, g_vec3Zero);
 	for (int i = 0; i < 10; i++) {
 		GuzaiNo[i] = 9;
 	}
@@ -44,30 +63,6 @@ Vector3 ModelRender::GetPosition()
 	return Pos;
 }
 
-bool ModelRender::Start()
-{
-	ModelInitData modeldata;
-	modeldata.m_tkmFilePath = "Assets/modelData/unityChan.tkm";
-	modeldata.m_fxFilePath = "Assets/shader/model.fx";
-
-	modeldata.m_vsEntryPointFunc = "VSMain";
-	modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
-
-	modeldata.m_modelUpAxis = enModelUpAxisZ;
-
-	modeldata.m_expandConstantBuffer = &g_lig;
-	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
-
-	m_skeleton.Init("Assets/modelData/unityChan.tks");
-	modeldata.m_skeleton = &m_skeleton;
-
-	model.Init(modeldata);
-
-	m_charaCon.Init(40.0f, 100.0f, g_vec3Zero);
-
-	return true;
-}
-
 void ModelRender::Update()
 {
 	//スケルトンを更新。
@@ -75,6 +70,7 @@ void ModelRender::Update()
 
 	Vector3 moveSpeed;
 
+	//バフの効果がついているか確認後移動速度を決め、移動させる。
 	if (playerNo == 1) {
 		if (Buff == true) {
 			moveSpeed.x = g_pad[0]->GetLStickXF() * -20.0f;

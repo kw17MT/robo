@@ -2,32 +2,6 @@
 #include "Score.h"
 #include "Counter.h"
 
-Score::Score()
-{
-	
-}
-
-//const wchar_t* Score::FinalScore01()
-//{
-//	Score01 = BasePoint01 * 100;
-//	std::wstring str;
-//	str = std::to_wstring(Score01);				//ˆê“xA”’l‚ğwstringŒ^‚É•ÏŠ·‚·‚é
-//	const wchar_t* wcStr = str.c_str();		//wstringŒ^‚ğconst wchar_t*Œ^‚É•ÏŠ·‚·‚é
-//
-//	return wcStr;
-//}
-
-//const wchar_t* Score::FinalScore02()
-//{
-//	Score02 = BasePoint02 * 100;
-//	std::wstring str;
-//	str = std::to_wstring(Score02);		
-//	const wchar_t* wcStr = str.c_str();
-//
-//	return wcStr;
-//}
-
-
 void Score::Update()
 {
 	//‚O‚P‚Í‚PP‚ÌA‚O‚Q‚Í‚QP‚ÌƒXƒRƒA

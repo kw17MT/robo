@@ -12,11 +12,13 @@ private:
 	//どっち側に流れている具材か。
 	int GuzaiNo = 0;
 	//０．チーズ　１．エッグ　２．レタス　３．パテ　４．トマト
-	int TypeNo = 99;
+	int TypeNo = 9;
 
 public:	
+	//乱数を用いて具材が生まれると同時にどの具材を流すか設定する。
 	Guzai();
-	bool Start();
+	//Aボタンをおして近くの具材をプレイヤーの頭上に持ってくる。
+
 	void Update();
 	
 	Vector3 GetPosition();
@@ -42,8 +44,5 @@ public:
 	int put = 0;
 	//Xボタン長押しで積み上げている具材を全部削除する。そのためのタイマー。
 	int DeleteTimer = 0;
-	//具材の種類番号
-	//ToDo...変更可能にする。
-	
 };
 

@@ -14,9 +14,11 @@
 Game::Game()
 {
 	//文字の描写///////////////////////////////////////////////////////////////////////
-	ui = NewGO<FixedUI>(0);
+	//FixedUIクラスのアップデート内で表示する文字を固定している。
+	ui = NewGO<FixedUI>(1);
 
 	//カウンターの作成/////////////////////////////////////////////////////////////////
+	//SetCounterNoでどちら側のカウンターか決定する。
 	counter01 = NewGO<Counter>(1, "counter01");
 	counter01->SetCounterNo(1);
 	Vector3 PosCo01 = { 900.0f, 0.0f, 400.0f };
@@ -28,6 +30,7 @@ Game::Game()
 	counter02->SetPosition(PosCo02);
 
 	//キッチンの作成///////////////////////////////////////////////////////////////////
+	//カウンターと同様にどちら側か決定。
 	kitchen01 = NewGO<Kitchen>(0, "kitchen01");
 	kitchen01->SetKitchenNo(1);
 	Vector3 kiPos01 = { 900.0f, 0.0f, 0.0f };
@@ -58,8 +61,10 @@ Game::Game()
 			break;
 		}
 
+		const float ShiftRight = 150.0f;
+
 		Vector3 pos = { -150.0f,-200.0f,0.0f };
-		pos.x += i * 150.0f;
+		pos.x += i * ShiftRight;
 		menu[i]->SetPosition(pos);
 	}
 
@@ -91,7 +96,23 @@ Game::Game()
 
 Game::~Game()
 {
-	
+	DeleteGO(ui);
+	DeleteGO(counter01);
+	DeleteGO(counter02);
+	DeleteGO(kitchen01);
+	DeleteGO(kitchen02);
+	for (int i = 0; i < 3;i++) {
+		DeleteGO(menu[i]);
+	}
+	for (int i = 0; i < 2;i++) {
+		DeleteGO(Buff[i]);
+	}
+	for (int i = 0; i < 2;i++) {
+		DeleteGO(player[i]);
+	}
+	DeleteGO(generator01);
+	DeleteGO(generator02);
+	DeleteGO(score);
 }
 
 void Game::Update()

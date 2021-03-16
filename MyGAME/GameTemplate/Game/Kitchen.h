@@ -16,11 +16,14 @@ private:
 	int stack = 0;
 	//次、何番目の要素になるかの番号
 	int nextStackNum = 0;
+	//キッチンにおける最大数。
+	const int MaxStack = 5;
 	//とりあえず、10個までしか積み上げられない。
 	//バグ防止のため、5個積み上げたらコンベアから具材を持っていけない。
 	Guzai* StackedGuzai[5];
 
 public:
+	//キッチンのモデルなどの設定。
 	Kitchen();
 	void Update();
 	//キッチン番号を設定する。
@@ -38,11 +41,11 @@ public:
 	void PlusStack() { stack++; }
 	//プレイヤー側に具材の種類を格納する際に使用する。
 	int GetStackNum() { return stack; }
-	//具材5個をハンバーガーに変換する。
+	//具材をハンバーガーに変換する。
 	//消す時遅延を起こしてやらないとエラーを吐くためそれ対策
 	void BornBurger();
 	int Delay = 60;
-	//具材を消す時に、プレイヤーに格納されている種類No.を０で初期化する。
+	//具材を消す時に、プレイヤーに格納されている種類No.を９で初期化する。
 	//この関数は具材を消す前に使うこと。
 	void ClearNo();
 

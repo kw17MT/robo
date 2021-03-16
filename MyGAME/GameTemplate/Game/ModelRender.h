@@ -9,21 +9,26 @@ private:
 	Skeleton m_skeleton;
 	CharacterController m_charaCon;
 
+	//１で左、２で右
 	int playerNo = 0;
 	int setPos = 0;
 
+	//バフの効果が有効かどうか。
 	bool Buff = false;
+	//バフの有効時間。
 	int BuffTime = 120;
 
 public:
+	//モデル、当たり判定、具材No.を格納する配列を９で初期化
 	ModelRender();
 	void SetPlayerNo(int num) { playerNo = num; }
 
-	bool Start();
+	//移動処理。
 	void Update();
 
 	void SetBuffAffect(bool buff) { Buff = buff; }
 	bool stateBuff() { return Buff; }
+	//具材格納用配列を９で初期化
 	void SetGuzaiNo9();
 
 	Vector3 GetPosition();
