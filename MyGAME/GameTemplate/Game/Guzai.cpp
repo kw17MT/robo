@@ -149,7 +149,7 @@ void Guzai::Update()
 			if (timer >= 600) {
 				moveSpeed.z = -2.0f;
 			}
-			if (GuzaiPos.z < -1000.0f) {
+			if (GuzaiPos.z < -850.0f) {
 				timer = 0;
 				DeleteGO(this);
 			}
@@ -213,7 +213,7 @@ void Guzai::Update()
 			if (timer >= 600) {
 				moveSpeed.z = -2.0f;
 			}
-			if (GuzaiPos.z < -1000.0f) {
+			if (GuzaiPos.z < -850.0f) {
 				timer = 0;
 				DeleteGO(this);
 			}

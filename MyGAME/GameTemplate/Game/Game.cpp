@@ -51,13 +51,13 @@ Game::Game()
 		menu[i] = NewGO<SpriteRender>(2);
 		switch (i) {
 		case 0:
-			menu[i]->Init("Assets/Image/burger_egg.dds", 128, 256);
+			menu[i]->Init("Assets/Image/burger_cheese_new.dds", 128, 256);
 			break;
 		case 1:
 			menu[i]->Init("Assets/Image/burger_tomato.dds", 128, 256);
 			break;
 		case 2:
-			menu[i]->Init("Assets/Image/burger_cheese_new.dds", 128, 256);
+			menu[i]->Init("Assets/Image/burger_egg.dds", 128, 256);
 			break;
 		}
 

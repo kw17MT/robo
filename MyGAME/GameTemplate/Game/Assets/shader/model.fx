@@ -15,12 +15,13 @@ cbuffer LightCb : register (b1) {
 
 	float3 eyePos;
 
-	float3 ptPos;
+	//ポイントライト、スポットライトが欲しい時以下を使う。
+	/*float3 ptPos;
 	float3 ptColor;
 	float ptRange;
 
 	float3 spDir;
-	float spAngle;
+	float spAngle;*/
 };
 	
 
@@ -46,6 +47,11 @@ struct SPSIn{
 
 // グローバル変数。
 Texture2D<float4> g_albedo : register(t0);				//アルベドマップ
+Texture2D<float4> g_normalMap : register(t1);
+Texture2D<float4> g_specMap : register(t2);
+
+
+
 StructuredBuffer<float4x4> g_boneMatrix : register(t3);	//ボーン行列。
 sampler g_sampler : register(s0);	//サンプラステート。
 
@@ -102,6 +108,11 @@ SPSIn VSSkinMain( SVSIn vsIn )
 	return VSMainCore(vsIn, true);
 }
 
+//float CalcDiffuseFromFresnel(float3 normal, float3 - DirectionLightDirection, float3 toEye)
+//{
+//
+//}
+
 //ピクセルシェーダーのエントリー関数。
 float4 PSMain(SPSIn psIn) : SV_Target0
 {
@@ -118,40 +129,40 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	toEye = normalize(toEye);
 	t = dot(ref, toEye);
 	if (t < 0.0f) { t = 0.0f; }
-	t = pow(t, 100.0f);
+	t = pow(t, 2.0f);
 	float3 dirSpec = ligColor * t;
 	//////////////////////////////////////////////////////////////////////
 
 	//ポイントライト用///////////////////////////////////////////////////
 	//影響度
-	float3 Pt2Surface = psIn.worldPos - ptPos;
-	float distance = length(Pt2Surface);
-	float affect = 1.0f - 1.0f / ptRange * distance;
-	if (affect < 0.0f) { affect = 0.0f; }
-	affect = pow(affect, 1.0f);
+	//float3 Pt2Surface = psIn.worldPos - ptPos;
+	//float distance = length(Pt2Surface);
+	//float affect = 1.0f - 1.0f / ptRange * distance;
+	//if (affect < 0.0f) { affect = 0.0f; }
+	//affect = pow(affect, 1.0f);
 
-	Pt2Surface = normalize(Pt2Surface);
+	//Pt2Surface = normalize(Pt2Surface);
 
-	//拡散反射光
-	t = dot(Pt2Surface, psIn.normal);
-	t *= -1.0f;
-	if (t < 0.0f) { t = 0.0f; }
-	
-	float3 ptDiff = ptColor * t;
-	ptDiff *= affect;
+	////拡散反射光
+	//t = dot(Pt2Surface, psIn.normal);
+	//t *= -1.0f;
+	//if (t < 0.0f) { t = 0.0f; }
+	//
+	//float3 ptDiff = ptColor * t;
+	//ptDiff *= affect;
 
-	//鏡面反射光
-	float3 ptRef = reflect(Pt2Surface, psIn.normal);
-	t = dot(toEye, ptRef);
-	if (t < 0.0f) { t = 0.0f; }
-	t = pow(t, 5.0f);
+	////鏡面反射光
+	//float3 ptRef = reflect(Pt2Surface, psIn.normal);
+	//t = dot(toEye, ptRef);
+	//if (t < 0.0f) { t = 0.0f; }
+	//t = pow(t, 5.0f);
 
-	float3 ptSpec = ptColor * t;
-	ptSpec *= affect;
+	//float3 ptSpec = ptColor * t;
+	//ptSpec *= affect;
 	/////////////////////////////////////////////////////////////////////////
 
 	//スポットライト用///////////////////////////////////////////////////////
-	float angle = dot(Pt2Surface, spDir);
+	/*float angle = dot(Pt2Surface, spDir);
 	angle = acos(angle);
 
 	float AngleAffect = 1.0f - 1.0f / spAngle * angle;
@@ -159,31 +170,33 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	AngleAffect = pow(AngleAffect, 0.5f);
 
 	float3 spDiff = ptDiff * AngleAffect;
-	float3 spSpec = ptSpec * AngleAffect;
+	float3 spSpec = ptSpec * AngleAffect;*/
 	//////////////////////////////////////////////////////////////////////////
 
 	//環境光
-	float3 environment = { 0.3f,0.3f,0.3f };
+	float3 environment = { 0.3f, 0.3f, 0.3f };
 
 	//最終光
 	float4 finalcolor = g_albedo.Sample(g_sampler, psIn.uv);
+	finalcolor.xyz *= (dirDiff + dirSpec + environment);
 
-	//ディレクション、鏡面、環境、　ポイントライトなし
-	/*finalcolor.xyz *= (dirDiff + dirSpec + environment);
-	return finalcolor;*/
+	//PBR実装しようとしている。↓
+	float3 specColor = g_specMap.SampleLevel(g_sampler, psIn.uv, 0).rgb;
+	float metaric = g_specMap.Sample(g_sampler, psIn.uv).a;
+
+	//ディレクションライト＋環境光、　ポイントライトなし
+	return finalcolor;
 	
 	//ポイントライトあり
 	/*float3 finaldiff = dirDiff + ptDiff;
 	float3 finalspec = dirSpec + ptSpec;*/
 
 	//ポイントライト
-	float3 finaldiff = dirDiff + spDiff;
-	float3 finalspec = dirSpec + spSpec;
+	/*float3 finaldiff = dirDiff + spDiff;
+	float3 finalspec = dirSpec + spSpec;*/
 
-	finalcolor.xyz *= (finaldiff + finalspec + environment);
-	return finalcolor;
-
-	
+	/*finalcolor.xyz *= (finaldiff + finalspec + environment);
+	return finalcolor;*/
 
 	/*float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
 	return albedoColor;*/

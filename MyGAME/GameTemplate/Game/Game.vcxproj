@@ -296,6 +296,7 @@
     <ClCompile Include="Guzai.cpp" />
     <ClCompile Include="Kitchen.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="ModelRender.cpp" />
@@ -378,6 +379,7 @@
     <ClInclude Include="Guzai.h" />
     <ClInclude Include="Kitchen.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="ModelRender.h" />
     <ClInclude Include="ObjectGene.h" />

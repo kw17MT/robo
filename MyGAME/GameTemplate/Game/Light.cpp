@@ -4,6 +4,7 @@
 
 //Light::Light()
 //{
+//	LightData
 //	//ディレクションライト
 //	DirDirection = { 1.0f,0.0f,0.0f };
 //	DirDirection.Normalize();
