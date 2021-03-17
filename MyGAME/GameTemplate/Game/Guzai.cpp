@@ -35,8 +35,8 @@ Guzai::Guzai()
 	modeldata.m_vsEntryPointFunc = "VSMain";
 	modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
 
-	m_skeleton.Init("Assets/modelData/unityChan.tks");
-	modeldata.m_skeleton = &m_skeleton;
+	//m_skeleton.Init("Assets/modelData/unityChan.tks");
+	//modeldata.m_skeleton = &m_skeleton;
 
 	modeldata.m_expandConstantBuffer = &g_lig;
 	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
@@ -91,7 +91,7 @@ void Guzai::ChangeGuzai(int num)
 void Guzai::Update()
 {
 	//スケルトンを更新。
-	m_skeleton.Update(model.GetWorldMatrix());
+	//m_skeleton.Update(model.GetWorldMatrix());
 
 	if (GuzaiNo == 1) {
 		ModelRender* pl01 = FindGO<ModelRender>("player01");

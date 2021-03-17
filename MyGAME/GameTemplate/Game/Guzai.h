@@ -6,7 +6,7 @@ class Guzai : public IGameObject
 private:
 	Model model;
 	ModelInitData modeldata;
-	Skeleton m_skeleton;
+	//Skeleton m_skeleton;
 	CharacterController m_charaCon;
 	
 	//Update()でインクリメントする。
