@@ -27,17 +27,37 @@ void FixedUI::Update()
 	fontTime.Draw(L"SCORE :", posScore02, color, 0.0f, 1.0f, { 0.0f, 0.0f });
 	fontTime.End(renderContext);
 
-	//タイム減少処理
+	//タイム減少とタイムアップ処理
 	//変数timerの値が60になる度に残時間LastTimeから1を引いていく
 	//Font Timer;
 	timer++;
-	if (timer == 60) {
+	if (timer >= 60) {
 		if (LastTime > 0) {
 			LastTime--;
 		}
 		timer = 0;
 	}
+	//タイムアップフラグを立てる
+	if (LastTime <= 0 && isTimeUp == false) {
+		isTimeUp = true;
+	}
 
+	//タイムアップフラグ表示
+	//文字表示
+	fontTime.Begin(renderContext);
+	fontTime.Draw(L"TIMEUP :", posTimeUpText, color, 0.0f, 1.0f, { 0.0f,0.0f });
+	fontTime.End(renderContext);
+	//状態表示
+	const wchar_t* timeUpStateWc;
+	if (isTimeUp == true) {
+		timeUpStateWc = L"ON";
+	}
+	else {
+		timeUpStateWc = L"OFF";
+	}
+	fontTime.Begin(renderContext);
+	fontTime.Draw(timeUpStateWc, posTimeUpState, color, 0.0f, 1.0f, { 0.0f,0.0f });
+	fontTime.End(renderContext);
 	
 
 

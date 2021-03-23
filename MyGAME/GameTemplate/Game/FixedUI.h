@@ -4,7 +4,7 @@ class FixedUI : public IGameObject
 {
 private:
 	//表示する残り時間
-	int LastTime = 120;
+	int LastTime = 10;
 	//フレームカウント用、60になったらLastTimeを１減らす。
 	int timer = 0;
 	//タイムアップフラグ
@@ -17,6 +17,9 @@ private:
 	//それぞれのパラメーターの座標
 	Vector2 posTime = { -100,350 };
 	Vector2 posLastTime = { 50, 350 };
+	//タイムアップ状態の表示
+	Vector2 posTimeUpText = {-100,300};
+	Vector2 posTimeUpState = { 100,300 };
 
 	Vector2 posItem01 = { -600,350 };
 	Vector2 posItem02 = { 350, 350 };
