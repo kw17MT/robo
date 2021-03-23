@@ -7,6 +7,9 @@ private:
 	int LastTime = 120;
 	//フレームカウント用、60になったらLastTimeを１減らす。
 	int timer = 0;
+	//タイムアップフラグ
+	bool isTimeUp = false;
+
 	//それぞれのプレイヤーのスコア
 	int score01 = 0;
 	int score02 = 0;
@@ -14,8 +17,10 @@ private:
 	//それぞれのパラメーターの座標
 	Vector2 posTime = { -100,350 };
 	Vector2 posLastTime = { 50, 350 };
+
 	Vector2 posItem01 = { -600,350 };
 	Vector2 posItem02 = { 350, 350 };
+	
 	Vector2 posScore01 = { -600,-300 };
 	Vector2 posScore02 = { 350, -300 };
 
