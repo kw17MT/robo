@@ -9,6 +9,7 @@
 #include "Kitchen.h"
 #include "Counter.h"
 #include "Score.h"
+#include "FontRender.h"
 
 #include "CLevel2D.h"
 
@@ -40,7 +41,7 @@ Game::Game()
 
 	//カウンターの作成/////////////////////////////////////////////////////////////////
 	//SetCounterNoでどちら側のカウンターか決定する。
-	counter01 = NewGO<Counter>(1, "counter01");
+	/*counter01 = NewGO<Counter>(1, "counter01");
 	counter01->SetCounterNo(1);
 	Vector3 PosCo01 = { 900.0f, 0.0f, 400.0f };
 	counter01->SetPosition(PosCo01);
@@ -48,11 +49,11 @@ Game::Game()
 	counter02 = NewGO<Counter>(1, "counter02");
 	counter02->SetCounterNo(2);
 	Vector3 PosCo02 = { -900.0f, 0.0f, 400.0f };
-	counter02->SetPosition(PosCo02);
+	counter02->SetPosition(PosCo02);*/
 
 	//キッチンの作成///////////////////////////////////////////////////////////////////
 	//カウンターと同様にどちら側か決定。
-	kitchen01 = NewGO<Kitchen>(0, "kitchen01");
+	/*kitchen01 = NewGO<Kitchen>(0, "kitchen01");
 	kitchen01->SetKitchenNo(1);
 	Vector3 kiPos01 = { 900.0f, 0.0f, 0.0f };
 	kitchen01->SetKitchenPos(kiPos01);
@@ -60,11 +61,11 @@ Game::Game()
 	kitchen02 = NewGO<Kitchen>(0, "kitchen02");
 	kitchen02->SetKitchenNo(2);
 	Vector3 kiPos02 = { -900.0f, 0.0f, 0.0f };
-	kitchen02->SetKitchenPos(kiPos02);
+	kitchen02->SetKitchenPos(kiPos02);*/
 
 	///////////////////////////////////////////////////////////////////////////////
 	//スコア
-	m_score = NewGO<Score>(0, "score");
+	//m_score = NewGO<Score>(0, "score");
 	
 	////画像の描写/////////////////////////////////////////////////////////////////////
 	////ただし、初期メニューのみ
@@ -89,7 +90,7 @@ Game::Game()
 		menu[i]->SetPosition(pos);
 	}*/
 
-	NewGO<CLevel2D>(0);
+	//NewGO<CLevel2D>(3);
 
 	//カウンターの作成/////////////////////////////////////////////////////////////////
 	//SetCounterNoでどちら側のカウンターか決定する。
@@ -182,13 +183,13 @@ Game::Game()
 			return true;
 		}
 		if (wcscmp(objectData.name, L"GeneratorPos01") == 0) {
-			generator01 = NewGO<ObjectGene>(1, "gene01");
+			generator01 = NewGO<ObjectGene>(0, "gene01");
 			generator01->SetGeneNo(1);
 			generator01->SetPosition(objectData.Pos);
 			return true;
 		}
 		if (wcscmp(objectData.name, L"GeneratorPos02") == 0) {
-			generator02 = NewGO<ObjectGene>(1, "gene02");
+			generator02 = NewGO<ObjectGene>(0, "gene02");
 			generator02->SetGeneNo(2);
 			generator02->SetPosition(objectData.Pos);
 			return true;
@@ -230,7 +231,9 @@ Game::Game()
 
 	//文字の描写///////////////////////////////////////////////////////////////////////
 	//FixedUIクラスのアップデート内で表示する文字を固定している。
-	ui = NewGO<FixedUI>(2);
+	//ui = NewGO<FixedUI>(2);
+
+	NewGO<CLevel2D>(3);
 
 	//スコアの表示/////////////////////////////////////////////////////////////////////
 	m_score = NewGO<Score>(2, "score");

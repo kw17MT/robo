@@ -9,6 +9,7 @@ class Kitchen;
 class Counter;
 class Score;
 class Result;
+class FontRender;
 	
 class Game : public IGameObject
 {

@@ -2,11 +2,20 @@
 #include "Score.h"
 #include "Counter.h"
 #include "FixedUI.h"
+#include "FontRender.h"
 
 bool Score::Start()
 {
 
 	m_ui = FindGO<FixedUI>("ui");
+
+	Score[0] = NewGO<FontRender>(5);
+	Score[0]->SetText(L"0");
+	Score[0]->SetPosition(Score01Pos);
+
+	Score[1] = NewGO<FontRender>(5);
+	Score[1]->SetText(L"0");
+	Score[1]->SetPosition(Score02Pos);
 
 	return true;
 }
@@ -54,11 +63,14 @@ void Score::Update()
 	std::wstring str02;
 	str02 = std::to_wstring(Score02);
 
-	score01.Begin(renderContext);
+	Score[0]->SetText(str01.c_str());
+	Score[1]->SetText(str02.c_str());
+
+	/*score01.Begin(renderContext);
 	score01.Draw(str01.c_str(), { -400.0f,-300.0f }, color, 0.0f, 1.0f, { 0.0f, 0.0f });
 	score01.End(renderContext);
 
 	score02.Begin(renderContext);
 	score02.Draw(str02.c_str(), { 550.0f,-300.0f }, color, 0.0f, 1.0f, { 0.0f, 0.0f });
-	score02.End(renderContext);
+	score02.End(renderContext);*/
 }

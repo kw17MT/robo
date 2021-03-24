@@ -17,6 +17,10 @@ private:
 	int GuzaiNo = 0;
 	//０．チーズ　１．エッグ　２．レタス　３．パテ　４．トマト
 	int TypeNo = 9;
+	//
+	bool targeted = false;
+	//
+	Vector3 GuzaiScale = { 1.0f,1.0f,1.0f };
 
 public:	
 	//乱数を用いて具材が生まれると同時にどの具材を流すか設定する。
@@ -26,6 +30,7 @@ public:
 	
 	Vector3 GetPosition();
 	void SetPosition(Vector3 pos);
+	void SetScale(Vector3 scale) { GuzaiScale = scale; }
 
 	//具材をキッチンに置いたときにオブジェクトを消すため、初めに設定しておいたTypeNoも消えてしまう。
 	//つまり、レーン上に出したオブジェクトと新しくキッチン上に出すオブジェクトが違う。

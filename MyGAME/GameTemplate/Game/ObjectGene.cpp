@@ -34,7 +34,7 @@ void ObjectGene::Update()
 	int randNum = rand() % 10;
 
 	if (timer == 50 && randNum != 1) {
-		m_guzai = NewGO<Guzai>(2,"guzai");
+		m_guzai = NewGO<Guzai>(0,"guzai");
 		m_guzai->SetGuzaiNo(GeneNo);
 		m_guzai->SetPosition(m_charaCon.GetPosition());
 		timer = 0;
@@ -44,7 +44,7 @@ void ObjectGene::Update()
 	if (timer == 50 && randNum == 1) {
 		//バフアイテムが画面に出ていないとき。
 		if (Buffnum == 0) {
-			m_buff = NewGO<Buff>(2, "buff");
+			m_buff = NewGO<Buff>(0, "buff");
 			m_buff->SetBuffNo(GeneNo);
 			m_buff->SetPosition(m_charaCon.GetPosition());
 			timer = 0;
@@ -52,7 +52,7 @@ void ObjectGene::Update()
 		}
 		//バフアイテムが画面に出ているとき、バフアイテムを出さずに具材をだす。
 		else {
-			m_guzai = NewGO<Guzai>(2, "guzai");
+			m_guzai = NewGO<Guzai>(0, "guzai");
 			m_guzai->SetGuzaiNo(GeneNo);
 			m_guzai->SetPosition(m_charaCon.GetPosition());
 			timer = 0;

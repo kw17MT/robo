@@ -1,5 +1,6 @@
 #pragma once
 class FixedUI;
+class FontRender;
 
 class Score : public IGameObject
 {
@@ -15,6 +16,9 @@ private:
 	//’ñ‹Ÿ‚µ‚½‹ïÞ‚ð”‚¦‚Ä‚¨‚­B
 	int BasePoint01 = 0;
 	int BasePoint02 = 0;
+
+	Vector2 Score01Pos = { -400.0f,-300.0f };
+	Vector2 Score02Pos = { 550.0f,-300.0f };
 
 	RenderContext renderContext = g_graphicsEngine->GetRenderContext();
 public:
@@ -57,5 +61,7 @@ public:
 	void SetIsTimeUp() { isTimeUp = true; }
 
 	void Update();
+
+	FontRender* Score[2];
 };
 

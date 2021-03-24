@@ -105,6 +105,17 @@ void Guzai::Update()
 		float guzai2Pl = (GuzaiPos.x - plPos.x) * (GuzaiPos.x - plPos.x) + (GuzaiPos.y - plPos.y) * (GuzaiPos.y - plPos.y) + (GuzaiPos.z - plPos.z) * (GuzaiPos.z - plPos.z);
 		guzai2Pl = sqrt(guzai2Pl);
 
+		if (guzai2Pl < 150.0f) {
+			targeted = true;
+			//pl01->SetTarget(targeted);
+		}
+		if (targeted == 1) {
+			Guzai* a = NewGO<Guzai>(1);
+			a->SetPosition(GuzaiPos);
+			a->SetScale({ 1.1f,1.1f,1.1f });
+			targeted = 0;
+		}
+
 		//Aボタンを押したとき、プレイヤーは何も持っていない　100より近い位置にいる。
 		if (g_pad[0]->IsTrigger(enButtonA)) {
 			if (pl01->have == 0 && guzai2Pl < 150.0f) {
@@ -222,5 +233,5 @@ void Guzai::Update()
 			m_charaCon.Execute(moveSpeed, 1.0f);
 		}
 	}
-	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
+	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, GuzaiScale);
 }

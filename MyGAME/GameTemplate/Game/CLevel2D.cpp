@@ -65,7 +65,7 @@ bool CLevel2D::Start()
 			////ëÂÇ´Ç≥Çê›íËÇ∑ÇÈÅB
 			//m_scale = objdata.scale;
 
-			sprite[0] = NewGO<SpriteRender>(0);
+			sprite[0] = NewGO<SpriteRender>(2);
 			sprite[0]->Init(objdata.ddsFilePath, objdata.width /2 , objdata.height /2);
 			sprite[0]->SetScale(objdata.scale);
 			sprite[0]->SetPosition(objdata.position);
@@ -73,7 +73,7 @@ bool CLevel2D::Start()
 			return true;
 		}
 		if (objdata.EqualObjectName("burger_tomato")) {
-			sprite[0] = NewGO<SpriteRender>(0);
+			sprite[0] = NewGO<SpriteRender>(2);
 			sprite[0]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
 			sprite[0]->SetScale(objdata.scale);
 			sprite[0]->SetPosition(objdata.position);
@@ -81,7 +81,7 @@ bool CLevel2D::Start()
 			return true;
 		}
 		if (objdata.EqualObjectName("burger_egg")) {
-			sprite[0] = NewGO<SpriteRender>(0);
+			sprite[0] = NewGO<SpriteRender>(2);
 			sprite[0]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
 			sprite[0]->SetScale(objdata.scale);
 			sprite[0]->SetPosition(objdata.position);
