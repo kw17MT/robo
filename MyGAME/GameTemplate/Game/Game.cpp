@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Game.h"
-
 #include "Level.h"
 #include "ModelRender.h"
 #include "FixedUI.h"
@@ -10,12 +9,28 @@
 #include "Kitchen.h"
 #include "Counter.h"
 #include "Score.h"
+#include "Result.h"
 
 Game::Game()
-{
+{	
 	//文字の描写///////////////////////////////////////////////////////////////////////
 	//FixedUIクラスのアップデート内で表示する文字を固定している。
-	ui = NewGO<FixedUI>(1);
+	ui = NewGO<FixedUI>(1,"ui");
+
+	//リザルトにそれぞれnullptrを入れておく
+	//0 : 引き分け(これだけを表示)
+	//以下、引き分けでない場合
+	//1 : プレイヤー1
+	//2 : プレイヤー2
+
+	for (int i = 0; i < 3; i++) {
+		m_result[i] = nullptr;
+	}
+
+	////勝敗表示用スプライト
+	////表示するポジションを定義
+	//win_loseLeft.Set(200.0f, 350.0f);
+	//win_loseRight.Set(1080.0f,350.0f);
 
 	//カウンターの作成/////////////////////////////////////////////////////////////////
 	//SetCounterNoでどちら側のカウンターか決定する。
@@ -42,7 +57,8 @@ Game::Game()
 	kitchen02->SetKitchenPos(kiPos02);
 
 	///////////////////////////////////////////////////////////////////////////////
-	score = NewGO<Score>(0, "score");
+	//スコア
+	m_score = NewGO<Score>(0, "score");
 
 	
 	//画像の描写///////////////////////////////////////////////////////////////////////
@@ -112,10 +128,53 @@ Game::~Game()
 	}
 	DeleteGO(generator01);
 	DeleteGO(generator02);
-	DeleteGO(score);
+	DeleteGO(m_score);
 }
 
 void Game::Update()
 {
+	//タイムアップ時に行う処理
+	//結果の表示
+	if (ui->GetIsTimeUp() == true && GetTimeUp() == false) {
+		
+		//引き分けのとき(ResultP1 = 0,ResultP2 = 0のとき)、1枚だけ表示
+		if (m_score->ResultP1 == m_score->ResultP2) {
+			m_result[0] = NewGO<Result>(1, "result");
+			m_result[0]->SetSprite(0); //0 : 引き分け
+			m_result[0]->SetSpritePos(0); //中央くらいの位置
+		}
+
+		//勝敗が決まっているとき(enumの返す整数値が異なるとき),2枚を表示
+		else if (m_score->ResultP1 != m_score->ResultP2) {
+			//プレイヤー1
+			if (m_score->ResultP1 == 1) {
+				m_result[1] = NewGO<Result>(1, "result");
+				m_result[1]->SetSprite(1); //1 : 勝利
+				m_result[1]->SetSpritePos(1); //1 : 右側
+			}
+			if (m_score->ResultP1 == 2) {
+				m_result[1] = NewGO<Result>(1, "result");
+				m_result[1]->SetSprite(2); //2 : 敗北
+				m_result[1]->SetSpritePos(1); //1 : 右側
+			}
+
+			//プレイヤー2
+			if (m_score->ResultP2 == 1) {
+				m_result[2] = NewGO<Result>(1, "result");
+				m_result[2]->SetSprite(1); //1 : 勝利
+				m_result[2]->SetSpritePos(2); //2 :左側
+			}
+			if (m_score->ResultP2 == 2) {
+				m_result[2] = NewGO<Result>(1, "result");
+				m_result[2]->SetSprite(2); //2 : 敗北
+				m_result[2]->SetSpritePos(2); //2 :左側
+			}
+
+		}
+		//game内のタイムアップフラグを立てる
+		SetTimeUp();
+	}
+	
+
 	
 }

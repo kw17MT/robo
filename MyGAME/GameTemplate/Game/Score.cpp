@@ -1,9 +1,46 @@
 #include "stdafx.h"
 #include "Score.h"
 #include "Counter.h"
+#include "FixedUI.h"
+
+bool Score::Start()
+{
+
+	m_ui = FindGO<FixedUI>("ui");
+
+	return true;
+}
+
+void Score::SetResult() {
+	//引き分け
+	if (Score01 == Score02) {
+		ResultP1 = enResultP1_draw;
+		ResultP2 = enResultP2_draw;
+	}
+	//プレイヤー1の勝利(=プレイヤー2の敗北)
+	else if (Score01 > Score02) {
+		ResultP1 = enResultP1_win;
+		ResultP2 = enResultP2_lose;
+	}
+	//プレイヤー2の勝利(=プレイヤー1の敗北)
+	else if (Score01 < Score02) {
+		ResultP1 = enResultP1_lose;
+		ResultP2 = enResultP2_win;
+	}
+}
+
 
 void Score::Update()
 {
+	
+	if (m_ui->GetIsTimeUp() == true && GetIsTimeUp() == false) {
+		//タイムアップ時、プレイヤーそれぞれに勝敗の状態を記録する
+		SetResult();
+		//score側のタイムアップフラグをtrueにする(判定を1回だけにする)
+		SetIsTimeUp();
+	}
+
+
 	//０１は１Pの、０２は２Pのスコア
 	Font score01;
 	Font score02;

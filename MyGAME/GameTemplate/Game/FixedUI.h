@@ -4,7 +4,7 @@ class FixedUI : public IGameObject
 {
 private:
 	//表示する残り時間
-	int LastTime = 10;
+	int LastTime = 60;
 	//フレームカウント用、60になったらLastTimeを１減らす。
 	int timer = 0;
 	//タイムアップフラグ
@@ -29,9 +29,17 @@ private:
 
 	RenderContext renderContext = g_graphicsEngine->GetRenderContext();
 public:
+	
+
 	//ここで毎フレーム文字を表示している。
 	void Update();
 
+	//タイムアップフラグの状態で文字列を変更
+	const wchar_t* TurnTimeUpState();
+
+	//ゲッター
+	//タイムアップ状態を取得(true : ON , false : OFF)
+	bool GetIsTimeUp() { return isTimeUp; }
 	int GetTime() { return LastTime; }
 };
 

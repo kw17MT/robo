@@ -1,6 +1,20 @@
 #include "stdafx.h"
 #include "FixedUI.h"
 
+
+const wchar_t* FixedUI::TurnTimeUpState()
+{
+	const wchar_t* timeUpStateWc;
+	if (isTimeUp == true) {
+		timeUpStateWc = L"ON";
+	}
+	else {
+		timeUpStateWc = L"OFF";
+	}
+
+	return timeUpStateWc;
+}
+
 void FixedUI::Update()
 {
 	Font fontTime;
@@ -47,19 +61,12 @@ void FixedUI::Update()
 	fontTime.Begin(renderContext);
 	fontTime.Draw(L"TIMEUP :", posTimeUpText, color, 0.0f, 1.0f, { 0.0f,0.0f });
 	fontTime.End(renderContext);
+	
 	//èÛë‘ï\é¶
-	const wchar_t* timeUpStateWc;
-	if (isTimeUp == true) {
-		timeUpStateWc = L"ON";
-	}
-	else {
-		timeUpStateWc = L"OFF";
-	}
 	fontTime.Begin(renderContext);
-	fontTime.Draw(timeUpStateWc, posTimeUpState, color, 0.0f, 1.0f, { 0.0f,0.0f });
+	fontTime.Draw(TurnTimeUpState(), posTimeUpState, color, 0.0f, 1.0f, { 0.0f,0.0f });
 	fontTime.End(renderContext);
 	
-
 
 	//écéûä‘LastTimeÇstd::wstringå^ÇÃï∂éöóÒÇ…ïœä∑Ç∑ÇÈ
 	std::wstring fontLastTime;
