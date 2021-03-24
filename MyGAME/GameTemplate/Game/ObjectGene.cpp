@@ -9,7 +9,7 @@
 ObjectGene::ObjectGene()
 {
 	ModelInitData modeldata;
-	modeldata.m_tkmFilePath = "Assets/modelData/unityChan.tkm";
+	modeldata.m_tkmFilePath = "Assets/modelData/gu/egg.tkm";
 	modeldata.m_fxFilePath = "Assets/shader/model.fx";
 
 	modeldata.m_vsEntryPointFunc = "VSMain";
@@ -19,9 +19,6 @@ ObjectGene::ObjectGene()
 	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
 
 	modeldata.m_modelUpAxis = enModelUpAxisZ;
-
-	m_skeleton.Init("Assets/modelData/unityChan.tks");
-	modeldata.m_skeleton = &m_skeleton;
 
 	model.Init(modeldata);
 
@@ -37,7 +34,7 @@ void ObjectGene::Update()
 	int randNum = rand() % 10;
 
 	if (timer == 50 && randNum != 1) {
-		m_guzai = NewGO<Guzai>(0,"guzai");
+		m_guzai = NewGO<Guzai>(2,"guzai");
 		m_guzai->SetGuzaiNo(GeneNo);
 		m_guzai->SetPosition(m_charaCon.GetPosition());
 		timer = 0;
@@ -47,7 +44,7 @@ void ObjectGene::Update()
 	if (timer == 50 && randNum == 1) {
 		//バフアイテムが画面に出ていないとき。
 		if (Buffnum == 0) {
-			m_buff = NewGO<Buff>(0, "buff");
+			m_buff = NewGO<Buff>(2, "buff");
 			m_buff->SetBuffNo(GeneNo);
 			m_buff->SetPosition(m_charaCon.GetPosition());
 			timer = 0;
@@ -55,12 +52,12 @@ void ObjectGene::Update()
 		}
 		//バフアイテムが画面に出ているとき、バフアイテムを出さずに具材をだす。
 		else {
-			m_guzai = NewGO<Guzai>(0, "guzai");
+			m_guzai = NewGO<Guzai>(2, "guzai");
 			m_guzai->SetGuzaiNo(GeneNo);
 			m_guzai->SetPosition(m_charaCon.GetPosition());
 			timer = 0;
 		}
 	}
-
+	
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }

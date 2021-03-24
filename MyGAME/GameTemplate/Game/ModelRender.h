@@ -11,7 +11,7 @@ private:
 
 	//１で左、２で右
 	int playerNo = 0;
-	int setPos = 0;
+	//int setPos = 0;
 
 	//バフの効果が有効かどうか。
 	bool Buff = false;
@@ -31,6 +31,7 @@ public:
 	//具材格納用配列を９で初期化
 	void SetGuzaiNo9();
 
+	void SetPosition(Vector3 pos) { m_charaCon.SetPosition(pos); }
 	Vector3 GetPosition();
 
 	void Render(RenderContext& rc) { model.Draw(rc); }

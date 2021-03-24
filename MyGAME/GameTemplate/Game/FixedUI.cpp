@@ -25,7 +25,6 @@ void FixedUI::Update()
 	fontTime.Draw(L"SCORE :", posScore02, color, 0.0f, 1.0f, { 0.0f, 0.0f });
 	fontTime.End(renderContext);
 
-	Font Timer;
 	timer++;
 	if (timer == 60) {
 		LastTime--;

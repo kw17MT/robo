@@ -95,10 +95,11 @@ void Guzai::Update()
 
 	if (GuzaiNo == 1) {
 		ModelRender* pl01 = FindGO<ModelRender>("player01");
+		Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
 		Vector3 plPos = pl01->GetPosition();
 		Vector3 GuzaiPos = m_charaCon.GetPosition();
 
-		Vector3 Kitchen01 = { 900.0f, 0.0f, 0.0f };
+		Vector3 kitchen01Pos = ki01->GetKitchenPos();
 
 		//具材からプレイヤーまでの距離
 		float guzai2Pl = (GuzaiPos.x - plPos.x) * (GuzaiPos.x - plPos.x) + (GuzaiPos.y - plPos.y) * (GuzaiPos.y - plPos.y) + (GuzaiPos.z - plPos.z) * (GuzaiPos.z - plPos.z);
@@ -118,7 +119,7 @@ void Guzai::Update()
 		}
 
 		//キッチンからプレイヤーの距離
-		float Diff2Kit = (Kitchen01.x - plPos.x) * (Kitchen01.x - plPos.x) + (Kitchen01.y - plPos.y) * (Kitchen01.y - plPos.y) + (Kitchen01.z - plPos.z) * (Kitchen01.z - plPos.z);
+		float Diff2Kit = (kitchen01Pos.x - plPos.x) * (kitchen01Pos.x - plPos.x) + (kitchen01Pos.y - plPos.y) * (kitchen01Pos.y - plPos.y) + (kitchen01Pos.z - plPos.z) * (kitchen01Pos.z - plPos.z);
 		Diff2Kit = sqrt(Diff2Kit);
 
 		//Bボタンを押してキッチンが近くにあったら、今積まれている数に応じておく場所を変える。
@@ -159,10 +160,11 @@ void Guzai::Update()
 
 	if (GuzaiNo == 2) {
 		ModelRender* pl02 = FindGO<ModelRender>("player02");
+		Kitchen* ki02 = FindGO<Kitchen>("kitchen02");
 		Vector3 plPos = pl02->GetPosition();
 		Vector3 GuzaiPos = m_charaCon.GetPosition();
 
-		Vector3 Kitchen02 = { -900.0f, 0.0f, 0.0f };
+		Vector3 kitchen02Pos = ki02->GetKitchenPos();
 
 		//具材からプレイヤーへの距離
 		float guzai2Pl = (GuzaiPos.x - plPos.x) * (GuzaiPos.x - plPos.x) + (GuzaiPos.y - plPos.y) * (GuzaiPos.y - plPos.y) + (GuzaiPos.z - plPos.z) * (GuzaiPos.z - plPos.z);
@@ -182,7 +184,7 @@ void Guzai::Update()
 		}
 
 		//キッチンからプレイヤーへの距離
-		float Diff2Kit = (Kitchen02.x - plPos.x) * (Kitchen02.x - plPos.x) + (Kitchen02.y - plPos.y) * (Kitchen02.y - plPos.y) + (Kitchen02.z - plPos.z) * (Kitchen02.z - plPos.z);
+		float Diff2Kit = (kitchen02Pos.x - plPos.x) * (kitchen02Pos.x - plPos.x) + (kitchen02Pos.y - plPos.y) * (kitchen02Pos.y - plPos.y) + (kitchen02Pos.z - plPos.z) * (kitchen02Pos.z - plPos.z);
 		Diff2Kit = sqrt(Diff2Kit);
 
 		//Bボタンを押してキッチンが近くにあったら、今積まれている数に応じておく場所を変える。
@@ -220,6 +222,5 @@ void Guzai::Update()
 			m_charaCon.Execute(moveSpeed, 1.0f);
 		}
 	}
-
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }

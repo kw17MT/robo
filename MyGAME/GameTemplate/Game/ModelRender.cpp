@@ -87,11 +87,11 @@ void ModelRender::Update()
 			moveSpeed.z = g_pad[0]->GetLStickYF() * -10.0f;
 		}
 
-		if (setPos == 0) {
+		/*if (setPos == 0) {
 			Vector3 Pos1 = { 900.0f, 0.0f, 0.0f };
 			m_charaCon.SetPosition(Pos1);
 			setPos = 1;
-		}
+		}*/
 	}
 	if (playerNo == 2) {
 		if (Buff == true) {
@@ -109,11 +109,11 @@ void ModelRender::Update()
 			moveSpeed.z = g_pad[1]->GetLStickYF() * -10.0f;
 		}
 
-		if (setPos == 0) {
+		/*if (setPos == 0) {
 			Vector3 Pos2 = { -900.0f, 0.0f, 0.0f };
 			m_charaCon.SetPosition(Pos2);
 			setPos = 1;
-		}
+		}*/
 	}
 
 	Vector3 plPos = m_charaCon.GetPosition();

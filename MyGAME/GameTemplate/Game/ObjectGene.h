@@ -2,6 +2,8 @@
 class Guzai;
 class Buff;
 
+#include <vector>
+
 class ObjectGene : public IGameObject
 {
 private:
@@ -25,6 +27,8 @@ public:
 	//生成器が左か右かどちらにあるか設定しておく。　１、左　２、右
 	void SetGeneNo(int num) { GeneNo = num; }
 	
+	void Render(RenderContext& rc) { model.Draw(rc); }
+
 	//具材を流すタイミングを決めるもの。
 	int timer = 0;
 	//バフが存在していると１、ないと０。　０でないとバフアイテムは流れない。

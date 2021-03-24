@@ -8,7 +8,7 @@
 Kitchen::Kitchen()
 {
 	ModelInitData modeldata;
-	modeldata.m_tkmFilePath = "Assets/modelData/ches.tkm";
+	modeldata.m_tkmFilePath = "Assets/modelData/box2.tkm";
 	modeldata.m_fxFilePath = "Assets/shader/model.fx";
 
 	modeldata.m_vsEntryPointFunc = "VSMain";

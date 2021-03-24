@@ -36,4 +36,3 @@ private:
 	int m_objectCout = 0;
 	std::vector<SObject> m_objectlist;
 };
-

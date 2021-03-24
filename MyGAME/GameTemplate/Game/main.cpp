@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "system/system.h"
-#include "Level.h"
+
 #include "Light.h"
 #include "Game.h"
 
@@ -23,11 +23,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_lig.DirDirection.Normalize();
 	g_lig.eyePos = g_camera3D->GetPosition();
 	//////////////////////////////////////////////////////////////////////////////////////
-
-	//レベル表示用////////////////////////////////////////////////////////////////////////
-	Level level;
-	level.Init("Assets/level/level001.tkl", [&](ObjectData& objectData) {return false;});
-	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//プレイヤー、文字、オブジェクトなどの生成////////////////////////////////////////////
 	NewGO<Game>(0, "game");
@@ -48,7 +43,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//////////////////////////////////////
 		//ここから絵を描くコードを記述する。
 		//////////////////////////////////////
-		level.Draw();
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 
@@ -63,10 +57,22 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		rotX.Apply(g_lig.spDirection);*/
 
 		//カメラの移動
-		float move = g_pad[0]->GetRStickYF() * 30.0f;
-		Vector3 camerapos = g_camera3D->GetPosition();
-		camerapos.y -= move;
-		g_camera3D->SetPosition(camerapos);
+		if (g_pad[0]->GetRStickYF()) {
+			float move = g_pad[0]->GetRStickYF() * 30.0f;
+			Vector3 camerapos = g_camera3D->GetPosition();
+
+			camerapos.y -= move;
+			g_camera3D->SetPosition(camerapos);
+		}
+		if (g_pad[0]->GetRStickXF()) {
+			float move = g_pad[0]->GetRStickXF() * 30.0f;
+			Vector3 camerapos = g_camera3D->GetPosition();
+
+			camerapos.x -= move;
+			g_camera3D->SetPosition(camerapos);
+		}
+
+		
 
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！
