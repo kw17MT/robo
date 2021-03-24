@@ -305,6 +305,7 @@
     <ClCompile Include="MapChip2D.cpp" />
     <ClCompile Include="ModelRender.cpp" />
     <ClCompile Include="ObjectGene.cpp" />
+    <ClCompile Include="Result.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -391,6 +392,7 @@
     <ClInclude Include="MapChip2D.h" />
     <ClInclude Include="ModelRender.h" />
     <ClInclude Include="ObjectGene.h" />
+    <ClInclude Include="Result.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="stdafx.h" />

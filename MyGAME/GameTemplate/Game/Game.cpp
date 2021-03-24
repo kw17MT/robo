@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Game.h"
-
 #include "Level.h"
 #include "ModelRender.h"
 #include "FixedUI.h"
@@ -10,13 +9,62 @@
 #include "Kitchen.h"
 #include "Counter.h"
 #include "Score.h"
+
 #include "CLevel2D.h"
 
 Level level;
 
+
+#include "Result.h"
+
 Game::Game()
-{
-	
+{	
+	//文字の描写///////////////////////////////////////////////////////////////////////
+	//FixedUIクラスのアップデート内で表示する文字を固定している。
+	ui = NewGO<FixedUI>(1,"ui");
+
+	//リザルトにそれぞれnullptrを入れておく
+	//0 : 引き分け(これだけを表示)
+	//以下、引き分けでない場合
+	//1 : プレイヤー1
+	//2 : プレイヤー2
+
+	for (int i = 0; i < 3; i++) {
+		m_result[i] = nullptr;
+	}
+
+	////勝敗表示用スプライト
+	////表示するポジションを定義
+	//win_loseLeft.Set(200.0f, 350.0f);
+	//win_loseRight.Set(1080.0f,350.0f);
+
+	//カウンターの作成/////////////////////////////////////////////////////////////////
+	//SetCounterNoでどちら側のカウンターか決定する。
+	counter01 = NewGO<Counter>(1, "counter01");
+	counter01->SetCounterNo(1);
+	Vector3 PosCo01 = { 900.0f, 0.0f, 400.0f };
+	counter01->SetPosition(PosCo01);
+
+	counter02 = NewGO<Counter>(1, "counter02");
+	counter02->SetCounterNo(2);
+	Vector3 PosCo02 = { -900.0f, 0.0f, 400.0f };
+	counter02->SetPosition(PosCo02);
+
+	//キッチンの作成///////////////////////////////////////////////////////////////////
+	//カウンターと同様にどちら側か決定。
+	kitchen01 = NewGO<Kitchen>(0, "kitchen01");
+	kitchen01->SetKitchenNo(1);
+	Vector3 kiPos01 = { 900.0f, 0.0f, 0.0f };
+	kitchen01->SetKitchenPos(kiPos01);
+
+	kitchen02 = NewGO<Kitchen>(0, "kitchen02");
+	kitchen02->SetKitchenNo(2);
+	Vector3 kiPos02 = { -900.0f, 0.0f, 0.0f };
+	kitchen02->SetKitchenPos(kiPos02);
+
+	///////////////////////////////////////////////////////////////////////////////
+	//スコア
+	m_score = NewGO<Score>(0, "score");
 	
 	////画像の描写/////////////////////////////////////////////////////////////////////
 	////ただし、初期メニューのみ
@@ -185,7 +233,7 @@ Game::Game()
 	ui = NewGO<FixedUI>(2);
 
 	//スコアの表示/////////////////////////////////////////////////////////////////////
-	score = NewGO<Score>(2, "score");
+	m_score = NewGO<Score>(2, "score");
 }
 
 Game::~Game()
@@ -206,10 +254,53 @@ Game::~Game()
 	}
 	DeleteGO(generator01);
 	DeleteGO(generator02);
-	DeleteGO(score);
+	DeleteGO(m_score);
 }
 
 void Game::Update()
 {
 	level.Draw();
+
+	//タイムアップ時に行う処理
+	//結果の表示
+	if (ui->GetIsTimeUp() == true && GetTimeUp() == false) {
+		
+		//引き分けのとき(ResultP1 = 0,ResultP2 = 0のとき)、1枚だけ表示
+		if (m_score->ResultP1 == m_score->ResultP2) {
+			m_result[0] = NewGO<Result>(1, "result");
+			m_result[0]->SetSprite(0); //0 : 引き分け
+			m_result[0]->SetSpritePos(0); //中央くらいの位置
+		}
+
+		//勝敗が決まっているとき(enumの返す整数値が異なるとき),2枚を表示
+		else if (m_score->ResultP1 != m_score->ResultP2) {
+			//プレイヤー1
+			if (m_score->ResultP1 == 1) {
+				m_result[1] = NewGO<Result>(1, "result");
+				m_result[1]->SetSprite(1); //1 : 勝利
+				m_result[1]->SetSpritePos(1); //1 : 右側
+			}
+			if (m_score->ResultP1 == 2) {
+				m_result[1] = NewGO<Result>(1, "result");
+				m_result[1]->SetSprite(2); //2 : 敗北
+				m_result[1]->SetSpritePos(1); //1 : 右側
+			}
+
+			//プレイヤー2
+			if (m_score->ResultP2 == 1) {
+				m_result[2] = NewGO<Result>(1, "result");
+				m_result[2]->SetSprite(1); //1 : 勝利
+				m_result[2]->SetSpritePos(2); //2 :左側
+			}
+			if (m_score->ResultP2 == 2) {
+				m_result[2] = NewGO<Result>(1, "result");
+				m_result[2]->SetSprite(2); //2 : 敗北
+				m_result[2]->SetSpritePos(2); //2 :左側
+			}
+
+		}
+		//game内のタイムアップフラグを立てる
+		SetTimeUp();
+	}
+	
 }

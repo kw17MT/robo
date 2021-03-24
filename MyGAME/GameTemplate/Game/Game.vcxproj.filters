@@ -242,6 +242,7 @@
     <ClCompile Include="Light.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Level2D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -252,6 +253,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="CLevel2D.cpp">
+=======
+    <ClCompile Include="Result.cpp">
+>>>>>>> 319edcccda9a1083e96ff026cdbe950b19b614ec
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -475,6 +479,7 @@
     <ClInclude Include="Light.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Level2D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -485,6 +490,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="CLevel2D.h">
+=======
+    <ClInclude Include="Result.h">
+>>>>>>> 319edcccda9a1083e96ff026cdbe950b19b614ec
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
