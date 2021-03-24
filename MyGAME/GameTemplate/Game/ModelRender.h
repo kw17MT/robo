@@ -17,8 +17,8 @@ private:
 	bool Buff = false;
 	//バフの有効時間。
 	int BuffTime = 120;
-	//今、具材をターゲットしているか。
-	bool SetTarget = false;
+	//今、具材をターゲットしているか。1個以上ターゲティングしないように。
+	bool TargetingState = false;
 
 public:
 	//モデル、当たり判定、具材No.を格納する配列を９で初期化
@@ -40,8 +40,10 @@ public:
 
 	void GiveData(const char* ModelPath, const char* ShaderPath);
 
-	//ターゲットを現在しているかどうか
-	//void SetTarget(bool target) { SetTarget = target; }
+	//現在ターゲティングしているかどうか
+	void SetTarget(bool target) { TargetingState = target; }
+	//現在のターゲティング状態を返す。
+	bool GetTargetState() { return TargetingState; }
 
 	//プレイヤーが具材を持っているか。１なら具材を持っている。２ならハンバーガーを持っている。
 	int have = 0;
