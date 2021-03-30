@@ -7,6 +7,7 @@
 /// </remarks>
 
 #pragma once
+#include <MiniEngine.h>
 
 	
 /// <summary>

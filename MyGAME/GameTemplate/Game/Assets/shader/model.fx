@@ -201,3 +201,9 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	/*float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
 	return albedoColor;*/
 }
+
+float4 FrontCulling(SPSIn psIn) : SV_Target0
+{
+	float4 BLUE = { 0.0f, 1.0f, 1.0f, 1.0f };
+	return BLUE;
+}

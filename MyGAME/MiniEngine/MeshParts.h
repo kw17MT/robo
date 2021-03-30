@@ -48,7 +48,8 @@ public:
 		const char* psEntryPointFunc,
 		void* expandData,
 		int expandDataSize,
-		IShaderResource* expandShaderResourceView
+		IShaderResource* expandShaderResourceView,
+		D3D12_CULL_MODE cullingMode
 	);
 	/// <summary>
 	/// ï`âÊÅB
@@ -100,7 +101,9 @@ private:
 		const wchar_t* fxFilePath,
 		const char* vsEntryPointFunc,
 		const char* vsSkinEntryPointFunc,
-		const char* psEntryPointFunc );
+		const char* psEntryPointFunc, 
+		D3D12_CULL_MODE cullingMode
+	);
 
 	
 private:

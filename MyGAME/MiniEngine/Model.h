@@ -25,6 +25,7 @@ struct ModelInitData {
 	IShaderResource* m_expandShaderResoruceView = nullptr;			//ユーザー拡張のシェーダーリソース。
 	Skeleton* m_skeleton = nullptr;									//スケルトン。
 	EnModelUpAxis m_modelUpAxis = enModelUpAxisZ;					//モデルの上方向。
+	D3D12_CULL_MODE cullingMode;
 };
 
 /// <summary>

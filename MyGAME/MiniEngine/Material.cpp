@@ -59,7 +59,9 @@ void Material::InitFromTkmMaterila(
 	const wchar_t* fxFilePath,
 	const char* vsEntryPointFunc,
 	const char* vsSkinEntryPointFunc,
-	const char* psEntryPointFunc)
+	const char* psEntryPointFunc,
+	D3D12_CULL_MODE cullingMode
+)
 {
 	//テクスチャをロード。
 	InitTexture(tkmMat);
@@ -77,12 +79,18 @@ void Material::InitFromTkmMaterila(
 		D3D12_TEXTURE_ADDRESS_MODE_WRAP,
 		D3D12_TEXTURE_ADDRESS_MODE_WRAP);
 
+	if (psEntryPointFunc == "FrontCulling") {
+		isFrontCulling = true;
+	}
+
 	if (wcslen(fxFilePath) > 0) {
 		//シェーダーを初期化。
 		InitShaders(fxFilePath, vsEntryPointFunc, vsSkinEntryPointFunc, psEntryPointFunc);
 		//パイプラインステートを初期化。
 		InitPipelineState();
 	}
+
+	
 }
 void Material::InitPipelineState()
 {
@@ -98,13 +106,23 @@ void Material::InitPipelineState()
 		{ "BLENDWEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 72, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	};
 
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////// 
+	CD3DX12_RASTERIZER_DESC origRasterizer = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+	if (isFrontCulling == true) {
+		origRasterizer.CullMode = D3D12_CULL_MODE_FRONT;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////// 
+
 	//パイプラインステートを作成。
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = { 0 };
 	psoDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
 	psoDesc.pRootSignature = m_rootSignature.Get();
 	psoDesc.VS = CD3DX12_SHADER_BYTECODE(m_vsSkinModel.GetCompiledBlob());
 	psoDesc.PS = CD3DX12_SHADER_BYTECODE(m_psModel.GetCompiledBlob());
-	psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+	//originalRasterizerをここにいれたい。				↓↓↓
+	psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(origRasterizer/*D3D12_DEFAULT*/);
 	psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 	psoDesc.DepthStencilState.DepthEnable = TRUE;
 	psoDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;

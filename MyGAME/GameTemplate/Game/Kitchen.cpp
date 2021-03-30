@@ -29,29 +29,45 @@ Kitchen::Kitchen()
 	m_charaCon.Init(0.0f, 0.0f, KitchenPos);
 }
 
-//具材をセットポジする
+//具材の位置をキッチンの上に設定する
 void Kitchen::Stack(int num)
 {
 	if (KitchenNo == 1) {
 		ModelRender* pl01 = FindGO<ModelRender>("player01");
+		
+		//下のif文でスタックが完了したかの状態を変更後、次フレームで実行できるように上に置いている。
+		if (isCompletedStack == true) {
+			StackedGuzai[stack - 1]->ChangeGuzai(pl01->GuzaiNo[stack - 1]);
+
+			Vector3 GuzaiPos = m_charaCon.GetPosition();
+			GuzaiPos.y += stack * 100.0f;
+			StackedGuzai[nextStackNum - 1]->SetPosition(GuzaiPos);
+
+			isCompletedStack = false;
+		}
 
 		if (nextStackNum < stack) {
 			StackedGuzai[nextStackNum] = NewGO<Guzai>(0);
 			//ここで、キッチンに「置かれた」ことを記録し、キッチン上から動かないようにする。
 			StackedGuzai[nextStackNum]->put = 1;
-			//プレイヤーに保存してある、具材No.をとってきて何の具材を積むか決定する。
-			StackedGuzai[nextStackNum]->ChangeGuzai(pl01->GuzaiNo[nextStackNum]);
 
-			Vector3 GuzaiPos = m_charaCon.GetPosition();
-			GuzaiPos.y += stack * 100.0f;
-			StackedGuzai[nextStackNum]->SetPosition(GuzaiPos);
-
+			isCompletedStack = true;
 			nextStackNum++;
 		}
 	}
 
 	if (KitchenNo == 2) {
 		ModelRender* pl02 = FindGO<ModelRender>("player02");
+
+		if (isCompletedStack == true) {
+			StackedGuzai[stack - 1]->ChangeGuzai(pl02->GuzaiNo[stack - 1]);
+
+			Vector3 GuzaiPos = m_charaCon.GetPosition();
+			GuzaiPos.y += stack * 100.0f;
+			StackedGuzai[nextStackNum - 1]->SetPosition(GuzaiPos);
+
+			isCompletedStack = false;
+		}
 
 		if (nextStackNum < stack) {
 			StackedGuzai[nextStackNum] = NewGO<Guzai>(0);
@@ -62,6 +78,7 @@ void Kitchen::Stack(int num)
 			GuzaiPos.y += stack * 100.0f;
 			StackedGuzai[nextStackNum]->SetPosition(GuzaiPos);
 
+			isCompletedStack = true;
 			nextStackNum++;
 		}
 	}
@@ -198,5 +215,6 @@ void Kitchen::Update()
 	}
 
 	BornBurger();
+
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }

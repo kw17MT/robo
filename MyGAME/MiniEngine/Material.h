@@ -15,7 +15,12 @@ public:
 		const wchar_t* fxFilePath,
 		const char* vsEntryPointFunc,
 		const char* vsSkinEntriyPointFunc,
-		const char* psEntryPointFunc);
+		const char* psEntryPointFunc,
+		D3D12_CULL_MODE cullingMode
+	);
+
+	bool isFrontCulling = false;
+	D3D12_CULL_MODE CULL4Dummy;
 	/// <summary>
 	/// レンダリングを開始するときに呼び出す関数。
 	/// </summary>

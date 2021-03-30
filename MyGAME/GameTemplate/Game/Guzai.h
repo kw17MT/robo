@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 class ModelRender;
 class Kitchen;
 
@@ -11,6 +10,8 @@ private:
 	//Skeleton m_skeleton;
 	CharacterController m_charaCon;
 	
+	//具材を初期位置（生成器）に移動させたか。
+	bool isSetFirstPos = false;
 	//Update()でインクリメントする。
 	int timer = 0;
 	//Xボタン長押しで積み上げている具材を全部削除する。そのためのタイマー。
@@ -28,7 +29,7 @@ private:
 	//ターゲティングされた具材を設定するよう。
 	bool targeted = false;
 	//1度しかダミー具材を出さないようにするための変数。1ならダミーをすでに出した。
-	int SetTargetDummy = 0;
+	bool isSetTargetDummy = false;
 	//一度ターゲッティングしたものをある程度見つめるための時間。
 	//HOLDTIMEが待ち時間。DECREMENTTIMEが徐々に減らしていく役割がある。
 	const int holdTime = 10;
@@ -39,7 +40,6 @@ private:
 	const int TargetRangeFar = 110;
 	//枠線強調のために使用
 	Vector3 GuzaiScale = { 1.0f,1.0f,1.0f };
-	
 
 public:	
 	//乱数を用いて具材が生まれると同時にどの具材を流すか設定する。
