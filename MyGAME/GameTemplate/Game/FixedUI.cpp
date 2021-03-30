@@ -53,6 +53,24 @@ bool FixedUI::Start()
 	return true;
 }
 
+void FixedUI::RemainingTimeColor()
+{
+	if (remainingTime < 10) {
+		if (timer < 10) {
+			const float Scale = 1.5f;
+			const Vector4 RED = { 1.0f, 0.0f, 0.0f, 1.0f };
+			Time->SetScale(Scale);
+			Time->SetColor(RED);
+		}
+		if (timer >= 10) {
+			const float reduceScale = -0.01f;
+			const Vector4 addColorExceptRed = { 0.0f,0.02f,0.02f,0.0f };
+			Time->AddColorPoint(addColorExceptRed);
+			Time->AddFontScale(reduceScale);
+		}
+	}
+}
+
 void FixedUI::Update()
 {
 	//Font fontTime;
@@ -61,18 +79,16 @@ void FixedUI::Update()
 
 
 	//タイム減少とタイムアップ処理
-	//変数timerの値が60になる度に残時間LastTimeから1を引いていく
-
-
+	//変数timerの値が60になる度に残時間remainingTimeから1を引いていく
 	timer++;
 	if (timer >= 60) {
-		if (LastTime > 0) {
-			LastTime--;
+		if (remainingTime > 0) {
+			remainingTime--;
 		}
 		timer = 0;
 	}
 	//タイムアップフラグを立てる
-	if (LastTime <= 0 && isTimeUp == false) {
+	if (remainingTime <= 0 && isTimeUp == false) {
 		isTimeUp = true;
 	}
 
@@ -89,14 +105,12 @@ void FixedUI::Update()
 	//
 
 	//残時間LastTimeをstd::wstring型の文字列に変換する
-	std::wstring fontLastTime;
-	fontLastTime = std::to_wstring(LastTime);
+	std::wstring fontRemainingTime;
+	fontRemainingTime = std::to_wstring(remainingTime);
 	//残り時間を更新する。
-	Time->SetText(fontLastTime.c_str());
-
-	//残時間の表示
-	/*fontTime.Begin(renderContext);
-	fontTime.Draw(fontLastTime.c_str(), posLastTime, color, 0.0f, 1.0f, { 0.0f, 0.0f });
-	fontTime.End(renderContext);*/
-
+	Time->SetText(fontRemainingTime.c_str());
+	//残り10秒未満になると拡大表示→縮小、色を赤色から白色に変えて強調表示。
+	if (remainingTime > 0) {
+	RemainingTimeColor();
+	}
 }

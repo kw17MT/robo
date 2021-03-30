@@ -34,6 +34,11 @@ void FontRender::SetColor(const Vector4 & color)
 {
 	color.CopyTo(m_color);
 }
+void FontRender::AddColorPoint(Vector4 colorPoint) {
+	m_color.x += colorPoint.x;
+	m_color.y += colorPoint.y;
+	m_color.z += colorPoint.z;
+}
 void FontRender::SetRotation(float rotation)
 {
 	m_rotation = rotation;
@@ -44,6 +49,16 @@ void FontRender::SetScale(float scale)	{
 void FontRender::SetPivot(const Vector2& pivot)
 {
 	m_pivot = pivot;
+}
+float FontRender::GetColorVolume()
+{
+	float ColorVolume = 0.0f;
+	ColorVolume = (m_color.x + m_color.y + m_color.z) / 3.0f;
+	return ColorVolume;
+}
+void  FontRender::AddFontScale(float scale)
+{
+	m_scale += scale;
 }
 
 void FontRender::Render(RenderContext& rc)

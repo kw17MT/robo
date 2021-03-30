@@ -38,10 +38,60 @@ void Score::SetResult() {
 	}
 }
 
+void Score::AddScoreNChangeColor() {
+
+	//プレイヤー１のためのもの
+	Score01 = BasePoint01 * 100;
+	nowScore01 = std::to_wstring(Score01);
+	//前フレームのスコアと現在のスコアが同じでないとき
+	if (wcscmp(nowScore01.c_str(), prevScore01.c_str()) != 0) {
+		Vector4 RED = { 1.0f,0.0f,0.0f,1.0f };
+		//スコアの色を赤色にする。
+		Score[0]->SetColor(RED);
+		//前フレームのスコアを記録する。
+		prevScore01 = nowScore01;
+		//文字の色を赤色から徐々に白色にする準備をする。
+		isChangeColor01 = true;
+	}
+
+	//現在のスコアを表示する。
+	Score[0]->SetText(nowScore01.c_str());
+	//スコアの色を変えなければならないならば
+	if (isChangeColor01 == true) {
+		//赤色以外の要素を少しずつ足していく。
+		Vector4 addColorExceptRed = { 0.0f,0.01f,0.01f,0.0f };
+		Score[0]->AddColorPoint(addColorExceptRed);
+		//RBGすべての色が1.0f以上になったら色の変更をやめる。
+		//operator==
+		if (Score[0]->GetColorVolume() >= 1.0f) {
+			isChangeColor01 = false;
+		}
+	}
+
+	//プレイヤー２のためのもの
+	Score02 = BasePoint02 * 100;
+	nowScore02 = std::to_wstring(Score02);
+	//同じでないとき
+	if (wcscmp(nowScore02.c_str(), prevScore02.c_str()) != 0) {
+		Vector4 RED = { 1.0f,0.0f,0.0f,1.0f };
+		Score[1]->SetColor(RED);
+		prevScore02 = nowScore02;
+		isChangeColor02 = true;
+	}
+
+	Score[1]->SetText(nowScore02.c_str());
+	if (isChangeColor02 == true) {
+		Vector4 addColorExceptRed = { 0.0f,0.01f,0.01f,0.0f };
+		Score[1]->AddColorPoint(addColorExceptRed);
+		if (Score[1]->GetColorVolume() >= 1.0f) {
+			isChangeColor02 = false;
+		}
+	}
+}
+
 
 void Score::Update()
 {
-	
 	if (m_ui->GetIsTimeUp() == true && GetIsTimeUp() == false) {
 		//タイムアップ時、プレイヤーそれぞれに勝敗の状態を記録する
 		SetResult();
@@ -49,28 +99,5 @@ void Score::Update()
 		SetIsTimeUp();
 	}
 
-
-	//０１は１Pの、０２は２Pのスコア
-	Font score01;
-	Font score02;
-	Vector4 color = { 1.0f,1.0f,1.0,1.0f };
-
-	Score01 = BasePoint01 * 100;
-	std::wstring str01;
-	str01 = std::to_wstring(Score01);
-
-	Score02 = BasePoint02 * 100;
-	std::wstring str02;
-	str02 = std::to_wstring(Score02);
-
-	Score[0]->SetText(str01.c_str());
-	Score[1]->SetText(str02.c_str());
-
-	/*score01.Begin(renderContext);
-	score01.Draw(str01.c_str(), { -400.0f,-300.0f }, color, 0.0f, 1.0f, { 0.0f, 0.0f });
-	score01.End(renderContext);
-
-	score02.Begin(renderContext);
-	score02.Draw(str02.c_str(), { 550.0f,-300.0f }, color, 0.0f, 1.0f, { 0.0f, 0.0f });
-	score02.End(renderContext);*/
+	AddScoreNChangeColor();
 }

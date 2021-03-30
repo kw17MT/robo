@@ -21,7 +21,7 @@ public:
 	void Init(const char* name, int a, int b);
 
 	void SetPosition(Vector3 pos){ m_sprite.Update(pos, m_Rot, m_Scale, m_Pivot); }
-	void SetScale(Vector3 scale) { m_sprite.Update(m_Pos, m_Rot, m_Scale, m_Pivot); }
+	void SetScale(Vector3 scale) { m_sprite.Update(m_Pos, m_Rot, scale, m_Pivot); }
 	
 	void Render(RenderContext& rc) { m_sprite.Draw(rc); }
 };

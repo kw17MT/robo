@@ -5,7 +5,7 @@ class FixedUI : public IGameObject
 {
 private:
 	//表示する残り時間
-	int LastTime = 60;
+	int remainingTime =10;
 	//フレームカウント用、60になったらLastTimeを１減らす。
 	int timer = 0;
 	//タイムアップフラグ
@@ -41,7 +41,9 @@ public:
 	//ゲッター
 	//タイムアップ状態を取得(true : ON , false : OFF)
 	bool GetIsTimeUp() { return isTimeUp; }
-	int GetTime() { return LastTime; }
+	int GetTime() { return remainingTime; }
+
+	void RemainingTimeColor();
 
 	//変化させない文字
 	//Time,TimeUp,Score,Itemの固定文字

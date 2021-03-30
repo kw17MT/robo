@@ -83,10 +83,10 @@ Game::Game()
 			break;
 		}
 
-		const float ShiftRight = 150.0f;
+		const float shiftRight = 150.0f;
 
 		Vector3 pos = { -150.0f,-200.0f,0.0f };
-		pos.x += i * ShiftRight;
+		pos.x += i * shiftRight;
 		menu[i]->SetPosition(pos);
 	}*/
 

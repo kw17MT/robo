@@ -23,13 +23,14 @@ public:
 
 	void SetText(const wchar_t* text);
 
-	/*void SetFont(DirectX::SpriteFont* font)
-	{
-		m_font = font;
-	}*/
+	
 	
 	void SetColor(const Vector3& color);
 	void SetColor(const Vector4& color);
+	void AddColorPoint(Vector4 colorPoint);
+	Vector4 GetColor() { return m_color; }
+	float GetColorVolume();
+	void  AddFontScale(float size);
 
 	void SetPivot(const Vector2& pivot);
 };

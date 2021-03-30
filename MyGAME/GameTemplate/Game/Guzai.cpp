@@ -4,49 +4,14 @@
 #include "math.h"
 #include "Kitchen.h"
 #include "ObjectGene.h"
+#include "SpriteRender.h"
 
 #include <ctime>
 #include <cstdlib>
 
 Guzai::Guzai()
 {
-	////乱数でどの具材が流れてくるかを決める。
-	//std::srand(time(NULL));
-	//TypeNo = rand() % 5;
 
-	//switch (TypeNo) {
-	//case 0:
-	//	modeldata.m_tkmFilePath = "Assets/modelData/gu/cheese.tkm";
-	//	break;
-	//case 1:
-	//	modeldata.m_tkmFilePath = "Assets/modelData/gu/egg.tkm";
-	//	break;
-	//case 2:
-	//	modeldata.m_tkmFilePath = "Assets/modelData/gu/lettuce.tkm";
-	//	break;
-	//case 3:
-	//	modeldata.m_tkmFilePath = "Assets/modelData/gu/patty.tkm";
-	//	break;
-	//case 4:
-	//	modeldata.m_tkmFilePath = "Assets/modelData/gu/tomato.tkm";
-	//	break;
-	//}
-
-	//modeldata.m_fxFilePath = "Assets/shader/model.fx";
-
-	//modeldata.m_vsEntryPointFunc = "VSMain";
-	//modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
-
-	//modeldata.m_expandConstantBuffer = &g_lig;
-	//modeldata.m_expandConstantBufferSize = sizeof(g_lig);
-
-	//modeldata.m_modelUpAxis = enModelUpAxisY;
-
-	//model.Init(modeldata);
-
-	//Vector3 pos = { 0.0f,0.0f,-500.0f };
-
-	//m_charaCon.Init(0.0f, 0.0f, pos);
 }
 
 Vector3 Guzai::GetPosition()
@@ -289,6 +254,16 @@ void Guzai::TargetingNPopDummy()
 			targetdummyOnGuzai01->SetPosition(GuzaiPos);
 			targetdummyOnGuzai01->SetScale({ 1.1f,1.1f,1.1f });
 			isSetTargetDummy = true;
+
+
+			//画像をターゲットした具材の上に置きたいが、3D表示が必要になりそう。//////////////////////////////////////////////
+			/*sp01 = NewGO<SpriteRender>(3);
+			sp01->Init("Assets/Image/burger_tomato.dds", 128, 256);
+			Vector3 spritePos = m_charaCon.GetPosition();
+			std::swap(spritePos.z, spritePos.y);
+			spritePos.z = 0.0f;
+			sp01->SetPosition(spritePos);*/
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		}
 
 		//ここで一定以上離れてプレイヤーは何かしらターゲットしていたら（後ろの条件は別の具材に影響を与えるのを防ぐため。
@@ -299,6 +274,7 @@ void Guzai::TargetingNPopDummy()
 				decrementTime--;
 				if (decrementTime == 0) {
 					DeleteGO(targetdummy01);
+					DeleteGO(sp01);
 					targeted = false;
 					pl01->SetTarget(targeted);
 					isSetTargetDummy = false;
@@ -342,6 +318,22 @@ void Guzai::TargetingNPopDummy()
 	}
 }
 
+//ターゲットした具材の上に画像を置きたいが3D表示が必要になりそう。////////////////////////////////////////////////
+//void Guzai::PopTargetingIcon()
+//{
+//	//ターゲットダミーと一緒に出現させたいため。
+//	if (isSetTargetDummy == true) {
+//
+//		Vector3 spritePos = m_charaCon.GetPosition();
+//		spritePos *= -1.0f;
+//		std::swap(spritePos.z, spritePos.y);
+//		spritePos.z = 0.0f;
+//		sp01->SetPosition(spritePos);
+//		//sp01->SetPosition(m_charaCon.GetPosition());
+//	}
+//}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Guzai::Update()
 {
 	if (GuzaiNo == 1) {
@@ -364,6 +356,8 @@ void Guzai::Update()
 		}
 
 		TargetingNPopDummy();
+
+		//PopTargetingIcon();
 
 		GrabNPut();
 

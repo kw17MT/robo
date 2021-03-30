@@ -17,8 +17,20 @@ private:
 	int BasePoint01 = 0;
 	int BasePoint02 = 0;
 
+	
+
 	Vector2 Score01Pos = { -400.0f,-300.0f };
 	Vector2 Score02Pos = { 550.0f,-300.0f };
+
+	//スコアの表示と、スコアの加算時の色の変化に使用する。
+	std::wstring nowScore01 = L"0";
+	std::wstring prevScore01 = L"0";
+	std::wstring nowScore02 = L"0";
+	std::wstring prevScore02 = L"0";
+
+	//文字の色を変えるべきかそうでないか
+	bool isChangeColor01 = false;
+	bool isChangeColor02 = false;
 
 	RenderContext renderContext = g_graphicsEngine->GetRenderContext();
 public:
@@ -59,6 +71,8 @@ public:
 	
 	//タイムアップフラグをtrueにする
 	void SetIsTimeUp() { isTimeUp = true; }
+
+	void AddScoreNChangeColor();
 
 	void Update();
 

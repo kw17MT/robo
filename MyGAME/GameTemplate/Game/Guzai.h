@@ -1,13 +1,13 @@
 #pragma once
 class ModelRender;
 class Kitchen;
+class SpriteRender;
 
 class Guzai : public IGameObject
 {
 private:
 	Model model;
 	ModelInitData modeldata;
-	//Skeleton m_skeleton;
 	CharacterController m_charaCon;
 	
 	//具材を初期位置（生成器）に移動させたか。
@@ -68,20 +68,21 @@ public:
 	//ターゲティングの対象選定とターゲットダミーを出す。
 	//離れると別のターゲットを探す。
 	void TargetingNPopDummy();
-
-
+	//ターゲティングされている具材の上に画像を配置。後に使用するかもしれないので実装しておく。削除するかも
+	//void PopTargetingIcon();
 
 	void Render(RenderContext& rc) { model.Draw(rc); }
 
-	
 	//１ならば持たれている。
 	int state = 0;
 	//１ならばもうキッチンに置かれている。
 	int put = 0;
 
-	ModelRender* pl01;
-	ModelRender* pl02;
-	Kitchen* ki01;
-	Kitchen* ki02;
+	ModelRender* pl01 = nullptr;
+	ModelRender* pl02 = nullptr;
+	Kitchen* ki01 = nullptr;
+	Kitchen* ki02 = nullptr;
+	SpriteRender* sp01 = nullptr;
+	SpriteRender* sp02 = nullptr;
 };
 
