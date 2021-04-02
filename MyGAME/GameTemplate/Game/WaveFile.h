@@ -5,8 +5,8 @@
 #pragma once
 
 #include <thread>
+#include <string>
 
-namespace tkEngine{
 	/*!
 	 *@brief	waveファイルを扱うためのクラス。
 	 *@details
@@ -102,4 +102,3 @@ namespace tkEngine{
 		std::wstring	m_filePath;			//ファイルパス。
 		unsigned int	m_filePathHash = 0;		//ファイルパスのハッシュコード。
 	};
-}

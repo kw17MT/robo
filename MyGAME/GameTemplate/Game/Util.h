@@ -1,7 +1,7 @@
 #ifndef _TKUTIL_H_
 #define _TKUTIL_H_
 
-namespace tkEngine {
+
 	class Util {
 	public:
 		/*!
@@ -36,6 +36,5 @@ namespace tkEngine {
 			return hash;
 		}
 	};
-}
 
 #endif // _TKUTIL_H_

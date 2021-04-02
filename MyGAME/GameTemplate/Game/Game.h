@@ -10,6 +10,8 @@ class Counter;
 class Score;
 class Result;
 class FontRender;
+class Level;
+class CSoundSource;
 	
 class Game : public IGameObject
 {
@@ -19,6 +21,9 @@ public:
 	//オブジェクトやUIの表示
 	Game();
 	~Game();
+
+	bool Start();
+
 	//今は特に役割なし。
 	void Update();
 
@@ -33,6 +38,8 @@ public:
 	ObjectGene* generator01;
 	ObjectGene* generator02;
 	Score* m_score = nullptr;
+
+	CSoundSource* test = nullptr;
 	
 	//勝敗表示用:引き分けの場合、プレイヤー1、プレイヤー2に用意
 	Result* m_result[3];

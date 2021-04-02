@@ -10,13 +10,11 @@
 #include "Counter.h"
 #include "Score.h"
 #include "FontRender.h"
-
 #include "CLevel2D.h"
+#include "Result.h"
+#include "SoundSource.h"
 
 Level level;
-
-
-#include "Result.h"
 
 Game::Game()
 {	
@@ -237,6 +235,8 @@ Game::Game()
 
 	//スコアの表示/////////////////////////////////////////////////////////////////////
 	m_score = NewGO<Score>(2, "score");
+
+	
 }
 
 Game::~Game()
@@ -258,6 +258,16 @@ Game::~Game()
 	DeleteGO(generator01);
 	DeleteGO(generator02);
 	DeleteGO(m_score);
+}
+
+bool Game::Start()
+{
+	test = NewGO<CSoundSource>(0);
+	test->Init(L"Assets/sound/PlayerAttack_00.wav", false);
+	test->SetVolume(0.1f);
+	test->Play(true);
+
+	return true;
 }
 
 void Game::Update()

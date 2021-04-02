@@ -2,7 +2,7 @@
 
 #include "Util.h"
 
-namespace tkEngine {
+
 
 	template<class T>
 	class TNameKey {
@@ -21,7 +21,7 @@ namespace tkEngine {
 			if (name != nullptr) {
 				m_name = name;
 				//名前をハッシュ値に変換。
-				m_hashCode = CUtil::MakeHash(name);
+				m_hashCode = Util::MakeHash(name);
 			}
 		}
 		//ハッシュコードを取得。
@@ -38,4 +38,3 @@ namespace tkEngine {
 
 	using NameKey = TNameKey<char>;
 	using WNameKey = TNameKey<wchar_t>;
-}
