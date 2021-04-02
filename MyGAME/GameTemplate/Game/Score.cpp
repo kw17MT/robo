@@ -3,6 +3,7 @@
 #include "Counter.h"
 #include "FixedUI.h"
 #include "FontRender.h"
+#include "SoundSource.h"
 
 bool Score::Start()
 {
@@ -50,6 +51,11 @@ void Score::AddScoreNChangeColor() {
 		Score[0]->SetColor(RED);
 		//前フレームのスコアを記録する。
 		prevScore01 = nowScore01;
+		//音を鳴らす。
+		moneySound = NewGO<CSoundSource>(0);
+		moneySound->Init(L"Assets/sound/Money.wav", false);
+		moneySound->SetVolume(0.7f);
+		moneySound->Play(false);
 		//文字の色を赤色から徐々に白色にする準備をする。
 		isChangeColor01 = true;
 	}
@@ -76,6 +82,13 @@ void Score::AddScoreNChangeColor() {
 		Vector4 RED = { 1.0f,0.0f,0.0f,1.0f };
 		Score[1]->SetColor(RED);
 		prevScore02 = nowScore02;
+
+		//音を鳴らす。
+		moneySound = NewGO<CSoundSource>(0);
+		moneySound->Init(L"Assets/sound/Money.wav", false);
+		moneySound->SetVolume(0.7f);
+		moneySound->Play(false);
+
 		isChangeColor02 = true;
 	}
 

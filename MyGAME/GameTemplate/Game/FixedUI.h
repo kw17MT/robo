@@ -1,5 +1,6 @@
 #pragma once
 class FontRender;
+class SoundSource;
 
 class FixedUI : public IGameObject
 {
@@ -56,6 +57,7 @@ public:
 	FontRender* Time;
 	FontRender* isTimeUpState;
 	
+	CSoundSource* timeSound;
 };
 
 

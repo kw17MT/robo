@@ -109,9 +109,12 @@ SPSIn VSSkinMain( SVSIn vsIn )
 	return VSMainCore(vsIn, true);
 }
 
-//float CalcDiffuseFromFresnel(float3 normal, float3 - DirectionLightDirection, float3 toEye)
+//float CalcDiffuseFromFresnel(float3 normal, float3 -DirectionLightDirection, float3 toEye)
 //{
+//	float3 H = normalize(L + V);
 //
+//	float roughness = 0.5f;
+//	float energyBias = lerp(0.0f, 0.5f, roughness);
 //}
 
 //ピクセルシェーダーのエントリー関数。
@@ -182,8 +185,16 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	finalcolor.xyz *= (dirDiff + dirSpec + environment);
 
 	//PBR実装しようとしている。↓
-	float3 specColor = g_specMap.SampleLevel(g_sampler, psIn.uv, 0).rgb;
+	/*float3 specColor = g_specMap.SampleLevel(g_sampler, psIn.uv, 0).rgb;
 	float metaric = g_specMap.Sample(g_sampler, psIn.uv).a;
+
+	float diffuseFromFresnel = CalcDiffuseFromFresnel(normal, -directionalLight[ligNo].direction, toEye);
+
+	float NdotL = saturate( dot( normal, -directionalLight[ligNo].direction));
+
+	float3 lambertDiffuse = directionalLight[ligNo].color * NdotL / PI;
+
+	float3 diffuse = finalcolor * diffuseFromFresnel * lambertDiffuse;*/
 
 	//ディレクションライト＋環境光、　ポイントライトなし
 	return finalcolor;
@@ -203,6 +214,7 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	return albedoColor;*/
 }
 
+//フロントカリングをするにあたって枠線を何色にするか。
 float4 FrontCulling(SPSIn psIn) : SV_Target0
 {
 	float4 BLUE = { 0.0f, 1.0f, 1.0f, 1.0f };

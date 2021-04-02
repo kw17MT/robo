@@ -1,6 +1,7 @@
 #pragma once
 class FixedUI;
 class FontRender;
+class CSoundSource;
 
 class Score : public IGameObject
 {
@@ -31,6 +32,8 @@ private:
 	//•¶Žš‚ÌF‚ð•Ï‚¦‚é‚×‚«‚©‚»‚¤‚Å‚È‚¢‚©
 	bool isChangeColor01 = false;
 	bool isChangeColor02 = false;
+
+	
 
 	RenderContext renderContext = g_graphicsEngine->GetRenderContext();
 public:
@@ -77,5 +80,6 @@ public:
 	void Update();
 
 	FontRender* Score[2];
+	CSoundSource* moneySound;
 };
 
