@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "FixedUI.h"
 #include "FontRender.h"
+#include "SoundSource.h"
 
 //デストラクタ
 FixedUI::~FixedUI()
@@ -111,6 +112,13 @@ void FixedUI::Update()
 		if (remainingTime > 0) {
 			remainingTime--;
 		}
+		if (remainingTime < 10) {
+			//音を出す。
+			timeSound = NewGO<CSoundSource>(0);
+			timeSound->Init(L"Assets/sound/Time.wav", false);
+			timeSound->SetVolume(0.7f);
+			timeSound->Play(false);
+		}
 		timer = 0;
 	}
 	//タイムアップフラグを立てる
@@ -132,5 +140,7 @@ void FixedUI::Update()
 	//残り10秒未満になると拡大表示→縮小、色を赤色から白色に変えて強調表示。
 	if (remainingTime > 0) {
 	RemainingTimeColor();
+
+	
 	}
 }

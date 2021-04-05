@@ -72,6 +72,15 @@
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="TklFile.cpp" />
     <ClCompile Include="FontRender.cpp" />
+    <ClCompile Include="WaveFile.cpp" />
+    <ClCompile Include="SoundEngine.cpp" />
+    <ClCompile Include="SoundPreCompile.cpp" />
+    <ClCompile Include="SoundSource.cpp" />
+    <ClCompile Include="WaveFileBank.cpp" />
+    <ClCompile Include="Util.cpp" />
+    <ClCompile Include="NameKey.cpp" />
+    <ClCompile Include="Stopwatch.cpp" />
+    <ClCompile Include="GameTime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -153,5 +162,14 @@
     <ClInclude Include="system\system.h" />
     <ClInclude Include="TklFile.h" />
     <ClInclude Include="FontRender.h" />
+    <ClInclude Include="WaveFile.h" />
+    <ClInclude Include="SoundEngine.h" />
+    <ClInclude Include="SoundPreCompile.h" />
+    <ClInclude Include="SoundSource.h" />
+    <ClInclude Include="WaveFileBank.h" />
+    <ClInclude Include="Util.h" />
+    <ClInclude Include="NameKey.h" />
+    <ClInclude Include="Stopwatch.h" />
+    <ClInclude Include="GameTime.h" />
   </ItemGroup>
 </Project>

@@ -4,7 +4,10 @@
 #pragma once
 
 #include <map>
-namespace tkEngine{
+#include "NameKey.h"
+#include "Util.h"
+
+
 	class CWaveFile;
 	typedef std::shared_ptr<CWaveFile>	CWaveFilePtr;
 	typedef std::map<unsigned int , CWaveFilePtr>	CWaveFilePtrMap;
@@ -14,7 +17,7 @@ namespace tkEngine{
 	 * 一度ロードされた波形データをバンクに登録することが出来ます。
 	 * 登録された波形データは再読み込みを行う必要がなく、バンクから再利用することが出来ます。
 	 */
-	class CWaveFileBank : Noncopyable{
+	class CWaveFileBank/* : Noncopyable*/{
 	public:
 		CWaveFileBank();
 		~CWaveFileBank();
@@ -63,4 +66,3 @@ namespace tkEngine{
 		static const int MAX_GROUP = 256;
 		CWaveFilePtrMap	m_waveFileMap[MAX_GROUP];		//!<waveファイルのリスト。
 	};
-}

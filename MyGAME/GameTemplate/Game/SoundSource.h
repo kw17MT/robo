@@ -6,8 +6,7 @@
 
 #include "WaveFile.h"
 
-namespace tkEngine{
-	namespace prefab {
+
 		/*!
 		 * @brief	音源クラス。
 		 *@details
@@ -141,7 +140,7 @@ namespace tkEngine{
 			*  2Dサウンドでは無視されます。
 			*@param[in] pos		音源の座標。
 			*/
-			void SetPosition(const CVector3& pos)
+			void SetPosition(const Vector3& pos)
 			{
 				m_position = pos;
 				if (m_isSetPositionFirst) {
@@ -152,14 +151,14 @@ namespace tkEngine{
 			/*!
 			* @brief	音源の座標を取得。
 			*/
-			CVector3 GetPosition() const
+			Vector3 GetPosition() const
 			{
 				return m_position;
 			}
 			/*!
 			* @brief	音源の移動速度を取得。
 			*/
-			CVector3 GetVelocity() const
+			Vector3 GetVelocity() const
 			{
 				return m_velocity;
 			}
@@ -235,14 +234,12 @@ namespace tkEngine{
 			unsigned int			m_ringBufferSize = 0;		//!<リングバッファのサイズ。
 			EnStreamingStatus		m_streamingState = enStreamingBuffering;	//!<ストリーミングステータス。
 			bool					m_is3DSound = false;		//!<3Dサウンド？
-			CVector3				m_position = CVector3::Zero;	//!<音源の座標。3Dサウンドの時に必要。
-			CVector3				m_lastFramePosition = CVector3::Zero;//!<音源の1フレーム前の座標。3Dサウンドの時に必要。
-			CVector3				m_velocity = CVector3::Zero;	//!<速度。3Dサウンドの時に必要・
+			Vector3				m_position = Vector3::Zero;	//!<音源の座標。3Dサウンドの時に必要。
+			Vector3				m_lastFramePosition = Vector3::Zero;//!<音源の1フレーム前の座標。3Dサウンドの時に必要。
+			Vector3				m_velocity = Vector3::Zero;	//!<速度。3Dサウンドの時に必要・
 			FLOAT32 m_emitterAzimuths[INPUTCHANNELS];
 			FLOAT32 m_matrixCoefficients[INPUTCHANNELS * OUTPUTCHANNELS];
 			X3DAUDIO_DSP_SETTINGS m_dspSettings;
 			bool m_isSetPositionFirst = true;	//!<一番最初のsetPosition?
 			bool m_isAvailable = false;			//!<インスタンスが利用可能？
 		};
-	}
-}

@@ -4,6 +4,7 @@
 #include "Light.h"
 #include "Game.h"
 
+
 // ウィンドウプログラムのメイン関数。
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
@@ -18,6 +19,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	GameObjectManager::CreateInstance();
 	PhysicsWorld::CreateInstance();
 
+	//サウンドを鳴らす用のインスタンス
+	CSoundEngine::CreateInstance();
+	CSoundEngine::GetInstance()->Init();
+
 	//一緒くたにしないと両方のライトの影響を受けなくなる。////////////////////////////////
 	//ディレクションライトの正規化と目の位置をカメラの座標にする。
 	g_lig.DirDirection.Normalize();
@@ -27,6 +32,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//プレイヤー、文字、オブジェクトなどの生成////////////////////////////////////////////
 	NewGO<Game>(0, "game");
 	//////////////////////////////////////////////////////////////////////////////////////
+	
+
+	
 
 
 	//////////////////////////////////////
@@ -81,6 +89,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	}
 	//ゲームオブジェクトマネージャーを削除。
 	GameObjectManager::DeleteInstance();
+	CSoundEngine::DeleteInstance();
 	return 0;
 }
 

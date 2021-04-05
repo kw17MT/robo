@@ -2,14 +2,15 @@
  * @brief	サウンドエンジン
  */
 
+#include "stdafx.h"
 #include "SoundPreCompile.h"
 #include "SoundEngine.h"
 #include "WaveFile.h"
 #include "SoundSource.h"
 
+CSoundEngine* CSoundEngine::m_instance = nullptr;
 
 #define NUM_PRESETS 30
-namespace tkEngine{
 	namespace {
 		//マイクロソフトのサンプルから引っ張ってきたサウンドコーン。
 		// Specify sound cone to add directionality to listener for artistic effect:
@@ -92,16 +93,16 @@ namespace tkEngine{
 		if (FAILED(hr = XAudio2Create(&m_xAudio2, flags)))
 		{
 			
-			TK_WARNING_MESSAGE_BOX( "Faild XAudio2Create");
-			MessageBox(nullptr, "オーディオデバイスの初期化に失敗しました。", "エラー。", MB_OK);
+			//TK_WARNING_MESSAGE_BOX( "Faild XAudio2Create");
+			//MessageBox(nullptr, "オーディオデバイスの初期化に失敗しました。", "エラー。", MB_OK);
 			return;
 		}
 		//マスターボリュームの作成。
 		if (FAILED(hr = m_xAudio2->CreateMasteringVoice(&m_masteringVoice)))
 		{
 			Release();
-			TK_WARNING_MESSAGE_BOX( "Faild CreateMasteringVoice");
-			MessageBox(nullptr, "オーディオデバイスの初期化に失敗しました。", "エラー。", MB_OK);
+			//TK_WARNING_MESSAGE_BOX( "Faild CreateMasteringVoice");
+			//MessageBox(nullptr, "オーディオデバイスの初期化に失敗しました。", "エラー。", MB_OK);
 			return;
 		}
 
@@ -116,8 +117,8 @@ namespace tkEngine{
 
 		if (FAILED(hr = XAudio2CreateReverb(&m_reverbEffect, flags))) {
 			Release();
-			TK_WARNING_MESSAGE_BOX( "Faild XAudio2CreateReverb");
-			MessageBox(nullptr, "オーディオデバイスの初期化に失敗しました。", "エラー。", MB_OK);
+			//TK_WARNING_MESSAGE_BOX( "Faild XAudio2CreateReverb");
+			//MessageBox(nullptr, "オーディオデバイスの初期化に失敗しました。", "エラー。", MB_OK);
 			return;
 		}
 		//サブミックスボイスを作成。
@@ -129,8 +130,8 @@ namespace tkEngine{
 			NULL, &effectChain)))
 		{
 			Release();
-			TK_WARNING_MESSAGE_BOX( "Faild CreateSubmixVoice");
-			MessageBox(nullptr, "オーディオデバイスの初期化に失敗しました。", "エラー。", MB_OK);
+			//TK_WARNING_MESSAGE_BOX( "Faild CreateSubmixVoice");
+			//MessageBox(nullptr, "オーディオデバイスの初期化に失敗しました。", "エラー。", MB_OK);
 			return ;
 		}
 		//デフォルトのFXパラメータを設定。
@@ -184,13 +185,13 @@ namespace tkEngine{
 	*/
 	IXAudio2SourceVoice* CSoundEngine::CreateXAudio2SourceVoice(CWaveFile* waveFile, bool is3DSound)
 	{
-		TK_ASSERT(waveFile->GetFormat()->nChannels <= INPUTCHANNELS, "Channel over");
+		//TK_ASSERT(waveFile->GetFormat()->nChannels <= INPUTCHANNELS, "Channel over");
 		IXAudio2SourceVoice* pSourceVoice;
 		if (is3DSound == false) {
 			//2Dサウンド。
 			if (FAILED(m_xAudio2->CreateSourceVoice(&pSourceVoice, waveFile->GetFormat())))
 			{
-				TK_WARNING("Failed CreateSourceVoice");
+				//TK_WARNING("Failed CreateSourceVoice");
 				return nullptr;
 			}
 		}
@@ -204,7 +205,7 @@ namespace tkEngine{
 			const XAUDIO2_VOICE_SENDS sendList = { 2, sendDescriptors };
 			if (FAILED(m_xAudio2->CreateSourceVoice(&pSourceVoice, waveFile->GetFormat(), 0, 2.0f, NULL, &sendList)))
 			{
-				TK_WARNING("Failed CreateSourceVoice");
+				//TK_WARNING("Failed CreateSourceVoice");
 				return nullptr;
 			}
 		}
@@ -222,34 +223,36 @@ namespace tkEngine{
 		//サウンドリスナーの前方向を計算。
 		//@todo ここらへんはSoundListenerクラスに後で移動させる。
 		//@todo 前方向の計算もこれだと都合が悪い。
-		if (m_listener.Position.x != m_listenerPosition.x
-			|| m_listener.Position.z != m_listenerPosition.z
-			) {
-			//リスナーがXZ平面上で動いている。
-			CVector3 listenerPos;
-			listenerPos.Set(m_listener.Position);
-			//動いた分を計算。
-			CVector3 vDelta;
-			vDelta.Subtract(m_listenerPosition, listenerPos);
-			m_fListenerAngle = float(atan2(m_listener.OrientFront.x, m_listener.OrientFront.z));
+		//if (m_listener.Position.x != m_listenerPosition.x
+		//	|| m_listener.Position.z != m_listenerPosition.z
+		//	) {
+		//	//リスナーがXZ平面上で動いている。
+		//	CVector3 listenerPos;
+		//	listenerPos.Set(m_listener.Position);
+		//	//動いた分を計算。
+		//	CVector3 vDelta;
+		//	vDelta.Subtract(m_listenerPosition, listenerPos);
+		//	m_fListenerAngle = float(atan2(m_listener.OrientFront.x, m_listener.OrientFront.z));
 
-			if (m_UseListenerCone == true) {
-				m_listener.pCone = (X3DAUDIO_CONE*)&Listener_DirectionalCone;
-			}
-			else {
-				m_listener.pCone = NULL;
-			}
-		}
-		float deltaTime = GameTime().GetFrameDeltaTime();
-		if (deltaTime > 0.0f) {
-			//リスナーの移動速度を計算する。
-			CVector3 vel;
-			vel.Set(m_listener.Position);
-			vel.Subtract(m_listenerPosition, vel);
-			vel.Div(deltaTime);
-			m_listenerPosition.CopyTo(m_listener.Position);
-			vel.CopyTo(m_listener.Velocity);
-		}
+		//	if (m_UseListenerCone == true) {
+		//		m_listener.pCone = (X3DAUDIO_CONE*)&Listener_DirectionalCone;
+		//	}
+		//	else {
+		//		m_listener.pCone = NULL;
+		//	}
+		//}
+		//float deltaTime = GameTime().GetFrameDeltaTime();
+		//if (deltaTime > 0.0f) {
+		//	//リスナーの移動速度を計算する。
+		//	CVector3 vel;
+		//	vel.Set(m_listener.Position);
+		//	vel.Subtract(m_listenerPosition, vel);
+		//	vel.Div(deltaTime);
+		//	m_listenerPosition.CopyTo(m_listener.Position);
+		//	vel.CopyTo(m_listener.Velocity);
+		//}
+
+
 		DWORD dwCalcFlags = X3DAUDIO_CALCULATE_MATRIX | X3DAUDIO_CALCULATE_DOPPLER
 			| X3DAUDIO_CALCULATE_LPF_DIRECT | X3DAUDIO_CALCULATE_LPF_REVERB
 			| X3DAUDIO_CALCULATE_REVERB;
@@ -333,4 +336,3 @@ namespace tkEngine{
 			}
 		}
 	}
-}

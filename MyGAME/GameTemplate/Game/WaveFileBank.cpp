@@ -1,12 +1,15 @@
 /*!
  *@brief	波形データバンク。
  */
-
-#include "tkEngine/tkEnginePreCompile.h"
+#include "stdafx.h"
+#include <xaudio2.h>
+#include <x3daudio.h>
+#include <xaudio2fx.h>
 #include "WaveFile.h"
 #include "WaveFileBank.h"
+#include "Util.h"
 
-namespace tkEngine{
+
 	CWaveFileBank::CWaveFileBank()
 	{
 	}
@@ -23,18 +26,18 @@ namespace tkEngine{
 	}
 	void CWaveFileBank::UnregistWaveFile(int groupID, CWaveFilePtr waveFile)
 	{
-		TK_ASSERT(groupID < MAX_GROUP, "groupID is invalid");
+		//TK_ASSERT(groupID < MAX_GROUP, "groupID is invalid");
 		m_waveFileMap->erase(waveFile->GetFilePathHash());
 	}
 	void CWaveFileBank::RegistWaveFile(int groupID, CWaveFilePtr waveFile)
 	{
-		TK_ASSERT(groupID < MAX_GROUP, "groupID is invalid");
+		//TK_ASSERT(groupID < MAX_GROUP, "groupID is invalid");
 		m_waveFileMap[groupID].insert({ waveFile->GetFilePathHash(), waveFile });
 	}
 	CWaveFilePtr CWaveFileBank::FindWaveFile(int groupID, const wchar_t* filePath)
 	{
-		TK_ASSERT(groupID < MAX_GROUP, "groupID is invalid");
-		auto value = m_waveFileMap[groupID].find(CUtil::MakeHash(filePath));
+		//TK_ASSERT(groupID < MAX_GROUP, "groupID is invalid");
+		auto value = m_waveFileMap[groupID].find(Util::MakeHash(filePath));
 		if (value != m_waveFileMap[groupID].end()) {
 			return value->second;
 		}
@@ -42,11 +45,10 @@ namespace tkEngine{
 	}
 	CWaveFilePtr CWaveFileBank::FindWaveFile(int groupID, const WNameKey& nameKey)
 	{
-		TK_ASSERT(groupID < MAX_GROUP, "groupID is invalid");
+		//TK_ASSERT(groupID < MAX_GROUP, "groupID is invalid");
 		auto value = m_waveFileMap[groupID].find(nameKey.GetHashCode());
 		if (value != m_waveFileMap[groupID].end()) {
 			return value->second;
 		}
 		return CWaveFilePtr();
 	}
-}
