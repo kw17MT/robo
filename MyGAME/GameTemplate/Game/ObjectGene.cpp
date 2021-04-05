@@ -5,6 +5,7 @@
 
 #include <ctime>        // time
 #include <cstdlib>      // srand,rand
+#include <random>		//乱数生成用
 
 ObjectGene::ObjectGene()
 {
@@ -30,8 +31,15 @@ ObjectGene::ObjectGene()
 void ObjectGene::Update()
 {
 	timer++;
-	std::srand(time(NULL));
-	int randNum = rand() % 10;
+	/*std::srand(time(NULL));
+	int randNum = rand() % 10;*/
+
+	//rand()(線形合同法)より良さげな別の方法
+	std::random_device rnd; //非決定的乱数生成器(pc内部の情報から乱数を生成) シード値を生成するのに使用
+	std::mt19937 mt(rnd()); //決定的乱数生成器 メルセンヌツイスタ32bit版 rndが出力する値をシード値とする
+	std::uniform_int_distribution<int> rand10(0, 9); //範囲指定乱数生成(現状0～9)
+	int randNum = rand10(mt);
+	//2つある生成器で具材の出現パターンがほぼ同じになる問題あり
 
 	if (timer == 50 && randNum != 1) {
 		m_guzai = NewGO<Guzai>(0,"guzai");

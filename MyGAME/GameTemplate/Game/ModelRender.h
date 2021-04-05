@@ -1,5 +1,6 @@
 #pragma once
 class Guzai;
+class FontRender;
 
 class ModelRender : public IGameObject
 {
@@ -8,6 +9,18 @@ private:
 	ModelInitData modeldata;
 	Skeleton m_skeleton;
 	CharacterController m_charaCon;
+
+	//プレイヤーのパラメータ
+	//座標
+	Vector3 m_position = Vector3::Zero;
+	//回転
+	Quaternion m_rotation = Quaternion::Identity;
+	//スケール
+	Vector3 m_scale = Vector3::One;
+	//角度
+	float angle = 0.0f;
+	//移動速度
+	Vector3 moveSpeed = Vector3::Zero;
 
 	//１で左、２で右
 	int playerNo = 0;
@@ -21,8 +34,11 @@ private:
 	bool TargetingState = false;
 
 public:
-	//モデル、当たり判定、具材No.を格納する配列を９で初期化
 	ModelRender();
+	~ModelRender();
+	//モデル、当たり判定、具材No.を格納する配列を９で初期化
+	//↑の処理をコンストラクタからStart関数に変更しました。
+	bool Start();
 	void SetPlayerNo(int num) { playerNo = num; }
 
 	//移動処理。
@@ -30,10 +46,14 @@ public:
 
 	void SetBuffAffect(bool buff) { Buff = buff; }
 	bool stateBuff() { return Buff; }
+	
 	//具材格納用配列を９で初期化
 	void SetGuzaiNo9();
 
-	void SetPosition(Vector3 pos) { m_charaCon.SetPosition(pos); }
+	//void SetPosition(Vector3 pos) { m_charaCon.SetPosition(pos); }
+	//自身の持つ座標情報をキャラコンに渡して処理してもらうために変更しました。
+	void SetPosition(Vector3 pos) { m_position.x = pos.x, m_position.y = pos.y, m_position.z = pos.z; }
+	//キャラコンの座標 → プレイヤー自身の座標を取得するように変更
 	Vector3 GetPosition();
 
 	void Render(RenderContext& rc) { model.Draw(rc); }
@@ -49,4 +69,5 @@ public:
 	int have = 0;
 	//積み上げている具材の種類を格納していく。
 	int GuzaiNo[10];
+
 };

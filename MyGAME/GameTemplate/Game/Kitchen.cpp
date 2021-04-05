@@ -27,6 +27,7 @@ Kitchen::Kitchen()
 	Vector3 KitchenPos = { 0.0f,0.0f,0.0f };
 
 	m_charaCon.Init(0.0f, 0.0f, KitchenPos);
+
 }
 
 //具材の位置をキッチンの上に設定する
@@ -37,12 +38,14 @@ void Kitchen::Stack(int num)
 		
 		//下のif文でスタックが完了したかの状態を変更後、次フレームで実行できるように上に置いている。
 		if (isCompletedStack == true) {
+			//生成した具材のモデルを、プレイヤーに保存された具材配列の番号を元に決定する
 			StackedGuzai[stack - 1]->ChangeGuzai(pl01->GuzaiNo[stack - 1]);
-
+			//具材を生成する位置の基準を自身の位置とする
 			Vector3 GuzaiPos = m_charaCon.GetPosition();
+			//(現在の段数) * 高さ の場所に具材を生成する
 			GuzaiPos.y += stack * 100.0f;
 			StackedGuzai[nextStackNum - 1]->SetPosition(GuzaiPos);
-
+			//具材が置かれるのを待つ状態にする
 			isCompletedStack = false;
 		}
 

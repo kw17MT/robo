@@ -14,6 +14,7 @@
 #include "CLevel2D.h"
 
 Level level;
+//Level2D level2D;
 
 
 #include "Result.h"
@@ -229,6 +230,9 @@ Game::Game()
 		}
 		});
 
+	////レベル2Dの構築
+	//level2D.Init("Assets/level2D/level2D.casl", [&](Level2DObjectData& objectData2D) {return false; });
+
 	//文字の描写///////////////////////////////////////////////////////////////////////
 	//FixedUIクラスのアップデート内で表示する文字を固定している。
 	//ui = NewGO<FixedUI>(2);
@@ -254,6 +258,9 @@ Game::~Game()
 	}
 	for (int i = 0; i < 2;i++) {
 		DeleteGO(player[i]);
+	}
+	for (int i = 0; i < 2; i++) {
+		DeleteGO(m_result[i]);
 	}
 	DeleteGO(generator01);
 	DeleteGO(generator02);

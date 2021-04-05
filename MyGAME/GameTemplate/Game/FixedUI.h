@@ -4,6 +4,17 @@ class FontRender;
 class FixedUI : public IGameObject
 {
 private:
+	//変化させない文字
+	//Time,TimeUp,Score,Itemの固定文字
+	FontRender* TextTime;
+	FontRender* TextTimeUp;
+	FontRender* TextScore[2];
+	FontRender* TextItem[2];
+	//変化する文字。
+	//制限時間、タイムアップのONOFF
+	FontRender* Time;
+	FontRender* isTimeUpState;
+
 	//表示する残り時間
 	int remainingTime =10;
 	//フレームカウント用、60になったらLastTimeを１減らす。
@@ -30,7 +41,8 @@ private:
 
 	RenderContext renderContext = g_graphicsEngine->GetRenderContext();
 public:
-	
+	//デストラクタ
+	~FixedUI();
 	bool Start();
 	//ここで毎フレーム文字を表示している。
 	void Update();
@@ -42,20 +54,8 @@ public:
 	//タイムアップ状態を取得(true : ON , false : OFF)
 	bool GetIsTimeUp() { return isTimeUp; }
 	int GetTime() { return remainingTime; }
-
+	//残時間が少ないときの色の変化
 	void RemainingTimeColor();
-
-	//変化させない文字
-	//Time,TimeUp,Score,Itemの固定文字
-	FontRender* TextTime;
-	FontRender* TextTimeUp;
-	FontRender* TextScore[2];
-	FontRender* TextItem[2];
-	//変化する文字。
-	//制限時間、タイムアップのONOFF
-	FontRender* Time;
-	FontRender* isTimeUpState;
-	
 };
 
 
