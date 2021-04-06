@@ -2,15 +2,25 @@
 #include "math.h"
 #include "stdafx.h"
 
+struct DirectionalLight
+{
+	Vector3 direction = { 0.0f,-1.0f,0.0f };
+	float pad0;
+	Vector3 color = { 0.5f,0.5f,0.5f };
+};
+
 struct Light
 {
 	//ê≥ãKâªÇ∑ÇÈÇ±Ç∆
-	Vector3 DirDirection = { 0.0f,-1.0f,0.0f };
+	/*Vector3 DirDirection = { 0.0f,-1.0f,0.0f };
 	float pad;
 	Vector3 DirColor = { 0.5f,0.5f,0.5f };
+	float pad2;*/
+	DirectionalLight directionalLight;
 	float pad1;
 	Vector3 eyePos;
-	float pad2;
+	float specPow = 0.5f;
+	Vector3 ambientLight = { 0.1f,0.1f,0.1f };
 
 	////Point
 	//Vector3 ptPosition = { 0.0f, 300.0f,0.0f };
@@ -23,11 +33,3 @@ struct Light
 	//Vector3 spDirection = { 1.0f,-1.0f,0.0f };
 	//float spAngle = Math::DegToRad(30.0f);
 };
-
-//class Light
-//{
-//private:
-//public:
-//	Light();
-//
-//};

@@ -25,7 +25,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//一緒くたにしないと両方のライトの影響を受けなくなる。////////////////////////////////
 	//ディレクションライトの正規化と目の位置をカメラの座標にする。
-	g_lig.DirDirection.Normalize();
+	//g_lig.DirDirection.Normalize();
+	g_lig.directionalLight.direction.Normalize();
 	g_lig.eyePos = g_camera3D->GetPosition();
 	//////////////////////////////////////////////////////////////////////////////////////
 	
@@ -68,15 +69,42 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		if (g_pad[0]->GetRStickYF()) {
 			float move = g_pad[0]->GetRStickYF() * 30.0f;
 			Vector3 camerapos = g_camera3D->GetPosition();
+			Vector3 cameraTarget = g_camera3D->GetTarget();
 
-			camerapos.y -= move;
+
+			
+
+			camerapos.z -= move;
 			g_camera3D->SetPosition(camerapos);
+
+			cameraTarget.z -= move;
+			g_camera3D->SetTarget(cameraTarget);
+			
 		}
 		if (g_pad[0]->GetRStickXF()) {
 			float move = g_pad[0]->GetRStickXF() * 30.0f;
 			Vector3 camerapos = g_camera3D->GetPosition();
+			Vector3 cameraTarget = g_camera3D->GetTarget();
+
+			
 
 			camerapos.x -= move;
+			g_camera3D->SetPosition(camerapos);
+			cameraTarget.x -= move;
+			g_camera3D->SetTarget(cameraTarget);
+		}
+		if (g_pad[0]->IsPress(enButtonSelect)) {
+			float move = 30.0f;
+			Vector3 camerapos = g_camera3D->GetPosition();
+		
+			camerapos.y -= move;
+			g_camera3D->SetPosition(camerapos);
+		}
+		if (g_pad[0]->IsPress(enButtonStart)) {
+			float move = 30.0f;
+			Vector3 camerapos = g_camera3D->GetPosition();
+
+			camerapos.y += move;
 			g_camera3D->SetPosition(camerapos);
 		}
 

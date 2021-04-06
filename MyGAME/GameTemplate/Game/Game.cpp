@@ -262,11 +262,6 @@ Game::~Game()
 
 bool Game::Start()
 {
-	test = NewGO<CSoundSource>(0);
-	test->Init(L"Assets/sound/PlayerAttack_00.wav", false);
-	test->SetVolume(0.1f);
-	test->Play(true);
-
 	return true;
 }
 

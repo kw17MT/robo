@@ -6,7 +6,7 @@ class FixedUI : public IGameObject
 {
 private:
 	//表示する残り時間
-	int remainingTime =10;
+	int remainingTime =999;
 	//フレームカウント用、60になったらLastTimeを１減らす。
 	int timer = 0;
 	//タイムアップフラグ
