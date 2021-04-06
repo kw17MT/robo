@@ -44,6 +44,7 @@ private:
 public:	
 	//乱数を用いて具材が生まれると同時にどの具材を流すか設定する。
 	Guzai();
+	~Guzai();
 	bool Start();
 	void Update();
 	
@@ -82,7 +83,8 @@ public:
 	ModelRender* pl02 = nullptr;
 	Kitchen* ki01 = nullptr;
 	Kitchen* ki02 = nullptr;
-	SpriteRender* sp01 = nullptr;
-	SpriteRender* sp02 = nullptr;
+	//スプライトの3D空間表示が可能になったら使用
+	/*SpriteRender* sp01 = nullptr;
+	SpriteRender* sp02 = nullptr;*/
 };
 

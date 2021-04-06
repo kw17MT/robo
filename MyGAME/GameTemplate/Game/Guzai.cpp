@@ -5,12 +5,21 @@
 #include "Kitchen.h"
 #include "ObjectGene.h"
 #include "SpriteRender.h"
-
 #include <ctime>
 #include <cstdlib>
 
 Guzai::Guzai()
 {
+
+}
+
+//デストラクタ
+Guzai::~Guzai()
+{
+	/*DeleteGO(pl01);
+	DeleteGO(pl02);
+	DeleteGO(ki01);
+	DeleteGO(ki02);*/
 
 }
 
@@ -274,7 +283,7 @@ void Guzai::TargetingNPopDummy()
 				decrementTime--;
 				if (decrementTime == 0) {
 					DeleteGO(targetdummy01);
-					DeleteGO(sp01);
+					//DeleteGO(sp01);
 					targeted = false;
 					pl01->SetTarget(targeted);
 					isSetTargetDummy = false;
