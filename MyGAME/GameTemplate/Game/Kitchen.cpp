@@ -19,9 +19,7 @@ Kitchen::Kitchen()
 	modeldata.m_expandConstantBuffer = &g_lig;
 	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
 
-	m_skeleton.Init("Assets/modelData/unityChan.tks");
-	modeldata.m_skeleton = &m_skeleton;
-
+	
 	model.Init(modeldata);
 
 	Vector3 KitchenPos = { 0.0f,0.0f,0.0f };

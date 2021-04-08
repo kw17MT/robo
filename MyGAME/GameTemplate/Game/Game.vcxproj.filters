@@ -81,6 +81,7 @@
     <ClCompile Include="Stopwatch.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="PostEffectTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -171,5 +172,6 @@
     <ClInclude Include="Stopwatch.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="PostEffectTest.h" />
   </ItemGroup>
 </Project>

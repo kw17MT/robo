@@ -4,9 +4,9 @@
 
 struct DirectionalLight
 {
-	Vector3 direction = { 0.0f,-1.0f,0.0f };
+	Vector3 direction = { 0.0f,1.0f,0.0f };
 	float pad0;
-	Vector3 color = { 0.5f,0.5f,0.5f };
+	Vector3 color = {10.0f, 10.0f, 10.0f };
 };
 
 struct Light
@@ -20,16 +20,19 @@ struct Light
 	float pad1;
 	Vector3 eyePos;
 	float specPow = 0.5f;
-	Vector3 ambientLight = { 0.1f,0.1f,0.1f };
+	Vector3 ambientLight = { 0.4f, 0.4f, 0.4f };
 
+	/////////////////////////////////////////////////////////////////////////////////////////////////
 	////Point
 	//Vector3 ptPosition = { 0.0f, 300.0f,0.0f };
 	//float pad3;
 	//Vector3 ptColor = { 100.0f, 50.0f,100.0f };
 	//float ptRange = 300.0f;
-
 	////Spot
 	////ê≥ãKâªÇ∑ÇÈÇ±Ç∆ÅB
 	//Vector3 spDirection = { 1.0f,-1.0f,0.0f };
 	//float spAngle = Math::DegToRad(30.0f);
+	/////////////////////////////////////////////////////////////////////////////////////////////////
 };
+
+

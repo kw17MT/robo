@@ -13,6 +13,7 @@
 #include "CLevel2D.h"
 #include "Result.h"
 #include "SoundSource.h"
+#include "PostEffectTest.h"
 
 Level level;
 //Level2D level2D;
@@ -240,7 +241,7 @@ Game::Game()
 	//スコアの表示/////////////////////////////////////////////////////////////////////
 	m_score = NewGO<Score>(2, "score");
 
-	
+	postTest =  NewGO<PostEffectTest>(5);
 }
 
 Game::~Game()

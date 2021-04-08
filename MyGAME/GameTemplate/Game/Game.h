@@ -12,6 +12,7 @@ class Result;
 class FontRender;
 class Level;
 class CSoundSource;
+class PostEffectTest;
 	
 class Game : public IGameObject
 {
@@ -38,6 +39,7 @@ public:
 	ObjectGene* generator01;
 	ObjectGene* generator02;
 	Score* m_score = nullptr;
+	PostEffectTest* postTest;
 
 	CSoundSource* test = nullptr;
 	
