@@ -107,6 +107,7 @@ void FixedUI::Update()
 
 	//タイム減少とタイムアップ処理
 	//変数timerの値が60になる度に残時間remainingTimeから1を引いていく
+	//TODO ゲーム内の時間を計ってる。
 	timer++;
 	if (timer >= 60) {
 		if (remainingTime > 0) {

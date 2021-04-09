@@ -65,6 +65,7 @@ void Guzai::Move()
 {
 	Vector3 GuzaiPos = m_charaCon.GetPosition();
 
+	//TODO 具材の移動。
 	if (GuzaiNo == 1) {
 		//持たれていない　且つ　一度も置かれていない
 		if (state == 0 && put == 0) {
@@ -80,6 +81,7 @@ void Guzai::Move()
 			if (timer >= 600) {
 				moveSpeed.z = -2.0f;
 			}
+			//TODO ここで具材を削除してる。
 			if (GuzaiPos.z < -850.0f) {
 				timer = 0;
 				DeleteGO(this);

@@ -128,6 +128,7 @@ void Kitchen::BornBurger()
 				ModelRender* pl01 = FindGO<ModelRender>("player01");
 
 				//ここで具材が持っている種類No.をプレイヤーが持っているNo.格納用配列にいれていく。
+				//ここでハンバーガーの具材を記録してる。
 				for (int i = 0;i < nextStackNum; i++) {
 					pl01->GuzaiNo[i] = StackedGuzai[i]->GetTypeNo();
 				}
@@ -137,6 +138,7 @@ void Kitchen::BornBurger()
 				pl01->have = 1;
 				bur = NewGO<Burger>(0, "burger01");
 				bur->SetBurgerNo(1);
+				//間違ったバーガー作ったら、Xボタン長押しで削除するやつ
 				bur->burgerExist = 1;
 
 				Delay = 60;

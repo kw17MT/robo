@@ -49,6 +49,7 @@ void Buff::Update()
 		Vector3 plPos01 = pl01->GetPosition();
 
 		//時間経過とともに具材の座標を移動させる。
+		//TODO バフアイテムの移動。
 		Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
 		time++;
 		if (time < 500) {
@@ -78,9 +79,11 @@ void Buff::Update()
 			if (Buff2Pl < 150.0f) {
 				//プレイヤーにバフアイテムの効果をあたえる。
 				//TRUEにすると移動速度がアップする。プレイヤー側で時間を測っていて、向こう側で効果を消す。
+				//TODO バフをプレイヤーに付与。
 				pl01->SetBuffAffect(true);
 				DeleteGO(this);
 
+				//TODO バフアイテムを使ったらこれを0にする。
 				ObjectGene* gene01 = FindGO<ObjectGene>("gene01");
 				gene01->Buffnum = 0;
 			}
