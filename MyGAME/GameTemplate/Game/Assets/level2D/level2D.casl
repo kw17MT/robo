@@ -1,4 +1,4 @@
 3
-13,burger_tomato,72,D:/Github/MyGame/MyGAME/GameTemplate/Game/Assets/Image/burger_tomato.png,0.0,-200.0,256,512,10,0.5,0.5,74,D:/Github/MyGame/MyGAME/GameTemplate/Game/Assets/level2D/burger_tomato.dds
-10,burger_egg,69,D:/Github/MyGame/MyGAME/GameTemplate/Game/Assets/Image/burger_egg.png,150.0,-200.0,256,512,10,0.5,0.5,71,D:/Github/MyGame/MyGAME/GameTemplate/Game/Assets/level2D/burger_egg.dds
-17,burger_cheese_new,76,D:/Github/MyGame/MyGAME/GameTemplate/Game/Assets/Image/burger_cheese_new.png,-150.0,-200.0,256,512,10,0.5,0.5,78,D:/Github/MyGame/MyGAME/GameTemplate/Game/Assets/level2D/burger_cheese_new.dds
+13,burger_tomato,72,D:/Github/MyGame/MyGAME/GameTemplate/Game/Assets/Image/burger_tomato.png,0.0,-200.0,256,512,10,0.5,0.5,17,burger_tomato.dds
+10,burger_egg,69,D:/Github/MyGame/MyGAME/GameTemplate/Game/Assets/Image/burger_egg.png,150.0,-200.0,256,512,10,0.5,0.5,14,burger_egg.dds
+17,burger_cheese_new,76,D:/Github/MyGame/MyGAME/GameTemplate/Game/Assets/Image/burger_cheese_new.png,-150.0,-200.0,256,512,10,0.5,0.5,21,burger_cheese_new.dds
