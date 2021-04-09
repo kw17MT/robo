@@ -348,6 +348,21 @@ private:
 			BaseDescriptor
 		);
 	}
+
+	////ここから追加
+	//void SetRenderTargetAndViewport(RenderTarget& renderTarget)
+	//{
+	//	D3D12_VIEWPORT viewport;
+	//	viewport.TopLeftX = 0;
+	//	viewport.TopLeftY = 0;
+	//	viewport.Width = static_cast<float>(renderTarget.GetWidth());
+	//	viewport.Height = static_cast<float>(renderTarget.GetHeight());
+	//	viewport.MinDepth = D3D12_MIN_DEPTH;
+	//	viewport.MaxDepth = D3D12_MAX_DEPTH;
+	//	SetViewport(viewport);
+	//	SetRenderTarget(renderTarget);
+	//}
+
 private:
 	enum { MAX_DESCRIPTOR_HEAP = 4 };	//ディスクリプタヒープの最大数。
 	enum { MAX_CONSTANT_BUFFER = 8 };	//定数バッファの最大数。足りなくなったら増やしてね。

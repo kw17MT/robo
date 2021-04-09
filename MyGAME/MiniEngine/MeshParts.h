@@ -49,7 +49,8 @@ public:
 		void* expandData,
 		int expandDataSize,
 		IShaderResource* expandShaderResourceView,
-		D3D12_CULL_MODE cullingMode
+		D3D12_CULL_MODE cullingMode,
+		DXGI_FORMAT m_colorBufferFormat
 	);
 	/// <summary>
 	/// ï`âÊÅB
@@ -102,7 +103,8 @@ private:
 		const char* vsEntryPointFunc,
 		const char* vsSkinEntryPointFunc,
 		const char* psEntryPointFunc, 
-		D3D12_CULL_MODE cullingMode
+		D3D12_CULL_MODE cullingMode,
+		DXGI_FORMAT colorBufferFormat
 	);
 
 	

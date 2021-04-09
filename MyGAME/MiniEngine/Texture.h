@@ -50,6 +50,25 @@ public:
 	ID3D12Resource* Get()
 	{
 		return m_texture;
+
+	}
+
+	//テクスチャの幅を取得。
+	int GetWidth() const
+	{
+		return static_cast<int>(m_textureDesc.Width);
+	}
+	
+	//テクスチャの高さを取得。
+	int GetHeight() const
+	{
+		return static_cast<int>(m_textureDesc.Height);
+	}
+
+	//テクスチャのフォーマットを取得。
+	DXGI_FORMAT GetFormat() const
+	{
+		return m_textureDesc.Format;
 	}
 private:
 	/// <summary>

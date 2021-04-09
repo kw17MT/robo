@@ -45,7 +45,7 @@ void ObjectGene::Update()
 		m_guzai = NewGO<Guzai>(0,"guzai");
 		m_guzai->SetGuzaiNo(GeneNo);
 		m_guzai->SetPosition(m_charaCon.GetPosition());
-		timer = 0;
+		timer = 100;
 	}
 
 	//５０フレーム経った後、ランダムな変数が１の時（10%）
@@ -55,7 +55,7 @@ void ObjectGene::Update()
 			m_buff = NewGO<Buff>(0, "buff");
 			m_buff->SetBuffNo(GeneNo);
 			m_buff->SetPosition(m_charaCon.GetPosition());
-			timer = 0;
+			timer = 100;
 			Buffnum = 1;
 		}
 		//バフアイテムが画面に出ているとき、バフアイテムを出さずに具材をだす。
@@ -63,7 +63,7 @@ void ObjectGene::Update()
 			m_guzai = NewGO<Guzai>(0, "guzai");
 			m_guzai->SetGuzaiNo(GeneNo);
 			m_guzai->SetPosition(m_charaCon.GetPosition());
-			timer = 0;
+			timer = 100;
 		}
 	}
 	

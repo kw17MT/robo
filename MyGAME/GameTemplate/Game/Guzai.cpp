@@ -83,6 +83,10 @@ void Guzai::Move()
 			if (GuzaiPos.z < -850.0f) {
 				timer = 0;
 				DeleteGO(this);
+				Guzai* targetdummy01 = FindGO<Guzai>("targetdummy01");
+				if (targetdummy01 != nullptr) {
+					DeleteGO(targetdummy01);
+				}
 			}
 			m_charaCon.Execute(moveSpeed, 1.0f);
 		}
@@ -275,7 +279,7 @@ void Guzai::TargetingNPopDummy()
 			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		}
 
-		//ここで一定以上離れてプレイヤーは何かしらターゲットしていたら（後ろの条件は別の具材に影響を与えるのを防ぐため。
+		//ここで一定以上離れてプレイヤーは何かしらターゲットしていたら（if文の後ろの条件は別の具材に影響を与えるのを防ぐため。
 		//ダミーを消して、プレイヤー側のTargetingStateとtargetedを元の値に戻してやる。
 		if (guzai2Pl >= TargetRangeFar && pl01->GetTargetState() == true && targeted == true) {
 			Guzai* targetdummy01 = FindGO<Guzai>("targetdummy01");
@@ -309,7 +313,7 @@ void Guzai::TargetingNPopDummy()
 			isSetTargetDummy = true;
 		}
 
-		//ここで一定以上離れてプレイヤーは何かしらターゲットしていたら（後ろの条件は別の具材に影響を与えるのを防ぐため。
+		//ここで一定以上離れてプレイヤーは何かしらターゲットしていたら（if文の後ろの条件は別の具材に影響を与えるのを防ぐため。
 		//ダミーを消して、プレイヤー側のTargetingStateとtargetedを元の値に戻してやる。
 		if (guzai2Pl >= TargetRangeFar && pl02->GetTargetState() == true && targeted == true) {
 			Guzai* targetdummy02 = FindGO<Guzai>("targetdummy02");

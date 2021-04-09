@@ -27,14 +27,15 @@ void MeshParts::InitFromTkmFile(
 	void* expandData,
 	int expandDataSize,
 	IShaderResource* expandShaderResourceView,
-	D3D12_CULL_MODE cullingMode
+	D3D12_CULL_MODE cullingMode,
+	DXGI_FORMAT m_colorBufferFormat
 )
 {
 	m_meshs.resize(tkmFile.GetNumMesh());
 	int meshNo = 0;
 	tkmFile.QueryMeshParts([&](const TkmFile::SMesh& mesh) {
 		//tkmファイルのメッシュ情報からメッシュを作成する。
-		CreateMeshFromTkmMesh(mesh, meshNo, fxFilePath, vsEntryPointFunc, vsSkinEntryPointFunc, psEntryPointFunc, cullingMode);
+		CreateMeshFromTkmMesh(mesh, meshNo, fxFilePath, vsEntryPointFunc, vsSkinEntryPointFunc, psEntryPointFunc, cullingMode, m_colorBufferFormat);
 		meshNo++;
 	});
 	//共通定数バッファの作成。
@@ -90,7 +91,8 @@ void MeshParts::CreateMeshFromTkmMesh(
 	const char* vsEntryPointFunc,
 	const char* vsSkinEntryPointFunc,
 	const char* psEntryPointFunc,
-	D3D12_CULL_MODE cullingMode
+	D3D12_CULL_MODE cullingMode,
+	DXGI_FORMAT colorBufferFormat
 )
 {
 	//1. 頂点バッファを作成。
@@ -144,7 +146,7 @@ void MeshParts::CreateMeshFromTkmMesh(
 	mesh->m_materials.reserve(tkmMesh.materials.size());
 	for (auto& tkmMat : tkmMesh.materials) {
 		auto mat = new Material;
-		mat->InitFromTkmMaterila(tkmMat, fxFilePath, vsEntryPointFunc, vsSkinEntryPointFunc, psEntryPointFunc, cullingMode);
+		mat->InitFromTkmMaterila(tkmMat, fxFilePath, vsEntryPointFunc, vsSkinEntryPointFunc, psEntryPointFunc, cullingMode, colorBufferFormat);
 		mesh->m_materials.push_back(mat);
 	}
 

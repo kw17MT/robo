@@ -16,7 +16,8 @@ public:
 		const char* vsEntryPointFunc,
 		const char* vsSkinEntriyPointFunc,
 		const char* psEntryPointFunc,
-		D3D12_CULL_MODE cullingMode
+		D3D12_CULL_MODE cullingMode,
+		DXGI_FORMAT colorBufferFormat
 	);
 
 	bool isFrontCulling = false;
@@ -80,7 +81,7 @@ private:
 	/// <summary>
 	/// パイプラインステートの初期化。
 	/// </summary>
-	void InitPipelineState();
+	void InitPipelineState(DXGI_FORMAT colorBufferFormat);
 	/// <summary>
 	/// シェーダーの初期化。
 	/// </summary>

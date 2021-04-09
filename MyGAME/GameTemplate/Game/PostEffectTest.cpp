@@ -14,6 +14,11 @@ bool PostEffectTest::Start()
 	modelData.m_expandConstantBuffer = &g_lig;
 	modelData.m_expandConstantBufferSize = sizeof(g_lig);
 
+	modelData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+
+	m_skeleton.Init("Assets/modelData/unityChan.tks");
+	modelData.m_skeleton = &m_skeleton;
+
 	// レンダリングするカラーバッファーのフォーマットを指定する
 	//modelData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
@@ -25,6 +30,7 @@ bool PostEffectTest::Start()
 
 void PostEffectTest::Update()
 {
+	m_skeleton.Update(model.GetWorldMatrix());
 	//Vector3 move0 = { 0.0f,0.0f,0.0f };
 	//m_pos = m_charaCon.Execute( move0, 1.0f);
 	model.UpdateWorldMatrix(m_pos, g_quatIdentity, g_vec3One);
