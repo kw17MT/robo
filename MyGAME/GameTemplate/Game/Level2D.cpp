@@ -1,3 +1,7 @@
+/*!
+ *@brief	レベル。
+ */
+
 #include "stdafx.h"
 #include "ExEngine.h"
 #include "Level2D.h"
@@ -14,7 +18,7 @@ void Level2D::AddMapChip2D(CaslData* caslData)
 
 void Level2D::Init(
 	const char* filePath,
-	std::function<bool(Level2DObjectData& objData)> hookFunc
+	std::function<bool(Level2DObjectData & objData)> hookFunc
 )
 {
 	//Caslファイルをロードする。
