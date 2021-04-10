@@ -3,6 +3,15 @@
 #include "Guzai.h"
 #include "FontRender.h"
 
+
+#include "PathFactory.h"
+#include "DeBuff.h"
+
+namespace
+{
+	float DEBUFFDISTANCE = 100.0f * 100.0f;
+}
+
 ModelRender::ModelRender()
 {
 	
@@ -193,7 +202,8 @@ void ModelRender::Update()
 			setPos = 1;
 		}*/
 	}
-
+	//アイテム使用処理。
+	UseItem();
 	//Vector3 plPos = m_charaCon.GetPosition();
 	
 	m_position = m_charaCon.Execute(moveSpeed, 1.0f);
@@ -201,3 +211,51 @@ void ModelRender::Update()
 	model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 }
 
+void ModelRender::UseItem()
+{
+	//Aボタン押してなかったら。
+	if (!g_pad[0]->IsTrigger(enButtonA))
+	{
+		return;
+	}
+
+	ObjectGene* gene;
+
+	if (playerNo == 1)
+	{
+		gene = FindGO<ObjectGene>("gene01");
+	}
+	else if (playerNo == 2)
+	{
+		gene = FindGO<ObjectGene>("gene02");
+	}
+	else {
+		return;
+	}
+
+	//バフアイテム持ってる時。
+	if (m_enItem == enBuffItem)
+	{
+		m_enItem = enNonItem;
+		SetBuffAffect(true);
+		gene->Buffnum = 0;
+
+	}
+	//デバフアイテム持ってる時。
+	else if (m_enItem == enDebuffItem)
+	{
+		auto path = PathFactory::GetInstance().GetPath(enDeBuffLane, playerNo);
+		Vector3 pos = path->GetFirstPoint()->s_vector;
+		if ((m_charaCon.GetPosition() - pos).LengthSq() < DEBUFFDISTANCE)
+		{
+			m_enItem = enNonItem;
+
+			DeBuff* deBuff = NewGO<DeBuff>(0, "debuff");
+			deBuff->SetBuffNo(playerNo);
+			deBuff->SetPosition(m_charaCon.GetPosition());
+			deBuff->m_isDeBuffLane = true;
+
+			gene->DeBuffnum = 0;
+		}
+	}
+}

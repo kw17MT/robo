@@ -2,7 +2,7 @@
 
 class PathMove;
 
-class Buff : public IGameObject
+class DeBuff : public IGameObject
 {
 private:
 	Model model;
@@ -19,10 +19,10 @@ private:
 
 public:
 	//モデルデータ、影、初期位置設定。
-	Buff();
+	DeBuff();
 
 	bool Start();
-	
+
 	//アイテムの移動、Aボタンで消える処理。
 	void Update();
 
@@ -31,12 +31,13 @@ public:
 	//どちら側に流れているかの設定。
 	void SetBuffNo(int num) { BuffNo = num; }
 
-	int GetBuffNo() { return BuffNo; }
-
 	void Render(RenderContext& rc) { model.Draw(rc); }
 
 	//Update()でインクリメントする。
 	int time = 0;
 	int BuffExist = 0;
+
+	bool m_isDeBuffLane = false;
 };
+
 

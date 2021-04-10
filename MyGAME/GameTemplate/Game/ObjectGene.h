@@ -33,6 +33,7 @@ public:
 	int timer = 0;
 	//バフが存在していると１、ないと０。　０でないとバフアイテムは流れない。
 	int Buffnum = 0;
+	int DeBuffnum = 0;
 
 	Guzai* m_guzai;
 	Buff* m_buff;

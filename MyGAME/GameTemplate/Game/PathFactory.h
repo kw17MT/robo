@@ -5,7 +5,7 @@ enum EnLane
 {
 	enNonLane = -1,
 	enNormalLane = 0,		//普通のレーン。
-	enDeBuff = 1,		//デバフアイテムのレーン。
+	enDeBuffLane = 1,		//デバフアイテムのレーン。
 	enLaneNum = 2		//レーンの数。
 };
 

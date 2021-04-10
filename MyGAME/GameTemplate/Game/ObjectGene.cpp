@@ -2,6 +2,7 @@
 #include "ObjectGene.h"
 #include "Guzai.h"
 #include "Buff.h"
+#include "DeBuff.h"
 
 #include <ctime>        // time
 #include <cstdlib>      // srand,rand
@@ -57,6 +58,14 @@ void ObjectGene::Update()
 			m_buff->SetPosition(m_charaCon.GetPosition());
 			timer = 0;
 			Buffnum = 1;
+		}
+		else if (DeBuffnum == 0)
+		{
+			DeBuff* deBuff = NewGO<DeBuff>(0, "debuff");
+			deBuff->SetBuffNo(GeneNo);
+			deBuff->SetPosition(m_charaCon.GetPosition());
+			timer = 0;
+			DeBuffnum = 1;
 		}
 		//バフアイテムが画面に出ているとき、バフアイテムを出さずに具材をだす。
 		else {

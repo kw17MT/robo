@@ -69,9 +69,6 @@
     <ClCompile Include="Stopwatch.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Light.cpp" />
-    <ClCompile Include="Buff.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
     <ClCompile Include="Burger.cpp">
       <Filter>game</Filter>
     </ClCompile>
@@ -116,6 +113,12 @@
     </ClCompile>
     <ClCompile Include="PathMove.cpp">
       <Filter>game\move</Filter>
+    </ClCompile>
+    <ClCompile Include="Buff.cpp">
+      <Filter>game\item</Filter>
+    </ClCompile>
+    <ClCompile Include="DeBuff.cpp">
+      <Filter>game\item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -195,9 +198,6 @@
     <ClInclude Include="Stopwatch.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Light.h" />
-    <ClInclude Include="Buff.h">
-      <Filter>game</Filter>
-    </ClInclude>
     <ClInclude Include="Burger.h">
       <Filter>game</Filter>
     </ClInclude>
@@ -243,6 +243,12 @@
     <ClInclude Include="PathMove.h">
       <Filter>game\move</Filter>
     </ClInclude>
+    <ClInclude Include="Buff.h">
+      <Filter>game\item</Filter>
+    </ClInclude>
+    <ClInclude Include="DeBuff.h">
+      <Filter>game\item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="game">
@@ -250,6 +256,9 @@
     </Filter>
     <Filter Include="game\move">
       <UniqueIdentifier>{d18d0c6c-2bb1-45ab-b052-4786b71d26c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\item">
+      <UniqueIdentifier>{62e2ce10-341e-4c12-9755-a5c7ddc9d17b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

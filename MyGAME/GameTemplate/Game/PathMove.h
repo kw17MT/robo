@@ -3,13 +3,14 @@
 
 enum enMoveState
 {
+	enNone,
 	enStart,	//動いてない。
 	enMove,		//動いていない。
 	enFinal		//最終ポイント到達。
 };
 
 class Path;
-class Point;
+struct Point;
 class PathMove
 {
 public:
@@ -45,8 +46,7 @@ private:
 	float m_moveSpeed;
 	EnLane m_enLane = enNonLane;
 	Vector3 	m_moveVector;		//移動ベクトル。
-	bool m_isStart = false;
-	bool m_isFinalPoint = false;
 	enMoveState m_enMoveState = enStart;
+	int m_guzaiNo = 0;
 };
 

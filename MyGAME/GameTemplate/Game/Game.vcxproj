@@ -293,6 +293,7 @@
     <ClCompile Include="CaslFile.cpp" />
     <ClCompile Include="CLevel2D.cpp" />
     <ClCompile Include="Counter.cpp" />
+    <ClCompile Include="DeBuff.cpp" />
     <ClCompile Include="FixedUI.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -395,6 +396,7 @@
     <ClInclude Include="CaslFile.h" />
     <ClInclude Include="CLevel2D.h" />
     <ClInclude Include="Counter.h" />
+    <ClInclude Include="DeBuff.h" />
     <ClInclude Include="FixedUI.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="Game.h" />

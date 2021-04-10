@@ -71,6 +71,7 @@ public:
 	void ChangeGuzai(int num);
 	//‚Ç‚¿‚ç‘¤‚É—¬‚ê‚Ä‚¢‚é‹ïŞ‚©İ’è‚·‚éB
 	void SetGuzaiNo(int num) { GuzaiNo = num; }
+	int GetGuzaiNo() { return GuzaiNo; }
 
 	int GetTypeNo() { return TypeNo; }
 

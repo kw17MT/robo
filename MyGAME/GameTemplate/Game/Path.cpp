@@ -19,11 +19,11 @@ void Path::Load(const char* filePath,int guzaiNo)
 	//ç∂ë§Ç©âEë§Ç©åàÇﬂÇÈÅB
 	if (guzaiNo == 1)
 	{
-		side = L"L";
+		side = L"R";
 	}
 	else if (guzaiNo == 2)
 	{
-		side = L"R";
+		side = L"L";
 	}
 	std::vector<Point> poinstList;
 	level.Init(filePath, [&](ObjectData& objectData) {

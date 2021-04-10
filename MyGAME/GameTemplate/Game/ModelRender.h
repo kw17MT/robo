@@ -1,6 +1,17 @@
 #pragma once
+
+#include "ObjectGene.h"
+
 class Guzai;
 class FontRender;
+
+enum EnItem
+{
+	enNonItem = -1,
+	enBuffItem = 0,
+	enDebuffItem = 1,
+	enItemNum = 2,
+};
 
 class ModelRender : public IGameObject
 {
@@ -33,6 +44,8 @@ private:
 	//今、具材をターゲットしているか。1個以上ターゲティングしないように。
 	bool TargetingState = false;
 
+	EnItem m_enItem = enNonItem;
+
 public:
 	ModelRender();
 	~ModelRender();
@@ -64,6 +77,41 @@ public:
 	void SetTarget(bool target) { TargetingState = target; }
 	//現在のターゲティング状態を返す。
 	bool GetTargetState() { return TargetingState; }
+
+	const EnItem GetEnItem() const
+	{
+		return m_enItem;
+	}
+
+	void SetEnItem(EnItem enItem)
+	{
+		if (m_enItem == enNonItem)
+		{
+			ObjectGene* og;
+			if (playerNo == 1)
+			{
+				og = FindGO<ObjectGene>("gene01");
+			}
+			else if(playerNo == 2)
+			{
+				og = FindGO<ObjectGene>("gene02");
+			}
+			else {
+				return;
+			}
+			if (m_enItem == enDebuffItem)
+			{
+				og->DeBuffnum = 0;
+			}
+			else if (m_enItem == enBuffItem)
+			{
+				og->Buffnum = 0;
+			} 
+		}
+		m_enItem = enItem;
+	}
+
+	void UseItem();
 
 	//プレイヤーが具材を持っているか。１なら具材を持っている。２ならハンバーガーを持っている。
 	int have = 0;
