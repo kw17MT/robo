@@ -3,6 +3,12 @@ class ModelRender;
 class Kitchen;
 class SpriteRender;
 
+
+
+class PathMove;
+
+
+
 class Guzai : public IGameObject
 {
 private:
@@ -40,6 +46,12 @@ private:
 	const int TargetRangeFar = 110;
 	//枠線強調のために使用
 	Vector3 GuzaiScale = { 1.0f,1.0f,1.0f };
+
+
+
+	//以下追加コード。
+	std::unique_ptr<PathMove> m_pathMove;		//移動処理を行うクラス。
+
 
 public:	
 	//乱数を用いて具材が生まれると同時にどの具材を流すか設定する。
@@ -86,5 +98,9 @@ public:
 	//スプライトの3D空間表示が可能になったら使用
 	/*SpriteRender* sp01 = nullptr;
 	SpriteRender* sp02 = nullptr;*/
+
+
+
+
 };
 

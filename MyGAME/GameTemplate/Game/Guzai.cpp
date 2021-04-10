@@ -8,6 +8,14 @@
 #include <ctime>
 #include <cstdlib>
 
+#include "PathMove.h"
+
+namespace
+{
+	const float MOVESPEED = 130.0f;
+}
+
+
 Guzai::Guzai()
 {
 
@@ -66,7 +74,7 @@ void Guzai::Move()
 	Vector3 GuzaiPos = m_charaCon.GetPosition();
 
 	//TODO 具材の移動。
-	if (GuzaiNo == 1) {
+	/*if (GuzaiNo == 1) {
 		//持たれていない　且つ　一度も置かれていない
 		if (state == 0 && put == 0) {
 			Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
@@ -112,6 +120,18 @@ void Guzai::Move()
 				DeleteGO(this);
 			}
 			m_charaCon.Execute(moveSpeed, 1.0f);
+		}
+	}*/
+
+	//持たれていない　且つ　一度も置かれていない
+	if (state == 0 && put == 0) {
+		//移動させる。
+		m_charaCon.SetPosition(m_pathMove.get()->Move());
+		//最後のポイントまで到達したら。
+		if (m_pathMove.get()->GetIsFinalPoint())
+		{
+			//削除する。
+			DeleteGO(this);
 		}
 	}
 }
@@ -160,6 +180,10 @@ bool Guzai::Start()
 	Vector3 pos = { 0.0f,0.0f,-1000.0f };
 
 	m_charaCon.Init(0.0f, 0.0f, pos);
+
+
+	m_pathMove = std::make_unique<PathMove>();
+	m_pathMove.get()->Init(m_charaCon.GetPosition(), MOVESPEED, enNormalLane, GuzaiNo);
 
 	return true;
 }

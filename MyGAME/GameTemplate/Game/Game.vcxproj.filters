@@ -108,6 +108,15 @@
     <ClCompile Include="PostEffectTest.cpp">
       <Filter>game</Filter>
     </ClCompile>
+    <ClCompile Include="Path.cpp">
+      <Filter>game\move</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFactory.cpp">
+      <Filter>game\move</Filter>
+    </ClCompile>
+    <ClCompile Include="PathMove.cpp">
+      <Filter>game\move</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -225,10 +234,22 @@
     <ClInclude Include="PostEffectTest.h">
       <Filter>game</Filter>
     </ClInclude>
+    <ClInclude Include="Path.h">
+      <Filter>game\move</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFactory.h">
+      <Filter>game\move</Filter>
+    </ClInclude>
+    <ClInclude Include="PathMove.h">
+      <Filter>game\move</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="game">
       <UniqueIdentifier>{bb22909f-19d9-4f05-9f18-fd35b6340510}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\move">
+      <UniqueIdentifier>{d18d0c6c-2bb1-45ab-b052-4786b71d26c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
