@@ -24,15 +24,16 @@ void PathMove::Init(const Vector3& pos, const float move, EnLane enLane, const i
 	m_position = pos;
 	m_moveSpeed = move;
 	m_path = PathFactory::GetInstance().GetPath(enLane, guzaiNo);
-	//現在の座標から一番近いポイントを取得する
-	//m_point = m_path->GetNearPoint(m_position);
+	//一番最初のポイントを取得する
 	m_point = m_path->GetFirstPoint();
 }
 
 const Vector3& PathMove::Move()
 {
+	//最終ポイントに到達した、何もステートが設定されてなかったら。
 	if (m_enMoveState == enFinal || m_enMoveState == enNone)
 	{
+		//処理しない。
 		return m_position;
 	}
 
@@ -53,7 +54,6 @@ const Vector3& PathMove::Move()
 		//次のパスに向けての移動ベクトルを求める
 		m_point = m_path->GetPoint(m_point->s_number);
 		Vector3 nextDistance = m_point->s_vector - m_position;
-		//nextDistance.y = 0;
 		nextDistance.Normalize();
 		m_moveVector = nextDistance;
 	}

@@ -15,6 +15,14 @@
 #include "SoundSource.h"
 #include "PostEffectTest.h"
 
+#include "GameDirector.h"
+
+namespace
+{
+	float  SCALER_COUNTDOWN_FONT_SCALE = 3.0f;
+	float MAX_COUNTDOWN_FONT_SCALE = 4.0f;
+}
+
 Level level;
 //Level2D level2D;
 
@@ -241,8 +249,17 @@ Game::Game()
 	//スコアの表示/////////////////////////////////////////////////////////////////////
 	m_score = NewGO<Score>(2, "score");
 
+<<<<<<< HEAD
 	//ポストエフェクトのテスト用モデル。
 	//postTest =  NewGO<PostEffectTest>(5);
+=======
+	postTest =  NewGO<PostEffectTest>(5);
+
+	//カウントダウンを開始するということを設定する。
+	GetGameDirector().SetGameScene(enGameCountDown);
+
+	m_font = NewGO<FontRender>(5);
+>>>>>>> 3d4b6cde5ca813ec545f2099c88cc22aa4f715aa
 }
 
 Game::~Game()
@@ -276,6 +293,9 @@ bool Game::Start()
 
 void Game::Update()
 {
+	//カウントダウンする。
+	CountDown();
+
 	level.Draw();
 
 	//タイムアップ時に行う処理
@@ -320,4 +340,45 @@ void Game::Update()
 		SetTimeUp();
 	}
 	
+}
+
+void Game::CountDown()
+{
+	//カウントダウン中じゃなかったら。
+	if (!GetGameDirector().GetIsGameCountDown())
+	{
+		//処理しない。
+		return;
+	}
+
+
+	//TODO GameTimeにする。
+	m_timer -= 1.0f / 120.0f;
+
+	if (m_timer <= 0.0f)
+	{
+		//カウントダウンが終了し、ゲームが開始したことを設定する。
+		GetGameDirector().SetGameScene(enGamePlay);
+		DeleteGO(m_font);
+		return;
+	}
+
+	
+	std::wstring number;
+	if (m_timer < 1.0f)
+	{
+		number = L"Start";
+	}
+	else {
+		number = std::to_wstring(int(m_timer));
+	}
+	float scale = MAX_COUNTDOWN_FONT_SCALE;
+	scale -= SCALER_COUNTDOWN_FONT_SCALE * (m_timer - int(m_timer));
+
+	m_font->SetText(number.c_str());
+	m_font->SetColor({ 1.0f,0.0f,0.0f,0.0f });
+	m_font->SetPivot({ 0.5f, 0.5f });
+	m_font->SetPosition({ -100, 200 });
+	m_font->SetScale(scale);
+
 }

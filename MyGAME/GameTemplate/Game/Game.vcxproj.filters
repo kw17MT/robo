@@ -120,9 +120,18 @@
     <ClCompile Include="DeBuff.cpp">
       <Filter>game\item</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="TResourceBank.cpp" />
     <ClCompile Include="GaussianBlur.cpp" />
     <ClCompile Include="..\..\MiniEngine\RenderTarget.cpp" />
+=======
+    <ClCompile Include="Title.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDirector.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+>>>>>>> 3d4b6cde5ca813ec545f2099c88cc22aa4f715aa
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -252,9 +261,18 @@
     <ClInclude Include="DeBuff.h">
       <Filter>game\item</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="TResourceBank.h" />
     <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="..\..\MiniEngine\RenderTarget.h" />
+=======
+    <ClInclude Include="Title.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDirector.h">
+      <Filter>game</Filter>
+    </ClInclude>
+>>>>>>> 3d4b6cde5ca813ec545f2099c88cc22aa4f715aa
   </ItemGroup>
   <ItemGroup>
     <Filter Include="game">
