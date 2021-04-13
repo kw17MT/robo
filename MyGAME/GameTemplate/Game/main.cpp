@@ -26,6 +26,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//一緒くたにしないと両方のライトの影響を受けなくなる。////////////////////////////////
 	//ディレクションライトの正規化と目の位置をカメラの座標にする。
 	g_lig.directionalLight.direction.Normalize();
+	//ポストエフェクトのテスト用。後から消すこと
+	g_postLig.directionalLight.direction.Normalize();
+	g_postLig.directionalLight.color = { 100.0f,100.0f,100.0f };
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//プレイヤー、文字、オブジェクトなどの生成////////////////////////////////////////////
@@ -53,7 +56,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 		
 		g_lig.eyePos = g_camera3D->GetPosition();
-
+		g_postLig.eyePos = g_camera3D->GetPosition();
+		
 		/*Quaternion RotY;
 		RotY.SetRotationY(g_pad[0]->GetRStickXF() * 0.03f);
 		RotY.Apply(g_lig.spDirection);
@@ -106,10 +110,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			camerapos.y += move;
 			g_camera3D->SetPosition(camerapos);
 		}
-
-		/*if (g_pad[0]->IsPress(enButtonA)) {
-			g_lig.directionalLight.color.x += 10.0f;
-		}*/
 
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！

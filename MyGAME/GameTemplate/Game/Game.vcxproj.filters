@@ -120,6 +120,9 @@
     <ClCompile Include="DeBuff.cpp">
       <Filter>game\item</Filter>
     </ClCompile>
+    <ClCompile Include="TResourceBank.cpp" />
+    <ClCompile Include="GaussianBlur.cpp" />
+    <ClCompile Include="..\..\MiniEngine\RenderTarget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -249,6 +252,9 @@
     <ClInclude Include="DeBuff.h">
       <Filter>game\item</Filter>
     </ClInclude>
+    <ClInclude Include="TResourceBank.h" />
+    <ClInclude Include="GaussianBlur.h" />
+    <ClInclude Include="..\..\MiniEngine\RenderTarget.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="game">

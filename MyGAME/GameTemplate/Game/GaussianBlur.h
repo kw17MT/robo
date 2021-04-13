@@ -1,4 +1,6 @@
 #pragma once
+#include "Sprite.h"
+
 class GaussianBlur
 {
 private:
@@ -10,12 +12,22 @@ private:
 	Sprite m_xBlurSprite;					//横ボケ画像を描画するためのスプライト。
 	Sprite m_yBlurSprite;					//縦ボケ画像を描画するためのスプライト。
 
+	/// <summary>
+	/// レンダリングターゲットを初期化。
+	/// </summary>
+	void InitRenderTargets();
+	/// <summary>
+	/// スプライトを初期化。
+	/// </summary>
+	void InitSprites();
+	/// <summary>
+	/// 重みテーブルを更新する。
+	/// </summary>
+	void UpdateWeightsTable(float blurPower);
 
 public:
-	/// <summary>
-	/// 初期化。
-	/// </summary>
-	/// <param name="originalTexture">ガウシアンブラーをかけるオリジナルテクスチャ。</param>
+	
+	//ガウシアンブラーをかけるテクスチャ。
 	void Init(Texture* originalTexture);
 	/// <summary>
 	/// ガウシアンブラーをGPU上で実行。
@@ -34,18 +46,5 @@ public:
 	{
 		return m_yBlurRenderTarget.GetRenderTargetTexture();
 	}
-private:
-	/// <summary>
-	/// レンダリングターゲットを初期化。
-	/// </summary>
-	void InitRenderTargets();
-	/// <summary>
-	/// スプライトを初期化。
-	/// </summary>
-	void InitSprites();
-	/// <summary>
-	/// 重みテーブルを更新する。
-	/// </summary>
-	void UpdateWeightsTable(float blurPower);
 };
 

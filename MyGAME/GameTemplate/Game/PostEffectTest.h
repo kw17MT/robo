@@ -1,4 +1,6 @@
 #pragma once
+class RenderContext;
+
 class PostEffectTest : public IGameObject
 {
 private:
@@ -12,12 +14,25 @@ private:
 	Vector3 m_scale = { 1.0f,1.0f,1.0f };
 
 	RootSignature root;
+	//通常のレンダリング対象
 	RenderTarget mainRenderTarget;
+	//輝度抽出用のレンダリング対象
 	RenderTarget luminanceRenderTarget;
+	//輝度依存のぼかしを適応した画像用
 	SpriteInitData luminanceSpriteData;
 	Sprite luminanceSprite;
+
 	//作成予定
-	//GaussianBlur gaussianBlur;
+	//ガウシアンブラーをかけるためのもの。
+	GaussianBlur gaussianBlur;
+
+	SpriteInitData finalSpriteData;
+	Sprite finalSprite;
+
+	SpriteInitData copyToFrameBufferSpriteData;
+	Sprite copyToFrameBufferSprite;
+
+	RenderContext& renderContext = g_graphicsEngine->GetRenderContext();
 
 public:
 	PostEffectTest() {}
@@ -26,9 +41,12 @@ public:
 	bool Start();
 	void Update();
 
-	void InitRootSig();
+	void InitRootSig(RootSignature& rs);
 	void InitMainRenderTarget();
 	void InitLuminanceRenderTarget();
+	void InitLuminaceSprite();
+	void InitFinalSprite();
+	void InitFrameBufferSprite();
 
 	void Render(RenderContext& rc) { model.Draw(rc); }
 };

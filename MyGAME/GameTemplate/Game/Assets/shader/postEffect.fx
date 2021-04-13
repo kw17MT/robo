@@ -48,5 +48,6 @@ float4 PSLuminance(PSInput In) : SV_Target0
 	float t = dot(color.xyz, float3(0.2125f, 0.7154f, 0.0721f));
 
 	clip(t - 1.0f);
+
 	return color;
 }

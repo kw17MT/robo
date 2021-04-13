@@ -71,7 +71,22 @@ inline void RenderContext::ClearRenderTargetViews(int numRt, RenderTarget* rende
 		ClearRenderTargetView(renderTargets[i]->GetRTVCpuDescriptorHandle(), renderTargets[i]->GetRTVClearColor());
 	}
 }
+
 inline void RenderContext::SetPipelineState(raytracing::PSO& pso)
 {
 	m_commandList->SetPipelineState1(pso.Get());
 }
+
+//RenderContext.hÇ…à⁄ÇµÇΩÅB
+//inline void RenderContext::SetRenderTargetAndViewport(RenderTarget& renderTarget)
+//{
+//	D3D12_VIEWPORT viewport;
+//	viewport.TopLeftX = 0;
+//	viewport.TopLeftY = 0;
+//	viewport.Width = static_cast<float>(renderTarget.GetWidth());
+//	viewport.Height = static_cast<float>(renderTarget.GetHeight());
+//	viewport.MinDepth = D3D12_MIN_DEPTH;
+//	viewport.MaxDepth = D3D12_MAX_DEPTH;
+//	SetViewport(viewport);
+//	SetRenderTarget(renderTarget);
+//}

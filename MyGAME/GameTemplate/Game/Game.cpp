@@ -200,7 +200,7 @@ Game::Game()
 		if (wcscmp(objectData.name, L"Floor") == 0) {
 			return false;
 		}
-		if (wcscmp(objectData.name, L"WayPoint011") == 0) {
+		/*if (wcscmp(objectData.name, L"WayPoint011") == 0) {
 			return false;
 		}
 		if (wcscmp(objectData.name, L"WayPoint012") == 0) {
@@ -223,9 +223,9 @@ Game::Game()
 		}
 		if (wcscmp(objectData.name, L"WayPoint024") == 0) {
 			return false;
-		}
+		}*/
 		else {
-			return false;
+			return true;
 		}
 		});
 
@@ -241,7 +241,8 @@ Game::Game()
 	//スコアの表示/////////////////////////////////////////////////////////////////////
 	m_score = NewGO<Score>(2, "score");
 
-	postTest =  NewGO<PostEffectTest>(5);
+	//ポストエフェクトのテスト用モデル。
+	//postTest =  NewGO<PostEffectTest>(5);
 }
 
 Game::~Game()

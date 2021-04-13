@@ -42,6 +42,7 @@ void ObjectGene::Update()
 	int randNum = rand10(mt);
 	//2つある生成器で具材の出現パターンがほぼ同じになる問題あり
 
+	
 	if (timer == 50 && randNum != 1) {
 		m_guzai = NewGO<Guzai>(0,"guzai");
 		m_guzai->SetGuzaiNo(GeneNo);
@@ -75,6 +76,7 @@ void ObjectGene::Update()
 			timer = 0;
 		}
 	}
+	
 	
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }

@@ -100,8 +100,5 @@ public:
 	/*SpriteRender* sp01 = nullptr;
 	SpriteRender* sp02 = nullptr;*/
 
-
-
-
 };
 

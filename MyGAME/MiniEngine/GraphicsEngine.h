@@ -16,7 +16,7 @@
 #include "Light.h"
 
 extern Light g_lig;
-
+extern Light g_postLig;
 /// <summary>
 /// DirectX12に依存するグラフィックスエンジン
 /// </summary>

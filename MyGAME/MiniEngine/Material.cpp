@@ -177,7 +177,35 @@ void Material::InitShaders(
 	m_vsSkinModel.LoadVS(fxFilePath, vsSkinEntriyPointFunc);
 	
 	m_psModel.LoadPS(fxFilePath, psEntryPointFunc);
+
+	////↓からシェーダーリソースの再利用を行う。
+	//char* charfxFilePath = nullptr;
+	//wcstombs(charfxFilePath, fxFilePath, sizeof(fxFilePath));
+	//const char* constfxFilePath = charfxFilePath;
+
+	////スキンなしモデル用のシェーダーをロードする。
+	//m_vsNonSkinModel = g_engine->GetShaderFromBank(charfxFilePath/*fxFilePath*/, vsEntryPointFunc);
+	//if (m_vsNonSkinModel == nullptr) {
+	//	m_vsNonSkinModel = new Shader;
+	//	m_vsNonSkinModel->LoadVS(fxFilePath, vsEntryPointFunc);
+	//	g_engine->RegistShaderToBank(charfxFilePath/*fxFilePath*/, vsEntryPointFunc, m_vsNonSkinModel);
+	//}
+	////スキンありモデル用のシェーダーをロードする。
+	//m_vsSkinModel = g_engine->GetShaderFromBank(charfxFilePath/*fxFilePath*/, vsSkinEntriyPointFunc);
+	//if (m_vsSkinModel == nullptr) {
+	//	m_vsSkinModel = new Shader;
+	//	m_vsSkinModel->LoadVS(fxFilePath, vsSkinEntriyPointFunc);
+	//	g_engine->RegistShaderToBank(charfxFilePath/*fxFilePath*/, vsSkinEntriyPointFunc, m_vsSkinModel);
+	//}
+
+	//m_psModel = g_engine->GetShaderFromBank(charfxFilePath/*fxFilePath*/, psEntryPointFunc);
+	//if (m_psModel == nullptr) {
+	//	m_psModel = new Shader;
+	//	m_psModel->LoadPS(fxFilePath, psEntryPointFunc);
+	//	g_engine->RegistShaderToBank(charfxFilePath/*fxFilePath*/, psEntryPointFunc, m_psModel);
+	//}
 }
+
 void Material::BeginRender(RenderContext& rc, int hasSkin)
 {
 	rc.SetRootSignature(m_rootSignature);

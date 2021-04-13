@@ -391,6 +391,7 @@ void Guzai::Update()
 		if (isSetFirstPos == false) {
 			ObjectGene* gene01 = FindGO<ObjectGene>("gene01");
 			SetPosition(gene01->GetPosition());
+
 			isSetFirstPos = true;
 		}
 

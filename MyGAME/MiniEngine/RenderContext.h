@@ -1,5 +1,5 @@
 #pragma once
-
+#include "RenderTarget.h"
 class ConstantBuffer;
 class Texture;
 class DescriptorHeap;
@@ -64,6 +64,7 @@ public:
 	void SetViewport(D3D12_VIEWPORT& viewport)
 	{
 		m_commandList->RSSetViewports(1, &viewport);
+		m_currentViewport = viewport;
 	}
 	/// <summary>
 	/// シザリング矩形を設定
@@ -171,6 +172,13 @@ public:
 	{
 		m_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
 	}
+
+	void SetRenderTarget(RenderTarget& renderTarget)
+	{
+		RenderTarget* rtArray[] = { &renderTarget };
+		SetRenderTargets(1, rtArray);
+	}
+
 	/// <summary>
 	/// レンダリングターゲットとビューポートを同時に設定する。
 	/// </summary>
@@ -190,7 +198,11 @@ public:
 	{
 		m_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 	}
-	
+	void ClearRenderTargetView(RenderTarget& renderTarget)
+	{
+		RenderTarget* rtArray[] = { &renderTarget };
+		ClearRenderTargetViews(1, rtArray);
+	}
 	/// <summary>
 	/// デプスステンシルビューをクリア
 	/// </summary>
@@ -349,25 +361,26 @@ private:
 		);
 	}
 
-	////ここから追加
-	//void SetRenderTargetAndViewport(RenderTarget& renderTarget)
-	//{
-	//	D3D12_VIEWPORT viewport;
-	//	viewport.TopLeftX = 0;
-	//	viewport.TopLeftY = 0;
-	//	viewport.Width = static_cast<float>(renderTarget.GetWidth());
-	//	viewport.Height = static_cast<float>(renderTarget.GetHeight());
-	//	viewport.MinDepth = D3D12_MIN_DEPTH;
-	//	viewport.MaxDepth = D3D12_MAX_DEPTH;
-	//	SetViewport(viewport);
-	//	SetRenderTarget(renderTarget);
-	//}
+public:
+	void SetRenderTargetAndViewport(RenderTarget& renderTarget)
+	{
+		D3D12_VIEWPORT viewport;
+		viewport.TopLeftX = 0;
+		viewport.TopLeftY = 0;
+		viewport.Width = static_cast<float>(renderTarget.GetWidth());
+		viewport.Height = static_cast<float>(renderTarget.GetHeight());
+		viewport.MinDepth = D3D12_MIN_DEPTH;
+		viewport.MaxDepth = D3D12_MAX_DEPTH;
+		SetViewport(viewport);
+		SetRenderTarget(renderTarget);
+	}
 
 private:
 	enum { MAX_DESCRIPTOR_HEAP = 4 };	//ディスクリプタヒープの最大数。
 	enum { MAX_CONSTANT_BUFFER = 8 };	//定数バッファの最大数。足りなくなったら増やしてね。
 	enum { MAX_SHADER_RESOURCE = 16 };	//シェーダーリソースの最大数。足りなくなったら増やしてね。
 
+	D3D12_VIEWPORT m_currentViewport;
 	ID3D12GraphicsCommandList4* m_commandList;	//コマンドリスト。
 	ID3D12DescriptorHeap* m_descriptorHeaps[MAX_DESCRIPTOR_HEAP];			//ディスクリプタヒープの配列。
 	ConstantBuffer* m_constantBuffers[MAX_CONSTANT_BUFFER] = { nullptr };	//定数バッファの配列。

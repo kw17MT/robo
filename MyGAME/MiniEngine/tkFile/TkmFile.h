@@ -129,6 +129,7 @@ private:
 	/// 3dsMaxScriptでやるべきなんだろうけど、デバッグしたいので今はこちらでやる。
 	/// </remarks>
 	void BuildTangentAndBiNormal();
+
 private:
 	std::vector< SMesh>	m_meshParts;		//メッシュパーツ。
 };

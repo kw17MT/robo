@@ -28,10 +28,24 @@ void Model::Init(const ModelInitData& initData)
 	
 	m_modelUpAxis = initData.m_modelUpAxis;
 
-	m_tkmFile.Load(initData.m_tkmFilePath);
+	//ここからTKMファイルのロードをするかすでにロードしているものを使うかの判定
+	auto tkmFile = g_engine->GetTkmFileFromBank(initData.m_tkmFilePath);
+	//未登録だった時
+	if (tkmFile == nullptr) {
+		tkmFile = new TkmFile;
+		tkmFile->Load(initData.m_tkmFilePath);
+		g_engine->RegistTkmFileToBank(initData.m_tkmFilePath, tkmFile);
+	}
+
+	//m_tkmFile.Load(initData.m_tkmFilePath);
+	m_tkmFile = tkmFile;
+	
+	//ここまで/////////////////////////////////////////////////////
+	
+
 	m_meshParts.InitFromTkmFile(
-		m_tkmFile, 
-		wfxFilePath, 
+		*m_tkmFile,
+		wfxFilePath,
 		initData.m_vsEntryPointFunc,
 		initData.m_vsSkinEntryPointFunc,
 		initData.m_psEntryPointFunc,

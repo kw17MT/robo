@@ -55,6 +55,7 @@
 #include "RenderTarget.h"
 #include "Animation.h"
 #include "font/Font.h"
+#include "GaussianBlur.h"
 
 #include "RenderContext_inline.h"
 #include "DescriptorHeap_inline.h"
