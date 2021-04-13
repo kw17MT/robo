@@ -3,9 +3,9 @@
 
 enum enMoveState
 {
-	enNone,
+	enNone,		//何もしない。
 	enStart,	//動いてない。
-	enMove,		//動いていない。
+	enMove,		//動いてる。
 	enFinal		//最終ポイント到達。
 };
 

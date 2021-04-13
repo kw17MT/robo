@@ -329,6 +329,7 @@
     </ClCompile>
     <ClCompile Include="Stopwatch.cpp" />
     <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="Title.cpp" />
     <ClCompile Include="TklFile.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="WaveFile.cpp" />
@@ -424,6 +425,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Stopwatch.h" />
     <ClInclude Include="system\system.h" />
+    <ClInclude Include="Title.h" />
     <ClInclude Include="TklFile.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="WaveFile.h" />

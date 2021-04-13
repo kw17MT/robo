@@ -120,6 +120,9 @@
     <ClCompile Include="DeBuff.cpp">
       <Filter>game\item</Filter>
     </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -248,6 +251,9 @@
     </ClInclude>
     <ClInclude Include="DeBuff.h">
       <Filter>game\item</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

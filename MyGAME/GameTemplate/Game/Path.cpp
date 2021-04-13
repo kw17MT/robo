@@ -44,12 +44,17 @@ void Path::Load(const char* filePath,int guzaiNo)
 
 Point* Path::GetNearPoint(const Vector3& pos)
 {
+	//最初のポイントを持ってくる。
 	Point* point = &m_pointList[0];
+	//引数座標から最初のポイントに向かうベクトルを求める。
 	Vector3 diff = m_pointList[0].s_vector - pos;
-	//今の場所から一番近いポイント探す
+	//今の場所から一番近いポイント探す。
 	for (int i = 1; i < m_pointList.size(); i++) {
+		//引数座標からi番目のポイントに向かうベクトルを求める。
 		Vector3 diff2 = m_pointList[i].s_vector - pos;
+		//求めたベクトルの長さのほうが短かったら。
 		if (diff.LengthSq() > diff2.LengthSq()) {
+			//diffに求めたベクトルを代入。
 			diff = diff2;
 			point = &m_pointList[i];
 		}
