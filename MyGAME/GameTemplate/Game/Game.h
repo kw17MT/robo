@@ -48,13 +48,8 @@ public:
 
 	bool GetTimeUp() { return isTimeUp; }
 	void SetTimeUp() { isTimeUp = true; }
-<<<<<<< HEAD
-};
-=======
 
 	//カウントダウン用。
 	float m_timer = 4.0f;
 	FontRender* m_font;
 };
-
->>>>>>> 3d4b6cde5ca813ec545f2099c88cc22aa4f715aa
