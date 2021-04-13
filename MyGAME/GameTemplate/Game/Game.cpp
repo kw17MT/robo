@@ -252,11 +252,11 @@ Game::Game()
 	//ポストエフェクトのテスト用モデル。
 	//postTest =  NewGO<PostEffectTest>(5);
 
-
 	//カウントダウンを開始するということを設定する。
 	GetGameDirector().SetGameScene(enGameCountDown);
 
 	m_font = NewGO<FontRender>(5);
+
 }
 
 Game::~Game()

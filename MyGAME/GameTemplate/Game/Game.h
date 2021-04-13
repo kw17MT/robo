@@ -42,14 +42,18 @@ public:
 	ObjectGene* generator02;
 	Score* m_score = nullptr;
 	PostEffectTest* postTest;
-	
+
 	//勝敗表示用:引き分けの場合、プレイヤー1、プレイヤー2に用意
 	Result* m_result[3];
 
 	bool GetTimeUp() { return isTimeUp; }
 	void SetTimeUp() { isTimeUp = true; }
 
+
+
+
 	//カウントダウン用。
 	float m_timer = 4.0f;
 	FontRender* m_font;
+
 };
