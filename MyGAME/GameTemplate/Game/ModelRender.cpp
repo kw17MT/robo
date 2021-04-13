@@ -7,6 +7,8 @@
 #include "PathFactory.h"
 #include "DeBuff.h"
 
+#include "GameDirector.h"
+
 namespace
 {
 	float DEBUFFDISTANCE = 100.0f * 100.0f;
@@ -95,6 +97,13 @@ Vector3 ModelRender::GetPosition()
 
 void ModelRender::Update()
 {
+	//ゲームプレイ中じゃなかったら。
+	if (!GetGameDirector().GetIsGamePlay())
+	{
+		//処理しない。
+		return;
+	}
+
 	//スケルトンを更新。
 	m_skeleton.Update(model.GetWorldMatrix());
 

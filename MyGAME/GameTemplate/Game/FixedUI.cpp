@@ -3,6 +3,8 @@
 #include "FontRender.h"
 #include "SoundSource.h"
 
+#include "GameDirector.h"
+
 //デストラクタ
 FixedUI::~FixedUI()
 {
@@ -100,6 +102,13 @@ void FixedUI::RemainingTimeColor()
 
 void FixedUI::Update()
 {
+	//ゲームプレイ中じゃなかったら。
+	if (!GetGameDirector().GetIsGamePlay())
+	{
+		//処理しない。
+		return;
+	}
+
 	//Font fontTime;
 	//カラー
 	//Vector4 color = { 1.0f,1.0f,1.0,1.0f };

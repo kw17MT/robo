@@ -123,6 +123,9 @@
     <ClCompile Include="Title.cpp">
       <Filter>game</Filter>
     </ClCompile>
+    <ClCompile Include="GameDirector.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -253,6 +256,9 @@
       <Filter>game\item</Filter>
     </ClInclude>
     <ClInclude Include="Title.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDirector.h">
       <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>

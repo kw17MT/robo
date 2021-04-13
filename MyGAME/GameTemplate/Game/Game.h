@@ -27,6 +27,9 @@ public:
 	//今は特に役割なし。
 	void Update();
 
+	//カウントダウンする。
+	void CountDown();
+
 	FixedUI* ui;
 	Counter* counter01;
 	Counter* counter02;
@@ -45,5 +48,9 @@ public:
 
 	bool GetTimeUp() { return isTimeUp; }
 	void SetTimeUp() { isTimeUp = true; }
+
+	//カウントダウン用。
+	float m_timer = 4.0f;
+	FontRender* m_font;
 };
 

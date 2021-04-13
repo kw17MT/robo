@@ -297,6 +297,7 @@
     <ClCompile Include="FixedUI.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameDirector.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Guzai.cpp" />
     <ClCompile Include="Kitchen.cpp" />
@@ -401,6 +402,7 @@
     <ClInclude Include="FixedUI.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameDirector.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Guzai.h" />
     <ClInclude Include="Kitchen.h" />
