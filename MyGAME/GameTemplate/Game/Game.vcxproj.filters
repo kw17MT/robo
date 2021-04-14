@@ -36,6 +36,7 @@
     <ClCompile Include="..\..\MiniEngine\raytracing\RaytracingShaderTable.cpp" />
     <ClCompile Include="..\..\MiniEngine\raytracing\RaytracingWorld.cpp" />
     <ClCompile Include="..\..\MiniEngine\raytracing\TLASBuffer.cpp" />
+    <ClCompile Include="..\..\MiniEngine\RenderTarget.cpp" />
     <ClCompile Include="..\..\MiniEngine\RootSignature.cpp" />
     <ClCompile Include="..\..\MiniEngine\RWStructuredBuffer.cpp" />
     <ClCompile Include="..\..\MiniEngine\Shader.cpp" />
@@ -48,90 +49,48 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TkmFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
+    <ClCompile Include="Buff.cpp" />
+    <ClCompile Include="Burger.cpp" />
     <ClCompile Include="CaslFile.cpp" />
     <ClCompile Include="CLevel2D.cpp" />
+    <ClCompile Include="Counter.cpp" />
+    <ClCompile Include="DeBuff.cpp" />
+    <ClCompile Include="FixedUI.cpp" />
+    <ClCompile Include="FontRender.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameDirector.cpp" />
+    <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="GaussianBlur.cpp" />
+    <ClCompile Include="Guzai.cpp" />
+    <ClCompile Include="Kitchen.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Level2D.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="MapChip2D.cpp" />
+    <ClCompile Include="ModelRender.cpp" />
+    <ClCompile Include="NameKey.cpp" />
+    <ClCompile Include="ObjectGene.cpp" />
+    <ClCompile Include="Path.cpp" />
+    <ClCompile Include="PathFactory.cpp" />
+    <ClCompile Include="PathMove.cpp" />
+    <ClCompile Include="PostEffectTest.cpp" />
     <ClCompile Include="Result.cpp" />
-    <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="system\system.cpp" />
-    <ClCompile Include="TklFile.cpp" />
-    <ClCompile Include="WaveFile.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="SoundPreCompile.cpp" />
     <ClCompile Include="SoundSource.cpp" />
-    <ClCompile Include="WaveFileBank.cpp" />
-    <ClCompile Include="Util.cpp" />
-    <ClCompile Include="NameKey.cpp" />
+    <ClCompile Include="SpriteRender.cpp" />
+    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Stopwatch.cpp" />
-    <ClCompile Include="GameTime.cpp" />
-    <ClCompile Include="Light.cpp" />
-    <ClCompile Include="Burger.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelRender.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="Guzai.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="FontRender.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="Counter.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="FixedUI.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="Kitchen.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectGene.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteRender.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="Score.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="PostEffectTest.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="Path.cpp">
-      <Filter>game\move</Filter>
-    </ClCompile>
-    <ClCompile Include="PathFactory.cpp">
-      <Filter>game\move</Filter>
-    </ClCompile>
-    <ClCompile Include="PathMove.cpp">
-      <Filter>game\move</Filter>
-    </ClCompile>
-    <ClCompile Include="Buff.cpp">
-      <Filter>game\item</Filter>
-    </ClCompile>
-    <ClCompile Include="DeBuff.cpp">
-      <Filter>game\item</Filter>
-    </ClCompile>
-<<<<<<< HEAD
+    <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="Title.cpp" />
+    <ClCompile Include="TklFile.cpp" />
     <ClCompile Include="TResourceBank.cpp" />
-    <ClCompile Include="GaussianBlur.cpp" />
-    <ClCompile Include="..\..\MiniEngine\RenderTarget.cpp" />
-=======
-    <ClCompile Include="Title.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="GameDirector.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
->>>>>>> 3d4b6cde5ca813ec545f2099c88cc22aa4f715aa
+    <ClCompile Include="Util.cpp" />
+    <ClCompile Include="WaveFile.cpp" />
+    <ClCompile Include="WaveFileBank.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -178,6 +137,7 @@
     <ClInclude Include="..\..\MiniEngine\raytracing\TLASBuffer.h" />
     <ClInclude Include="..\..\MiniEngine\RenderContext.h" />
     <ClInclude Include="..\..\MiniEngine\RenderContext_inline.h" />
+    <ClInclude Include="..\..\MiniEngine\RenderTarget.h" />
     <ClInclude Include="..\..\MiniEngine\RootSignature.h" />
     <ClInclude Include="..\..\MiniEngine\RWStructuredBuffer.h" />
     <ClInclude Include="..\..\MiniEngine\Shader.h" />
@@ -190,99 +150,46 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TkmFile.h" />
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
+    <ClInclude Include="Buff.h" />
+    <ClInclude Include="Burger.h" />
     <ClInclude Include="CaslFile.h" />
     <ClInclude Include="CLevel2D.h" />
+    <ClInclude Include="Counter.h" />
+    <ClInclude Include="DeBuff.h" />
+    <ClInclude Include="FixedUI.h" />
+    <ClInclude Include="FontRender.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameDirector.h" />
+    <ClInclude Include="GameTime.h" />
+    <ClInclude Include="GaussianBlur.h" />
+    <ClInclude Include="Guzai.h" />
+    <ClInclude Include="Kitchen.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Level2D.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MapChip2D.h" />
+    <ClInclude Include="ModelRender.h" />
+    <ClInclude Include="NameKey.h" />
+    <ClInclude Include="ObjectGene.h" />
+    <ClInclude Include="Path.h" />
+    <ClInclude Include="PathFactory.h" />
+    <ClInclude Include="PathMove.h" />
+    <ClInclude Include="PostEffectTest.h" />
     <ClInclude Include="Result.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="system\system.h" />
-    <ClInclude Include="TklFile.h" />
-    <ClInclude Include="WaveFile.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="SoundPreCompile.h" />
     <ClInclude Include="SoundSource.h" />
-    <ClInclude Include="WaveFileBank.h" />
-    <ClInclude Include="Util.h" />
-    <ClInclude Include="NameKey.h" />
+    <ClInclude Include="SpriteRender.h" />
+    <ClInclude Include="stdafx.h" />
     <ClInclude Include="Stopwatch.h" />
-    <ClInclude Include="GameTime.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="Burger.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelRender.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="Guzai.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="FontRender.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="Counter.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="FixedUI.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="Kitchen.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectGene.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteRender.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="Score.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="PostEffectTest.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="Path.h">
-      <Filter>game\move</Filter>
-    </ClInclude>
-    <ClInclude Include="PathFactory.h">
-      <Filter>game\move</Filter>
-    </ClInclude>
-    <ClInclude Include="PathMove.h">
-      <Filter>game\move</Filter>
-    </ClInclude>
-    <ClInclude Include="Buff.h">
-      <Filter>game\item</Filter>
-    </ClInclude>
-    <ClInclude Include="DeBuff.h">
-      <Filter>game\item</Filter>
-    </ClInclude>
-<<<<<<< HEAD
+    <ClInclude Include="system\system.h" />
+    <ClInclude Include="Title.h" />
+    <ClInclude Include="TklFile.h" />
     <ClInclude Include="TResourceBank.h" />
-    <ClInclude Include="GaussianBlur.h" />
-    <ClInclude Include="..\..\MiniEngine\RenderTarget.h" />
-=======
-    <ClInclude Include="Title.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="GameDirector.h">
-      <Filter>game</Filter>
-    </ClInclude>
->>>>>>> 3d4b6cde5ca813ec545f2099c88cc22aa4f715aa
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="game">
-      <UniqueIdentifier>{bb22909f-19d9-4f05-9f18-fd35b6340510}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="game\move">
-      <UniqueIdentifier>{d18d0c6c-2bb1-45ab-b052-4786b71d26c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="game\item">
-      <UniqueIdentifier>{62e2ce10-341e-4c12-9755-a5c7ddc9d17b}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="Util.h" />
+    <ClInclude Include="WaveFile.h" />
+    <ClInclude Include="WaveFileBank.h" />
   </ItemGroup>
 </Project>

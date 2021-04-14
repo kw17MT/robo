@@ -1,4 +1,14 @@
 #pragma once
+
+enum EnHamBurger
+{
+	enNon = -1,	//何もなし。
+	enCheeseBurger = 0,		//チーズバーガー。
+	enTomatoBurger,		//トマトバーガー。
+	enEggBurger,		//エッグバーガー。
+	enHamBurgerNum			//ハンバーガーの数。
+};
+
 class Counter : public IGameObject
 {
 private:
@@ -14,6 +24,8 @@ private:
 	int const burger01[3] = { 3,0,2 };
 	int const burger02[4] = { 3,4,4,2 };
 	int const burger03[4] = { 2,4,0,3 };
+	typedef std::vector<int> HamBurger;
+	HamBurger m_hamBurgers[enHamBurgerNum];
 
 	//カウンター番号　１が左、２が右
 	int CounterNo = 0;
