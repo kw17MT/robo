@@ -66,6 +66,10 @@ public:
 		m_commandList->RSSetViewports(1, &viewport);
 		m_currentViewport = viewport;
 	}
+	const D3D12_VIEWPORT& GetViewport() const
+	{
+		return m_currentViewport;
+	}
 	/// <summary>
 	/// シザリング矩形を設定
 	/// </summary>

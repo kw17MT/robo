@@ -77,5 +77,6 @@ void FontRender::Render(RenderContext& rc)
 		m_rotation,
 		m_scale,
 		m_pivot);
+
 	m_font.End(rc);
 }

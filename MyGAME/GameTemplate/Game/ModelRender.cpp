@@ -39,6 +39,7 @@ bool ModelRender::Start()
 
 	modeldata.m_expandConstantBuffer = &g_lig;
 	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
+	modeldata.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
 	m_skeleton.Init("Assets/modelData/unityChan.tks");
 	modeldata.m_skeleton = &m_skeleton;

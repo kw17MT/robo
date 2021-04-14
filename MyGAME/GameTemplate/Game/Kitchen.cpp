@@ -19,6 +19,8 @@ Kitchen::Kitchen()
 	modeldata.m_expandConstantBuffer = &g_lig;
 	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
 
+	modeldata.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+
 	
 	model.Init(modeldata);
 

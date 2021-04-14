@@ -43,7 +43,7 @@ void PostEffectTest::InitLuminaceSprite()
 
 	luminanceSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
 
-	luminanceSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32_FLOAT;
+	luminanceSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
 
 	luminanceSprite.Init(luminanceSpriteData);
@@ -97,14 +97,14 @@ bool PostEffectTest::Start()
 
 	model.Init(modelData);
 	m_charaCon.Init(0.0f, 0.0f, m_pos);
-
+	
+	InitRootSig(root);
 	InitMainRenderTarget();
 	InitLuminanceRenderTarget();
 	InitLuminaceSprite();
 	InitFinalSprite();
 	InitFrameBufferSprite();
-	InitRootSig(root);
-
+	
 	return true;
 }
 
@@ -112,37 +112,37 @@ void PostEffectTest::Update()
 {
 	m_skeleton.Update(model.GetWorldMatrix());
 
-	//レンダリングターゲットをmainRenderTargetに変更する
-	renderContext.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
-	renderContext.SetRenderTargetAndViewport(mainRenderTarget);
-	renderContext.ClearRenderTargetView(mainRenderTarget);
+	////レンダリングターゲットをmainRenderTargetに変更する
+	//renderContext.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
+	//renderContext.SetRenderTargetAndViewport(mainRenderTarget);
+	//renderContext.ClearRenderTargetView(mainRenderTarget);
 
-	//mainRenderTargetに各種モデルを描画する
-	model.Draw(renderContext);
-	renderContext.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
+	////mainRenderTargetに各種モデルを描画する
+	//model.Draw(renderContext);
+	//renderContext.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 
-	//輝度抽出
-	renderContext.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
-	renderContext.SetRenderTargetAndViewport(luminanceRenderTarget);
-	renderContext.ClearRenderTargetView(luminanceRenderTarget);
-	luminanceSprite.Draw(renderContext);
-	renderContext.WaitUntilFinishDrawingToRenderTarget(luminanceRenderTarget);
+	////輝度抽出
+	//renderContext.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
+	//renderContext.SetRenderTargetAndViewport(luminanceRenderTarget);
+	//renderContext.ClearRenderTargetView(luminanceRenderTarget);
+	//luminanceSprite.Draw(renderContext);
+	//renderContext.WaitUntilFinishDrawingToRenderTarget(luminanceRenderTarget);
 
-	//ガウシアンブラーを実行する
-	gaussianBlur.ExecuteOnGPU(renderContext, 20);
+	////ガウシアンブラーを実行する
+	//gaussianBlur.ExecuteOnGPU(renderContext, 20);
 
-	//ボケ画像をメインレンダリングターゲットに加算合成
-	renderContext.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
-	renderContext.SetRenderTargetAndViewport(mainRenderTarget);
-	finalSprite.Draw(renderContext);
-	renderContext.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
+	////ボケ画像をメインレンダリングターゲットに加算合成
+	//renderContext.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
+	//renderContext.SetRenderTargetAndViewport(mainRenderTarget);
+	//finalSprite.Draw(renderContext);
+	//renderContext.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 
-	//メインレンダリングターゲットの絵をフレームバッファーにコピー
-	renderContext.SetRenderTarget(
-		g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
-		g_graphicsEngine->GetCurrentFrameBuffuerDSV()
-	);
-	copyToFrameBufferSprite.Draw(renderContext);
+	////メインレンダリングターゲットの絵をフレームバッファーにコピー
+	//renderContext.SetRenderTarget(
+	//	g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
+	//	g_graphicsEngine->GetCurrentFrameBuffuerDSV()
+	//);
+	//copyToFrameBufferSprite.Draw(renderContext);
 
 
 	if (g_pad[0]->IsTrigger(enButtonA)) {

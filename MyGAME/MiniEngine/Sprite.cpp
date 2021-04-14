@@ -130,7 +130,7 @@
 		psoDesc.VS = CD3DX12_SHADER_BYTECODE(m_vs.GetCompiledBlob());
 		psoDesc.PS = CD3DX12_SHADER_BYTECODE(m_ps.GetCompiledBlob());
 		psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-		psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_FRONT;
+		psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
 		psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 
 		if (initData.m_alphaBlendMode == AlphaBlendMode_Trans) {
@@ -228,9 +228,13 @@
 	}
 	void Sprite::Draw(RenderContext& renderContext)
 	{
-		Matrix viewMatrix = g_camera2D->GetViewMatrix();
-		Matrix projMatrix = g_camera2D->GetProjectionMatrix();
+		D3D12_VIEWPORT viewport = renderContext.GetViewport();
+        //todo カメラ行列は定数に使用。どうせ変えないし・・・。
+        Matrix viewMatrix = g_camera2D->GetViewMatrix();
+        Matrix projMatrix;
+        projMatrix.MakeOrthoProjectionMatrix(viewport.Width, viewport.Height, 0.1f, 1.0f);
 
+		
 		m_constantBufferCPU.mvp = m_world * viewMatrix * projMatrix;
 		m_constantBufferCPU.mulColor.x = 1.0f;
 		m_constantBufferCPU.mulColor.y = 1.0f;

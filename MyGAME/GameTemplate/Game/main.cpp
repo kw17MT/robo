@@ -29,6 +29,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_lig.directionalLight.direction.Normalize();
 	//ポストエフェクトのテスト用。後から消すこと
 	g_postLig.directionalLight.direction.Normalize();
+	//g_postLig.directionalLight.direction.y = -1.0f
 	g_postLig.directionalLight.color = { 100.0f,100.0f,100.0f };
 	//////////////////////////////////////////////////////////////////////////////////////
 	
@@ -55,7 +56,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//////////////////////////////////////
 
 		GameObjectManager::GetInstance()->ExecuteUpdate();
+
+		//ブラーをかけるためのRenderTargetの設定をここで行う
+
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
+		
+		//ブラーをかけたいモデルにセットしてドローをここで行う。
 		
 		g_lig.eyePos = g_camera3D->GetPosition();
 		g_postLig.eyePos = g_camera3D->GetPosition();

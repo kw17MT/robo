@@ -27,6 +27,8 @@ DeBuff::DeBuff()
 	modeldata.m_expandConstantBuffer = &g_lig;
 	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
 
+	modeldata.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+
 	modeldata.m_modelUpAxis = enModelUpAxisY;
 
 	m_skeleton.Init("Assets/modelData/unityChan.tks");

@@ -250,7 +250,7 @@ Game::Game()
 	m_score = NewGO<Score>(2, "score");
 
 	//ポストエフェクトのテスト用モデル。
-	//postTest =  NewGO<PostEffectTest>(5);
+	postTest =  NewGO<PostEffectTest>(5);
 
 	//カウントダウンを開始するということを設定する。
 	GetGameDirector().SetGameScene(enGameCountDown);
