@@ -1,5 +1,17 @@
 #pragma once
 
+//ハンバーガーの種類を追加するときenumに種類を追加後、cpp側のコンストラクタでvectorに具材の種類を追加してやる。
+
+enum EnHamBurger
+{
+	enNon = -1,	//何もなし。
+	enCheeseBurger = 0,		//チーズバーガー。
+	enTomatoBurger,		//トマトバーガー。
+	enEggBurger,		//エッグバーガー。
+	//enTikimi
+	enHamBurgerNum			//ハンバーガーの数。
+};
+
 class Counter : public IGameObject
 {
 private:
@@ -14,7 +26,9 @@ private:
 	//０．チーズ　１．エッグ　２．レタス　３．パテ　４．トマト
 	int const burger01[3] = { 3,0,2 };
 	int const burger02[4] = { 3,4,4,2 };
-	int const burger03[4] = { 2,4,0,3 };
+	int const burger03[4] = { 2,4,1,3 };
+	typedef std::vector<int> HamBurger;
+	HamBurger m_hamBurgers[enHamBurgerNum];
 
 	//カウンター番号　１が左、２が右
 	int CounterNo = 0;

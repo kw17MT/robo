@@ -31,7 +31,13 @@ PSInput VSMain(VSInput In)
 	return psIn;
 }
 
-Texture2D<float4> RenderTargetTexture : register(t0); // メインレンダリングターゲットのテクスチャ
+Texture2D<float4> RenderTargetTexture : register(t0);
+
+//Texture2D<float4> RenderTargetTexture01 : register(t0); // メインレンダリングターゲットのテクスチャ
+//Texture2D<float4> RenderTargetTexture02 : register(t1);
+//Texture2D<float4> RenderTargetTexture03 : register(t2);
+//Texture2D<float4> RenderTargetTexture04 : register(t3);
+
 sampler Sampler : register(s0);
 
 /////////////////////////////////////////////////////////
@@ -50,4 +56,14 @@ float4 PSLuminance(PSInput In) : SV_Target0
 	clip(t - 1.0f);
 
 	return color;
+
+	/*float4 combineColor = RenderTargetTexture01.Sample(Sampler, In.uv);
+	combineColor += RenderTargetTexture02.Sample(Sampler, In.uv);
+	combineColor += RenderTargetTexture03.Sample(Sampler, In.uv);
+	combineColor += RenderTargetTexture04.Sample(Sampler, In.uv);
+
+	combineColor /= 4.0f;
+	combineColor.a = 1.0f;
+
+	return combineColor;*/
 }

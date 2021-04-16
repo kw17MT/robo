@@ -28,7 +28,6 @@ Guzai::~Guzai()
 	DeleteGO(pl02);
 	DeleteGO(ki01);
 	DeleteGO(ki02);*/
-
 }
 
 Vector3 Guzai::GetPosition()
@@ -233,6 +232,7 @@ void Guzai::GrabNPut()
 			}
 		}
 	}
+
 	if (GuzaiNo == 2) {
 		Vector3 plPos = pl02->GetPosition();
 

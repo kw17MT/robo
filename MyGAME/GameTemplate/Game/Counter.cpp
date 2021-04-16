@@ -27,6 +27,27 @@ Counter::Counter()
 	model.Init(modeldata);
 
 	m_charaCon.Init(0.0f, 0.0f, g_vec3One);
+
+	//ハンバーガーのデータを作る。
+	HamBurger cheese;
+	cheese.push_back(3);
+	cheese.push_back(0);
+	cheese.push_back(2);
+	m_hamBurgers[enCheeseBurger] = cheese;
+
+	HamBurger tomato;
+	tomato.push_back(3);
+	tomato.push_back(4);
+	tomato.push_back(4);
+	tomato.push_back(2);
+	m_hamBurgers[enTomatoBurger] = tomato;
+
+	HamBurger egg;
+	egg.push_back(2);
+	egg.push_back(4);
+	egg.push_back(1);
+	egg.push_back(3);
+	m_hamBurgers[enEggBurger] = egg;
 }
 
 //////////////////////判別するところ////////////////////////////////////////////////////////////////////////////////
@@ -46,7 +67,37 @@ bool Counter::Judge()
 		//作ったバーガーの層によって回すFOR文の回数が変わる。
 		//StackNumはバーガーができる瞬間にこちら側に保存される。（in Kitchen.cpp)
 		//判別過程で一度でも間違えたらFALSE
-		for (int i = 0; i < StackNum; i++) {
+		for (int i = 0; i < enHamBurgerNum; i++)
+		{
+			//ハンバーガーのデータ持ってくるお。
+			HamBurger hamBurger = m_hamBurgers[i];
+			//長さ違ったら。
+			if (StackNum != hamBurger.size())
+				//以下の処理しなーい。
+				continue;
+			
+			//同じだお。
+			bool isSame = true;
+			for (int j = 0; j < hamBurger.size(); j++)
+			{
+				//具材が違ってたら。
+				if (pl01->GuzaiNo[j] != hamBurger[j])
+				{
+					//違うお。
+					isSame = false;
+					break;
+				}
+			}
+			//同じだったお。
+			if (isSame == true)
+			{
+				return true;
+			}
+		}
+		//同じじゃなかったらtrue以外ありえない。
+		return false;
+		/*for (int i = 0; i < StackNum; i++) {
+			
 			if (burger01[i] == pl01->GuzaiNo[i]) {
 				correctCount01++;
 				continue;
@@ -63,6 +114,7 @@ bool Counter::Judge()
 		}
 
 		return correct01;
+		*/
 	}
 
 	if (CounterNo == 2) {
@@ -72,22 +124,35 @@ bool Counter::Judge()
 		bool correct02 = true;
 		int correctCount02 = 0;
 		int correctGuzaiNum02 = sizeof(burger01) / sizeof(int);
-
-		for (int i = 0; i < StackNum; i++) {
-			if (burger01[i] == pl02->GuzaiNo[i]) {
-				++correctCount02;
+		for (int i = 0; i < enHamBurgerNum; i++)
+		{
+			//ハンバーガーのデータ持ってくるお。
+			HamBurger hamBurger = m_hamBurgers[i];
+			//長さ違ったら。
+			if (StackNum != hamBurger.size())
+				//以下の処理しなーい。
 				continue;
-			}
-			else {
-				correct02 = false;
-				break;
-			}
-		}
 
-		if (correctCount02 != correctGuzaiNum02) {
-			correct02 = false;
+			//同じだお。
+			bool isSame = true;
+			for (int j = 0; j < hamBurger.size(); j++)
+			{
+				//具材が違ってたら。
+				if (pl02->GuzaiNo[j] != hamBurger[j])
+				{
+					//違うお。
+					isSame = false;
+					break;
+				}
+			}
+			//同じだったお。
+			if (isSame == true)
+			{
+				return true;
+			}
 		}
-		return correct02;
+		//同じじゃなった！
+		return false;
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -27,10 +27,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//一緒くたにしないと両方のライトの影響を受けなくなる。////////////////////////////////
 	//ディレクションライトの正規化と目の位置をカメラの座標にする。
 	g_lig.directionalLight.direction.Normalize();
+	//g_lig.directionalLight.color = { 5.0f, 5.0f, 5.0f };
 	//ポストエフェクトのテスト用。後から消すこと
 	g_postLig.directionalLight.direction.Normalize();
 	//g_postLig.directionalLight.direction.y = -1.0f
-	g_postLig.directionalLight.color = { 100.0f,100.0f,100.0f };
+	g_postLig.directionalLight.color = { 20.0f, 20.0f, 20.0f };
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//プレイヤー、文字、オブジェクトなどの生成////////////////////////////////////////////

@@ -111,9 +111,9 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	//①メインレンダリングターゲットに切り替える
 	//　レンダリングターゲットはメンバ変数にある
 	//　コンストラクタで初期化。				→フォーマットの違いでERRORがでるかもしれない。それぞれのクラスで同じフォーマットで初期化する。
-	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
+	/*rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
 	rc.SetRenderTargetAndViewport(mainRenderTarget);
-	rc.ClearRenderTargetView(mainRenderTarget);
+	rc.ClearRenderTargetView(mainRenderTarget);*/
 
 	//モデルのドロー
 	for (auto& goList : m_gameObjectListArray) {
@@ -121,35 +121,57 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 			go->RenderWrapper(rc);
 		}
 	}
-	//モデルが全部ドローできるまで待つ。
-	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
+	////モデルが全部ドローできるまで待つ。
+	//rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 
-	//ブルーム用のメンバとかつくってもいいかも
+	////ブルーム用のメンバとかつくってもいいかも
 
 
-	//輝度用の画像を出力する
-	rc.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
-	rc.SetRenderTargetAndViewport(luminanceRenderTarget);
-	rc.ClearRenderTargetView(luminanceRenderTarget);
-	luminanceSprite.Draw(rc);
-	rc.WaitUntilFinishDrawingToRenderTarget(luminanceRenderTarget);
+	////輝度用の画像を出力する
+	//rc.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
+	//rc.SetRenderTargetAndViewport(luminanceRenderTarget);
+	//rc.ClearRenderTargetView(luminanceRenderTarget);
+	//luminanceSprite.Draw(rc);
+	//rc.WaitUntilFinishDrawingToRenderTarget(luminanceRenderTarget);
 
-	//ガウシアンブラーをかける。
-	gaussianBlur.ExecuteOnGPU(rc, 20);
+	////ガウシアンブラーをかける。
+	//gaussianBlur.ExecuteOnGPU(rc, 40);
+	////最終結果となる画像をメインレンダーターゲットに設定して描く
+	//rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
+	//rc.SetRenderTargetAndViewport(mainRenderTarget);
+	//finalSprite.Draw(rc);
+	//rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 
-	//最終結果となる画像をメインレンダーターゲットに設定して描く
-	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
-	rc.SetRenderTargetAndViewport(mainRenderTarget);
-	finalSprite.Draw(rc);
-	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
+	////ガウシアンブラーをかける。
+	//gaussianBlur.ExecuteOnGPU(rc, 60);
+	////最終結果となる画像をメインレンダーターゲットに設定して描く
+	//rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
+	//rc.SetRenderTargetAndViewport(mainRenderTarget);
+	//finalSprite.Draw(rc);
+	//rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 
-	//②メインレンダリングターゲットの内容を
-	//  フレームバッファにコピー。
-	rc.SetRenderTarget(
-		g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
-		g_graphicsEngine->GetCurrentFrameBuffuerDSV()
-	);
+	////ガウシアンブラーをかける。
+	//gaussianBlur.ExecuteOnGPU(rc, 80);
+	////最終結果となる画像をメインレンダーターゲットに設定して描く
+	//rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
+	//rc.SetRenderTargetAndViewport(mainRenderTarget);
+	//finalSprite.Draw(rc);
+	//rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 
-	copyToBufferSprite.Draw(rc);
+	////ガウシアンブラーをかける。
+	//gaussianBlur.ExecuteOnGPU(rc, 160);
+	////最終結果となる画像をメインレンダーターゲットに設定して描く
+	//rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
+	//rc.SetRenderTargetAndViewport(mainRenderTarget);
+	//finalSprite.Draw(rc);
+	//rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 
+	////②メインレンダリングターゲットの内容を
+	////  フレームバッファにコピー。
+	//rc.SetRenderTarget(
+	//	g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
+	//	g_graphicsEngine->GetCurrentFrameBuffuerDSV()
+	//);
+
+	//copyToBufferSprite.Draw(rc);
 }

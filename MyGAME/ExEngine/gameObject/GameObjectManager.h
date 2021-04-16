@@ -145,6 +145,7 @@ private:
 	Sprite luminanceSprite;
 	//ガウシアンブラー
 	GaussianBlur gaussianBlur;
+	//GaussianBlur gaussianBlur[4];
 	//輝度を合算した画像。
 	SpriteInitData finalSpriteData;
 	Sprite finalSprite;
