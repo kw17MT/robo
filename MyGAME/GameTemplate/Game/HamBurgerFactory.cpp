@@ -19,8 +19,8 @@ HamBurgerFactory::HamBurgerFactory()
 
 	HamBurger egg;
 	egg.push_back(2);
-	egg.push_back(0);
 	egg.push_back(4);
+	egg.push_back(1);
 	egg.push_back(3);
 	m_hamBurgers[enEggBurger] = egg;
 }

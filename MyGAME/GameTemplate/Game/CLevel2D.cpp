@@ -106,8 +106,8 @@ bool CLevel2D::Start()
 	
 
 	m_showHamBurgers[0] = enCheeseBurger;
-	m_showHamBurgers[1] = enCheeseBurger;
-	m_showHamBurgers[2] = enCheeseBurger;
+	m_showHamBurgers[1] = enTomatoBurger;
+	m_showHamBurgers[2] = enEggBurger;
 	ShowHamBurger(0, m_showHamBurgers[0]);
 	ShowHamBurger(1, m_showHamBurgers[1]);
 	ShowHamBurger(2, m_showHamBurgers[2]);

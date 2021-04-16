@@ -65,4 +65,3 @@ public:
 	int Delay = 0;
 
 };
-
