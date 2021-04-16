@@ -91,6 +91,7 @@
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="WaveFile.cpp" />
     <ClCompile Include="WaveFileBank.cpp" />
+    <ClCompile Include="HamBurgerFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -191,5 +192,6 @@
     <ClInclude Include="Util.h" />
     <ClInclude Include="WaveFile.h" />
     <ClInclude Include="WaveFileBank.h" />
+    <ClInclude Include="HamBurgerFactory.h" />
   </ItemGroup>
 </Project>

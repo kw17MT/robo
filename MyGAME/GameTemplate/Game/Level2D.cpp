@@ -5,7 +5,6 @@
 #include "stdafx.h"
 #include "ExEngine.h"
 #include "Level2D.h"
-#include "CaslFile.h"
 #include "MapChip2D.h"
 
 void Level2D::AddMapChip2D(CaslData* caslData)
@@ -22,13 +21,13 @@ void Level2D::Init(
 )
 {
 	//Caslファイルをロードする。
-	CaslFile casl;
-	casl.Load(filePath);
+	m_casl;
+	m_casl.Load(filePath);
 
 	//構築構築。
-	for (int i = 0; i < casl.GetNumCaslData(); i++)
+	for (int i = 0; i < m_casl.GetNumCaslData(); i++)
 	{
-		auto caslData = casl.GetCaslData(i);
+		auto caslData = m_casl.GetCaslData(i);
 		Level2DObjectData objData;
 		objData.scale.x = caslData->scale.x;
 		objData.scale.y = caslData->scale.y;
@@ -51,6 +50,7 @@ void Level2D::Init(
 		{
 			AddMapChip2D(caslData);
 		}
+		m_level2DObjectDataList.push_back(objData);
 	}
 
 }

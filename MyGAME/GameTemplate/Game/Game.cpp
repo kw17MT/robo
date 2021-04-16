@@ -244,7 +244,7 @@ Game::Game()
 	//FixedUIクラスのアップデート内で表示する文字を固定している。
 	//ui = NewGO<FixedUI>(2);
 
-	NewGO<CLevel2D>(3);
+	NewGO<CLevel2D>(3, "clevel2d");
 
 	//スコアの表示/////////////////////////////////////////////////////////////////////
 	m_score = NewGO<Score>(2, "score");

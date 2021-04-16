@@ -4,6 +4,7 @@
 #include "Burger.h"
 #include "Kitchen.h"
 #include "Score.h"
+#include "CLevel2D.h";
 
 Counter::Counter()
 {
@@ -29,7 +30,7 @@ Counter::Counter()
 	m_charaCon.Init(0.0f, 0.0f, g_vec3One);
 
 	//ハンバーガーのデータを作る。
-	HamBurger cheese;
+	/*HamBurger cheese;
 	cheese.push_back(3);
 	cheese.push_back(0);
 	cheese.push_back(2);
@@ -48,11 +49,16 @@ Counter::Counter()
 	egg.push_back(1);
 	egg.push_back(3);
 	m_hamBurgers[enEggBurger] = egg;
+*/
+
+
 }
 
 //////////////////////判別するところ////////////////////////////////////////////////////////////////////////////////
 bool Counter::Judge()
 {
+	CLevel2D* l2 = FindGO<CLevel2D>("clevel2d");
+
 	if (CounterNo == 1) {
 		Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
 		ModelRender* pl01 = FindGO<ModelRender>("player01");
@@ -62,12 +68,13 @@ bool Counter::Judge()
 		//判別していく過程で正しかったらインクリメントされていく。正解数みたいなもの。
 		int correctCount01 = 0;
 		//満点となる数。sizeofの中身を変えることでいろんな種類のバーガーに対応できると思う。←変えてもいい。
-		int correctGuzaiNum01 = sizeof(burger01) / sizeof(int);
+		//int correctGuzaiNum01 = sizeof(burger01) / sizeof(int);
 
+		return l2->GetIsMatchHamBurger(pl01->GuzaiNo);
 		//作ったバーガーの層によって回すFOR文の回数が変わる。
 		//StackNumはバーガーができる瞬間にこちら側に保存される。（in Kitchen.cpp)
 		//判別過程で一度でも間違えたらFALSE
-		for (int i = 0; i < enHamBurgerNum; i++)
+		/*for (int i = 0; i < enHamBurgerNum; i++)
 		{
 			//ハンバーガーのデータ持ってくるお。
 			HamBurger hamBurger = m_hamBurgers[i];
@@ -123,7 +130,9 @@ bool Counter::Judge()
 
 		bool correct02 = true;
 		int correctCount02 = 0;
-		int correctGuzaiNum02 = sizeof(burger01) / sizeof(int);
+		//int correctGuzaiNum02 = sizeof(burger01) / sizeof(int);
+
+		/*return l2->GetIsMatchHamBurger(pl02->GuzaiNo);
 		for (int i = 0; i < enHamBurgerNum; i++)
 		{
 			//ハンバーガーのデータ持ってくるお。
@@ -152,7 +161,7 @@ bool Counter::Judge()
 			}
 		}
 		//同じじゃなった！
-		return false;
+		return false;*/
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
