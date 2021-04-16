@@ -132,9 +132,9 @@ void CLevel2D::Render(RenderContext& rc)
 	m_level2D.Draw(rc);
 }
 
-bool CLevel2D::GetIsMatchHamBurger(int* numbers)
+bool CLevel2D::GetIsMatchHamBurger(int* numbers, int size)
 {
-	int size = sizeof(numbers) / sizeof(*numbers);
+
 
 	for (int i = 0; i < SHOW_HAMBURGER_NUMBER; i++)
 	{
@@ -149,8 +149,9 @@ bool CLevel2D::GetIsMatchHamBurger(int* numbers)
 		bool isSame = true;
 		for (int j = 0; j < hamBurger.size(); j++)
 		{
+			int num = numbers[j];
 			//‹ïÞ‚ªˆá‚Á‚Ä‚½‚çB
-			if (numbers[j] != hamBurger[j])
+			if (num != hamBurger[j])
 			{
 				//ˆá‚¤‚¨B
 				isSame = false;

@@ -70,7 +70,7 @@ bool Counter::Judge()
 		//満点となる数。sizeofの中身を変えることでいろんな種類のバーガーに対応できると思う。←変えてもいい。
 		//int correctGuzaiNum01 = sizeof(burger01) / sizeof(int);
 
-		return l2->GetIsMatchHamBurger(pl01->GuzaiNo);
+		return l2->GetIsMatchHamBurger(pl01->GuzaiNo, StackNum);
 		//作ったバーガーの層によって回すFOR文の回数が変わる。
 		//StackNumはバーガーができる瞬間にこちら側に保存される。（in Kitchen.cpp)
 		//判別過程で一度でも間違えたらFALSE
@@ -132,7 +132,7 @@ bool Counter::Judge()
 		int correctCount02 = 0;
 		//int correctGuzaiNum02 = sizeof(burger01) / sizeof(int);
 
-		return l2->GetIsMatchHamBurger(pl02->GuzaiNo);
+		return l2->GetIsMatchHamBurger(pl02->GuzaiNo, StackNum);
 		/*
 		for (int i = 0; i < enHamBurgerNum; i++)
 		{
