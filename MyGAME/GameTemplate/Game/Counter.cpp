@@ -132,7 +132,8 @@ bool Counter::Judge()
 		int correctCount02 = 0;
 		//int correctGuzaiNum02 = sizeof(burger01) / sizeof(int);
 
-		/*return l2->GetIsMatchHamBurger(pl02->GuzaiNo);
+		return l2->GetIsMatchHamBurger(pl02->GuzaiNo);
+		/*
 		for (int i = 0; i < enHamBurgerNum; i++)
 		{
 			//ハンバーガーのデータ持ってくるお。
