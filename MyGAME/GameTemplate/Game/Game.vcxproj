@@ -302,6 +302,7 @@
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="GaussianBlur.cpp" />
     <ClCompile Include="Guzai.cpp" />
+    <ClCompile Include="HamBurgerFactory.cpp" />
     <ClCompile Include="Kitchen.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Level2D.cpp" />
@@ -410,6 +411,7 @@
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="Guzai.h" />
+    <ClInclude Include="HamBurgerFactory.h" />
     <ClInclude Include="Kitchen.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Level2D.h" />

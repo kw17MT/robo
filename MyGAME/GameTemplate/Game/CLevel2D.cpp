@@ -65,26 +65,31 @@ bool CLevel2D::Start()
 			////大きさを設定する。
 			//m_scale = objdata.scale;
 
-			sprite[0] = NewGO<SpriteRender>(2);
+			/*sprite[0] = NewGO<SpriteRender>(2);
 			sprite[0]->Init(objdata.ddsFilePath, objdata.width /2 , objdata.height /2);
-			sprite[0]->SetScale(objdata.scale);
-			sprite[0]->SetPosition(objdata.position);
-			
+			sprite[0]->SetScale(objdata.scale);*/
+			//sprite[0]->SetPosition(objdata.position);
+			m_spritePositions[0] = objdata.position;
+			m_level2DObjectDatas[enCheeseBurger] = objdata;
 			return true;
 		}
 		if (objdata.EqualObjectName("burger_tomato")) {
-			sprite[0] = NewGO<SpriteRender>(2);
-			sprite[0]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
-			sprite[0]->SetScale(objdata.scale);
-			sprite[0]->SetPosition(objdata.position);
+			/*sprite[1] = NewGO<SpriteRender>(2);
+			sprite[1]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
+			sprite[1]->SetScale(objdata.scale);*/
+			//sprite[1]->SetPosition(objdata.position);
+			m_spritePositions[1] = objdata.position;
+			m_level2DObjectDatas[enTomatoBurger] = objdata;
 
 			return true;
 		}
 		if (objdata.EqualObjectName("burger_egg")) {
-			sprite[0] = NewGO<SpriteRender>(2);
-			sprite[0]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
-			sprite[0]->SetScale(objdata.scale);
-			sprite[0]->SetPosition(objdata.position);
+			/*sprite[2] = NewGO<SpriteRender>(2);
+			sprite[2]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
+			sprite[2]->SetScale(objdata.scale);*/
+			//sprite[2]->SetPosition(objdata.position);
+			m_spritePositions[2] = objdata.position;
+			m_level2DObjectDatas[enEggBurger] = objdata;
 
 			return true;
 		}
@@ -94,6 +99,22 @@ bool CLevel2D::Start()
 			return false;
 		}
 	});
+
+	sprite[0] = nullptr;
+	sprite[1] = nullptr;
+	sprite[2] = nullptr;
+	
+
+	m_showHamBurgers[0] = enCheeseBurger;
+	m_showHamBurgers[1] = enCheeseBurger;
+	m_showHamBurgers[2] = enCheeseBurger;
+	ShowHamBurger(0, m_showHamBurgers[0]);
+	ShowHamBurger(1, m_showHamBurgers[1]);
+	ShowHamBurger(2, m_showHamBurgers[2]);
+
+
+
+
 	return true;
 }
 
@@ -109,4 +130,68 @@ void CLevel2D::Render(RenderContext& rc)
 	//m_sprite.Draw(rc);
 	//レベル2DクラスのSpriteの描画処理。
 	m_level2D.Draw(rc);
+}
+
+bool CLevel2D::GetIsMatchHamBurger(int* numbers)
+{
+	int size = sizeof(numbers) / sizeof(*numbers);
+
+	for (int i = 0; i < SHOW_HAMBURGER_NUMBER; i++)
+	{
+		//ハンバーガーのデータ持ってくるお。
+		HamBurger hamBurger = GetHamBurgerFactory().GetHamBurger(m_showHamBurgers[i]);
+		//長さ違ったら。
+		if (size != hamBurger.size())
+			//以下の処理しなーい。
+			continue;
+
+		//同じだお。
+		bool isSame = true;
+		for (int j = 0; j < hamBurger.size(); j++)
+		{
+			//具材が違ってたら。
+			if (numbers[j] != hamBurger[j])
+			{
+				//違うお。
+				isSame = false;
+				break;
+			}
+		}
+		//同じだったお。
+		if (isSame == true)
+		{
+			//次に表示するハンバーガー決めるお！
+			Roulette(i);
+			return true;
+		}
+	}
+
+	//同じじゃなかったら、false以外ありえない。
+	return false;
+}
+
+void CLevel2D::Roulette(int number)
+{
+	//TODO ここの乱数要修正？
+	int rn = rand() % enHamBurgerNum;
+
+	m_showHamBurgers[number] = EnHamBurger(rn);
+	//ハンバーガーの画像を表示しまーす。
+	ShowHamBurger(number, m_showHamBurgers[number]);
+}
+
+void CLevel2D::ShowHamBurger(int number, EnHamBurger enHamBurger)
+{
+	if (sprite[number] != nullptr)
+	{
+		DeleteGO(sprite[number]);
+	}
+
+	Level2DObjectData& objData = m_level2DObjectDatas[enHamBurger];
+	sprite[number] = NewGO<SpriteRender>(2);
+	sprite[number]->Init(objData.ddsFilePath, objData.width / 2, objData.height / 2);
+	sprite[number]->SetScale(objData.scale);
+
+	sprite[number]->SetPosition(m_spritePositions[number]);
+
 }

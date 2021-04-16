@@ -2,6 +2,7 @@
 #pragma once
 
 #include "MapChip2D.h"
+#include "CaslFile.h"
 
 struct CaslData;
 /// <summary>
@@ -70,4 +71,6 @@ private:
 	void AddMapChip2D(CaslData* caslData);
 private:
 	std::vector<MapChip2DPtr> m_mapChip2DPtrList;		//マップチップ2D。
+	std::vector<Level2DObjectData> m_level2DObjectDataList;
+	CaslFile m_casl;
 };

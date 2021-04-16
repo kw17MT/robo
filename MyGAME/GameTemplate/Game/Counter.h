@@ -1,13 +1,6 @@
 #pragma once
 
-enum EnHamBurger
-{
-	enNon = -1,	//何もなし。
-	enCheeseBurger = 0,		//チーズバーガー。
-	enTomatoBurger,		//トマトバーガー。
-	enEggBurger,		//エッグバーガー。
-	enHamBurgerNum			//ハンバーガーの数。
-};
+#include "HamBurgerFactory.h"
 
 class Counter : public IGameObject
 {
@@ -21,11 +14,9 @@ private:
 	int menuNum = 3;
 
 	//０．チーズ　１．エッグ　２．レタス　３．パテ　４．トマト
-	int const burger01[3] = { 3,0,2 };
-	int const burger02[4] = { 3,4,4,2 };
-	int const burger03[4] = { 2,4,0,3 };
-	typedef std::vector<int> HamBurger;
-	HamBurger m_hamBurgers[enHamBurgerNum];
+	//int const burger01[3] = { 3,0,2 };
+	//int const burger02[4] = { 3,4,4,2 };
+	//int const burger03[4] = { 2,4,0,3 };
 
 	//カウンター番号　１が左、２が右
 	int CounterNo = 0;
@@ -47,8 +38,11 @@ public:
 	//正しいバーガーかを調べる。
 	bool Judge();
 
+
+
 	void Render(RenderContext& rc) { model.Draw(rc); }
 
 	int Delay = 0;
+
 };
 
