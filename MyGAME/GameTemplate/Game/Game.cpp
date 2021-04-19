@@ -16,6 +16,7 @@
 #include "PostEffectTest.h"
 
 #include "GameDirector.h"
+#include "PopUp2D.h"
 
 namespace
 {
@@ -256,6 +257,8 @@ Game::Game()
 	GetGameDirector().SetGameScene(enGameCountDown);
 
 	m_font = NewGO<FontRender>(5);
+
+	popup2D = NewGO<PopUp2D>(20);
 
 }
 
