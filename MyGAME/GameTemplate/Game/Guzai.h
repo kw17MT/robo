@@ -48,7 +48,6 @@ private:
 	Vector3 GuzaiScale = { 1.0f,1.0f,1.0f };
 
 
-
 	//以下追加コード。
 	std::unique_ptr<PathMove> m_pathMove;		//移動処理を行うクラス。
 
@@ -99,6 +98,5 @@ public:
 	//スプライトの3D空間表示が可能になったら使用
 	/*SpriteRender* sp01 = nullptr;
 	SpriteRender* sp02 = nullptr;*/
-
 };
 

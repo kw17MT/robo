@@ -131,6 +131,24 @@ private:
 	typedef std::list<IGameObject*>	 GameObjectList;
 	std::array<GameObjectList, GAME_OBJECT_PRIO_MAX>	m_gameObjectListArray;							//!<ゲームオブジェクトの優先度付きリスト。
 	static GameObjectManager* m_instance;		//唯一のインスタンスのアドレスを記録する変数。
+
+
+	RootSignature rootSignature;
+	//メインレンダーターゲット
+	RenderTarget mainRenderTarget;
+	//フレームバッファにコピーしてきた画像の貼り付け
+	SpriteInitData copyToBufferSpriteData;
+	Sprite copyToBufferSprite;
+	//輝度画像用のメンバ
+	RenderTarget luminanceRenderTarget;
+	SpriteInitData luminanceSpriteData;
+	Sprite luminanceSprite;
+	//ガウシアンブラー
+	GaussianBlur gaussianBlur;
+	//GaussianBlur gaussianBlur[4];
+	//輝度を合算した画像。
+	SpriteInitData finalSpriteData;
+	Sprite finalSprite;
 };
 
 

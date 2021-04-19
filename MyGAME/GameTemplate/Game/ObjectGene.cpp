@@ -20,6 +20,8 @@ ObjectGene::ObjectGene()
 	modeldata.m_expandConstantBuffer = &g_lig;
 	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
 
+	modeldata.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+
 	modeldata.m_modelUpAxis = enModelUpAxisZ;
 
 	model.Init(modeldata);
@@ -42,7 +44,6 @@ void ObjectGene::Update()
 	int randNum = rand10(mt);
 	//2つある生成器で具材の出現パターンがほぼ同じになる問題あり
 
-	
 	if (timer == 50 && randNum != 1) {
 		m_guzai = NewGO<Guzai>(0,"guzai");
 		m_guzai->SetGuzaiNo(GeneNo);

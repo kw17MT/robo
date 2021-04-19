@@ -20,12 +20,36 @@ Counter::Counter()
 	modeldata.m_expandConstantBuffer = &g_lig;
 	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
 
+	modeldata.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+
 	m_skeleton.Init("Assets/modelData/unityChan.tks");
 	modeldata.m_skeleton = &m_skeleton;
 
 	model.Init(modeldata);
 
 	m_charaCon.Init(0.0f, 0.0f, g_vec3One);
+
+	//ハンバーガーのデータを作る。
+	/*HamBurger cheese;
+	cheese.push_back(3);
+	cheese.push_back(0);
+	cheese.push_back(2);
+	m_hamBurgers[enCheeseBurger] = cheese;
+
+	HamBurger tomato;
+	tomato.push_back(3);
+	tomato.push_back(4);
+	tomato.push_back(4);
+	tomato.push_back(2);
+	m_hamBurgers[enTomatoBurger] = tomato;
+
+	HamBurger egg;
+	egg.push_back(2);
+	egg.push_back(4);
+	egg.push_back(1);
+	egg.push_back(3);
+	m_hamBurgers[enEggBurger] = egg;
+*/
 
 
 }
@@ -46,7 +70,7 @@ bool Counter::Judge()
 		//満点となる数。sizeofの中身を変えることでいろんな種類のバーガーに対応できると思う。←変えてもいい。
 		//int correctGuzaiNum01 = sizeof(burger01) / sizeof(int);
 
-		return l2->GetIsMatchHamBurger(pl01->GuzaiNo);
+		return l2->GetIsMatchHamBurger(pl01->GuzaiNo, StackNum);
 		//作ったバーガーの層によって回すFOR文の回数が変わる。
 		//StackNumはバーガーができる瞬間にこちら側に保存される。（in Kitchen.cpp)
 		//判別過程で一度でも間違えたらFALSE
@@ -108,7 +132,8 @@ bool Counter::Judge()
 		int correctCount02 = 0;
 		//int correctGuzaiNum02 = sizeof(burger01) / sizeof(int);
 
-		/*return l2->GetIsMatchHamBurger(pl02->GuzaiNo);
+		return l2->GetIsMatchHamBurger(pl02->GuzaiNo, StackNum);
+		/*
 		for (int i = 0; i < enHamBurgerNum; i++)
 		{
 			//ハンバーガーのデータ持ってくるお。
@@ -162,7 +187,7 @@ void Counter::Delete()
 
 			//キッチンに置く準備
 			//できたハンバーガーの組成をJudge関数で調べ、あっていたらカウンターに置ける。
-			if (g_pad[0]->IsPress(enButtonB) && pl2Counter < 100.0f) {
+			if (g_pad[0]->IsTrigger(enButtonB) && pl2Counter < 100.0f) {
 				if (Judge() == true) {
 					bu01->putOnKitchen = 1;
 				}
@@ -206,7 +231,7 @@ void Counter::Delete()
 
 			//キッチンに置く準備
 			//できたハンバーガーの組成をJudge関数でしらべ、あっていたらカウンターに置ける。
-			if (g_pad[1]->IsPress(enButtonB) && pl2Counter < 100.0f) {
+			if (g_pad[1]->IsTrigger(enButtonB) && pl2Counter < 100.0f) {
 				if (Judge() == true) {
 					bu02->putOnKitchen = 1;
 				}

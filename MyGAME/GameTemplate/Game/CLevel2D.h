@@ -32,7 +32,7 @@ public:
 	}
 
 	//ハンバーガーが一致しているかどうかを取得
-	bool GetIsMatchHamBurger(int* numbers);
+	bool GetIsMatchHamBurger(int* numbers, int size);
 private:
 	Level2D m_level2D;		//レベル2D。
 	//Sprite m_sprite;			//スプライト。
