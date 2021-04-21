@@ -16,7 +16,7 @@
 #include "PostEffectTest.h"
 
 #include "GameDirector.h"
-#include "PopUp2D.h"
+//#include "PopUp2D.h"
 
 namespace
 {
@@ -258,8 +258,11 @@ Game::Game()
 
 	m_font = NewGO<FontRender>(5);
 
-	popup2D = NewGO<PopUp2D>(20);
+	/*m_popup2D_1 = NewGO<PopUp2D>(20);
+	m_popup2D_1->SetEnSelf(enPlayer01);
 
+	m_popup2D_2 = NewGO<PopUp2D>(20);
+	m_popup2D_2 -> SetEnSelf(enPlayer02);*/
 }
 
 Game::~Game()

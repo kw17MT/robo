@@ -29,7 +29,7 @@ private:
 	//具材からプレイヤーへの距離
 	float guzai2Pl = 0;
 	//キッチンからプレイヤーへの距離
-	float kit2Pl = 0;
+	float kit2Pl = 0.0f;
 	
 	//ターゲティング関連
 	//ターゲティングされた具材を設定するよう。
@@ -47,10 +47,8 @@ private:
 	//枠線強調のために使用
 	Vector3 GuzaiScale = { 1.0f,1.0f,1.0f };
 
-
 	//以下追加コード。
 	std::unique_ptr<PathMove> m_pathMove;		//移動処理を行うクラス。
-
 
 public:	
 	//乱数を用いて具材が生まれると同時にどの具材を流すか設定する。
@@ -62,6 +60,7 @@ public:
 	Vector3 GetPosition();
 	void SetPosition(Vector3 pos);
 	void SetScale(Vector3 scale) { GuzaiScale = scale; }
+	float GetGuzaiToPlayer() { return guzai2Pl; }
 
 	//具材をキッチンに置いたときにオブジェクトを消すため、初めに設定しておいたTypeNoも消えてしまう。
 	//つまり、レーン上に出したオブジェクトと新しくキッチン上に出すオブジェクトが違う。
