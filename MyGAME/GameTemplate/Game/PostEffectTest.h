@@ -13,26 +13,27 @@ private:
 	Quaternion m_rot = Quaternion::Identity;
 	Vector3 m_scale = { 1.0f,1.0f,1.0f };
 
-	RootSignature root;
-	//通常のレンダリング対象
-	RenderTarget mainRenderTarget;
-	//輝度抽出用のレンダリング対象
-	RenderTarget luminanceRenderTarget;
-	//輝度依存のぼかしを適応した画像用
-	SpriteInitData luminanceSpriteData;
-	Sprite luminanceSprite;
+	//以下GameObjectManagerで初期化、実行したもの。
+	//RootSignature root;
+	////通常のレンダリング対象
+	//RenderTarget mainRenderTarget;
+	////輝度抽出用のレンダリング対象
+	//RenderTarget luminanceRenderTarget;
+	////輝度依存のぼかしを適応した画像用
+	//SpriteInitData luminanceSpriteData;
+	//Sprite luminanceSprite;
 
-	//作成予定
-	//ガウシアンブラーをかけるためのもの。
-	GaussianBlur gaussianBlur;
+	////作成予定
+	////ガウシアンブラーをかけるためのもの。
+	//GaussianBlur gaussianBlur;
 
-	SpriteInitData finalSpriteData;
-	Sprite finalSprite;
+	//SpriteInitData finalSpriteData;
+	//Sprite finalSprite;
 
-	SpriteInitData copyToFrameBufferSpriteData;
-	Sprite copyToFrameBufferSprite;
+	//SpriteInitData copyToFrameBufferSpriteData;
+	//Sprite copyToFrameBufferSprite;
 
-	RenderContext& renderContext = g_graphicsEngine->GetRenderContext();
+	//RenderContext& renderContext = g_graphicsEngine->GetRenderContext();
 
 public:
 	PostEffectTest() {}
@@ -40,13 +41,6 @@ public:
 
 	bool Start();
 	void Update();
-
-	void InitRootSig(RootSignature& rs);
-	void InitMainRenderTarget();
-	void InitLuminanceRenderTarget();
-	void InitLuminaceSprite();
-	void InitFinalSprite();
-	void InitFrameBufferSprite();
 
 	void Render(RenderContext& rc) { model.Draw(rc); }
 };

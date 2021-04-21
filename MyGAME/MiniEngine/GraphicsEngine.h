@@ -202,6 +202,11 @@ public:
 	{
 		return m_fontEngine;
 	}
+
+	D3D12_VIEWPORT& GetFrameBufferViewport()
+	{
+		return m_viewport;
+	}
 private:
 	/// <summary>
 	/// D3Dデバイスの作成。

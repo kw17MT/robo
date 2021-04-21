@@ -92,6 +92,10 @@
     <ClCompile Include="WaveFile.cpp" />
     <ClCompile Include="WaveFileBank.cpp" />
     <ClCompile Include="HamBurgerFactory.cpp" />
+    <ClCompile Include="Shadow.cpp" />
+    <ClCompile Include="ShadowTest.cpp" />
+    <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="ShadowTestColor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -193,5 +197,9 @@
     <ClInclude Include="WaveFile.h" />
     <ClInclude Include="WaveFileBank.h" />
     <ClInclude Include="HamBurgerFactory.h" />
+    <ClInclude Include="Shadow.h" />
+    <ClInclude Include="ShadowTest.h" />
+    <ClInclude Include="Ground.h" />
+    <ClInclude Include="ShadowTestColor.h" />
   </ItemGroup>
 </Project>

@@ -215,7 +215,6 @@ void ModelRender::Update()
 	//アイテム使用処理。
 	UseItem();
 	//Vector3 plPos = m_charaCon.GetPosition();
-	
 	m_position = m_charaCon.Execute(moveSpeed, 1.0f);
 
 	model.UpdateWorldMatrix(m_position, m_rotation, m_scale);

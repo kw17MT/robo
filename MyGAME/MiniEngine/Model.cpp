@@ -96,3 +96,14 @@ void Model::Draw(RenderContext& rc)
 		g_camera3D->GetProjectionMatrix()
 	);
 }
+
+//‰e‚ğ¶¬‚·‚é‚Æ‚«‚Ég—p‚·‚éB
+void Model::Draw(RenderContext& renderContext, Camera camera)
+{
+	m_meshParts.Draw(
+		renderContext,
+		m_world,
+		camera.GetViewMatrix(),
+		camera.GetProjectionMatrix()
+	);
+}

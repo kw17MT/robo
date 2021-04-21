@@ -14,6 +14,8 @@
 #include "Result.h"
 #include "SoundSource.h"
 #include "PostEffectTest.h"
+#include "ShadowTest.h"
+#include "Ground.h"
 
 #include "GameDirector.h"
 
@@ -206,7 +208,7 @@ Game::Game()
 			return false;
 		}
 		if (wcscmp(objectData.name, L"Floor") == 0) {
-			return false;
+			return true;
 		}
 		/*if (wcscmp(objectData.name, L"WayPoint011") == 0) {
 			return false;
@@ -251,6 +253,13 @@ Game::Game()
 
 	//ポストエフェクトのテスト用モデル。
 	postTest =  NewGO<PostEffectTest>(5);
+
+	//シャドウのテスト用のモデル
+	shadowTest = NewGO<ShadowTest>(5);
+
+	//これを消す時、LevelのFloorをreturn false にすること。
+	//↓シャドウレシーバー。
+	ground = NewGO<Ground>(0);
 
 	//カウントダウンを開始するということを設定する。
 	GetGameDirector().SetGameScene(enGameCountDown);

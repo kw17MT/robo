@@ -7,6 +7,7 @@
 #include "gameObject/IGameObject.h"
 #include <functional>
 #include <vector>
+class Shadow;
 
 
 /// <summary>
@@ -149,6 +150,17 @@ private:
 	//輝度を合算した画像。
 	SpriteInitData finalSpriteData;
 	Sprite finalSprite;
+
+	
+	//シャドウ関連
+	float clearColor[4] = { 1.0f,1.0f,1.0f,1.0f };
+	RenderTarget shadowTarget;
+
+	//ライト座標から見た影を作るためのもの
+	Camera lightCamera;
+
+	SpriteInitData shadowSpriteData;
+	Sprite shadowSprite;
 };
 
 

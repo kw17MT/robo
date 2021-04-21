@@ -256,7 +256,6 @@ void Counter::Delete()
 					pl02->have = 0;
 					StackNum = 0;
 				}
-
 			}
 		}
 	}
