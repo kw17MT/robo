@@ -317,6 +317,7 @@
     <ClCompile Include="Path.cpp" />
     <ClCompile Include="PathFactory.cpp" />
     <ClCompile Include="PathMove.cpp" />
+    <ClCompile Include="PopUp2D.cpp" />
     <ClCompile Include="PostEffectTest.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="Score.cpp" />
@@ -429,6 +430,7 @@
     <ClInclude Include="Path.h" />
     <ClInclude Include="PathFactory.h" />
     <ClInclude Include="PathMove.h" />
+    <ClInclude Include="PopUp2D.h" />
     <ClInclude Include="PostEffectTest.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Score.h" />

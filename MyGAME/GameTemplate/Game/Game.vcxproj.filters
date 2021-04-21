@@ -92,10 +92,14 @@
     <ClCompile Include="WaveFile.cpp" />
     <ClCompile Include="WaveFileBank.cpp" />
     <ClCompile Include="HamBurgerFactory.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="ShadowTest.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="ShadowTestColor.cpp" />
+=======
+    <ClCompile Include="PopUp2D.cpp" />
+>>>>>>> f4c0eb002fad1dbf33e00162be11f9d31b93efef
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -197,9 +201,13 @@
     <ClInclude Include="WaveFile.h" />
     <ClInclude Include="WaveFileBank.h" />
     <ClInclude Include="HamBurgerFactory.h" />
+<<<<<<< HEAD
     <ClInclude Include="Shadow.h" />
     <ClInclude Include="ShadowTest.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="ShadowTestColor.h" />
+=======
+    <ClInclude Include="PopUp2D.h" />
+>>>>>>> f4c0eb002fad1dbf33e00162be11f9d31b93efef
   </ItemGroup>
 </Project>

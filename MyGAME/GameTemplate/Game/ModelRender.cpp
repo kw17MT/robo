@@ -8,6 +8,7 @@
 #include "DeBuff.h"
 
 #include "GameDirector.h"
+#include "PopUp2D.h"
 
 namespace
 {
@@ -21,7 +22,7 @@ ModelRender::ModelRender()
 
 ModelRender::~ModelRender()
 {
-	
+	DeleteGO(m_popUp);
 }
 
 bool ModelRender::Start()
@@ -53,6 +54,17 @@ bool ModelRender::Start()
 	//具材ナンバー配列のすべての要素を9で初期化
 	for (int i = 0; i < 10; i++) {
 		GuzaiNo[i] = 9;
+	}
+	
+	//ポップアップ用表示
+	m_popUp = NewGO<PopUp2D>(20, "popup");
+	if (playerNo != 0) {
+		if (playerNo == 1) {
+			m_popUp->SetEnSelf(enPlayer01);
+		}
+		else if (playerNo == 2) {
+			m_popUp->SetEnSelf(enPlayer02);
+		}
 	}
 
 	return true;
@@ -98,6 +110,7 @@ Vector3 ModelRender::GetPosition()
 
 void ModelRender::Update()
 {
+	
 	//ゲームプレイ中じゃなかったら。
 	if (!GetGameDirector().GetIsGamePlay())
 	{
@@ -215,9 +228,28 @@ void ModelRender::Update()
 	//アイテム使用処理。
 	UseItem();
 	//Vector3 plPos = m_charaCon.GetPosition();
-	m_position = m_charaCon.Execute(moveSpeed, 1.0f);
 
+	
+	//m_charaCon.Execute(moveSpeed, 1.0f);
+
+	m_position = m_charaCon.Execute(moveSpeed, 1.0f);
+	
+	
+	////テスト:ポップアップモデルの変更
+	//if (m_popUp->GetEnState() == enNone) {
+	//	m_popUp->SetEnState(enNearFood);
+	//	m_popUp->ChangeModel();
+	//}
+	
+	//ポップアップ用座標設定
+	Vector3 playerToPopUp = { 200.0f,100.0f,0.0f };
+	m_popUpPosition = m_position;
+	m_popUpPosition = m_popUpPosition + playerToPopUp;
+	m_popUp->SetPosition(m_popUpPosition);
+	
+	
 	model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
+	
 }
 
 void ModelRender::UseItem()

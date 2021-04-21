@@ -338,9 +338,10 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 
 		lig += ambientLight * albedoColor;
 		//float4 finalColor = g_albedo.Sample(g_sampler, psIn.uv);
-
+		
 		float4 finalColor = 1.0f;
 		finalColor.xyz = lig;
+		finalColor.a = albedoColor.a; //出力するカラーにアルベドマップのアルファ値を渡すとモデルに適用したテクスチャの透過率が適用される
 		return finalColor;
 	}
 }

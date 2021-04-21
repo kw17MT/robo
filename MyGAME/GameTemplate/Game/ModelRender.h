@@ -4,6 +4,7 @@
 
 class Guzai;
 class FontRender;
+class PopUp2D;
 
 enum EnItem
 {
@@ -20,10 +21,13 @@ private:
 	ModelInitData modeldata;
 	Skeleton m_skeleton;
 	CharacterController m_charaCon;
+	PopUp2D* m_popUp = nullptr;
 
 	//プレイヤーのパラメータ
 	//座標
 	Vector3 m_position = Vector3::Zero;
+	//ポップアップの座標
+	Vector3 m_popUpPosition = Vector3::Zero;
 	//回転
 	Quaternion m_rotation = Quaternion::Identity;
 	//スケール

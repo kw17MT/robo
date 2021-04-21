@@ -9,10 +9,13 @@
 #include <cstdlib>
 
 #include "PathMove.h"
+#include<random>
 
 namespace
 {
 	const float MOVESPEED = 130.0f;
+	
+
 }
 
 
@@ -142,9 +145,15 @@ bool Guzai::Start()
 	ki01 = FindGO<Kitchen>("kitchen01");
 	ki02 = FindGO<Kitchen>("kitchen02");
 
-	//—”‚Å‚Ç‚Ì‹ïŞ‚ª—¬‚ê‚Ä‚­‚é‚©‚ğŒˆ‚ß‚éB
-	std::srand(time(NULL));
-	TypeNo = rand() % 5;
+	std::random_device rnd;
+	std::mt19937 mt(rnd());
+	std::uniform_int_distribution<int> rand(0, 4);
+
+	TypeNo = rand(mt);
+
+	////—”‚Å‚Ç‚Ì‹ïŞ‚ª—¬‚ê‚Ä‚­‚é‚©‚ğŒˆ‚ß‚éB
+	//std::srand(time(NULL));
+	//TypeNo = rand() % 5;
 
 	switch (TypeNo) {
 	case 0:
@@ -185,6 +194,7 @@ bool Guzai::Start()
 
 	m_pathMove = std::make_unique<PathMove>();
 	m_pathMove.get()->Init(m_charaCon.GetPosition(), MOVESPEED, enNormalLane, GuzaiNo);
+
 
 	return true;
 }
