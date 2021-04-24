@@ -9,6 +9,7 @@ Title::~Title()
 
 bool Title::Start()
 {
+
 	m_spriteRender = NewGO<SpriteRender>(0);
 
 	m_spriteRender->Init("Assets/Image/title.dds", 1280, 720);

@@ -60,7 +60,7 @@ bool FixedUI::Start()
 
 	//ŽcŽžŠÔ
 	Time = NewGO<FontRender>(5);
-	Time->SetText(L"60");
+	Time->SetText(L"30");
 	Time->SetPosition(posLastTime);
 
 	return true;

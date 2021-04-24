@@ -14,9 +14,7 @@
 #include "Result.h"
 #include "SoundSource.h"
 #include "PostEffectTest.h"
-
 #include "GameDirector.h"
-//#include "PopUp2D.h"
 
 namespace
 {
@@ -257,12 +255,6 @@ Game::Game()
 	GetGameDirector().SetGameScene(enGameCountDown);
 
 	m_font = NewGO<FontRender>(5);
-
-	/*m_popup2D_1 = NewGO<PopUp2D>(20);
-	m_popup2D_1->SetEnSelf(enPlayer01);
-
-	m_popup2D_2 = NewGO<PopUp2D>(20);
-	m_popup2D_2 -> SetEnSelf(enPlayer02);*/
 }
 
 Game::~Game()
@@ -356,7 +348,9 @@ void Game::CountDown()
 
 
 	//TODO GameTimeにする。
-	m_timer -= 1.0f / 120.0f;
+	//m_timer -= 1.0f / 120.0f;
+	m_timer -= 1.0f / 60.0f; //画面のリフレッシュレートが60Hzだったので変更
+
 
 	if (m_timer <= 0.0f)
 	{

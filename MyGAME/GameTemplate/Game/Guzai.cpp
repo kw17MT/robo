@@ -303,7 +303,7 @@ void Guzai::TargetingNPopDummy()
 			Guzai* targetdummyOnGuzai01 = NewGO<Guzai>(1, "targetdummy01");
 			targetdummyOnGuzai01->modeldata.m_psEntryPointFunc = "FrontCulling";
 			targetdummyOnGuzai01->SetPosition(GuzaiPos);
-			targetdummyOnGuzai01->SetScale({ 1.1f,1.1f,1.1f });
+			targetdummyOnGuzai01->SetScale({ 1.3f,1.3f,1.3f });
 			isSetTargetDummy = true;
 
 

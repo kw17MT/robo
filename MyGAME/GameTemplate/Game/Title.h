@@ -10,8 +10,8 @@ public:
 	bool Start();
 	//XVˆ—B
 	void Update();
-
 private:
 	SpriteRender* m_spriteRender;
+
 };
 
