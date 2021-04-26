@@ -23,7 +23,7 @@ public:
 	void SetPosition(Vector3 pos){ m_sprite.Update(pos, m_Rot, m_Scale, m_Pivot); }
 	void SetScale(Vector3 scale) { m_sprite.Update(m_Pos, m_Rot, scale, m_Pivot); }
 	//カラー変更(Vector4版)
-	void SetColor(Vector4& color) { m_sprite.ColorUpdate(color); }
+	void SetColor(const Vector4& color) { m_sprite.ColorUpdate(color); }
 	//カラー変更(float版)
 	void SetColor(const float& r,const float& g,const float& b,const float& a) { m_sprite.ColorUpdate(r,g,b,a); }
 	void Render(RenderContext& rc) { m_sprite.Draw(rc); }
