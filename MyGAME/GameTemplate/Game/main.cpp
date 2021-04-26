@@ -39,7 +39,84 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	NewGO<Title>(0, "title");
 	//////////////////////////////////////////////////////////////////////////////////////
 	
+	
+	
 
+	////影描画用のライトカメラを作成する。			〇
+	//Camera lightCamera;
+	////カメラの位置を設定。これはライトの位置。
+	//lightCamera.SetPosition(0, 500, 0);
+	////カメラの注視点を設定。これがライトが照らしている場所。
+	//lightCamera.SetTarget(0, 0, 0);
+	////上方向を設定。今回はライトが真下を向いているので、X方向を上にしている。
+	//lightCamera.SetUp({ 1, 0, 0 });
+	////ライトビュープロジェクション行列を計算している。
+	//lightCamera.Update();
+
+
+	////シャドウマップ描画用のレンダリングターゲットを作成する。			〇
+	//float clearColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	//RenderTarget shadowMap;
+	//shadowMap.Create(
+	//	1024,
+	//	1024,
+	//	1,
+	//	1,
+	//	DXGI_FORMAT_R8G8B8A8_UNORM,
+	//	DXGI_FORMAT_D32_FLOAT,
+	//	clearColor
+	//);
+
+	////シャドウマップに描画するモデルを初期化する。		〇
+	//ModelInitData teapotShadowModelInitData;
+	////シャドウマップ描画用のシェーダーを指定する。
+	//teapotShadowModelInitData.m_fxFilePath = "Assets/shader/DrawShadowMap.fx";
+	//teapotShadowModelInitData.m_tkmFilePath = "Assets/modelData/unityChan.tkm";
+	//Model teapotShadowModel;
+	//teapotShadowModel.Init(teapotShadowModelInitData);
+	//teapotShadowModel.UpdateWorldMatrix(
+	//	{ 0, 50, 0 },
+	//	g_quatIdentity,
+	//	g_vec3One
+	//);
+
+
+	///*　	×
+	//ここまで用意できたもので影落とすためにmodel.Draw(rc, camera)をする。
+	//modelを上から見たときの灰色画像をshadowTargetを用いて移す。*/
+
+
+
+	////通常描画のティーポットモデルを初期化。
+	//Model teapotModel;
+	//teapotShadowModelInitData.m_fxFilePath = "Assets/shader/model.fx";
+	//teapotShadowModelInitData.m_expandConstantBuffer = &g_lig;
+	//teapotShadowModelInitData.m_expandConstantBufferSize = sizeof(g_lig);
+	//teapotModel.Init(teapotShadowModelInitData);
+	//teapotModel.UpdateWorldMatrix(
+	//	{ 0, 50, 0 },
+	//	g_quatIdentity,
+	//	g_vec3One
+	//);
+
+	////step-1 影を受ける背景モデルを初期化。			
+	//ModelInitData bgModelInitData;
+	////シャドウレシーバー(影が落とされるモデル)用のシェーダーを指定する。
+	//bgModelInitData.m_fxFilePath = "Assets/shader/ShadowReciever.fx";
+	////シャドウマップを拡張SRVに設定する。
+	//bgModelInitData.m_expandShaderResoruceView = &shadowMap.GetRenderTargetTexture();
+	////ライトビュープロジェクション行列を拡張定数バッファに設定する。
+	//bgModelInitData.m_expandConstantBuffer = (void*)&lightCamera.GetViewProjectionMatrix();
+	//bgModelInitData.m_expandConstantBufferSize = sizeof(lightCamera.GetViewProjectionMatrix());
+	//bgModelInitData.m_tkmFilePath = "Assets/modelData/Floor.tkm";
+
+	//Model bgModel;
+	//bgModel.Init(bgModelInitData);
+
+
+	
+
+	
 	
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -55,14 +132,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//////////////////////////////////////
 		//ここから絵を描くコードを記述する。
 		//////////////////////////////////////
-
 		GameObjectManager::GetInstance()->ExecuteUpdate();
-
-		//ブラーをかけるためのRenderTargetの設定をここで行う
-
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
-		
-		//ブラーをかけたいモデルにセットしてドローをここで行う。
 		
 		g_lig.eyePos = g_camera3D->GetPosition();
 		g_postLig.eyePos = g_camera3D->GetPosition();
@@ -83,22 +154,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			Vector3 camerapos = g_camera3D->GetPosition();
 			Vector3 cameraTarget = g_camera3D->GetTarget();
 
-
-			
-
 			camerapos.z -= move;
 			g_camera3D->SetPosition(camerapos);
 
 			cameraTarget.z -= move;
 			g_camera3D->SetTarget(cameraTarget);
-			
 		}
 		if (g_pad[0]->GetRStickXF()) {
 			float move = g_pad[0]->GetRStickXF() * 30.0f;
 			Vector3 camerapos = g_camera3D->GetPosition();
 			Vector3 cameraTarget = g_camera3D->GetTarget();
-
-			
 
 			camerapos.x -= move;
 			g_camera3D->SetPosition(camerapos);
@@ -119,6 +184,39 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			camerapos.y += move;
 			g_camera3D->SetPosition(camerapos);
 		}
+
+
+
+
+
+
+
+		/*renderContext.WaitUntilToPossibleSetRenderTarget(shadowMap);
+		renderContext.SetRenderTargetAndViewport(shadowMap);
+		renderContext.ClearRenderTargetView(shadowMap);
+
+
+		teapotShadowModel.Draw(renderContext, lightCamera);
+
+
+		renderContext.WaitUntilFinishDrawingToRenderTarget(shadowMap);
+
+
+		renderContext.SetRenderTarget(
+			g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
+			g_graphicsEngine->GetCurrentFrameBuffuerDSV()
+		);
+		renderContext.SetViewport(g_graphicsEngine->GetFrameBufferViewport());
+
+
+		teapotModel.Draw(renderContext);
+
+		bgModel.Draw(renderContext);*/
+
+
+
+
+
 
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！

@@ -58,6 +58,8 @@ public:
 	/// ワールド行列を取得。
 	/// </summary>
 	/// <returns></returns>
+	void Draw(RenderContext& renderContext, Camera camera);
+ 
 	const Matrix& GetWorldMatrix() const
 	{
 		return m_world;

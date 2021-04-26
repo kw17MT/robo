@@ -61,7 +61,9 @@
     <ClCompile Include="GameDirector.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="GaussianBlur.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Guzai.cpp" />
+    <ClCompile Include="HamBurgerFactory.cpp" />
     <ClCompile Include="Kitchen.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Level2D.cpp" />
@@ -69,15 +71,18 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="MapChip2D.cpp" />
-    <ClCompile Include="ModelRender.cpp" />
     <ClCompile Include="NameKey.cpp" />
     <ClCompile Include="ObjectGene.cpp" />
     <ClCompile Include="Path.cpp" />
     <ClCompile Include="PathFactory.cpp" />
     <ClCompile Include="PathMove.cpp" />
+    <ClCompile Include="PopUp2D.cpp" />
     <ClCompile Include="PostEffectTest.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="Score.cpp" />
+    <ClCompile Include="Shadow.cpp" />
+    <ClCompile Include="ShadowTest.cpp" />
+    <ClCompile Include="ShadowTestColor.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="SoundPreCompile.cpp" />
     <ClCompile Include="SoundSource.cpp" />
@@ -91,8 +96,10 @@
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="WaveFile.cpp" />
     <ClCompile Include="WaveFileBank.cpp" />
-    <ClCompile Include="HamBurgerFactory.cpp" />
-    <ClCompile Include="PopUp2D.cpp" />
+    <ClCompile Include="SkinModelRender.cpp" />
+    <ClCompile Include="kari.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerGene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -164,22 +171,27 @@
     <ClInclude Include="GameDirector.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="GaussianBlur.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="Guzai.h" />
+    <ClInclude Include="HamBurgerFactory.h" />
     <ClInclude Include="Kitchen.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Level2D.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MapChip2D.h" />
-    <ClInclude Include="ModelRender.h" />
     <ClInclude Include="NameKey.h" />
     <ClInclude Include="ObjectGene.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="PathFactory.h" />
     <ClInclude Include="PathMove.h" />
+    <ClInclude Include="PopUp2D.h" />
     <ClInclude Include="PostEffectTest.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Score.h" />
+    <ClInclude Include="Shadow.h" />
+    <ClInclude Include="ShadowTest.h" />
+    <ClInclude Include="ShadowTestColor.h" />
     <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="SoundPreCompile.h" />
     <ClInclude Include="SoundSource.h" />
@@ -193,7 +205,9 @@
     <ClInclude Include="Util.h" />
     <ClInclude Include="WaveFile.h" />
     <ClInclude Include="WaveFileBank.h" />
-    <ClInclude Include="HamBurgerFactory.h" />
-    <ClInclude Include="PopUp2D.h" />
+    <ClInclude Include="SkinModelRender.h" />
+    <ClInclude Include="kari.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerGene.h" />
   </ItemGroup>
 </Project>

@@ -82,6 +82,7 @@ public:
 	/// </summary>
 	/// <param name="renderContext">レンダリングコンテキスト/param>
 	void Draw(RenderContext& renderContext);
+
 private:
 	/// <summary>
 	/// テクスチャを初期化。
@@ -112,6 +113,7 @@ private:
 	/// </summary>
 	/// <param name="initData"></param>
 	void InitConstantBuffer(const SpriteInitData& initData);
+
 private:
 	IndexBuffer m_indexBuffer;			//インデックスバッファ。
 	VertexBuffer m_vertexBuffer;		//頂点バッファ。

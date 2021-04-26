@@ -44,39 +44,39 @@ void ObjectGene::Update()
 	int randNum = rand10(mt);
 	//2つある生成器で具材の出現パターンがほぼ同じになる問題あり
 
-	if (timer == 50 && randNum != 1) {
+	if (timer >= 50 && randNum != 1) {
 		m_guzai = NewGO<Guzai>(0,"guzai");
 		m_guzai->SetGuzaiNo(GeneNo);
 		m_guzai->SetPosition(m_charaCon.GetPosition());
 		timer = 0;
 	}
 
-	//５０フレーム経った後、ランダムな変数が１の時（10%）
-	if (timer == 50 && randNum == 1) {
-		//バフアイテムが画面に出ていないとき。
-		if (Buffnum == 0) {
-			m_buff = NewGO<Buff>(0, "buff");
-			m_buff->SetBuffNo(GeneNo);
-			m_buff->SetPosition(m_charaCon.GetPosition());
-			timer = 0;
-			Buffnum = 1;
-		}
-		else if (DeBuffnum == 0)
-		{
-			DeBuff* deBuff = NewGO<DeBuff>(0, "debuff");
-			deBuff->SetBuffNo(GeneNo);
-			deBuff->SetPosition(m_charaCon.GetPosition());
-			timer = 0;
-			DeBuffnum = 1;
-		}
-		//バフアイテムが画面に出ているとき、バフアイテムを出さずに具材をだす。
-		else {
-			m_guzai = NewGO<Guzai>(0, "guzai");
-			m_guzai->SetGuzaiNo(GeneNo);
-			m_guzai->SetPosition(m_charaCon.GetPosition());
-			timer = 0;
-		}
-	}
+	////５０フレーム経った後、ランダムな変数が１の時（10%）
+	//if (timer == 50 && randNum == 1) {
+	//	//バフアイテムが画面に出ていないとき。
+	//	if (Buffnum == 0) {
+	//		m_buff = NewGO<Buff>(0, "buff");
+	//		m_buff->SetBuffNo(GeneNo);
+	//		m_buff->SetPosition(m_charaCon.GetPosition());
+	//		timer = 0;
+	//		Buffnum = 1;
+	//	}
+	//	else if (DeBuffnum == 0)
+	//	{
+	//		DeBuff* deBuff = NewGO<DeBuff>(0, "debuff");
+	//		deBuff->SetBuffNo(GeneNo);
+	//		deBuff->SetPosition(m_charaCon.GetPosition());
+	//		timer = 0;
+	//		DeBuffnum = 1;
+	//	}
+	//	//バフアイテムが画面に出ているとき、バフアイテムを出さずに具材をだす。
+	//	else {
+	//		m_guzai = NewGO<Guzai>(0, "guzai");
+	//		m_guzai->SetGuzaiNo(GeneNo);
+	//		m_guzai->SetPosition(m_charaCon.GetPosition());
+	//		timer = 0;
+	//	}
+	//}
 	
 	
 	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);

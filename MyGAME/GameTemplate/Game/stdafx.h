@@ -6,3 +6,5 @@
 
 #include "Light.h"
 #include "SoundEngine.h"
+
+#include "Shadow.h"

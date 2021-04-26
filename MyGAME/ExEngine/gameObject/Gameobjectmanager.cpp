@@ -15,63 +15,83 @@ GameObjectManager::GameObjectManager()
 	}
 	m_instance = this;
 
-	rootSignature.Init(
-		D3D12_FILTER_MIN_MAG_MIP_LINEAR,
-		D3D12_TEXTURE_ADDRESS_MODE_WRAP,
-		D3D12_TEXTURE_ADDRESS_MODE_WRAP,
-		D3D12_TEXTURE_ADDRESS_MODE_WRAP
+	//rootSignature.Init(
+	//	D3D12_FILTER_MIN_MAG_MIP_LINEAR,
+	//	D3D12_TEXTURE_ADDRESS_MODE_WRAP,
+	//	D3D12_TEXTURE_ADDRESS_MODE_WRAP,
+	//	D3D12_TEXTURE_ADDRESS_MODE_WRAP
+	//);
+
+	////メインのレンダーターゲットの初期化
+	//mainRenderTarget.Create(
+	//	1280,
+	//	720,
+	//	1,
+	//	1,
+	//	DXGI_FORMAT_R32G32B32A32_FLOAT,
+	//	DXGI_FORMAT_D32_FLOAT
+	//);
+
+	//copyToBufferSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
+	//copyToBufferSpriteData.m_width = 1280;
+	//copyToBufferSpriteData.m_height = 720;
+	//copyToBufferSpriteData.m_fxFilePath = "Assets/shader/sample2D.fx";
+
+	//copyToBufferSprite.Init(copyToBufferSpriteData);
+
+	////輝度用のレンダーターゲットの初期化
+	//luminanceRenderTarget.Create(
+	//	1280,
+	//	720,
+	//	1,
+	//	1,
+	//	DXGI_FORMAT_R32G32B32A32_FLOAT,
+	//	DXGI_FORMAT_D32_FLOAT
+	//);
+	////輝度用のスプライトデータとスプライトの初期化
+	//luminanceSpriteData.m_fxFilePath = "Assets/shader/postEffect.fx";
+	//luminanceSpriteData.m_vsEntryPointFunc = "VSMain";
+	//luminanceSpriteData.m_psEntryPoinFunc = "PSLuminance";
+	//luminanceSpriteData.m_width = 1280;
+	//luminanceSpriteData.m_height = 720;
+
+	//luminanceSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
+	//luminanceSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+
+	//luminanceSprite.Init(luminanceSpriteData);
+
+	//gaussianBlur.Init(&luminanceRenderTarget.GetRenderTargetTexture());
+
+	////最終表示用の画像の初期化
+	//finalSpriteData.m_textures[0] = &gaussianBlur.GetBokeTexture();
+	//finalSpriteData.m_width = 1280;
+	//finalSpriteData.m_height = 720;
+
+	//finalSpriteData.m_fxFilePath = "Assets/shader/sample2D.fx";
+	//finalSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
+	//finalSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+
+	//finalSprite.Init(finalSpriteData);
+
+
+	//シャドウ関連
+	shadowTarget.Create(
+		1024,
+		1024,
+		1,
+		1,
+		DXGI_FORMAT_R8G8B8A8_UNORM,
+		DXGI_FORMAT_D32_FLOAT,
+		clearColor
 	);
 
-	//メインのレンダーターゲットの初期化
-	mainRenderTarget.Create(
-		1280,
-		720,
-		1,
-		1,
-		DXGI_FORMAT_R32G32B32A32_FLOAT,
-		DXGI_FORMAT_D32_FLOAT
-	);
+	lightCamera.SetPosition(0, 1000, 0);
+	lightCamera.SetUp({ 1, 0, 0 });
+	lightCamera.SetViewAngle(Math::DegToRad(20.0f));
+	lightCamera.Update();
 
-	copyToBufferSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
-	copyToBufferSpriteData.m_width = 1280;
-	copyToBufferSpriteData.m_height = 720;
-	copyToBufferSpriteData.m_fxFilePath = "Assets/shader/sample2D.fx";
+	
 
-	copyToBufferSprite.Init(copyToBufferSpriteData);
-
-	//輝度用のレンダーターゲットの初期化
-	luminanceRenderTarget.Create(
-		1280,
-		720,
-		1,
-		1,
-		DXGI_FORMAT_R32G32B32A32_FLOAT,
-		DXGI_FORMAT_D32_FLOAT
-	);
-	//輝度用のスプライトデータとスプライトの初期化
-	luminanceSpriteData.m_fxFilePath = "Assets/shader/postEffect.fx";
-	luminanceSpriteData.m_vsEntryPointFunc = "VSMain";
-	luminanceSpriteData.m_psEntryPoinFunc = "PSLuminance";
-	luminanceSpriteData.m_width = 1280;
-	luminanceSpriteData.m_height = 720;
-
-	luminanceSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
-	luminanceSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
-
-	luminanceSprite.Init(luminanceSpriteData);
-
-	gaussianBlur.Init(&luminanceRenderTarget.GetRenderTargetTexture());
-
-	//最終表示用の画像の初期化
-	finalSpriteData.m_textures[0] = &gaussianBlur.GetBokeTexture();
-	finalSpriteData.m_width = 1280;
-	finalSpriteData.m_height = 720;
-
-	finalSpriteData.m_fxFilePath = "Assets/shader/sample2D.fx";
-	finalSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
-	finalSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
-
-	finalSprite.Init(finalSpriteData);
 
 
 }
@@ -115,32 +135,49 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.SetRenderTargetAndViewport(mainRenderTarget);
 	rc.ClearRenderTargetView(mainRenderTarget);*/
 
+	//シャドウマップのレンダリングターゲットに設定する。
+	rc.WaitUntilToPossibleSetRenderTarget(shadowTarget);
+	rc.SetRenderTargetAndViewport(shadowTarget);
+	rc.ClearRenderTargetView(shadowTarget);
+
+
+
+	//shadowSprite.Draw(rc);
+	rc.WaitUntilFinishDrawingToRenderTarget(shadowTarget);
+
+	rc.SetRenderTarget(
+		g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
+		g_graphicsEngine->GetCurrentFrameBuffuerDSV()
+	);
+	rc.SetViewport(g_graphicsEngine->GetFrameBufferViewport());
+	
 	//モデルのドロー
 	for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
 			go->RenderWrapper(rc);
 		}
-	}
+	} 
+
+
 	////モデルが全部ドローできるまで待つ。
 	//rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 
 	////ブルーム用のメンバとかつくってもいいかも
 
-
 	////輝度用の画像を出力する
-	//rc.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
-	//rc.SetRenderTargetAndViewport(luminanceRenderTarget);
-	//rc.ClearRenderTargetView(luminanceRenderTarget);
-	//luminanceSprite.Draw(rc);
-	//rc.WaitUntilFinishDrawingToRenderTarget(luminanceRenderTarget);
+	/*rc.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
+	rc.SetRenderTargetAndViewport(luminanceRenderTarget);
+	rc.ClearRenderTargetView(luminanceRenderTarget);
+	luminanceSprite.Draw(rc);
+	rc.WaitUntilFinishDrawingToRenderTarget(luminanceRenderTarget);*/
 
-	////ガウシアンブラーをかける。
+	//ガウシアンブラーをかける。
 	//gaussianBlur.ExecuteOnGPU(rc, 40);
-	////最終結果となる画像をメインレンダーターゲットに設定して描く
-	//rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
-	//rc.SetRenderTargetAndViewport(mainRenderTarget);
-	//finalSprite.Draw(rc);
-	//rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
+	//最終結果となる画像をメインレンダーターゲットに設定して描く
+	/*rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
+	rc.SetRenderTargetAndViewport(mainRenderTarget);
+	finalSprite.Draw(rc);
+	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);*/
 
 	////ガウシアンブラーをかける。
 	//gaussianBlur.ExecuteOnGPU(rc, 60);
@@ -168,10 +205,10 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 
 	////②メインレンダリングターゲットの内容を
 	////  フレームバッファにコピー。
-	//rc.SetRenderTarget(
-	//	g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
-	//	g_graphicsEngine->GetCurrentFrameBuffuerDSV()
-	//);
+	/*rc.SetRenderTarget(
+		g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
+		g_graphicsEngine->GetCurrentFrameBuffuerDSV()
+	);
 
-	//copyToBufferSprite.Draw(rc);
+	copyToBufferSprite.Draw(rc);*/
 }

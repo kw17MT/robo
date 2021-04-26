@@ -1,14 +1,17 @@
 #include "stdafx.h"
 #include "Buff.h"
-#include "ModelRender.h"
+//#include "ModelRender.h"
 #include "ObjectGene.h"
 
 #include "PathMove.h"
 
 #include "ObjectGene.h"
 
+#include "Player.h"
+
 namespace
 {
+	//a
 	const float MOVESPEED = 130.0f;
 }
 
@@ -94,7 +97,7 @@ void Buff::Update()
 
 	if (BuffNo == 1) {
 		Vector3 BuffPos = m_charaCon.GetPosition();
-		ModelRender* pl01 = FindGO<ModelRender>("player01");
+		/*ModelRender*/Player* pl01 = FindGO<Player/*ModelRender*/>("player01");
 		Vector3 plPos01 = pl01->GetPosition();
 
 		//バフアイテムとプレイヤーの距離を測る。
@@ -116,7 +119,7 @@ void Buff::Update()
 
 	if (BuffNo == 2) {
 		Vector3 BuffPos = m_charaCon.GetPosition();
-		ModelRender* pl02 = FindGO<ModelRender>("player02");
+		Player/*ModelRender*/* pl02 = FindGO<Player/*ModelRender*/>("player02");
 		Vector3 plPos02 = pl02->GetPosition();
 
 		//バフアイテムとプレイヤーの距離を測る。

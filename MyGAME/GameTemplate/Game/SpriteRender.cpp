@@ -14,5 +14,6 @@ void SpriteRender::Init(const char* name, int width, int height)
 	spdata.m_height = height;
 
 	spdata.m_alphaBlendMode = AlphaBlendMode_Trans; //アルファブレンディングモードを有効化
+
 	m_sprite.Init(spdata);
 }

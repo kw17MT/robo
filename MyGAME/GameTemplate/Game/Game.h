@@ -1,6 +1,6 @@
 #pragma once
 class Level;
-class ModelRender;
+//class ModelRender;
 class FixedUI;
 class SpriteRender;
 class Guzai;
@@ -12,6 +12,15 @@ class Result;
 class FontRender;
 class Level;
 class PostEffectTest;
+
+
+class ShadowTest;
+class Ground;
+
+class Player;
+class PlayerGene;
+//class PopUp2D;
+
 	
 class Game : public IGameObject
 {
@@ -37,11 +46,23 @@ public:
 	Kitchen* kitchen02;
 	SpriteRender* menu[3];
 	SpriteRender* Buff[2];
-	ModelRender* player[2];
+	//ModelRender* player[2];
+	Player* player[2];
+	PlayerGene* playerGene;
 	ObjectGene* generator01;
 	ObjectGene* generator02;
 	Score* m_score = nullptr;
 	PostEffectTest* postTest;
+
+
+	ShadowTest* shadowTest;
+	Ground* ground;
+
+	
+	//PopUp2D* m_popup2D_1 = nullptr;
+	//PopUp2D* m_popup2D_2 = nullptr;
+
+
 
 	//勝敗表示用:引き分けの場合、プレイヤー1、プレイヤー2に用意
 	Result* m_result[3];
