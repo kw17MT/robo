@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Guzai.h"
-#include "ModelRender.h"
+//#include "ModelRender.h"
 #include "math.h"
 #include "Kitchen.h"
 #include "ObjectGene.h"
@@ -11,11 +11,12 @@
 #include "PathMove.h"
 #include<random>
 
+#include "Player.h"
+#include "SkinModelRender.h"
+
 namespace
 {
 	const float MOVESPEED = 130.0f;
-	
-
 }
 
 
@@ -31,17 +32,34 @@ Guzai::~Guzai()
 	DeleteGO(pl02);
 	DeleteGO(ki01);
 	DeleteGO(ki02);*/
+
+	/*if (GuzaiNo == 1) {
+		SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
+		if (targetDummy01 != nullptr) {
+			DeleteGO(targetDummy01);
+		}
+	}
+	if (GuzaiNo == 2) {
+		SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
+		if (targetDummy02 != nullptr) {
+			DeleteGO(targetDummy02);
+		}
+	}*/
+
+	DeleteGO(m_skinModelRender);
 }
 
 Vector3 Guzai::GetPosition()
 {
-	Vector3 Pos = m_charaCon.GetPosition();
-	return Pos;
+	/*Vector3 Pos = m_charaCon.GetPosition();
+	return Pos;*/
+	return m_position;
 }
 
 void Guzai::SetPosition(Vector3 pos)
 {
-	m_charaCon.SetPosition(pos);
+	//m_charaCon.SetPosition(pos);
+	m_position = pos;
 }
 
 
@@ -51,29 +69,38 @@ void Guzai::ChangeGuzai(int num)
 
 	switch (TypeNo) {
 	case 0:
-		modeldata.m_tkmFilePath = "Assets/modelData/gu/cheese.tkm";
+		//modeldata.m_tkmFilePath = "Assets/modelData/gu/cheese.tkm";
+		m_skinModelRender->ChangeModel("Assets/modelData/gu/cheese.tkm");
+		NowModelPath = "Assets/modelData/gu/cheese.tkm";
 		break;
 	case 1:
-		modeldata.m_tkmFilePath = "Assets/modelData/gu/egg.tkm";
+		//modeldata.m_tkmFilePath = "Assets/modelData/gu/egg.tkm";
+		m_skinModelRender->ChangeModel("Assets/modelData/gu/egg.tkm");
+		NowModelPath = "Assets/modelData/gu/egg.tkm";
 		break;
 	case 2:
-		modeldata.m_tkmFilePath = "Assets/modelData/gu/lettuce.tkm";
+		//modeldata.m_tkmFilePath = "Assets/modelData/gu/lettuce.tkm";
+		m_skinModelRender->ChangeModel("Assets/modelData/gu/lettuce.tkm");
+		NowModelPath = "Assets/modelData/gu/lettuce.tkm";
 		break;
 	case 3:
-		modeldata.m_tkmFilePath = "Assets/modelData/gu/patty.tkm";
+		//modeldata.m_tkmFilePath = "Assets/modelData/gu/patty.tkm";
+		m_skinModelRender->ChangeModel("Assets/modelData/gu/patty.tkm");
+		NowModelPath = "Assets/modelData/gu/patty.tkm";
 		break;
 	case 4:
-		modeldata.m_tkmFilePath = "Assets/modelData/gu/tomato.tkm";
+		//modeldata.m_tkmFilePath = "Assets/modelData/gu/tomato.tkm";
+		m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
+		NowModelPath = "Assets/modelData/gu/tomato.tkm";
 		break;
 	}
-	modeldata.m_fxFilePath = "Assets/shader/model.fx";
-
-	model.Init(modeldata);
+	
+	m_skinModelRender->SetNewModel();
 }
 
 void Guzai::Move()
 {
-	Vector3 GuzaiPos = m_charaCon.GetPosition();
+	//Vector3 GuzaiPos = m_charaCon.GetPosition();
 
 	//TODO 具材の移動。
 	/*if (GuzaiNo == 1) {
@@ -128,22 +155,28 @@ void Guzai::Move()
 	//持たれていない　且つ　一度も置かれていない
 	if (state == 0 && put == 0) {
 		//移動させる。
-		m_charaCon.SetPosition(m_pathMove.get()->Move());
+		/*m_charaCon.*/SetPosition(m_pathMove.get()->Move());
 		//最後のポイントまで到達したら。
 		if (m_pathMove.get()->GetIsFinalPoint())
 		{
 			//削除する。
 			DeleteGO(this);
+			//DeleteGO(m_skinModelRender);
 		}
 	}
 }
 
 bool Guzai::Start()
 {
-	pl01 = FindGO<ModelRender>("player01");
-	pl02 = FindGO<ModelRender>("player02");
+	pl01 = FindGO<Player/*ModelRender*/>("player01");
+	pl02 = FindGO<Player/*ModelRender*/>("player02");
 	ki01 = FindGO<Kitchen>("kitchen01");
 	ki02 = FindGO<Kitchen>("kitchen02");
+
+	m_skinModelRender = NewGO<SkinModelRender>(0);
+	m_skinModelRender->Init("Assets/modelData/gu/cheese.tkm",nullptr, enModelUpAxisZ, m_position);
+	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	//m_skinModelRender->InitLight(g_lig);
 
 	std::random_device rnd;
 	std::mt19937 mt(rnd());
@@ -157,43 +190,57 @@ bool Guzai::Start()
 
 	switch (TypeNo) {
 	case 0:
-		modeldata.m_tkmFilePath = "Assets/modelData/gu/cheese.tkm";
+		//modeldata.m_tkmFilePath = "Assets/modelData/gu/cheese.tkm";
+		m_skinModelRender->ChangeModel("Assets/modelData/gu/cheese.tkm");
+		NowModelPath = "Assets/modelData/gu/cheese.tkm";
 		break;
 	case 1:
-		modeldata.m_tkmFilePath = "Assets/modelData/gu/egg.tkm";
+		//modeldata.m_tkmFilePath = "Assets/modelData/gu/egg.tkm";
+		m_skinModelRender->ChangeModel("Assets/modelData/gu/egg.tkm");
+		NowModelPath = "Assets/modelData/gu/egg.tkm";
 		break;
 	case 2:
-		modeldata.m_tkmFilePath = "Assets/modelData/gu/lettuce.tkm";
+		//modeldata.m_tkmFilePath = "Assets/modelData/gu/lettuce.tkm";
+		m_skinModelRender->ChangeModel("Assets/modelData/gu/lettuce.tkm");
+		NowModelPath = "Assets/modelData/gu/lettuce.tkm";
 		break;
 	case 3:
-		modeldata.m_tkmFilePath = "Assets/modelData/gu/patty.tkm";
+		//modeldata.m_tkmFilePath = "Assets/modelData/gu/patty.tkm";
+		m_skinModelRender->ChangeModel("Assets/modelData/gu/patty.tkm");
+		NowModelPath = "Assets/modelData/gu/patty.tkm";
 		break;
 	case 4:
-		modeldata.m_tkmFilePath = "Assets/modelData/gu/tomato.tkm";
+		//modeldata.m_tkmFilePath = "Assets/modelData/gu/tomato.tkm";
+		m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
+		NowModelPath = "Assets/modelData/gu/tomato.tkm";
 		break;
 	}
 
-	modeldata.m_fxFilePath = "Assets/shader/model.fx";
 
-	modeldata.m_vsEntryPointFunc = "VSMain";
-	modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
+	m_skinModelRender->SetNewModel();
 
-	modeldata.m_expandConstantBuffer = &g_lig;
-	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
+	//modeldata.m_fxFilePath = "Assets/shader/model.fx";
 
-	modeldata.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	//modeldata.m_vsEntryPointFunc = "VSMain";
+	//modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
 
-	modeldata.m_modelUpAxis = enModelUpAxisY;
+	//modeldata.m_expandConstantBuffer = &g_lig;
+	//modeldata.m_expandConstantBufferSize = sizeof(g_lig);
 
-	model.Init(modeldata);
+	//modeldata.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
-	Vector3 pos = { 0.0f,0.0f,-1000.0f };
+	//modeldata.m_modelUpAxis = enModelUpAxisY;
 
-	m_charaCon.Init(0.0f, 0.0f, pos);
+	//model.Init(modeldata);
+
+	//Vector3 pos = { 0.0f,0.0f,-1000.0f };
+
+	//m_charaCon.Init(0.0f, 0.0f, pos);
+
 
 
 	m_pathMove = std::make_unique<PathMove>();
-	m_pathMove.get()->Init(m_charaCon.GetPosition(), MOVESPEED, enNormalLane, GuzaiNo);
+	m_pathMove.get()->Init(m_position/*m_charaCon.GetPosition()*/, MOVESPEED, enNormalLane, GuzaiNo);
 
 
 	return true;
@@ -217,14 +264,14 @@ void Guzai::GrabNPut()
 			SetPosition(plPos);
 
 			//ターゲット用のダミーを消す。
-			Guzai* targetdummy01 = FindGO<Guzai>("targetdummy01");
-			DeleteGO(targetdummy01);
+			SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
+			DeleteGO(targetDummy01);
 		}
 
 		//Bボタンを押してキッチンが近くにあったら、今積まれている数に応じておく場所を変える。
 		//キッチン側のスタック数をインクリメント。キッチン側で具材をNewGO。
 		if (g_pad[0]->IsTrigger(enButtonB)) {
-			if (state == 1 && kit2Pl < 400.0f) {
+			if (state == 1 && kit2Pl < 100.0f) {
 				Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
 				//キッチンに置いた具材の種類をプレイヤー側に保存
 				pl01->GuzaiNo[ki01->GetStackNum()] = TypeNo;
@@ -238,7 +285,10 @@ void Guzai::GrabNPut()
 				isSetTargetDummy = false;
 				decrementTime = holdTime;
 
+				//具材の情報を消す。
 				DeleteGO(this);
+				//具材のモデルを消す。
+				//DeleteGO(m_skinModelRender);
 			}
 		}
 	}
@@ -259,14 +309,14 @@ void Guzai::GrabNPut()
 			SetPosition(plPos);
 
 			//ターゲット用のダミーを消す。
-			Guzai* targetdummy02 = FindGO<Guzai>("targetdummy02");
-			DeleteGO(targetdummy02);
+			SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
+			DeleteGO(targetDummy02);
 		}
 
 		//Bボタンを押してキッチンが近くにあったら、今積まれている数に応じておく場所を変える。
 		//キッチン側のスタック数をインクリメント。キッチン側で具材をNewGO。
 		if (g_pad[1]->IsTrigger(enButtonB)) {
-			if (state == 1 && kit2Pl < 400.0f) {
+			if (state == 1 && kit2Pl < 100.0f) {
 				Kitchen* ki02 = FindGO<Kitchen>("kitchen02");
 				//キッチンに置いた具材の種類をプレイヤー側に保存
 				pl02->GuzaiNo[ki02->GetStackNum()] = TypeNo;
@@ -280,7 +330,10 @@ void Guzai::GrabNPut()
 				isSetTargetDummy = false;
 				decrementTime = holdTime;
 
+				//具材の情報を消す。
 				DeleteGO(this);
+				//具材のモデルを消す。
+				//DeleteGO(m_skinModelRender);
 			}
 		}
 	}
@@ -288,7 +341,7 @@ void Guzai::GrabNPut()
 
 void Guzai::TargetingNPopDummy()
 {
-	Vector3 GuzaiPos = m_charaCon.GetPosition();
+	//Vector3 GuzaiPos = m_charaCon.GetPosition();
 
 	if (GuzaiNo == 1) {
 		//具材との距離が一定以下　で　プレイヤーは何もロックしていなかったら。
@@ -300,31 +353,24 @@ void Guzai::TargetingNPopDummy()
 		//ターゲットした具材がダミーを出していなかったら。
 		//少し大きいダミーを具材と被るように出す。（色は後で真っ黒にするのでなんでもいい）
 		if (targeted == 1 && isSetTargetDummy == false) {
-			Guzai* targetdummyOnGuzai01 = NewGO<Guzai>(1, "targetdummy01");
-			targetdummyOnGuzai01->modeldata.m_psEntryPointFunc = "FrontCulling";
-			targetdummyOnGuzai01->SetPosition(GuzaiPos);
-			targetdummyOnGuzai01->SetScale({ 1.1f,1.1f,1.1f });
+			SkinModelRender* targetDummyOnGuzai01 = NewGO<SkinModelRender>(1, "targetdummy01");
+			targetDummyOnGuzai01->Init(NowModelPath, nullptr, enModelUpAxisZ, m_position);
+			targetDummyOnGuzai01->InitShader("Assets/shader/model.fx", "VSMain", "FrontCulling", DXGI_FORMAT_R32G32B32A32_FLOAT);
+			//targetdummyOnGuzai01->modeldata.m_psEntryPointFunc = "FrontCulling";
+			targetDummyOnGuzai01->SetPosition(m_position/*GuzaiPos*/);
+			targetDummyOnGuzai01->SetScale({ 1.3f,1.3f,1.3f });
 			isSetTargetDummy = true;
 
-
-			//画像をターゲットした具材の上に置きたいが、3D表示が必要になりそう。//////////////////////////////////////////////
-			/*sp01 = NewGO<SpriteRender>(3);
-			sp01->Init("Assets/Image/burger_tomato.dds", 128, 256);
-			Vector3 spritePos = m_charaCon.GetPosition();
-			std::swap(spritePos.z, spritePos.y);
-			spritePos.z = 0.0f;
-			sp01->SetPosition(spritePos);*/
-			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		}
 
 		//ここで一定以上離れてプレイヤーは何かしらターゲットしていたら（if文の後ろの条件は別の具材に影響を与えるのを防ぐため。
 		//ダミーを消して、プレイヤー側のTargetingStateとtargetedを元の値に戻してやる。
 		if (guzai2Pl >= TargetRangeFar && pl01->GetTargetState() == true && targeted == true) {
-			Guzai* targetdummy01 = FindGO<Guzai>("targetdummy01");
-			if (targetdummy01 != nullptr) {
+			SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
+			if (targetDummy01 != nullptr) {
 				decrementTime--;
 				if (decrementTime == 0) {
-					DeleteGO(targetdummy01);
+					DeleteGO(targetDummy01);
 					//DeleteGO(sp01);
 					targeted = false;
 					pl01->SetTarget(targeted);
@@ -344,21 +390,23 @@ void Guzai::TargetingNPopDummy()
 		//ターゲットした具材がダミーを出していなかったら。
 		//少し大きいダミーを具材と被るように出す。（色は後で真っ黒にするのでなんでもいい）
 		if (targeted == 1 && isSetTargetDummy == false) {
-			Guzai* targetdummyOnGuzai02 = NewGO<Guzai>(1, "targetdummy02");
-			targetdummyOnGuzai02->modeldata.m_psEntryPointFunc = "FrontCulling";
-			targetdummyOnGuzai02->SetPosition(GuzaiPos);
-			targetdummyOnGuzai02->SetScale({ 1.1f,1.1f,1.1f });
+			SkinModelRender* targetDummyOnGuzai02 = NewGO<SkinModelRender>(1, "targetdummy02");
+			targetDummyOnGuzai02->Init(NowModelPath, nullptr, enModelUpAxisZ, m_position);
+			targetDummyOnGuzai02->InitShader("Assets/shader/model.fx", "VSMain", "FrontCulling", DXGI_FORMAT_R32G32B32A32_FLOAT);
+			//targetdummyOnGuzai02->modeldata.m_psEntryPointFunc = "FrontCulling";
+			targetDummyOnGuzai02->SetPosition(m_position/*GuzaiPos*/);
+			targetDummyOnGuzai02->SetScale({ 1.3f,1.3f,1.3f });
 			isSetTargetDummy = true;
 		}
 
 		//ここで一定以上離れてプレイヤーは何かしらターゲットしていたら（if文の後ろの条件は別の具材に影響を与えるのを防ぐため。
 		//ダミーを消して、プレイヤー側のTargetingStateとtargetedを元の値に戻してやる。
 		if (guzai2Pl >= TargetRangeFar && pl02->GetTargetState() == true && targeted == true) {
-			Guzai* targetdummy02 = FindGO<Guzai>("targetdummy02");
-			if (targetdummy02 != nullptr) {
+			SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
+			if (targetDummy02 != nullptr) {
 				decrementTime--;
 				if (decrementTime == 0) {
-					DeleteGO(targetdummy02);
+					DeleteGO(targetDummy02);
 					targeted = false;
 					pl02->SetTarget(targeted);
 					isSetTargetDummy = false;
@@ -369,31 +417,15 @@ void Guzai::TargetingNPopDummy()
 	}
 }
 
-//ターゲットした具材の上に画像を置きたいが3D表示が必要になりそう。////////////////////////////////////////////////
-//void Guzai::PopTargetingIcon()
-//{
-//	//ターゲットダミーと一緒に出現させたいため。
-//	if (isSetTargetDummy == true) {
-//
-//		Vector3 spritePos = m_charaCon.GetPosition();
-//		spritePos *= -1.0f;
-//		std::swap(spritePos.z, spritePos.y);
-//		spritePos.z = 0.0f;
-//		sp01->SetPosition(spritePos);
-//		//sp01->SetPosition(m_charaCon.GetPosition());
-//	}
-//}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void Guzai::Update()
 {
 	if (GuzaiNo == 1) {
 		Vector3 plPos = pl01->GetPosition();
-		Vector3 GuzaiPos = m_charaCon.GetPosition();
+		//Vector3 GuzaiPos = m_charaCon.GetPosition();
 		Vector3 kitchen01Pos = ki01->GetKitchenPos();
 
 		//具材からプレイヤーまでの距離
-		guzai2Pl = (GuzaiPos.x - plPos.x) * (GuzaiPos.x - plPos.x) + (GuzaiPos.y - plPos.y) * (GuzaiPos.y - plPos.y) + (GuzaiPos.z - plPos.z) * (GuzaiPos.z - plPos.z);
+		guzai2Pl = (m_position/*GuzaiPos*/.x - plPos.x) * (/*GuzaiPos*/m_position.x - plPos.x) + (/*GuzaiPos*/m_position.y - plPos.y) * (/*GuzaiPos*/m_position.y - plPos.y) + (/*GuzaiPos*/m_position.z - plPos.z) * (/*GuzaiPos*/m_position.z - plPos.z);
 		guzai2Pl = sqrt(guzai2Pl);
 
 		//キッチンからプレイヤーの距離
@@ -417,20 +449,20 @@ void Guzai::Update()
 		
 		//ダミーを動かすよう
 		if (isSetTargetDummy == true && state != 1) {
-			Guzai* targetdummy01 = FindGO<Guzai>("targetdummy01");
-			if (targetdummy01 != nullptr) {
-				targetdummy01->SetPosition(GuzaiPos);
+			SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
+			if (targetDummy01 != nullptr) {
+				targetDummy01->SetPosition(m_position/*GuzaiPos*/);
 			}
 		}
 	}
 
 	if (GuzaiNo == 2) {
 		Vector3 plPos = pl02->GetPosition();
-		Vector3 GuzaiPos = m_charaCon.GetPosition();
+		//Vector3 GuzaiPos = m_charaCon.GetPosition();
 		Vector3 kitchen02Pos = ki02->GetKitchenPos();
 
 		//具材からプレイヤーへの距離
-		guzai2Pl = (GuzaiPos.x - plPos.x) * (GuzaiPos.x - plPos.x) + (GuzaiPos.y - plPos.y) * (GuzaiPos.y - plPos.y) + (GuzaiPos.z - plPos.z) * (GuzaiPos.z - plPos.z);
+		guzai2Pl = (m_position/*GuzaiPos*/.x - plPos.x) * (/*GuzaiPos*/m_position.x - plPos.x) + (/*GuzaiPos*/m_position.y - plPos.y) * (/*GuzaiPos*/m_position.y - plPos.y) + (/*GuzaiPos*/m_position.z - plPos.z) * (/*GuzaiPos*/m_position.z - plPos.z);
 		guzai2Pl = sqrt(guzai2Pl);
 
 		//キッチンからプレイヤーへの距離
@@ -451,11 +483,12 @@ void Guzai::Update()
 
 		//ダミーを動かすよう
 		if (isSetTargetDummy == true && state != 1) {
-			Guzai* targetdummy02 = FindGO<Guzai>("targetdummy02");
-			if (targetdummy02 != nullptr) {
-				targetdummy02->SetPosition(GuzaiPos);
+			SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
+			if (targetDummy02 != nullptr) {
+				targetDummy02->SetPosition(m_position/*GuzaiPos*/);
 			}
 		}
 	}
-	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, GuzaiScale);
+	//model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, GuzaiScale);
+	m_skinModelRender->SetPosition(m_position);
 }

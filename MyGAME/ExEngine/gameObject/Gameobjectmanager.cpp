@@ -211,7 +211,4 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	);
 
 	copyToBufferSprite.Draw(rc);*/
-
-	
-
 }

@@ -58,9 +58,17 @@ bool FixedUI::Start()
 	isTimeUpState->SetText(TurnTimeUpState());
 	isTimeUpState->SetPosition(posTimeUpState);
 
+
+
 	//残時間
 	Time = NewGO<FontRender>(5);
-	Time->SetText(L"60");
+
+	std::wstring fontRemainingTime;
+	fontRemainingTime = std::to_wstring(remainingTime);
+	//残り時間を更新する。
+	Time->SetText(fontRemainingTime.c_str());
+
+	//Time->SetText(L"120");
 	Time->SetPosition(posLastTime);
 
 	return true;

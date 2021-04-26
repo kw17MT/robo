@@ -1,13 +1,16 @@
 #include "stdafx.h"
 #include "Kitchen.h"
-#include "ModelRender.h"
+//#include "ModelRender.h"
 #include "Burger.h"
 #include "Guzai.h"
 #include "Counter.h"
 
+#include "Player.h"
+#include "SkinModelRender.h"
+
 Kitchen::Kitchen()
 {
-	ModelInitData modeldata;
+	/*ModelInitData modeldata;
 	modeldata.m_tkmFilePath = "Assets/modelData/box2.tkm";
 	modeldata.m_fxFilePath = "Assets/shader/model.fx";
 
@@ -26,7 +29,11 @@ Kitchen::Kitchen()
 
 	Vector3 KitchenPos = { 0.0f,0.0f,0.0f };
 
-	m_charaCon.Init(0.0f, 0.0f, KitchenPos);
+	m_charaCon.Init(0.0f, 0.0f, KitchenPos);*/
+
+	m_skinModelRender = NewGO<SkinModelRender>(0);
+	m_skinModelRender->Init("Assets/modelData/box2.tkm", nullptr, enModelUpAxisY, m_position);
+	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 }
 
@@ -34,17 +41,17 @@ Kitchen::Kitchen()
 void Kitchen::Stack(int num)
 {
 	if (KitchenNo == 1) {
-		ModelRender* pl01 = FindGO<ModelRender>("player01");
+		/*ModelRender*/Player* pl01 = FindGO<Player/*ModelRender*/>("player01");
 		
 		//下のif文でスタックが完了したかの状態を変更後、次フレームで実行できるように上に置いている。
 		if (isCompletedStack == true) {
 			//生成した具材のモデルを、プレイヤーに保存された具材配列の番号を元に決定する
 			StackedGuzai[stack - 1]->ChangeGuzai(pl01->GuzaiNo[stack - 1]);
 			//具材を生成する位置の基準を自身の位置とする
-			Vector3 GuzaiPos = m_charaCon.GetPosition();
+			//Vector3 GuzaiPos = m_charaCon.GetPosition();
 			//(現在の段数) * 高さ の場所に具材を生成する
-			GuzaiPos.y += stack * 100.0f;
-			StackedGuzai[nextStackNum - 1]->SetPosition(GuzaiPos);
+			/*GuzaiPos*/m_position.y = stack * 100.0f;
+			StackedGuzai[nextStackNum - 1]->SetPosition(m_position/*GuzaiPos*/);
 			//具材が置かれるのを待つ状態にする
 			isCompletedStack = false;
 		}
@@ -60,14 +67,13 @@ void Kitchen::Stack(int num)
 	}
 
 	if (KitchenNo == 2) {
-		ModelRender* pl02 = FindGO<ModelRender>("player02");
+		/*ModelRender*/Player* pl02 = FindGO<Player/*ModelRender*/>("player02");
 
 		if (isCompletedStack == true) {
 			StackedGuzai[stack - 1]->ChangeGuzai(pl02->GuzaiNo[stack - 1]);
-
-			Vector3 GuzaiPos = m_charaCon.GetPosition();
-			GuzaiPos.y += stack * 100.0f;
-			StackedGuzai[nextStackNum - 1]->SetPosition(GuzaiPos);
+			//Vector3 GuzaiPos = m_charaCon.GetPosition();
+			/*GuzaiPos*/m_position.y = stack * 100.0f;
+			StackedGuzai[nextStackNum - 1]->SetPosition(m_position/*GuzaiPos*/);
 
 			isCompletedStack = false;
 		}
@@ -75,11 +81,6 @@ void Kitchen::Stack(int num)
 		if (nextStackNum < stack) {
 			StackedGuzai[nextStackNum] = NewGO<Guzai>(0);
 			StackedGuzai[nextStackNum]->put = 1;
-			StackedGuzai[nextStackNum]->ChangeGuzai(pl02->GuzaiNo[nextStackNum]);
-
-			Vector3 GuzaiPos = m_charaCon.GetPosition();
-			GuzaiPos.y += stack * 100.0f;
-			StackedGuzai[nextStackNum]->SetPosition(GuzaiPos);
 
 			isCompletedStack = true;
 			nextStackNum++;
@@ -94,14 +95,17 @@ void Kitchen::Delete()
 	if (KitchenNo == 1) {
 		for (int i = 0;i < nextStackNum; i++) {
 			DeleteGO(StackedGuzai[i]);
+			//次に積む具材のY座標をゼロにする。
+			m_position.y = 0;
 		}
+
 		Counter* co01 = FindGO<Counter>("counter01");
 		co01->SetStackNum(stack);
 
 		stack = 0;
 		nextStackNum = 0;
 		DeleteTimer = 0;
-		ModelRender* pl01 = FindGO<ModelRender>("player01");
+		/*ModelRender*/Player* pl01 = FindGO<Player/*ModelRender*/>("player01");
 		pl01->have = 0;
 	}
 	if (KitchenNo == 2) {
@@ -114,7 +118,7 @@ void Kitchen::Delete()
 		stack = 0;
 		nextStackNum = 0;
 		DeleteTimer = 0;
-		ModelRender* pl02 = FindGO<ModelRender>("player02");
+		/*ModelRender*/Player* pl02 = FindGO<Player/*ModelRender*/>("player02");
 		pl02->have = 0;
 	}
 }
@@ -127,7 +131,7 @@ void Kitchen::BornBurger()
 		if (nextStackNum >= 1 && g_pad[0]->IsPress(enButtonY)) {
 			Delay--;
 			if (Delay == 0) {
-				ModelRender* pl01 = FindGO<ModelRender>("player01");
+				/*ModelRender*/Player* pl01 = FindGO</*ModelRender*/Player>("player01");
 
 				//ここで具材が持っている種類No.をプレイヤーが持っているNo.格納用配列にいれていく。
 				//ここでハンバーガーの具材を記録してる。
@@ -151,7 +155,7 @@ void Kitchen::BornBurger()
 		if (nextStackNum >= 1 && g_pad[1]->IsPress(enButtonY)) {
 			Delay--;
 			if (Delay == 0) {
-				ModelRender* pl02 = FindGO<ModelRender>("player02");
+				/*ModelRender*/Player* pl02 = FindGO<Player/*ModelRender*/>("player02");
 
 				//ここで具材の種類No.をプレイヤーが持っているNo.格納用配列にいれていく。
 				for (int i = 0;i < nextStackNum; i++) {
@@ -174,14 +178,14 @@ void Kitchen::BornBurger()
 void Kitchen::ClearNo()
 {
 	if (KitchenNo == 1) {
-		ModelRender* pl01 = FindGO<ModelRender>("player01");
+		/*ModelRender*/Player* pl01 = FindGO<Player/*ModelRender*/>("player01");
 
 		for (int i = 0;i < nextStackNum; i++) {
 			pl01->GuzaiNo[i] = 9;
 		}
 	}
 	if (KitchenNo == 2) {
-		ModelRender* pl02 = FindGO<ModelRender>("player02");
+		/*ModelRender*/Player* pl02 = FindGO<Player/*ModelRender*/>("player02");
 
 		for (int i = 0;i < nextStackNum; i++) {
 			pl02->GuzaiNo[i] = 9;
@@ -210,16 +214,19 @@ void Kitchen::Update()
 	}
 
 	//キッチンに5個以上具材があると取れないようにする。
+	//Guzaicppでキッチンの場所が上がっていくため機能していない。
+
 	if (nextStackNum >= MaxStack && KitchenNo == 1) {
-		ModelRender* pl01 = FindGO<ModelRender>("player01");
+		/*ModelRender*/Player* pl01 = FindGO<Player/*ModelRender*/>("player01");
 		pl01->have = 1;
 	}
 	if (nextStackNum >= MaxStack && KitchenNo == 2) {
-		ModelRender* pl02 = FindGO<ModelRender>("player02");
+		/*ModelRender*/Player* pl02 = FindGO</*ModelRender*/Player>("player02");
 		pl02->have = 1;
 	}
 
 	BornBurger();
 
-	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
+	m_skinModelRender->SetPosition(m_kitchenPos);
+	//model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }

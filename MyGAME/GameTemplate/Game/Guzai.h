@@ -1,20 +1,23 @@
 #pragma once
-class ModelRender;
+//class ModelRender;
 class Kitchen;
 class SpriteRender;
 
-
+class Player;
 
 class PathMove;
 
+class SkinModelRender;
 
 
 class Guzai : public IGameObject
 {
 private:
-	Model model;
+	/*Model model;
 	ModelInitData modeldata;
-	CharacterController m_charaCon;
+	CharacterController m_charaCon;*/
+	Vector3 m_position = { 0.0f,0.0f,-1000.0f };
+	Vector3 m_scale = Vector3::One;
 	
 	//具材を初期位置（生成器）に移動させたか。
 	bool isSetFirstPos = false;
@@ -46,6 +49,8 @@ private:
 	const int TargetRangeFar = 110;
 	//枠線強調のために使用
 	Vector3 GuzaiScale = { 1.0f,1.0f,1.0f };
+	//その具材は何であるかのメモ用、ターゲティングのオブジェクトを作成時に使用。
+	const char* NowModelPath;
 
 	//以下追加コード。
 	std::unique_ptr<PathMove> m_pathMove;		//移動処理を行うクラス。
@@ -83,17 +88,18 @@ public:
 	//ターゲティングされている具材の上に画像を配置。後に使用するかもしれないので実装しておく。削除するかも
 	//void PopTargetingIcon();
 
-	void Render(RenderContext& rc) { model.Draw(rc); }
+	//void Render(RenderContext& rc) { model.Draw(rc); }
 
 	//１ならば持たれている。
 	int state = 0;
 	//１ならばもうキッチンに置かれている。
 	int put = 0;
 
-	ModelRender* pl01 = nullptr;
-	ModelRender* pl02 = nullptr;
+	/*ModelRender*/Player* pl01 = nullptr;
+	/*ModelRender*/Player* pl02 = nullptr;
 	Kitchen* ki01 = nullptr;
 	Kitchen* ki02 = nullptr;
+	SkinModelRender* m_skinModelRender;
 	//スプライトの3D空間表示が可能になったら使用
 	/*SpriteRender* sp01 = nullptr;
 	SpriteRender* sp02 = nullptr;*/

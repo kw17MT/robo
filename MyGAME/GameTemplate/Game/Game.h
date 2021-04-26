@@ -1,6 +1,6 @@
 #pragma once
 class Level;
-class ModelRender;
+//class ModelRender;
 class FixedUI;
 class SpriteRender;
 class Guzai;
@@ -16,6 +16,8 @@ class PostEffectTest;
 class ShadowTest;
 class Ground;
 
+class Player;
+class PlayerGene;
 //class PopUp2D;
 	
 class Game : public IGameObject
@@ -42,7 +44,9 @@ public:
 	Kitchen* kitchen02;
 	SpriteRender* menu[3];
 	SpriteRender* Buff[2];
-	ModelRender* player[2];
+	//ModelRender* player[2];
+	Player* player[2];
+	PlayerGene* playerGene;
 	ObjectGene* generator01;
 	ObjectGene* generator02;
 	Score* m_score = nullptr;

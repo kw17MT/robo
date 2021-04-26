@@ -52,8 +52,8 @@ bool Result::Start()
 {
 	//中央、左、右の画像表示位置用変数を設定
 	center.Set(0.0f,0.0f,0.0f);
-	left.Set(0.0f - 500.0f, 0.0f,0.0f);
-	right.Set(0.0f + 500.0f, 0.0f,0.0f);
+	left.Set(0.0f + 300.0f, 0.0f,0.0f);
+	right.Set(0.0f - 300.0f, 0.0f,0.0f);
 
 	//UIを検索
 	m_ui = FindGO<FixedUI>("ui");

@@ -67,8 +67,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//	clearColor
 	//);
 
-
-
 	////シャドウマップに描画するモデルを初期化する。		〇
 	//ModelInitData teapotShadowModelInitData;
 	////シャドウマップ描画用のシェーダーを指定する。
@@ -116,7 +114,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//bgModel.Init(bgModelInitData);
 
 
-	//
+	
 
 	
 	
@@ -193,27 +191,27 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 
 
-		//renderContext.WaitUntilToPossibleSetRenderTarget(shadowMap);
-		//renderContext.SetRenderTargetAndViewport(shadowMap);
-		//renderContext.ClearRenderTargetView(shadowMap);
+		/*renderContext.WaitUntilToPossibleSetRenderTarget(shadowMap);
+		renderContext.SetRenderTargetAndViewport(shadowMap);
+		renderContext.ClearRenderTargetView(shadowMap);
 
 
-		//teapotShadowModel.Draw(renderContext, lightCamera);
+		teapotShadowModel.Draw(renderContext, lightCamera);
 
 
-		//renderContext.WaitUntilFinishDrawingToRenderTarget(shadowMap);
+		renderContext.WaitUntilFinishDrawingToRenderTarget(shadowMap);
 
 
-		//renderContext.SetRenderTarget(
-		//	g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
-		//	g_graphicsEngine->GetCurrentFrameBuffuerDSV()
-		//);
-		//renderContext.SetViewport(g_graphicsEngine->GetFrameBufferViewport());
+		renderContext.SetRenderTarget(
+			g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
+			g_graphicsEngine->GetCurrentFrameBuffuerDSV()
+		);
+		renderContext.SetViewport(g_graphicsEngine->GetFrameBufferViewport());
 
 
-		//teapotModel.Draw(renderContext);
+		teapotModel.Draw(renderContext);
 
-		//bgModel.Draw(renderContext);
+		bgModel.Draw(renderContext);*/
 
 
 

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Game.h"
 #include "Level.h"
-#include "ModelRender.h"
+//#include "ModelRender.h"
 #include "FixedUI.h"
 #include "SpriteRender.h"
 #include "Guzai.h"
@@ -19,6 +19,9 @@
 
 #include "GameDirector.h"
 //#include "PopUp2D.h"
+
+#include "Player.h"
+#include "PlayerGene.h"
 
 namespace
 {
@@ -44,6 +47,8 @@ Game::Game()
 	for (int i = 0; i < 3; i++) {
 		m_result[i] = nullptr;
 	}
+
+	playerGene = NewGO<PlayerGene>(0);
 
 	////勝敗表示用スプライト
 	////表示するポジションを定義
@@ -182,15 +187,15 @@ Game::Game()
 			return true;
 		}
 		if (wcscmp(objectData.name, L"PlayerPos01") == 0) {
-			player[0] = NewGO<ModelRender>(0, "player01");
-			player[0]->SetPlayerNo(1);
-			player[0]->SetPosition(objectData.Pos);
+			//player[0] = NewGO<Player/*ModelRender*/>(0, "player01");
+			//player[0]->SetPlayerNo(1);
+			//player[0]->SetPosition(objectData.Pos);
 			return true;
 		}
 		if (wcscmp(objectData.name, L"PlayerPos02") == 0) {
-			player[1] = NewGO<ModelRender>(0, "player02");
-			player[1]->SetPlayerNo(2);
-			player[1]->SetPosition(objectData.Pos);
+			//player[1] = NewGO<Player/*ModelRender*/>(0, "player02");
+			//player[1]->SetPlayerNo(2);
+			//player[1]->SetPosition(objectData.Pos);
 			return true;
 		}
 		if (wcscmp(objectData.name, L"GeneratorPos01") == 0) {
@@ -209,7 +214,7 @@ Game::Game()
 			return false;
 		}
 		if (wcscmp(objectData.name, L"Floor") == 0) {
-			return true;
+			return false;
 		}
 		/*if (wcscmp(objectData.name, L"WayPoint011") == 0) {
 			return false;
@@ -253,14 +258,14 @@ Game::Game()
 	m_score = NewGO<Score>(2, "score");
 
 	//ポストエフェクトのテスト用モデル。
-	postTest =  NewGO<PostEffectTest>(5);
+	//postTest =  NewGO<PostEffectTest>(5);
 
 	//シャドウのテスト用のモデル
-	shadowTest = NewGO<ShadowTest>(5);
+	//shadowTest = NewGO<ShadowTest>(5);
 
 	//これを消す時、LevelのFloorをreturn false にすること。
 	//↓シャドウレシーバー。
-	ground = NewGO<Ground>(0);
+	//ground = NewGO<Ground>(0);
 
 	//カウントダウンを開始するということを設定する。
 	GetGameDirector().SetGameScene(enGameCountDown);
@@ -287,9 +292,9 @@ Game::~Game()
 	for (int i = 0; i < 2;i++) {
 		DeleteGO(Buff[i]);
 	}
-	for (int i = 0; i < 2;i++) {
+	/*for (int i = 0; i < 2;i++) {
 		DeleteGO(player[i]);
-	}
+	}*/
 	for (int i = 0; i < 2; i++) {
 		DeleteGO(m_result[i]);
 	}
@@ -365,7 +370,7 @@ void Game::CountDown()
 
 
 	//TODO GameTimeにする。
-	m_timer -= 1.0f / 120.0f;
+	m_timer -= 1.0f / 60.0f;
 
 	if (m_timer <= 0.0f)
 	{

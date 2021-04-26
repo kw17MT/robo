@@ -1,12 +1,15 @@
 #pragma once
+class SkinModelRender;
 
 class Burger : public IGameObject
 {
 private:
-	Model model;
+	/*Model model;
 	ModelInitData modeldata;
 	Skeleton m_skeleton;
-	CharacterController m_charaCon;
+	CharacterController m_charaCon;*/
+
+	Vector3 m_position;
 
 	//どちらに流れているバーガーか
 	int BurgerNo = 0;
@@ -16,6 +19,7 @@ private:
 public:
 	//モデルデータ、影の設定。
 	Burger();
+	~Burger();
 	//バーガーの位置をキッチンの上にして、具材が消える同時にバーガーを出現させる。
 	bool Start();
 	//バーガーをDeleteGO。
@@ -25,14 +29,16 @@ public:
 	//バーガーを消した際、カウンターに積んでいた具材の種類を初期化。
 	//プレイヤーに保存していた、ハンバーガーを構成する具材を９で初期化。	
 	void ClearNo();
+	//カウンター側でバーガーのモデルを消すために使う
+	void ClearModel() { DeleteGO(this); }
 
 	void Update();
 	
-	void SetPosition(Vector3 pos) { m_charaCon.SetPosition(pos); }
+	void SetPosition(Vector3 pos) { m_position = pos;/*m_charaCon.SetPosition(pos);*/ }
 	//バーガーはどちら側のか...１、左　２、右
 	void SetBurgerNo(int num) { BurgerNo = num; }
 
-	void Render(RenderContext& rc) { model.Draw(rc); }
+	//void Render(RenderContext& rc) { model.Draw(rc); }
 
 	//ボタン長押しでバーガーを消すようにするため。
 	int DeleteTimer = 0;
@@ -42,5 +48,7 @@ public:
 	
 	
 	Vector3 CounterPos = { 900.0f, 100.0f, -400.0f };
+
+	SkinModelRender* m_skinModelRender;
 };
 

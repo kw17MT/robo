@@ -69,6 +69,7 @@ public:
 	/// </summary>
 	/// <param name="renderContext">レンダリングコンテキスト/param>
 	void Draw(RenderContext& renderContext);
+
 private:
 	/// <summary>
 	/// テクスチャを初期化。

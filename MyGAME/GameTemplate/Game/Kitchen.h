@@ -1,14 +1,17 @@
 #pragma once
 class Guzai;
 class Burger;
+class SkinModelRender;
 
 class Kitchen : public IGameObject
 {
 private:
-	Model model;
+	/*Model model;
 	ModelInitData modeldata;
 	Skeleton m_skeleton;
-	CharacterController m_charaCon;
+	CharacterController m_charaCon;*/
+	Vector3 m_position = Vector3::Zero;
+	Vector3 m_kitchenPos;
 
 	//どっち側のキッチンか
 	int KitchenNo = 0;
@@ -31,9 +34,9 @@ public:
 	//キッチン番号を設定する。
 	void SetKitchenNo(int num) { KitchenNo = num;}
 	//キッチンの座標を設定する。
-	void SetKitchenPos(Vector3 pos) { m_charaCon.SetPosition(pos); }
+	void SetKitchenPos(Vector3 pos) { m_kitchenPos = pos; m_position = pos; }
 	//キッチンの座標を取得
-	Vector3 GetKitchenPos() { return m_charaCon.GetPosition(); }
+	Vector3 GetKitchenPos() { return m_kitchenPos; }
 	//具材をキッチンの上に発生させる。
 	void Stack(int num);
 	//キッチン上の具材を全消去
@@ -53,8 +56,9 @@ public:
 	//この関数は具材を消す前に使うこと。
 	void ClearNo();
 
-	void Render(RenderContext& rc) { model.Draw(rc); }
+	//void Render(RenderContext& rc) { model.Draw(rc); }
 
 	Burger* bur;
+	SkinModelRender* m_skinModelRender;
 };
 

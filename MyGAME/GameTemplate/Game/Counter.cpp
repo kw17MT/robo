@@ -1,14 +1,20 @@
 #include "stdafx.h"
 #include "Counter.h"
-#include "ModelRender.h"
+//#include "ModelRender.h"
 #include "Burger.h"
 #include "Kitchen.h"
 #include "Score.h"
 #include "CLevel2D.h";
 
+#include "Player.h"
+#include "SkinModelRender.h"
+
 Counter::Counter()
 {
-	ModelInitData modeldata;
+	/*m_skinModelRender->Init("Assets/modelData/box2.tkm", nullptr, enModelUpAxisZ, m_position);
+	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);*/
+
+	/*ModelInitData modeldata;
 	modeldata.m_tkmFilePath = "Assets/modelData/box2.tkm";
 	modeldata.m_fxFilePath = "Assets/shader/model.fx";
 
@@ -27,7 +33,7 @@ Counter::Counter()
 
 	model.Init(modeldata);
 
-	m_charaCon.Init(0.0f, 0.0f, g_vec3One);
+	m_charaCon.Init(0.0f, 0.0f, g_vec3One);*/
 
 	//ハンバーガーのデータを作る。
 	/*HamBurger cheese;
@@ -54,6 +60,16 @@ Counter::Counter()
 
 }
 
+bool Counter::Start()
+{
+	m_skinModelRender = NewGO<SkinModelRender>(0);
+
+	m_skinModelRender->Init("Assets/modelData/box2.tkm", nullptr, enModelUpAxisZ, m_position);
+	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	return true;
+}
+
 //////////////////////判別するところ////////////////////////////////////////////////////////////////////////////////
 bool Counter::Judge()
 {
@@ -61,7 +77,7 @@ bool Counter::Judge()
 
 	if (CounterNo == 1) {
 		Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
-		ModelRender* pl01 = FindGO<ModelRender>("player01");
+		/*ModelRender*/Player* pl01 = FindGO<Player/*ModelRender*/>("player01");
 
 		//最終結果を記録するもの。
 		bool correct01 = true;
@@ -126,7 +142,7 @@ bool Counter::Judge()
 
 	if (CounterNo == 2) {
 		Kitchen* ki02 = FindGO<Kitchen>("kitchen02");
-		ModelRender* pl02 = FindGO<ModelRender>("player02");
+		/*ModelRender*/Player* pl02 = FindGO<Player/*ModelRender*/>("player02");
 
 		bool correct02 = true;
 		int correctCount02 = 0;
@@ -172,10 +188,10 @@ bool Counter::Judge()
 void Counter::Delete()
 {
 	if (CounterNo == 1) {
-		ModelRender* pl01 = FindGO<ModelRender>("player01");
+		/*ModelRender*/Player* pl01 = FindGO<Player/*ModelRender*/>("player01");
 		Vector3 plPos = pl01->GetPosition();
 
-		Vector3 CounterPos01 = m_charaCon.GetPosition();
+		Vector3 CounterPos01 = m_position/*m_charaCon.GetPosition()*/;
 
 		//カウンターからプレイヤーの距離
 		float pl2Counter = (plPos.x - CounterPos01.x) * (plPos.x - CounterPos01.x) + (plPos.y - CounterPos01.y) * (plPos.y - CounterPos01.y) + (plPos.z - CounterPos01.z) * (plPos.z - CounterPos01.z);
@@ -207,6 +223,7 @@ void Counter::Delete()
 					//次の具材No.を保存するため、９で初期化。
 					pl01->SetGuzaiNo9();
 					
+					bu01->ClearModel();
 					DeleteGO(bu01);
 					Delay = 0;
 					pl01->have = 0;
@@ -217,10 +234,10 @@ void Counter::Delete()
 	}
 
 	if (CounterNo == 2) {
-		ModelRender* pl02 = FindGO<ModelRender>("player02");
+		/*ModelRender*/Player* pl02 = FindGO<Player/*ModelRender*/>("player02");
 		Vector3 plPos = pl02->GetPosition();
 
-		Vector3 CounterPos02 = m_charaCon.GetPosition();
+		Vector3 CounterPos02 = m_position;//m_charaCon.GetPosition();
 
 		float pl2Counter = (plPos.x - CounterPos02.x) * (plPos.x - CounterPos02.x) + (plPos.y - CounterPos02.y) * (plPos.y - CounterPos02.y) + (plPos.z - CounterPos02.z) * (plPos.z - CounterPos02.z);
 		pl2Counter = sqrt(pl2Counter);
@@ -264,5 +281,7 @@ void Counter::Delete()
 void Counter::Update()
 {
 	Delete();
-	model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
+	m_skinModelRender->SetPosition(m_position);
+
+	//model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }

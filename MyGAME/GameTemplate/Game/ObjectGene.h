@@ -27,7 +27,8 @@ public:
 	//生成器が左か右かどちらにあるか設定しておく。　１、左　２、右
 	void SetGeneNo(int num) { GeneNo = num; }
 	
-	void Render(RenderContext& rc) { model.Draw(rc); }
+	//生成器はモデル表示する必要がないためコメント
+	//void Render(RenderContext& rc) { model.Draw(rc); }
 
 	//具材を流すタイミングを決めるもの。
 	int timer = 0;
