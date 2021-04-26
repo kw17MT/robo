@@ -69,6 +69,9 @@ bool FixedUI::Start()
 	Time->SetText(fontRemainingTime.c_str());
 
 	//Time->SetText(L"120");
+
+	//Time->SetText(L"30");
+
 	Time->SetPosition(posLastTime);
 
 	return true;

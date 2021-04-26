@@ -10,6 +10,7 @@ Result::~Result()
 
 void Result::DecideDDS()
 {
+
 	//spriteNum‚Ì’l‚É‰‚¶‚Ä‰Šú‰»‚Ég—p‚·‚éDDS‚ğU‚è•ª‚¯‚é
 	switch (spriteNum) {
 	case 0: //ˆø‚«•ª‚¯

@@ -13,12 +13,14 @@ class FontRender;
 class Level;
 class PostEffectTest;
 
+
 class ShadowTest;
 class Ground;
 
 class Player;
 class PlayerGene;
 //class PopUp2D;
+
 	
 class Game : public IGameObject
 {
@@ -52,6 +54,7 @@ public:
 	Score* m_score = nullptr;
 	PostEffectTest* postTest;
 
+
 	ShadowTest* shadowTest;
 	Ground* ground;
 
@@ -60,14 +63,12 @@ public:
 	//PopUp2D* m_popup2D_2 = nullptr;
 
 
+
 	//勝敗表示用:引き分けの場合、プレイヤー1、プレイヤー2に用意
 	Result* m_result[3];
 
 	bool GetTimeUp() { return isTimeUp; }
 	void SetTimeUp() { isTimeUp = true; }
-
-
-
 
 	//カウントダウン用。
 	float m_timer = 4.0f;

@@ -100,6 +100,10 @@ private:
 	/// </summary>
 	/// <param name="initData"></param>
 	void InitConstantBuffer(const SpriteInitData& initData);
+
+public:
+	void ColorUpdate(Vector4& color) { m_color = color; }
+	void ColorUpdate(const float& r, const float& g, const float& b, const float& a) { m_color.x = r; m_color.y = g; m_color.z = b, m_color.w = a; }
 private:
 	IndexBuffer m_indexBuffer;			//インデックスバッファ。
 	VertexBuffer m_vertexBuffer;		//頂点バッファ。
@@ -110,6 +114,8 @@ private:
 	Vector2 m_size;						//サイズ。
 	Quaternion m_rotation ;			//回転。
 	Matrix m_world;					//ワールド行列。
+
+	Vector4 m_color;
 
 	struct LocalConstantBuffer {
 		Matrix mvp;
