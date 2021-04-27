@@ -29,22 +29,24 @@ void GuzaiGene::Update()
 	}
 
 	//まだ最初の具材を並べるのおわってない！
-	if (isCompletedInitialAction == false) {
+	if (isCompletedSetGuzai == false) {
 		for (int i = 0;i < guzaiNum; i++)
 		{
 			m_guzai[i] = NewGO<Guzai>(0);
+			//WayPoint１から順に具材を設置
 			m_guzai[i]->SetPosition(m_dishGene->GetDishPositionBasedNumber(i));
+			//自分（具材）はいま、何番目の皿の上にいるか自覚させる
+			m_guzai[i]->SetDishNumber(i + 1);
 		}
 
-
-
-		isCompletedInitialAction = true;
+		//全ての皿の上に具材を置き終えた！
+		isCompletedSetGuzai = true;
 	}
 
 
-	//全ての皿の上に具材をNewGO
-	//のためには37個のさらのポジションが必要になる。
-	//と同時に自分（具材）はいま、何番目の皿の上にいるか自覚させる
+	
+	
+	
 
 
 	//初動がおわったフラグを皿が感知したら動き始める。
@@ -53,9 +55,22 @@ void GuzaiGene::Update()
 
 
 	//空の皿を計測し、n個以上になったら、一気に補充
+	if (emptyDishCounter >= LostNumber) {
+		for (int i = 0; i < emptyDishCounter; i++) {
+			m_guzai[emptyDishNumber[i]] = NewGO<Guzai>(0);
+			m_guzai[emptyDishNumber[i]]->SetPosition(m_dishGene->GetDishPositionBasedNumber(emptyDishNumber[i]));
+			m_guzai[emptyDishNumber[i]]->SetDishNumber(emptyDishNumber[i]);
+		}
+
+		for (int i = 0;emptyDishCounter < i; i++)
+		{
+			emptyDishNumber[i] = 0;
+		}
+		emptyDishCounter = 0;
+	}
 	//流れにそって落ちてくるように
 
-	//流れ
+	//データ受け渡し
 	//Game/DishGene/Dish/GuzaiGene/Guzai/Dish/GuzaiGene/Guzai...
 
 

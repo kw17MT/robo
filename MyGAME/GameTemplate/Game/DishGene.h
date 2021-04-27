@@ -14,7 +14,7 @@ private:
 	int DishNum = 0;
 	bool DishGeneState = true;
 	
-	static const int dishNum = 37;
+	static const int dishNum = 36;
 
 	std::map<int, DishData> m_dishData;
 public:

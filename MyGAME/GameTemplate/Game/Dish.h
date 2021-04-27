@@ -6,7 +6,9 @@ class Dish : public IGameObject
 private:
 	Vector3 m_position = Vector3::Zero;
 	Vector3 m_scale = Vector3::One;
-	bool isHavingGuzai = false;
+	bool isHavingGuzai = true;
+	//Ž©•ª‚ÍWayPoint‚Ì‰½”Ô–Ú‚ÌŽM‚È‚Ì‚©
+	int myNumber = 0;
 
 public:
 	Dish() {}
@@ -15,6 +17,7 @@ public:
 	void SetPosition(Vector3 pos) { m_position = pos; }
 	void SetScale(Vector3 scale) { m_scale = scale; }
 	void SetHavingState(bool state) { isHavingGuzai = state; }
+	void SetMyNumber(int num) { myNumber = num; }
 
 	bool Start();
 	void Update();

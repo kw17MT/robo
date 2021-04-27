@@ -21,10 +21,11 @@ bool DishGene::Start()
 	std::vector<DishData> dishData;
 	level.Init("Assets/level/WayPoint_new.tkl", [&](ObjectData& objectData) {
 		if (wcsncmp(objectData.name, WayPoint, 8) == 0) {
+			int dishNumber = 0;
 			//’·‚³‚Å1Œ…‚©“ñ‚¯‚½‚©Œ©•ª‚¯‚é
 			//ˆêŒ…‚¾‚Á‚½‚çname[9]‚¾‚¯‚Æ‚Á‚Ä‚±‚ê‚Î‚¢‚¢
 			if (wcslen(objectData.name) == 9) {
-				int dishNumber = _wtoi(&objectData.name[8]);
+				dishNumber = _wtoi(&objectData.name[8]);
 				DishData dishdata;
 				dishdata.s_dishPosition = objectData.Pos;
 				dishdata.s_number = dishNumber;
@@ -43,7 +44,7 @@ bool DishGene::Start()
 				string str1 = to_string(i_num1);
 				str10 = str10 + str1;
 				//a = wcscat(&a, &objectData.name[9]);
-				int dishNumber = atoi(str10.c_str());
+				dishNumber = atoi(str10.c_str());
 				DishData dishdata;
 				dishdata.s_dishPosition = objectData.Pos;
 				dishdata.s_number = dishNumber;
@@ -54,6 +55,7 @@ bool DishGene::Start()
 
 			m_Dish[DishNum] = NewGO<Dish>(0);
 			m_Dish[DishNum]->SetPosition(objectData.Pos);
+			m_Dish[DishNum]->SetMyNumber(dishNumber);
 			DishNum++;
 			return true;
 		}

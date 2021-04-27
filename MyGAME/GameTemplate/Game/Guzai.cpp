@@ -92,6 +92,7 @@ bool Guzai::Start()
 	ki01 = FindGO<Kitchen>("kitchen01");
 	ki02 = FindGO<Kitchen>("kitchen02");
 	playerGene = FindGO<PlayerGene>("playerGene");
+	m_guzaiGene = FindGO<GuzaiGene>("guzaiGene");
 
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/gu/cheese.tkm",nullptr, enModelUpAxisZ, m_position);
@@ -146,6 +147,11 @@ void Guzai::GrabNPut()
 			state = 1;
 			pl01->have = 1;
 			whichPlayerGet = 1;
+
+			//どこからとったか生成器に連絡する、両プレイヤーで共有
+			m_guzaiGene->RegisterEmptyDishNumber(dishNumber);
+			//フィールドからいくつ具材がとられているか数える
+			m_guzaiGene->AddEmptyDishCounter();
 		}
 	}
 	if (g_pad[1]->IsTrigger(enButtonA)) {
@@ -153,6 +159,9 @@ void Guzai::GrabNPut()
 			state = 1;
 			pl02->have = 1;
 			whichPlayerGet = 2;
+
+			m_guzaiGene->RegisterEmptyDishNumber(dishNumber);
+			m_guzaiGene->AddEmptyDishCounter();
 		}
 	}
 
@@ -165,6 +174,9 @@ void Guzai::GrabNPut()
 			//ターゲット用のダミーを消す。
 			SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
 			DeleteGO(targetDummy01);
+
+			
+
 		}
 		if (whichPlayerGet == 2) {
 			plPos02.y += 100.0f;
@@ -173,6 +185,8 @@ void Guzai::GrabNPut()
 			//ターゲット用のダミーを消す。
 			SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
 			DeleteGO(targetDummy02);
+
+			
 		}
 	}
 

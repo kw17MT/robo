@@ -1,33 +1,22 @@
 #pragma once
-//class ModelRender;
+
 class Kitchen;
-class SpriteRender;
-
-class Player;
-
-class PathMove;
-
 class SkinModelRender;
+class Player;
 class PlayerGene;
-
+class PathMove;
+class GuzaiGene;
 
 class Guzai : public IGameObject
 {
 private:
-	/*Model model;
-	ModelInitData modeldata;
-	CharacterController m_charaCon;*/
 	Vector3 m_position = { 0.0f,0.0f,-1000.0f };
 	Vector3 m_scale = Vector3::One;
 	
-	//具材を初期位置（生成器）に移動させたか。
-	bool isSetFirstPos = false;
 	//Update()でインクリメントする。
 	int timer = 0;
 	//Xボタン長押しで積み上げている具材を全部削除する。そのためのタイマー。
 	int DeleteTimer = 0;
-	//どっち側に流れている具材か。
-	//int GuzaiNo = 0;
 	//０．チーズ　１．エッグ　２．レタス　３．パテ　４．トマト
 	int TypeNo = 9;
 	//具材からプレイヤーへの距離
@@ -58,8 +47,12 @@ private:
 	//以下追加コード。
 	std::unique_ptr<PathMove> m_pathMove;		//移動処理を行うクラス。
 
+	//その具材はどちらのプレイヤーにつかまれたか
 	int whichPlayerGet = 0;
+	//どちらのプレイヤーにターゲットされたか
 	int whichPlayerTargetMe = 0;
+	//1~36
+	int dishNumber = 0;
 
 public:	
 	//乱数を用いて具材が生まれると同時にどの具材を流すか設定する。
@@ -71,16 +64,12 @@ public:
 	Vector3 GetPosition();
 	void SetPosition(Vector3 pos);
 	void SetScale(Vector3 scale) { GuzaiScale = scale; }
-	//float GetGuzaiToPlayer() { return guzai2Pl; }
 
 	//具材をキッチンに置いたときにオブジェクトを消すため、初めに設定しておいたTypeNoも消えてしまう。
 	//つまり、レーン上に出したオブジェクトと新しくキッチン上に出すオブジェクトが違う。
 	//プレイヤー側に保存しているTypeNoをキッチン側でNewGOするオブジェクトに与えてやる。
 	//引数にプレイヤーに格納されている種類ナンバーを与える。
 	void ChangeGuzai(int num);
-	//どちら側に流れている具材か設定する。
-	//void SetGuzaiNo(int num) { GuzaiNo = num; }
-	//int GetGuzaiNo() { return GuzaiNo; }
 
 	int GetTypeNo() { return TypeNo; }
 
@@ -91,10 +80,8 @@ public:
 	//ターゲティングの対象選定とターゲットダミーを出す。
 	//離れると別のターゲットを探す。
 	void TargetingNPopDummy();
-	//ターゲティングされている具材の上に画像を配置。後に使用するかもしれないので実装しておく。削除するかも
-	//void PopTargetingIcon();
-
-	//void Render(RenderContext& rc) { model.Draw(rc); }
+	//置かれた皿番号を記録する。
+	void SetDishNumber(int num) { dishNumber = num; }
 
 	//１ならば持たれている。
 	int state = 0;
@@ -107,8 +94,6 @@ public:
 	Kitchen* ki02 = nullptr;
 	SkinModelRender* m_skinModelRender;
 	PlayerGene* playerGene;
-	//スプライトの3D空間表示が可能になったら使用
-	/*SpriteRender* sp01 = nullptr;
-	SpriteRender* sp02 = nullptr;*/
+	GuzaiGene* m_guzaiGene;
 };
 
