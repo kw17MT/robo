@@ -65,6 +65,19 @@ public:
 	/// </param>
 	void Update(const Vector3& pos, const Quaternion& rot, const Vector3& scale, const Vector2& pivot = DEFAULT_PIVOT);
 	/// <summary>
+	/// カラー変更用
+	/// </summary>
+	/// <param name="color"></param>カラー</param>
+	void ColorUpdate(const Vector4& color);
+	/// <summary>
+	/// カラー変更用(RGBA値指定版)
+	/// <param name="r"></param>赤</param>
+	/// <param name="g"></param>緑</param>
+	/// <param name="b"></param>青</param>
+	/// <param name="a"></param>アルファブレンディング率</param>
+	/// </summary>
+	void ColorUpdate(const float& r, const float& g, const float& b, const float& a);
+	/// <summary>
 	/// 描画。
 	/// </summary>
 	/// <param name="renderContext">レンダリングコンテキスト/param>
@@ -101,9 +114,6 @@ private:
 	/// <param name="initData"></param>
 	void InitConstantBuffer(const SpriteInitData& initData);
 
-public:
-	void ColorUpdate(Vector4& color) { m_color = color; }
-	void ColorUpdate(const float& r, const float& g, const float& b, const float& a) { m_color.x = r; m_color.y = g; m_color.z = b, m_color.w = a; }
 private:
 	IndexBuffer m_indexBuffer;			//インデックスバッファ。
 	VertexBuffer m_vertexBuffer;		//頂点バッファ。
@@ -114,8 +124,6 @@ private:
 	Vector2 m_size;						//サイズ。
 	Quaternion m_rotation ;			//回転。
 	Matrix m_world;					//ワールド行列。
-
-	Vector4 m_color;
 
 	struct LocalConstantBuffer {
 		Matrix mvp;
@@ -131,4 +139,6 @@ private:
 	PipelineState		m_pipelineState;		//パイプラインステート。
 	Shader				m_vs;					//頂点シェーダー。
 	Shader				m_ps;					//ピクセルシェーダー。
+
+	Vector4 m_color = {1.0f,1.0f,1.0f,1.0f};	//カラー変更用
 };
