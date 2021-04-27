@@ -85,7 +85,7 @@ public:
 	//現在のターゲティング状態を返す。
 	bool GetTargetState() { return TargetingState; }
 
-	const EnItem GetEnItem() const
+	/*const EnItem GetEnItem() const
 	{
 		return m_enItem;
 	}
@@ -116,7 +116,7 @@ public:
 			}
 		}
 		m_enItem = enItem;
-	}
+	}*/
 
 	void UseItem();
 

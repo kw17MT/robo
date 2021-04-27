@@ -3,8 +3,8 @@
 #include "Level.h"
 #include "Dish.h"
 
-//テストで出してるだけ、消すこと
-#include "Guzai.h"
+
+#include <string>
 
 DishGene::~DishGene()
 {
@@ -18,26 +18,53 @@ bool DishGene::Start()
 	Level level;
 
 	const wchar_t* WayPoint = L"WayPoint";
+	std::vector<DishData> dishData;
 	level.Init("Assets/level/WayPoint_new.tkl", [&](ObjectData& objectData) {
 		if (wcsncmp(objectData.name, WayPoint, 8) == 0) {
-			m_Dish[DishNum] = NewGO<Guzai/*Dish*/>(0);
+			//長さで1桁か二けたか見分ける
+			//一桁だったらname[9]だけとってこればいい
+			if (wcslen(objectData.name) == 9) {
+				int dishNumber = _wtoi(&objectData.name[8]);
+				DishData dishdata;
+				dishdata.s_dishPosition = objectData.Pos;
+				dishdata.s_number = dishNumber;
+
+				m_dishData[dishNumber - 1] = dishdata;
+			}
+
+			//二けただったらname[9][10]を順にとってきてcatする→intにかえてやる
+			else
+			{
+				wchar_t c_num10 = objectData.name[8];
+				wchar_t c_num1 = objectData.name[9];
+				int i_num10 = _wtoi(&c_num10);
+				int i_num1 = _wtoi(&c_num1);
+				string str10 = to_string(i_num10);
+				string str1 = to_string(i_num1);
+				str10 = str10 + str1;
+				//a = wcscat(&a, &objectData.name[9]);
+				int dishNumber = atoi(str10.c_str());
+				DishData dishdata;
+				dishdata.s_dishPosition = objectData.Pos;
+				dishdata.s_number = dishNumber;
+
+				m_dishData[dishNumber - 1] = dishdata;
+			}
+
+
+			m_Dish[DishNum] = NewGO<Dish>(0);
 			m_Dish[DishNum]->SetPosition(objectData.Pos);
-			//m_Dish[DishNum]->SetGuzaiNo(1);
 			DishNum++;
 			return true;
 		}
-		
+	});
 
-
-
-
-
-		});
+	DishGeneState = false;
 
 	return true;
 }
 
-void DishGene::PopDishes()
+Vector3 DishGene::GetDishPositionBasedNumber(int number)
 {
-
+	return m_dishData[number].s_dishPosition;
 }

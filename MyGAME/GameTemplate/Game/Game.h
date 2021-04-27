@@ -51,8 +51,7 @@ public:
 	//ModelRender* player[2];
 	Player* player[2];
 	PlayerGene* playerGene;
-	GuzaiGene* generator01;
-	GuzaiGene* generator02;
+	GuzaiGene* guzaiGene;
 	Score* m_score = nullptr;
 	PostEffectTest* postTest;
 

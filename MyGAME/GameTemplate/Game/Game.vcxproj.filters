@@ -49,12 +49,10 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TkmFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
-    <ClCompile Include="Buff.cpp" />
     <ClCompile Include="Burger.cpp" />
     <ClCompile Include="CaslFile.cpp" />
     <ClCompile Include="CLevel2D.cpp" />
     <ClCompile Include="Counter.cpp" />
-    <ClCompile Include="DeBuff.cpp" />
     <ClCompile Include="FixedUI.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -160,12 +158,10 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TkmFile.h" />
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
-    <ClInclude Include="Buff.h" />
     <ClInclude Include="Burger.h" />
     <ClInclude Include="CaslFile.h" />
     <ClInclude Include="CLevel2D.h" />
     <ClInclude Include="Counter.h" />
-    <ClInclude Include="DeBuff.h" />
     <ClInclude Include="FixedUI.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="Game.h" />

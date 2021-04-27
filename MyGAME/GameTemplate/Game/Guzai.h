@@ -8,6 +8,7 @@ class Player;
 class PathMove;
 
 class SkinModelRender;
+class PlayerGene;
 
 
 class Guzai : public IGameObject
@@ -26,13 +27,15 @@ private:
 	//Xボタン長押しで積み上げている具材を全部削除する。そのためのタイマー。
 	int DeleteTimer = 0;
 	//どっち側に流れている具材か。
-	int GuzaiNo = 0;
+	//int GuzaiNo = 0;
 	//０．チーズ　１．エッグ　２．レタス　３．パテ　４．トマト
 	int TypeNo = 9;
 	//具材からプレイヤーへの距離
-	float guzai2Pl = 0;
+	float guzai2Pl01 = 0.0f;
+	float guzai2Pl02 = 0.0f;
 	//キッチンからプレイヤーへの距離
-	float kit2Pl = 0.0f;
+	float kit2Pl01 = 0.0f;
+	float kit2Pl02 = 0.0f;
 	
 	//ターゲティング関連
 	//ターゲティングされた具材を設定するよう。
@@ -55,6 +58,9 @@ private:
 	//以下追加コード。
 	std::unique_ptr<PathMove> m_pathMove;		//移動処理を行うクラス。
 
+	int whichPlayerGet = 0;
+	int whichPlayerTargetMe = 0;
+
 public:	
 	//乱数を用いて具材が生まれると同時にどの具材を流すか設定する。
 	Guzai();
@@ -65,7 +71,7 @@ public:
 	Vector3 GetPosition();
 	void SetPosition(Vector3 pos);
 	void SetScale(Vector3 scale) { GuzaiScale = scale; }
-	float GetGuzaiToPlayer() { return guzai2Pl; }
+	//float GetGuzaiToPlayer() { return guzai2Pl; }
 
 	//具材をキッチンに置いたときにオブジェクトを消すため、初めに設定しておいたTypeNoも消えてしまう。
 	//つまり、レーン上に出したオブジェクトと新しくキッチン上に出すオブジェクトが違う。
@@ -73,8 +79,8 @@ public:
 	//引数にプレイヤーに格納されている種類ナンバーを与える。
 	void ChangeGuzai(int num);
 	//どちら側に流れている具材か設定する。
-	void SetGuzaiNo(int num) { GuzaiNo = num; }
-	int GetGuzaiNo() { return GuzaiNo; }
+	//void SetGuzaiNo(int num) { GuzaiNo = num; }
+	//int GetGuzaiNo() { return GuzaiNo; }
 
 	int GetTypeNo() { return TypeNo; }
 
@@ -95,11 +101,12 @@ public:
 	//１ならばもうキッチンに置かれている。
 	int put = 0;
 
-	/*ModelRender*/Player* pl01 = nullptr;
-	/*ModelRender*/Player* pl02 = nullptr;
+	Player* pl01 = nullptr;
+	Player* pl02 = nullptr;
 	Kitchen* ki01 = nullptr;
 	Kitchen* ki02 = nullptr;
 	SkinModelRender* m_skinModelRender;
+	PlayerGene* playerGene;
 	//スプライトの3D空間表示が可能になったら使用
 	/*SpriteRender* sp01 = nullptr;
 	SpriteRender* sp02 = nullptr;*/

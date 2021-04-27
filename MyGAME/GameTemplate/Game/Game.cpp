@@ -51,9 +51,9 @@ Game::Game()
 		m_result[i] = nullptr;
 	}
 
-	playerGene = NewGO<PlayerGene>(0);
-	dishGene = NewGO<DishGene>(0);
-
+	playerGene = NewGO<PlayerGene>(0, "playerGene");
+	dishGene = NewGO<DishGene>(0,"dishGene");
+	guzaiGene = NewGO<GuzaiGene>(0, "guzaiGene");
 	////勝敗表示用スプライト
 	////表示するポジションを定義
 	//win_loseLeft.Set(200.0f, 350.0f);
@@ -68,6 +68,7 @@ Game::Game()
 	//}
 	const wchar_t* StockLeft = L"StockLeft";
 	const wchar_t* StockRight = L"StockRight";
+
 
 	level.Init("Assets/level/level_new.tkl", [&](ObjectData& objectData) {
 		if (wcscmp(objectData.name, L"CounterPos01") == 0) {
@@ -178,8 +179,7 @@ Game::~Game()
 	for (int i = 0; i < 2; i++) {
 		DeleteGO(m_result[i]);
 	}
-	DeleteGO(generator01);
-	DeleteGO(generator02);
+	DeleteGO(guzaiGene);
 	DeleteGO(m_score);
 }
 

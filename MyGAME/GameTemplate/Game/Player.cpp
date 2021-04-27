@@ -5,7 +5,7 @@
 
 
 #include "PathFactory.h"
-#include "DeBuff.h"
+//#include "DeBuff.h"
 
 #include "GameDirector.h"
 #include "PopUp2D.h"
@@ -220,7 +220,7 @@ void Player::Update()
 
 		m_position += moveSpeed;
 
-		RestrictPos();
+		//RestrictPos();
 
 		m_skinModelRender->SetPosition(m_position);
 	}
@@ -280,7 +280,7 @@ void Player::Update()
 
 		m_position += moveSpeed;
 
-		RestrictPos();
+		//RestrictPos();
 
 		m_skinModelRender->SetPosition(m_position);
 	}
@@ -334,28 +334,28 @@ void Player::UseItem()
 	}
 
 	//バフアイテム持ってる時。
-	if (m_enItem == enBuffItem)
+	/*if (m_enItem == enBuffItem)
 	{
 		m_enItem = enNonItem;
 		SetBuffAffect(true);
 		gene->Buffnum = 0;
 
-	}
+	}*/
 	//デバフアイテム持ってる時。
-	else if (m_enItem == enDebuffItem)
-	{
-		auto path = PathFactory::GetInstance().GetPath(enDeBuffLane, playerNo);
-		Vector3 pos = path->GetFirstPoint()->s_vector;
-		if ((m_position/*m_charaCon.GetPosition()*/ - pos).LengthSq() < DEBUFFDISTANCE)
-		{
-			m_enItem = enNonItem;
+	//else if (m_enItem == enDebuffItem)
+	//{
+	//	auto path = PathFactory::GetInstance().GetPath(enDeBuffLane, playerNo);
+	//	Vector3 pos = path->GetFirstPoint()->s_vector;
+	//	if ((m_position/*m_charaCon.GetPosition()*/ - pos).LengthSq() < DEBUFFDISTANCE)
+	//	{
+	//		m_enItem = enNonItem;
 
-			DeBuff* deBuff = NewGO<DeBuff>(0, "debuff");
-			deBuff->SetBuffNo(playerNo);
-			deBuff->SetPosition(m_position/*m_charaCon.GetPosition()*/);
-			deBuff->m_isDeBuffLane = true;
+	//		//DeBuff* deBuff = NewGO<DeBuff>(0, "debuff");
+	//		//deBuff->SetBuffNo(playerNo);
+	//		//deBuff->SetPosition(m_position/*m_charaCon.GetPosition()*/);
+	//		//deBuff->m_isDeBuffLane = true;
 
-			gene->DeBuffnum = 0;
-		}
-	}
+	//		gene->DeBuffnum = 0;
+	//	}
+	//}
 }
