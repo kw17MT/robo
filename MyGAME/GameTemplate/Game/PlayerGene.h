@@ -20,6 +20,9 @@ public:
 	bool Start();
 	void Update();
 
+	void SetPlayer01Pos(Vector3 pos) {	player01Pos = pos; }
+	void SetPlayer02Pos(Vector3 pos) {	player02Pos = pos; }
+
 	Player* player[2];
 };
 

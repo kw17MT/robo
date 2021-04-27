@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "Buff.h"
 //#include "ModelRender.h"
-#include "ObjectGene.h"
+#include "GuzaiGene.h"
 
 #include "PathMove.h"
-
-#include "ObjectGene.h"
 
 #include "Player.h"
 
@@ -77,17 +75,17 @@ void Buff::Update()
 	{
 	
 
-		ObjectGene* og = nullptr;
+		GuzaiGene* gg = nullptr;
 		if (BuffNo == 1)
 		{
-			og = FindGO<ObjectGene>("gene01");
+			gg = FindGO<GuzaiGene>("gene01");
 		}
 		else if (BuffNo == 2)
 		{
-			og = FindGO<ObjectGene>("gene02");
+			gg = FindGO<GuzaiGene>("gene02");
 		}
 
-		og->Buffnum = 0;
+		gg->Buffnum = 0;
 
 		//çÌèúÇ∑ÇÈÅB
 		DeleteGO(this);

@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "DeBuff.h"
 //#include "ModelRender.h"
-#include "ObjectGene.h"
+#include "GuzaiGene.h"
 
 #include "PathMove.h"
 
-#include "ObjectGene.h"
 #include "Guzai.h"
 #include "Buff.h"
 #include "Player.h"
@@ -139,20 +138,20 @@ void DeBuff::Update()
 			return;
 		}
 
-		ObjectGene* og = nullptr;
+		GuzaiGene* gg = nullptr;
 		if (BuffNo == 1)
 		{
-			og = FindGO<ObjectGene>("gene01");
+			gg = FindGO<GuzaiGene>("gene01");
 		}
 		else if (BuffNo == 2)
 		{
-			og = FindGO<ObjectGene>("gene02");
+			gg = FindGO<GuzaiGene>("gene02");
 		}
 		else {
 			return;
 		}
 
-		og->DeBuffnum = 0;
+		gg->DeBuffnum = 0;
 
 		//çÌèúÇ∑ÇÈÅB
 		DeleteGO(this);

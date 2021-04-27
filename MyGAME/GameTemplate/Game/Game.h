@@ -4,7 +4,7 @@ class Level;
 class FixedUI;
 class SpriteRender;
 class Guzai;
-class ObjectGene;
+class GuzaiGene;
 class Kitchen;
 class Counter;
 class Score;
@@ -21,11 +21,13 @@ class Player;
 class PlayerGene;
 //class PopUp2D;
 
+class DishGene;
 	
 class Game : public IGameObject
 {
 private:
 	bool isTimeUp = false;
+	int StockPlaceNum = 0;
 public:
 	//オブジェクトやUIの表示
 	Game();
@@ -49,8 +51,8 @@ public:
 	//ModelRender* player[2];
 	Player* player[2];
 	PlayerGene* playerGene;
-	ObjectGene* generator01;
-	ObjectGene* generator02;
+	GuzaiGene* generator01;
+	GuzaiGene* generator02;
 	Score* m_score = nullptr;
 	PostEffectTest* postTest;
 
@@ -58,7 +60,9 @@ public:
 	ShadowTest* shadowTest;
 	Ground* ground;
 
-	
+	Kitchen* stock[8];
+
+	DishGene* dishGene;
 	//PopUp2D* m_popup2D_1 = nullptr;
 	//PopUp2D* m_popup2D_2 = nullptr;
 

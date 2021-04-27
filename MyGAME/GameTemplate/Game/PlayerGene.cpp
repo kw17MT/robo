@@ -4,6 +4,7 @@
 
 bool PlayerGene::Start()
 {
+
 	return true;
 }
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "ObjectGene.h"
+#include "GuzaiGene.h"
 
 class Guzai;
 class FontRender;
@@ -77,7 +77,8 @@ public:
 
 	//void Render(RenderContext& rc) { model.Draw(rc); }
 
-	void GiveData(const char* ModelPath, const char* ShaderPath);
+	//移動範囲の制限を行う
+	void RestrictPos();
 
 	//現在ターゲティングしているかどうか
 	void SetTarget(bool target) { TargetingState = target; }
@@ -93,25 +94,25 @@ public:
 	{
 		if (m_enItem == enNonItem)
 		{
-			ObjectGene* og;
+			GuzaiGene* gg;
 			if (playerNo == 1)
 			{
-				og = FindGO<ObjectGene>("gene01");
+				gg = FindGO<GuzaiGene>("gene01");
 			}
 			else if (playerNo == 2)
 			{
-				og = FindGO<ObjectGene>("gene02");
+				gg = FindGO<GuzaiGene>("gene02");
 			}
 			else {
 				return;
 			}
 			if (m_enItem == enDebuffItem)
 			{
-				og->DeBuffnum = 0;
+				gg->DeBuffnum = 0;
 			}
 			else if (m_enItem == enBuffItem)
 			{
-				og->Buffnum = 0;
+				gg->Buffnum = 0;
 			}
 		}
 		m_enItem = enItem;

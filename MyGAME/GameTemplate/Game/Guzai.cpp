@@ -3,7 +3,7 @@
 //#include "ModelRender.h"
 #include "math.h"
 #include "Kitchen.h"
-#include "ObjectGene.h"
+#include "GuzaiGene.h"
 #include "SpriteRender.h"
 #include <ctime>
 #include <cstdlib>
@@ -32,19 +32,6 @@ Guzai::~Guzai()
 	DeleteGO(pl02);
 	DeleteGO(ki01);
 	DeleteGO(ki02);*/
-
-	/*if (GuzaiNo == 1) {
-		SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
-		if (targetDummy01 != nullptr) {
-			DeleteGO(targetDummy01);
-		}
-	}
-	if (GuzaiNo == 2) {
-		SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
-		if (targetDummy02 != nullptr) {
-			DeleteGO(targetDummy02);
-		}
-	}*/
 
 	DeleteGO(m_skinModelRender);
 }
@@ -100,57 +87,7 @@ void Guzai::ChangeGuzai(int num)
 
 void Guzai::Move()
 {
-	//Vector3 GuzaiPos = m_charaCon.GetPosition();
-
-	//TODO 具材の移動。
-	/*if (GuzaiNo == 1) {
-		//持たれていない　且つ　一度も置かれていない
-		if (state == 0 && put == 0) {
-			Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
-			
-			timer++;
-			if (timer < 500) {
-				moveSpeed.z = 2.0f;
-			}
-			if (timer >= 500 && timer < 600) {
-				moveSpeed.x = 2.0f;
-			}
-			if (timer >= 600) {
-				moveSpeed.z = -2.0f;
-			}
-			//TODO ここで具材を削除してる。
-			if (GuzaiPos.z < -850.0f) {
-				timer = 0;
-				DeleteGO(this);
-				Guzai* targetdummy01 = FindGO<Guzai>("targetdummy01");
-				if (targetdummy01 != nullptr) {
-					DeleteGO(targetdummy01);
-				}
-			}
-			m_charaCon.Execute(moveSpeed, 1.0f);
-		}
-	}
-	if (GuzaiNo == 2) {
-		//持たれていない　且つ　一度も置かれていない
-		if (state == 0 && put == 0) {
-			Vector3 moveSpeed = { 0.0f,0.0f,0.0f };
-			timer++;
-			if (timer < 500) {
-				moveSpeed.z = 2.0f;
-			}
-			if (timer >= 500 && timer < 600) {
-				moveSpeed.x = -2.0f;
-			}
-			if (timer >= 600) {
-				moveSpeed.z = -2.0f;
-			}
-			if (GuzaiPos.z < -850.0f) {
-				timer = 0;
-				DeleteGO(this);
-			}
-			m_charaCon.Execute(moveSpeed, 1.0f);
-		}
-	}*/
+	
 
 	//持たれていない　且つ　一度も置かれていない
 	if (state == 0 && put == 0) {
@@ -218,25 +155,6 @@ bool Guzai::Start()
 
 
 	m_skinModelRender->SetNewModel();
-
-	//modeldata.m_fxFilePath = "Assets/shader/model.fx";
-
-	//modeldata.m_vsEntryPointFunc = "VSMain";
-	//modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
-
-	//modeldata.m_expandConstantBuffer = &g_lig;
-	//modeldata.m_expandConstantBufferSize = sizeof(g_lig);
-
-	//modeldata.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
-
-	//modeldata.m_modelUpAxis = enModelUpAxisY;
-
-	//model.Init(modeldata);
-
-	//Vector3 pos = { 0.0f,0.0f,-1000.0f };
-
-	//m_charaCon.Init(0.0f, 0.0f, pos);
-
 
 
 	m_pathMove = std::make_unique<PathMove>();
@@ -434,7 +352,7 @@ void Guzai::Update()
 		kit2Pl = sqrt(kit2Pl);
 		
 		if (isSetFirstPos == false) {
-			ObjectGene* gene01 = FindGO<ObjectGene>("gene01");
+			GuzaiGene* gene01 = FindGO<GuzaiGene>("gene01");
 			SetPosition(gene01->GetPosition());
 
 			isSetFirstPos = true;
@@ -471,7 +389,7 @@ void Guzai::Update()
 		kit2Pl = sqrt(kit2Pl);
 
 		if (isSetFirstPos == false) {
-			ObjectGene* gene02 = FindGO<ObjectGene>("gene02");
+			GuzaiGene* gene02 = FindGO<GuzaiGene>("gene02");
 			SetPosition(gene02->GetPosition());
 			isSetFirstPos = true;
 		}

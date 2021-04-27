@@ -25,6 +25,14 @@ void Path::Load(const char* filePath,int guzaiNo)
 	{
 		side = L"L";
 	}
+	//考え中。。。ウェイポイントは1~37まで
+	/*
+	const wchar_t* wayPoint = L"WayPoint;
+
+	level.Init(filePath, [&](ObjectData& objectData){
+		if(strncmp(wayPoint, objectData.name, 8) == 0){
+			if(wcsncmp(
+	*/
 	std::vector<Point> poinstList;
 	level.Init(filePath, [&](ObjectData& objectData) {
 		if (wcsncmp(objectData.name, side,1) == 0) {

@@ -98,19 +98,6 @@ bool Player::Start()
 /// </summary>
 /// <param name="ModelPath">モデルのパス</param>
 /// <param name="ShaderPath">シェーダーのパス</param>
-void Player::GiveData(const char* ModelPath, const char* ShaderPath)
-{
-	ModelInitData modeldata;
-
-	modeldata.m_tkmFilePath = ModelPath;
-
-	modeldata.m_fxFilePath = "Assets/shader/model.fx";
-	if (ShaderPath != nullptr) {
-		modeldata.m_fxFilePath = ShaderPath;
-	}
-
-	//model.Init(modeldata);
-}
 
 void Player::SetGuzaiNo9()
 {
@@ -128,6 +115,39 @@ void Player::SetGuzaiNo9()
 Vector3 Player::GetPosition()
 {
 	return m_position;
+}
+
+void Player::RestrictPos()
+{
+	if (playerNo == 1) {
+		if (m_position.x > 1300) {
+			m_position.x = 1300;
+		}
+		if (m_position.x < 900) {
+			m_position.x = 900;
+		}
+		if (m_position.z > 200) {
+			m_position.z = 200;
+		}
+		if (m_position.z < -500) {
+			m_position.z = -500;
+		}
+	}
+	if (playerNo == 2) {
+		if (m_position.x > -900) {
+			m_position.x = -900;
+		}
+		if (m_position.x < -1300) {
+			m_position.x = -1300;
+		}
+		if (m_position.z > 200) {
+			m_position.z = 200;
+		}
+		if (m_position.z < -500) {
+			m_position.z = -500;
+		}
+	}
+
 }
 
 void Player::Update()
@@ -200,6 +220,8 @@ void Player::Update()
 
 		m_position += moveSpeed;
 
+		RestrictPos();
+
 		m_skinModelRender->SetPosition(m_position);
 	}
 	//P2の処理
@@ -258,6 +280,8 @@ void Player::Update()
 
 		m_position += moveSpeed;
 
+		RestrictPos();
+
 		m_skinModelRender->SetPosition(m_position);
 	}
 	//アイテム使用処理。
@@ -295,15 +319,15 @@ void Player::UseItem()
 		return;
 	}
 
-	ObjectGene* gene;
+	GuzaiGene* gene;
 
 	if (playerNo == 1)
 	{
-		gene = FindGO<ObjectGene>("gene01");
+		gene = FindGO<GuzaiGene>("gene01");
 	}
 	else if (playerNo == 2)
 	{
-		gene = FindGO<ObjectGene>("gene02");
+		gene = FindGO<GuzaiGene>("gene02");
 	}
 	else {
 		return;
