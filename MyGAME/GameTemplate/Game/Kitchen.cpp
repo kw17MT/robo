@@ -32,7 +32,12 @@ Kitchen::Kitchen()
 	m_charaCon.Init(0.0f, 0.0f, KitchenPos);*/
 
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init("Assets/modelData/box2.tkm", nullptr, enModelUpAxisY, m_position);
+	//m_skinModelRender->Init("Assets/modelData/box2.tkm", nullptr, enModelUpAxisY, m_position);
+	//ƒ‚ƒfƒ‹‚ð·‚µ‘Ö‚¦
+	m_skinModelRender->Init("Assets/modelData/object/kitchen.tkm", nullptr, enModelUpAxisZ, m_position);
+	Vector3 scale = { 0.2f,0.2f,0.2f };
+	m_skinModelRender->SetScale(scale);
+
 	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 }

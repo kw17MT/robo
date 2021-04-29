@@ -60,8 +60,13 @@ void Guzai::ChangeGuzai(int num)
 		NowModelPath = "Assets/modelData/gu/patty.tkm";
 		break;
 	case 4:
-		m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
-		NowModelPath = "Assets/modelData/gu/tomato.tkm";
+		//ƒ‚ƒfƒ‹·‚µ‘Ö‚¦
+		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
+		NowModelPath = "Assets/modelData/gu/tomato.tkm";*/
+		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato.tkm");
+		Vector3 scale = { 2.0f,2.0f,2.0f };
+		m_skinModelRender->SetScale(scale);
+		NowModelPath = "Assets/modelData/food/tomato.tkm";
 		break;
 	}
 	
@@ -123,8 +128,13 @@ bool Guzai::Start()
 		NowModelPath = "Assets/modelData/gu/patty.tkm";
 		break;
 	case 4:
-		m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
-		NowModelPath = "Assets/modelData/gu/tomato.tkm";
+		//ƒ‚ƒfƒ‹·‚µ‘Ö‚¦
+		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
+		NowModelPath = "Assets/modelData/gu/tomato.tkm";*/
+		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato.tkm");
+		Vector3 scale = { 2.0f,2.0f,2.0f };
+		m_skinModelRender->SetScale(scale);
+		NowModelPath = "Assets/modelData/food/tomato.tkm";
 		break;
 	}
 

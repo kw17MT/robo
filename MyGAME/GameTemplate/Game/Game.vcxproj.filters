@@ -77,9 +77,6 @@
     <ClCompile Include="PostEffectTest.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="Score.cpp" />
-    <ClCompile Include="Shadow.cpp" />
-    <ClCompile Include="ShadowTest.cpp" />
-    <ClCompile Include="ShadowTestColor.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="SoundPreCompile.cpp" />
     <ClCompile Include="SoundSource.cpp" />
@@ -185,9 +182,6 @@
     <ClInclude Include="PostEffectTest.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Score.h" />
-    <ClInclude Include="Shadow.h" />
-    <ClInclude Include="ShadowTest.h" />
-    <ClInclude Include="ShadowTestColor.h" />
     <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="SoundPreCompile.h" />
     <ClInclude Include="SoundSource.h" />
