@@ -16,15 +16,7 @@ void Path::Load(const char* filePath,int guzaiNo)
 {
 	Level level;
 	const wchar_t* side;
-	//左側か右側か決める。
-	if (guzaiNo == 1)
-	{
-		side = L"R";
-	}
-	else if (guzaiNo == 2)
-	{
-		side = L"L";
-	}
+	side = L"WayPoint";
 	//考え中。。。ウェイポイントは1~37まで
 	/*
 	const wchar_t* wayPoint = L"WayPoint;
@@ -36,9 +28,9 @@ void Path::Load(const char* filePath,int guzaiNo)
 
 	std::vector<Point> poinstList;
 	level.Init(filePath, [&](ObjectData& objectData) {
-		if (wcsncmp(objectData.name, side,1) == 0) {
+		if (wcsncmp(objectData.name, side,8) == 0) {
 			//文字列をint型に変換
-			int pointNm = _wtoi(&objectData.name[1]);
+			int pointNm = _wtoi(&objectData.name[8]);
 			Point point;
 			point.s_vector = objectData.Pos;
 			point.s_number = pointNm;

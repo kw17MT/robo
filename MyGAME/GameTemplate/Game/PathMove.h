@@ -21,7 +21,7 @@ public:
 	/// <param name="move">移動速度。</param>
 	/// <param name="enLane">レーンの種類。</param>
 	/// <param name="guzaiNo">左か右か。</param>
-	void Init(const Vector3& pos, const float move, EnLane enLane, const int guzaiNo);
+	void Init(const Vector3& pos, const float move, EnLane enLane);
 
 	/// <summary>
 	/// 移動させる。
