@@ -5,8 +5,7 @@ enum EnLane
 {
 	enNonLane = -1,
 	enNormalLane = 0,		//普通のレーン。
-	enDeBuffLane = 1,		//デバフアイテムのレーン。
-	enLaneNum = 2		//レーンの数。
+	enLaneNum = 1		//レーンの数。
 };
 
 class PathFactory
@@ -21,12 +20,12 @@ public:
 		static PathFactory instance;
 		return instance;
 	}
-	Path* GetPath(EnLane enLane, const int guzaiNo)
+	Path* GetPath(EnLane enLane)
 	{
-		return &m_pathVector[guzaiNo - 1][enLane];
+		return &m_pathVector[enLane];
 	}
 
 private:
-	std::vector<Path> m_pathVector[2];
+	std::vector<Path> m_pathVector;
 };
 

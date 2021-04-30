@@ -77,17 +77,17 @@ void Guzai::Move()
 {
 	
 
-	////持たれていない　且つ　一度も置かれていない
-	//if (state == 0 && put == 0) {
-	//	//移動させる。
-	//	SetPosition(m_pathMove.get()->Move());
-	//	//最後のポイントまで到達したら。
-	//	if (m_pathMove.get()->GetIsFinalPoint())
-	//	{
-	//		//削除する。
-	//		DeleteGO(this);
-	//	}
-	//}
+	//持たれていない　且つ　一度も置かれていない
+	if (state == 0 && put == 0) {
+		//移動させる。
+		SetPosition(m_pathMove.get()->Move());
+		//最後のポイントまで到達したら。
+		if (m_pathMove.get()->GetIsFinalPoint())
+		{
+			////削除する。
+			//DeleteGO(this);
+		}
+	}
 }
 
 bool Guzai::Start()
@@ -140,8 +140,8 @@ bool Guzai::Start()
 
 	m_skinModelRender->SetNewModel();
 
-	/*m_pathMove = std::make_unique<PathMove>();
-	m_pathMove.get()->Init(m_position, MOVESPEED, enNormalLane, GuzaiNo);*/
+	m_pathMove = std::make_unique<PathMove>();
+	m_pathMove.get()->Init(m_position, MOVESPEED, enNormalLane);
 
 	return true;
 }
