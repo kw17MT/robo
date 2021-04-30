@@ -64,8 +64,8 @@ void Guzai::ChangeGuzai(int num)
 		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
 		NowModelPath = "Assets/modelData/gu/tomato.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato.tkm");
-		Vector3 scale = { 2.0f,2.0f,2.0f };
-		m_skinModelRender->SetScale(scale);
+		/*Vector3*/ m_scale = { 2.0f,2.0f,2.0f };
+		m_skinModelRender->SetScale(m_scale);
 		NowModelPath = "Assets/modelData/food/tomato.tkm";
 		break;
 	}
@@ -132,8 +132,8 @@ bool Guzai::Start()
 		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
 		NowModelPath = "Assets/modelData/gu/tomato.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato.tkm");
-		Vector3 scale = { 2.0f,2.0f,2.0f };
-		m_skinModelRender->SetScale(scale);
+		/*Vector3 */m_scale = { 2.0f,2.0f,2.0f };
+		m_skinModelRender->SetScale(m_scale);
 		NowModelPath = "Assets/modelData/food/tomato.tkm";
 		break;
 	}
@@ -183,6 +183,7 @@ void Guzai::GrabNPut()
 
 			//ターゲット用のダミーを消す。
 			SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
+			m_scale -= expantionRate;
 			DeleteGO(targetDummy01);
 
 			
@@ -194,6 +195,7 @@ void Guzai::GrabNPut()
 
 			//ターゲット用のダミーを消す。
 			SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
+			m_scale -= expantionRate;
 			DeleteGO(targetDummy02);
 
 			
@@ -266,7 +268,8 @@ void Guzai::TargetingNPopDummy()
 				targetDummyOnGuzai01->InitShader("Assets/shader/model.fx", "VSMain", "FrontCulling", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				//targetdummyOnGuzai01->modeldata.m_psEntryPointFunc = "FrontCulling";
 				targetDummyOnGuzai01->SetPosition(m_position);
-				targetDummyOnGuzai01->SetScale({ 1.3f,1.3f,1.3f });
+				m_scale.x += 0.3f; m_scale.y += 0.3f; m_scale.z += 0.3f;
+				targetDummyOnGuzai01->SetScale(m_scale/*{ 1.3f,1.3f,1.3f }*/);
 
 				isSetTargetDummy = true;
 			}
@@ -276,7 +279,8 @@ void Guzai::TargetingNPopDummy()
 				targetDummyOnGuzai02->InitShader("Assets/shader/model.fx", "VSMain", "FrontCulling", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				//targetdummyOnGuzai02->modeldata.m_psEntryPointFunc = "FrontCulling";
 				targetDummyOnGuzai02->SetPosition(m_position);
-				targetDummyOnGuzai02->SetScale({ 1.3f,1.3f,1.3f });
+				m_scale.x += 0.3f; m_scale.y += 0.3f; m_scale.z += 0.3f;
+				targetDummyOnGuzai02->SetScale({ m_scale/*1.3f,1.3f,1.3f*/ });
 				isSetTargetDummy = true;
 			}
 		}
@@ -290,6 +294,7 @@ void Guzai::TargetingNPopDummy()
 					decrementTime--;
 					if (decrementTime == 0) {
 						DeleteGO(targetDummy01);
+						m_scale -= expantionRate;
 						targeted = false;
 						pl01->SetTarget(targeted);
 						isSetTargetDummy = false;
@@ -306,6 +311,7 @@ void Guzai::TargetingNPopDummy()
 					decrementTime--;
 					if (decrementTime == 0) {
 						DeleteGO(targetDummy02);
+						m_scale -= expantionRate;
 						targeted = false;
 						pl02->SetTarget(targeted);
 						isSetTargetDummy = false;
@@ -316,6 +322,7 @@ void Guzai::TargetingNPopDummy()
 			}
 		}
 }
+
 
 void Guzai::Update()
 {

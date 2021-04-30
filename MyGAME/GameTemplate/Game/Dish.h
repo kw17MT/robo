@@ -1,15 +1,18 @@
 #pragma once
 class SkinModelRender;
+class Guzai;
+class PlayerGene;
 
 class Dish : public IGameObject
 {
 private:
 	Vector3 m_position = Vector3::Zero;
+	Vector3 m_guzaiPos = Vector3::Zero;
 	Vector3 m_scale = Vector3::One;
-	bool isHavingGuzai = true;
+	bool isHavingGuzai = false;
 	//Ž©•ª‚ÍWayPoint‚Ì‰½”Ô–Ú‚ÌŽM‚È‚Ì‚©
 	int myNumber = 0;
-
+	int time = 0;
 public:
 	Dish() {}
 	~Dish() {}
@@ -23,5 +26,7 @@ public:
 	void Update();
 
 	SkinModelRender* m_skinModelRender;
+	Guzai* m_guzai;
+	PlayerGene* playerGene;
 };
 

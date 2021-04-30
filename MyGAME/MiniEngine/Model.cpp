@@ -12,6 +12,12 @@ void Model::Init(const ModelInitData& initData)
 		initData.m_tkmFilePath,
 		"error : initData.m_tkmFilePathが指定されていません。"
 	);
+
+	if (initData.m_skeleton != nullptr) {
+		//スケルトンが指定されている。
+		m_meshParts.BindSkeleton(*initData.m_skeleton);
+	}
+
 	//内部のシェーダーをロードする処理が求めているのが
 	//wchar_t型の文字列なので、ここで変換しておく。
 	wchar_t wfxFilePath[256] = {L""};
@@ -19,11 +25,6 @@ void Model::Init(const ModelInitData& initData)
 		//MessageBoxA(nullptr, "fxファイルパスが指定されていません。", "エラー", MB_OK);
 		//std::abort();
 		mbstowcs(wfxFilePath, initData.m_fxFilePath, 256);
-	}
-	
-	if (initData.m_skeleton != nullptr) {
-		//スケルトンが指定されている。
-		m_meshParts.BindSkeleton(*initData.m_skeleton);
 	}
 	
 	m_modelUpAxis = initData.m_modelUpAxis;
@@ -57,7 +58,7 @@ void Model::Init(const ModelInitData& initData)
 	);
 
 	UpdateWorldMatrix(g_vec3Zero, g_quatIdentity, g_vec3One);
-	
+	/*m_isInited = true;*/
 }
 
 void Model::UpdateWorldMatrix(Vector3 pos, Quaternion rot, Vector3 scale)

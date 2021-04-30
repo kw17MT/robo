@@ -23,7 +23,7 @@ public:
 	void SetPlayer01Pos(Vector3 pos) {	player01Pos = pos; }
 	void SetPlayer02Pos(Vector3 pos) {	player02Pos = pos; }
 
-	//プレイヤー生成器が役目をはたして電源OFFになっているか。
+	//プレイヤー生成器電源状態,true = 動いてる, false = 止まってる。
 	bool GetPlayerGeneState() { return isWorking; }
 
 	Player* player[2];

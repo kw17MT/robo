@@ -11,30 +11,6 @@
 
 Counter::Counter()
 {
-	/*m_skinModelRender->Init("Assets/modelData/box2.tkm", nullptr, enModelUpAxisZ, m_position);
-	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);*/
-
-	/*ModelInitData modeldata;
-	modeldata.m_tkmFilePath = "Assets/modelData/box2.tkm";
-	modeldata.m_fxFilePath = "Assets/shader/model.fx";
-
-	modeldata.m_vsEntryPointFunc = "VSMain";
-	modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
-
-	modeldata.m_modelUpAxis = enModelUpAxisY;
-
-	modeldata.m_expandConstantBuffer = &g_lig;
-	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
-
-	modeldata.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
-
-	m_skeleton.Init("Assets/modelData/unityChan.tks");
-	modeldata.m_skeleton = &m_skeleton;
-
-	model.Init(modeldata);
-
-	m_charaCon.Init(0.0f, 0.0f, g_vec3One);*/
-
 	//ハンバーガーのデータを作る。
 	/*HamBurger cheese;
 	cheese.push_back(3);
@@ -54,10 +30,7 @@ Counter::Counter()
 	egg.push_back(4);
 	egg.push_back(1);
 	egg.push_back(3);
-	m_hamBurgers[enEggBurger] = egg;
-*/
-
-
+	m_hamBurgers[enEggBurger] = egg;*/
 }
 
 bool Counter::Start()

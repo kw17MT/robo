@@ -12,6 +12,8 @@ class Guzai : public IGameObject
 private:
 	Vector3 m_position = { 0.0f,0.0f,-1000.0f };
 	Vector3 m_scale = Vector3::One;
+	//具材の枠線の拡大率
+	const Vector3 expantionRate = { 0.3f,0.3f,0.3f };
 	
 	//Update()でインクリメントする。
 	int timer = 0;
