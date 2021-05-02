@@ -3,7 +3,7 @@
 #include "math.h"
 #include "Kitchen.h"
 #include "GuzaiGene.h"
-#include "PathMove.h"
+//#include "PathMove.h"
 #include "SkinModelRender.h"
 #include "Player.h"
 #include "PlayerGene.h"
@@ -64,7 +64,7 @@ void Guzai::ChangeGuzai(int num)
 		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
 		NowModelPath = "Assets/modelData/gu/tomato.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato.tkm");
-		/*Vector3*/ m_scale = { 2.0f,2.0f,2.0f };
+		///*Vector3*/ m_scale = { 2.0f,2.0f,2.0f };
 		m_skinModelRender->SetScale(m_scale);
 		NowModelPath = "Assets/modelData/food/tomato.tkm";
 		break;
@@ -75,19 +75,17 @@ void Guzai::ChangeGuzai(int num)
 
 void Guzai::Move()
 {
-	
-
-	//持たれていない　且つ　一度も置かれていない
-	if (state == 0 && put == 0) {
-		//移動させる。
-		SetPosition(m_pathMove.get()->Move());
-		//最後のポイントまで到達したら。
-		if (m_pathMove.get()->GetIsFinalPoint())
-		{
-			////削除する。
-			//DeleteGO(this);
-		}
-	}
+	////持たれていない　且つ　一度も置かれていない
+	//if (state == 0 && put == 0) {
+	//	//移動させる。
+	//	SetPosition(m_pathMove.get()->Move());
+	//	//最後のポイントまで到達したら。
+	//	if (m_pathMove.get()->GetIsFinalPoint())
+	//	{
+	//		////削除する。
+	//		//DeleteGO(this);
+	//	}
+	//}
 }
 
 bool Guzai::Start()
@@ -132,7 +130,7 @@ bool Guzai::Start()
 		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
 		NowModelPath = "Assets/modelData/gu/tomato.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato.tkm");
-		/*Vector3 */m_scale = { 2.0f,2.0f,2.0f };
+		///*Vector3 */m_scale = { 2.0f,2.0f,2.0f };
 		m_skinModelRender->SetScale(m_scale);
 		NowModelPath = "Assets/modelData/food/tomato.tkm";
 		break;
@@ -140,8 +138,8 @@ bool Guzai::Start()
 
 	m_skinModelRender->SetNewModel();
 
-	m_pathMove = std::make_unique<PathMove>();
-	m_pathMove.get()->Init(m_position, MOVESPEED, enNormalLane);
+	//m_pathMove = std::make_unique<PathMove>();
+	//m_pathMove.get()->Init(m_position, MOVESPEED, enNormalLane);
 
 	return true;
 }
@@ -158,10 +156,12 @@ void Guzai::GrabNPut()
 			pl01->have = 1;
 			whichPlayerGet = 1;
 
-			//どこからとったか生成器に連絡する、両プレイヤーで共有
-			m_guzaiGene->RegisterEmptyDishNumber(dishNumber);
-			//フィールドからいくつ具材がとられているか数える
-			m_guzaiGene->AddEmptyDishCounter();
+			////どこからとったか生成器に連絡する、両プレイヤーで共有
+			//m_guzaiGene->RegisterEmptyDishNumber(dishNumber);
+			////フィールドからいくつ具材がとられているか数える
+			//m_guzaiGene->AddEmptyDishCounter();
+
+			playerGene->AddNoHavingDishCounter();
 		}
 	}
 	if (g_pad[1]->IsTrigger(enButtonA)) {
@@ -170,8 +170,10 @@ void Guzai::GrabNPut()
 			pl02->have = 1;
 			whichPlayerGet = 2;
 
-			m_guzaiGene->RegisterEmptyDishNumber(dishNumber);
-			m_guzaiGene->AddEmptyDishCounter();
+			/*m_guzaiGene->RegisterEmptyDishNumber(dishNumber);
+			m_guzaiGene->AddEmptyDishCounter();*/
+
+			playerGene->AddNoHavingDishCounter();
 		}
 	}
 
