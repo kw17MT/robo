@@ -48,11 +48,11 @@
 			MessageBoxA(nullptr, "fxファイルが指定されていません。", "エラー", MB_OK);
 			std::abort();
 		}
-		wchar_t fxFilePath[1024];
-		mbstowcs(fxFilePath, initData.m_fxFilePath, 1023);
+		/*wchar_t fxFilePath[1024];
+		mbstowcs(fxFilePath, initData.m_fxFilePath, 1023);*/
 		//シェーダーをロードする。
-		m_vs.LoadVS(fxFilePath, initData.m_vsEntryPointFunc);
-		m_ps.LoadPS(fxFilePath, initData.m_psEntryPoinFunc);
+		m_vs.LoadVS(initData.m_fxFilePath/*fxFilePath*/, initData.m_vsEntryPointFunc);
+		m_ps.LoadPS(initData.m_fxFilePath/*fxFilePath*/, initData.m_psEntryPoinFunc);
 	}
 	void Sprite::InitDescriptorHeap(const SpriteInitData& initData)
 	{
