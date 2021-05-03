@@ -47,32 +47,6 @@ bool Player::Start()
 
 	//m_skinModelRender->InitLight(g_lig);
 
-	//
-
-	//モデルの初期化処理
-	//初期化用データの構築
-	//ModelInitData modeldata;
-	//modeldata.m_tkmFilePath = "Assets/modelData/unityChan.tkm";
-	//modeldata.m_fxFilePath = "Assets/shader/model.fx";
-
-	//modeldata.m_vsEntryPointFunc = "VSMain";
-	//modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
-
-	//modeldata.m_modelUpAxis = enModelUpAxisZ;
-
-	//modeldata.m_expandConstantBuffer = &g_lig;
-	//modeldata.m_expandConstantBufferSize = sizeof(g_lig);
-	//modeldata.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
-
-	//m_skeleton.Init("Assets/modelData/unityChan.tks");
-	//modeldata.m_skeleton = &m_skeleton;
-
-	//model.Init(modeldata);
-	//初期化終わり//
-
-	//キャラコンの初期化
-	//m_charaCon.Init(40.0f, 100.0f, m_position);
-
 	//具材ナンバー配列のすべての要素を9で初期化
 	for (int i = 0; i < 10; i++) {
 		GuzaiNo[i] = 9;

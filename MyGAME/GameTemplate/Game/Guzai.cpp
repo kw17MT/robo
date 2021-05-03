@@ -3,7 +3,7 @@
 #include "math.h"
 #include "Kitchen.h"
 #include "GuzaiGene.h"
-#include "PathMove.h"
+//#include "PathMove.h"
 #include "SkinModelRender.h"
 #include "Player.h"
 #include "PlayerGene.h"
@@ -65,9 +65,8 @@ void Guzai::ChangeGuzai(int num)
 		break;
 	case 4:
 		//モデル差し替え
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
-		NowModelPath = "Assets/modelData/gu/tomato.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato.tkm");
+		m_skinModelRender->SetScale(m_scale);
 		NowModelPath = "Assets/modelData/food/tomato.tkm";
 		break;
 	}
@@ -77,19 +76,17 @@ void Guzai::ChangeGuzai(int num)
 
 void Guzai::Move()
 {
-	
-
-	//持たれていない　且つ　一度も置かれていない
-	if (state == 0 && put == 0) {
-		//移動させる。
-		SetPosition(m_pathMove.get()->Move());
-		//最後のポイントまで到達したら。
-		if (m_pathMove.get()->GetIsFinalPoint())
-		{
-			////削除する。
-			//DeleteGO(this);
-		}
-	}
+	////持たれていない　且つ　一度も置かれていない
+	//if (state == 0 && put == 0) {
+	//	//移動させる。
+	//	SetPosition(m_pathMove.get()->Move());
+	//	//最後のポイントまで到達したら。
+	//	if (m_pathMove.get()->GetIsFinalPoint())
+	//	{
+	//		////削除する。
+	//		//DeleteGO(this);
+	//	}
+	//}
 }
 
 bool Guzai::Start()
@@ -140,16 +137,15 @@ bool Guzai::Start()
 		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
 		NowModelPath = "Assets/modelData/gu/tomato.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato.tkm");
-		/*Vector3 scale = { 2.0f,2.0f,2.0f };
-		m_skinModelRender->SetScale(scale);*/
+		m_skinModelRender->SetScale(m_scale);
 		NowModelPath = "Assets/modelData/food/tomato.tkm";
 		break;
 	}
 
 	m_skinModelRender->SetNewModel();
 
-	m_pathMove = std::make_unique<PathMove>();
-	m_pathMove.get()->Init(m_position, MOVESPEED, enNormalLane);
+	//m_pathMove = std::make_unique<PathMove>();
+	//m_pathMove.get()->Init(m_position, MOVESPEED, enNormalLane);
 
 	return true;
 }
@@ -166,10 +162,12 @@ void Guzai::GrabNPut()
 			pl01->have = 1;
 			whichPlayerGet = 1;
 
-			//どこからとったか生成器に連絡する、両プレイヤーで共有
-			m_guzaiGene->RegisterEmptyDishNumber(dishNumber);
-			//フィールドからいくつ具材がとられているか数える
-			m_guzaiGene->AddEmptyDishCounter();
+			////どこからとったか生成器に連絡する、両プレイヤーで共有
+			//m_guzaiGene->RegisterEmptyDishNumber(dishNumber);
+			////フィールドからいくつ具材がとられているか数える
+			//m_guzaiGene->AddEmptyDishCounter();
+
+			playerGene->AddNoHavingDishCounter();
 		}
 	}
 	if (g_pad[1]->IsTrigger(enButtonA)) {
@@ -178,8 +176,10 @@ void Guzai::GrabNPut()
 			pl02->have = 1;
 			whichPlayerGet = 2;
 
-			m_guzaiGene->RegisterEmptyDishNumber(dishNumber);
-			m_guzaiGene->AddEmptyDishCounter();
+			/*m_guzaiGene->RegisterEmptyDishNumber(dishNumber);
+			m_guzaiGene->AddEmptyDishCounter();*/
+
+			playerGene->AddNoHavingDishCounter();
 		}
 	}
 
@@ -191,6 +191,7 @@ void Guzai::GrabNPut()
 
 			//ターゲット用のダミーを消す。
 			SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
+			m_scale -= expantionRate;
 			DeleteGO(targetDummy01);
 
 			
@@ -202,6 +203,7 @@ void Guzai::GrabNPut()
 
 			//ターゲット用のダミーを消す。
 			SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
+			m_scale -= expantionRate;
 			DeleteGO(targetDummy02);
 
 			
@@ -274,7 +276,8 @@ void Guzai::TargetingNPopDummy()
 				targetDummyOnGuzai01->InitShader("Assets/shader/model.fx", "VSMain", "FrontCulling", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				//targetdummyOnGuzai01->modeldata.m_psEntryPointFunc = "FrontCulling";
 				targetDummyOnGuzai01->SetPosition(m_position);
-				targetDummyOnGuzai01->SetScale({ 1.3f,1.3f,1.3f });
+				m_scale.x += 0.3f; m_scale.y += 0.3f; m_scale.z += 0.3f;
+				targetDummyOnGuzai01->SetScale(m_scale/*{ 1.3f,1.3f,1.3f }*/);
 
 				isSetTargetDummy = true;
 			}
@@ -284,7 +287,8 @@ void Guzai::TargetingNPopDummy()
 				targetDummyOnGuzai02->InitShader("Assets/shader/model.fx", "VSMain", "FrontCulling", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				//targetdummyOnGuzai02->modeldata.m_psEntryPointFunc = "FrontCulling";
 				targetDummyOnGuzai02->SetPosition(m_position);
-				targetDummyOnGuzai02->SetScale({ 1.3f,1.3f,1.3f });
+				m_scale.x += 0.3f; m_scale.y += 0.3f; m_scale.z += 0.3f;
+				targetDummyOnGuzai02->SetScale({ m_scale/*1.3f,1.3f,1.3f*/ });
 				isSetTargetDummy = true;
 			}
 		}
@@ -298,6 +302,7 @@ void Guzai::TargetingNPopDummy()
 					decrementTime--;
 					if (decrementTime == 0) {
 						DeleteGO(targetDummy01);
+						m_scale -= expantionRate;
 						targeted = false;
 						pl01->SetTarget(targeted);
 						isSetTargetDummy = false;
@@ -314,6 +319,7 @@ void Guzai::TargetingNPopDummy()
 					decrementTime--;
 					if (decrementTime == 0) {
 						DeleteGO(targetDummy02);
+						m_scale -= expantionRate;
 						targeted = false;
 						pl02->SetTarget(targeted);
 						isSetTargetDummy = false;
@@ -324,6 +330,7 @@ void Guzai::TargetingNPopDummy()
 			}
 		}
 }
+
 
 void Guzai::Update()
 {
