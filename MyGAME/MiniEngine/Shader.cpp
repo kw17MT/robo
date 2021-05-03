@@ -22,7 +22,7 @@ void Shader::Load(const char* filePath, const char* entryFuncName, const char* s
 #endif
 	//char‚Ì‚Ü‚Ü‚¾‚ÆWCTR‚É•ÏŠ·‚Å‚«‚È‚¢‚©‚çwchar‚É•ÏŠ·‚·‚é
 	wchar_t wc_str[256] = { L"" };
-	mbstowcs(wc_str, filePath, sizeof(filePath));
+	mbstowcs(wc_str, filePath, strlen(filePath));
 	
 
 	auto hr = D3DCompileFromFile(wc_str, nullptr, nullptr, entryFuncName, shaderModel, compileFlags, 0, &m_blob, &errorBlob);
