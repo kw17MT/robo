@@ -72,6 +72,8 @@ public:
 	//プレイヤー側に保存しているTypeNoをキッチン側でNewGOするオブジェクトに与えてやる。
 	//引数にプレイヤーに格納されている種類ナンバーを与える。
 	void ChangeGuzai(int num);
+	//キッチンに置いたときに違うモデルに差し替える用
+	void ChangeModel(int& num);
 
 	int GetTypeNo() { return TypeNo; }
 

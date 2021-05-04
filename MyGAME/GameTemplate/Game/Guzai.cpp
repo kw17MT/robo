@@ -74,6 +74,36 @@ void Guzai::ChangeGuzai(int num)
 	m_skinModelRender->SetNewModel();
 }
 
+//キッチン上で別のモデルに差し替える用
+void Guzai::ChangeModel(int& num)
+{
+	switch (num) {
+	case 0:
+		m_skinModelRender->ChangeModel("Assets/modelData/gu/cheese.tkm");
+		break;
+	case 1:
+		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/egg.tkm");
+		NowModelPath = "Assets/modelData/gu/egg.tkm";*/
+		m_skinModelRender->ChangeModel("Assets/modelData/gu/egg.tkm");
+		break;
+	case 2:
+		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/lettuce.tkm");
+		NowModelPath = "Assets/modelData/gu/lettuce.tkm";*/
+		m_skinModelRender->ChangeModel("Assets/modelData/gu/lettuce.tkm");
+		break;
+	case 3:
+		m_skinModelRender->ChangeModel("Assets/modelData/gu/patty.tkm");
+		break;
+	case 4:
+		//モデル差し替え
+		m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
+		break;
+	}
+
+	m_skinModelRender->SetNewModel();
+	
+}
+
 void Guzai::Move()
 {
 	////持たれていない　且つ　一度も置かれていない
