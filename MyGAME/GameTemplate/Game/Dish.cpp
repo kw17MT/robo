@@ -14,7 +14,10 @@ namespace
 bool Dish::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init("Assets/modelData/gu/egg.tkm", nullptr, enModelUpAxisZ, m_position);
+	/*m_skinModelRender->Init("Assets/modelData/gu/egg.tkm", nullptr, enModelUpAxisZ, m_position);*/
+	m_skinModelRender->Init("Assets/modelData/object/conveyor.tkm", nullptr, enModelUpAxisZ, m_position);
+	Vector3 scale = { 0.2f,0.2f,0.2f };
+	m_skinModelRender->SetScale(scale);
 	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	SetScale({ 1.0f,0.2f,1.0f });
@@ -23,6 +26,8 @@ bool Dish::Start()
 	
 	m_pathMove = std::make_unique<PathMove>();
 	m_pathMove.get()->Init(m_position, MOVESPEED, enNormalLane);
+
+	m_skinModelRender->SetNewModel();
 
 	return true;
 }
@@ -87,5 +92,5 @@ void Dish::Update()
 
 		Move();
 
-	m_skinModelRender->SetScale(m_scale);
+	//m_skinModelRender->SetScale(m_scale);
 }
