@@ -86,7 +86,7 @@ void Guzai::ChangeModel(int& num)
 	case 1:
 		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/egg.tkm");
 		NowModelPath = "Assets/modelData/gu/egg.tkm";*/
-		m_skinModelRender->ChangeModel("Assets/modelData/gu/egg.tkm");
+		m_skinModelRender->ChangeModel("Assets/modelData/food/egg_kitchen.tkm");
 		break;
 	case 2:
 		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/lettuce.tkm");
@@ -94,11 +94,11 @@ void Guzai::ChangeModel(int& num)
 		m_skinModelRender->ChangeModel("Assets/modelData/gu/lettuce.tkm");
 		break;
 	case 3:
-		m_skinModelRender->ChangeModel("Assets/modelData/gu/patty.tkm");
+		m_skinModelRender->ChangeModel("Assets/modelData/food/patty_kitchen.tkm");
 		break;
 	case 4:
 		//ƒ‚ƒfƒ‹·‚µ‘Ö‚¦
-		m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
+		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato_kitchen.tkm");
 		break;
 	}
 
