@@ -2,10 +2,7 @@
 #include "Player.h"
 #include "Guzai.h"
 #include "FontRender.h"
-
-
 #include "PathFactory.h"
-//#include "DeBuff.h"
 
 #include "GameDirector.h"
 #include "PopUp2D.h"
@@ -29,7 +26,6 @@ Player::~Player()
 
 bool Player::Start()
 {
-	//
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init(
 		"Assets/modelData/unityChan.tkm",
@@ -45,7 +41,25 @@ bool Player::Start()
 		DXGI_FORMAT_R32G32B32A32_FLOAT
 	);
 
-	//m_skinModelRender->InitLight(g_lig);
+	//ここでアニメーションのロードを行う
+	animationClips[enAnimation_Idle].Load("Assets/animData/idle.tka");
+	/*animationClips[enAnimation_Run].Load("");
+	animationClips[enAnimation_Cut].Load("");
+	animationClips[enAnimation_Cook].Load("");
+	animationClips[enAnimation_HaveIdle].Load("");
+	animationClips[enAnimation_HaveRun].Load("");*/
+
+
+	animationClips[enAnimation_Idle].SetLoopFlag(true);
+	/*animationClips[enAnimation_Run].SetLoopFlag(true);
+	animationClips[enAnimation_Cut].SetLoopFlag(true);
+	animationClips[enAnimation_Cook].SetLoopFlag(true);
+	animationClips[enAnimation_HaveIdle].SetLoopFlag(true);
+	animationClips[enAnimation_HaveRun].SetLoopFlag(true);*/
+
+	m_skinModelRender->InitAnimation(animationClips, enAnimation_Num);
+
+	m_skinModelRender->PlayAnimation(enAnimation_Idle);
 
 	//具材ナンバー配列のすべての要素を9で初期化
 	for (int i = 0; i < 10; i++) {
@@ -79,16 +93,6 @@ void Player::SetGuzaiNo9()
 	{
 		GuzaiNo[i] = 9;
 	}
-}
-
-//Vector3 ModelRender::GetPosition()
-//{
-//	Vector3 Pos = m_charaCon.GetPosition();
-//	return Pos;
-//}
-Vector3 Player::GetPosition()
-{
-	return m_position;
 }
 
 void Player::RestrictPos()
@@ -135,9 +139,6 @@ void Player::Update()
 		return;
 	}
 
-	//スケルトンを更新。
-	//m_skeleton.Update(model.GetWorldMatrix());
-
 	//P1の処理
 	if (playerNo == 1) {
 
@@ -170,27 +171,24 @@ void Player::Update()
 			m_skinModelRender->SetRotation(m_rotation);
 		}
 
-		//バフの効果がついているか確認後移動速度を決め、移動させる。
-		if (Buff == true) {
-			moveSpeed.x = g_pad[0]->GetLStickXF() * -20.0f;
-			moveSpeed.z = g_pad[0]->GetLStickYF() * -20.0f;
+		////バフの効果がついているか確認後移動速度を決め、移動させる。
+		//if (Buff == true) {
+		//	moveSpeed.x = g_pad[0]->GetLStickXF() * -20.0f;
+		//	moveSpeed.z = g_pad[0]->GetLStickYF() * -20.0f;
 
-			BuffTime--;
-			if (BuffTime == 0) {
-				Buff = false;
-				BuffTime = 120;
-			}
-		}
-		if (Buff == false) {
-			moveSpeed.x = g_pad[0]->GetLStickXF() * -10.0f;
-			moveSpeed.z = g_pad[0]->GetLStickYF() * -10.0f;
-		}
+		//	BuffTime--;
+		//	if (BuffTime == 0) {
+		//		Buff = false;
+		//		BuffTime = 120;
+		//	}
+		//}
+		//if (Buff == false) {
+		//	moveSpeed.x = g_pad[0]->GetLStickXF() * -10.0f;
+		//	moveSpeed.z = g_pad[0]->GetLStickYF() * -10.0f;
+		//}
 
-		/*if (setPos == 0) {
-			Vector3 Pos1 = { 900.0f, 0.0f, 0.0f };
-			m_charaCon.SetPosition(Pos1);
-			setPos = 1;
-		}*/
+		moveSpeed.x = g_pad[0]->GetLStickXF() * -10.0f;
+		moveSpeed.z = g_pad[0]->GetLStickYF() * -10.0f;
 
 		m_position += moveSpeed;
 
@@ -231,7 +229,7 @@ void Player::Update()
 		}
 
 		//バフの効果がついているか確認後移動速度を決め、移動させる。
-		if (Buff == true) {
+		/*if (Buff == true) {
 			moveSpeed.x = g_pad[1]->GetLStickXF() * -20.0f;
 			moveSpeed.z = g_pad[1]->GetLStickYF() * -20.0f;
 
@@ -244,13 +242,10 @@ void Player::Update()
 		if (Buff == false) {
 			moveSpeed.x = g_pad[1]->GetLStickXF() * -10.0f;
 			moveSpeed.z = g_pad[1]->GetLStickYF() * -10.0f;
-		}
-
-		/*if (setPos == 0) {
-			Vector3 Pos2 = { -900.0f, 0.0f, 0.0f };
-			m_charaCon.SetPosition(Pos2);
-			setPos = 1;
 		}*/
+
+		moveSpeed.x = g_pad[1]->GetLStickXF() * -10.0f;
+		moveSpeed.z = g_pad[1]->GetLStickYF() * -10.0f;
 
 		m_position += moveSpeed;
 
@@ -279,9 +274,6 @@ void Player::Update()
 	m_popUpPosition = m_position;
 	m_popUpPosition = m_popUpPosition + playerToPopUp;
 	m_popUp->SetPosition(m_popUpPosition);
-
-
-	//model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 
 }
 

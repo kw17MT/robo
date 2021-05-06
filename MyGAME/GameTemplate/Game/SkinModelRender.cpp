@@ -80,6 +80,18 @@ void SkinModelRender::InitBackGroundLight(Texture target, Matrix lightcamera, Ma
 	m_modelInitData.m_expandConstantBufferSize = sizeof(lightcamerasize);
 }
 
+void SkinModelRender::InitAnimation(AnimationClip* animationClip, int animationNum)
+{
+	m_animationClip = animationClip;
+
+	m_animation.Init(m_skeleton, m_animationClip, animationNum);
+}
+
+void SkinModelRender::PlayAnimation(int animNo, float interpolateTime)
+{
+	m_animation.Play(animNo, interpolateTime);
+}
+
 bool SkinModelRender::Start()
 {
 	return true;

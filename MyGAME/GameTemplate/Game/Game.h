@@ -1,6 +1,5 @@
 #pragma once
 class Level;
-//class ModelRender;
 class FixedUI;
 class SpriteRender;
 class Guzai;
@@ -22,6 +21,7 @@ class PlayerGene;
 //class PopUp2D;
 
 class DishGene;
+class DishSpeedManeger;
 	
 class Game : public IGameObject
 {
@@ -48,7 +48,6 @@ public:
 	Kitchen* kitchen02;
 	SpriteRender* menu[3];
 	SpriteRender* Buff[2];
-	//ModelRender* player[2];
 	Player* player[2];
 	PlayerGene* playerGene;
 	GuzaiGene* guzaiGene;
@@ -62,6 +61,7 @@ public:
 	Kitchen* stock[8];
 
 	DishGene* dishGene;
+	DishSpeedManeger* m_speedManeger;
 	//PopUp2D* m_popup2D_1 = nullptr;
 	//PopUp2D* m_popup2D_2 = nullptr;
 

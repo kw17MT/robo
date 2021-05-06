@@ -295,6 +295,7 @@
     <ClCompile Include="Counter.cpp" />
     <ClCompile Include="Dish.cpp" />
     <ClCompile Include="DishGene.cpp" />
+    <ClCompile Include="DishSpeedManeger.cpp" />
     <ClCompile Include="FixedUI.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -408,6 +409,7 @@
     <ClInclude Include="Counter.h" />
     <ClInclude Include="Dish.h" />
     <ClInclude Include="DishGene.h" />
+    <ClInclude Include="DishSpeedManeger.h" />
     <ClInclude Include="FixedUI.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="Game.h" />

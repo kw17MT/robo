@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "Counter.h"
-//#include "ModelRender.h"
 #include "Burger.h"
 #include "Kitchen.h"
 #include "Score.h"
 #include "CLevel2D.h";
-
+#include "PlayerGene.h"
 #include "Player.h"
 #include "SkinModelRender.h"
 
@@ -35,6 +34,8 @@ Counter::Counter()
 
 bool Counter::Start()
 {
+	m_playerGene = FindGO<PlayerGene>("playerGene");
+
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 
 	m_skinModelRender->Init("Assets/modelData/box2.tkm", nullptr, enModelUpAxisZ, m_position);
@@ -50,7 +51,7 @@ bool Counter::Judge()
 
 	if (CounterNo == 1) {
 		Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
-		/*ModelRender*/Player* pl01 = FindGO<Player/*ModelRender*/>("player01");
+		Player* pl01 = FindGO<Player>("player01");
 
 		//最終結果を記録するもの。
 		bool correct01 = true;
@@ -115,7 +116,7 @@ bool Counter::Judge()
 
 	if (CounterNo == 2) {
 		Kitchen* ki02 = FindGO<Kitchen>("kitchen02");
-		/*ModelRender*/Player* pl02 = FindGO<Player/*ModelRender*/>("player02");
+		Player* pl02 = FindGO<Player>("player02");
 
 		bool correct02 = true;
 		int correctCount02 = 0;
@@ -161,10 +162,10 @@ bool Counter::Judge()
 void Counter::Delete()
 {
 	if (CounterNo == 1) {
-		/*ModelRender*/Player* pl01 = FindGO<Player/*ModelRender*/>("player01");
+		Player* pl01 = FindGO<Player>("player01");
 		Vector3 plPos = pl01->GetPosition();
 
-		Vector3 CounterPos01 = m_position/*m_charaCon.GetPosition()*/;
+		Vector3 CounterPos01 = m_position;
 
 		//カウンターからプレイヤーの距離
 		float pl2Counter = (plPos.x - CounterPos01.x) * (plPos.x - CounterPos01.x) + (plPos.y - CounterPos01.y) * (plPos.y - CounterPos01.y) + (plPos.z - CounterPos01.z) * (plPos.z - CounterPos01.z);
@@ -201,16 +202,17 @@ void Counter::Delete()
 					Delay = 0;
 					pl01->have = 0;
 					StackNum = 0;
+					m_playerGene->AddSubmitBurgerNum();
 				}
 			}
 		}
 	}
 
 	if (CounterNo == 2) {
-		/*ModelRender*/Player* pl02 = FindGO<Player/*ModelRender*/>("player02");
+		Player* pl02 = FindGO<Player>("player02");
 		Vector3 plPos = pl02->GetPosition();
 
-		Vector3 CounterPos02 = m_position;//m_charaCon.GetPosition();
+		Vector3 CounterPos02 = m_position;
 
 		float pl2Counter = (plPos.x - CounterPos02.x) * (plPos.x - CounterPos02.x) + (plPos.y - CounterPos02.y) * (plPos.y - CounterPos02.y) + (plPos.z - CounterPos02.z) * (plPos.z - CounterPos02.z);
 		pl2Counter = sqrt(pl2Counter);
@@ -245,6 +247,7 @@ void Counter::Delete()
 					Delay = 0;
 					pl02->have = 0;
 					StackNum = 0;
+					m_playerGene->AddSubmitBurgerNum();
 				}
 			}
 		}
@@ -255,6 +258,4 @@ void Counter::Update()
 {
 	Delete();
 	m_skinModelRender->SetPosition(m_position);
-
-	//model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
 }

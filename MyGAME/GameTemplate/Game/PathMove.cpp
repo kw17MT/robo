@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "PathMove.h"
+#include "PlayerGene.h"
 
 namespace
 {
@@ -20,7 +21,17 @@ void PathMove::Init(const Vector3& pos, const float move, EnLane enLane)
 	//一番最初のポイントを取得する
 	//m_point = m_path->GetFirstPoint();
 	m_point = m_path->GetNearPoint(m_position);
+	m_playerGene = FindGO<PlayerGene>("playerGene");
+}
 
+void PathMove::SwitchCycleDirection()
+{
+	if (m_cycleDirection == enNormal) {
+		m_cycleDirection = enReverse;
+	}
+	else {
+		m_cycleDirection = enNormal;
+	}
 }
 
 const Vector3& PathMove::Move()
@@ -38,6 +49,15 @@ const Vector3& PathMove::Move()
 		m_enMoveState = enMove;
 		return m_position;
 	}
+
+	if (m_playerGene->GetSubmitBurgerNum() == Num2ChangeCycle) {
+		SwitchCycleDirection();
+		m_playerGene->AddChangeCycleNum();
+		if (m_playerGene->GetChangeCycleNum() == 36) {
+			m_playerGene->ResetSubmitBurgerNum();
+			m_playerGene->ResetChangeCycleNum();
+		}
+	}
 	
 	Vector3 distance = m_point->s_vector - m_position;
 	if (distance.LengthSq() <= DISTANCE) {
@@ -46,11 +66,27 @@ const Vector3& PathMove::Move()
 			m_enMoveState = enFinal;
 			return m_position;
 		}*/
+
 		//次のパスに向けての移動ベクトルを求める
-		m_point = m_path->GetPoint(m_point->s_number);
-		Vector3 nextDistance = m_point->s_vector - m_position;
-		nextDistance.Normalize();
-		m_moveVector = nextDistance;
+		if (m_cycleDirection == enNormal) {
+			m_point = m_path->GetPoint(m_point->s_number);
+			if (m_point->s_number <= 0) {
+				m_point = m_path->GetPoint(1);
+			}
+			Vector3 nextDistance = m_point->s_vector - m_position;
+			nextDistance.Normalize();
+			m_moveVector = nextDistance;
+		}
+		//ここで具材の流れを反転させる
+		else if (m_cycleDirection == enReverse) {
+			m_point = m_path->GetPoint(m_point->s_number - 2);
+			if (m_point->s_number <= 0) {
+				m_point = m_path->GetPoint(35);
+			}
+			Vector3 nextDistance = m_point->s_vector - m_position;
+			nextDistance.Normalize();
+			m_moveVector = nextDistance;
+		}
 	}
 
 	//TODO GameTimeに変える。

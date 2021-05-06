@@ -4,11 +4,6 @@ class SkinModelRender;
 class Burger : public IGameObject
 {
 private:
-	/*Model model;
-	ModelInitData modeldata;
-	Skeleton m_skeleton;
-	CharacterController m_charaCon;*/
-
 	Vector3 m_position;
 
 	//どちらに流れているバーガーか
@@ -37,8 +32,6 @@ public:
 	void SetPosition(Vector3 pos) { m_position = pos;/*m_charaCon.SetPosition(pos);*/ }
 	//バーガーはどちら側のか...１、左　２、右
 	void SetBurgerNo(int num) { BurgerNo = num; }
-
-	//void Render(RenderContext& rc) { model.Draw(rc); }
 
 	//ボタン長押しでバーガーを消すようにするため。
 	int DeleteTimer = 0;
