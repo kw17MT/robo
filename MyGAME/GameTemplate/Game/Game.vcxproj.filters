@@ -96,6 +96,7 @@
     <ClCompile Include="GuzaiGene.cpp" />
     <ClCompile Include="Dish.cpp" />
     <ClCompile Include="DishGene.cpp" />
+    <ClCompile Include="GuzaiOkiba.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -201,5 +202,6 @@
     <ClInclude Include="GuzaiGene.h" />
     <ClInclude Include="Dish.h" />
     <ClInclude Include="DishGene.h" />
+    <ClInclude Include="GuzaiOkiba.h" />
   </ItemGroup>
 </Project>

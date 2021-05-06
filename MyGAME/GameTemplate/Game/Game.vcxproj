@@ -303,6 +303,7 @@
     <ClCompile Include="GaussianBlur.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Guzai.cpp" />
+    <ClCompile Include="GuzaiOkiba.cpp" />
     <ClCompile Include="HamBurgerFactory.cpp" />
     <ClCompile Include="Kitchen.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -416,6 +417,7 @@
     <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Guzai.h" />
+    <ClInclude Include="GuzaiOkiba.h" />
     <ClInclude Include="HamBurgerFactory.h" />
     <ClInclude Include="Kitchen.h" />
     <ClInclude Include="Level.h" />

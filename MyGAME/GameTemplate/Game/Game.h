@@ -5,6 +5,7 @@ class FixedUI;
 class SpriteRender;
 class Guzai;
 class GuzaiGene;
+class GuzaiOkiba;
 class Kitchen;
 class Counter;
 class Score;
@@ -59,7 +60,8 @@ public:
 	ShadowTest* shadowTest;
 	Ground* ground;
 
-	Kitchen* stock[8];
+	//Kitchen* stock[8];
+	GuzaiOkiba* guzaiOkiba;
 
 	DishGene* dishGene;
 	//PopUp2D* m_popup2D_1 = nullptr;

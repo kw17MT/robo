@@ -122,8 +122,10 @@ public:
 
 	//プレイヤーが具材を持っているか。１なら具材を持っている。２ならハンバーガーを持っている。
 	int have = 0;
+	
 	//積み上げている具材の種類を格納していく。
 	int GuzaiNo[10];
+
 
 	SkinModelRender* m_skinModelRender;
 };

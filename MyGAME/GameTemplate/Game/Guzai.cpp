@@ -3,6 +3,7 @@
 #include "math.h"
 #include "Kitchen.h"
 #include "GuzaiGene.h"
+#include "GuzaiOkiba.h"
 #include "PathMove.h"
 #include "SkinModelRender.h"
 #include "Player.h"
@@ -98,6 +99,7 @@ bool Guzai::Start()
 	ki02 = FindGO<Kitchen>("kitchen02");
 	playerGene = FindGO<PlayerGene>("playerGene");
 	m_guzaiGene = FindGO<GuzaiGene>("guzaiGene");
+	m_guzaiOkiba = FindGO<GuzaiOkiba>("GuzaiOkiba");
 
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/gu/cheese.tkm",nullptr, enModelUpAxisZ, m_position);
@@ -154,8 +156,10 @@ void Guzai::GrabNPut()
 	//Aボタンを押したとき、プレイヤーは何も持っていない　一定距離より近い位置にいる。
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 		if (pl01->have == 0 && guzai2Pl01 < 150.0f && targeted == true) {
+			GetGuzaiOkiba();
 			state = 1;
 			pl01->have = 1;
+			
 			whichPlayerGet = 1;
 
 			//どこからとったか生成器に連絡する、両プレイヤーで共有
@@ -166,8 +170,10 @@ void Guzai::GrabNPut()
 	}
 	if (g_pad[1]->IsTrigger(enButtonA)) {
 		if (pl02->have == 0 && guzai2Pl02 < 150.0f && targeted == true) {
+			GetGuzaiOkiba();
 			state = 1;
 			pl02->have = 1;
+			
 			whichPlayerGet = 2;
 
 			m_guzaiGene->RegisterEmptyDishNumber(dishNumber);
@@ -210,6 +216,7 @@ void Guzai::GrabNPut()
 			ki01->PlusStack();
 
 			pl01->have = 0;
+		
 
 			//ターゲティングしていた具材を運んでいる最中は別の具材をターゲティングしたくないため、ここで初期化。
 			targeted = false;
@@ -231,6 +238,7 @@ void Guzai::GrabNPut()
 			ki02->PlusStack();
 
 			pl02->have = 0;
+			
 
 			targeted = false;
 			pl02->SetTarget(targeted);
@@ -317,6 +325,70 @@ void Guzai::TargetingNPopDummy()
 		}
 }
 
+void Guzai::SetGuzaiOkiba()
+{
+	//1P側の処理
+
+	//具材がプレイヤーに持たれているときに、Bボタンが押されたら…
+	if (g_pad[0]->IsTrigger(enButtonB) && state == 1) {
+
+		//1P側の具材置き場の番号は4～7なので、その範囲で調べる。
+		for (int i = 4; i < 8; i++) {
+
+			//具材置き場にセット可能かどうか確認する。
+			if (m_guzaiOkiba->FindKitchenSet(i) == true && m_guzaiOkiba->FindGuzaiSet(i) == false && m_guzaiOkibaSet == false) {
+
+				//セット可能ならば具材置き場にセットされたことを伝え、自身の座標をセットされた具材置き場にする。
+				m_guzaiOkiba->GuzaiSet(i, true);
+				m_position = m_guzaiOkiba->GetKitchenPos(i);
+				m_guzaiOkibaSet = true;
+				m_setKitchenNum = i;
+				//プレイヤーが何も持っていない状態にする。
+				pl01->have = 0;
+				targeted = false;
+				pl01->SetTarget(targeted);
+				isSetTargetDummy = false;
+				decrementTime = holdTime;
+				state = 0;
+			}
+		}
+	}
+	//2P側の処理 1Pとほぼ同じ
+	if (g_pad[1]->IsTrigger(enButtonB) && state == 1) {
+		//2P側の具材置き場の番号は4～7なので、その範囲で調べる。
+		for (int i = 0; i < 4; i++) {
+			
+			if (m_guzaiOkiba->FindKitchenSet(i) == true && m_guzaiOkiba->FindGuzaiSet(i) == false && m_guzaiOkibaSet == false) {
+			
+				m_guzaiOkiba->GuzaiSet(i, true);
+				m_position = m_guzaiOkiba->GetKitchenPos(i);
+			
+				m_guzaiOkibaSet = true;
+				m_setKitchenNum = i;
+
+				pl02->have = 0;
+				targeted = false;
+				pl02->SetTarget(targeted);
+				isSetTargetDummy = false;
+				decrementTime = holdTime;
+				state = 0;
+			}
+		}
+	}
+}
+
+void Guzai::GetGuzaiOkiba()
+{
+	//具材置き場にセットされていたら…
+	if (m_guzaiOkibaSet == true) {
+		//セットされていた具材置き場に取り出されたことを伝える。
+		m_guzaiOkiba->GuzaiSet(m_setKitchenNum, false);
+		//そして自身が取り出されたことにする。
+		m_guzaiOkibaSet = false;
+		m_setKitchenNum = 9;
+	}
+}
+
 void Guzai::Update()
 {
 	//プレイヤー生成中はUpdate関数をスルー
@@ -351,6 +423,10 @@ void Guzai::Update()
 	GrabNPut();
 
 	Move();
+
+	SetGuzaiOkiba();
+
+	
 
 	//ダミーを動かすよう
 	if (isSetTargetDummy == true && state != 1) {
