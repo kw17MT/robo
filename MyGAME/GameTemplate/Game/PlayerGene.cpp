@@ -29,4 +29,8 @@ void PlayerGene::Update()
 			isWorking = false;
 		}
 	}
+
+	if (g_pad[0]->IsTrigger(enButtonA)) {
+		isMovingDish();
+	}
 }

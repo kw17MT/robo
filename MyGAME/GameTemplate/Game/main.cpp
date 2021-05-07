@@ -4,7 +4,7 @@
 #include "Light.h"
 #include "Game.h"
 #include "Title.h"
-
+#include "effect/Effect.h"
 
 // ウィンドウプログラムのメイン関数。
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
@@ -23,6 +23,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//サウンドを鳴らす用のインスタンス
 	CSoundEngine::CreateInstance();
 	CSoundEngine::GetInstance()->Init();
+
+	/*EffectEngine::CreateInstance();
+	Effect laserEffect;
+	laserEffect.Init(u"Assets/effect/laser.efk");*/
+	/*laserEffect.Play();
+	laserEffect.Update();*/
 
 	//一緒くたにしないと両方のライトの影響を受けなくなる。////////////////////////////////
 	//ディレクションライトの正規化と目の位置をカメラの座標にする。
@@ -186,10 +192,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		}
 
 
-
-
-
-
+		//EffectEngine::GetInstance()->Update(0.01f/*g_gameTime->GetFrameDeltaTime()*/);
+		//EffectEngine::GetInstance()->Draw();
 
 		/*renderContext.WaitUntilToPossibleSetRenderTarget(shadowMap);
 		renderContext.SetRenderTargetAndViewport(shadowMap);

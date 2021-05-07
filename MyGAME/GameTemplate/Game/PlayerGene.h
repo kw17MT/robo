@@ -16,7 +16,7 @@ private:
 	int refilledNum = 0;				
 	
 	int SubmitBurgerNum = 0;														//提出したバーガーの数
-	int ChangeCycleNum = 0;				//何個補充したか。Dishで使用。これがmaxNum2Refillと同値になると補充完了を意味し、noHavingDish、refilledNumを０で初期化する。
+	int ChangeCycleNum = 0;															//何個補充したか。Dishで使用。これがmaxNum2Refillと同値になると補充完了を意味し、noHavingDish、refilledNumを０で初期化する。
 public:
 	~PlayerGene() {};
 
@@ -47,6 +47,17 @@ public:
 
 	//プレイヤー生成器電源状態,true = 動いてる, false = 止まってる。
 	bool GetPlayerGeneState() { return isWorking; }
+
+	bool isMoving = true;
+	void isMovingDish() {
+
+		if (isMoving == false) {
+			isMoving = true;
+		}
+		else if (isMoving == true) {
+			isMoving = false;
+		}
+	}
 
 	Player* player[2];
 };
