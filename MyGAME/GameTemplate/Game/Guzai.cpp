@@ -81,27 +81,24 @@ void Guzai::ChangeModel(int& num)
 {
 	switch (num) {
 	case 0:
-		m_skinModelRender->ChangeModel("Assets/modelData/gu/cheese.tkm");
+		m_skinModelRender->ChangeModel("Assets/modelData/food/cheese_kitchen.tkm");
 		break;
 	case 1:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/egg.tkm");
-		NowModelPath = "Assets/modelData/gu/egg.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/egg_kitchen.tkm");
 		break;
 	case 2:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/lettuce.tkm");
-		NowModelPath = "Assets/modelData/gu/lettuce.tkm";*/
-		m_skinModelRender->ChangeModel("Assets/modelData/gu/lettuce.tkm");
+		m_skinModelRender->ChangeModel("Assets/modelData/food/lettuce_kitchen.tkm");
 		break;
 	case 3:
 		m_skinModelRender->ChangeModel("Assets/modelData/food/patty_kitchen.tkm");
 		break;
 	case 4:
-		//モデル差し替え
 		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato_kitchen.tkm");
 		break;
+	default:
+		break;
 	}
-
+	
 	m_skinModelRender->SetNewModel();
 	
 }
@@ -417,5 +414,18 @@ void Guzai::Update()
 		}
 	}
 
+	//キッチンに載ってるときちょっと回してみた
+	if (put == 1) {
+		
+		//回転処理
+		angle += 2.0f;
+		if (angle > 360.0f) {
+			angle = 0.0f;
+		}
+		m_rotation.SetRotationDeg(Vector3::AxisY, angle);
+
+	}
+
+	m_skinModelRender->SetRotation(m_rotation);
 	m_skinModelRender->SetPosition(m_position);
 }
