@@ -52,6 +52,8 @@ void Kitchen::Stack(int num)
 		if (isCompletedStack == true) {
 			//生成した具材のモデルを、プレイヤーに保存された具材配列の番号を元に決定する
 			StackedGuzai[stack - 1]->ChangeGuzai(pl01->GuzaiNo[stack - 1]);
+			//モデルをキッチン用のモデルに差し替える用
+			StackedGuzai[stack - 1]->ChangeModel(pl01->GuzaiNo[stack - 1]);
 			//具材を生成する位置の基準を自身の位置とする
 			//Vector3 GuzaiPos = m_charaCon.GetPosition();
 			//(現在の段数) * 高さ の場所に具材を生成する
@@ -76,6 +78,8 @@ void Kitchen::Stack(int num)
 
 		if (isCompletedStack == true) {
 			StackedGuzai[stack - 1]->ChangeGuzai(pl02->GuzaiNo[stack - 1]);
+			//モデルをキッチン用のモデルに差し替える用
+			StackedGuzai[stack - 1]->ChangeModel(pl02->GuzaiNo[stack - 1]);
 			//Vector3 GuzaiPos = m_charaCon.GetPosition();
 			/*GuzaiPos*/m_position.y = stack * 100.0f;
 			StackedGuzai[nextStackNum - 1]->SetPosition(m_position/*GuzaiPos*/);

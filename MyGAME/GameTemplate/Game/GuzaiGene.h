@@ -34,8 +34,8 @@ public:
 	//int Buffnum = 0;
 	//int DeBuffnum = 0;
 
-	void AddEmptyDishCounter() { emptyDishCounter++; }
-	void RegisterEmptyDishNumber(int num) { emptyDishNumber[emptyDishCounter] = num; }
+	/*void AddEmptyDishCounter() { emptyDishCounter++; }
+	void RegisterEmptyDishNumber(int num) { emptyDishNumber[emptyDishCounter] = num; }*/
 
 	SkinModelRender* m_skinModelRender;
 	Guzai* m_guzai[guzaiNum];

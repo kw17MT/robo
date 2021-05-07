@@ -54,7 +54,8 @@ Game::Game()
 
 	playerGene = NewGO<PlayerGene>(0, "playerGene");
 	dishGene = NewGO<DishGene>(0,"dishGene");
-	guzaiGene = NewGO<GuzaiGene>(0, "guzaiGene");
+	//guzaiGene = NewGO<GuzaiGene>(0, "guzaiGene");
+
 	////勝敗表示用スプライト
 	////表示するポジションを定義
 	//win_loseLeft.Set(200.0f, 350.0f);

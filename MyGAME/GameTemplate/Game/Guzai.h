@@ -4,7 +4,7 @@ class Kitchen;
 class SkinModelRender;
 class Player;
 class PlayerGene;
-class PathMove;
+//class PathMove;
 class GuzaiGene;
 class GuzaiOkiba;
 
@@ -13,6 +13,8 @@ class Guzai : public IGameObject
 private:
 	Vector3 m_position = { 0.0f,0.0f,-1000.0f };
 	Vector3 m_scale = Vector3::One;
+	//具材の枠線の拡大率
+	const Vector3 expantionRate = { 0.3f,0.3f,0.3f };
 	
 	//Update()でインクリメントする。
 	int timer = 0;
@@ -46,7 +48,7 @@ private:
 	const char* NowModelPath;
 
 	//以下追加コード。
-	std::unique_ptr<PathMove> m_pathMove;		//移動処理を行うクラス。
+	//std::unique_ptr<PathMove> m_pathMove;		//移動処理を行うクラス。
 
 	//その具材はどちらのプレイヤーにつかまれたか
 	int whichPlayerGet = 0;
@@ -75,6 +77,8 @@ public:
 	//プレイヤー側に保存しているTypeNoをキッチン側でNewGOするオブジェクトに与えてやる。
 	//引数にプレイヤーに格納されている種類ナンバーを与える。
 	void ChangeGuzai(int num);
+	//キッチンに置いたときに違うモデルに差し替える用
+	void ChangeModel(int& num);
 
 	int GetTypeNo() { return TypeNo; }
 

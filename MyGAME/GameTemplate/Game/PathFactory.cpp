@@ -8,7 +8,7 @@ namespace
 
 PathFactory::PathFactory()
 {
-	LANEPATH[0] = "Assets/level/waypoint.tkl";
+	LANEPATH[0] = "Assets/level/WayPoint_new.tkl";
 	LANEPATH[1] = "Assets/level/debuffwaypoint.tkl";
 
 
@@ -16,10 +16,6 @@ PathFactory::PathFactory()
 	{
 		Path path1;
 		path1.Load(LANEPATH[i], 1);
-		m_pathVector[0].push_back(path1);
-
-		Path path2;
-		path2.Load(LANEPATH[i], 2);
-		m_pathVector[1].push_back(path2);
+		m_pathVector.push_back(path1);
 	}
 }
