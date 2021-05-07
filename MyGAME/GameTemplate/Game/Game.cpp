@@ -14,6 +14,7 @@
 #include "Result.h"
 #include "SoundSource.h"
 #include "PostEffectTest.h"
+#include "TrashCan.h"
 
 //#include "ShadowTest.h"
 #include "Ground.h"
@@ -69,9 +70,6 @@ Game::Game()
 	//	Vector3 pos = { -500.0f,350.0f,0.0f };
 	//	Buff[0]->SetPosition(pos);
 	//}
-	const wchar_t* StockLeft = L"StockLeft";
-	const wchar_t* StockRight = L"StockRight";
-
 
 	level.Init("Assets/level/level_new.tkl", [&](ObjectData& objectData) {
 		if (wcscmp(objectData.name, L"CounterPos01") == 0) {
@@ -118,21 +116,18 @@ Game::Game()
 			return false;
 		}
 		
-		//LevelではStockLeft1~4 StockRight1~4まで用意しているが先頭9文字さえあってたら
-		//ストック台はその数だけでてくる。
-		//ストック台のクラスができたら.hのKitchen型をStock型に直したらOK
-		/*if (wcsncmp(objectData.name, StockLeft, 9) == 0) {
-			stock[StockPlaceNum] = NewGO<Kitchen>(0);
-			stock[StockPlaceNum]->SetKitchenPos(objectData.Pos);
-			StockPlaceNum++;
+		if (wcscmp(objectData.name, L"TrashLeft") == 0) {
+			m_trashCan[0] = NewGO<TrashCan>(0, "trashcan01");
+			m_trashCan[0]->SetTrashCanNum(1);
+			m_trashCan[0]->SetPosition(objectData.Pos);
 			return true;
 		}
-		if (wcsncmp(objectData.name, StockRight, 9) == 0) {
-			stock[StockPlaceNum] = NewGO<Kitchen>(0);
-			stock[StockPlaceNum]->SetKitchenPos(objectData.Pos);
-			StockPlaceNum++;
+		if (wcscmp(objectData.name, L"TrashRight") == 0) {
+			m_trashCan[1] = NewGO<TrashCan>(0, "trashcan02");
+			m_trashCan[1]->SetTrashCanNum(2);
+			m_trashCan[1]->SetPosition(objectData.Pos);
 			return true;
-		}*/
+		}
 
 		else {
 			return true;

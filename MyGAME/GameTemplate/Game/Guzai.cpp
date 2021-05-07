@@ -8,6 +8,7 @@
 #include "SkinModelRender.h"
 #include "Player.h"
 #include "PlayerGene.h"
+#include "TrashCan.h"
 #include<random>
 
 #include <ctime>
@@ -120,6 +121,8 @@ bool Guzai::Start()
 	playerGene = FindGO<PlayerGene>("playerGene");
 	m_guzaiGene = FindGO<GuzaiGene>("guzaiGene");
 	m_guzaiOkiba = FindGO<GuzaiOkiba>("GuzaiOkiba");
+	m_trashCan[0] = FindGO<TrashCan>("trashcan01");
+	m_trashCan[1] = FindGO<TrashCan>("trashcan01");
 
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/gu/cheese.tkm",nullptr, enModelUpAxisZ, m_position);
@@ -429,6 +432,40 @@ void Guzai::GetGuzaiOkiba()
 	}
 }
 
+void Guzai::SetOnTrashCan() {
+	if (g_pad[0]->IsTrigger(enButtonB) && state == 1) {
+		m_position = pl01->GetPosition();
+
+		isSetOnTrashCan = true;
+	}
+	if (isSetOnTrashCan == true) {
+		decrementTime--;
+		if (decrementTime <= 10) {
+			DeleteGO(this);
+
+			pl01->have = 0;
+			targeted = false;
+			pl01->SetTarget(targeted);
+		}
+	}
+
+	if (g_pad[1]->IsTrigger(enButtonB) && state == 1) {
+		m_position = pl02->GetPosition();
+
+		isSetOnTrashCan = true;
+	}
+	if (isSetOnTrashCan == true) {
+		decrementTime--;
+		if (decrementTime <= 10) {
+			DeleteGO(this);
+
+			pl02->have = 0;
+			targeted = false;
+			pl02->SetTarget(targeted);
+		}
+	}
+}
+
 void Guzai::Update()
 {
 	//プレイヤー生成中はUpdate関数をスルー
@@ -466,7 +503,7 @@ void Guzai::Update()
 
 	SetGuzaiOkiba();
 
-	
+	SetOnTrashCan();
 
 	//ダミーを動かすよう
 	if (isSetTargetDummy == true && state != 1) {

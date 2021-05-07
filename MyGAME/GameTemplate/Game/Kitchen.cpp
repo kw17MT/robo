@@ -10,30 +10,7 @@
 
 Kitchen::Kitchen()
 {
-	/*ModelInitData modeldata;
-	modeldata.m_tkmFilePath = "Assets/modelData/box2.tkm";
-	modeldata.m_fxFilePath = "Assets/shader/model.fx";
-
-	modeldata.m_vsEntryPointFunc = "VSMain";
-	modeldata.m_vsSkinEntryPointFunc = "VSSkinMain";
-
-	modeldata.m_modelUpAxis = enModelUpAxisY;
-
-	modeldata.m_expandConstantBuffer = &g_lig;
-	modeldata.m_expandConstantBufferSize = sizeof(g_lig);
-
-	modeldata.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
-
-	
-	model.Init(modeldata);
-
-	Vector3 KitchenPos = { 0.0f,0.0f,0.0f };
-
-	m_charaCon.Init(0.0f, 0.0f, KitchenPos);*/
-
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	//m_skinModelRender->Init("Assets/modelData/box2.tkm", nullptr, enModelUpAxisY, m_position);
-	//ƒ‚ƒfƒ‹‚ð·‚µ‘Ö‚¦
 	m_skinModelRender->Init("Assets/modelData/object/kitchen.tkm", nullptr, enModelUpAxisZ, m_position);
 	Vector3 scale = { 0.2f,0.2f,0.2f };
 	m_skinModelRender->SetScale(scale);

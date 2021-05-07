@@ -7,6 +7,7 @@ class PlayerGene;
 //class PathMove;
 class GuzaiGene;
 class GuzaiOkiba;
+class TrashCan;
 
 class Guzai : public IGameObject
 {
@@ -61,6 +62,8 @@ private:
 	//自身がセットされた具材置き場の番号
 	int m_setKitchenNum = 9;
 
+	//ゴミ箱に置いたのかどうか
+	bool isSetOnTrashCan = false;
 public:	
 	//乱数を用いて具材が生まれると同時にどの具材を流すか設定する。
 	Guzai();
@@ -98,6 +101,9 @@ public:
 	//具材置き場から取り出す処理。
 	void GetGuzaiOkiba();
 
+	//ゴミ箱の上に具材をセット、後に消す。
+	void SetOnTrashCan();
+
 	//１ならば持たれている。
 	int state = 0;
 	//１ならばもうキッチンに置かれている。
@@ -111,5 +117,6 @@ public:
 	PlayerGene* playerGene;
 	GuzaiGene* m_guzaiGene;
 	GuzaiOkiba* m_guzaiOkiba;
+	TrashCan* m_trashCan[2];
 };
 

@@ -49,17 +49,6 @@ public:
 	//プレイヤー生成器電源状態,true = 動いてる, false = 止まってる。
 	bool GetPlayerGeneState() { return isWorking; }
 
-	bool isMoving = true;
-	void isMovingDish() {
-
-		if (isMoving == false) {
-			isMoving = true;
-		}
-		else if (isMoving == true) {
-			isMoving = false;
-		}
-	}
-
 	Player* player[2];
 };
 
