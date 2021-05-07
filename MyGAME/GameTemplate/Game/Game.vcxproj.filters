@@ -53,6 +53,9 @@
     <ClCompile Include="CaslFile.cpp" />
     <ClCompile Include="CLevel2D.cpp" />
     <ClCompile Include="Counter.cpp" />
+    <ClCompile Include="Dish.cpp" />
+    <ClCompile Include="DishGene.cpp" />
+    <ClCompile Include="DishSpeedManeger.cpp" />
     <ClCompile Include="FixedUI.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -61,6 +64,7 @@
     <ClCompile Include="GaussianBlur.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Guzai.cpp" />
+    <ClCompile Include="GuzaiOkiba.cpp" />
     <ClCompile Include="HamBurgerFactory.cpp" />
     <ClCompile Include="Kitchen.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -70,13 +74,17 @@
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="MapChip2D.cpp" />
     <ClCompile Include="NameKey.cpp" />
+    <ClCompile Include="GuzaiGene.cpp" />
     <ClCompile Include="Path.cpp" />
     <ClCompile Include="PathFactory.cpp" />
     <ClCompile Include="PathMove.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerGene.cpp" />
     <ClCompile Include="PopUp2D.cpp" />
     <ClCompile Include="PostEffectTest.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="Score.cpp" />
+    <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="SoundPreCompile.cpp" />
     <ClCompile Include="SoundSource.cpp" />
@@ -90,13 +98,7 @@
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="WaveFile.cpp" />
     <ClCompile Include="WaveFileBank.cpp" />
-    <ClCompile Include="SkinModelRender.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerGene.cpp" />
-    <ClCompile Include="GuzaiGene.cpp" />
-    <ClCompile Include="Dish.cpp" />
-    <ClCompile Include="DishGene.cpp" />
-    <ClCompile Include="DishSpeedManeger.cpp" />
+    <ClCompile Include="TrashCan.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -160,6 +162,9 @@
     <ClInclude Include="CaslFile.h" />
     <ClInclude Include="CLevel2D.h" />
     <ClInclude Include="Counter.h" />
+    <ClInclude Include="Dish.h" />
+    <ClInclude Include="DishGene.h" />
+    <ClInclude Include="DishSpeedManeger.h" />
     <ClInclude Include="FixedUI.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="Game.h" />
@@ -168,6 +173,7 @@
     <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Guzai.h" />
+    <ClInclude Include="GuzaiOkiba.h" />
     <ClInclude Include="HamBurgerFactory.h" />
     <ClInclude Include="Kitchen.h" />
     <ClInclude Include="Level.h" />
@@ -176,13 +182,17 @@
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MapChip2D.h" />
     <ClInclude Include="NameKey.h" />
+    <ClInclude Include="GuzaiGene.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="PathFactory.h" />
     <ClInclude Include="PathMove.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerGene.h" />
     <ClInclude Include="PopUp2D.h" />
     <ClInclude Include="PostEffectTest.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Score.h" />
+    <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="SoundPreCompile.h" />
     <ClInclude Include="SoundSource.h" />
@@ -196,12 +206,6 @@
     <ClInclude Include="Util.h" />
     <ClInclude Include="WaveFile.h" />
     <ClInclude Include="WaveFileBank.h" />
-    <ClInclude Include="SkinModelRender.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerGene.h" />
-    <ClInclude Include="GuzaiGene.h" />
-    <ClInclude Include="Dish.h" />
-    <ClInclude Include="DishGene.h" />
-    <ClInclude Include="DishSpeedManeger.h" />
+    <ClInclude Include="TrashCan.h" />
   </ItemGroup>
 </Project>

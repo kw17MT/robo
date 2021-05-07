@@ -5,6 +5,7 @@
 #include "SpriteRender.h"
 #include "Guzai.h"
 #include "GuzaiGene.h"
+#include "GuzaiOkiba.h"
 #include "Kitchen.h"
 #include "Counter.h"
 #include "Score.h"
@@ -120,7 +121,7 @@ Game::Game()
 		//LevelではStockLeft1~4 StockRight1~4まで用意しているが先頭9文字さえあってたら
 		//ストック台はその数だけでてくる。
 		//ストック台のクラスができたら.hのKitchen型をStock型に直したらOK
-		if (wcsncmp(objectData.name, StockLeft, 9) == 0) {
+		/*if (wcsncmp(objectData.name, StockLeft, 9) == 0) {
 			stock[StockPlaceNum] = NewGO<Kitchen>(0);
 			stock[StockPlaceNum]->SetKitchenPos(objectData.Pos);
 			StockPlaceNum++;
@@ -131,12 +132,15 @@ Game::Game()
 			stock[StockPlaceNum]->SetKitchenPos(objectData.Pos);
 			StockPlaceNum++;
 			return true;
-		}
+		}*/
 
 		else {
 			return true;
 		}
 		});
+
+	//具材置き場の表示
+	guzaiOkiba = NewGO<GuzaiOkiba>(0, "GuzaiOkiba");
 
 	////レベル2Dの構築
 	//level2D.Init("Assets/level2D/level2D.casl", [&](Level2DObjectData& objectData2D) {return false; });
@@ -182,6 +186,7 @@ Game::~Game()
 		DeleteGO(m_result[i]);
 	}
 	DeleteGO(guzaiGene);
+	DeleteGO(guzaiOkiba);
 	DeleteGO(m_score);
 }
 

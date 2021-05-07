@@ -304,6 +304,7 @@
     <ClCompile Include="GaussianBlur.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Guzai.cpp" />
+    <ClCompile Include="GuzaiOkiba.cpp" />
     <ClCompile Include="HamBurgerFactory.cpp" />
     <ClCompile Include="Kitchen.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -340,6 +341,7 @@
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="TklFile.cpp" />
+    <ClCompile Include="TrashCan.cpp" />
     <ClCompile Include="TResourceBank.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="WaveFile.cpp" />
@@ -418,6 +420,7 @@
     <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Guzai.h" />
+    <ClInclude Include="GuzaiOkiba.h" />
     <ClInclude Include="HamBurgerFactory.h" />
     <ClInclude Include="Kitchen.h" />
     <ClInclude Include="Level.h" />
@@ -446,6 +449,7 @@
     <ClInclude Include="system\system.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="TklFile.h" />
+    <ClInclude Include="TrashCan.h" />
     <ClInclude Include="TResourceBank.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="WaveFile.h" />

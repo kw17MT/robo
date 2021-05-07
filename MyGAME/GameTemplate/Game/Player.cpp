@@ -192,7 +192,7 @@ void Player::Update()
 
 		m_position += moveSpeed;
 
-		//RestrictPos();
+		RestrictPos();
 
 		m_skinModelRender->SetPosition(m_position);
 	}
@@ -249,7 +249,7 @@ void Player::Update()
 
 		m_position += moveSpeed;
 
-		//RestrictPos();
+		RestrictPos();
 
 		m_skinModelRender->SetPosition(m_position);
 	}

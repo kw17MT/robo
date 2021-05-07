@@ -30,6 +30,7 @@ public:
 	//‹ó‚ÌM‚ÌŒv‘ªŠÖŒW
 	int GetNoHavingDishCounter() { return noHavingDishCounter; }					//‹ó‚ÌM‚ÌƒQƒbƒ^\
 	void AddNoHavingDishCounter() { noHavingDishCounter++; }						//‹ó‚ÌM‚Ì”‚ğ1‚Â‘«‚·
+	void MinusNoHavingDishCounter() { noHavingDishCounter--; }						//‹ó‚ÌM‚Ì”‚ğ1‚ÂÁ‚·@‹ïŞ’u‚«ê‚Åg‚¤B
 	void ResetNohavingDishCounter() { noHavingDishCounter = 0; }					//•â[Š®—¹‚É‹ó‚ÌM‚ğ‚O‚É–ß‚·
 	//•â[‚µ‚½MŠÖŒW	
 	int GetRefilledNum() { return refilledNum; }									//•â[Š®—¹‚µ‚½M‚Ì”

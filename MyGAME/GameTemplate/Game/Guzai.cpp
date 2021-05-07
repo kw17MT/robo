@@ -3,6 +3,7 @@
 #include "math.h"
 #include "Kitchen.h"
 #include "GuzaiGene.h"
+#include "GuzaiOkiba.h"
 //#include "PathMove.h"
 #include "SkinModelRender.h"
 #include "Player.h"
@@ -48,27 +49,19 @@ void Guzai::ChangeGuzai(int num)
 		NowModelPath = "Assets/modelData/food/cheese.tkm";
 		break;
 	case 1:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/egg.tkm");
-		NowModelPath = "Assets/modelData/gu/egg.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/egg.tkm");
 		NowModelPath = "Assets/modelData/food/egg.tkm";
 		break;
 	case 2:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/lettuce.tkm");
-		NowModelPath = "Assets/modelData/gu/lettuce.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/lettuce.tkm");
 		NowModelPath = "Assets/modelData/food/lettuce.tkm";
 		break;
 	case 3:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/patty.tkm");
-		NowModelPath = "Assets/modelData/gu/patty.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/patty.tkm");
 		NowModelPath = "Assets/modelData/food/patty.tkm";
 		break;
 	case 4:
-		//モデル差し替え
 		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato.tkm");
-		m_skinModelRender->SetScale(m_scale);
 		NowModelPath = "Assets/modelData/food/tomato.tkm";
 		break;
 	}
@@ -126,6 +119,7 @@ bool Guzai::Start()
 	ki02 = FindGO<Kitchen>("kitchen02");
 	playerGene = FindGO<PlayerGene>("playerGene");
 	m_guzaiGene = FindGO<GuzaiGene>("guzaiGene");
+	m_guzaiOkiba = FindGO<GuzaiOkiba>("GuzaiOkiba");
 
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/gu/cheese.tkm",nullptr, enModelUpAxisZ, m_position);
@@ -140,33 +134,22 @@ bool Guzai::Start()
 
 	switch (TypeNo) {
 	case 0:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/cheese.tkm");
-		NowModelPath = "Assets/modelData/gu/cheese.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/cheese.tkm");
 		NowModelPath = "Assets/modelData/food/cheese.tkm";
 		break;
 	case 1:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/egg.tkm");
-		NowModelPath = "Assets/modelData/gu/egg.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/egg.tkm");
 		NowModelPath = "Assets/modelData/food/egg.tkm";
 		break;
 	case 2:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/lettuce.tkm");
-		NowModelPath = "Assets/modelData/gu/lettuce.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/lettuce.tkm");
 		NowModelPath = "Assets/modelData/food/lettuce.tkm";
 		break;
 	case 3:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/patty.tkm");
-		NowModelPath = "Assets/modelData/gu/patty.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/patty.tkm");
 		NowModelPath = "Assets/modelData/food/patty.tkm";
 		break;
 	case 4:
-		//モデル差し替え
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
-		NowModelPath = "Assets/modelData/gu/tomato.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato.tkm");
 		m_skinModelRender->SetScale(m_scale);
 		NowModelPath = "Assets/modelData/food/tomato.tkm";
@@ -174,9 +157,6 @@ bool Guzai::Start()
 	}
 
 	m_skinModelRender->SetNewModel();
-
-	//m_pathMove = std::make_unique<PathMove>();
-	//m_pathMove.get()->Init(m_position, MOVESPEED, enNormalLane);
 
 	return true;
 }
@@ -189,26 +169,23 @@ void Guzai::GrabNPut()
 	//Aボタンを押したとき、プレイヤーは何も持っていない　一定距離より近い位置にいる。
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 		if (pl01->have == 0 && guzai2Pl01 < 150.0f && targeted == true) {
+			GetGuzaiOkiba();
 			state = 1;
 			pl01->have = 1;
+			
 			whichPlayerGet = 1;
 
-			////どこからとったか生成器に連絡する、両プレイヤーで共有
-			//m_guzaiGene->RegisterEmptyDishNumber(dishNumber);
-			////フィールドからいくつ具材がとられているか数える
-			//m_guzaiGene->AddEmptyDishCounter();
 
 			playerGene->AddNoHavingDishCounter();
 		}
 	}
 	if (g_pad[1]->IsTrigger(enButtonA)) {
 		if (pl02->have == 0 && guzai2Pl02 < 150.0f && targeted == true) {
+			GetGuzaiOkiba();
 			state = 1;
 			pl02->have = 1;
+			
 			whichPlayerGet = 2;
-
-			/*m_guzaiGene->RegisterEmptyDishNumber(dishNumber);
-			m_guzaiGene->AddEmptyDishCounter();*/
 
 			playerGene->AddNoHavingDishCounter();
 		}
@@ -220,10 +197,21 @@ void Guzai::GrabNPut()
 			plPos01.y += 100.0f;
 			SetPosition(plPos01);
 
-			//ターゲット用のダミーを消す。
+			//具材置き場に置いた後でもまた近づくとダミーが出るようにする。
 			SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
-			m_scale -= expantionRate;
-			DeleteGO(targetDummy01);
+			if (targetDummy01 != nullptr) {
+				DeleteGO(targetDummy01);
+				m_scale -= expantionRate;
+				//targeted = false;
+				//pl01->SetTarget(targeted);
+				isSetTargetDummy = false;
+				decrementTime = holdTime;
+				whichPlayerTargetMe = 0;
+			}
+			//ターゲット用のダミーを消す。
+			//SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
+			//m_scale -= expantionRate;
+			//DeleteGO(targetDummy01);
 
 			
 
@@ -232,10 +220,22 @@ void Guzai::GrabNPut()
 			plPos02.y += 100.0f;
 			SetPosition(plPos02);
 
-			//ターゲット用のダミーを消す。
 			SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
-			m_scale -= expantionRate;
-			DeleteGO(targetDummy02);
+			if (targetDummy02 != nullptr) {
+
+				DeleteGO(targetDummy02);
+				m_scale -= expantionRate;
+				//targeted = false;
+				//pl02->SetTarget(targeted);
+				isSetTargetDummy = false;
+				decrementTime = holdTime;
+				whichPlayerTargetMe = 0;
+
+			}
+			//ターゲット用のダミーを消す。
+			//SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
+			//m_scale -= expantionRate;
+			//DeleteGO(targetDummy02);
 
 			
 		}
@@ -251,6 +251,7 @@ void Guzai::GrabNPut()
 			ki01->PlusStack();
 
 			pl01->have = 0;
+		
 
 			//ターゲティングしていた具材を運んでいる最中は別の具材をターゲティングしたくないため、ここで初期化。
 			targeted = false;
@@ -272,6 +273,7 @@ void Guzai::GrabNPut()
 			ki02->PlusStack();
 
 			pl02->have = 0;
+			
 
 			targeted = false;
 			pl02->SetTarget(targeted);
@@ -361,7 +363,71 @@ void Guzai::TargetingNPopDummy()
 			}
 		}
 }
+void Guzai::SetGuzaiOkiba()
+{
+	//1P側の処理
 
+	//具材がプレイヤーに持たれているときに、Bボタンが押されたら…
+	if (g_pad[0]->IsTrigger(enButtonB) && state == 1) {
+
+		//1P側の具材置き場の番号は4～7なので、その範囲で調べる。
+		for (int i = 4; i < 8; i++) {
+
+			//具材置き場にセット可能かどうか確認する。
+			if (m_guzaiOkiba->FindKitchenSet(i) == true && m_guzaiOkiba->FindGuzaiSet(i) == false && m_guzaiOkibaSet == false) {
+
+				//セット可能ならば具材置き場にセットされたことを伝え、自身の座標をセットされた具材置き場にする。
+				m_guzaiOkiba->GuzaiSet(i, true);
+				m_position = m_guzaiOkiba->GetKitchenPos(i);
+				m_guzaiOkibaSet = true;
+				m_setKitchenNum = i;
+				//プレイヤーが何も持っていない状態にする。
+				pl01->have = 0;
+				targeted = false;
+				pl01->SetTarget(targeted);
+				isSetTargetDummy = false;
+				decrementTime = holdTime;
+				state = 0;
+			}
+		}
+	}
+	//2P側の処理 1Pとほぼ同じ
+	if (g_pad[1]->IsTrigger(enButtonB) && state == 1) {
+		//2P側の具材置き場の番号は0～4なので、その範囲で調べる。
+		for (int i = 0; i < 4; i++) {
+			
+			if (m_guzaiOkiba->FindKitchenSet(i) == true && m_guzaiOkiba->FindGuzaiSet(i) == false && m_guzaiOkibaSet == false) {
+			
+				m_guzaiOkiba->GuzaiSet(i, true);
+				m_position = m_guzaiOkiba->GetKitchenPos(i);
+			
+				m_guzaiOkibaSet = true;
+				m_setKitchenNum = i;
+
+				pl02->have = 0;
+				targeted = false;
+				pl02->SetTarget(targeted);
+				isSetTargetDummy = false;
+				decrementTime = holdTime;
+				state = 0;
+			}
+		}
+	}
+}
+
+void Guzai::GetGuzaiOkiba()
+{
+	//具材置き場にセットされていたら…
+	if (m_guzaiOkibaSet == true) {
+		//セットされていた具材置き場に取り出されたことを伝える。
+		m_guzaiOkiba->GuzaiSet(m_setKitchenNum, false);
+		//そして自身が取り出されたことにする。
+		m_guzaiOkibaSet = false;
+		m_setKitchenNum = 9;
+
+		playerGene->MinusNoHavingDishCounter();
+	}
+}
 
 void Guzai::Update()
 {
@@ -397,6 +463,10 @@ void Guzai::Update()
 	GrabNPut();
 
 	Move();
+
+	SetGuzaiOkiba();
+
+	
 
 	//ダミーを動かすよう
 	if (isSetTargetDummy == true && state != 1) {
