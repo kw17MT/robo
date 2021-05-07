@@ -50,9 +50,6 @@ private:
 	//その具材は何であるかのメモ用、ターゲティングのオブジェクトを作成時に使用。
 	const char* NowModelPath;
 
-	//以下追加コード。
-	//std::unique_ptr<PathMove> m_pathMove;		//移動処理を行うクラス。
-
 	//その具材はどちらのプレイヤーにつかまれたか
 	int whichPlayerGet = 0;
 	//どちらのプレイヤーにターゲットされたか

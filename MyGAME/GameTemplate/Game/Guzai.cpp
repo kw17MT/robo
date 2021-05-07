@@ -49,27 +49,19 @@ void Guzai::ChangeGuzai(int num)
 		NowModelPath = "Assets/modelData/food/cheese.tkm";
 		break;
 	case 1:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/egg.tkm");
-		NowModelPath = "Assets/modelData/gu/egg.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/egg.tkm");
 		NowModelPath = "Assets/modelData/food/egg.tkm";
 		break;
 	case 2:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/lettuce.tkm");
-		NowModelPath = "Assets/modelData/gu/lettuce.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/lettuce.tkm");
 		NowModelPath = "Assets/modelData/food/lettuce.tkm";
 		break;
 	case 3:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/patty.tkm");
-		NowModelPath = "Assets/modelData/gu/patty.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/patty.tkm");
 		NowModelPath = "Assets/modelData/food/patty.tkm";
 		break;
 	case 4:
-		//モデル差し替え
 		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato.tkm");
-		m_skinModelRender->SetScale(m_scale);
 		NowModelPath = "Assets/modelData/food/tomato.tkm";
 		break;
 	}
@@ -142,33 +134,22 @@ bool Guzai::Start()
 
 	switch (TypeNo) {
 	case 0:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/cheese.tkm");
-		NowModelPath = "Assets/modelData/gu/cheese.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/cheese.tkm");
 		NowModelPath = "Assets/modelData/food/cheese.tkm";
 		break;
 	case 1:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/egg.tkm");
-		NowModelPath = "Assets/modelData/gu/egg.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/egg.tkm");
 		NowModelPath = "Assets/modelData/food/egg.tkm";
 		break;
 	case 2:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/lettuce.tkm");
-		NowModelPath = "Assets/modelData/gu/lettuce.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/lettuce.tkm");
 		NowModelPath = "Assets/modelData/food/lettuce.tkm";
 		break;
 	case 3:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/patty.tkm");
-		NowModelPath = "Assets/modelData/gu/patty.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/patty.tkm");
 		NowModelPath = "Assets/modelData/food/patty.tkm";
 		break;
 	case 4:
-		//モデル差し替え
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/tomato.tkm");
-		NowModelPath = "Assets/modelData/gu/tomato.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato.tkm");
 		m_skinModelRender->SetScale(m_scale);
 		NowModelPath = "Assets/modelData/food/tomato.tkm";
@@ -176,9 +157,6 @@ bool Guzai::Start()
 	}
 
 	m_skinModelRender->SetNewModel();
-
-	//m_pathMove = std::make_unique<PathMove>();
-	//m_pathMove.get()->Init(m_position, MOVESPEED, enNormalLane);
 
 	return true;
 }
@@ -197,10 +175,6 @@ void Guzai::GrabNPut()
 			
 			whichPlayerGet = 1;
 
-			////どこからとったか生成器に連絡する、両プレイヤーで共有
-			//m_guzaiGene->RegisterEmptyDishNumber(dishNumber);
-			////フィールドからいくつ具材がとられているか数える
-			//m_guzaiGene->AddEmptyDishCounter();
 
 			playerGene->AddNoHavingDishCounter();
 		}
@@ -212,9 +186,6 @@ void Guzai::GrabNPut()
 			pl02->have = 1;
 			
 			whichPlayerGet = 2;
-
-			/*m_guzaiGene->RegisterEmptyDishNumber(dishNumber);
-			m_guzaiGene->AddEmptyDishCounter();*/
 
 			playerGene->AddNoHavingDishCounter();
 		}
@@ -453,6 +424,8 @@ void Guzai::GetGuzaiOkiba()
 		//そして自身が取り出されたことにする。
 		m_guzaiOkibaSet = false;
 		m_setKitchenNum = 9;
+
+		playerGene->MinusNoHavingDishCounter();
 	}
 }
 
