@@ -14,14 +14,11 @@
 
 #include "HamBurgerFactory.h"
 class SkinModelRender;
+class PlayerGene;
 
 class Counter : public IGameObject
 {
 private:
-	/*Model model;
-	ModelInitData modeldata;
-	Skeleton m_skeleton;
-	CharacterController m_charaCon;*/
 	Vector3 m_counterPos;
 	Vector3 m_position = Vector3::Zero;
 
@@ -54,7 +51,7 @@ public:
 	void Update();
 	//バーガーを持った状態でBボタンを押すと診断開始。
 	void Delete();
-	void SetPosition(Vector3 pos) { m_counterPos = pos; m_position = pos;/*m_charaCon.SetPosition(pos);*/ }
+	void SetPosition(Vector3 pos) { m_counterPos = pos; m_position = pos; }
 	void SetCounterNo(int num) { CounterNo = num; }
 	//何段のハンバーガーをを作ったのかを記録するための関数。
 	void SetStackNum(int num) { StackNum = num; }
@@ -63,11 +60,8 @@ public:
 	//正しいバーガーかを調べる。
 	bool Judge();
 
-
-
-	//void Render(RenderContext& rc) { model.Draw(rc); }
-
 	int Delay = 0;
 
+	PlayerGene* m_playerGene;
 	SkinModelRender* m_skinModelRender;
 };

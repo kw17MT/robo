@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
 #include "Level.h"
-//#include "ModelRender.h"
 #include "FixedUI.h"
 #include "SpriteRender.h"
 #include "Guzai.h"
@@ -25,6 +24,7 @@
 #include "PlayerGene.h"
 
 #include  "DishGene.h"
+#include "DishSpeedManeger.h"
 
 namespace
 {
@@ -53,6 +53,7 @@ Game::Game()
 
 	playerGene = NewGO<PlayerGene>(0, "playerGene");
 	dishGene = NewGO<DishGene>(0,"dishGene");
+	m_speedManeger = NewGO<DishSpeedManeger>(0, "speedManeger");
 	//guzaiGene = NewGO<GuzaiGene>(0, "guzaiGene");
 
 	////勝敗表示用スプライト

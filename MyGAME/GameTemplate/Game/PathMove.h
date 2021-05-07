@@ -9,6 +9,13 @@ enum enMoveState
 	enFinal		//最終ポイント到達。
 };
 
+enum enCycleDirection
+{
+	enNormal,
+	enReverse,
+};
+
+class PlayerGene;
 class Path;
 struct Point;
 class PathMove
@@ -23,6 +30,7 @@ public:
 	/// <param name="guzaiNo">左か右か。</param>
 	void Init(const Vector3& pos, const float move, EnLane enLane);
 
+	void ChangeMoveSpeed(float move) { m_moveSpeed = move; }
 	/// <summary>
 	/// 移動させる。
 	/// </summary>
@@ -39,6 +47,12 @@ public:
 	{
 		return m_enMoveState == enFinal;
 	}
+
+	//客に提供したバーガーの数が規定数に達したら、流れる向きを変える。
+	void SwitchCycleDirection();
+
+	PlayerGene* m_playerGene;
+
 private:
 	Path* m_path;											//パス。
 	Point* m_point = nullptr;								//今向かってるポイント。
@@ -48,5 +62,7 @@ private:
 	Vector3 	m_moveVector;		//移動ベクトル。
 	enMoveState m_enMoveState = enStart;
 	int m_guzaiNo = 0;
+	enCycleDirection m_cycleDirection = enNormal;
+	const int Num2ChangeCycle = 1;
 };
 

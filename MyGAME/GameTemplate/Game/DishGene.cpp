@@ -43,7 +43,6 @@ bool DishGene::Start()
 				string str10 = to_string(i_num10);
 				string str1 = to_string(i_num1);
 				str10 = str10 + str1;
-				//a = wcscat(&a, &objectData.name[9]);
 				dishNumber = atoi(str10.c_str());
 				DishData dishdata;
 				dishdata.s_dishPosition = objectData.Pos;
@@ -55,7 +54,6 @@ bool DishGene::Start()
 
 			m_Dish[DishNum] = NewGO<Dish>(0);
 			m_Dish[DishNum]->SetPosition(objectData.Pos);
-			m_Dish[DishNum]->SetMyNumber(dishNumber);
 			DishNum++;
 			return true;
 		}
