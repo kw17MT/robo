@@ -68,10 +68,6 @@ bool FixedUI::Start()
 	//残り時間を更新する。
 	Time->SetText(fontRemainingTime.c_str());
 
-	//Time->SetText(L"120");
-
-	//Time->SetText(L"30");
-
 	Time->SetPosition(posLastTime);
 
 	return true;
@@ -119,11 +115,6 @@ void FixedUI::Update()
 		//処理しない。
 		return;
 	}
-
-	//Font fontTime;
-	//カラー
-	//Vector4 color = { 1.0f,1.0f,1.0,1.0f };
-
 
 	//タイム減少とタイムアップ処理
 	//変数timerの値が60になる度に残時間remainingTimeから1を引いていく

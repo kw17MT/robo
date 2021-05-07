@@ -96,7 +96,11 @@
     <ClCompile Include="GuzaiGene.cpp" />
     <ClCompile Include="Dish.cpp" />
     <ClCompile Include="DishGene.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="GuzaiOkiba.cpp" />
+=======
+    <ClCompile Include="DishSpeedManeger.cpp" />
+>>>>>>> 444a426ca131fcbb3e696dab4a57aebfb725c0e5
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -202,6 +206,10 @@
     <ClInclude Include="GuzaiGene.h" />
     <ClInclude Include="Dish.h" />
     <ClInclude Include="DishGene.h" />
+<<<<<<< HEAD
     <ClInclude Include="GuzaiOkiba.h" />
+=======
+    <ClInclude Include="DishSpeedManeger.h" />
+>>>>>>> 444a426ca131fcbb3e696dab4a57aebfb725c0e5
   </ItemGroup>
 </Project>

@@ -18,10 +18,6 @@ enum EnItem
 class Player : public IGameObject
 {
 private:
-	/*Model model;
-	ModelInitData modeldata;
-	Skeleton m_skeleton;
-	CharacterController m_charaCon;*/
 	PopUp2D* m_popUp = nullptr;
 
 	//プレイヤーのパラメータ
@@ -40,12 +36,11 @@ private:
 
 	//１で左、２で右
 	int playerNo = 0;
-	//int setPos = 0;
 
-	//バフの効果が有効かどうか。
-	bool Buff = false;
-	//バフの有効時間。
-	int BuffTime = 120;
+	////バフの効果が有効かどうか。
+	//bool Buff = false;
+	////バフの有効時間。
+	//int BuffTime = 120;
 	//今、具材をターゲットしているか。1個以上ターゲティングしないように。
 	bool TargetingState = false;
 
@@ -62,8 +57,8 @@ public:
 	//移動処理。
 	void Update();
 
-	void SetBuffAffect(bool buff) { Buff = buff; }
-	bool stateBuff() { return Buff; }
+	/*void SetBuffAffect(bool buff) { Buff = buff; }
+	bool stateBuff() { return Buff; }*/
 
 	//具材格納用配列を９で初期化
 	void SetGuzaiNo9();
@@ -73,9 +68,7 @@ public:
 	void SetPosition(Vector3 pos) { m_position.x = pos.x, m_position.y = pos.y, m_position.z = pos.z; }
 	void SetRotation(Quaternion rot) { m_rotation = rot; }
 	//キャラコンの座標 → プレイヤー自身の座標を取得するように変更
-	Vector3 GetPosition();
-
-	//void Render(RenderContext& rc) { model.Draw(rc); }
+	Vector3 GetPosition() { return m_position; }
 
 	//移動範囲の制限を行う
 	void RestrictPos();
@@ -125,6 +118,19 @@ public:
 	
 	//積み上げている具材の種類を格納していく。
 	int GuzaiNo[10];
+
+	enum enAnimationCrips
+	{
+		enAnimation_Idle,
+		enAnimation_Run,
+		enAnimation_Cut,			//トマトを切るときつかうかも
+		enAnimation_Cook,			//バーガーを作るとき使うかも
+		enAnimation_HaveIdle,
+		enAnimation_HaveRun,
+		enAnimation_Num
+	};
+
+	AnimationClip animationClips[enAnimation_Num];
 
 
 	SkinModelRender* m_skinModelRender;

@@ -42,21 +42,12 @@ public:
 	void InitBackGroundLight(Texture texture, Matrix lightcamera, Matrix lightcamerasize);
 	//アニメーションを設定する。
 	void InitAnimation(AnimationClip* animation, int animationNum);
-
-	enum enAnimationCrips
-	{
-		enAnimation_Idle,
-		enAnimation_Run,
-		enAnimation_Cut,			//トマトを切るときつかうかも
-		enAnimation_Cook,			//バーガーを作るとき使うかも
-		enAnimation_HaveIdle,
-		enAnimation_HaveRun,
-		enAnimation_Num
-	};
-
-	AnimationClip animationClips;
-
+	//引数２は補完時間
+	void PlayAnimation(int animNo, float interpolateTime = 0.0f);
 
 	void Render(RenderContext& rc) { m_model.Draw(rc); }
+
+	Animation m_animation;
+	AnimationClip* m_animationClip;
 };
 

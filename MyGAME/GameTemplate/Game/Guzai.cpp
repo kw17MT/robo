@@ -82,27 +82,24 @@ void Guzai::ChangeModel(int& num)
 {
 	switch (num) {
 	case 0:
-		m_skinModelRender->ChangeModel("Assets/modelData/gu/cheese.tkm");
+		m_skinModelRender->ChangeModel("Assets/modelData/food/cheese_kitchen.tkm");
 		break;
 	case 1:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/egg.tkm");
-		NowModelPath = "Assets/modelData/gu/egg.tkm";*/
 		m_skinModelRender->ChangeModel("Assets/modelData/food/egg_kitchen.tkm");
 		break;
 	case 2:
-		/*m_skinModelRender->ChangeModel("Assets/modelData/gu/lettuce.tkm");
-		NowModelPath = "Assets/modelData/gu/lettuce.tkm";*/
-		m_skinModelRender->ChangeModel("Assets/modelData/gu/lettuce.tkm");
+		m_skinModelRender->ChangeModel("Assets/modelData/food/lettuce_kitchen.tkm");
 		break;
 	case 3:
 		m_skinModelRender->ChangeModel("Assets/modelData/food/patty_kitchen.tkm");
 		break;
 	case 4:
-		//モデル差し替え
 		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato_kitchen.tkm");
 		break;
+	default:
+		break;
 	}
-
+	
 	m_skinModelRender->SetNewModel();
 	
 }
@@ -229,10 +226,21 @@ void Guzai::GrabNPut()
 			plPos01.y += 100.0f;
 			SetPosition(plPos01);
 
-			//ターゲット用のダミーを消す。
+			//具材置き場に置いた後でもまた近づくとダミーが出るようにする。
 			SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
-			m_scale -= expantionRate;
-			DeleteGO(targetDummy01);
+			if (targetDummy01 != nullptr) {
+				DeleteGO(targetDummy01);
+				m_scale -= expantionRate;
+				//targeted = false;
+				//pl01->SetTarget(targeted);
+				isSetTargetDummy = false;
+				decrementTime = holdTime;
+				whichPlayerTargetMe = 0;
+			}
+			//ターゲット用のダミーを消す。
+			//SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
+			//m_scale -= expantionRate;
+			//DeleteGO(targetDummy01);
 
 			
 
@@ -241,10 +249,22 @@ void Guzai::GrabNPut()
 			plPos02.y += 100.0f;
 			SetPosition(plPos02);
 
-			//ターゲット用のダミーを消す。
 			SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
-			m_scale -= expantionRate;
-			DeleteGO(targetDummy02);
+			if (targetDummy02 != nullptr) {
+
+				DeleteGO(targetDummy02);
+				m_scale -= expantionRate;
+				//targeted = false;
+				//pl02->SetTarget(targeted);
+				isSetTargetDummy = false;
+				decrementTime = holdTime;
+				whichPlayerTargetMe = 0;
+
+			}
+			//ターゲット用のダミーを消す。
+			//SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
+			//m_scale -= expantionRate;
+			//DeleteGO(targetDummy02);
 
 			
 		}
@@ -402,7 +422,7 @@ void Guzai::SetGuzaiOkiba()
 	}
 	//2P側の処理 1Pとほぼ同じ
 	if (g_pad[1]->IsTrigger(enButtonB) && state == 1) {
-		//2P側の具材置き場の番号は4～7なので、その範囲で調べる。
+		//2P側の具材置き場の番号は0～4なので、その範囲で調べる。
 		for (int i = 0; i < 4; i++) {
 			
 			if (m_guzaiOkiba->FindKitchenSet(i) == true && m_guzaiOkiba->FindGuzaiSet(i) == false && m_guzaiOkibaSet == false) {
@@ -491,5 +511,18 @@ void Guzai::Update()
 		}
 	}
 
+	//キッチンに載ってるときちょっと回してみた
+	if (put == 1) {
+		
+		//回転処理
+		angle += 2.0f;
+		if (angle > 360.0f) {
+			angle = 0.0f;
+		}
+		m_rotation.SetRotationDeg(Vector3::AxisY, angle);
+
+	}
+
+	m_skinModelRender->SetRotation(m_rotation);
 	m_skinModelRender->SetPosition(m_position);
 }
