@@ -4,6 +4,7 @@
 
 class SpriteRender;
 class MenuTimer;
+class MissCounter;
 #include "Level2D.h"
 
 static const int SHOW_HAMBURGER_NUMBER = 3;
@@ -52,4 +53,5 @@ private:
 	Level2DObjectData m_level2DObjectDatas[enHamBurgerNum];
 
 	MenuTimer* m_menuTimer[2];
+	MissCounter* m_missCounter;
 };

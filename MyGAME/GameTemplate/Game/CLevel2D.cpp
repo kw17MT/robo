@@ -2,7 +2,7 @@
 #include "CLevel2D.h"
 #include "SpriteRender.h"
 #include "MenuTimer.h"
-
+#include "MissCounter.h"
 
 //objdata.ddsFilePathにすでに用意されていたため不要
 
@@ -49,7 +49,7 @@ bool CLevel2D::Start()
 	//レベルを読み込む。
 	//一番左が配列の3番目の要素、右が1番目の要素
 	
-	m_level2D.Init("Assets/level2D/level2D.casl", [&](Level2DObjectData& objdata) { 
+	m_level2D.Init("Assets/level2D/level2D_new.casl", [&](Level2DObjectData& objdata) { 
 		if (objdata.EqualObjectName("burger_cheese_new")) {
 			//右側に出る（2p用）
 			
@@ -103,7 +103,7 @@ bool CLevel2D::Start()
 		else{
 			//return falseにすると、
 			//Level2DクラスのSpriteで画像が読み込まれます。
-			return false;
+			return true;
 		}
 	});
 
@@ -131,6 +131,8 @@ bool CLevel2D::Start()
 	m_menuTimer[1]->SetPosition({ -480.0f,0.0f,750.0f });
 
 
+	m_missCounter = NewGO<MissCounter>(0);
+
 	return true;
 }
 
@@ -139,14 +141,18 @@ void CLevel2D::Update()
 	//m_sprite.Update(m_position, Quaternion::Identity, m_scale);
 	//レベル2DクラスのSpriteの更新処理。
 
+	//プレイヤー1の時間切れ
 	if (m_menuTimer[0]->GetTimeUpState()) {
 		Roulette(2);
-
+		m_missCounter->AddPl1MissCount();
+		m_missCounter->ChangeMarkState(true);
 		m_menuTimer[0]->SetTimeUpState(false);
 	}
+	//プレイヤー2の時間切れ
 	if (m_menuTimer[1]->GetTimeUpState()) {
 		Roulette(0);
-
+		m_missCounter->AddPl2MissCount();
+		m_missCounter->ChangeMarkState(true);
 		m_menuTimer[1]->SetTimeUpState(false);
 	}
 

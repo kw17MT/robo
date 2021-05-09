@@ -100,6 +100,7 @@
     <ClCompile Include="WaveFileBank.cpp" />
     <ClCompile Include="TrashCan.cpp" />
     <ClCompile Include="MenuTimer.cpp" />
+    <ClCompile Include="MissCounter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -209,5 +210,6 @@
     <ClInclude Include="WaveFileBank.h" />
     <ClInclude Include="TrashCan.h" />
     <ClInclude Include="MenuTimer.h" />
+    <ClInclude Include="MissCounter.h" />
   </ItemGroup>
 </Project>
