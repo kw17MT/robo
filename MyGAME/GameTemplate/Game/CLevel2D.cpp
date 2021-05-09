@@ -47,20 +47,9 @@
 bool CLevel2D::Start()
 {
 	//レベルを読み込む。
+	//一番左が配列の3番目の要素、右が1番目の要素
 	
 	m_level2D.Init("Assets/level2D/level2D.casl", [&](Level2DObjectData& objdata) { 
-		if (objdata.EqualObjectName("burger_egg")) {
-			//左側に出る｛1p）
-
-			/*sprite[2] = NewGO<SpriteRender>(2);
-			sprite[2]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
-			sprite[2]->SetScale(objdata.scale);*/
-			//sprite[2]->SetPosition(objdata.position);
-			m_spritePositions[0] = objdata.position;
-			m_level2DObjectDatas[enEggBurger] = objdata;
-
-			return true;
-		}
 		if (objdata.EqualObjectName("burger_cheese_new")) {
 			//右側に出る（2p用）
 			
@@ -83,7 +72,7 @@ bool CLevel2D::Start()
 			sprite[0]->Init(objdata.ddsFilePath, objdata.width /2 , objdata.height /2);
 			sprite[0]->SetScale(objdata.scale);*/
 			//sprite[0]->SetPosition(objdata.position);
-			m_spritePositions[1] = objdata.position;
+			m_spritePositions[0] = objdata.position;
 			m_level2DObjectDatas[enCheeseBurger] = objdata;
 			return true;
 		}
@@ -94,8 +83,20 @@ bool CLevel2D::Start()
 			sprite[1]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
 			sprite[1]->SetScale(objdata.scale);*/
 			//sprite[1]->SetPosition(objdata.position);
-			m_spritePositions[2] = objdata.position;
+			m_spritePositions[1] = objdata.position;
 			m_level2DObjectDatas[enTomatoBurger] = objdata;
+
+			return true;
+		}
+		if (objdata.EqualObjectName("burger_egg")) {
+			//左側に出る｛1p）
+
+			/*sprite[2] = NewGO<SpriteRender>(2);
+			sprite[2]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
+			sprite[2]->SetScale(objdata.scale);*/
+			//sprite[2]->SetPosition(objdata.position);
+			m_spritePositions[2] = objdata.position;
+			m_level2DObjectDatas[enEggBurger] = objdata;
 
 			return true;
 		}
@@ -138,12 +139,15 @@ void CLevel2D::Update()
 	//m_sprite.Update(m_position, Quaternion::Identity, m_scale);
 	//レベル2DクラスのSpriteの更新処理。
 
-	for (int i = 0;i < 2; i++) {
-		if (m_menuTimer[i]->GetTimeUpState()) {
-			Roulette(i);
+	if (m_menuTimer[0]->GetTimeUpState()) {
+		Roulette(2);
 
-			m_menuTimer[i]->SetTimeUpState(false);
-		}
+		m_menuTimer[0]->SetTimeUpState(false);
+	}
+	if (m_menuTimer[1]->GetTimeUpState()) {
+		Roulette(0);
+
+		m_menuTimer[1]->SetTimeUpState(false);
 	}
 
 	m_level2D.Update();
@@ -156,38 +160,77 @@ void CLevel2D::Render(RenderContext& rc)
 	m_level2D.Draw(rc);
 }
 
-bool CLevel2D::GetIsMatchHamBurger(int* numbers, int size)
+bool CLevel2D::GetIsMatchHamBurger(int* numbers, int size, int counterNo)
 {
-
-
-	for (int i = 0; i < SHOW_HAMBURGER_NUMBER; i++)
-	{
-		//ハンバーガーのデータ持ってくるお。
-		HamBurger hamBurger = GetHamBurgerFactory().GetHamBurger(m_showHamBurgers[i]);
-		//長さ違ったら。
-		if (size != hamBurger.size())
-			//以下の処理しなーい。
-			continue;
-
-		//同じだお。
-		bool isSame = true;
-		for (int j = 0; j < hamBurger.size(); j++)
+	if (counterNo == 1) {
+		//メニューの左と中央を対象に比較開始
+		for (int i = 2; i >= counterNo; i--)
 		{
-			int num = numbers[j];
-			//具材が違ってたら。
-			if (num != hamBurger[j])
+			//ハンバーガーのデータ持ってくるお。
+			HamBurger hamBurger = GetHamBurgerFactory().GetHamBurger(m_showHamBurgers[i]);
+			//長さ違ったら。
+			if (size != hamBurger.size())
+				//以下の処理しなーい。
+				continue;
+
+			//同じだお。
+			bool isSame = true;
+			for (int j = 0; j < hamBurger.size(); j++)
 			{
-				//違うお。
-				isSame = false;
-				break;
+				int num = numbers[j];
+				//具材が違ってたら。
+				if (num != hamBurger[j])
+				{
+					//違うお。
+					isSame = false;
+					break;
+				}
+			}
+			//同じだったお。
+			if (isSame == true)
+			{
+				//次に表示するハンバーガー決めるお！
+				Roulette(i);
+
+				m_menuTimer[counterNo - 1]->ResetTimerParam();
+				return true;
 			}
 		}
-		//同じだったお。
-		if (isSame == true)
+	}
+
+	if (counterNo == 2) {
+		//メニューの右と中央を対象に比較開始
+		for (int i = 0; i < counterNo; i++)
 		{
-			//次に表示するハンバーガー決めるお！
-			Roulette(i);
-			return true;
+			//ハンバーガーのデータ持ってくるお。
+			HamBurger hamBurger = GetHamBurgerFactory().GetHamBurger(m_showHamBurgers[i]);
+			//長さ違ったら。
+			if (size != hamBurger.size())
+				//以下の処理しなーい。
+				continue;
+
+			//同じだお。
+			bool isSame = true;
+			for (int j = 0; j < hamBurger.size(); j++)
+			{
+				int num = numbers[j];
+				//具材が違ってたら。
+				if (num != hamBurger[j])
+				{
+					//違うお。
+					isSame = false;
+					break;
+				}
+			}
+			//同じだったお。
+			if (isSame == true)
+			{
+				//次に表示するハンバーガー決めるお！
+				Roulette(i);
+				m_menuTimer[counterNo - 1]->ResetTimerParam();
+
+				return true;
+			}
 		}
 	}
 

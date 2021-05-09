@@ -122,7 +122,7 @@ bool Guzai::Start()
 	m_guzaiGene = FindGO<GuzaiGene>("guzaiGene");
 	m_guzaiOkiba = FindGO<GuzaiOkiba>("GuzaiOkiba");
 	m_trashCan[0] = FindGO<TrashCan>("trashcan01");
-	m_trashCan[1] = FindGO<TrashCan>("trashcan01");
+	m_trashCan[1] = FindGO<TrashCan>("trashcan02");
 
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/gu/cheese.tkm",nullptr, enModelUpAxisZ, m_position);
@@ -433,9 +433,9 @@ void Guzai::GetGuzaiOkiba()
 }
 
 void Guzai::SetOnTrashCan() {
-	if (g_pad[0]->IsTrigger(enButtonB) && state == 1) {
-		m_position = pl01->GetPosition();
-
+	if (g_pad[0]->IsTrigger(enButtonB) 
+		&& state == 1
+		&& m_trashCan[0]->GetCanTrash()) {
 		isSetOnTrashCan = true;
 	}
 	if (isSetOnTrashCan == true) {
@@ -449,9 +449,9 @@ void Guzai::SetOnTrashCan() {
 		}
 	}
 
-	if (g_pad[1]->IsTrigger(enButtonB) && state == 1) {
-		m_position = pl02->GetPosition();
-
+	if (g_pad[1]->IsTrigger(enButtonB) 
+		&& state == 1
+		&& m_trashCan[1]->GetCanTrash()) {
 		isSetOnTrashCan = true;
 	}
 	if (isSetOnTrashCan == true) {

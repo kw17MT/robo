@@ -10,11 +10,12 @@ bool TrashCan::Start()
 	player[1] = FindGO<Player>("player02");
 	m_playerGene = FindGO<PlayerGene>("playerGene");
 
+	//ゴミ箱モデルの設定
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/object/kitchen.tkm", nullptr, enModelUpAxisZ, m_position);
 	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 	m_skinModelRender->SetScale(m_trashcanScale);
-
+	//ゴミ箱に近づくと矢印が出るように
 	m_targeting = NewGO<SkinModelRender>(0);
 	m_targeting->Init("Assets/modelData/gu/cheese.tkm", nullptr, enModelUpAxisZ, m_position);
 	m_targeting->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
@@ -46,6 +47,7 @@ void TrashCan::Update()
 	float player01Distance = CalcDistance(player[0]->GetPosition(), m_position);
 	float player02Distance = CalcDistance(player[1]->GetPosition(), m_position);
 
+	//矢印の大きさ変更用。近づくと大きくなり、離れると小さくなる。
 	if (trashcanNo == 1) {
 		if (player01Distance < distance) {
 			m_targetScale.x += 0.1f;
@@ -57,6 +59,7 @@ void TrashCan::Update()
 				m_targetScale.y = 1.0f;
 				m_targetScale.z = 1.0f;
 			}
+			canTrash = true;
 		}
 		else {
 			m_targetScale.x -= 0.1f;
@@ -68,6 +71,7 @@ void TrashCan::Update()
 				m_targetScale.y = 0.0f;
 				m_targetScale.z = 0.0f;
 			}
+			canTrash = false;
 		}
 		m_targeting->SetScale(m_targetScale);
 	}
@@ -83,6 +87,7 @@ void TrashCan::Update()
 				m_targetScale.y = 1.0f;
 				m_targetScale.z = 1.0f;
 			}
+			canTrash = true;
 		}
 		else {
 			m_targetScale.x -= 0.1f;
@@ -94,6 +99,7 @@ void TrashCan::Update()
 				m_targetScale.y = 0.0f;
 				m_targetScale.z = 0.0f;
 			}
+			canTrash = false;
 		}
 		m_targeting->SetScale(m_targetScale);
 	}

@@ -16,6 +16,7 @@ public:
 	void SetRotation(Quaternion rot) { m_rot = rot; }
 	bool GetTimeUpState() { return isTimeUp; }
 	void SetTimeUpState(bool state) { isTimeUp = state; }
+	void ResetTimerParam();
 
 	bool Start();
 	void Update();

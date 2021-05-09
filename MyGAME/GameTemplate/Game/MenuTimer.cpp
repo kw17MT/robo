@@ -12,12 +12,19 @@ bool MenuTimer::Start()
 	return true;
 }
 
+void MenuTimer::ResetTimerParam()
+{
+	timer = 1000;
+	m_scale.x = 2.8f;
+	isTimeUp = false;
+}
+
 void MenuTimer::Update()
 {
 	m_scale.x -= 0.001f;
 	timer--;
 	if (m_scale.x <= 0.0f) {
-		timer = 1000.0f;
+		timer = 1000;
 		m_scale.x = 2.8f;
 
 		isTimeUp = true;
