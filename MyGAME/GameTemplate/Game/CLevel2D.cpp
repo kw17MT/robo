@@ -143,9 +143,13 @@ void CLevel2D::Update()
 
 	//プレイヤー1の時間切れ
 	if (m_menuTimer[0]->GetTimeUpState()) {
+		//左のメニューの再抽選
 		Roulette(2);
+		//1Pのミス数を1足す
 		m_missCounter->AddPl1MissCount();
+		//バツ印の画像を出す
 		m_missCounter->ChangeMarkState(true);
+		//バツを付けたのでFALSEにもどしてやる
 		m_menuTimer[0]->SetTimeUpState(false);
 	}
 	//プレイヤー2の時間切れ

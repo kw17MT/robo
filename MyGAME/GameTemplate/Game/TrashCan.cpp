@@ -17,9 +17,28 @@ bool TrashCan::Start()
 	m_skinModelRender->SetScale(m_trashcanScale);
 	//ƒSƒ~” ‚É‹ß‚Ã‚­‚Æ–îˆó‚ªo‚é‚æ‚¤‚É
 	m_targeting = NewGO<SkinModelRender>(0);
-	m_targeting->Init("Assets/modelData/gu/cheese.tkm", nullptr, enModelUpAxisZ, m_position);
-	m_targeting->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_targeting->Init("Assets/modelData/Arrow_Purple.tkm", nullptr, enModelUpAxisZ, m_position);
+	m_targeting->InitShader("Assets/shader/modelTomei.fx", "FrontCulling", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 	m_targeting->SetScale(m_targetScale);
+
+	if (trashcanNo == 1) {
+	m_targetPos = m_position;
+	m_targetPos.y += 50.0f;
+	m_targetPos.x -= 75.0f;
+	m_targeting->SetPosition(m_targetPos);
+
+	m_rot.SetRotationDegY(45.0f);
+	}
+	if (trashcanNo == 2) {
+		m_targetPos = m_position;
+		m_targetPos.y += 50.0f;
+		m_targetPos.x += 75.0f;
+		m_targeting->SetPosition(m_targetPos);
+
+		m_rot.SetRotationDegY(-45.0f);
+	}
+
+	m_targeting->SetRotation(m_rot);
 
 	return true;
 }
@@ -104,6 +123,20 @@ void TrashCan::Update()
 		m_targeting->SetScale(m_targetScale);
 	}
 
-	m_targeting->SetPosition(m_position);
+	if (targetUp == true) {
+		m_targetPos.y += 1.0f;
+		if (m_targetPos.y >= 75.0f) {
+			targetUp = false;
+		}
+	}
+	if (targetUp == false) {
+		m_targetPos.y -= 1.0f;
+		if (m_targetPos.y <= 50.0f) {
+			targetUp = true;
+		}
+	}
+
+	m_targeting->SetPosition(m_targetPos);
+	//m_targeting->SetPosition(m_position);
 	m_skinModelRender->SetPosition(m_position);
 }

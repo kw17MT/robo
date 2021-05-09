@@ -21,7 +21,7 @@ void MenuTimer::ResetTimerParam()
 
 void MenuTimer::Update()
 {
-	m_scale.x -= 0.001f;
+	m_scale.x -= 0.003f;
 	timer--;
 	if (m_scale.x <= 0.0f) {
 		timer = 1000;

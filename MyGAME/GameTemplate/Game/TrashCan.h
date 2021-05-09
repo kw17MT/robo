@@ -7,11 +7,15 @@ class TrashCan : public IGameObject
 {
 private:
 	Vector3 m_position = Vector3::Zero;
+	Vector3 m_targetPos = Vector3::Zero;
 	Vector3 m_trashcanScale = { 0.2f,0.2f,0.2f };
 	Vector3 m_targetScale = Vector3::Zero;
+	Quaternion m_rot = Quaternion::Identity;
 	const float distance = 150.0f;									//ゴミ箱がプレイヤーを識別する距離
 	int trashcanNo = 0;												//ゴミ箱の番号、１が左、２が右
 	bool canTrash = false;											//プレイヤーが近いとTRUEにして捨てることができるようにする。
+
+	bool targetUp = true;											//ターゲットアイコンを浮遊させるよう
 public:
 	bool Start();
 	void Update();

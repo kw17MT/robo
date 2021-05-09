@@ -28,7 +28,8 @@ private:
 	//どの位置に表示するかを決めるための整数値
 	int positionNum;
 	
-	
+	//どちらかのMISSが3つたまった時にTRUEにする
+	bool isReach3Miss = false;
 
 public:
 
@@ -55,6 +56,7 @@ public:
 	void SetScale(const Vector2& scl) { m_scale = scl; }
 	void SetRotation(const Quaternion& rot) { m_rotation = rot; }
 	void SetIsTimeUp() { isTimeUp = true; }
+	void Reach3Miss(bool state) { isReach3Miss = state; }
 
 	//どのスプライトにするか呼び出し元で決めてもらうための関数
 	void SetSprite(const int& No) { spriteNum = No; }
