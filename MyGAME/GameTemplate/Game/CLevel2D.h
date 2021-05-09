@@ -3,6 +3,7 @@
 #include  "HamBurgerFactory.h"
 
 class SpriteRender;
+class MenuTimer;
 #include "Level2D.h"
 
 static const int SHOW_HAMBURGER_NUMBER = 3;
@@ -49,4 +50,6 @@ private:
 
 	//ハンバーガースプライトのデータ。ハンバーガーの数だけ用意する。
 	Level2DObjectData m_level2DObjectDatas[enHamBurgerNum];
+
+	MenuTimer* m_menuTimer[2];
 };

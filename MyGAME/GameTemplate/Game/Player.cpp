@@ -255,13 +255,6 @@ void Player::Update()
 	}
 	//アイテム使用処理。
 	UseItem();
-	//Vector3 plPos = m_charaCon.GetPosition();
-
-
-	//m_charaCon.Execute(moveSpeed, 1.0f);
-
-	//m_position = m_charaCon.Execute(moveSpeed, 1.0f);
-
 
 	////テスト:ポップアップモデルの変更
 	//if (m_popUp->GetEnState() == enNone) {

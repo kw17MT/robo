@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CLevel2D.h"
 #include "SpriteRender.h"
+#include "MenuTimer.h"
 
 
 //objdata.ddsFilePathにすでに用意されていたため不要
@@ -48,8 +49,21 @@ bool CLevel2D::Start()
 	//レベルを読み込む。
 	
 	m_level2D.Init("Assets/level2D/level2D.casl", [&](Level2DObjectData& objdata) { 
-		if (objdata.EqualObjectName("burger_cheese_new")) {
+		if (objdata.EqualObjectName("burger_egg")) {
+			//左側に出る｛1p）
 
+			/*sprite[2] = NewGO<SpriteRender>(2);
+			sprite[2]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
+			sprite[2]->SetScale(objdata.scale);*/
+			//sprite[2]->SetPosition(objdata.position);
+			m_spritePositions[0] = objdata.position;
+			m_level2DObjectDatas[enEggBurger] = objdata;
+
+			return true;
+		}
+		if (objdata.EqualObjectName("burger_cheese_new")) {
+			//右側に出る（2p用）
+			
 			//SpriteInitData data;
 			////DDSファイル(画像データ)のファイルパスを指定する。
 			//data.m_ddsFilePath[0] = objdata.ddsFilePath;
@@ -69,27 +83,19 @@ bool CLevel2D::Start()
 			sprite[0]->Init(objdata.ddsFilePath, objdata.width /2 , objdata.height /2);
 			sprite[0]->SetScale(objdata.scale);*/
 			//sprite[0]->SetPosition(objdata.position);
-			m_spritePositions[0] = objdata.position;
+			m_spritePositions[1] = objdata.position;
 			m_level2DObjectDatas[enCheeseBurger] = objdata;
 			return true;
 		}
 		if (objdata.EqualObjectName("burger_tomato")) {
+			//中間に出る
+
 			/*sprite[1] = NewGO<SpriteRender>(2);
 			sprite[1]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
 			sprite[1]->SetScale(objdata.scale);*/
 			//sprite[1]->SetPosition(objdata.position);
-			m_spritePositions[1] = objdata.position;
-			m_level2DObjectDatas[enTomatoBurger] = objdata;
-
-			return true;
-		}
-		if (objdata.EqualObjectName("burger_egg")) {
-			/*sprite[2] = NewGO<SpriteRender>(2);
-			sprite[2]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
-			sprite[2]->SetScale(objdata.scale);*/
-			//sprite[2]->SetPosition(objdata.position);
 			m_spritePositions[2] = objdata.position;
-			m_level2DObjectDatas[enEggBurger] = objdata;
+			m_level2DObjectDatas[enTomatoBurger] = objdata;
 
 			return true;
 		}
@@ -112,7 +118,16 @@ bool CLevel2D::Start()
 	ShowHamBurger(1, m_showHamBurgers[1]);
 	ShowHamBurger(2, m_showHamBurgers[2]);
 
-
+	//左側ゲージ
+	m_menuTimer[0] = NewGO<MenuTimer>(0);
+	Quaternion rot = Quaternion::Identity;
+	rot.SetRotationDegY(180.0f);
+	m_menuTimer[0]->SetRotation(rot);
+	m_menuTimer[0]->SetPosition({ 480.0f,0.0f,770.0f });
+	
+	//右側ゲージ
+	m_menuTimer[1] = NewGO<MenuTimer>(0);
+	m_menuTimer[1]->SetPosition({ -480.0f,0.0f,750.0f });
 
 
 	return true;
@@ -122,6 +137,15 @@ void CLevel2D::Update()
 {
 	//m_sprite.Update(m_position, Quaternion::Identity, m_scale);
 	//レベル2DクラスのSpriteの更新処理。
+
+	for (int i = 0;i < 2; i++) {
+		if (m_menuTimer[i]->GetTimeUpState()) {
+			Roulette(i);
+
+			m_menuTimer[i]->SetTimeUpState(false);
+		}
+	}
+
 	m_level2D.Update();
 }
 
