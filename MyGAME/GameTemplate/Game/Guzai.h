@@ -61,6 +61,14 @@ private:
 	bool m_guzaiOkibaSet = false;
 	//自身がセットされた具材置き場の番号
 	int m_setKitchenNum = 9;
+	//自身が調理されているか？
+	bool m_cooking = false;
+	//1Pの調理中の時間。
+	int m_hold01 = 0;
+	//2Pの調理中の時間。
+	int m_hold02 = 0;
+	//調理にかかる時間。
+	int m_cookingTime = 60;
 
 	//ゴミ箱に置いたのかどうか
 	bool isSetOnTrashCan = false;
@@ -100,6 +108,9 @@ public:
 
 	//具材置き場から取り出す処理。
 	void GetGuzaiOkiba();
+
+	//具材置き場で調理する処理。
+	void Cooking();
 
 	//ゴミ箱の上に具材をセット、後に消す。
 	void SetOnTrashCan();
