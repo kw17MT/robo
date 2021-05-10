@@ -28,6 +28,8 @@
 #include  "DishGene.h"
 #include "DishSpeedManeger.h"
 
+#include "effect/effect.h"
+
 namespace
 {
 	float  SCALER_COUNTDOWN_FONT_SCALE = 3.0f;

@@ -51,7 +51,7 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 	//‰Šú‰»I‚í‚è//
 
 	//ƒLƒƒƒ‰ƒRƒ“‚Ì‰Šú‰»
-	m_charaCon.Init(40.0f, 100.0f, pos);
+	m_charaCon.Init(0.0f, 0.0f, pos);
 }
 
 void SkinModelRender::ChangeModel(const char* newModelFilePath)

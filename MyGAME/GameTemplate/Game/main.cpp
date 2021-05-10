@@ -24,10 +24,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	CSoundEngine::CreateInstance();
 	CSoundEngine::GetInstance()->Init();
 
-	/*EffectEngine::CreateInstance();
-	Effect laserEffect;
-	laserEffect.Init(u"Assets/effect/laser.efk");*/
-	/*laserEffect.Play();
+	//EffectEngine::CreateInstance();
+	/*Effect laserEffect;
+	laserEffect.Init(u"Assets/effect/laser.efk");
+	laserEffect.Play();
 	laserEffect.Update();*/
 
 	//ˆê‚­‚½‚É‚µ‚È‚¢‚Æ—¼•û‚Ìƒ‰ƒCƒg‚Ì‰e‹¿‚ðŽó‚¯‚È‚­‚È‚éB////////////////////////////////
@@ -194,6 +194,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		//EffectEngine::GetInstance()->Update(0.01f/*g_gameTime->GetFrameDeltaTime()*/);
 		//EffectEngine::GetInstance()->Draw();
+
+
+
+
+
+
+
+
+
 
 		/*renderContext.WaitUntilToPossibleSetRenderTarget(shadowMap);
 		renderContext.SetRenderTargetAndViewport(shadowMap);
