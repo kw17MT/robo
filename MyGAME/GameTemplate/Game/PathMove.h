@@ -64,5 +64,6 @@ private:
 	int m_guzaiNo = 0;
 	enCycleDirection m_cycleDirection = enNormal;
 	const int Num2ChangeCycle = 1;
+	const int m_wayPointNum = 36;
 };
 

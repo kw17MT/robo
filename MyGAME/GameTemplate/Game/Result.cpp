@@ -74,4 +74,10 @@ void Result::Update()
 	
 	}
 
+	//3ƒ~ƒX‚É‚È‚Á‚½‚ç‰æ‘œ•\¦
+	if (isReach3Miss) {
+		//“Ç‚İ‚Şdds‚ğŒˆ’è
+		DecideDDS();
+		DecidePos();
+	}
 }

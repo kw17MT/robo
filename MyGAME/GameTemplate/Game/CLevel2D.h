@@ -3,6 +3,8 @@
 #include  "HamBurgerFactory.h"
 
 class SpriteRender;
+class MenuTimer;
+class MissCounter;
 #include "Level2D.h"
 
 static const int SHOW_HAMBURGER_NUMBER = 3;
@@ -32,7 +34,7 @@ public:
 	}
 
 	//ハンバーガーが一致しているかどうかを取得
-	bool GetIsMatchHamBurger(int* numbers, int size);
+	bool GetIsMatchHamBurger(int* numbers, int size, int counterNo);
 private:
 	Level2D m_level2D;		//レベル2D。
 	//Sprite m_sprite;			//スプライト。
@@ -49,4 +51,7 @@ private:
 
 	//ハンバーガースプライトのデータ。ハンバーガーの数だけ用意する。
 	Level2DObjectData m_level2DObjectDatas[enHamBurgerNum];
+
+	MenuTimer* m_menuTimer[2];
+	MissCounter* m_missCounter;
 };

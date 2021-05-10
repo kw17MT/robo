@@ -1,0 +1,10 @@
+9
+13,burger_tomato,72,D:/Github/MyGame/MyGAME/GameTemplate/Game/Assets/Image/burger_tomato.png,0.0,-200.0,256,512,10,0.5,0.5,17,burger_tomato.dds
+10,burger_egg,69,D:/Github/MyGame/MyGAME/GameTemplate/Game/Assets/Image/burger_egg.png,150.0,-200.0,256,512,10,0.5,0.5,14,burger_egg.dds
+17,burger_cheese_new,76,D:/Github/MyGame/MyGAME/GameTemplate/Game/Assets/Image/burger_cheese_new.png,-150.0,-200.0,256,512,10,0.5,0.5,21,burger_cheese_new.dds
+7,square1,64,../../../MyGame/MyGAME/GameTemplate/Game/Assets/Image/square.png,-325.0,-320.0,16,16,10,1.0,1.0,10,square.dds
+7,square4,64,../../../MyGame/MyGAME/GameTemplate/Game/Assets/Image/square.png,325.0,-320.0,16,16,10,1.0,1.0,10,square.dds
+7,square3,64,../../../MyGame/MyGAME/GameTemplate/Game/Assets/Image/square.png,-250.0,-320.0,16,16,10,1.0,1.0,10,square.dds
+7,square2,64,../../../MyGame/MyGAME/GameTemplate/Game/Assets/Image/square.png,-287.5,-320.0,16,16,10,1.0,1.0,10,square.dds
+7,square5,64,../../../MyGame/MyGAME/GameTemplate/Game/Assets/Image/square.png,287.5,-320.0,16,16,10,1.0,1.0,10,square.dds
+7,square6,64,../../../MyGame/MyGAME/GameTemplate/Game/Assets/Image/square.png,250.0,-320.0,16,16,10,1.0,1.0,10,square.dds

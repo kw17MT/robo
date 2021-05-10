@@ -254,10 +254,6 @@
 
 		
 		m_constantBufferCPU.mvp = m_world * viewMatrix * projMatrix;
-		/*m_constantBufferCPU.mulColor.x = 1.0f;
-		m_constantBufferCPU.mulColor.y = 1.0f;
-		m_constantBufferCPU.mulColor.z = 1.0f;
-		m_constantBufferCPU.mulColor.w = 1.0f;*/
 		m_constantBufferCPU.mulColor.x = m_color.x;
 		m_constantBufferCPU.mulColor.y = m_color.y;
 		m_constantBufferCPU.mulColor.z = m_color.z;

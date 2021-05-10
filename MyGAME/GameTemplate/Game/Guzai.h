@@ -7,6 +7,7 @@ class PlayerGene;
 //class PathMove;
 class GuzaiGene;
 class GuzaiOkiba;
+class TrashCan;
 
 class Guzai : public IGameObject
 {
@@ -51,9 +52,6 @@ private:
 	//その具材は何であるかのメモ用、ターゲティングのオブジェクトを作成時に使用。
 	const char* NowModelPath;
 
-	//以下追加コード。
-	//std::unique_ptr<PathMove> m_pathMove;		//移動処理を行うクラス。
-
 	//その具材はどちらのプレイヤーにつかまれたか
 	int whichPlayerGet = 0;
 	//どちらのプレイヤーにターゲットされたか
@@ -64,7 +62,17 @@ private:
 	bool m_guzaiOkibaSet = false;
 	//自身がセットされた具材置き場の番号
 	int m_setKitchenNum = 9;
+	//自身が調理されているか？
+	bool m_cooking = false;
+	//1Pの調理中の時間。
+	int m_hold01 = 0;
+	//2Pの調理中の時間。
+	int m_hold02 = 0;
+	//調理にかかる時間。
+	int m_cookingTime = 60;
 
+	//ゴミ箱に置いたのかどうか
+	bool isSetOnTrashCan = false;
 public:	
 	//乱数を用いて具材が生まれると同時にどの具材を流すか設定する。
 	Guzai();
@@ -102,6 +110,12 @@ public:
 	//具材置き場から取り出す処理。
 	void GetGuzaiOkiba();
 
+	//具材置き場で調理する処理。
+	void Cooking();
+
+	//ゴミ箱の上に具材をセット、後に消す。
+	void SetOnTrashCan();
+
 	//１ならば持たれている。
 	int state = 0;
 	//１ならばもうキッチンに置かれている。
@@ -115,5 +129,6 @@ public:
 	PlayerGene* playerGene;
 	GuzaiGene* m_guzaiGene;
 	GuzaiOkiba* m_guzaiOkiba;
+	TrashCan* m_trashCan[2];
 };
 

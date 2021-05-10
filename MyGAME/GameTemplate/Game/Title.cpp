@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Title.h"
-#include "Game.h"
+#include "Fade.h"
+#include "OperationExplanation.h"
 
 Title::~Title()
 {
@@ -9,9 +10,7 @@ Title::~Title()
 
 bool Title::Start()
 {
-
 	m_spriteRender = NewGO<SpriteRender>(0);
-
 	m_spriteRender->Init("Assets/Image/title.dds", 1280, 720);
 
 
@@ -23,9 +22,18 @@ bool Title::Start()
 
 void Title::Update()
 {
-	if (g_pad[0]->IsTrigger(enButtonA))
-	{
-		NewGO<Game>(0, "game");
+	if (m_fade == nullptr) {
+		if (g_pad[0]->IsTrigger(enButtonA))
+		{
+			//フェード
+			m_fade = NewGO<Fade>(0, "fade");
+		}
+		return;
+	}
+	//真っ暗になったら遷移
+	if (m_fade->GetState() == m_fade->enState_Wait) {
+		auto operationExplanation = NewGO<OperationExplanation>(0);
+		m_fade->SetState(m_fade->enState_In);
 		DeleteGO(this);
 	}
 }

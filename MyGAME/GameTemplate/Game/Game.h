@@ -12,6 +12,7 @@ class Result;
 class FontRender;
 class Level;
 class PostEffectTest;
+class TrashCan;
 
 
 class ShadowTest;
@@ -55,11 +56,9 @@ public:
 	Score* m_score = nullptr;
 	PostEffectTest* postTest;
 
-
 	ShadowTest* shadowTest;
 	Ground* ground;
 
-	//Kitchen* stock[8];
 	GuzaiOkiba* guzaiOkiba;
 
 	DishGene* dishGene;
@@ -67,7 +66,7 @@ public:
 	//PopUp2D* m_popup2D_1 = nullptr;
 	//PopUp2D* m_popup2D_2 = nullptr;
 
-
+	TrashCan* m_trashCan[2];
 
 	//勝敗表示用:引き分けの場合、プレイヤー1、プレイヤー2に用意
 	Result* m_result[3];

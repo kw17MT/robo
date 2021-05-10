@@ -16,7 +16,7 @@ private:
 	int refilledNum = 0;				
 	
 	int SubmitBurgerNum = 0;														//提出したバーガーの数
-	int ChangeCycleNum = 0;				//何個補充したか。Dishで使用。これがmaxNum2Refillと同値になると補充完了を意味し、noHavingDish、refilledNumを０で初期化する。
+	int ChangeCycleNum = 0;															//何個補充したか。Dishで使用。これがmaxNum2Refillと同値になると補充完了を意味し、noHavingDish、refilledNumを０で初期化する。
 public:
 	~PlayerGene() {};
 
@@ -30,6 +30,7 @@ public:
 	//空の皿の計測関係
 	int GetNoHavingDishCounter() { return noHavingDishCounter; }					//空の皿のゲッタ―
 	void AddNoHavingDishCounter() { noHavingDishCounter++; }						//空の皿の数を1つ足す
+	void MinusNoHavingDishCounter() { noHavingDishCounter--; }						//空の皿の数を1つ消す　具材置き場で使う。
 	void ResetNohavingDishCounter() { noHavingDishCounter = 0; }					//補充完了時に空の皿を０に戻す
 	//補充した皿関係	
 	int GetRefilledNum() { return refilledNum; }									//補充完了した皿の数

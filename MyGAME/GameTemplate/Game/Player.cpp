@@ -107,8 +107,8 @@ void Player::RestrictPos()
 		if (m_position.z > 200) {
 			m_position.z = 200;
 		}
-		if (m_position.z < -500) {
-			m_position.z = -500;
+		if (m_position.z < -550) {
+			m_position.z = -550;
 		}
 	}
 	if (playerNo == 2) {
@@ -121,8 +121,8 @@ void Player::RestrictPos()
 		if (m_position.z > 200) {
 			m_position.z = 200;
 		}
-		if (m_position.z < -500) {
-			m_position.z = -500;
+		if (m_position.z < -550) {
+			m_position.z = -550;
 		}
 	}
 
@@ -192,7 +192,7 @@ void Player::Update()
 
 		m_position += moveSpeed;
 
-		//RestrictPos();
+		RestrictPos();
 
 		m_skinModelRender->SetPosition(m_position);
 	}
@@ -249,19 +249,12 @@ void Player::Update()
 
 		m_position += moveSpeed;
 
-		//RestrictPos();
+		RestrictPos();
 
 		m_skinModelRender->SetPosition(m_position);
 	}
 	//アイテム使用処理。
 	UseItem();
-	//Vector3 plPos = m_charaCon.GetPosition();
-
-
-	//m_charaCon.Execute(moveSpeed, 1.0f);
-
-	//m_position = m_charaCon.Execute(moveSpeed, 1.0f);
-
 
 	////テスト:ポップアップモデルの変更
 	//if (m_popUp->GetEnState() == enNone) {
