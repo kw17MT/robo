@@ -101,6 +101,8 @@
     <ClCompile Include="TrashCan.cpp" />
     <ClCompile Include="MenuTimer.cpp" />
     <ClCompile Include="MissCounter.cpp" />
+    <ClCompile Include="Fade.cpp" />
+    <ClCompile Include="OperationExplanation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -211,5 +213,7 @@
     <ClInclude Include="TrashCan.h" />
     <ClInclude Include="MenuTimer.h" />
     <ClInclude Include="MissCounter.h" />
+    <ClInclude Include="Fade.h" />
+    <ClInclude Include="OperationExplanation.h" />
   </ItemGroup>
 </Project>
