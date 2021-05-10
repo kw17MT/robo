@@ -24,6 +24,8 @@ class PlayerGene;
 
 class DishGene;
 class DishSpeedManeger;
+
+class Floor;
 	
 class Game : public IGameObject
 {
@@ -67,6 +69,10 @@ public:
 	//PopUp2D* m_popup2D_2 = nullptr;
 
 	TrashCan* m_trashCan[2];
+	Floor* floor_r[9];
+	Floor* floor_l[9];
+	int floorNumL = 0;
+	int floorNumR = 0;
 
 	//勝敗表示用:引き分けの場合、プレイヤー1、プレイヤー2に用意
 	Result* m_result[3];

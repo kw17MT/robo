@@ -13,7 +13,7 @@ class GuzaiOkiba : public IGameObject
 {
 private:
 	Vector3 m_kitchenPos[8];					//具材置き場の座標
-	Vector3 m_kitchenScale = { 0.2f,0.2f,0.2f };
+	Vector3 m_kitchenScale = { 1.0f,1.0f, 1.0f };
 	int m_kitchenNo;							//具材置き場の番号
 	Vector3 m_playerPos[2];						//プレイヤーの座標
 	float m_distance[8];						//プレイヤーと具材置き場の距離

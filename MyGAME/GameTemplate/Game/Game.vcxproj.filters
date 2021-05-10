@@ -103,6 +103,7 @@
     <ClCompile Include="MissCounter.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="OperationExplanation.cpp" />
+    <ClCompile Include="Floor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -215,5 +216,6 @@
     <ClInclude Include="MissCounter.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="OperationExplanation.h" />
+    <ClInclude Include="Floor.h" />
   </ItemGroup>
 </Project>

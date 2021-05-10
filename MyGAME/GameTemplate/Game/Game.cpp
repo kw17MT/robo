@@ -29,6 +29,7 @@
 #include "DishSpeedManeger.h"
 
 #include "effect/effect.h"
+#include "Floor.h"
 
 namespace
 {
@@ -127,6 +128,15 @@ Game::Game()
 			m_trashCan[1] = NewGO<TrashCan>(0, "trashcan02");
 			m_trashCan[1]->SetTrashCanNum(2);
 			m_trashCan[1]->SetPosition(objectData.Pos);
+			return true;
+		}
+		if (wcscmp(objectData.name, L"L") == 0) {
+			floor_l[floorNumL] = NewGO<Floor>(0);
+			floor_l[floorNumL]->SetPosition(objectData.Pos);
+			floorNumL++;
+			return true;
+		}
+		if (wcscmp(objectData.name, L"R") == 0) {
 			return true;
 		}
 

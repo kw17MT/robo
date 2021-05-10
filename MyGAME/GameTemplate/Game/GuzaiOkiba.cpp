@@ -49,7 +49,7 @@ bool GuzaiOkiba::Start()
 			case 1: {
 				m_kitchenPos[m_kitchenNo - 1] = objectData.Pos;
 				m_kitchenRender[m_kitchenNo - 1] = NewGO<SkinModelRender>(0);
-				m_kitchenRender[m_kitchenNo - 1]->Init("Assets/modelData/object/kitchen.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
+				m_kitchenRender[m_kitchenNo - 1]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
 				m_kitchenRender[m_kitchenNo - 1]->SetScale(m_kitchenScale);
 				m_kitchenRender[m_kitchenNo - 1]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				return true;
@@ -57,7 +57,7 @@ bool GuzaiOkiba::Start()
 			case 2: {
 				m_kitchenPos[m_kitchenNo - 1] = objectData.Pos;
 				m_kitchenRender[m_kitchenNo - 1] = NewGO<SkinModelRender>(0);
-				m_kitchenRender[m_kitchenNo - 1]->Init("Assets/modelData/object/kitchen.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
+				m_kitchenRender[m_kitchenNo - 1]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
 				m_kitchenRender[m_kitchenNo - 1]->SetScale(m_kitchenScale);
 				m_kitchenRender[m_kitchenNo - 1]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				return true;
@@ -65,7 +65,7 @@ bool GuzaiOkiba::Start()
 			case 3: {
 				m_kitchenPos[m_kitchenNo - 1] = objectData.Pos;
 				m_kitchenRender[m_kitchenNo - 1] = NewGO<SkinModelRender>(0);
-				m_kitchenRender[m_kitchenNo - 1]->Init("Assets/modelData/object/kitchen.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
+				m_kitchenRender[m_kitchenNo - 1]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
 				m_kitchenRender[m_kitchenNo - 1]->SetScale(m_kitchenScale);
 				m_kitchenRender[m_kitchenNo - 1]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				return true;
@@ -73,7 +73,7 @@ bool GuzaiOkiba::Start()
 			case 4: {
 				m_kitchenPos[m_kitchenNo - 1] = objectData.Pos;
 				m_kitchenRender[m_kitchenNo - 1] = NewGO<SkinModelRender>(0);
-				m_kitchenRender[m_kitchenNo - 1]->Init("Assets/modelData/object/kitchen.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
+				m_kitchenRender[m_kitchenNo - 1]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
 				m_kitchenRender[m_kitchenNo - 1]->SetScale(m_kitchenScale);
 				m_kitchenRender[m_kitchenNo - 1]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				return true;
@@ -92,7 +92,7 @@ bool GuzaiOkiba::Start()
 			case 1: {
 				m_kitchenPos[m_kitchenNo + 3] = objectData.Pos;
 				m_kitchenRender[m_kitchenNo + 3] = NewGO<SkinModelRender>(0);
-				m_kitchenRender[m_kitchenNo + 3]->Init("Assets/modelData/object/kitchen.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
+				m_kitchenRender[m_kitchenNo + 3]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
 				m_kitchenRender[m_kitchenNo + 3]->SetScale(m_kitchenScale);
 				m_kitchenRender[m_kitchenNo + 3]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				return true;
@@ -100,7 +100,7 @@ bool GuzaiOkiba::Start()
 			case 2: {
 				m_kitchenPos[m_kitchenNo + 3] = objectData.Pos;
 				m_kitchenRender[m_kitchenNo + 3] = NewGO<SkinModelRender>(0);
-				m_kitchenRender[m_kitchenNo + 3]->Init("Assets/modelData/object/kitchen.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
+				m_kitchenRender[m_kitchenNo + 3]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
 				m_kitchenRender[m_kitchenNo + 3]->SetScale(m_kitchenScale);
 				m_kitchenRender[m_kitchenNo + 3]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				return true;
@@ -108,7 +108,7 @@ bool GuzaiOkiba::Start()
 			case 3: {
 				m_kitchenPos[m_kitchenNo + 3] = objectData.Pos;
 				m_kitchenRender[m_kitchenNo + 3] = NewGO<SkinModelRender>(0);
-				m_kitchenRender[m_kitchenNo + 3]->Init("Assets/modelData/object/kitchen.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
+				m_kitchenRender[m_kitchenNo + 3]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
 				m_kitchenRender[m_kitchenNo + 3]->SetScale(m_kitchenScale);
 				m_kitchenRender[m_kitchenNo + 3]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				return true;
@@ -116,7 +116,7 @@ bool GuzaiOkiba::Start()
 			case 4: {
 				m_kitchenPos[m_kitchenNo + 3] = objectData.Pos;
 				m_kitchenRender[m_kitchenNo + 3] = NewGO<SkinModelRender>(0);
-				m_kitchenRender[m_kitchenNo + 3]->Init("Assets/modelData/object/kitchen.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
+				m_kitchenRender[m_kitchenNo + 3]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_kitchenPos[m_kitchenNo - 1]);
 				m_kitchenRender[m_kitchenNo + 3]->SetScale(m_kitchenScale);
 				m_kitchenRender[m_kitchenNo + 3]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				return true;
