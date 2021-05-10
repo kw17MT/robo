@@ -11,6 +11,7 @@ void MapChip2D::Init(CaslData* caslData)
 	//画像を読み込む。
 	data.m_ddsFilePath[0] =  caslData->ddsFilePath.get();
 	data.m_fxFilePath = "Assets/shader/sprite.fx";
+	data.m_alphaBlendMode = AlphaBlendMode_Trans;		//半透明合成モード
 	m_sprite.Init(data);
 	//座標。
 	m_position.x = caslData->position.x;

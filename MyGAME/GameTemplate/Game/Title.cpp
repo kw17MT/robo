@@ -14,6 +14,10 @@ bool Title::Start()
 
 	m_spriteRender->Init("Assets/Image/title.dds", 1280, 720);
 
+
+	/*Vector4 color = { 1.0f,1.0f,1.0f,0.5f };
+	m_spriteRender->SetColor(color);*/
+
 	return true;
 }
 

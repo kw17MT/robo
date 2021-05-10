@@ -72,6 +72,14 @@ void Guzai::ChangeGuzai(int num)
 		m_skinModelRender->SetScale(m_scale);
 		NowModelPath = "Assets/modelData/food/tomato.tkm";
 		break;
+	case 5:
+		m_skinModelRender->ChangeModel("Assets/modelData/food/onion.tkm");
+		NowModelPath = "Assets/modelData/food/onion.tkm";
+		break;
+	case 6:
+		m_skinModelRender->ChangeModel("Assets/modelData/food/bacon.tkm");
+		NowModelPath = "Assets/modelData/food/bacon.tkm";
+		break;
 	}
 	
 	m_skinModelRender->SetNewModel();
@@ -95,6 +103,12 @@ void Guzai::ChangeModel(int& num)
 		break;
 	case 4:
 		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato_kitchen.tkm");
+		break;
+	case 5:
+		m_skinModelRender->ChangeModel("Assets/modelData/food/onion_kitchen.tkm");
+		break;
+	case 6:
+		m_skinModelRender->ChangeModel("Assets/modelData/food/bacon_kitchen.tkm");
 		break;
 	default:
 		break;
@@ -136,7 +150,9 @@ bool Guzai::Start()
 
 	std::random_device rnd;
 	std::mt19937 mt(rnd());
-	std::uniform_int_distribution<int> rand(0, 4);
+	//‹ïŞ‚ğ’Ç‰Á‚µ‚½‚Ì‚Å—”‚ªo—Í‚·‚é’l‚ğ•ÏX
+	//std::uniform_int_distribution<int> rand(0, 4);
+	std::uniform_int_distribution<int> rand(0, 6);
 
 	TypeNo = rand(mt);
 
@@ -173,7 +189,17 @@ bool Guzai::Start()
 		m_skinModelRender->SetScale(m_scale);
 		NowModelPath = "Assets/modelData/food/tomato.tkm";
 		break;
+	case 5:
+		m_skinModelRender->ChangeModel("Assets/modelData/food/onion.tkm");
+		NowModelPath = "Assets/modelData/food/onion.tkm";
+		break;
+	case 6:
+		m_skinModelRender->ChangeModel("Assets/modelData/food/bacon.tkm");
+		NowModelPath = "Assets/modelData/food/bacon.tkm";
+		break;
+
 	}
+
 
 	m_skinModelRender->SetNewModel();
 
