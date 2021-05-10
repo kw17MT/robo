@@ -13,6 +13,7 @@ class GuzaiOkiba : public IGameObject
 {
 private:
 	Vector3 m_kitchenPos[8];					//具材置き場の座標
+	Vector3 m_kitchenScale = { 0.2f,0.2f,0.2f };
 	int m_kitchenNo;							//具材置き場の番号
 	Vector3 m_playerPos[2];						//プレイヤーの座標
 	float m_distance[8];						//プレイヤーと具材置き場の距離
@@ -60,6 +61,7 @@ public:
 	Player* pl02 = nullptr;
 	Guzai* guzai = nullptr;
 	Kitchen* stock[8];
+	SkinModelRender* m_kitchenRender[8];
 	SkinModelRender* m_guzaiRender01;		//1Pがターゲット中にアクセス可能な具材置き場に出すモデル
 	SkinModelRender* m_guzaiRender02;		//2Pがターゲット中にアクセス可能な具材置き場に出すモデル
 };
