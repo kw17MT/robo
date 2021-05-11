@@ -298,6 +298,7 @@
     <ClCompile Include="DishSpeedManeger.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="FixedUI.cpp" />
+    <ClCompile Include="Floor.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameDirector.cpp" />
@@ -418,6 +419,7 @@
     <ClInclude Include="DishSpeedManeger.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="FixedUI.h" />
+    <ClInclude Include="Floor.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameDirector.h" />

@@ -24,10 +24,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	CSoundEngine::CreateInstance();
 	CSoundEngine::GetInstance()->Init();
 
-	/*EffectEngine::CreateInstance();
-	Effect laserEffect;
-	laserEffect.Init(u"Assets/effect/laser.efk");*/
-	/*laserEffect.Play();
+	//EffectEngine::CreateInstance();
+	/*Effect laserEffect;
+	laserEffect.Init(u"Assets/effect/laser.efk");
+	laserEffect.Play();
 	laserEffect.Update();*/
 
 	//一緒くたにしないと両方のライトの影響を受けなくなる。////////////////////////////////
@@ -41,8 +41,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//プレイヤー、文字、オブジェクトなどの生成////////////////////////////////////////////
-	//NewGO<Game>(0, "game");
-	NewGO<Title>(0, "title");
+	NewGO<Game>(0, "game");
+	//NewGO<Title>(0, "title");
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	
@@ -194,6 +194,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		//EffectEngine::GetInstance()->Update(0.01f/*g_gameTime->GetFrameDeltaTime()*/);
 		//EffectEngine::GetInstance()->Draw();
+
+
+
+
+
+
+
+
+
 
 		/*renderContext.WaitUntilToPossibleSetRenderTarget(shadowMap);
 		renderContext.SetRenderTargetAndViewport(shadowMap);

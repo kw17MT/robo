@@ -12,18 +12,23 @@ Kitchen::Kitchen()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/object/kitchen.tkm", nullptr, enModelUpAxisZ, m_position);
-	Vector3 scale = { 0.2f,0.2f,0.2f };
-	m_skinModelRender->SetScale(scale);
+	m_scale = { 0.3f,0.3f,0.3f };
+	m_skinModelRender->SetScale(m_scale);
 
 	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 
+}
+
+void Kitchen::ChangeModel(const char* filePath)
+{
+	m_skinModelRender->Init(filePath, nullptr, enModelUpAxisZ, m_position);
 }
 
 //具材の位置をキッチンの上に設定する
 void Kitchen::Stack(int num)
 {
 	if (KitchenNo == 1) {
-		/*ModelRender*/Player* pl01 = FindGO<Player/*ModelRender*/>("player01");
+		Player* pl01 = FindGO<Player>("player01");
 		
 		//下のif文でスタックが完了したかの状態を変更後、次フレームで実行できるように上に置いている。
 		if (isCompletedStack == true) {
@@ -203,16 +208,16 @@ void Kitchen::Update()
 	//Guzaicppでキッチンの場所が上がっていくため機能していない。
 
 	if (nextStackNum >= MaxStack && KitchenNo == 1) {
-		/*ModelRender*/Player* pl01 = FindGO<Player/*ModelRender*/>("player01");
+		Player* pl01 = FindGO<Player>("player01");
 		pl01->have = 1;
 	}
 	if (nextStackNum >= MaxStack && KitchenNo == 2) {
-		/*ModelRender*/Player* pl02 = FindGO</*ModelRender*/Player>("player02");
+		Player* pl02 = FindGO<Player>("player02");
 		pl02->have = 1;
 	}
 
 	BornBurger();
 
 	m_skinModelRender->SetPosition(m_kitchenPos);
-	//model.UpdateWorldMatrix(m_charaCon.GetPosition(), g_quatIdentity, g_vec3One);
+	m_skinModelRender->SetScale(m_scale);
 }
