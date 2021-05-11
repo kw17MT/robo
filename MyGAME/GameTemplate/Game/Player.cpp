@@ -109,8 +109,8 @@ void Player::RestrictPos()
 		if (m_position.z > 200) {
 			m_position.z = 200;
 		}
-		if (m_position.z < -550) {
-			m_position.z = -550;
+		if (m_position.z < -570) {
+			m_position.z = -570;
 		}
 	}
 	if (playerNo == 2) {
@@ -123,8 +123,8 @@ void Player::RestrictPos()
 		if (m_position.z > 200) {
 			m_position.z = 200;
 		}
-		if (m_position.z < -550) {
-			m_position.z = -550;
+		if (m_position.z < -570) {
+			m_position.z = -570;
 		}
 	}
 

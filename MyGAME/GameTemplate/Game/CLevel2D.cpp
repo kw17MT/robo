@@ -49,10 +49,8 @@ bool CLevel2D::Start()
 	//レベルを読み込む。
 	//一番左が配列の3番目の要素、右が1番目の要素
 	
-	m_level2D.Init("Assets/level2D/level2D_new.casl", [&](Level2DObjectData& objdata) { 
-		if (objdata.EqualObjectName("burger_cheese_new")) {
-			//右側に出る（2p用）
-			
+	m_level2D.Init("Assets/level2D/level2D_add.casl", [&](Level2DObjectData& objdata) { 
+		if (objdata.EqualObjectName("burger_cheese")) {
 			//SpriteInitData data;
 			////DDSファイル(画像データ)のファイルパスを指定する。
 			//data.m_ddsFilePath[0] = objdata.ddsFilePath;
@@ -100,6 +98,86 @@ bool CLevel2D::Start()
 
 			return true;
 		}
+		if (objdata.EqualObjectName("burger_basic")) {
+			/*sprite[2] = NewGO<SpriteRender>(2);
+			sprite[2]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
+			sprite[2]->SetScale(objdata.scale);*/
+			//sprite[2]->SetPosition(objdata.position);
+			//m_spritePositions[2] = objdata.position;
+			m_level2DObjectDatas[enBasicBurger] = objdata;
+
+			return true;
+		}
+		if (objdata.EqualObjectName("burger_double")) {
+			/*sprite[2] = NewGO<SpriteRender>(2);
+			sprite[2]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
+			sprite[2]->SetScale(objdata.scale);*/
+			//sprite[2]->SetPosition(objdata.position);
+			//m_spritePositions[2] = objdata.position;
+			m_level2DObjectDatas[enDoubleBurger] = objdata;
+
+			return true;
+		}
+		if (objdata.EqualObjectName("burger_vegetable")) {
+			/*sprite[2] = NewGO<SpriteRender>(2);
+			sprite[2]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
+			sprite[2]->SetScale(objdata.scale);*/
+			//sprite[2]->SetPosition(objdata.position);
+			//m_spritePositions[2] = objdata.position;
+			m_level2DObjectDatas[enVegetableBurger] = objdata;
+
+			return true;
+		}
+		if (objdata.EqualObjectName("burger_bacon")) {
+			/*sprite[2] = NewGO<SpriteRender>(2);
+			sprite[2]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
+			sprite[2]->SetScale(objdata.scale);*/
+			//sprite[2]->SetPosition(objdata.position);
+			//m_spritePositions[2] = objdata.position;
+			m_level2DObjectDatas[enBaconBurger] = objdata;
+
+			return true;
+		}
+		if (objdata.EqualObjectName("burger_blt")) {
+			/*sprite[2] = NewGO<SpriteRender>(2);
+			sprite[2]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
+			sprite[2]->SetScale(objdata.scale);*/
+			//sprite[2]->SetPosition(objdata.position);
+			//m_spritePositions[2] = objdata.position;
+			m_level2DObjectDatas[enBLTBurger] = objdata;
+
+			return true;
+		}
+		if (objdata.EqualObjectName("burger_onion")) {
+			/*sprite[2] = NewGO<SpriteRender>(2);
+			sprite[2]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
+			sprite[2]->SetScale(objdata.scale);*/
+			//sprite[2]->SetPosition(objdata.position);
+			//m_spritePositions[2] = objdata.position;
+			m_level2DObjectDatas[enOnionBurger] = objdata;
+
+			return true;
+		}
+		if (objdata.EqualObjectName("burger_high_cal")) {
+			/*sprite[2] = NewGO<SpriteRender>(2);
+			sprite[2]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
+			sprite[2]->SetScale(objdata.scale);*/
+			//sprite[2]->SetPosition(objdata.position);
+			//m_spritePositions[2] = objdata.position;
+			m_level2DObjectDatas[enHighcalBurger] = objdata;
+
+			return true;
+		}
+		if (objdata.EqualObjectName("burger_on_onion")) {
+			/*sprite[2] = NewGO<SpriteRender>(2);
+			sprite[2]->Init(objdata.ddsFilePath, objdata.width / 2, objdata.height / 2);
+			sprite[2]->SetScale(objdata.scale);*/
+			//sprite[2]->SetPosition(objdata.position);
+			//m_spritePositions[2] = objdata.position;
+			m_level2DObjectDatas[enOnOnionBurger] = objdata;
+
+			return true;
+		}
 		else{
 			//return falseにすると、
 			//Level2DクラスのSpriteで画像が読み込まれます。
@@ -110,11 +188,27 @@ bool CLevel2D::Start()
 	sprite[0] = nullptr;
 	sprite[1] = nullptr;
 	sprite[2] = nullptr;
-	
+	sprite[3] = nullptr;
+	sprite[4] = nullptr;
+	sprite[5] = nullptr;
+	sprite[6] = nullptr;
+	sprite[7] = nullptr;
+	sprite[8] = nullptr;
+	sprite[9] = nullptr;
+	sprite[10] = nullptr;
 
 	m_showHamBurgers[0] = enCheeseBurger;
 	m_showHamBurgers[1] = enTomatoBurger;
 	m_showHamBurgers[2] = enEggBurger;
+	m_showHamBurgers[3] = enBasicBurger;
+	m_showHamBurgers[4] = enDoubleBurger;
+	m_showHamBurgers[5] = enVegetableBurger;
+	m_showHamBurgers[6] = enBaconBurger;
+	m_showHamBurgers[7] = enBLTBurger;
+	m_showHamBurgers[8] = enOnionBurger;
+	m_showHamBurgers[9] = enHighcalBurger;
+	m_showHamBurgers[10] = enOnOnionBurger;
+
 	ShowHamBurger(0, m_showHamBurgers[0]);
 	ShowHamBurger(1, m_showHamBurgers[1]);
 	ShowHamBurger(2, m_showHamBurgers[2]);

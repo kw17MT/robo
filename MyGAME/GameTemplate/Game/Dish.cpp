@@ -15,12 +15,12 @@ namespace
 bool Dish::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init("Assets/modelData/dish/dish.tkm", nullptr, enModelUpAxisZ, m_position);
-	m_scale = { 0.6f,0.6f,0.6f };
+	m_skinModelRender->Init("Assets/modelData/object/dish.tkm", nullptr, enModelUpAxisZ, m_position);
+	m_scale = { 1.0f,1.0f,1.0f };
 	m_skinModelRender->SetScale(m_scale);
 	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	//SetScale({ 1.0f,0.2f,1.0f });
+
 
 	playerGene = FindGO<PlayerGene>("playerGene");
 	m_speedManeger = FindGO<DishSpeedManeger>("speedManeger");
