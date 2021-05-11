@@ -1,5 +1,7 @@
 #pragma once
 class SkinModelRender;
+class TrashCan;
+class Player;
 
 class Burger : public IGameObject
 {
@@ -8,6 +10,9 @@ private:
 
 	//どちらに流れているバーガーか
 	int BurgerNo = 0;
+	bool isSetOnTrashCan = false;
+
+	int decrementTime = 20;
 	
 	Vector3 pos;
 
@@ -32,6 +37,8 @@ public:
 	void SetPosition(Vector3 pos) { m_position = pos;/*m_charaCon.SetPosition(pos);*/ }
 	//バーガーはどちら側のか...１、左　２、右
 	void SetBurgerNo(int num) { BurgerNo = num; }
+	//ゴミ箱にセットして消す
+	void SetOnTrashCan();
 
 	//ボタン長押しでバーガーを消すようにするため。
 	int DeleteTimer = 0;
@@ -43,5 +50,7 @@ public:
 	Vector3 CounterPos = { 900.0f, 100.0f, -400.0f };
 
 	SkinModelRender* m_skinModelRender;
+	Player* m_player[2];
+	TrashCan* m_trashCan[2];
 };
 

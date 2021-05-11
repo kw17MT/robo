@@ -12,6 +12,7 @@ private:
 	CharacterController m_charaCon;*/
 	Vector3 m_position = Vector3::Zero;
 	Vector3 m_kitchenPos;
+	Vector3 m_scale = Vector3::One;
 
 	//どっち側のキッチンか
 	int KitchenNo = 0;
@@ -55,6 +56,10 @@ public:
 	//具材を消す時に、プレイヤーに格納されている種類No.を９で初期化する。
 	//この関数は具材を消す前に使うこと。
 	void ClearNo();
+	//キッチンのモデルを変更する
+	void ChangeModel(const char* modelPath);
+	//拡大率を変更する
+	void SetScale(Vector3 scale) { m_scale = scale; }
 
 	//void Render(RenderContext& rc) { model.Draw(rc); }
 

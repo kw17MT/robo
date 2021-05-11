@@ -20,7 +20,7 @@ bool Dish::Start()
 	m_skinModelRender->SetScale(m_scale);
 	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	//SetScale({ 1.0f,0.2f,1.0f });
+
 
 	playerGene = FindGO<PlayerGene>("playerGene");
 	m_speedManeger = FindGO<DishSpeedManeger>("speedManeger");

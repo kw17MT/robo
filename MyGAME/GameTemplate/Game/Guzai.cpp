@@ -4,7 +4,6 @@
 #include "Kitchen.h"
 #include "GuzaiGene.h"
 #include "GuzaiOkiba.h"
-//#include "PathMove.h"
 #include "SkinModelRender.h"
 #include "Player.h"
 #include "PlayerGene.h"
@@ -104,31 +103,17 @@ void Guzai::ChangeModel(int& num)
 		break;
 	case 5:
 		m_skinModelRender->ChangeModel("Assets/modelData/food/onion_kitchen.tkm");
+		NowModelPath = "Assets/modelData/food/onion_kitchen.tkm";
 		break;
 	case 6:
 		m_skinModelRender->ChangeModel("Assets/modelData/food/bacon_kitchen.tkm");
+		NowModelPath = "Assets/modelData/food/bacon_kitchen.tkm";
 		break;
 	default:
 		break;
 	}
 	
 	m_skinModelRender->SetNewModel();
-	
-}
-
-void Guzai::Move()
-{
-	////持たれていない　且つ　一度も置かれていない
-	//if (state == 0 && put == 0) {
-	//	//移動させる。
-	//	SetPosition(m_pathMove.get()->Move());
-	//	//最後のポイントまで到達したら。
-	//	if (m_pathMove.get()->GetIsFinalPoint())
-	//	{
-	//		////削除する。
-	//		//DeleteGO(this);
-	//	}
-	//}
 }
 
 bool Guzai::Start()
@@ -202,7 +187,7 @@ void Guzai::GrabNPut()
 	
 	//Aボタンを押したとき、プレイヤーは何も持っていない　一定距離より近い位置にいる。
 	if (g_pad[0]->IsTrigger(enButtonA)) {
-		if (pl01->have == 0 && guzai2Pl01 < 150.0f && targeted == true) {
+		if (pl01->have == 0 && guzai2Pl01 < 150.0f && targeted == true && put == 0) {
 			GetGuzaiOkiba();
 			state = 1;
 			pl01->have = 1;
@@ -214,7 +199,7 @@ void Guzai::GrabNPut()
 		}
 	}
 	if (g_pad[1]->IsTrigger(enButtonA)) {
-		if (pl02->have == 0 && guzai2Pl02 < 150.0f && targeted == true) {
+		if (pl02->have == 0 && guzai2Pl02 < 150.0f && targeted == true && put == 0) {
 			GetGuzaiOkiba();
 			state = 1;
 			pl02->have = 1;
@@ -323,12 +308,12 @@ void Guzai::TargetingNPopDummy()
 {
 		//具材との距離が一定以下　で　プレイヤーは何もロックしていなかったら。
 		//近くの具材をターゲットし、プレイヤーのターゲット状態をTRUEに。
-		if (guzai2Pl01 < TargetRangeNear && pl01->GetTargetState() == false && !targeted) {
+		if (guzai2Pl01 < TargetRangeNear && pl01->GetTargetState() == false && !targeted && put == 0) {
 			whichPlayerTargetMe = 1;
 			targeted = true;
 			pl01->SetTarget(targeted);
 		}
-		if (guzai2Pl02 < TargetRangeNear && pl02->GetTargetState() == false && !targeted) {
+		if (guzai2Pl02 < TargetRangeNear && pl02->GetTargetState() == false && !targeted && put == 0) {
 			whichPlayerTargetMe = 2;
 			targeted = true;
 			pl02->SetTarget(targeted);
@@ -340,21 +325,21 @@ void Guzai::TargetingNPopDummy()
 			if (whichPlayerTargetMe == 1) {
 				SkinModelRender* targetDummyOnGuzai01 = NewGO<SkinModelRender>(1, "targetdummy01");
 				targetDummyOnGuzai01->Init(NowModelPath, nullptr, enModelUpAxisZ, m_position);
-				targetDummyOnGuzai01->InitShader("Assets/shader/model.fx", "VSMain", "FrontCulling", DXGI_FORMAT_R32G32B32A32_FLOAT);
-				//targetdummyOnGuzai01->modeldata.m_psEntryPointFunc = "FrontCulling";
+				targetDummyOnGuzai01->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				targetDummyOnGuzai01->SetFrontCulling("FrontCulling");
 				targetDummyOnGuzai01->SetPosition(m_position);
 				m_scale.x += 0.3f; m_scale.y += 0.3f; m_scale.z += 0.3f;
-				targetDummyOnGuzai01->SetScale(m_scale/*{ 1.3f,1.3f,1.3f }*/);
+				targetDummyOnGuzai01->SetScale(m_scale);
 				isSetTargetDummy = true;
 			}
 			if (whichPlayerTargetMe == 2) {
 				SkinModelRender* targetDummyOnGuzai02 = NewGO<SkinModelRender>(1, "targetdummy02");
 				targetDummyOnGuzai02->Init(NowModelPath, nullptr, enModelUpAxisZ, m_position);
-				targetDummyOnGuzai02->InitShader("Assets/shader/model.fx", "VSMain", "FrontCulling", DXGI_FORMAT_R32G32B32A32_FLOAT);
-				//targetdummyOnGuzai02->modeldata.m_psEntryPointFunc = "FrontCulling";
+				targetDummyOnGuzai02->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				targetDummyOnGuzai02->SetFrontCulling("FrontCulling");
 				targetDummyOnGuzai02->SetPosition(m_position);
 				m_scale.x += 0.3f; m_scale.y += 0.3f; m_scale.z += 0.3f;
-				targetDummyOnGuzai02->SetScale({ m_scale/*1.3f,1.3f,1.3f*/ });
+				targetDummyOnGuzai02->SetScale({ m_scale });
 				isSetTargetDummy = true;
 			}
 		}
@@ -401,7 +386,7 @@ void Guzai::SetGuzaiOkiba()
 	//1P側の処理
 
 	//具材がプレイヤーに持たれているときに、Bボタンが押されたら…
-	if (g_pad[0]->IsTrigger(enButtonB) && state == 1) {
+	if (g_pad[0]->IsTrigger(enButtonB) && state == 1 && whichPlayerGet == 1) {
 
 		//1P側の具材置き場の番号は4～7なので、その範囲で調べる。
 		for (int i = 4; i < 8; i++) {
@@ -413,7 +398,7 @@ void Guzai::SetGuzaiOkiba()
 				m_guzaiOkiba->GuzaiSet(i, true);
 				m_position = m_guzaiOkiba->GetKitchenPos(i);
 				if (m_cooking == true) {
-					m_position.y += 50.0f;
+					m_position.y += 60.0f;
 				}
 				m_guzaiOkibaSet = true;
 				m_setKitchenNum = i;
@@ -428,7 +413,7 @@ void Guzai::SetGuzaiOkiba()
 		}
 	}
 	//2P側の処理 1Pとほぼ同じ
-	if (g_pad[1]->IsTrigger(enButtonB) && state == 1) {
+	if (g_pad[1]->IsTrigger(enButtonB) && state == 1 && whichPlayerGet == 2) {
 		//2P側の具材置き場の番号は0～4なので、その範囲で調べる。
 		for (int i = 0; i < 4; i++) {
 			
@@ -437,7 +422,7 @@ void Guzai::SetGuzaiOkiba()
 				m_guzaiOkiba->GuzaiSet(i, true);
 				m_position = m_guzaiOkiba->GetKitchenPos(i);
 				if (m_cooking == true) {
-					m_position.y += 50.0f;
+					m_position.y += 60.0f;
 				}
 			
 				m_guzaiOkibaSet = true;
@@ -591,12 +576,14 @@ void Guzai::Update()
 	kit2Pl02 = (kitchen02Pos.x - plPos02.x) * (kitchen02Pos.x - plPos02.x) + (kitchen02Pos.y - plPos02.y) * (kitchen02Pos.y - plPos02.y) + (kitchen02Pos.z - plPos02.z) * (kitchen02Pos.z - plPos02.z);
 	kit2Pl02 = sqrt(kit2Pl02);
 
-	
+	//トマトとオニオン以外は調理しないでよい。
+	if (TypeNo != 4 && TypeNo != 5) {
+		m_cooking = true;
+	}
+
 	TargetingNPopDummy();
 
 	GrabNPut();
-
-	Move();
 
 	SetGuzaiOkiba();
 
@@ -612,13 +599,19 @@ void Guzai::Update()
 				//調理後のチーズのみ、そのままだとダミーを出したときモデルが重なってしまうので少しだけy座標を上げる。
 				if (m_cooking == true && TypeNo == 0) {
 					Vector3 SetPos = m_position;
-					SetPos.y += 20.0f;
+					SetPos.y += 60.0f;
+					targetDummy01->SetPosition(SetPos);
+				}
+				//具材置き場置いてあるときはダミーの位置も上げる
+				else if (m_guzaiOkibaSet == true) {
+					Vector3 SetPos = m_position;
+					SetPos.y += 50.0f;
 					targetDummy01->SetPosition(SetPos);
 				}
 				else {
 					targetDummy01->SetPosition(m_position);
 				}
-				
+
 			}
 		}
 		if (whichPlayerTargetMe == 2) {
@@ -626,7 +619,12 @@ void Guzai::Update()
 			if (targetDummy02 != nullptr) {
 				if (m_cooking == true && TypeNo == 0) {
 					Vector3 SetPos = m_position;
-					SetPos.y += 20.0f;
+					SetPos.y += 55.0f;
+					targetDummy02->SetPosition(SetPos);
+				}
+				else if(m_guzaiOkibaSet == true){
+					Vector3 SetPos = m_position;
+					SetPos.y += 50.0f;
 					targetDummy02->SetPosition(SetPos);
 				}
 				else {
@@ -638,7 +636,7 @@ void Guzai::Update()
 
 	//キッチンに載ってるときちょっと回してみた
 	if (put == 1) {
-		
+
 		//回転処理
 		angle += 2.0f;
 		if (angle > 360.0f) {
@@ -648,6 +646,16 @@ void Guzai::Update()
 
 	}
 
+
 	m_skinModelRender->SetRotation(m_rotation);
-	m_skinModelRender->SetPosition(m_position);
+
+	//具材置き場に置かれているときの位置調整
+	if (m_guzaiOkibaSet == true) {
+		Vector3 SetPos = m_position;
+		SetPos.y += 50.0f;
+		m_skinModelRender->SetPosition(SetPos);
+	}
+	else {
+		m_skinModelRender->SetPosition(m_position);
+	}
 }

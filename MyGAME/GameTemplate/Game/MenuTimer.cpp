@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MenuTimer.h"
 #include "SkinModelRender.h"
+#include "GameDirector.h"
 
 bool MenuTimer::Start()
 {
@@ -21,7 +22,17 @@ void MenuTimer::ResetTimerParam()
 
 void MenuTimer::Update()
 {
-	m_scale.x -= 0.003f;
+	m_skinModelRender->SetScale(m_scale);
+	m_skinModelRender->SetRotation(m_rot);
+	m_skinModelRender->SetPosition(m_position);
+
+	if (GetGameDirector().GetIsGameCountDown())
+	{
+		//èàóùÇµÇ»Ç¢ÅB
+		return;
+	}
+
+	m_scale.x -= 0.001f;
 	timer--;
 	if (m_scale.x <= 0.0f) {
 		timer = 1000;
@@ -29,8 +40,4 @@ void MenuTimer::Update()
 
 		isTimeUp = true;
 	}
-	
-	m_skinModelRender->SetScale(m_scale);
-	m_skinModelRender->SetRotation(m_rot);
-	m_skinModelRender->SetPosition(m_position);
 }

@@ -28,8 +28,8 @@ bool Player::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init(
-		"Assets/modelData/unityChan.tkm",
-		"Assets/modelData/unityChan.tks",
+		"Assets/modelData/Chef/Chef01.tkm",
+		"Assets/modelData/Chef/Chef_1.tks",
 		enModelUpAxisZ,
 		m_position
 	);
@@ -41,6 +41,8 @@ bool Player::Start()
 		DXGI_FORMAT_R32G32B32A32_FLOAT
 	);
 
+	m_scale = { 0.3f,0.3f,0.3f };
+	m_skinModelRender->SetScale(m_scale);
 	//ここでアニメーションのロードを行う
 	animationClips[enAnimation_Idle].Load("Assets/animData/idle.tka");
 	/*animationClips[enAnimation_Run].Load("");
@@ -261,6 +263,8 @@ void Player::Update()
 	//	m_popUp->SetEnState(enNearFood);
 	//	m_popUp->ChangeModel();
 	//}
+
+	m_skinModelRender->SetScale(m_scale);
 
 	//ポップアップ用座標設定
 	Vector3 playerToPopUp = { 200.0f,100.0f,0.0f };

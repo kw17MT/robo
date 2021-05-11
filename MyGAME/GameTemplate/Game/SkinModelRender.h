@@ -36,6 +36,8 @@ public:
 	void ChangeModel(const char* newModelFilePath);
 	//シェーダーのファイルパスと
 	void InitShader(const char* filePath, const char* entryPointPath, const char* skinEntryPointPath, DXGI_FORMAT colorBuffer);
+	//主にフロントカリングに変えるときに使用する
+	void SetFrontCulling(const char* psEntryPoint) { m_modelInitData.m_psEntryPointFunc = psEntryPoint; }
 	//影響を受けるライトの種類の変更。
 	void InitLight(Light light);
 	//影を落とす背景用の初期化関数

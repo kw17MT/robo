@@ -8,7 +8,7 @@ class TrashCan : public IGameObject
 private:
 	Vector3 m_position = Vector3::Zero;
 	Vector3 m_targetPos = Vector3::Zero;
-	Vector3 m_trashcanScale = { 0.2f,0.2f,0.2f };
+	Vector3 m_trashcanScale = { 1.0f,1.0f,1.0f };
 	Vector3 m_targetScale = Vector3::Zero;
 	Quaternion m_rot = Quaternion::Identity;
 	const float distance = 150.0f;									//ゴミ箱がプレイヤーを識別する距離

@@ -20,7 +20,7 @@ struct Light
 	float pad1;
 	Vector3 eyePos;
 	float specPow = 0.5f;
-	Vector3 ambientLight = { 0.4f, 0.4f, 0.4f };
+	Vector3 ambientLight = { 0.6f, 0.6f, 0.6f };
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	////Point
