@@ -104,9 +104,11 @@ void Guzai::ChangeModel(int& num)
 		break;
 	case 5:
 		m_skinModelRender->ChangeModel("Assets/modelData/food/onion_kitchen.tkm");
+		NowModelPath = "Assets/modelData/food/onion_kitchen.tkm";
 		break;
 	case 6:
 		m_skinModelRender->ChangeModel("Assets/modelData/food/bacon_kitchen.tkm");
+		NowModelPath = "Assets/modelData/food/bacon_kitchen.tkm";
 		break;
 	default:
 		break;
@@ -401,7 +403,7 @@ void Guzai::SetGuzaiOkiba()
 	//1P側の処理
 
 	//具材がプレイヤーに持たれているときに、Bボタンが押されたら…
-	if (g_pad[0]->IsTrigger(enButtonB) && state == 1) {
+	if (g_pad[0]->IsTrigger(enButtonB) && state == 1 && whichPlayerGet == 1) {
 
 		//1P側の具材置き場の番号は4～7なので、その範囲で調べる。
 		for (int i = 4; i < 8; i++) {
@@ -428,7 +430,7 @@ void Guzai::SetGuzaiOkiba()
 		}
 	}
 	//2P側の処理 1Pとほぼ同じ
-	if (g_pad[1]->IsTrigger(enButtonB) && state == 1) {
+	if (g_pad[1]->IsTrigger(enButtonB) && state == 1 && whichPlayerGet == 2) {
 		//2P側の具材置き場の番号は0～4なので、その範囲で調べる。
 		for (int i = 0; i < 4; i++) {
 			
