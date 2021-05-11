@@ -597,13 +597,14 @@ void Guzai::Update()
 			SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
 			if (targetDummy01 != nullptr) {
 				//調理後のチーズのみ、そのままだとダミーを出したときモデルが重なってしまうので少しだけy座標を上げる。
-				if (m_cooking == true && TypeNo == 0) {
-					Vector3 SetPos = m_position;
-					SetPos.y += 60.0f;
-					targetDummy01->SetPosition(SetPos);
-				}
+				//if (m_cooking == true && TypeNo == 0) {
+				//	Vector3 SetPos = m_position;
+				//	SetPos.y += 60.0f;
+				//	targetDummy01->SetPosition(SetPos);
+				//}
+
 				//具材置き場置いてあるときはダミーの位置も上げる
-				else if (m_guzaiOkibaSet == true) {
+				if (m_guzaiOkibaSet == true) {
 					Vector3 SetPos = m_position;
 					SetPos.y += 50.0f;
 					targetDummy01->SetPosition(SetPos);
@@ -617,12 +618,12 @@ void Guzai::Update()
 		if (whichPlayerTargetMe == 2) {
 			SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
 			if (targetDummy02 != nullptr) {
-				if (m_cooking == true && TypeNo == 0) {
+				/*if (m_cooking == true && TypeNo == 0) {
 					Vector3 SetPos = m_position;
 					SetPos.y += 55.0f;
 					targetDummy02->SetPosition(SetPos);
-				}
-				else if(m_guzaiOkibaSet == true){
+				}*/
+				if(m_guzaiOkibaSet == true){
 					Vector3 SetPos = m_position;
 					SetPos.y += 50.0f;
 					targetDummy02->SetPosition(SetPos);
