@@ -340,21 +340,21 @@ void Guzai::TargetingNPopDummy()
 			if (whichPlayerTargetMe == 1) {
 				SkinModelRender* targetDummyOnGuzai01 = NewGO<SkinModelRender>(1, "targetdummy01");
 				targetDummyOnGuzai01->Init(NowModelPath, nullptr, enModelUpAxisZ, m_position);
-				targetDummyOnGuzai01->InitShader("Assets/shader/model.fx", "VSMain", "FrontCulling", DXGI_FORMAT_R32G32B32A32_FLOAT);
-				//targetdummyOnGuzai01->modeldata.m_psEntryPointFunc = "FrontCulling";
+				targetDummyOnGuzai01->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				targetDummyOnGuzai01->SetFrontCulling("FrontCulling");
 				targetDummyOnGuzai01->SetPosition(m_position);
 				m_scale.x += 0.3f; m_scale.y += 0.3f; m_scale.z += 0.3f;
-				targetDummyOnGuzai01->SetScale(m_scale/*{ 1.3f,1.3f,1.3f }*/);
+				targetDummyOnGuzai01->SetScale(m_scale);
 				isSetTargetDummy = true;
 			}
 			if (whichPlayerTargetMe == 2) {
 				SkinModelRender* targetDummyOnGuzai02 = NewGO<SkinModelRender>(1, "targetdummy02");
 				targetDummyOnGuzai02->Init(NowModelPath, nullptr, enModelUpAxisZ, m_position);
-				targetDummyOnGuzai02->InitShader("Assets/shader/model.fx", "VSMain", "FrontCulling", DXGI_FORMAT_R32G32B32A32_FLOAT);
-				//targetdummyOnGuzai02->modeldata.m_psEntryPointFunc = "FrontCulling";
+				targetDummyOnGuzai02->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				targetDummyOnGuzai02->SetFrontCulling("FrontCulling");
 				targetDummyOnGuzai02->SetPosition(m_position);
 				m_scale.x += 0.3f; m_scale.y += 0.3f; m_scale.z += 0.3f;
-				targetDummyOnGuzai02->SetScale({ m_scale/*1.3f,1.3f,1.3f*/ });
+				targetDummyOnGuzai02->SetScale({ m_scale });
 				isSetTargetDummy = true;
 			}
 		}
