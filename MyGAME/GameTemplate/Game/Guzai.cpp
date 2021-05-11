@@ -415,7 +415,7 @@ void Guzai::SetGuzaiOkiba()
 				m_guzaiOkiba->GuzaiSet(i, true);
 				m_position = m_guzaiOkiba->GetKitchenPos(i);
 				if (m_cooking == true) {
-					m_position.y += 50.0f;
+					m_position.y += 60.0f;
 				}
 				m_guzaiOkibaSet = true;
 				m_setKitchenNum = i;
@@ -439,7 +439,7 @@ void Guzai::SetGuzaiOkiba()
 				m_guzaiOkiba->GuzaiSet(i, true);
 				m_position = m_guzaiOkiba->GetKitchenPos(i);
 				if (m_cooking == true) {
-					m_position.y += 50.0f;
+					m_position.y += 60.0f;
 				}
 			
 				m_guzaiOkibaSet = true;
@@ -593,7 +593,11 @@ void Guzai::Update()
 	kit2Pl02 = (kitchen02Pos.x - plPos02.x) * (kitchen02Pos.x - plPos02.x) + (kitchen02Pos.y - plPos02.y) * (kitchen02Pos.y - plPos02.y) + (kitchen02Pos.z - plPos02.z) * (kitchen02Pos.z - plPos02.z);
 	kit2Pl02 = sqrt(kit2Pl02);
 
-	
+	//トマトとオニオン以外は調理しないでよい。
+	if (TypeNo != 4 && TypeNo != 5) {
+		m_cooking = true;
+	}
+
 	TargetingNPopDummy();
 
 	GrabNPut();
@@ -614,13 +618,19 @@ void Guzai::Update()
 				//調理後のチーズのみ、そのままだとダミーを出したときモデルが重なってしまうので少しだけy座標を上げる。
 				if (m_cooking == true && TypeNo == 0) {
 					Vector3 SetPos = m_position;
-					SetPos.y += 20.0f;
+					SetPos.y += 60.0f;
+					targetDummy01->SetPosition(SetPos);
+				}
+				//具材置き場置いてあるときはダミーの位置も上げる
+				else if (m_guzaiOkibaSet == true) {
+					Vector3 SetPos = m_position;
+					SetPos.y += 50.0f;
 					targetDummy01->SetPosition(SetPos);
 				}
 				else {
 					targetDummy01->SetPosition(m_position);
 				}
-				
+
 			}
 		}
 		if (whichPlayerTargetMe == 2) {
@@ -628,7 +638,12 @@ void Guzai::Update()
 			if (targetDummy02 != nullptr) {
 				if (m_cooking == true && TypeNo == 0) {
 					Vector3 SetPos = m_position;
-					SetPos.y += 20.0f;
+					SetPos.y += 55.0f;
+					targetDummy02->SetPosition(SetPos);
+				}
+				else if(m_guzaiOkibaSet == true){
+					Vector3 SetPos = m_position;
+					SetPos.y += 50.0f;
 					targetDummy02->SetPosition(SetPos);
 				}
 				else {
@@ -640,7 +655,7 @@ void Guzai::Update()
 
 	//キッチンに載ってるときちょっと回してみた
 	if (put == 1) {
-		
+
 		//回転処理
 		angle += 2.0f;
 		if (angle > 360.0f) {
@@ -650,6 +665,16 @@ void Guzai::Update()
 
 	}
 
+
 	m_skinModelRender->SetRotation(m_rotation);
-	m_skinModelRender->SetPosition(m_position);
+
+	//具材置き場に置かれているときの位置調整
+	if (m_guzaiOkibaSet == true) {
+		Vector3 SetPos = m_position;
+		SetPos.y += 50.0f;
+		m_skinModelRender->SetPosition(SetPos);
+	}
+	else {
+		m_skinModelRender->SetPosition(m_position);
+	}
 }
