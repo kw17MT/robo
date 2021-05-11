@@ -185,26 +185,28 @@ void Counter::Delete()
 				}
 			}
 
-			//置いたら30フレーム後に消去
-			if (bu01->putOnKitchen == 1) {
-				Delay++;
-				CounterPos01.y += 100.0f;
-				bu01->SetPosition(CounterPos01);
+			if (bu01 != nullptr) {
+				//置いたら30フレーム後に消去
+				if (bu01->putOnKitchen == 1) {
+					Delay++;
+					CounterPos01.y += 100.0f;
+					bu01->SetPosition(CounterPos01);
 
-				if (Delay == 30) {
-					//ここで積み上げてた具材の数をScoreに渡してあげる。
-					Score* sco = FindGO<Score>("score");
-					sco->SetBasePoint01(StackNum);
+					if (Delay == 30) {
+						//ここで積み上げてた具材の数をScoreに渡してあげる。
+						Score* sco = FindGO<Score>("score");
+						sco->SetBasePoint01(StackNum);
 
-					//次の具材No.を保存するため、９で初期化。
-					pl01->SetGuzaiNo9();
-					
-					bu01->ClearModel();
-					DeleteGO(bu01);
-					Delay = 0;
-					pl01->have = 0;
-					StackNum = 0;
-					m_playerGene->AddSubmitBurgerNum();
+						//次の具材No.を保存するため、９で初期化。
+						pl01->SetGuzaiNo9();
+
+						bu01->ClearModel();
+						DeleteGO(bu01);
+						Delay = 0;
+						pl01->have = 0;
+						StackNum = 0;
+						m_playerGene->AddSubmitBurgerNum();
+					}
 				}
 			}
 		}
@@ -231,25 +233,27 @@ void Counter::Delete()
 				}
 			}
 
-			//置いたら30フレーム後に消去
-			if (bu02->putOnKitchen == 1) {
-				Delay++;
-				CounterPos02.y += 100.0f;
-				bu02->SetPosition(CounterPos02);
+			if (bu02 != nullptr) {
+				//置いたら30フレーム後に消去
+				if (bu02->putOnKitchen == 1) {
+					Delay++;
+					CounterPos02.y += 100.0f;
+					bu02->SetPosition(CounterPos02);
 
-				if (Delay == 30) {
-					//ここで積み上げてた具材の数をScoreに渡してあげる。
-					Score* sco = FindGO<Score>("score");
-					sco->SetBasePoint02(StackNum);
+					if (Delay == 30) {
+						//ここで積み上げてた具材の数をScoreに渡してあげる。
+						Score* sco = FindGO<Score>("score");
+						sco->SetBasePoint02(StackNum);
 
-					//次の具材No.を保存するため、９で初期化。
-					pl02->SetGuzaiNo9();
+						//次の具材No.を保存するため、９で初期化。
+						pl02->SetGuzaiNo9();
 
-					DeleteGO(bu02);
-					Delay = 0;
-					pl02->have = 0;
-					StackNum = 0;
-					m_playerGene->AddSubmitBurgerNum();
+						DeleteGO(bu02);
+						Delay = 0;
+						pl02->have = 0;
+						StackNum = 0;
+						m_playerGene->AddSubmitBurgerNum();
+					}
 				}
 			}
 		}

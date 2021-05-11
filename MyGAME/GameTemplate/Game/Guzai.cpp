@@ -4,7 +4,6 @@
 #include "Kitchen.h"
 #include "GuzaiGene.h"
 #include "GuzaiOkiba.h"
-//#include "PathMove.h"
 #include "SkinModelRender.h"
 #include "Player.h"
 #include "PlayerGene.h"
@@ -115,22 +114,6 @@ void Guzai::ChangeModel(int& num)
 	}
 	
 	m_skinModelRender->SetNewModel();
-	
-}
-
-void Guzai::Move()
-{
-	////持たれていない　且つ　一度も置かれていない
-	//if (state == 0 && put == 0) {
-	//	//移動させる。
-	//	SetPosition(m_pathMove.get()->Move());
-	//	//最後のポイントまで到達したら。
-	//	if (m_pathMove.get()->GetIsFinalPoint())
-	//	{
-	//		////削除する。
-	//		//DeleteGO(this);
-	//	}
-	//}
 }
 
 bool Guzai::Start()
@@ -204,7 +187,7 @@ void Guzai::GrabNPut()
 	
 	//Aボタンを押したとき、プレイヤーは何も持っていない　一定距離より近い位置にいる。
 	if (g_pad[0]->IsTrigger(enButtonA)) {
-		if (pl01->have == 0 && guzai2Pl01 < 150.0f && targeted == true) {
+		if (pl01->have == 0 && guzai2Pl01 < 150.0f && targeted == true && put == 0) {
 			GetGuzaiOkiba();
 			state = 1;
 			pl01->have = 1;
@@ -216,7 +199,7 @@ void Guzai::GrabNPut()
 		}
 	}
 	if (g_pad[1]->IsTrigger(enButtonA)) {
-		if (pl02->have == 0 && guzai2Pl02 < 150.0f && targeted == true) {
+		if (pl02->have == 0 && guzai2Pl02 < 150.0f && targeted == true && put == 0) {
 			GetGuzaiOkiba();
 			state = 1;
 			pl02->have = 1;
@@ -325,12 +308,12 @@ void Guzai::TargetingNPopDummy()
 {
 		//具材との距離が一定以下　で　プレイヤーは何もロックしていなかったら。
 		//近くの具材をターゲットし、プレイヤーのターゲット状態をTRUEに。
-		if (guzai2Pl01 < TargetRangeNear && pl01->GetTargetState() == false && !targeted) {
+		if (guzai2Pl01 < TargetRangeNear && pl01->GetTargetState() == false && !targeted && put == 0) {
 			whichPlayerTargetMe = 1;
 			targeted = true;
 			pl01->SetTarget(targeted);
 		}
-		if (guzai2Pl02 < TargetRangeNear && pl02->GetTargetState() == false && !targeted) {
+		if (guzai2Pl02 < TargetRangeNear && pl02->GetTargetState() == false && !targeted && put == 0) {
 			whichPlayerTargetMe = 2;
 			targeted = true;
 			pl02->SetTarget(targeted);
@@ -601,8 +584,6 @@ void Guzai::Update()
 	TargetingNPopDummy();
 
 	GrabNPut();
-
-	Move();
 
 	SetGuzaiOkiba();
 

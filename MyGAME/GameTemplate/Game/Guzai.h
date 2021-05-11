@@ -94,8 +94,6 @@ public:
 
 	int GetTypeNo() { return TypeNo; }
 
-	//具材の移動。
-	void Move();
 	//具材の搬送
 	void GrabNPut();
 	//ターゲティングの対象選定とターゲットダミーを出す。

@@ -54,9 +54,11 @@ float TrashCan::CalcDistance(Vector3 v1, Vector3 v2)
 
 void TrashCan::Update()
 {
+	//プレイヤーが完全に出現したらIF文以降の処理を行う
 	if (m_playerGene->GetPlayerGeneState() == true) {
 		return;
 	}
+	//プレイヤーの情報が確定しないままの時があるため、最終確認
 	if (player[0] == nullptr) {
 		player[0] = FindGO<Player>("player01");
 	}
@@ -64,6 +66,7 @@ void TrashCan::Update()
 		player[1] = FindGO<Player>("player02");
 	}
 
+	//両プレイヤーとの距離を測る。
 	float player01Distance = CalcDistance(player[0]->GetPosition(), m_position);
 	float player02Distance = CalcDistance(player[1]->GetPosition(), m_position);
 
@@ -124,6 +127,7 @@ void TrashCan::Update()
 		m_targeting->SetScale(m_targetScale);
 	}
 
+	//矢印の浮遊処理
 	if (targetUp == true) {
 		m_targetPos.y += 1.0f;
 		if (m_targetPos.y >= 75.0f) {
@@ -138,6 +142,5 @@ void TrashCan::Update()
 	}
 
 	m_targeting->SetPosition(m_targetPos);
-	//m_targeting->SetPosition(m_position);
 	m_skinModelRender->SetPosition(m_position);
 }
