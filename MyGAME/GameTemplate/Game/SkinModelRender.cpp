@@ -28,7 +28,7 @@ void SkinModelRender::Init(const char* modelFilePath, EnModelUpAxis UpAxis, Vect
 	m_charaCon.Init(40.0f, 100.0f, pos);
 }
 
-void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)
+void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* pLig)
 {
 	m_modelInitData.m_tkmFilePath = modelFilePath;
 
@@ -39,7 +39,12 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
-	m_modelInitData.m_expandConstantBuffer = &g_lig;
+	if (pLig) {
+		m_modelInitData.m_expandConstantBuffer = pLig;
+	}
+	else {
+		m_modelInitData.m_expandConstantBuffer = &g_lig;
+	}
 	m_modelInitData.m_expandConstantBufferSize = sizeof(g_lig);
 	
 	if (skeletonPath != nullptr) {
@@ -68,7 +73,7 @@ void SkinModelRender::InitShader(const char* shaderFilePath, const char* entryPo
 	m_modelInitData.m_colorBufferFormat = colorBuffer;
 }
 
-void SkinModelRender::InitLight(Light light) {
+void SkinModelRender::InitLight(Light& light) {
 	m_modelInitData.m_expandConstantBuffer = &light;
 	m_modelInitData.m_expandConstantBufferSize = sizeof(light);
 }

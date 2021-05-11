@@ -20,6 +20,7 @@ private:
 
 	std::unique_ptr<PathMove> m_pathMove;		//移動処理を行うクラス。
 
+	Light m_lig;
 public:
 	Dish() {}
 	~Dish() {}

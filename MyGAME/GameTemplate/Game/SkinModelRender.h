@@ -31,7 +31,7 @@ public:
 
 	void Init(const char* modelFilePath, EnModelUpAxis UpAxis, Vector3 pos);
 	//モデルのファイルパスと初期位置を設定する。
-	void Init(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
+	void Init(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* pLig = nullptr);
 	//モデルのファイルパスのみを変更するときに使用する。
 	void ChangeModel(const char* newModelFilePath);
 	//シェーダーのファイルパスと
@@ -39,7 +39,7 @@ public:
 	//主にフロントカリングに変えるときに使用する
 	void SetFrontCulling(const char* psEntryPoint) { m_modelInitData.m_psEntryPointFunc = psEntryPoint; }
 	//影響を受けるライトの種類の変更。
-	void InitLight(Light light);
+	void InitLight(Light& light);
 	//影を落とす背景用の初期化関数
 	void InitBackGroundLight(Texture texture, Matrix lightcamera, Matrix lightcamerasize);
 	//アニメーションを設定する。

@@ -41,7 +41,7 @@ bool Player::Start()
 		DXGI_FORMAT_R32G32B32A32_FLOAT
 	);
 
-	m_scale = { 0.3f,0.3f,0.3f };
+	m_scale = { 0.3f,0.4f,0.3f };
 	m_skinModelRender->SetScale(m_scale);
 	//ここでアニメーションのロードを行う
 	animationClips[enAnimation_Idle].Load("Assets/animData/idle.tka");

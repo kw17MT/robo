@@ -346,6 +346,56 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	}
 }
 
+float4 Floor(SPSIn psIn) : SV_Target0
+{
+	//PBR
+	float3 lig = 0;
+
+		float3 normal = GetNormal(psIn.normal, psIn.tangent, psIn.biNormal, psIn.uv);
+
+		float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
+		float3 specColor = g_specMap.SampleLevel(g_sampler, psIn.uv, 0).rgb;
+		float metaric = g_specMap.Sample(g_sampler, psIn.uv).a;
+		//metaric = 0.0f;
+
+		float3 toEye = normalize(eyePos - psIn.worldPos);
+
+		float diffuseFromFresnel = CalcDiffuseFromFresnel(normal, directionalLight.direction, toEye);
+
+		float NdotL = saturate(dot(normal, directionalLight.direction));
+
+		float3 lambertDiffuse = directionalLight.color * NdotL / PI;
+		//
+		float3 diffuse = albedoColor * diffuseFromFresnel * lambertDiffuse;
+
+		//下のようにHLSLではデバックすることもできる。
+		//return (albedoColor * diffuseFromFresnel);
+
+
+		//クックトランスモデルを利用した鏡面反射率を計算する
+		float3 spec = CookTrranceSpecular(directionalLight.direction, toEye, normal, metaric) * directionalLight.color;
+		//spec *= 10.0f;
+		//金属度（metaric)が強ければ、色は鏡面反射のspecularColor、弱ければ白。
+		//SpecularColorの強さを鏡面反射の強さとして扱う。
+		float specTerm = length(specColor.xyz);
+		//specTerm = 0.1f;														//ここをアクティブにすると鼻の上の黒いのは消える。
+		//ここで金属度metaricを利用して、白っぽい色から物体の色へ線形補完する。
+		spec *= lerp(float3(specTerm, specTerm, specTerm), specColor, metaric);
+
+		//鏡面反射率を使って、拡散反射光と鏡面反射光を合成する
+		lig += diffuse * (1.0f - specTerm) + spec;
+
+
+
+		lig += ambientLight * albedoColor;
+		//float4 finalColor = g_albedo.Sample(g_sampler, psIn.uv);
+
+		float4 finalColor = 1.0f;
+		//finalColor.xyz = lig;
+		//finalColor.a = albedoColor.a; //出力するカラーにアルベドマップのアルファ値を渡すとモデルに適用したテクスチャの透過率が適用される
+		return finalColor;
+}
+
 //フロントカリングをするにあたって枠線を何色にするか。
 float4 FrontCulling(SPSIn psIn) : SV_Target0
 {

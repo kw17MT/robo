@@ -160,7 +160,6 @@ bool Guzai::Start()
 		break;
 	case 4:
 		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato.tkm");
-		m_skinModelRender->SetScale(m_scale);
 		NowModelPath = "Assets/modelData/food/tomato.tkm";
 		break;
 	case 5:
@@ -220,7 +219,6 @@ void Guzai::GrabNPut()
 			SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
 			if (targetDummy01 != nullptr) {
 				DeleteGO(targetDummy01);
-				m_scale -= expantionRate;
 				isSetTargetDummy = false;
 				decrementTime = holdTime;
 				whichPlayerTargetMe = 0;
@@ -234,7 +232,6 @@ void Guzai::GrabNPut()
 			if (targetDummy02 != nullptr) {
 
 				DeleteGO(targetDummy02);
-				m_scale -= expantionRate;
 				isSetTargetDummy = false;
 				decrementTime = holdTime;
 				whichPlayerTargetMe = 0;
@@ -307,8 +304,7 @@ void Guzai::TargetingNPopDummy()
 				targetDummyOnGuzai01->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				targetDummyOnGuzai01->SetFrontCulling("FrontCulling");
 				targetDummyOnGuzai01->SetPosition(m_position);
-				m_scale.x += 0.3f; m_scale.y += 0.3f; m_scale.z += 0.3f;
-				targetDummyOnGuzai01->SetScale(m_scale);
+				targetDummyOnGuzai01->SetScale(m_dummyScale);
 				isSetTargetDummy = true;
 			}
 			if (whichPlayerTargetMe == 2) {
@@ -317,8 +313,7 @@ void Guzai::TargetingNPopDummy()
 				targetDummyOnGuzai02->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				targetDummyOnGuzai02->SetFrontCulling("FrontCulling");
 				targetDummyOnGuzai02->SetPosition(m_position);
-				m_scale.x += 0.3f; m_scale.y += 0.3f; m_scale.z += 0.3f;
-				targetDummyOnGuzai02->SetScale({ m_scale });
+				targetDummyOnGuzai02->SetScale(m_dummyScale);
 				isSetTargetDummy = true;
 			}
 		}
@@ -332,7 +327,6 @@ void Guzai::TargetingNPopDummy()
 					decrementTime--;
 					if (decrementTime == 0) {
 						DeleteGO(targetDummy01);
-						m_scale -= expantionRate;
 						targeted = false;
 						pl01->SetTarget(targeted);
 						isSetTargetDummy = false;
@@ -349,7 +343,6 @@ void Guzai::TargetingNPopDummy()
 					decrementTime--;
 					if (decrementTime == 0) {
 						DeleteGO(targetDummy02);
-						m_scale -= expantionRate;
 						targeted = false;
 						pl02->SetTarget(targeted);
 						isSetTargetDummy = false;
@@ -451,7 +444,6 @@ void Guzai::Cooking()
 				SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
 				if (targetDummy01 != nullptr) {
 					DeleteGO(targetDummy01);
-					m_scale -= expantionRate;
 					targeted = false;
 					pl01->SetTarget(targeted);
 					isSetTargetDummy = false;
@@ -478,7 +470,7 @@ void Guzai::Cooking()
 				SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
 				if (targetDummy02 != nullptr) {
 					DeleteGO(targetDummy02);
-					m_scale -= expantionRate;
+
 					targeted = false;
 					pl02->SetTarget(targeted);
 					isSetTargetDummy = false;

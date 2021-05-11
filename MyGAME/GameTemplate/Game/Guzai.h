@@ -14,6 +14,7 @@ class Guzai : public IGameObject
 private:
 	Vector3 m_position = { 0.0f,0.0f,-1000.0f };
 	Vector3 m_scale = Vector3::One;
+	const Vector3 m_dummyScale = { 1.3f,1.3f,1.3f };
 	Quaternion m_rotation = Quaternion::Identity;
 	float angle = 0.0f;
 
