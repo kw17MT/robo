@@ -221,19 +221,10 @@ void Guzai::GrabNPut()
 			if (targetDummy01 != nullptr) {
 				DeleteGO(targetDummy01);
 				m_scale -= expantionRate;
-				//targeted = false;
-				//pl01->SetTarget(targeted);
 				isSetTargetDummy = false;
 				decrementTime = holdTime;
 				whichPlayerTargetMe = 0;
 			}
-			//ターゲット用のダミーを消す。
-			//SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
-			//m_scale -= expantionRate;
-			//DeleteGO(targetDummy01);
-
-			
-
 		}
 		if (whichPlayerGet == 2) {
 			plPos02.y += 100.0f;
@@ -244,19 +235,11 @@ void Guzai::GrabNPut()
 
 				DeleteGO(targetDummy02);
 				m_scale -= expantionRate;
-				//targeted = false;
-				//pl02->SetTarget(targeted);
 				isSetTargetDummy = false;
 				decrementTime = holdTime;
 				whichPlayerTargetMe = 0;
 
 			}
-			//ターゲット用のダミーを消す。
-			//SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
-			//m_scale -= expantionRate;
-			//DeleteGO(targetDummy02);
-
-			
 		}
 	}
 
@@ -267,10 +250,9 @@ void Guzai::GrabNPut()
 			Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
 			//キッチンに置いた具材の種類をプレイヤー側に保存
 			pl01->GuzaiNo[ki01->GetStackNum()] = TypeNo;
-			ki01->PlusStack();
-
 			pl01->have = 0;
-		
+
+			ki01->PlusStack();
 
 			//ターゲティングしていた具材を運んでいる最中は別の具材をターゲティングしたくないため、ここで初期化。
 			targeted = false;
@@ -280,8 +262,6 @@ void Guzai::GrabNPut()
 
 			//具材の情報を消す。
 			DeleteGO(this);
-			//具材のモデルを消す。
-			//DeleteGO(m_skinModelRender);
 		}
 	}
 	if (g_pad[1]->IsTrigger(enButtonB) && m_cooking == true) {
@@ -289,11 +269,10 @@ void Guzai::GrabNPut()
 			Kitchen* ki02 = FindGO<Kitchen>("kitchen02");
 
 			pl02->GuzaiNo[ki02->GetStackNum()] = TypeNo;
-			ki02->PlusStack();
-
 			pl02->have = 0;
 			
-
+			ki02->PlusStack();
+			
 			targeted = false;
 			pl02->SetTarget(targeted);
 			isSetTargetDummy = false;
