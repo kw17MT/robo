@@ -421,6 +421,8 @@ void Guzai::GetGuzaiOkiba()
 		m_guzaiOkibaSet = false;
 		m_setKitchenNum = 9;
 
+		canPutOnGuzaiOkiba = false;
+
 		playerGene->MinusNoHavingDishCounter();
 	}
 }
@@ -556,7 +558,11 @@ void Guzai::Update()
 
 	GrabNPut();
 
-	SetGuzaiOkiba();
+	if (canPutOnGuzaiOkiba) {
+		SetGuzaiOkiba();
+	}
+
+	canPutOnGuzaiOkiba = true;
 
 	Cooking();
 

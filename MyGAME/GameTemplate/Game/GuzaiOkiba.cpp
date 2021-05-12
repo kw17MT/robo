@@ -129,10 +129,10 @@ bool GuzaiOkiba::Start()
 		});
 
 	//ターゲット中の具材置き場に出す仮モデルを初期化する。
-	//m_guzaiRender01 = NewGO<SkinModelRender>(0);
-	//m_guzaiRender01->Init("Assets/modelData/gu/cheese.tkm", nullptr, enModelUpAxisZ, m_targetPos01);
-	//m_guzaiRender02 = NewGO<SkinModelRender>(0);
-	//m_guzaiRender02->Init("Assets/modelData/gu/egg.tkm", nullptr, enModelUpAxisZ, m_targetPos02);
+	m_guzaiRender01 = NewGO<SkinModelRender>(0);
+	m_guzaiRender01->Init("Assets/modelData/Arrow/Arrow_Yellow.tkm", nullptr, enModelUpAxisZ, m_targetPos01);
+	m_guzaiRender02 = NewGO<SkinModelRender>(0);
+	m_guzaiRender02->Init("Assets/modelData/Arrow/Arrow_Yellow.tkm", nullptr, enModelUpAxisZ, m_targetPos02);
 
 	return true;
 }
@@ -162,6 +162,7 @@ void GuzaiOkiba::Targeted()
 		if (m_distance[i] < 150.0f && m_targeted01 == false && m_guzaiSet[i] == false) {
 			//ターゲット中にアクセス可能な具材置き場に印を表示をするために、ターゲット中の具材置き場の座標を記憶する。
 			m_targetPos01 = m_kitchenPos[i];
+			m_targetPos01.y += 100.0f;
 			//ターゲット状態に移行し、ターゲットした番号の具材置き場にアクセス可能にする。
 			m_targeted01 = true;
 			m_targetNo01 = i;
@@ -172,7 +173,7 @@ void GuzaiOkiba::Targeted()
 	//ターゲット中の場合…
 	if (m_targeted01 == true) {
 		//ターゲット中の具材置き場とプレイヤーの距離を測り、一定以上になったとき…
-		m_targetDistance01 = TargetDistance(m_targetPos01, pl01->GetPosition());
+		m_targetDistance01 = TargetDistance(m_kitchenPos[m_targetNo01]/*m_targetPos01*/, pl01->GetPosition());
 		if (m_targetDistance01 >= 150.0f) {
 			//ターゲット状態から戻り、ターゲット中だった具材置き場に対してアクセス不可能にする。
 			m_targeted01 = false;
@@ -182,7 +183,7 @@ void GuzaiOkiba::Targeted()
 	//ターゲットしていない場合…
 	else {
 		//ターゲット座標を0,0,0にする。
-		m_targetPos01 = Vector3::Zero;
+		m_targetPos01 = { 0.0f,-200.0f,0.0f }/*Vector3::Zero*/;
 	}
 
 	//2P側の処理、1Pとほぼ同じ。
@@ -190,20 +191,21 @@ void GuzaiOkiba::Targeted()
 	for (int i = 0; i < 4; i++) {
 		if (m_distance[i] < 150.0f && m_targeted02 == false && m_guzaiSet[i] == false) {
 			m_targetPos02 = m_kitchenPos[i];
+			m_targetPos02.y += 100.0f;
 			m_targeted02 = true;
 			m_targetNo02 = i;
 			m_kitchenSet[m_targetNo02] = true;
 		}
 	}
 	if (m_targeted02 == true) {
-		m_targetDistance02 = TargetDistance(m_targetPos02, pl02->GetPosition());
+		m_targetDistance02 = TargetDistance(m_kitchenPos[m_targetNo02]/*m_targetPos02*/, pl02->GetPosition());
 		if (m_targetDistance02 >= 150.0f) {
 			m_targeted02 = false;
 			m_kitchenSet[m_targetNo02] = false;
 		}
 	}
 	else {
-		m_targetPos02 = Vector3::Zero;
+		m_targetPos02 = { 0.0f,-200.0f,0.0f };/*Vector3::Zero;*/
 	}
 }
 
@@ -219,8 +221,8 @@ void GuzaiOkiba::Update()
 	Targeted();
 	
 	//ターゲット中の具材置き場に出すモデルに、ターゲット座標を渡す。
-	//m_guzaiRender01->SetPosition(m_targetPos01);
-	//m_guzaiRender02->SetPosition(m_targetPos02);
+	m_guzaiRender01->SetPosition(m_targetPos01);
+	m_guzaiRender02->SetPosition(m_targetPos02);
 	//具材置き場の表示
 	for (int i = 0; i < 8; i++) {
 		m_kitchenRender[i]->SetPosition(m_kitchenPos[i]);

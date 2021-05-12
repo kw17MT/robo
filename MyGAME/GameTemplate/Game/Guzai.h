@@ -70,6 +70,8 @@ private:
 
 	//ゴミ箱に置いたのかどうか
 	bool isSetOnTrashCan = false;
+
+	bool canPutOnGuzaiOkiba = true;
 public:	
 	//乱数を用いて具材が生まれると同時にどの具材を流すか設定する。
 	Guzai();
