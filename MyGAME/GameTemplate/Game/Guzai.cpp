@@ -212,7 +212,12 @@ void Guzai::GrabNPut()
 	//持たれていたら具材の位置をプレイヤーの上にする。
 	if (state == 1) {
 		if (whichPlayerGet == 1) {
-			plPos01.y += 100.0f;
+			//plPos01.y += 100.0f;
+			//SetPosition(plPos01);
+			//具材の位置をプレイヤーの少し前にする。
+			Vector3 pl01MSpeed = pl01->GetNormalMoveSpeed();
+			pl01MSpeed *= 90.0f;
+			plPos01 += pl01MSpeed;
 			SetPosition(plPos01);
 
 			//具材置き場に置いた後でもまた近づくとダミーが出るようにする。
@@ -225,7 +230,11 @@ void Guzai::GrabNPut()
 			}
 		}
 		if (whichPlayerGet == 2) {
-			plPos02.y += 100.0f;
+			//plPos02.y += 100.0f;
+			//SetPosition(plPos02);
+			Vector3 pl02MSpeed = pl02->GetNormalMoveSpeed();
+			pl02MSpeed *= 90.0f;
+			plPos02 += pl02MSpeed;
 			SetPosition(plPos02);
 
 			SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
