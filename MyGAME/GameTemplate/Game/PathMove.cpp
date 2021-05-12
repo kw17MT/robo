@@ -25,9 +25,23 @@ void PathMove::SwitchCycleDirection()
 {
 	if (m_cycleDirection == enNormal) {
 		m_cycleDirection = enReverse;
+		m_point = m_path->GetPoint(m_point->s_number - 2);
+		if (m_point->s_number <= 0) {
+			m_point = m_path->GetPoint(m_wayPointNum - 1);
+		}
+		Vector3 nextDistance = m_point->s_vector - m_position;
+		nextDistance.Normalize();
+		m_moveVector = nextDistance;
 	}
 	else {
 		m_cycleDirection = enNormal;
+		m_point = m_path->GetPoint(m_point->s_number);
+		if (m_point->s_number <= 0) {
+			m_point = m_path->GetPoint(1);
+		}
+		Vector3 nextDistance = m_point->s_vector - m_position;
+		nextDistance.Normalize();
+		m_moveVector = nextDistance;
 	}
 }
 
