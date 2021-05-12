@@ -4,7 +4,6 @@ class Kitchen;
 class SkinModelRender;
 class Player;
 class PlayerGene;
-//class PathMove;
 class GuzaiGene;
 class GuzaiOkiba;
 class TrashCan;
@@ -13,13 +12,10 @@ class Guzai : public IGameObject
 {
 private:
 	Vector3 m_position = { 0.0f,0.0f,-1000.0f };
-	Vector3 m_scale = Vector3::One;
+	Vector3 m_scale = Vector3::One; //{ 0.8f, 0.8f, 0.8f };
 	const Vector3 m_dummyScale = { 1.3f,1.3f,1.3f };
 	Quaternion m_rotation = Quaternion::Identity;
 	float angle = 0.0f;
-
-	//具材の枠線の拡大率
-	const Vector3 expantionRate = { 0.3f,0.3f,0.3f };
 	
 	//Update()でインクリメントする。
 	int timer = 0;

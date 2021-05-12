@@ -28,14 +28,6 @@ public:
 	void Update();
 
 	bool GetInitialActionState() { return isCompletedSetGuzai; }
-	//具材を流すタイミングを決めるもの。
-	//int timer = 0;
-	//バフが存在していると１、ないと０。　０でないとバフアイテムは流れない。
-	//int Buffnum = 0;
-	//int DeBuffnum = 0;
-
-	/*void AddEmptyDishCounter() { emptyDishCounter++; }
-	void RegisterEmptyDishNumber(int num) { emptyDishNumber[emptyDishCounter] = num; }*/
 
 	SkinModelRender* m_skinModelRender;
 	Guzai* m_guzai[guzaiNum];

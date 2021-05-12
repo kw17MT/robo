@@ -251,7 +251,7 @@ void Guzai::GrabNPut()
 
 	//Bボタンを押してキッチンが近くにあったら、今積まれている数に応じておく場所を変える。
 	//キッチン側のスタック数をインクリメント。キッチン側で具材をNewGO。
-	if (g_pad[0]->IsTrigger(enButtonB) && m_cooking == true) {
+	if (g_pad[0]->IsTrigger(enButtonA) && m_cooking == true) {
 		if (state == 1 && kit2Pl01 < 100.0f) {
 			Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
 			//キッチンに置いた具材の種類をプレイヤー側に保存
@@ -270,7 +270,7 @@ void Guzai::GrabNPut()
 			DeleteGO(this);
 		}
 	}
-	if (g_pad[1]->IsTrigger(enButtonB) && m_cooking == true) {
+	if (g_pad[1]->IsTrigger(enButtonA) && m_cooking == true) {
 		if (state == 1 && kit2Pl02 < 100.0f) {
 			Kitchen* ki02 = FindGO<Kitchen>("kitchen02");
 
@@ -367,7 +367,7 @@ void Guzai::SetGuzaiOkiba()
 	//1P側の処理
 
 	//具材がプレイヤーに持たれているときに、Bボタンが押されたら…
-	if (g_pad[0]->IsTrigger(enButtonB) && state == 1 && whichPlayerGet == 1) {
+	if (g_pad[0]->IsTrigger(enButtonA) && state == 1 && whichPlayerGet == 1) {
 
 		//1P側の具材置き場の番号は4～7なので、その範囲で調べる。
 		for (int i = 4; i < 8; i++) {
@@ -394,7 +394,7 @@ void Guzai::SetGuzaiOkiba()
 		}
 	}
 	//2P側の処理 1Pとほぼ同じ
-	if (g_pad[1]->IsTrigger(enButtonB) && state == 1 && whichPlayerGet == 2) {
+	if (g_pad[1]->IsTrigger(enButtonA) && state == 1 && whichPlayerGet == 2) {
 		//2P側の具材置き場の番号は0～4なので、その範囲で調べる。
 		for (int i = 0; i < 4; i++) {
 			
@@ -495,7 +495,7 @@ void Guzai::Cooking()
 }
 
 void Guzai::SetOnTrashCan() {
-	if (g_pad[0]->IsTrigger(enButtonB) 
+	if (g_pad[0]->IsTrigger(enButtonA) 
 		&& state == 1
 		&& m_trashCan[0]->GetCanTrash()) {
 		isSetOnTrashCan = true;
@@ -511,7 +511,7 @@ void Guzai::SetOnTrashCan() {
 		}
 	}
 
-	if (g_pad[1]->IsTrigger(enButtonB) 
+	if (g_pad[1]->IsTrigger(enButtonA) 
 		&& state == 1
 		&& m_trashCan[1]->GetCanTrash()) {
 		isSetOnTrashCan = true;
@@ -629,6 +629,7 @@ void Guzai::Update()
 
 
 	m_skinModelRender->SetRotation(m_rotation);
+	m_skinModelRender->SetScale(m_scale);
 
 	//具材置き場に置かれているときの位置調整
 	if (m_guzaiOkibaSet == true) {

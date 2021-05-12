@@ -302,8 +302,10 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	//PBR実装しようとしている。↓
 	float3 lig = 0;
 	{
-		float3 normal = GetNormal(psIn.normal, psIn.tangent, psIn.biNormal, psIn.uv);
-
+		//float3 normal = GetNormal(psIn.normal, psIn.tangent, psIn.biNormal, psIn.uv);
+		//todo tangentがないモデルがあったので、今回は法線マップはあきらめる。
+		float3 normal = psIn.normal;
+		
 		float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
 		float3 specColor = g_specMap.SampleLevel(g_sampler, psIn.uv, 0).rgb;
 		float metaric = g_specMap.Sample(g_sampler, psIn.uv).a;
@@ -318,6 +320,7 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 		float3 lambertDiffuse = directionalLight.color * NdotL / PI;
 		//
 		float3 diffuse = albedoColor * diffuseFromFresnel * lambertDiffuse;
+
 
 		//下のようにHLSLではデバックすることもできる。
 		//return (albedoColor * diffuseFromFresnel);
