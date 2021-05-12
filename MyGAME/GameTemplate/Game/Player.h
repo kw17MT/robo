@@ -33,6 +33,8 @@ private:
 	float angle = 0.0f;
 	//移動速度
 	Vector3 moveSpeed = Vector3::Zero;
+	//プレイヤーの移動速度を保存するベクトル
+	Vector3 saveMoveSpeed = Vector3::Zero;
 
 	//１で左、２で右
 	int playerNo = 0;
@@ -112,6 +114,9 @@ public:
 	}*/
 
 	void UseItem();
+
+	//プレイヤーの正規化された移動速度を入手
+	Vector3 GetNormalMoveSpeed() { return saveMoveSpeed; }
 
 	//プレイヤーが具材を持っているか。１なら具材を持っている。２ならハンバーガーを持っている。
 	int have = 0;

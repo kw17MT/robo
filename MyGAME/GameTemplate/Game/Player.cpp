@@ -193,6 +193,12 @@ void Player::Update()
 		moveSpeed.z = g_pad[0]->GetLStickYF() * -10.0f;
 
 		m_position += moveSpeed;
+		
+		//プレイヤーが移動している限り移動速度を保存し続ける。
+		if (moveSpeed.x != 0.0f || moveSpeed.z != 0.0f) {
+			saveMoveSpeed = moveSpeed;
+			saveMoveSpeed.Normalize();
+		}
 
 		RestrictPos();
 
@@ -250,6 +256,12 @@ void Player::Update()
 		moveSpeed.z = g_pad[1]->GetLStickYF() * -10.0f;
 
 		m_position += moveSpeed;
+
+		//プレイヤーが移動している限り移動速度を保存し続ける。
+		if (moveSpeed.x != 0.0f || moveSpeed.z != 0.0f) {
+			saveMoveSpeed = moveSpeed;
+			saveMoveSpeed.Normalize();
+		}
 
 		RestrictPos();
 
