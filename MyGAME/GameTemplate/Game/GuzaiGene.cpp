@@ -43,17 +43,6 @@ void GuzaiGene::Update()
 		isCompletedSetGuzai = true;
 	}
 
-
-	
-	
-	
-
-
-	//初動がおわったフラグを皿が感知したら動き始める。
-	//皿が動くごとに具材も動く
-	//これはGuzaicppのほうで処理したのでいい
-
-
 	//空の皿を計測し、n個以上になったら、一気に補充
 	if (emptyDishCounter >= LostNumber) {
 		for (int i = 0; i < emptyDishCounter; i++) {
@@ -68,37 +57,7 @@ void GuzaiGene::Update()
 		}
 		emptyDishCounter = 0;
 	}
-	//流れにそって落ちてくるように
-
-	//データ受け渡し
-	//Game/DishGene/Dish/GuzaiGene/Guzai/Dish/GuzaiGene/Guzai...
-
-
-	//もし、皿にある変数が偽だったら、その皿の上に具材をnewGO
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//timer++;
-
+	
 	////rand()(線形合同法)より良さげな別の方法
 	//std::random_device rnd; //非決定的乱数生成器(pc内部の情報から乱数を生成) シード値を生成するのに使用
 	//std::mt19937 mt(rnd()); //決定的乱数生成器 メルセンヌツイスタ32bit版 rndが出力する値をシード値とする
@@ -140,6 +99,5 @@ void GuzaiGene::Update()
 	//	}
 	//}
 	
-	
 	m_skinModelRender->SetScale(m_scale);
-}\
+}

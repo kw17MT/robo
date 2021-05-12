@@ -136,7 +136,7 @@ void Burger::ClearNo()
 
 void Burger::SetOnTrashCan() {
 	if (BurgerNo == 1 && burgerExist == 1) {
-		if (g_pad[0]->IsTrigger(enButtonB)
+		if (g_pad[0]->IsTrigger(enButtonA)
 			&& m_trashCan[0]->GetCanTrash()) {
 			isSetOnTrashCan = true;
 		}
@@ -157,7 +157,7 @@ void Burger::SetOnTrashCan() {
 	}
 
 	if (BurgerNo == 2 && burgerExist == 1) {
-		if (g_pad[1]->IsTrigger(enButtonB)
+		if (g_pad[1]->IsTrigger(enButtonA)
 			&& m_trashCan[1]->GetCanTrash()) {
 			isSetOnTrashCan = true;
 		}
