@@ -51,8 +51,15 @@ void Dish::Move()
 	//‹ïÞ‚ðŽM‚Ìã‚ÉˆÚ“®‚³‚¹‚é
 	if (isHavingGuzai == true) {
 		m_guzaiPos = m_position;
-		m_guzaiPos.y += 10.0f;
+		//m_guzaiPos.y += 10.0f;
+		m_guzaiPos.y += m_guzaiYPos;
 		m_guzai->SetPosition(m_guzaiPos);
+		if (m_guzaiYPos > 10.0f) {
+			m_guzaiYPos -= 20.0f;
+		}
+	}
+	else {
+		m_guzaiYPos = 1000.0f;
 	}
 }
 
@@ -75,17 +82,21 @@ void Dish::Update()
 
 	//‹ó‚ÌŽM‚ª‹K’è”‚æ‚è‘½‚¢‚Ì‚ÅA‹ó‚ÌŽM‚¾‚¯‚É•â[‚ðŠJŽn‚·‚éB
 	if (playerGene->GetNoHavingDishCounter() >= maxNum2Refill) {
-		if (isHavingGuzai == false) {
-			m_guzai = NewGO<Guzai>(0);
-			isHavingGuzai = true;
+		m_guzaiTimer++;
+		if (m_guzaiTimer > 60) {
+			if (isHavingGuzai == false) {
+				m_guzai = NewGO<Guzai>(0);
+				isHavingGuzai = true;
 
-			//•â[‚µ‚½ŽM‚Ì–‡”‚ð‚P‘«‚·
-			playerGene->AddRefilledNum();
-		}
-		//•â[‚µ‚½ŽM‚Ì”‚ª‹ó‚¾‚Á‚½ŽM‚Ì”‚Æ“¯‚¶‚É‚È‚Á‚½‚çA‚O‚Å‰Šú‰»
-		if (playerGene->GetRefilledNum() >= maxNum2Refill) {
-			playerGene->ResetNohavingDishCounter();
-			playerGene->ResetRefilledNum();
+				//•â[‚µ‚½ŽM‚Ì–‡”‚ð‚P‘«‚·
+				playerGene->AddRefilledNum();
+			}
+			//•â[‚µ‚½ŽM‚Ì”‚ª‹ó‚¾‚Á‚½ŽM‚Ì”‚Æ“¯‚¶‚É‚È‚Á‚½‚çA‚O‚Å‰Šú‰»
+			if (playerGene->GetRefilledNum() >= maxNum2Refill) {
+				playerGene->ResetNohavingDishCounter();
+				playerGene->ResetRefilledNum();
+			}
+			m_guzaiTimer = 0;
 		}
 	}
 

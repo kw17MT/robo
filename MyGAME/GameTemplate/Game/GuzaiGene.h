@@ -18,6 +18,8 @@ private:
 	int emptyDishNumber[6];
 	int emptyDishCounter = 0;
 	const int LostNumber = 5;
+
+	Vector3 m_setPos = Vector3::Zero;
 public:
 	GuzaiGene() {};
 	~GuzaiGene() {};

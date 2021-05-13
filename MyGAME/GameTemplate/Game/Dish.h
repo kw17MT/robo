@@ -16,7 +16,8 @@ private:
 	bool isHavingGuzai = false;							//自分（この皿）は具材を乗せているか。
 	const int maxNum2Refill = 5;						//補充を開始する最大値		２はTo
 	bool isCompletedFirstPop = false;					//全ての皿の上に具材を設置できたか
-	
+	float m_guzaiYPos = 1000.0f;						//具材の高さ。
+	int m_guzaiTimer = 0;
 
 	std::unique_ptr<PathMove> m_pathMove;		//移動処理を行うクラス。
 

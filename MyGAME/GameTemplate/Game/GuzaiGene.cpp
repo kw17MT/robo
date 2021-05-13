@@ -47,7 +47,10 @@ void GuzaiGene::Update()
 	if (emptyDishCounter >= LostNumber) {
 		for (int i = 0; i < emptyDishCounter; i++) {
 			m_guzai[emptyDishNumber[i]] = NewGO<Guzai>(0);
-			m_guzai[emptyDishNumber[i]]->SetPosition(m_dishGene->GetDishPositionBasedNumber(emptyDishNumber[i]));
+			m_setPos = m_dishGene->GetDishPositionBasedNumber(emptyDishNumber[i]);
+			m_setPos.y += 1000.0f;
+			//m_guzai[emptyDishNumber[i]]->SetPosition(m_dishGene->GetDishPositionBasedNumber(emptyDishNumber[i]));
+			m_guzai[emptyDishNumber[i]]->SetPosition(m_setPos);
 			m_guzai[emptyDishNumber[i]]->SetDishNumber(emptyDishNumber[i]);
 		}
 
