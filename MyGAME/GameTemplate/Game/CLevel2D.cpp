@@ -253,6 +253,7 @@ void CLevel2D::Update()
 		m_missCounter->ChangeMarkState(true);
 		m_menuTimer[1]->SetTimeUpState(false);
 	}
+	
 
 	m_level2D.Update();
 }
@@ -273,10 +274,10 @@ bool CLevel2D::GetIsMatchHamBurger(int* numbers, int size, int counterNo)
 			//ハンバーガーのデータ持ってくるお。
 			HamBurger hamBurger = GetHamBurgerFactory().GetHamBurger(m_showHamBurgers[i]);
 			//長さ違ったら。
-			if (size != hamBurger.size())
+			if (size != hamBurger.size()) 
 				//以下の処理しなーい。
-				continue;
-
+			continue;
+			
 			//同じだお。
 			bool isSame = true;
 			for (int j = 0; j < hamBurger.size(); j++)
@@ -295,10 +296,10 @@ bool CLevel2D::GetIsMatchHamBurger(int* numbers, int size, int counterNo)
 			{
 				//次に表示するハンバーガー決めるお！
 				Roulette(i);
-
 				m_menuTimer[counterNo - 1]->ResetTimerParam();
 				return true;
 			}
+			
 		}
 	}
 

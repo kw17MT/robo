@@ -231,8 +231,6 @@ void GuzaiOkiba::Update()
 
 	Targeted();
 
-	
-	
 	//‹ïŞ’u‚«ê‚Ì•\¦
 	for (int i = 0; i < 8; i++) {
 		m_kitchenRender[i]->SetPosition(m_kitchenPos[i]);
