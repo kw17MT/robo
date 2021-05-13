@@ -104,6 +104,7 @@
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="OperationExplanation.cpp" />
     <ClCompile Include="Floor.cpp" />
+    <ClCompile Include="Arrow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -217,5 +218,6 @@
     <ClInclude Include="Fade.h" />
     <ClInclude Include="OperationExplanation.h" />
     <ClInclude Include="Floor.h" />
+    <ClInclude Include="Arrow.h" />
   </ItemGroup>
 </Project>

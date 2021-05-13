@@ -17,7 +17,7 @@ private:
 	FontRender* isTimeUpState;
 
 	//表示する残り時間
-	int remainingTime = 120;
+	int remainingTime = 999;
 	//フレームカウント用、60になったらLastTimeを１減らす。
 	int timer = 0;
 	//タイムアップフラグ

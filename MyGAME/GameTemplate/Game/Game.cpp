@@ -30,6 +30,7 @@
 
 #include "effect/effect.h"
 #include "Floor.h"
+#include "Arrow.h"
 
 namespace
 {
@@ -59,6 +60,7 @@ Game::Game()
 	playerGene = NewGO<PlayerGene>(0, "playerGene");
 	dishGene = NewGO<DishGene>(0,"dishGene");
 	m_speedManeger = NewGO<DishSpeedManeger>(0, "speedManeger");
+	m_arrow = NewGO<Arrow>(0);
 
 	////勝敗表示用スプライト
 	////表示するポジションを定義
