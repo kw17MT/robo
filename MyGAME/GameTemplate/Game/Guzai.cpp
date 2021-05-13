@@ -530,6 +530,44 @@ void Guzai::SetOnTrashCan() {
 	}
 }
 
+void Guzai::Rotation()
+{
+	//キッチンにセットされているとき。
+	if (put == 1) {
+
+		//回転処理
+		angle += 2.0f;
+		if (angle > 360.0f) {
+			angle = 0.0f;
+		}
+		m_rotation.SetRotationDeg(Vector3::AxisY, angle);
+
+	}
+	//キッチンにセットされていないとき。
+	else
+	{
+		//プレイヤーが具材を持ったときの具材の追従回転。
+		if (state == 1) {
+			if (whichPlayerGet == 1) {
+				//プレイヤーが向いている方向に回転するので、プレイヤーの移動速度を参照する。
+				Vector3 pl01MSpeed = pl01->GetNormalMoveSpeed();
+				angle = atan2(pl01MSpeed.x, pl01MSpeed.z);
+				m_rotation.SetRotation(Vector3::AxisY, angle);
+			}
+			if (whichPlayerGet == 2) {
+				Vector3 pl02MSpeed = pl02->GetNormalMoveSpeed();
+				angle = atan2(pl02MSpeed.x, pl02MSpeed.z);
+				m_rotation.SetRotation(Vector3::AxisY, angle);
+			}
+		}
+		else {
+			//プレイヤーが持っていないときは回転をリセット。
+			m_rotation = Quaternion::Identity;
+		}
+
+	}
+}
+
 void Guzai::Update()
 {
 	//プレイヤー生成中はUpdate関数をスルー
@@ -577,6 +615,8 @@ void Guzai::Update()
 
 	SetOnTrashCan();
 
+	Rotation();
+
 	//ダミーを動かすよう
 	if (isSetTargetDummy == true && state != 1) {
 		if (whichPlayerTargetMe == 1) {
@@ -622,16 +662,16 @@ void Guzai::Update()
 	}
 
 	//キッチンに載ってるときちょっと回してみた
-	if (put == 1) {
+	//if (put == 1) {
 
-		//回転処理
-		angle += 2.0f;
-		if (angle > 360.0f) {
-			angle = 0.0f;
-		}
-		m_rotation.SetRotationDeg(Vector3::AxisY, angle);
+	//	//回転処理
+	//	angle += 2.0f;
+	//	if (angle > 360.0f) {
+	//		angle = 0.0f;
+	//	}
+	//	m_rotation.SetRotationDeg(Vector3::AxisY, angle);
 
-	}
+	//}
 
 
 	m_skinModelRender->SetRotation(m_rotation);

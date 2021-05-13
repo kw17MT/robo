@@ -113,6 +113,9 @@ public:
 	//ゴミ箱の上に具材をセット、後に消す。
 	void SetOnTrashCan();
 
+	//具材の回転処理。
+	void Rotation();
+
 	//１ならば持たれている。
 	int state = 0;
 	//１ならばもうキッチンに置かれている。
