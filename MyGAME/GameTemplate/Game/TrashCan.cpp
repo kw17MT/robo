@@ -50,6 +50,21 @@ float TrashCan::CalcDistance(Vector3 v1, Vector3 v2)
 	return ans;
 }
 
+void TrashCan::LetStartMoving()
+{
+	movingTime--;
+	if (movingTime > 60) {
+		m_trashcanScale.y -= 0.01f;
+	}
+	if (movingTime <= 60) {
+		m_trashcanScale.y += 0.01f;
+	}
+	if (movingTime < 0) {
+		movingTime = 120;
+		isMoving = false;
+	}
+}
+
 void TrashCan::Update()
 {
 	//プレイヤーが完全に出現したらIF文以降の処理を行う
@@ -139,6 +154,18 @@ void TrashCan::Update()
 		}
 	}
 
+	if (trashcanNo == 1) {
+		if (isMoving) {
+			LetStartMoving();
+		}
+	}
+	if (trashcanNo == 2) {
+		if (isMoving) {
+			LetStartMoving();
+		}
+	}
+
 	m_targeting->SetPosition(m_targetPos);
 	m_skinModelRender->SetPosition(m_position);
+	m_skinModelRender->SetScale(m_trashcanScale);
 }

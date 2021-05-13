@@ -10,11 +10,11 @@ private:
 	FontRender* TextTime;
 	FontRender* TextTimeUp;
 	FontRender* TextScore[2];
-	FontRender* TextItem[2];
+	//FontRender* TextItem[2];
 	//変化する文字。
 	//制限時間、タイムアップのONOFF
 	FontRender* Time;
-	FontRender* isTimeUpState;
+	//FontRender* isTimeUpState;
 
 	//表示する残り時間
 	int remainingTime = 999;

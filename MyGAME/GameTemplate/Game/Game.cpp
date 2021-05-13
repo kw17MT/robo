@@ -74,7 +74,7 @@ Game::Game()
 	//	Buff[0]->SetPosition(pos);
 	//}
 
-	level.Init("Assets/level/level_new2.tkl", [&](ObjectData& objectData) {
+	level.Init("Assets/level/level_new4.tkl", [&](ObjectData& objectData) {
 		if (wcscmp(objectData.name, L"CounterPos01") == 0) {
 			counter01 = NewGO<Counter>(0, "counter01");
 			counter01->SetCounterNo(1);
@@ -132,15 +132,15 @@ Game::Game()
 			return true;
 		}
 		if (wcscmp(objectData.name, L"floorLeft") == 0) {
-			/*floor_l = NewGO<Floor>(0);
+			floor_l = NewGO<Floor>(0);
 			floor_l->SetRed(true);
-			floor_l->SetPosition(objectData.Pos);*/
+			floor_l->SetPosition(objectData.Pos);
 			return true;
 		}
 		if (wcscmp(objectData.name, L"floorRight") == 0) {
-			/*floor_r = NewGO<Floor>(0);
+			floor_r = NewGO<Floor>(0);
 			floor_r->SetRed(false);
-			floor_r->SetPosition(objectData.Pos);*/
+			floor_r->SetPosition(objectData.Pos);
 			return true;
 		}
 

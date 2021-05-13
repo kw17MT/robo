@@ -509,20 +509,20 @@ void Guzai::Cooking()
 }
 
 void Guzai::SetOnTrashCan() {
-	if (g_pad[0]->IsTrigger(enButtonA) 
-		&& state == 1
-		&& m_trashCan[0]->GetCanTrash()) {
-		isSetOnTrashCan = true;
+	
+	if (g_pad[0]->IsTrigger(enButtonA)					//Aボタンを押して
+		&& state == 1									//この具材が持たれていて
+		&& m_trashCan[0]->GetCanTrash()) {				//ゴミ箱は捨てる用意ができているか（混雑していないか）
+		isSetOnTrashCan = true;							//ゴミ箱で捨てる準備
 	}
 	if (isSetOnTrashCan == true) {
-		decrementTime--;
-		if (decrementTime <= 10) {
-			DeleteGO(this);
+		DeleteGO(this);
 
-			pl01->have = 0;
-			targeted = false;
-			pl01->SetTarget(targeted);
-		}
+		pl01->have = 0;
+		targeted = false;
+		pl01->SetTarget(targeted);
+
+		m_trashCan[0]->ChangeMovingState(true);
 	}
 
 	if (g_pad[1]->IsTrigger(enButtonA) 
@@ -531,14 +531,12 @@ void Guzai::SetOnTrashCan() {
 		isSetOnTrashCan = true;
 	}
 	if (isSetOnTrashCan == true) {
-		decrementTime--;
-		if (decrementTime <= 10) {
-			DeleteGO(this);
+		DeleteGO(this);
 
-			pl02->have = 0;
-			targeted = false;
-			pl02->SetTarget(targeted);
-		}
+		pl02->have = 0;
+		targeted = false;
+		pl02->SetTarget(targeted);
+		m_trashCan[1]->ChangeMovingState(true);
 	}
 }
 
