@@ -179,7 +179,7 @@ void Counter::Delete()
 
 			//キッチンに置く準備
 			//できたハンバーガーの組成をJudge関数で調べ、あっていたらカウンターに置ける。
-			if (g_pad[0]->IsTrigger(enButtonB) && pl2Counter < 100.0f) {
+			if (g_pad[0]->IsTrigger(enButtonA) && pl2Counter < 100.0f) {
 				if (Judge() == true) {
 					bu01->putOnKitchen = 1;
 				}
@@ -227,7 +227,7 @@ void Counter::Delete()
 
 			//キッチンに置く準備
 			//できたハンバーガーの組成をJudge関数でしらべ、あっていたらカウンターに置ける。
-			if (g_pad[1]->IsTrigger(enButtonB) && pl2Counter < 100.0f) {
+			if (g_pad[1]->IsTrigger(enButtonA) && pl2Counter < 100.0f) {
 				if (Judge() == true) {
 					bu02->putOnKitchen = 1;
 				}

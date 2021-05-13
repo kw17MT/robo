@@ -218,11 +218,11 @@ bool CLevel2D::Start()
 	Quaternion rot = Quaternion::Identity;
 	rot.SetRotationDegY(180.0f);
 	m_menuTimer[0]->SetRotation(rot);
-	m_menuTimer[0]->SetPosition({ 480.0f,0.0f,770.0f });
+	m_menuTimer[0]->SetPosition({ 480.0f,5.0f,770.0f });
 	
 	//âEë§ÉQÅ[ÉW
 	m_menuTimer[1] = NewGO<MenuTimer>(0);
-	m_menuTimer[1]->SetPosition({ -480.0f,0.0f,750.0f });
+	m_menuTimer[1]->SetPosition({ -480.0f,5.0f,750.0f });
 
 
 	m_missCounter = NewGO<MissCounter>(0);
