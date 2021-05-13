@@ -65,6 +65,8 @@ void Burger::GrabBurger()
 {
 	if (BurgerNo == 1) {
 		Vector3 plPos = m_player[0]->GetPosition();
+		Vector3 plSpeed = m_player[0]->GetNormalMoveSpeed();
+		plSpeed *= 90.0f;
 		Vector3 burPos = m_position;
 
 		float pl2Burger = (plPos.x - burPos.x) * (plPos.x - burPos.x) + (plPos.y - burPos.y) * (plPos.y - burPos.y) + (plPos.z - burPos.z) * (plPos.z - burPos.z);
@@ -76,8 +78,10 @@ void Burger::GrabBurger()
 		}
 		//バーガーの位置をプレイヤーの頭上に持ってくる。
 		if (m_player[0]->have == 2) {
+			//pos = plPos;
+			//pos.y += 100.0f;
+			plPos += plSpeed;
 			pos = plPos;
-			pos.y += 100.0f;
 			if (putOnKitchen != 1) {
 				m_position = pos;
 			}
@@ -86,6 +90,8 @@ void Burger::GrabBurger()
 
 	if (BurgerNo == 2) {
 		Vector3 plPos = m_player[1]->GetPosition();
+		Vector3 plSpeed = m_player[1]->GetNormalMoveSpeed();
+		plSpeed *= 90.0f;
 		Vector3 burPos = m_position;
 
 		float pl2Burger = (plPos.x - burPos.x) * (plPos.x - burPos.x) + (plPos.y - burPos.y) * (plPos.y - burPos.y) + (plPos.z - burPos.z) * (plPos.z - burPos.z);
@@ -97,8 +103,10 @@ void Burger::GrabBurger()
 		}
 		//バーガーの位置をプレイヤーの頭上に持ってくる。
 		if (m_player[1]->have == 2) {
+			//pos = plPos;
+			//pos.y += 100.0f;
+			plPos += plSpeed;
 			pos = plPos;
-			pos.y += 100.0f;
 			if (putOnKitchen != 1) {
 				m_position = pos;
 			}

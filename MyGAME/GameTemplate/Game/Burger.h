@@ -16,6 +16,7 @@ private:
 	
 	Vector3 pos;
 
+
 public:
 	//モデルデータ、影の設定。
 	Burger();
