@@ -15,12 +15,22 @@
 #include "HamBurgerFactory.h"
 class SkinModelRender;
 class PlayerGene;
+class SpriteRender;
+class Burger;
 
 class Counter : public IGameObject
 {
 private:
 	Vector3 m_counterPos;
 	Vector3 m_position = Vector3::Zero;
+
+	Vector3 m_spritePos01 = { 500.0f,-200.0f,0.0f };
+	Vector3 m_spritePos02 = { -500.0f,-200.0f,0.0f };
+	bool m_spriteFlag01 = false;
+	bool m_spriteFlag02 = false;
+	int m_spriteTime01 = 0;
+	int m_spriteTime02 = 0;
+
 
 	//表示できるメニューの種類。
 	int menuNum = 3;
@@ -64,4 +74,6 @@ public:
 
 	PlayerGene* m_playerGene;
 	SkinModelRender* m_skinModelRender;
+	SpriteRender* m_spriteJudge01;
+	SpriteRender* m_spriteJudge02;
 };

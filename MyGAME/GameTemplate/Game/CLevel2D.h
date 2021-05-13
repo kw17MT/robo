@@ -43,6 +43,8 @@ private:
 
 	SpriteRender* sprite[enHamBurgerNum];
 
+
+
 	//3つのスプライトの座標。
 	Vector3 m_spritePositions[SHOW_HAMBURGER_NUMBER];
 

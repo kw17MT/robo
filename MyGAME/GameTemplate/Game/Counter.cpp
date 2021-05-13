@@ -7,6 +7,7 @@
 #include "PlayerGene.h"
 #include "Player.h"
 #include "SkinModelRender.h"
+#include "SpriteRender.h"
 
 Counter::Counter()
 {
@@ -181,6 +182,24 @@ void Counter::Delete()
 			if (g_pad[0]->IsTrigger(enButtonA) && pl2Counter < 100.0f) {
 				if (Judge() == true) {
 					bu01->putOnKitchen = 1;
+					if (m_spriteFlag01 == false) {
+						m_spriteJudge01 = NewGO<SpriteRender>(0);
+						m_spriteJudge01->Init("Assets/Image/win.dds", 100, 100);
+						m_spriteJudge01->SetPosition(m_spritePos01);
+						m_spriteFlag01 = true;
+					}
+				}
+				else {
+					if (m_spriteFlag01 == false) {
+						m_spriteJudge01 = NewGO<SpriteRender>(0);
+						m_spriteJudge01->Init("Assets/Image/lose.dds", 100, 100);
+						m_spriteJudge01->SetPosition(m_spritePos01);
+						m_spriteFlag01 = true;
+						Burger* bur01 = FindGO<Burger>("burger01");
+						bur01->Delete();
+						pl01->have = 0;
+						
+					}
 				}
 			}
 
@@ -229,6 +248,24 @@ void Counter::Delete()
 			if (g_pad[1]->IsTrigger(enButtonA) && pl2Counter < 100.0f) {
 				if (Judge() == true) {
 					bu02->putOnKitchen = 1;
+					if (m_spriteFlag02 == false) {
+						m_spriteJudge02 = NewGO<SpriteRender>(0);
+						m_spriteJudge02->Init("Assets/Image/win.dds", 100, 100);
+						m_spriteJudge02->SetPosition(m_spritePos02);
+						m_spriteFlag02 = true;
+					}
+				}
+				else {
+					if (m_spriteFlag02 == false) {
+						m_spriteJudge02 = NewGO<SpriteRender>(0);
+						m_spriteJudge02->Init("Assets/Image/lose.dds", 100, 100);
+						m_spriteJudge02->SetPosition(m_spritePos02);
+						m_spriteFlag02 = true;
+						Burger* bur02 = FindGO<Burger>("burger02");
+						bur02->Delete();
+						pl02->have = 0;
+
+					}
 				}
 			}
 
@@ -262,5 +299,21 @@ void Counter::Delete()
 void Counter::Update()
 {
 	Delete();
+	if (m_spriteFlag01 == true) {
+		m_spriteTime01++;
+		if (m_spriteTime01 > 60) {
+			DeleteGO(m_spriteJudge01);
+			m_spriteFlag01 = false;
+			m_spriteTime01 = 0;
+		}
+	}
+	if (m_spriteFlag02 == true) {
+		m_spriteTime02++;
+		if (m_spriteTime02 > 60) {
+			DeleteGO(m_spriteJudge02);
+			m_spriteFlag02 = false;
+			m_spriteTime02 = 0;
+		}
+	}
 	m_skinModelRender->SetPosition(m_position);
 }

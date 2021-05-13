@@ -54,7 +54,10 @@ void Dish::Move()
 		//m_guzaiPos.y += 10.0f;
 		m_guzaiPos.y += m_guzaiYPos;
 		m_guzai->SetPosition(m_guzaiPos);
-		if (m_guzaiYPos > 10.0f) {
+		if (m_guzaiYPos > 800.0f) {
+			m_guzaiYPos -= 4.0f;
+		}
+		else if (m_guzaiYPos > 10.0f) {
 			m_guzaiYPos -= 20.0f;
 		}
 	}
