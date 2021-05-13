@@ -7,7 +7,7 @@ class PlayerGene;
 
 class SkinModelRender;
 class Kitchen;
-
+class Arrow;
 
 class GuzaiOkiba : public IGameObject
 {
@@ -28,7 +28,9 @@ private:
 	float m_targetDistance02;					//2Pがアクセス可能な具材置き場の座標と2Pの距離
 	int m_targetNo01;							//1Pがアクセス可能な具材置き場の番号
 	int m_targetNo02;							//2Pがアクセス可能な具材置き場の番号
-
+	Vector3 m_Arrow01Pos = Vector3::Zero;	//1P用の矢印の座標
+	Vector3 m_Arrow02Pos = Vector3::Zero;	//2P用の矢印の座標
+	
 public:
 	GuzaiOkiba();
 	~GuzaiOkiba();
@@ -62,6 +64,8 @@ public:
 	Guzai* guzai = nullptr;
 	Kitchen* stock[8];
 	SkinModelRender* m_kitchenRender[8];
+	Arrow* m_arrow01;
+	Arrow* m_arrow02;
 	SkinModelRender* m_guzaiRender01;		//1Pがターゲット中にアクセス可能な具材置き場に出すモデル
 	SkinModelRender* m_guzaiRender02;		//2Pがターゲット中にアクセス可能な具材置き場に出すモデル
 };

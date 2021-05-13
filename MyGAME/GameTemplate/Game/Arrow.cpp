@@ -13,10 +13,21 @@ bool Arrow::Start()
 
 void Arrow::Float()
 {
+	m_timer++;
+	if (m_timer <= 60) {
+		m_position.y += 1.0f;
+	}
+	if (m_timer > 60 && m_timer <= 120) {
+		m_position.y -= 1.0f;
+	}
+	if(m_timer > 120) {
+		m_timer = 0;
+	}
 
 }
 
 void Arrow::Update()
 {
+	Float();
 	m_skinModelRender->SetPosition(m_position);
 }
