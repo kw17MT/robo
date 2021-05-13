@@ -40,7 +40,6 @@ bool Counter::Start()
 
 
 	m_skinModelRender->Init("Assets/modelData/counter/counter.tkm", nullptr, enModelUpAxisZ, m_position);
-	//m_skinModelRender->Init("Assets/modelData/object/counter.tkm", nullptr, enModelUpAxisZ, m_position);
 	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	return true;

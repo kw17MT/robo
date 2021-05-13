@@ -60,7 +60,6 @@ Game::Game()
 	playerGene = NewGO<PlayerGene>(0, "playerGene");
 	dishGene = NewGO<DishGene>(0,"dishGene");
 	m_speedManeger = NewGO<DishSpeedManeger>(0, "speedManeger");
-	m_arrow = NewGO<Arrow>(0);
 
 	////勝敗表示用スプライト
 	////表示するポジションを定義
@@ -133,15 +132,15 @@ Game::Game()
 			return true;
 		}
 		if (wcscmp(objectData.name, L"floorLeft") == 0) {
-			floor_l = NewGO<Floor>(0);
+			/*floor_l = NewGO<Floor>(0);
 			floor_l->SetRed(true);
-			floor_l->SetPosition(objectData.Pos);
+			floor_l->SetPosition(objectData.Pos);*/
 			return true;
 		}
 		if (wcscmp(objectData.name, L"floorRight") == 0) {
-			floor_r = NewGO<Floor>(0);
+			/*floor_r = NewGO<Floor>(0);
 			floor_r->SetRed(false);
-			floor_r->SetPosition(objectData.Pos);
+			floor_r->SetPosition(objectData.Pos);*/
 			return true;
 		}
 

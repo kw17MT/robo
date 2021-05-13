@@ -26,7 +26,7 @@ class DishGene;
 class DishSpeedManeger;
 
 class Floor;
-class Arrow;
+
 	
 class Game : public IGameObject
 {
@@ -83,6 +83,5 @@ public:
 	float m_timer = 4.0f;
 	FontRender* m_font;
 
-	Arrow* m_arrow;
 
 };

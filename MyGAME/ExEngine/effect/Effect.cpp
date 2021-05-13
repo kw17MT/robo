@@ -3,6 +3,7 @@
  */
 
 #include "stdafx.h"
+#include "ExEngine.h"
 #include "Effect.h"
 
 

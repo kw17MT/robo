@@ -24,11 +24,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	CSoundEngine::CreateInstance();
 	CSoundEngine::GetInstance()->Init();
 
-	//EffectEngine::CreateInstance();
-	/*Effect laserEffect;
+	EffectEngine::CreateInstance();
+	Effect laserEffect;
 	laserEffect.Init(u"Assets/effect/laser.efk");
-	laserEffect.Play();
-	laserEffect.Update();*/
+	//laserEffect.Play();
+	//laserEffect.Update();
 
 	//一緒くたにしないと両方のライトの影響を受けなくなる。////////////////////////////////
 	//ディレクションライトの正規化と目の位置をカメラの座標にする。
@@ -122,7 +122,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	
 
-	
+	//laserEffect.Play();
 	
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -191,15 +191,22 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			g_camera3D->SetPosition(camerapos);
 		}
 
+		if (g_pad[0]->IsTrigger(enButtonA)) {
+			laserEffect.Play();
+		}
 
-		//EffectEngine::GetInstance()->Update(0.01f/*g_gameTime->GetFrameDeltaTime()*/);
-		//EffectEngine::GetInstance()->Draw();
+		laserEffect.SetPosition({ 0.0f,0.0f,0.0f });
+		laserEffect.SetScale({ 10.0f,10.0f,10.0f });
+		laserEffect.Update();
+
+		EffectEngine::GetInstance()->Update(0.016f/*g_gameTime->GetFrameDeltaTime()*/);
+		EffectEngine::GetInstance()->Draw();
 
 
 
 
 
-
+	
 
 
 

@@ -8,6 +8,7 @@
 #include "PopUp2D.h"
 
 #include "SkinModelRender.h"
+#include "Kitchen.h"
 
 namespace
 {
@@ -79,6 +80,13 @@ bool Player::Start()
 		}
 	}
 
+	if (playerNo == 1) {
+		m_kitchen = FindGO<Kitchen>("kitchen01");
+	}
+	if (playerNo == 2) {
+		m_kitchen = FindGO<Kitchen>("kitchen02");
+	}
+
 	return true;
 }
 
@@ -128,6 +136,11 @@ void Player::RestrictPos()
 		}
 	}
 
+}
+
+void Player::GrabFromKitchen()
+{
+	
 }
 
 void Player::Update()

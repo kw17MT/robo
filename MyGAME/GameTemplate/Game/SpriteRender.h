@@ -5,13 +5,16 @@ private:
 	Sprite m_sprite;
 	SpriteInitData m_spriteData;
 
-	Vector3 m_Pos;
-	Vector3 m_Scale = { 1.0f, 1.0f, 1.0f };
+	Vector3 m_pos;
+	Vector3 m_scale = { 1.0f, 1.0f, 1.0f };
 	Quaternion m_Rot = Quaternion::Identity;
 	Vector2 m_pivot = { 0.5f,0.5f };
 
 public:
 	SpriteRender() {};
+
+	void Update();
+
 	/// <summary>
 	/// 初期化する関数。
 	/// </summary>
@@ -20,8 +23,8 @@ public:
 	/// <param name="b">表示する縦幅</param>
 	void Init(const char* name, int a, int b);
 
-	void SetPosition(Vector3 pos){ m_sprite.Update(pos, m_Rot, m_Scale, m_pivot); }
-	void SetScale(Vector3 scale) { m_sprite.Update(m_Pos, m_Rot, scale, m_pivot); }
+	void SetPosition(Vector3 pos) { m_pos = pos; }
+	void SetScale(Vector3 scale) {m_scale = scale;}
 	void SetPivot(Vector2 pivot) { m_pivot = pivot; }
 	//カラー変更(Vector4版)
 	void SetColor(const Vector4& color) { m_sprite.ColorUpdate(color); }
