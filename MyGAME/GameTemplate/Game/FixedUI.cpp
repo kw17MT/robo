@@ -9,7 +9,7 @@
 FixedUI::~FixedUI()
 {
 	DeleteGO(TextTime);
-	DeleteGO(TextTimeUp);
+	//DeleteGO(TextTimeUp);
 	for (int i = 0; i < 2; i++) {
 		DeleteGO(TextScore[i]);
 	}
@@ -17,7 +17,7 @@ FixedUI::~FixedUI()
 		DeleteGO(TextItem[i]);
 	}
 	DeleteGO(Time);
-	DeleteGO(isTimeUpState);
+	//DeleteGO(isTimeUpState);
 }
 
 bool FixedUI::Start()
@@ -28,10 +28,10 @@ bool FixedUI::Start()
 	TextTime->SetText(L"TIME : ");
 	TextTime->SetPosition(posTime);
 
-	//時間切れフラグ(文字)
-	TextTimeUp = NewGO<FontRender>(5);
-	TextTimeUp->SetText(L"TIMEUP : ");
-	TextTimeUp->SetPosition(posTimeUpText);
+	////時間切れフラグ(文字)
+	//TextTimeUp = NewGO<FontRender>(5);
+	//TextTimeUp->SetText(L"TIMEUP : ");
+	//TextTimeUp->SetPosition(posTimeUpText);
 
 	//スコア左(文字)
 	TextScore[0] = NewGO<FontRender>(5);
@@ -53,12 +53,18 @@ bool FixedUI::Start()
 	TextItem[1]->SetText(L"ITEM : ");
 	TextItem[1]->SetPosition(posItem02);
 
-	//タイムアップ状態
-	isTimeUpState = NewGO<FontRender>(5);
-	isTimeUpState->SetText(TurnTimeUpState());
-	isTimeUpState->SetPosition(posTimeUpState);
+	////タイムアップ状態
+	//isTimeUpState = NewGO<FontRender>(5);
+	//isTimeUpState->SetText(TurnTimeUpState());
+	//isTimeUpState->SetPosition(posTimeUpState);
 
-
+	//ミス表示
+	TextMiss[0] = NewGO<FontRender>(5);
+	TextMiss[0]->SetText(L"MISS:");
+	TextMiss[0]->SetPosition(posMiss01);
+	TextMiss[1] = NewGO<FontRender>(5);
+	TextMiss[1]->SetText(L"MISS:");
+	TextMiss[1]->SetPosition(posMiss02);
 
 	//残時間
 	Time = NewGO<FontRender>(5);
@@ -76,18 +82,18 @@ bool FixedUI::Start()
 //自身のタイムアップフラグを調べて、
 //タイムアップフラグがOFFならOFF,ONならON
 //という文字列(const wchar_t*型)を返す
-const wchar_t* FixedUI::TurnTimeUpState()
-{
-	const wchar_t* timeUpStateWc;
-	if (isTimeUp == true) {
-		timeUpStateWc = L"ON";
-	}
-	else {
-		timeUpStateWc = L"OFF";
-	}
-
-	return timeUpStateWc;
-}
+//const wchar_t* FixedUI::TurnTimeUpState()
+//{
+//	const wchar_t* timeUpStateWc;
+//	if (isTimeUp == true) {
+//		timeUpStateWc = L"ON";
+//	}
+//	else {
+//		timeUpStateWc = L"OFF";
+//	}
+//
+//	return timeUpStateWc;
+//}
 
 void FixedUI::RemainingTimeColor()
 {
@@ -133,12 +139,12 @@ void FixedUI::Update()
 		}
 		timer = 0;
 	}
-	//タイムアップフラグを立てる
-	if (remainingTime <= 0 && isTimeUp == false) {
-		isTimeUp = true;
-	}
+	////タイムアップフラグを立てる
+	//if (remainingTime <= 0 && isTimeUp == false) {
+	//	isTimeUp = true;
+	//}
 	//タイムアップしたかしてないかで文字を変更
-	isTimeUpState->SetText(TurnTimeUpState());
+	//isTimeUpState->SetText(TurnTimeUpState());
 	//タイムアップ処理終わり
 
 	//残時間の変換と更新(int → wstring → const wchar_t*)
