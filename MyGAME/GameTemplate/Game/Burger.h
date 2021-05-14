@@ -35,7 +35,7 @@ public:
 
 	void Update();
 	
-	void SetPosition(Vector3 pos) { m_position = pos;/*m_charaCon.SetPosition(pos);*/ }
+	void SetPosition(Vector3 pos) { m_position = pos; }
 	//バーガーはどちら側のか...１、左　２、右
 	void SetBurgerNo(int num) { BurgerNo = num; }
 	//ゴミ箱にセットして消す

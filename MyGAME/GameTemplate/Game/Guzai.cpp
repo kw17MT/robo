@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "PlayerGene.h"
 #include "TrashCan.h"
+#include "SoundSource.h"
 #include<random>
 
 #include <ctime>
@@ -17,26 +18,13 @@ namespace
 	const float MOVESPEED = 130.0f;
 }
 
-
 Guzai::Guzai()
 {
-
 }
 
-//デストラクタ
 Guzai::~Guzai()
 {
 	DeleteGO(m_skinModelRender);
-}
-
-Vector3 Guzai::GetPosition()
-{
-	return m_position;
-}
-
-void Guzai::SetPosition(Vector3 pos)
-{
-	m_position = pos;
 }
 
 void Guzai::ChangeGuzai(int num)
@@ -132,11 +120,9 @@ bool Guzai::Start()
 	m_skinModelRender->Init("Assets/modelData/gu/cheese.tkm",nullptr, enModelUpAxisZ, m_position);
 	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 	
-
 	std::random_device rnd;
 	std::mt19937 mt(rnd());
 	//具材を追加したので乱数が出力する値を変更
-	//std::uniform_int_distribution<int> rand(0, 4);
 	std::uniform_int_distribution<int> rand(0, 6);
 
 	TypeNo = rand(mt);
@@ -173,7 +159,6 @@ bool Guzai::Start()
 
 	}
 
-
 	m_skinModelRender->SetNewModel();
 
 	return true;
@@ -184,21 +169,33 @@ void Guzai::GrabNPut()
 	Vector3 plPos01 = pl01->GetPosition();
 	Vector3 plPos02 = pl02->GetPosition();
 	
-	//Aボタンを押したとき、プレイヤーは何も持っていない　一定距離より近い位置にいる。
+	//初めてプレイヤーに持たれる時
+	//Aボタンを押したとき、プレイヤーは何も持っていない、一定距離より近い位置にいる、自分はターゲットされているか、一度でも置かれていないか。
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 		if (pl01->have == 0 && guzai2Pl01 < 150.0f && targeted == true && put == 0) {
+			//音を鳴らす
+			CSoundSource* se = NewGO<CSoundSource>(0);
+			se->Init(L"Assets/sound/putting_a_book2.wav", false);
+			se->SetVolume(3.0f);
+			se->Play(false);
 			GetGuzaiOkiba();
+			//もたれた！
 			state = 1;
+			//Player1は具材をもっている！
 			pl01->have = 1;
-			
+			//自分はどっちのプレイヤーに持たれたか
 			whichPlayerGet = 1;
-
-
+			//空の皿の数を1増やす
 			playerGene->AddNoHavingDishCounter();
 		}
 	}
 	if (g_pad[1]->IsTrigger(enButtonA)) {
 		if (pl02->have == 0 && guzai2Pl02 < 150.0f && targeted == true && put == 0) {
+			//音を鳴らす
+			CSoundSource* se = NewGO<CSoundSource>(0);
+			se->Init(L"Assets/sound/putting_a_book2.wav", false);
+			se->SetVolume(3.0f);
+			se->Play(false);
 			GetGuzaiOkiba();
 			state = 1;
 			pl02->have = 1;
@@ -212,8 +209,6 @@ void Guzai::GrabNPut()
 	//持たれていたら具材の位置をプレイヤーの上にする。
 	if (state == 1) {
 		if (whichPlayerGet == 1) {
-			//plPos01.y += 100.0f;
-			//SetPosition(plPos01);
 			//具材の位置をプレイヤーの少し前にする。
 			Vector3 pl01MSpeed = pl01->GetNormalMoveSpeed();
 			pl01MSpeed *= 90.0f;
@@ -244,47 +239,87 @@ void Guzai::GrabNPut()
 				isSetTargetDummy = false;
 				decrementTime = holdTime;
 				whichPlayerTargetMe = 0;
-
 			}
 		}
 	}
 
-	//Bボタンを押してキッチンが近くにあったら、今積まれている数に応じておく場所を変える。
-	//キッチン側のスタック数をインクリメント。キッチン側で具材をNewGO。
-	if (g_pad[0]->IsTrigger(enButtonA) && m_cooking == true) {
-		if (state == 1 && kit2Pl01 < 100.0f) {
+	//ここはキッチンに置く処理
+	//Aボタンを押してその具材が調理されているとき（する必要がない時）
+	if (g_pad[0]->IsTrigger(enButtonA) && m_isCooked == true) {
+		//自分は持たれているか、距離は一定以内か、一度キッチンに置かれていないか。←pl01->have = 0を回避するため必要
+		if (state == 1 && kit2Pl01 < 100.0f && returned == false) {
+			ChangeModel(TypeNo);
 			Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
 			//キッチンに置いた具材の種類をプレイヤー側に保存
 			pl01->GuzaiNo[ki01->GetStackNum()] = TypeNo;
+			//プレイヤーは何も持っていない
 			pl01->have = 0;
-
+			//積んだ層数を1足す
 			ki01->PlusStack();
-
+			//この具材はキッチンに置かれている
+			put = 1;
+			//自分は持たれていない
+			state = 0;
 			//ターゲティングしていた具材を運んでいる最中は別の具材をターゲティングしたくないため、ここで初期化。
+			//プレイヤーはターゲットしていないにする。
 			targeted = false;
 			pl01->SetTarget(targeted);
+			//ダミーを出しているか→出していないにして次から出るようにする
 			isSetTargetDummy = false;
-			decrementTime = holdTime;
+			//キッチンのY座標＋60 * 積んだ具材数 分上げる。
+			m_position = ki01->GetKitchenPos();
+			m_position.y += ki01->GetStackNum() * 60;
+			m_skinModelRender->SetPosition(m_position);
 
-			//具材の情報を消す。
-			DeleteGO(this);
+			//音を鳴らす
+			CSoundSource* se = NewGO<CSoundSource>(0);
+			se->Init(L"Assets/sound/putting_a_book2.wav", false);
+			se->SetVolume(3.0f);
+			se->Play(false);
+
+			//キッチンにあるスタックした具材の一覧にこの具材を追加。
+			ki01->RegistStackedGuzai(this);
+
+			//同じフレームで取れないようにする。
+			ki01->ChangeGrabState(false);
 		}
 	}
-	if (g_pad[1]->IsTrigger(enButtonA) && m_cooking == true) {
-		if (state == 1 && kit2Pl02 < 100.0f) {
+	if (g_pad[1]->IsTrigger(enButtonA) && m_isCooked == true) {
+		if (state == 1 && kit2Pl02 < 100.0f && returned == false) {
+			ChangeModel(TypeNo);
 			Kitchen* ki02 = FindGO<Kitchen>("kitchen02");
-
+			//キッチンに置いた具材の種類をプレイヤー側に保存
 			pl02->GuzaiNo[ki02->GetStackNum()] = TypeNo;
+			//プレイヤーは何も持っていない
 			pl02->have = 0;
-			
+			//積んだ層数を1足す
 			ki02->PlusStack();
-			
+			//この具材は置かれている
+			put = 1;
+			//自分は持たれていない
+			state = 0;
+			//ターゲティングしていた具材を運んでいる最中は別の具材をターゲティングしたくないため、ここで初期化。
+			//プレイヤーはターゲットしていないにする。
 			targeted = false;
 			pl02->SetTarget(targeted);
+			//ダミーを出しているか→出していないにして次から出るようにする
 			isSetTargetDummy = false;
-			decrementTime = holdTime;
+			//キッチンのY座標＋60 * 積んだ具材数 分上げる。
+			m_position = ki02->GetKitchenPos();
+			m_position.y += ki02->GetStackNum() * 60;
+			m_skinModelRender->SetPosition(m_position);
 
-			DeleteGO(this);
+			//音を鳴らす
+			CSoundSource* se = NewGO<CSoundSource>(0);
+			se->Init(L"Assets/sound/putting_a_book2.wav", false);
+			se->SetVolume(3.0f);
+			se->Play(false);
+
+			//キッチンにあるスタックした具材の一覧にこの具材を追加。
+			ki02->RegistStackedGuzai(this);
+
+			//同じフレームで取れないようにする。
+			ki02->ChangeGrabState(false);
 		}
 	}
 }
@@ -314,6 +349,11 @@ void Guzai::TargetingNPopDummy()
 				targetDummyOnGuzai01->SetFrontCulling("FrontCulling");
 				targetDummyOnGuzai01->SetPosition(m_position);
 				targetDummyOnGuzai01->SetScale(m_dummyScale);
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/select07.wav", false);
+				se->SetVolume(0.2f);
+				se->Play(false);
 				isSetTargetDummy = true;
 			}
 			if (whichPlayerTargetMe == 2) {
@@ -323,6 +363,11 @@ void Guzai::TargetingNPopDummy()
 				targetDummyOnGuzai02->SetFrontCulling("FrontCulling");
 				targetDummyOnGuzai02->SetPosition(m_position);
 				targetDummyOnGuzai02->SetScale(m_dummyScale);
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/select07.wav", false);
+				se->SetVolume(0.2f);
+				se->Play(false);
 				isSetTargetDummy = true;
 			}
 		}
@@ -366,7 +411,7 @@ void Guzai::SetGuzaiOkiba()
 {
 	//1P側の処理
 
-	//具材がプレイヤーに持たれているときに、Bボタンが押されたら…
+	//具材がプレイヤーに持たれているときに、Aボタンが押されたら…
 	if (g_pad[0]->IsTrigger(enButtonA) && state == 1 && whichPlayerGet == 1) {
 
 		//1P側の具材置き場の番号は4～7なので、その範囲で調べる。
@@ -378,11 +423,16 @@ void Guzai::SetGuzaiOkiba()
 				//セット可能ならば具材置き場にセットされたことを伝え、自身の座標をセットされた具材置き場にする。
 				m_guzaiOkiba->GuzaiSet(i, true);
 				m_position = m_guzaiOkiba->GetKitchenPos(i);
-				if (m_cooking == true) {
+				if (m_isCooked == true) {
 					m_position.y += 60.0f;
 				}
 				m_guzaiOkibaSet = true;
 				m_setKitchenNum = i;
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/putting_a_book2.wav", false);
+				se->SetVolume(3.0f);
+				se->Play(false);
 				//プレイヤーが何も持っていない状態にする。
 				pl01->have = 0;
 				targeted = false;
@@ -402,13 +452,17 @@ void Guzai::SetGuzaiOkiba()
 			
 				m_guzaiOkiba->GuzaiSet(i, true);
 				m_position = m_guzaiOkiba->GetKitchenPos(i);
-				if (m_cooking == true) {
+				if (m_isCooked == true) {
 					m_position.y += 60.0f;
 				}
 			
 				m_guzaiOkibaSet = true;
 				m_setKitchenNum = i;
-
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/putting_a_book2.wav", false);
+				se->SetVolume(3.0f);
+				se->Play(false);
 				pl02->have = 0;
 				targeted = false;
 				pl02->SetTarget(targeted);
@@ -439,17 +493,26 @@ void Guzai::GetGuzaiOkiba()
 void Guzai::Cooking()
 {
 	//自身が具材置き場にセットされていて、調理されておらず、ダミーを出しているとき。
-	if (m_guzaiOkibaSet == true && m_cooking == false && isSetTargetDummy == true) {
+	if (m_guzaiOkibaSet == true && m_isCooked == false && isSetTargetDummy == true) {
 		//1P側の処理
 		//1P側のBボタンが押されていて自身のセット場所が1P側だった場合…
 		if (g_pad[0]->IsPress(enButtonB) && m_setKitchenNum >= 4) {
 			//押している時間をインクリメント
 			m_hold01++;
+			//音が出ていなかったら。
+			if (m_soundFlag01 == false) {
+				//音を鳴らす
+				m_cookingSe = NewGO<CSoundSource>(0);
+				m_cookingSe->Init(L"Assets/sound/cutting_a_onion_speedy.wav", false);
+				m_cookingSe->SetVolume(1.0f);
+				m_cookingSe->Play(true);
+				m_soundFlag01 = true;
+			}
 			//調理完了時間まで押されたら…
 			if (m_hold01 > m_cookingTime) {
 				//調理後のモデルに変更。
 				ChangeModel(TypeNo);
-				m_cooking = true;
+				m_isCooked = true;
 				m_position.y += 50.0f;
 				//そのままだと調理前のダミーが残るので一旦ダミーを消す。
 				SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
@@ -460,22 +523,42 @@ void Guzai::Cooking()
 					isSetTargetDummy = false;
 					whichPlayerTargetMe = 0;
 				}
+				//音が出ていたら。
+				if (m_soundFlag01 == true) {
+					//音を消す。
+					DeleteGO(m_cookingSe);
+					m_soundFlag01 = false;
+				}
 			}
 		}
 		else {
 			//ボタンを離したらタイマーは0に戻る。
 			m_hold01 = 0;
+			//音が出ていたら。
+			if (m_soundFlag01 == true) {
+				//音を消す。
+				DeleteGO(m_cookingSe);
+				m_soundFlag01 = false;
+			}
 		}
 
 		//2P側の処理
 		if (g_pad[1]->IsPress(enButtonB) && m_setKitchenNum < 4) {
 			
 			m_hold02++;
-			
+			////音が出ていなかったら。
+			if (m_soundFlag02 == false) {
+				//音を鳴らす
+				m_cookingSe = NewGO<CSoundSource>(0);
+				m_cookingSe->Init(L"Assets/sound/cutting_a_onion_speedy.wav", false);
+				m_cookingSe->SetVolume(1.0f);
+				m_cookingSe->Play(true);
+				m_soundFlag02 = true;
+			}
 			if (m_hold02 > m_cookingTime) {
 				
 				ChangeModel(TypeNo);
-				m_cooking = true;
+				m_isCooked = true;
 				m_position.y += 50.0f;
 				
 				SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
@@ -487,30 +570,46 @@ void Guzai::Cooking()
 					isSetTargetDummy = false;
 					whichPlayerTargetMe = 0;
 				}
+				//音が出ていたら。
+				if (m_soundFlag02 == true) {
+					//音を消す。
+					DeleteGO(m_cookingSe);
+					m_soundFlag02 = false;
+				}
 			}
 		}
 		else {
 			
 			m_hold02 = 0;
+			//音が出ていたら。
+			if (m_soundFlag02 == true) {
+				//音を消す。
+				DeleteGO(m_cookingSe);
+				m_soundFlag02 = false;
+			}
 		}
 	}
 }
 
 void Guzai::SetOnTrashCan() {
-	if (g_pad[0]->IsTrigger(enButtonA) 
-		&& state == 1
-		&& m_trashCan[0]->GetCanTrash()) {
-		isSetOnTrashCan = true;
+	
+	if (g_pad[0]->IsTrigger(enButtonA)					//Aボタンを押して
+		&& state == 1									//この具材が持たれていて
+		&& m_trashCan[0]->GetCanTrash()) {				//ゴミ箱は捨てる用意ができているか（混雑していないか）
+		isSetOnTrashCan = true;							//ゴミ箱で捨てる準備
 	}
 	if (isSetOnTrashCan == true) {
-		decrementTime--;
-		if (decrementTime <= 10) {
-			DeleteGO(this);
+		DeleteGO(this);
+		//音を鳴らす
+		CSoundSource* se = NewGO<CSoundSource>(0);
+		se->Init(L"Assets/sound/dumping.wav", false);
+		se->SetVolume(2.0f);
+		se->Play(false);
+		pl01->have = 0;
+		targeted = false;
+		pl01->SetTarget(targeted);
 
-			pl01->have = 0;
-			targeted = false;
-			pl01->SetTarget(targeted);
-		}
+		m_trashCan[0]->ChangeMovingState(true);
 	}
 
 	if (g_pad[1]->IsTrigger(enButtonA) 
@@ -519,14 +618,16 @@ void Guzai::SetOnTrashCan() {
 		isSetOnTrashCan = true;
 	}
 	if (isSetOnTrashCan == true) {
-		decrementTime--;
-		if (decrementTime <= 10) {
-			DeleteGO(this);
-
-			pl02->have = 0;
-			targeted = false;
-			pl02->SetTarget(targeted);
-		}
+		DeleteGO(this);
+		//音を鳴らす
+		CSoundSource* se = NewGO<CSoundSource>(0);
+		se->Init(L"Assets/sound/dumping.wav", false);
+		se->SetVolume(2.0f);
+		se->Play(false);
+		pl02->have = 0;
+		targeted = false;
+		pl02->SetTarget(targeted);
+		m_trashCan[1]->ChangeMovingState(true);
 	}
 }
 
@@ -598,10 +699,13 @@ void Guzai::Update()
 
 	//トマトとオニオン以外は調理しないでよい。
 	if (TypeNo != 4 && TypeNo != 5) {
-		m_cooking = true;
+		m_isCooked = true;
 	}
 
 	TargetingNPopDummy();
+
+	ki01->ChangeGrabState(true);
+	ki02->ChangeGrabState(true);
 
 	GrabNPut();
 
@@ -649,7 +753,7 @@ void Guzai::Update()
 					SetPos.y += 55.0f;
 					targetDummy02->SetPosition(SetPos);
 				}*/
-				if(m_guzaiOkibaSet == true){
+				if (m_guzaiOkibaSet == true) {
 					Vector3 SetPos = m_position;
 					SetPos.y += 50.0f;
 					targetDummy02->SetPosition(SetPos);
@@ -660,6 +764,57 @@ void Guzai::Update()
 			}
 		}
 	}
+
+	if (returned){
+		if (state == 1) {
+			if (whichPlayerGet == 1) {
+				//具材の位置をプレイヤーの少し前にする。
+				Vector3 pl01MSpeed = pl01->GetNormalMoveSpeed();
+				pl01MSpeed *= 90.0f;
+				plPos01 += pl01MSpeed;
+				SetPosition(plPos01);
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/putting_a_book2.wav", false);
+				se->SetVolume(2.0f);
+				se->Play(false);
+
+				//具材置き場に置いた後でもまた近づくとダミーが出るようにする。
+				SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
+				if (targetDummy01 != nullptr) {
+					DeleteGO(targetDummy01);
+					isSetTargetDummy = false;
+					decrementTime = holdTime;
+					whichPlayerTargetMe = 0;
+				}
+			}
+			if (whichPlayerGet == 2) {
+				//plPos02.y += 100.0f;
+				//SetPosition(plPos02);
+				Vector3 pl02MSpeed = pl02->GetNormalMoveSpeed();
+				pl02MSpeed *= 90.0f;
+				plPos02 += pl02MSpeed;
+				SetPosition(plPos02);
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/putting_a_book2.wav", false);
+				se->SetVolume(2.0f);
+				se->Play(false);
+
+				SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
+				if (targetDummy02 != nullptr) {
+
+					DeleteGO(targetDummy02);
+					isSetTargetDummy = false;
+					decrementTime = holdTime;
+					whichPlayerTargetMe = 0;
+
+				}
+			}
+		}
+		returned = false;
+	}
+
 
 	//キッチンに載ってるときちょっと回してみた
 	//if (put == 1) {

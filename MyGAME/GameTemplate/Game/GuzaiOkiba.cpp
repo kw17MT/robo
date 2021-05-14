@@ -41,7 +41,7 @@ bool GuzaiOkiba::Start()
 	//レベルデータから具材置き場の座標を受け取り、モデルを出す。
 	const wchar_t* StockRight = L"StockRight";
 	const wchar_t* StockLeft = L"StockLeft";
-	level.Init("Assets/level/level_new.tkl", [&](ObjectData& objectData) {
+	level.Init("Assets/level/level_new4.tkl", [&](ObjectData& objectData) {
 		if (wcsncmp(objectData.name, StockRight, 10) == 0) {
 			m_kitchenNo = _wtoi(&objectData.name[10]);
 
@@ -162,7 +162,7 @@ void GuzaiOkiba::Targeted()
 
 	for (int i = 4; i < 8; i++) {
 		//プレイヤーと具材置き場の距離が一定以下で、ターゲット中で無く、具材が置かれていない場合…
-		if (m_distance[i] < 150.0f && m_targeted01 == false && m_guzaiSet[i] == false && pl01->have == 1) {
+		if (m_distance[i] < 140.0f && m_targeted01 == false && m_guzaiSet[i] == false && pl01->have == 1) {
 			//ターゲット中にアクセス可能な具材置き場に印を表示をするために、ターゲット中の具材置き場の座標を記憶する。
 			m_targetPos01 = m_kitchenPos[i];
 			m_targetPos01.y += 100.0f;
@@ -180,7 +180,7 @@ void GuzaiOkiba::Targeted()
 	if (m_targeted01 == true) {
 		//ターゲット中の具材置き場とプレイヤーの距離を測り、一定以上になったとき…
 		m_targetDistance01 = TargetDistance(m_kitchenPos[m_targetNo01], pl01->GetPosition());
-		if (m_targetDistance01 >= 150.0f || m_guzaiSet[m_targetNo01] == true) {
+		if (m_targetDistance01 >= 140.0f || m_guzaiSet[m_targetNo01] == true) {
 			//ターゲット状態から戻り、ターゲット中だった具材置き場に対してアクセス不可能にする。
 			m_targeted01 = false;
 			m_kitchenSet[m_targetNo01] = false;
@@ -196,7 +196,7 @@ void GuzaiOkiba::Targeted()
 	//2P側の処理、1Pとほぼ同じ。
 
 	for (int i = 0; i < 4; i++) {
-		if (m_distance[i] < 150.0f && m_targeted02 == false && m_guzaiSet[i] == false && pl02->have == 1) {
+		if (m_distance[i] < 140.0f && m_targeted02 == false && m_guzaiSet[i] == false && pl02->have == 1) {
 			m_targetPos02 = m_kitchenPos[i];
 			m_targetPos02.y += 100.0f;
 			m_targeted02 = true;
@@ -209,7 +209,7 @@ void GuzaiOkiba::Targeted()
 	}
 	if (m_targeted02 == true) {
 		m_targetDistance02 = TargetDistance(m_kitchenPos[m_targetNo02], pl02->GetPosition());
-		if (m_targetDistance02 >= 150.0f || m_guzaiSet[m_targetNo02]) {
+		if (m_targetDistance02 >= 140.0f || m_guzaiSet[m_targetNo02]) {
 			m_targeted02 = false;
 			m_kitchenSet[m_targetNo02] = false;
 		}

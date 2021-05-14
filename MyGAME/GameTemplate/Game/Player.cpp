@@ -8,6 +8,7 @@
 #include "PopUp2D.h"
 
 #include "SkinModelRender.h"
+#include "Kitchen.h"
 
 namespace
 {
@@ -27,12 +28,22 @@ Player::~Player()
 bool Player::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init(
-		"Assets/modelData/Chef/Chef01.tkm",
-		"Assets/modelData/Chef/Chef_1.tks",
-		enModelUpAxisZ,
-		m_position
-	);
+	if (playerNo == 1) {
+		m_skinModelRender->Init(
+			"Assets/modelData/Chef/ChefRed/Chef01.tkm",
+			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
+			enModelUpAxisZ,
+			m_position
+		);
+	}
+	else {
+		m_skinModelRender->Init(
+			"Assets/modelData/Chef/ChefBlue/Chef02.tkm",
+			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
+			enModelUpAxisZ,
+			m_position
+		);
+	}
 
 	m_skinModelRender->InitShader(
 		"Assets/shader/model.fx",
@@ -77,6 +88,13 @@ bool Player::Start()
 		else if (playerNo == 2) {
 			m_popUp->SetEnSelf(enPlayer02);
 		}
+	}
+
+	if (playerNo == 1) {
+		m_kitchen = FindGO<Kitchen>("kitchen01");
+	}
+	if (playerNo == 2) {
+		m_kitchen = FindGO<Kitchen>("kitchen02");
 	}
 
 	return true;
@@ -128,6 +146,11 @@ void Player::RestrictPos()
 		}
 	}
 
+}
+
+void Player::GrabFromKitchen()
+{
+	
 }
 
 void Player::Update()

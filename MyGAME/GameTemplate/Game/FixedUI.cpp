@@ -13,11 +13,14 @@ FixedUI::~FixedUI()
 	for (int i = 0; i < 2; i++) {
 		DeleteGO(TextScore[i]);
 	}
-	for (int i = 0; i < 2; i++) {
-		DeleteGO(TextItem[i]);
-	}
+	//for (int i = 0; i < 2; i++) {
+	//	DeleteGO(TextItem[i]);
+	//}
 	DeleteGO(Time);
 	//DeleteGO(isTimeUpState);
+	for (int i = 0; i < 2; i++) {
+		DeleteGO(TextMiss[i]);
+	}
 }
 
 bool FixedUI::Start()
@@ -28,10 +31,10 @@ bool FixedUI::Start()
 	TextTime->SetText(L"TIME : ");
 	TextTime->SetPosition(posTime);
 
-	////時間切れフラグ(文字)
-	//TextTimeUp = NewGO<FontRender>(5);
-	//TextTimeUp->SetText(L"TIMEUP : ");
-	//TextTimeUp->SetPosition(posTimeUpText);
+	//時間切れフラグ(文字)
+	/*TextTimeUp = NewGO<FontRender>(5);
+	TextTimeUp->SetText(L"TIMEUP : ");
+	TextTimeUp->SetPosition(posTimeUpText);*/
 
 	//スコア左(文字)
 	TextScore[0] = NewGO<FontRender>(5);
@@ -44,19 +47,19 @@ bool FixedUI::Start()
 	TextScore[1]->SetPosition(posScore02);
 
 	//アイテム左(文字)
-	TextItem[0] = NewGO<FontRender>(5);
+	/*TextItem[0] = NewGO<FontRender>(5);
 	TextItem[0]->SetText(L"ITEM : ");
-	TextItem[0]->SetPosition(posItem01);
+	TextItem[0]->SetPosition(posItem01);*/
 
 	//アイテム右(文字)
-	TextItem[1] = NewGO<FontRender>(5);
+	/*TextItem[1] = NewGO<FontRender>(5);
 	TextItem[1]->SetText(L"ITEM : ");
-	TextItem[1]->SetPosition(posItem02);
+	TextItem[1]->SetPosition(posItem02);*/
 
-	////タイムアップ状態
-	//isTimeUpState = NewGO<FontRender>(5);
-	//isTimeUpState->SetText(TurnTimeUpState());
-	//isTimeUpState->SetPosition(posTimeUpState);
+	//タイムアップ状態
+	/*isTimeUpState = NewGO<FontRender>(5);
+	isTimeUpState->SetText(TurnTimeUpState());
+	isTimeUpState->SetPosition(posTimeUpState);*/
 
 	//ミス表示
 	TextMiss[0] = NewGO<FontRender>(5);

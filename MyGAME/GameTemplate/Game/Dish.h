@@ -5,6 +5,8 @@ class Guzai;
 class PlayerGene;
 class PathMove;
 class DishSpeedManeger;
+class CSoundSource;
+class DishGene;
 
 class Dish : public IGameObject
 {
@@ -18,6 +20,7 @@ private:
 	bool isCompletedFirstPop = false;					//全ての皿の上に具材を設置できたか
 	float m_guzaiYPos = 1000.0f;						//具材の高さ。
 	int m_guzaiTimer = 0;
+	bool m_soundFlag = false;
 
 	std::unique_ptr<PathMove> m_pathMove;		//移動処理を行うクラス。
 
@@ -39,5 +42,7 @@ public:
 	Guzai* m_guzai;
 	PlayerGene* playerGene;
 	DishSpeedManeger* m_speedManeger;
+	CSoundSource* m_se;
+	DishGene* m_dishGene;
 };
 

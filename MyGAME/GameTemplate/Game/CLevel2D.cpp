@@ -362,9 +362,9 @@ void CLevel2D::ShowHamBurger(int number, EnHamBurger enHamBurger)
 
 	Level2DObjectData& objData = m_level2DObjectDatas[enHamBurger];
 	sprite[number] = NewGO<SpriteRender>(2);
-	sprite[number]->Init(objData.ddsFilePath, objData.width / 2, objData.height / 2);
-	sprite[number]->SetScale(objData.scale);
+	sprite[number]->Init(objData.ddsFilePath, objData.width, objData.height);
+	sprite[number]->SetScale({ 0.5f,0.5f,0.5f }/*objData.scale*/);
+	//sprite[number]->SetScale(objData.scale);
 
 	sprite[number]->SetPosition(m_spritePositions[number]);
-
 }

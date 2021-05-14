@@ -6,6 +6,7 @@ class FontRender;
 class PopUp2D;
 
 class SkinModelRender;
+class Kitchen;
 
 enum EnItem
 {
@@ -48,6 +49,8 @@ private:
 
 	EnItem m_enItem = enNonItem;
 
+	int Distance = 0;
+
 public:
 	Player();
 	~Player();
@@ -79,6 +82,10 @@ public:
 	void SetTarget(bool target) { TargetingState = target; }
 	//現在のターゲティング状態を返す。
 	bool GetTargetState() { return TargetingState; }
+
+	void GrabFromKitchen();
+
+	void ClearLatestGuzaiNo(int num) { GuzaiNo[num] = 9; }
 
 	/*const EnItem GetEnItem() const
 	{
@@ -137,7 +144,7 @@ public:
 
 	AnimationClip animationClips[enAnimation_Num];
 
-
+	Kitchen* m_kitchen;
 	SkinModelRender* m_skinModelRender;
 };
 

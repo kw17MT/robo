@@ -17,3 +17,8 @@ void SpriteRender::Init(const char* name, int width, int height)
 
 	m_sprite.Init(spdata);
 }
+
+void SpriteRender::Update()
+{
+	m_sprite.Update(m_pos, m_Rot, m_scale, m_pivot);
+}

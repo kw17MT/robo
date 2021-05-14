@@ -17,6 +17,7 @@ class SkinModelRender;
 class PlayerGene;
 class SpriteRender;
 class Burger;
+class CSoundSource;
 
 class Counter : public IGameObject
 {

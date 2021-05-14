@@ -7,12 +7,13 @@ class PlayerGene;
 class GuzaiGene;
 class GuzaiOkiba;
 class TrashCan;
+class CSoundSource;
 
 class Guzai : public IGameObject
 {
 private:
 	Vector3 m_position = { 0.0f,0.0f,-1000.0f };
-	Vector3 m_scale = Vector3::One; //{ 0.8f, 0.8f, 0.8f };
+	Vector3 m_scale = Vector3::One;
 	const Vector3 m_dummyScale = { 1.3f,1.3f,1.3f };
 	Quaternion m_rotation = Quaternion::Identity;
 	float angle = 0.0f;
@@ -60,13 +61,17 @@ private:
 	//自身がセットされた具材置き場の番号
 	int m_setKitchenNum = 9;
 	//自身が調理されているか？
-	bool m_cooking = false;
+	bool m_isCooked = false;
 	//1Pの調理中の時間。
 	int m_hold01 = 0;
 	//2Pの調理中の時間。
 	int m_hold02 = 0;
 	//調理にかかる時間。
 	int m_cookingTime = 60;
+	//1Pの音を鳴らしたかのフラグ
+	bool m_soundFlag01 = false;
+	//2Pの音を鳴らしたかのフラグ
+	bool m_soundFlag02 = false;
 
 	//ゴミ箱に置いたのかどうか
 	bool isSetOnTrashCan = false;
@@ -79,8 +84,8 @@ public:
 	bool Start();
 	void Update();
 	
-	Vector3 GetPosition();
-	void SetPosition(Vector3 pos);
+	Vector3 GetPosition() { return m_position; }
+	void SetPosition(Vector3 pos) { m_position = pos; }
 	void SetScale(Vector3 scale) { GuzaiScale = scale; }
 
 	//具材をキッチンに置いたときにオブジェクトを消すため、初めに設定しておいたTypeNoも消えてしまう。
@@ -115,11 +120,15 @@ public:
 
 	//具材の回転処理。
 	void Rotation();
+	//どっちのプレイヤーに持たれているか。
+	void SetWhichPlayerGet(int num) { whichPlayerGet = num; }
 
 	//１ならば持たれている。
 	int state = 0;
 	//１ならばもうキッチンに置かれている。
 	int put = 0;
+	//一度キッチンに置かれてから、また取られたとき
+	bool returned = false;
 
 	Player* pl01 = nullptr;
 	Player* pl02 = nullptr;
@@ -130,5 +139,6 @@ public:
 	GuzaiGene* m_guzaiGene;
 	GuzaiOkiba* m_guzaiOkiba;
 	TrashCan* m_trashCan[2];
+	CSoundSource* m_cookingSe;
 };
 
