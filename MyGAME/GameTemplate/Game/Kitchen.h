@@ -3,6 +3,7 @@ class Guzai;
 class Burger;
 class SkinModelRender;
 class Player;
+class CSoundSource;
 
 class Kitchen : public IGameObject
 {
@@ -16,6 +17,9 @@ private:
 	int stack = 0;											//いま何個具材を積んでいるか		
 	bool canGrab = true;									//現在つかめるか（フレームのずれを起こす用）
 	Guzai* StackedGuzai[5];									//キッチンの上にある具材
+
+	bool m_soundFlag01 = false;								//1Pの音が出ているか？
+	bool m_soundFlag02 = false;								//2Pの音が出ているか？
 
 public:
 	//キッチンのモデルなどの設定。
@@ -68,5 +72,6 @@ public:
 	Player* m_player[2];
 	Burger* bur;
 	SkinModelRender* m_skinModelRender;
+	CSoundSource* m_soundSource;
 };
 

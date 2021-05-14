@@ -6,6 +6,8 @@
 #include "PlayerGene.h"
 #include "PathMove.h"
 #include "DishSpeedManeger.h"
+#include "SoundSource.h"
+#include "DishGene.h"
 
 namespace
 {
@@ -31,15 +33,17 @@ bool Dish::Start()
 
 	playerGene = FindGO<PlayerGene>("playerGene");
 	m_speedManeger = FindGO<DishSpeedManeger>("speedManeger");
+	m_dishGene = FindGO<DishGene>("dishGene");
 
 	m_pathMove = std::make_unique<PathMove>();
 	m_pathMove.get()->Init(m_position, MOVESPEED, enNormalLane);
-
+	
 	return true;
 }
 
 void Dish::Move()
 {
+	
 	//皿をウェイポイントで移動させる。
 	m_position = m_pathMove.get()->Move();
 	m_skinModelRender->SetPosition(m_position);
@@ -59,6 +63,15 @@ void Dish::Move()
 		}
 		else if (m_guzaiYPos > 10.0f) {
 			m_guzaiYPos -= 20.0f;
+			if (m_dishGene->GetFallingSound() == false) {
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/falling2.wav", false);
+				se->SetVolume(0.5f);
+				se->Play(false);
+				m_dishGene->SetFallingSound(true);
+			}
+			
 		}
 	}
 	else {
@@ -75,8 +88,21 @@ void Dish::Update()
 				isHavingGuzai = true;
 
 				isCompletedFirstPop = true;
+				
 		}
 	}
+	else {
+		if (m_dishGene->GetSetSound() == false) {
+			//音を鳴らす
+			CSoundSource* se = NewGO<CSoundSource>(0);
+			se->Init(L"Assets/sound/thi-n.wav", false);
+			se->SetVolume(1.0f);
+			se->Play(false);
+			m_dishGene->SetSetSound(true);
+		}
+		
+	}
+	
 	
 	//自分の上の具材が持たれているならば
 	if (m_guzai->state == 1) {
@@ -98,6 +124,8 @@ void Dish::Update()
 			if (playerGene->GetRefilledNum() >= maxNum2Refill) {
 				playerGene->ResetNohavingDishCounter();
 				playerGene->ResetRefilledNum();
+				m_dishGene->SetFallingSound(false);
+				m_dishGene->SetSetSound(false);
 			}
 			m_guzaiTimer = 0;
 		}

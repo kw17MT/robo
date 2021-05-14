@@ -5,6 +5,7 @@
 #include "Counter.h"
 #include "Player.h"
 #include "SkinModelRender.h"
+#include "SoundSource.h"
 
 bool Kitchen::Start()
 {
@@ -61,6 +62,14 @@ void Kitchen::BornBurger()
 		//具材を一つ以上積んでいて、Yボタンを長押し
 		if (stack >= 1 && g_pad[0]->IsPress(enButtonY)) {
 			Delay--;
+			if (m_soundFlag01 == false) {
+				//音を鳴らす
+				m_soundSource = NewGO<CSoundSource>(0);
+				m_soundSource->Init(L"Assets/sound/cutting_a_onion_speedy.wav", false);
+				m_soundSource->SetVolume(2.0f);
+				m_soundSource->Play(true);
+				m_soundFlag01 = true;
+			}
 			if (Delay == 0) {
 				//キッチンについている具材を全部消去
 				Delete();
@@ -68,14 +77,39 @@ void Kitchen::BornBurger()
 				m_player[0]->have = 1;
 				bur = NewGO<Burger>(0, "burger01");
 				bur->SetBurgerNo(1);
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/thi-n.wav", false);
+				se->SetVolume(2.0f);
+				se->Play(false);
+				//音が出ていれば消す。
+				if (m_soundFlag01 == true) {
+					DeleteGO(m_soundSource);
+					m_soundFlag01 = false;
+				}
 				
 				Delay = 60;
+			}
+		}
+		else {
+			//音が出ていれば消す。
+			if (m_soundFlag01 == true) {
+				DeleteGO(m_soundSource);
+				m_soundFlag01 = false;
 			}
 		}
 	}
 	if (KitchenNo == 2) {
 		if (stack >= 1 && g_pad[1]->IsPress(enButtonY)) {
 			Delay--;
+			if (m_soundFlag02 == false) {
+				//音を鳴らす
+				m_soundSource = NewGO<CSoundSource>(0);
+				m_soundSource->Init(L"Assets/sound/cutting_a_onion_speedy.wav", false);
+				m_soundSource->SetVolume(2.0f);
+				m_soundSource->Play(true);
+				m_soundFlag02 = true;
+			}
 			if (Delay == 0) {
 				//キッチンについている具材を全部消去
 				Delete();
@@ -83,8 +117,25 @@ void Kitchen::BornBurger()
 				m_player[1]->have = 1;
 				bur = NewGO<Burger>(0, "burger02");
 				bur->SetBurgerNo(2);
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/thi-n.wav", false);
+				se->SetVolume(2.0f);
+				se->Play(false);
+				//音が出ていれば消す。
+				if (m_soundFlag02 == true) {
+					DeleteGO(m_soundSource);
+					m_soundFlag02 = false;
+				}
 		
 				Delay = 60;
+			}
+		}
+		else {
+			//音が出ていれば消す。
+			if (m_soundFlag02 == true) {
+				DeleteGO(m_soundSource);
+				m_soundFlag02 = false;
 			}
 		}
 	}

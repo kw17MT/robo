@@ -300,5 +300,39 @@ void Game::CountDown()
 	m_font->SetPivot({ 0.5f, 0.5f });
 	m_font->SetPosition({ -100, 200 });
 	m_font->SetScale(scale);
+	
+	//開始時のカウントダウンに応じて音を鳴らす。
+	if (m_timer < 1.0f && m_soundFlag00 == false) {
+		//音を鳴らす
+		CSoundSource* se = NewGO<CSoundSource>(0);
+		se->Init(L"Assets/sound/basketball_buzzer1.wav", false);
+		se->SetVolume(2.0f);
+		se->Play(false);
+		m_soundFlag00 = true;
+	}
+	else if (m_timer < 2.0f && m_soundFlag01 == false) {
+		//音を鳴らす
+		CSoundSource* se = NewGO<CSoundSource>(0);
+		se->Init(L"Assets/sound/Time.wav", false);
+		se->SetVolume(2.0f);
+		se->Play(false);
+		m_soundFlag01 = true;
+	}
+	else if (m_timer < 3.0f && m_soundFlag02 == false) {
+		//音を鳴らす
+		CSoundSource* se = NewGO<CSoundSource>(0);
+		se->Init(L"Assets/sound/Time.wav", false);
+		se->SetVolume(2.0f);
+		se->Play(false);
+		m_soundFlag02 = true;
+	}
+	else if (m_timer < 3.9f && m_soundFlag03 == false) {
+		//音を鳴らす
+		CSoundSource* se = NewGO<CSoundSource>(0);
+		se->Init(L"Assets/sound/Time.wav", false);
+		se->SetVolume(2.0f);
+		se->Play(false);
+		m_soundFlag03 = true;
+	}
 
 }
