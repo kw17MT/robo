@@ -17,7 +17,7 @@ private:
 
 	bool targetUp = true;											//ターゲットアイコンを浮遊させるよう
 	bool isMoving = false;											//ゴミ箱を動かさせるか
-	int movingTime = 120;											//ゴミを入れた後どのくらいの時間動くか
+	int movingTime = 30;											//ゴミを入れた後どのくらいの時間動くか
 public:
 	bool Start();
 	void Update();

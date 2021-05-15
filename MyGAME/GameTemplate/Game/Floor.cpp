@@ -5,7 +5,7 @@
 bool Floor::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_lig.ambientLight.Set(3.5f, 3.5f, 3.5f);
+	m_lig.ambientLight.Set(4.5f, 4.5f, 4.5f);
 	if(isRed) {
 		m_skinModelRender->Init("Assets/modelData/floor/floor_red.tkm", nullptr, enModelUpAxisZ, m_position, &m_lig);
 	}

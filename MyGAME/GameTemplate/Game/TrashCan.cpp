@@ -53,14 +53,14 @@ float TrashCan::CalcDistance(Vector3 v1, Vector3 v2)
 void TrashCan::LetStartMoving()
 {
 	movingTime--;
-	if (movingTime > 60) {
-		m_trashcanScale.y -= 0.01f;
+	if (movingTime > 20 && movingTime <= 30) {
+		m_trashcanScale.y -= 0.03f;
 	}
-	if (movingTime <= 60) {
-		m_trashcanScale.y += 0.01f;
+	if (movingTime <= 20) {
+		m_trashcanScale.y += 0.015f;
 	}
 	if (movingTime < 0) {
-		movingTime = 120;
+		movingTime = 30;
 		isMoving = false;
 	}
 }
