@@ -20,8 +20,8 @@ private:
 
 	
 
-	Vector2 Score01Pos = { -400.0f,-300.0f };
-	Vector2 Score02Pos = { 550.0f,-300.0f };
+	Vector2 Score01Pos = { -400.0f,-250.0f };
+	Vector2 Score02Pos = { 450.0f,-250.0f };
 
 	//スコアの表示と、スコアの加算時の色の変化に使用する。
 	std::wstring nowScore01 = L"0";

@@ -18,8 +18,8 @@ private:
 	Vector3 right = Vector3::Zero;
 	
 	//画像の縦横解像度を定数で決めておく
-	const int wideth = 256;
-	const int height = 256;
+	const int wideth = 512;
+	const int height = 512;
 
 	//タイムアップフラグ
 	bool isTimeUp = false;

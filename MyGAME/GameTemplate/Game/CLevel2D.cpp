@@ -181,7 +181,7 @@ bool CLevel2D::Start()
 		else{
 			//return falseにすると、
 			//Level2DクラスのSpriteで画像が読み込まれます。
-			return true;
+			return false;
 		}
 	});
 

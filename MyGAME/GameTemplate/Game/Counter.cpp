@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "SkinModelRender.h"
 #include "SpriteRender.h"
+#include "SoundSource.h"
 
 Counter::Counter()
 {
@@ -187,6 +188,11 @@ void Counter::Delete()
 						m_spriteJudge01->Init("Assets/Image/win.dds", 100, 100);
 						m_spriteJudge01->SetPosition(m_spritePos01);
 						m_spriteFlag01 = true;
+						//‰¹‚ð–Â‚ç‚·
+						CSoundSource* se = NewGO<CSoundSource>(0);
+						se->Init(L"Assets/sound/crrect_answer2.wav", false);
+						se->SetVolume(0.7f);
+						se->Play(false);
 					}
 				}
 				else {
@@ -198,7 +204,11 @@ void Counter::Delete()
 						Burger* bur01 = FindGO<Burger>("burger01");
 						bur01->Delete();
 						pl01->have = 0;
-						
+						//‰¹‚ð–Â‚ç‚·
+						CSoundSource* se = NewGO<CSoundSource>(0);
+						se->Init(L"Assets/sound/blip01.wav",false);
+						se->SetVolume(0.7f);
+						se->Play(false);
 					}
 				}
 			}
@@ -253,6 +263,11 @@ void Counter::Delete()
 						m_spriteJudge02->Init("Assets/Image/win.dds", 100, 100);
 						m_spriteJudge02->SetPosition(m_spritePos02);
 						m_spriteFlag02 = true;
+						//‰¹‚ð–Â‚ç‚·
+						CSoundSource* se = NewGO<CSoundSource>(0);
+						se->Init(L"Assets/sound/crrect_answer2.wav", false);
+						se->SetVolume(0.7f);
+						se->Play(false);
 					}
 				}
 				else {
@@ -264,6 +279,11 @@ void Counter::Delete()
 						Burger* bur02 = FindGO<Burger>("burger02");
 						bur02->Delete();
 						pl02->have = 0;
+						//‰¹‚ð–Â‚ç‚·
+						CSoundSource* se = NewGO<CSoundSource>(0);
+						se->Init(L"Assets/sound/blip01.wav", false);
+						se->SetVolume(0.7f);
+						se->Play(false);
 
 					}
 				}

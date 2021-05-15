@@ -6,7 +6,7 @@
 
 bool MissCounter::Start()
 {
-	m_level2D.Init("Assets/level2D/level2D_new.casl", [&](Level2DObjectData& objdata) {
+	m_level2D.Init("Assets/level2D/level2D_add.casl", [&](Level2DObjectData& objdata) {
 		if (strncmp(objdata.name, "square", 6) == 0 ) {
 			int num = atoi(&objdata.name[6]);
 

@@ -26,6 +26,7 @@ class DishGene;
 class DishSpeedManeger;
 
 class Floor;
+class SoundSource;
 
 	
 class Game : public IGameObject
@@ -33,6 +34,10 @@ class Game : public IGameObject
 private:
 	bool isTimeUp = false;
 	int StockPlaceNum = 0;
+	bool m_soundFlag00 = false; //0の音が鳴っているか？
+	bool m_soundFlag01 = false; //1の音が鳴っているか？
+	bool m_soundFlag02 = false; //2の音が鳴っているか？
+	bool m_soundFlag03 = false; //3の音が鳴っているか？
 public:
 	//オブジェクトやUIの表示
 	Game();

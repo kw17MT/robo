@@ -7,6 +7,7 @@ class PlayerGene;
 class GuzaiGene;
 class GuzaiOkiba;
 class TrashCan;
+class CSoundSource;
 
 class Guzai : public IGameObject
 {
@@ -67,6 +68,10 @@ private:
 	int m_hold02 = 0;
 	//調理にかかる時間。
 	int m_cookingTime = 60;
+	//1Pの音を鳴らしたかのフラグ
+	bool m_soundFlag01 = false;
+	//2Pの音を鳴らしたかのフラグ
+	bool m_soundFlag02 = false;
 
 	//ゴミ箱に置いたのかどうか
 	bool isSetOnTrashCan = false;
@@ -134,5 +139,6 @@ public:
 	GuzaiGene* m_guzaiGene;
 	GuzaiOkiba* m_guzaiOkiba;
 	TrashCan* m_trashCan[2];
+	CSoundSource* m_cookingSe;
 };
 
