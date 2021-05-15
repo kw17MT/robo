@@ -52,8 +52,25 @@ bool Player::Start()
 		DXGI_FORMAT_R32G32B32A32_FLOAT
 	);
 
+	m_shadow = NewGO<SkinModelRender>(0);
+	m_shadow->Init(
+		"Assets/modelData/Chef/ChefRed/Chef01.tkm",
+		"Assets/modelData/Chef/ChefRed/Chef_1.tks",
+		enModelUpAxisZ,
+		m_position
+	);
+	m_shadow->InitShader(
+		"Assets/shader/demodel.fx",
+		"VSMain",
+		"VSSkinMain",
+		DXGI_FORMAT_R32G32B32A32_FLOAT
+	);
+
 	m_scale = { 0.3f,0.4f,0.3f };
+	m_shadowScale = { 0.4f,0.01f,0.4f };
 	m_skinModelRender->SetScale(m_scale);
+	m_shadow->SetScale(m_shadowScale);
+	m_shadow->SetPosition(m_position);
 	//ここでアニメーションのロードを行う
 	animationClips[enAnimation_Idle].Load("Assets/animData/idle.tka");
 	/*animationClips[enAnimation_Run].Load("");
@@ -124,11 +141,11 @@ void Player::RestrictPos()
 		if (m_position.x < 900) {
 			m_position.x = 900;
 		}
-		if (m_position.z > 200) {
-			m_position.z = 200;
+		if (m_position.z > 190) {
+			m_position.z = 190;
 		}
-		if (m_position.z < -550) {
-			m_position.z = -550;
+		if (m_position.z < -530) {
+			m_position.z = -530;
 		}
 	}
 	if (playerNo == 2) {
@@ -138,11 +155,11 @@ void Player::RestrictPos()
 		if (m_position.x < -1300) {
 			m_position.x = -1300;
 		}
-		if (m_position.z > 200) {
-			m_position.z = 200;
+		if (m_position.z > 190) {
+			m_position.z = 190;
 		}
-		if (m_position.z < -550) {
-			m_position.z = -550;
+		if (m_position.z < -530) {
+			m_position.z = -530;
 		}
 	}
 
@@ -226,6 +243,7 @@ void Player::Update()
 		RestrictPos();
 
 		m_skinModelRender->SetPosition(m_position);
+		m_shadow->SetPosition(m_position);
 	}
 	//P2の処理
 	if (playerNo == 2) {
@@ -289,6 +307,7 @@ void Player::Update()
 		RestrictPos();
 
 		m_skinModelRender->SetPosition(m_position);
+		m_shadow->SetPosition(m_position);
 	}
 	//アイテム使用処理。
 	UseItem();
@@ -300,6 +319,7 @@ void Player::Update()
 	//}
 
 	m_skinModelRender->SetScale(m_scale);
+	m_shadow->SetScale(m_shadowScale);
 
 	//ポップアップ用座標設定
 	Vector3 playerToPopUp = { 200.0f,100.0f,0.0f };

@@ -124,91 +124,6 @@ SPSIn VSSkinMain( SVSIn vsIn )
 	return VSMainCore(vsIn, true);
 }
 
-float3 GetNormal(float3 normal, float3 tangent, float3 biNormal, float2 uv)
-{
-	float3 binSpaceNormal = g_normalMap.SampleLevel(g_sampler, uv, 0.0f).xyz;
-	binSpaceNormal = (binSpaceNormal * 2.0f) - 1.0f;
-
-	float3 newNormal = tangent * binSpaceNormal.x + biNormal * binSpaceNormal.y + normal * binSpaceNormal.z;
-
-	return newNormal;
-}
-
-//ベックマン分布を計算する
-//表面の微小な傾き下限の値。
-float Beckmann(float m, float t)
-{
-	float t2 = t * t;
-	float t4 = t * t * t * t;
-	float m2 = m * m;
-	float D = 1.0f / (4.0f * m2 * t4);
-	D *= exp((-1.0f / m2) * (1.0f - t2) / t2);
-	return D;
-}
-
-//フレネルを計算。Schlick近似を使用
-//光の波長と入射角によって金属反射波きまるらしい。それの計算
-float SpcFresnel(float f0, float u)
-{
-	// from Schlick
-	return f0 + (1 - f0) * pow(1 - u, 5);
-}
-
-float CalcDiffuseFromFresnel(float3 N, float3 L, float3 V)
-{
-	float3 H = normalize(L + V);
-
-	float roughness = 0.5f;
-	float energyBias = lerp(0.0f, 0.5f, roughness);
-
-	float dotLH = saturate(dot(L, H));
-
-	float Fd90 = energyBias + 2.0 * dotLH * dotLH * roughness;
-
-	float dotNL = saturate(dot(N, L));
-
-	float FL = Fd90 + (dotNL - Fd90);
-
-	float dotNV = saturate(dot(N, V));
-
-	float FV = Fd90 + (dotNV - Fd90);
-
-	return (FL * FV) / PI;
-}
-
-float CookTrranceSpecular(float3 L, float3 V, float3 N, float metaric)
-{
-	float microfacet = 0.76f;
-
-	// 金属度を垂直入射の時のフレネル反射率として扱う
-	// 金属度が高いほどフレネル反射は大きくなる
-	float f0 = metaric;
-
-	// ライトに向かうベクトルと視線に向かうベクトルのハーフベクトルを求める
-	float3 H = normalize(L + V);
-
-	// 各種ベクトルがどれくらい似ているかを内積を利用して求める
-	float NdotH = saturate(dot(N, H));
-	float VdotH = saturate(dot(V, H));
-	float NdotL = saturate(dot(N, L));
-	float NdotV = saturate(dot(N, V));
-
-	// D項をベックマン分布を用いて計算する
-	float D = Beckmann(microfacet, NdotH);
-
-	// F項をSchlick近似を用いて計算する
-	float F = SpcFresnel(f0, VdotH);
-
-	// G項を求める
-	float G = min(1.0f, min(2 * NdotH * NdotV / VdotH , 2 * NdotH * NdotL / VdotH));
-
-	// m項を求める
-	float m = PI * NdotV * NdotH;
-
-	// ここまで求めた、値を利用して、クックトランスモデルの鏡面反射を求める
-	return max(F * D * G / m, 0.0);
-}
-
 //ピクセルシェーダーのエントリー関数。
 float4 PSMain(SPSIn psIn) : SV_Target0
 {
@@ -216,19 +131,19 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	{
 		//ディレクションライト用/////////////////////////////////////////////
 		//拡散反射光
-		float t = dot(psIn.normal, directionalLight.direction/*ligDir*/);
-		t *= -1.0f;
-		if (t < 0.0f) { t = 0.0f; }
-		float3 dirDiff = directionalLight.color * t;
+		//float t = dot(psIn.normal, directionalLight.direction/*ligDir*/);
+		//t *= -1.0f;
+		//if (t < 0.0f) { t = 0.0f; }
+		//float3 dirDiff = directionalLight.color * t;
 
-		//鏡面反射光
-		float3 ref = reflect(directionalLight.direction, psIn.normal);
-		float3 toEye = eyePos - psIn.worldPos;
-		toEye = normalize(toEye);
-		t = dot(ref, toEye);
-		if (t < 0.0f) { t = 0.0f; }
-		t = pow(t, 2.0f);
-		float3 dirSpec = directionalLight.color * t;
+		////鏡面反射光
+		//float3 ref = reflect(directionalLight.direction, psIn.normal);
+		//float3 toEye = eyePos - psIn.worldPos;
+		//toEye = normalize(toEye);
+		//t = dot(ref, toEye);
+		//if (t < 0.0f) { t = 0.0f; }
+		//t = pow(t, 2.0f);
+		//float3 dirSpec = directionalLight.color * t;
 		//////////////////////////////////////////////////////////////////////
 
 		//ポイントライト用///////////////////////////////////////////////////
@@ -273,9 +188,9 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 
 		//ディレクションライトのみを有効にしたいときこの範囲のコメント化を解除////
 		//環境光
-		float3 environment = { 0.3f, 0.3f, 0.3f };
+		//float3 environment = { 0.3f, 0.3f, 0.3f };
 
-		return environment;
+		//return environment;
 		//最終光
 		//float4 finalcolor = g_albedo.Sample(g_sampler, psIn.uv);
 		//finalcolor.xyz *= (dirDiff + dirSpec + environment);
@@ -345,11 +260,12 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	//	finalColor.xyz *= 2.5f;
 	//	return finalColor;
 	//}
-}
 
-//フロントカリングをするにあたって枠線を何色にするか。
-float4 FrontCulling(SPSIn psIn) : SV_Target0
-{
-	float4 WHITE = { 1.0f, 1.0f, 1.0f, 0.6f };
-	return WHITE;
+
+	//return float4 = { 0.0f,0.0f,0.0f,1.0f };
+	float4 dark = { 0.0f,0.0f,0.0f,1.0f };
+	dark.xyz *= ambientLight;
+
+	return dark;
+
 }

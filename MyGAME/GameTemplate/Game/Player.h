@@ -30,6 +30,7 @@ private:
 	Quaternion m_rotation = Quaternion::Identity;
 	//スケール
 	Vector3 m_scale = Vector3::One;
+	Vector3 m_shadowScale = Vector3::One;
 	//角度
 	float angle = 0.0f;
 	//移動速度
@@ -146,6 +147,7 @@ public:
 
 	Kitchen* m_kitchen;
 	SkinModelRender* m_skinModelRender;
+	SkinModelRender* m_shadow;
 };
 
 

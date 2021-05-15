@@ -598,36 +598,39 @@ void Guzai::SetOnTrashCan() {
 		&& m_trashCan[0]->GetCanTrash()) {				//ゴミ箱は捨てる用意ができているか（混雑していないか）
 		isSetOnTrashCan = true;							//ゴミ箱で捨てる準備
 	}
-	if (isSetOnTrashCan == true) {
-		DeleteGO(this);
-		//音を鳴らす
-		CSoundSource* se = NewGO<CSoundSource>(0);
-		se->Init(L"Assets/sound/dumping.wav", false);
-		se->SetVolume(2.0f);
-		se->Play(false);
-		pl01->have = 0;
-		targeted = false;
-		pl01->SetTarget(targeted);
+	if (whichPlayerGet == 1) {
+		if (isSetOnTrashCan == true) {
+			DeleteGO(this);
+			//音を鳴らす
+			CSoundSource* se = NewGO<CSoundSource>(0);
+			se->Init(L"Assets/sound/dumping.wav", false);
+			se->SetVolume(2.0f);
+			se->Play(false);
+			pl01->have = 0;
+			targeted = false;
+			pl01->SetTarget(targeted);
 
-		m_trashCan[0]->ChangeMovingState(true);
+			m_trashCan[0]->ChangeMovingState(true);
+		}
 	}
-
-	if (g_pad[1]->IsTrigger(enButtonA) 
-		&& state == 1
-		&& m_trashCan[1]->GetCanTrash()) {
-		isSetOnTrashCan = true;
-	}
-	if (isSetOnTrashCan == true) {
-		DeleteGO(this);
-		//音を鳴らす
-		CSoundSource* se = NewGO<CSoundSource>(0);
-		se->Init(L"Assets/sound/dumping.wav", false);
-		se->SetVolume(2.0f);
-		se->Play(false);
-		pl02->have = 0;
-		targeted = false;
-		pl02->SetTarget(targeted);
-		m_trashCan[1]->ChangeMovingState(true);
+	if (whichPlayerGet == 2) {
+		if (g_pad[1]->IsTrigger(enButtonA)
+			&& state == 1
+			&& m_trashCan[1]->GetCanTrash()) {
+			isSetOnTrashCan = true;
+		}
+		if (isSetOnTrashCan == true) {
+			DeleteGO(this);
+			//音を鳴らす
+			CSoundSource* se = NewGO<CSoundSource>(0);
+			se->Init(L"Assets/sound/dumping.wav", false);
+			se->SetVolume(2.0f);
+			se->Play(false);
+			pl02->have = 0;
+			targeted = false;
+			pl02->SetTarget(targeted);
+			m_trashCan[1]->ChangeMovingState(true);
+		}
 	}
 }
 

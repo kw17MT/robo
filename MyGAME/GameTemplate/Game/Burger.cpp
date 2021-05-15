@@ -158,6 +158,8 @@ void Burger::SetOnTrashCan() {
 				decrementTime = 10;
 				ClearNo();
 				Delete();
+
+				m_trashCan[0]->ChangeMovingState(true);
 			}
 			m_position = m_trashCan[0]->GetPosition();
 			m_position.y += 60.0f;
@@ -179,6 +181,8 @@ void Burger::SetOnTrashCan() {
 				decrementTime = 10;
 				ClearNo();
 				Delete();
+
+				m_trashCan[1]->ChangeMovingState(true);
 			}
 			m_position = m_trashCan[1]->GetPosition();
 			m_position.y += 60.0f;
