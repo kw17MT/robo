@@ -8,6 +8,8 @@ private:
 	Vector3 m_scale = { 2.8f,1.0f,1.0f };
 	Quaternion m_rot = Quaternion::Identity;
 
+	Light m_lig;
+
 	int timer = 1000;
 	bool isTimeUp = false;
 public:
