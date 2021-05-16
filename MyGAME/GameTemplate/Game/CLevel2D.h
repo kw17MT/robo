@@ -5,6 +5,7 @@
 class SpriteRender;
 class MenuTimer;
 class MissCounter;
+class Counter;
 #include "Level2D.h"
 
 static const int SHOW_HAMBURGER_NUMBER = 3;
@@ -56,4 +57,6 @@ private:
 
 	MenuTimer* m_menuTimer[2];
 	MissCounter* m_missCounter;
+	Counter* m_counter01;
+	Counter* m_counter02;
 };

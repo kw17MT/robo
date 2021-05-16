@@ -152,10 +152,13 @@ Game::Game()
 	//具材置き場の表示
 	guzaiOkiba = NewGO<GuzaiOkiba>(0, "GuzaiOkiba");
 
+	
+
 	////レベル2Dの構築
 	//level2D.Init("Assets/level2D/level2D.casl", [&](Level2DObjectData& objectData2D) {return false; });
 
 	NewGO<CLevel2D>(3, "clevel2d");
+
 
 	//スコアの表示/////////////////////////////////////////////////////////////////////
 	m_score = NewGO<Score>(2, "score");

@@ -13,6 +13,7 @@
 //};
 
 #include "HamBurgerFactory.h"
+#include "CLevel2D.h"
 class SkinModelRender;
 class PlayerGene;
 class SpriteRender;
@@ -32,6 +33,9 @@ private:
 	int m_spriteTime01 = 0;
 	int m_spriteTime02 = 0;
 
+	bool m_spriteCompareFlagTrue[4][5] = { false };		//メニューと一致しているときの画像表示フラグ
+	bool m_spriteCompareFlagFalse[4][5] = { false };	//メニューと不一致のときの画像表示フラグ
+	int m_guzaiJudge[4][5] = { 2 };						//積まれた具材が合っているか？0,違っている。1,合っている。2,積まれていない。
 
 	//表示できるメニューの種類。
 	int menuNum = 3;
@@ -70,6 +74,14 @@ public:
 
 	//正しいバーガーかを調べる。
 	bool Judge();
+	void HamBurgerCompare();
+	//表示している3つのハンバーガーを取得。
+	EnHamBurger* GetShowHamBurgers()
+	{
+		return m_showHamBurgers;
+	}
+	//表示しているハンバーガーの配列。
+	EnHamBurger m_showHamBurgers[11];
 
 	int Delay = 0;
 
@@ -77,4 +89,5 @@ public:
 	SkinModelRender* m_skinModelRender;
 	SpriteRender* m_spriteJudge01;
 	SpriteRender* m_spriteJudge02;
+	SpriteRender* m_spriteCompare[4][5];	//メニューと一致しているかの画像を表示
 };

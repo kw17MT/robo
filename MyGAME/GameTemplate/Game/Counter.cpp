@@ -9,6 +9,7 @@
 #include "SkinModelRender.h"
 #include "SpriteRender.h"
 #include "SoundSource.h"
+#include "GameDirector.h"
 
 Counter::Counter()
 {
@@ -43,6 +44,17 @@ bool Counter::Start()
 
 	m_skinModelRender->Init("Assets/modelData/counter/counter.tkm", nullptr, enModelUpAxisZ, m_position);
 	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_showHamBurgers[0] = enCheeseBurger;
+	m_showHamBurgers[1] = enTomatoBurger;
+	m_showHamBurgers[2] = enEggBurger;
+	m_showHamBurgers[3] = enBasicBurger;
+	m_showHamBurgers[4] = enDoubleBurger;
+	m_showHamBurgers[5] = enVegetableBurger;
+	m_showHamBurgers[6] = enBaconBurger;
+	m_showHamBurgers[7] = enBLTBurger;
+	m_showHamBurgers[8] = enOnionBurger;
+	m_showHamBurgers[9] = enHighcalBurger;
+	m_showHamBurgers[10] = enOnOnionBurger;
 
 	return true;
 }
@@ -316,9 +328,154 @@ void Counter::Delete()
 	}
 }
 
+void Counter::HamBurgerCompare()
+{
+	//1P側の処理
+	if (CounterNo == 1) {
+		for (int i = 2; i >= CounterNo; i--) {
+			Player* pl01 = FindGO<Player>("player01");
+			HamBurger hamburger = GetHamBurgerFactory().GetHamBurger(m_showHamBurgers[i]);
+			//具材をキッチンに積んでいないとき…
+			for (int k = 0; k < 5; k++) {
+				if (pl01->GuzaiNo[k] == 9) {
+					//画像が出ていれば消す
+					if (m_spriteCompareFlagTrue[i + 1][k] == true || m_spriteCompareFlagFalse[i + 1][k] == true) {
+						DeleteGO(m_spriteCompare[i + 1][k]);
+						m_spriteCompareFlagTrue[i + 1][k] = false;
+						m_spriteCompareFlagFalse[i + 1][k] = false;
+					}
+				}
+			}
+			//メニューと合っているか調べる
+			for (int j = 0; j < hamburger.size(); j++) {
+				//積んでなければ何もしない。
+				if (pl01->GuzaiNo[j] == 9) {
+					m_guzaiJudge[i + 1][j] = 2;
+				}
+				else {
+					if (pl01->GuzaiNo[j] == hamburger[j]) {
+						//メニューと一致
+						m_guzaiJudge[i + 1][j] = 1;
+					}
+					else {
+						//メニューと不一致
+						m_guzaiJudge[i + 1][j] = 0;
+					}
+				}
+				//メニューと一致しているかで決める。
+				switch (m_guzaiJudge[i+1][j])
+				{
+				case 0: {
+					//一致の画像が出ていれば消す。
+					if (m_spriteCompareFlagTrue[i + 1][j] == true) {
+						DeleteGO(m_spriteCompare[i + 1][j]);
+						m_spriteCompareFlagTrue[i + 1][j] = false;
+					}
+					//一致の画像が出ていなければ出す。
+					if (m_spriteCompareFlagFalse[i + 1][j] == false) {
+						m_spriteCompare[i + 1][j] = NewGO<SpriteRender>(0);
+						m_spriteCompare[i + 1][j]->Init("Assets/Image/squareCross.dds", 30, 30);
+						Vector3 SetPos = { 230.0f,-255.0f,0.0f };
+						SetPos.x += i * 40.0f;
+						SetPos.y += j * 40.0f;
+						m_spriteCompare[i + 1][j]->SetPosition(SetPos);
+						m_spriteCompareFlagFalse[i + 1][j] = true;
+					}
+				}break;
+				case 1: {
+					//不一致の画像が出ていれば消す。
+					if (m_spriteCompareFlagFalse[i + 1][j] == true) {
+						DeleteGO(m_spriteCompare[i + 1][j]);
+						m_spriteCompareFlagFalse[i + 1][j] = false;
+					}
+					//一致の画像が出ていなければ出す。
+					if (m_spriteCompareFlagTrue[i + 1][j] == false) {
+						m_spriteCompare[i + 1][j] = NewGO<SpriteRender>(0);
+						m_spriteCompare[i + 1][j]->Init("Assets/Image/square.dds", 30, 30);
+						Vector3 SetPos = { 230.0f,-255.0f,0.0f };
+						SetPos.x += i * 40.0f;
+						SetPos.y += j * 40.0f;
+						m_spriteCompare[i + 1][j]->SetPosition(SetPos);
+						m_spriteCompareFlagTrue[i + 1][j] = true;
+					}
+				}break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+	//2P側の処理
+	if (CounterNo == 2) {
+		for (int i = 0; i < CounterNo; i++) {
+			Player* pl02 = FindGO<Player>("player02");
+			HamBurger hamburger = GetHamBurgerFactory().GetHamBurger(m_showHamBurgers[i]);
+			for (int k = 0; k < 5; k++) {
+				if (pl02->GuzaiNo[k] == 9) {
+					if (m_spriteCompareFlagTrue[i][k] == true || m_spriteCompareFlagFalse[i][k] == true) {
+						DeleteGO(m_spriteCompare[i][k]);
+						m_spriteCompareFlagTrue[i][k] = false;
+						m_spriteCompareFlagFalse[i][k] = false;
+					}
+				}
+			}
+			for (int j = 0; j < hamburger.size(); j++) {
+				if (pl02->GuzaiNo[j] == 9) {
+					m_guzaiJudge[i][j] = 2;
+				}
+				else {
+					if (pl02->GuzaiNo[j] == hamburger[j]) {
+						m_guzaiJudge[i][j] = 1;
+					}
+					else {
+						m_guzaiJudge[i][j] = 0;
+					}
+				}
+				switch (m_guzaiJudge[i][j])
+				{
+				case 0: {
+					if (m_spriteCompareFlagTrue[i][j] == true) {
+						DeleteGO(m_spriteCompare[i][j]);
+						m_spriteCompareFlagTrue[i][j] = false;
+					}
+					if (m_spriteCompareFlagFalse[i][j] == false) {
+						m_spriteCompare[i][j] = NewGO<SpriteRender>(0);
+						m_spriteCompare[i][j]->Init("Assets/Image/squareCross.dds", 30, 30);
+						Vector3 SetPos = { -580.0f,-255.0f,0.0f };
+						SetPos.x += i * 40.0f;
+						SetPos.y += j * 40.0f;
+						m_spriteCompare[i][j]->SetPosition(SetPos);
+						m_spriteCompareFlagFalse[i][j] = true;
+					}
+				}break;
+				case 1: {
+					if (m_spriteCompareFlagFalse[i][j] == true) {
+						DeleteGO(m_spriteCompare[i][j]);
+						m_spriteCompareFlagFalse[i][j] = false;
+					}
+					if (m_spriteCompareFlagTrue[i][j] == false) {
+						m_spriteCompare[i][j] = NewGO<SpriteRender>(0);
+						m_spriteCompare[i][j]->Init("Assets/Image/square.dds", 30, 30);
+						Vector3 SetPos = { -580.0f,-255.0f,0.0f };
+						SetPos.x += i * 40.0f;
+						SetPos.y += j * 40.0f;
+						m_spriteCompare[i][j]->SetPosition(SetPos);
+						m_spriteCompareFlagTrue[i][j] = true;
+					}
+				}break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+}
+
 void Counter::Update()
 {
 	Delete();
+	HamBurgerCompare();
+	
 	if (m_spriteFlag01 == true) {
 		m_spriteTime01++;
 		if (m_spriteTime01 > 60) {

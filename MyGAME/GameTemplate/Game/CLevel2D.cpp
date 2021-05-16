@@ -3,6 +3,7 @@
 #include "SpriteRender.h"
 #include "MenuTimer.h"
 #include "MissCounter.h"
+#include "Counter.h"
 
 //objdata.ddsFilePathにすでに用意されていたため不要
 
@@ -46,6 +47,8 @@
 
 bool CLevel2D::Start()
 {
+	m_counter01 = FindGO<Counter>("counter01");
+	m_counter02 = FindGO<Counter>("counter02");
 	//レベルを読み込む。
 	//一番左が配列の3番目の要素、右が1番目の要素
 	
@@ -349,6 +352,12 @@ void CLevel2D::Roulette(int number)
 	int rn = rand() % enHamBurgerNum;
 
 	m_showHamBurgers[number] = EnHamBurger(rn);
+	if (number == 2) {
+		m_counter01->m_showHamBurgers[number] = EnHamBurger(rn);
+	}
+	else if (number == 0) {
+		m_counter02->m_showHamBurgers[number] = EnHamBurger(rn);
+	}
 	//ハンバーガーの画像を表示しまーす。
 	ShowHamBurger(number, m_showHamBurgers[number]);
 }
