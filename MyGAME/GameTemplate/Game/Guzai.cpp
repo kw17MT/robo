@@ -245,7 +245,7 @@ void Guzai::GrabNPut()
 
 	//ここはキッチンに置く処理
 	//Aボタンを押してその具材が調理されているとき（する必要がない時）
-	if (g_pad[0]->IsTrigger(enButtonA) && m_isCooked == true) {
+	if (g_pad[0]->IsTrigger(enButtonA) && m_isCooked == true && whichPlayerGet == 1) {
 		//自分は持たれているか、距離は一定以内か、一度キッチンに置かれていないか。←pl01->have = 0を回避するため必要
 		if (state == 1 && kit2Pl01 < 100.0f && returned == false) {
 			ChangeModel(TypeNo);
@@ -284,7 +284,7 @@ void Guzai::GrabNPut()
 			ki01->ChangeGrabState(false);
 		}
 	}
-	if (g_pad[1]->IsTrigger(enButtonA) && m_isCooked == true) {
+	if (g_pad[1]->IsTrigger(enButtonA) && m_isCooked == true && whichPlayerGet == 2) {
 		if (state == 1 && kit2Pl02 < 100.0f && returned == false) {
 			ChangeModel(TypeNo);
 			Kitchen* ki02 = FindGO<Kitchen>("kitchen02");

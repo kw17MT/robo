@@ -358,6 +358,10 @@ void CLevel2D::Roulette(int number)
 	else if (number == 0) {
 		m_counter02->m_showHamBurgers[number] = EnHamBurger(rn);
 	}
+	else if (number == 1) {
+		m_counter01->m_showHamBurgers[number] = EnHamBurger(rn);
+		m_counter02->m_showHamBurgers[number] = EnHamBurger(rn);
+	}
 	//ハンバーガーの画像を表示しまーす。
 	ShowHamBurger(number, m_showHamBurgers[number]);
 }
