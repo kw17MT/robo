@@ -603,12 +603,13 @@ void Guzai::Cooking()
 
 void Guzai::SetOnTrashCan() {
 	
-	if (g_pad[0]->IsTrigger(enButtonA)					//Aボタンを押して
-		&& state == 1									//この具材が持たれていて
-		&& m_trashCan[0]->GetCanTrash()) {				//ゴミ箱は捨てる用意ができているか（混雑していないか）
-		isSetOnTrashCan = true;							//ゴミ箱で捨てる準備
-	}
+	
 	if (whichPlayerGet == 1) {
+		if (g_pad[0]->IsTrigger(enButtonA)					//Aボタンを押して
+			&& state == 1									//この具材が持たれていて
+			&& m_trashCan[0]->GetCanTrash()) {				//ゴミ箱は捨てる用意ができているか（距離的に）
+			isSetOnTrashCan = true;							//ゴミ箱で捨てる準備
+		}
 		if (isSetOnTrashCan == true) {
 			DeleteGO(this);
 			//音を鳴らす
