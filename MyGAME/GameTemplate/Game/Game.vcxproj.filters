@@ -107,7 +107,6 @@
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="..\..\ExEngine\effect\Effect.cpp" />
     <ClCompile Include="..\..\ExEngine\effect\EffectEngine.cpp" />
-    <ClCompile Include="HamBurgerCompare.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -224,6 +223,5 @@
     <ClInclude Include="Arrow.h" />
     <ClInclude Include="..\..\ExEngine\effect\Effect.h" />
     <ClInclude Include="..\..\ExEngine\effect\EffectEngine.h" />
-    <ClInclude Include="HamBurgerCompare.h" />
   </ItemGroup>
 </Project>
