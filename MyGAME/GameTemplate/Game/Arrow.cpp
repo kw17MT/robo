@@ -14,13 +14,13 @@ bool Arrow::Start()
 void Arrow::Float()
 {
 	m_timer++;
-	if (m_timer <= 60) {
+	if (m_timer < 25) {
 		m_position.y += 1.0f;
 	}
-	if (m_timer > 60 && m_timer <= 120) {
+	if (m_timer >= 25 && m_timer <= 50) {
 		m_position.y -= 1.0f;
 	}
-	if(m_timer > 120) {
+	if(m_timer > 50) {
 		m_timer = 0;
 	}
 
