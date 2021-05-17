@@ -132,7 +132,9 @@ bool GuzaiOkiba::Start()
 	//ターゲット中の具材置き場に出す仮モデルを初期化する。
 
 	m_arrow01 = NewGO<Arrow>(0);
+	m_arrow01->SetPosition(m_Arrow01Pos);
 	m_arrow02 = NewGO<Arrow>(0);
+	m_arrow02->SetPosition(m_Arrow02Pos);
 	/*m_guzaiRender01 = NewGO<SkinModelRender>(0);
 	m_guzaiRender01->Init("Assets/modelData/Arrow/Arrow_Yellow.tkm", nullptr, enModelUpAxisZ, m_targetPos01);
 	m_guzaiRender02 = NewGO<SkinModelRender>(0);
@@ -178,6 +180,7 @@ void GuzaiOkiba::Targeted()
 	}
 	//ターゲット中の場合…
 	if (m_targeted01 == true) {
+		m_arrow01->Expansion();
 		//ターゲット中の具材置き場とプレイヤーの距離を測り、一定以上になったとき…
 		m_targetDistance01 = TargetDistance(m_kitchenPos[m_targetNo01], pl01->GetPosition());
 		if (m_targetDistance01 >= 140.0f || m_guzaiSet[m_targetNo01] == true) {
@@ -189,7 +192,8 @@ void GuzaiOkiba::Targeted()
 	//ターゲットしていない場合…
 	else {
 		//ターゲット座標を0,0,0にする。
-		m_arrow01->SetPosition({ 0.0f,-1000.0f,0.0f });
+		m_arrow01->Shrink();
+		//m_arrow01->SetPosition({ 0.0f,-1000.0f,0.0f });
 		m_targetPos01 = { 0.0f,-200.0f,0.0f }/*Vector3::Zero*/;
 	}
 
@@ -208,6 +212,7 @@ void GuzaiOkiba::Targeted()
 		}
 	}
 	if (m_targeted02 == true) {
+		m_arrow02->Expansion();
 		m_targetDistance02 = TargetDistance(m_kitchenPos[m_targetNo02], pl02->GetPosition());
 		if (m_targetDistance02 >= 140.0f || m_guzaiSet[m_targetNo02]) {
 			m_targeted02 = false;
@@ -215,7 +220,8 @@ void GuzaiOkiba::Targeted()
 		}
 	}
 	else {
-		m_arrow02->SetPosition({ 0.0f,-1000.0f,0.0f });
+		m_arrow02->Shrink();
+		//m_arrow02->SetPosition({ 0.0f,-1000.0f,0.0f });
 		m_targetPos02 = { 0.0f,-200.0f,0.0f };/*Vector3::Zero;*/
 	}
 }

@@ -26,8 +26,35 @@ void Arrow::Float()
 
 }
 
+void Arrow::Expansion()
+{
+	m_scaleMinFlag = false;
+	m_scale.x += 0.1f;
+	m_scale.y += 0.1f;
+	m_scale.z += 0.1f;
+
+	if (m_scale.x > 1.0f || m_scale.y > 1.0f || m_scale.z > 1.0f) {
+		m_scale = Vector3::One;
+		m_scaleMaxFlag = true;
+	}
+}
+
+void Arrow::Shrink()
+{
+	m_scaleMaxFlag = false;
+	m_scale.x -= 0.1f;
+	m_scale.y -= 0.1f;
+	m_scale.z -= 0.1f;
+
+	if (m_scale.x < 0.0f || m_scale.y < 0.0f || m_scale.z < 0.0f) {
+		m_scale = Vector3::Zero;
+		m_scaleMinFlag = true;
+	}
+}
+
 void Arrow::Update()
 {
 	Float();
 	m_skinModelRender->SetPosition(m_position);
+	m_skinModelRender->SetScale(m_scale);
 }

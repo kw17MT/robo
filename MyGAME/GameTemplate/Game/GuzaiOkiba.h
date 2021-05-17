@@ -28,9 +28,11 @@ private:
 	float m_targetDistance02;					//2Pがアクセス可能な具材置き場の座標と2Pの距離
 	int m_targetNo01;							//1Pがアクセス可能な具材置き場の番号
 	int m_targetNo02;							//2Pがアクセス可能な具材置き場の番号
-	Vector3 m_Arrow01Pos = Vector3::Zero;	//1P用の矢印の座標
-	Vector3 m_Arrow02Pos = Vector3::Zero;	//2P用の矢印の座標
-	
+	Vector3 m_Arrow01Pos = { 0.0f,-1000.0f,0.0f };	//1P用の矢印の座標
+	Vector3 m_Arrow02Pos = { 0.0f,-1000.0f,0.0f };	//2P用の矢印の座標
+	Vector3 m_Arrow1Scale = Vector3::One;
+	Vector3 m_Arrow2Scale = Vector3::One;
+	float m_Arrow1ScaleSize = 1.0f;
 public:
 	GuzaiOkiba();
 	~GuzaiOkiba();
