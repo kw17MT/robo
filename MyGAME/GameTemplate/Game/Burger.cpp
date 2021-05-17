@@ -82,6 +82,7 @@ void Burger::GrabBurger()
 			//pos.y += 100.0f;
 			plPos += plSpeed;
 			pos = plPos;
+			pos.y += 50.0f;
 			if (putOnKitchen != 1) {
 				m_position = pos;
 			}
@@ -107,6 +108,7 @@ void Burger::GrabBurger()
 			//pos.y += 100.0f;
 			plPos += plSpeed;
 			pos = plPos;
+			pos.y += 50.0f;
 			if (putOnKitchen != 1) {
 				m_position = pos;
 			}

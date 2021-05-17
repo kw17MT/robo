@@ -213,6 +213,7 @@ void Guzai::GrabNPut()
 			Vector3 pl01MSpeed = pl01->GetNormalMoveSpeed();
 			pl01MSpeed *= 90.0f;
 			plPos01 += pl01MSpeed;
+			plPos01.y += 50.0f;
 			SetPosition(plPos01);
 
 			//具材置き場に置いた後でもまた近づくとダミーが出るようにする。
@@ -230,6 +231,7 @@ void Guzai::GrabNPut()
 			Vector3 pl02MSpeed = pl02->GetNormalMoveSpeed();
 			pl02MSpeed *= 90.0f;
 			plPos02 += pl02MSpeed;
+			plPos02.y += 50.0f;
 			SetPosition(plPos02);
 
 			SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
@@ -249,6 +251,10 @@ void Guzai::GrabNPut()
 		//自分は持たれているか、距離は一定以内か、一度キッチンに置かれていないか。←pl01->have = 0を回避するため必要
 		if (state == 1 && kit2Pl01 < 100.0f && returned == false) {
 			ChangeModel(TypeNo);
+			//卵やった時少し小さく
+			if (TypeNo == 1) {
+				m_scale = { 0.7f,1.0f,0.7f };
+			}
 			Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
 			//キッチンに置いた具材の種類をプレイヤー側に保存
 			pl01->GuzaiNo[ki01->GetStackNum()] = TypeNo;
@@ -287,6 +293,10 @@ void Guzai::GrabNPut()
 	if (g_pad[1]->IsTrigger(enButtonA) && m_isCooked == true && whichPlayerGet == 2) {
 		if (state == 1 && kit2Pl02 < 100.0f && returned == false) {
 			ChangeModel(TypeNo);
+			//卵やった時少し小さく
+			if (TypeNo == 1) {
+				m_scale = { 0.7f,1.0f,0.7f };
+			}
 			Kitchen* ki02 = FindGO<Kitchen>("kitchen02");
 			//キッチンに置いた具材の種類をプレイヤー側に保存
 			pl02->GuzaiNo[ki02->GetStackNum()] = TypeNo;
