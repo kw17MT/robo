@@ -362,22 +362,24 @@ void Counter::HamBurgerCompare()
 						m_guzaiJudge[i + 1][j] = 0;
 					}
 				}
+
+				Vector3 SetPos = { -95.0f,-255.0f,0.0f };
+				SetPos.x += i * 120.0f;
+				SetPos.y += j * 30.0f;
 				//メニューと一致しているかで決める。
 				switch (m_guzaiJudge[i+1][j])
 				{
+					
 				case 0: {
 					//一致の画像が出ていれば消す。
 					if (m_spriteCompareFlagTrue[i + 1][j] == true) {
 						DeleteGO(m_spriteCompare[i + 1][j]);
 						m_spriteCompareFlagTrue[i + 1][j] = false;
 					}
-					//一致の画像が出ていなければ出す。
+					//不一致の画像が出ていなければ出す。
 					if (m_spriteCompareFlagFalse[i + 1][j] == false) {
-						m_spriteCompare[i + 1][j] = NewGO<SpriteRender>(0);
-						m_spriteCompare[i + 1][j]->Init("Assets/Image/squareCross.dds", 30, 30);
-						Vector3 SetPos = { 230.0f,-255.0f,0.0f };
-						SetPos.x += i * 40.0f;
-						SetPos.y += j * 40.0f;
+						m_spriteCompare[i + 1][j] = NewGO<SpriteRender>(10);
+						m_spriteCompare[i + 1][j]->Init("Assets/Image/squareCross.dds", 20, 20);
 						m_spriteCompare[i + 1][j]->SetPosition(SetPos);
 						m_spriteCompareFlagFalse[i + 1][j] = true;
 					}
@@ -390,11 +392,8 @@ void Counter::HamBurgerCompare()
 					}
 					//一致の画像が出ていなければ出す。
 					if (m_spriteCompareFlagTrue[i + 1][j] == false) {
-						m_spriteCompare[i + 1][j] = NewGO<SpriteRender>(0);
-						m_spriteCompare[i + 1][j]->Init("Assets/Image/square.dds", 30, 30);
-						Vector3 SetPos = { 230.0f,-255.0f,0.0f };
-						SetPos.x += i * 40.0f;
-						SetPos.y += j * 40.0f;
+						m_spriteCompare[i + 1][j] = NewGO<SpriteRender>(10);
+						m_spriteCompare[i + 1][j]->Init("Assets/Image/square.dds", 20, 20);
 						m_spriteCompare[i + 1][j]->SetPosition(SetPos);
 						m_spriteCompareFlagTrue[i + 1][j] = true;
 					}
@@ -431,6 +430,9 @@ void Counter::HamBurgerCompare()
 						m_guzaiJudge[i][j] = 0;
 					}
 				}
+				Vector3 SetPos = { -155.0f,-255.0f,0.0f };
+				SetPos.x += i * 120.0f;
+				SetPos.y += j * 30.0f;
 				switch (m_guzaiJudge[i][j])
 				{
 				case 0: {
@@ -439,11 +441,8 @@ void Counter::HamBurgerCompare()
 						m_spriteCompareFlagTrue[i][j] = false;
 					}
 					if (m_spriteCompareFlagFalse[i][j] == false) {
-						m_spriteCompare[i][j] = NewGO<SpriteRender>(0);
-						m_spriteCompare[i][j]->Init("Assets/Image/squareCross.dds", 30, 30);
-						Vector3 SetPos = { -580.0f,-255.0f,0.0f };
-						SetPos.x += i * 40.0f;
-						SetPos.y += j * 40.0f;
+						m_spriteCompare[i][j] = NewGO<SpriteRender>(10);
+						m_spriteCompare[i][j]->Init("Assets/Image/squareCross.dds", 20, 20);
 						m_spriteCompare[i][j]->SetPosition(SetPos);
 						m_spriteCompareFlagFalse[i][j] = true;
 					}
@@ -454,11 +453,8 @@ void Counter::HamBurgerCompare()
 						m_spriteCompareFlagFalse[i][j] = false;
 					}
 					if (m_spriteCompareFlagTrue[i][j] == false) {
-						m_spriteCompare[i][j] = NewGO<SpriteRender>(0);
-						m_spriteCompare[i][j]->Init("Assets/Image/square.dds", 30, 30);
-						Vector3 SetPos = { -580.0f,-255.0f,0.0f };
-						SetPos.x += i * 40.0f;
-						SetPos.y += j * 40.0f;
+						m_spriteCompare[i][j] = NewGO<SpriteRender>(10);
+						m_spriteCompare[i][j]->Init("Assets/Image/square.dds", 20, 20);
 						m_spriteCompare[i][j]->SetPosition(SetPos);
 						m_spriteCompareFlagTrue[i][j] = true;
 					}
