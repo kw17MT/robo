@@ -200,7 +200,7 @@ void Counter::Delete()
 					//bu01->putOnKitchen = 1;
 					if (m_spriteFlag01 == false) {
 						m_spriteJudge01 = NewGO<SpriteRender>(0);
-						m_spriteJudge01->Init("Assets/Image/win.dds", 100, 100);
+						m_spriteJudge01->Init("Assets/Image/BurgerJudgeMark/Correct.dds", 100, 100);
 						m_spriteJudge01->SetPosition(m_spritePos01);
 						m_spriteFlag01 = true;
 						//‰¹‚ð–Â‚ç‚·
@@ -217,7 +217,7 @@ void Counter::Delete()
 					m_burgerMistakeFlag = true;
 					if (m_spriteFlag01 == false) {
 						m_spriteJudge01 = NewGO<SpriteRender>(0);
-						m_spriteJudge01->Init("Assets/Image/lose.dds", 100, 100);
+						m_spriteJudge01->Init("Assets/Image/BurgerJudgeMark/Miss.dds", 100, 100);
 						m_spriteJudge01->SetPosition(m_spritePos01);
 						m_spriteFlag01 = true;
 						
@@ -308,7 +308,7 @@ void Counter::Delete()
 					//bu02->putOnKitchen = 1;
 					if (m_spriteFlag02 == false) {
 						m_spriteJudge02 = NewGO<SpriteRender>(0);
-						m_spriteJudge02->Init("Assets/Image/win.dds", 100, 100);
+						m_spriteJudge02->Init("Assets/Image/BurgerJudgeMark/Correct.dds", 100, 100);
 						m_spriteJudge02->SetPosition(m_spritePos02);
 						m_spriteFlag02 = true;
 						//‰¹‚ð–Â‚ç‚·
@@ -326,7 +326,7 @@ void Counter::Delete()
 					m_burgerMistakeFlag = true;
 					if (m_spriteFlag02 == false) {
 						m_spriteJudge02 = NewGO<SpriteRender>(0);
-						m_spriteJudge02->Init("Assets/Image/lose.dds", 100, 100);
+						m_spriteJudge02->Init("Assets/Image/BurgerJudgeMark/Miss.dds", 100, 100);
 						m_spriteJudge02->SetPosition(m_spritePos02);
 						m_spriteFlag02 = true;
 						//‰¹‚ð–Â‚ç‚·
