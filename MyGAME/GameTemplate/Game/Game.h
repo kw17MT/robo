@@ -11,23 +11,19 @@ class Score;
 class Result;
 class FontRender;
 class Level;
-class PostEffectTest;
+class DishGene;
+class DishSpeedManeger;
 class TrashCan;
+class Floor;
+class SoundSource;
+class Player;
+class PlayerGene;
 
-
+class PostEffectTest;
 class ShadowTest;
 class Ground;
 
-class Player;
-class PlayerGene;
 //class PopUp2D;
-
-class DishGene;
-class DishSpeedManeger;
-
-class Floor;
-class SoundSource;
-	
 class Game : public IGameObject
 {
 private:
@@ -43,49 +39,45 @@ public:
 	~Game();
 
 	bool Start();
-
-	//今は特に役割なし。
 	void Update();
 
 	//カウントダウンする。
 	void CountDown();
 
-	FixedUI* ui;
-	Counter* counter01;
-	Counter* counter02;
-	Kitchen* kitchen01;
-	Kitchen* kitchen02;
-	SpriteRender* menu[3];
-	SpriteRender* Buff[2];
-	Player* player[2];
-	PlayerGene* playerGene;
-	GuzaiGene* guzaiGene;
-	Score* m_score = nullptr;
-	PostEffectTest* postTest;
+	FixedUI* ui;										//座標の動かないUI（時間、スコア、ミス）
+	Counter* counter01;									//カウンタ―１
+	Counter* counter02;									//カウンタ―２
+	Kitchen* kitchen01;									///キッチン１
+	Kitchen* kitchen02;									//キッチン２
+	SpriteRender* menu[3];								//メニュー表示３枚分
+	Player* player[2];									//両プレイヤー
+	PlayerGene* playerGene;								//プレイヤーを生成するもの
+	GuzaiGene* guzaiGene;								//具材を生成するもの
+	Score* m_score = nullptr;							//プレイヤーのスコアを表示する。
+	GuzaiOkiba* guzaiOkiba;								//具材置き場を8個出す
+	DishGene* dishGene;									//ウェイポイントに従って皿を出す
+	DishSpeedManeger* m_speedManeger;					//皿のスピードを管理する
+	TrashCan* m_trashCan[2];							//ゴミ箱
+	Floor* floor_r;										//右の床
+	Floor* floor_l;										//左の床	
+	Result* m_result[3];								//勝敗表示用:引き分けの場合、プレイヤー1、プレイヤー2に用意
+	FontRender* m_font;									//フォント
+	CSoundSource* m_bgm;									//BGM用
 
+	//ここから下はいらないと思う
+	PostEffectTest* postTest;
 	ShadowTest* shadowTest;
 	Ground* ground;
 
-	GuzaiOkiba* guzaiOkiba;
-
-	DishGene* dishGene;
-	DishSpeedManeger* m_speedManeger;
 	//PopUp2D* m_popup2D_1 = nullptr;
 	//PopUp2D* m_popup2D_2 = nullptr;
-
-	TrashCan* m_trashCan[2];
-	Floor* floor_r;
-	Floor* floor_l;
-
-	//勝敗表示用:引き分けの場合、プレイヤー1、プレイヤー2に用意
-	Result* m_result[3];
 
 	bool GetTimeUp() { return isTimeUp; }
 	void SetTimeUp() { isTimeUp = true; }
 
 	//カウントダウン用。
 	float m_timer = 4.0f;
-	FontRender* m_font;
+	//FontRender* m_font;
 	
 	//カウントダウン用スプライト
 	SpriteRender* m_countSprite = nullptr;

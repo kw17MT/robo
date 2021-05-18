@@ -43,8 +43,6 @@ Level level;
 
 Game::Game()
 {	
-	//文字の描写///////////////////////////////////////////////////////////////////////
-	//FixedUIクラスのアップデート内で表示する文字を固定している。
 	ui = NewGO<FixedUI>(1,"ui");
 
 	//リザルトにそれぞれnullptrを入れておく
@@ -60,6 +58,11 @@ Game::Game()
 	playerGene = NewGO<PlayerGene>(0, "playerGene");
 	dishGene = NewGO<DishGene>(0,"dishGene");
 	m_speedManeger = NewGO<DishSpeedManeger>(0, "speedManeger");
+
+	m_bgm = NewGO<CSoundSource>(0);
+	m_bgm->Init(L"Assets/sound/BGM/BGM1.wav", false);
+	m_bgm->SetVolume(1.0f);
+	m_bgm->Play(true);
 
 	////勝敗表示用スプライト
 	////表示するポジションを定義
@@ -199,9 +202,6 @@ Game::~Game()
 		DeleteGO(menu[i]);
 	}
 	for (int i = 0; i < 2;i++) {
-		DeleteGO(Buff[i]);
-	}
-	for (int i = 0; i < 2;i++) {
 		DeleteGO(player[i]);
 	}
 	for (int i = 0; i < 2; i++) {
@@ -210,6 +210,7 @@ Game::~Game()
 	DeleteGO(guzaiGene);
 	DeleteGO(guzaiOkiba);
 	DeleteGO(m_score);
+	//DeleteGO(m_bgm);
 }
 
 bool Game::Start()
