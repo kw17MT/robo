@@ -86,6 +86,11 @@ public:
 	//カウントダウン用。
 	float m_timer = 4.0f;
 	FontRender* m_font;
-
+	
+	//カウントダウン用スプライト
+	SpriteRender* m_countSprite = nullptr;
+	int changeCount = 3;
+	float alpha = 0.0f;
+	bool fadeOut = false;
 
 };
