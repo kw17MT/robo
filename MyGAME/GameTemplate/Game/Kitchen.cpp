@@ -207,7 +207,7 @@ void Kitchen::Update()
 	//取る処理
 	//1層以上積まれていたらとれるようにする。
 	if (stack >= 1 && distance1 <= 150.0f) {
-		if (g_pad[0]->IsTrigger(enButtonA) && KitchenNo == 1 && canGrab == true && m_player[0]->have == 0) {
+		if (g_pad[0]->IsTrigger(enButtonA) && KitchenNo == 1 && canGrab == true && m_player[0]->have <= 0) {
 			//この具材は一回キッチンから帰ってきたか
 			StackedGuzai[stack - 1]->returned = true;
 			//持たれているか
@@ -225,7 +225,7 @@ void Kitchen::Update()
 		}
 	}
 	if (stack >= 1 && distance2 <= 150.0f) {
-		if (g_pad[1]->IsTrigger(enButtonA) && KitchenNo == 2 && canGrab == true && m_player[1]->have == 0) {
+		if (g_pad[1]->IsTrigger(enButtonA) && KitchenNo == 2 && canGrab == true && m_player[1]->have <= 0) {
 			//この具材は一回キッチンから帰ってきたか
 			StackedGuzai[stack - 1]->returned = true;
 			//持たれているか
@@ -243,12 +243,12 @@ void Kitchen::Update()
 		}
 	}
 
-	//キッチンに5個以上具材があると取れないようにする。
+	//キッチンに5個以上具材があると"コンベアからは"取れないようにする。
 	if (stack >= MaxStack && KitchenNo == 1) {
-		m_player[0]->have = 1;
+		m_player[0]->have = -1;
 	}
 	if (stack >= MaxStack && KitchenNo == 2) {
-		m_player[1]->have = 1;
+		m_player[1]->have = -1;
 	}
 
 	BornBurger();
