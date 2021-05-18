@@ -4,6 +4,7 @@
 #include "MenuTimer.h"
 #include "MissCounter.h"
 #include "Counter.h"
+#include "SoundSource.h"
 
 //objdata.ddsFilePathにすでに用意されていたため不要
 
@@ -363,6 +364,10 @@ void CLevel2D::Roulette(int number)
 		m_counter02->m_showHamBurgers[number] = EnHamBurger(rn);
 	}
 	//ハンバーガーの画像を表示しまーす。
+	CSoundSource* se = NewGO<CSoundSource>(0);
+	se->Init(L"Assets/sound/button03b.wav", false);
+	se->SetVolume(2.0f);
+	se->Play(false);
 	ShowHamBurger(number, m_showHamBurgers[number]);
 }
 

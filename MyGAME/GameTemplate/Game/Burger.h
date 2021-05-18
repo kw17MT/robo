@@ -2,6 +2,7 @@
 class SkinModelRender;
 class TrashCan;
 class Player;
+class CSoundSourse;
 
 class Burger : public IGameObject
 {

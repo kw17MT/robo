@@ -72,6 +72,9 @@ public:
 	//スタックしている具材を保存していく。
 	void RegistStackedGuzai(Guzai* m_guzai) { StackedGuzai[stack - 1] = m_guzai; }
 
+	//バーガーの調理状況を取得
+	bool GetKitchenCooking() { return m_deleteFlag; }
+
 	Player* m_player[2];
 	Burger* bur;
 	SkinModelRender* m_skinModelRender;

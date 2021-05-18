@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PathMove.h"
 #include "PlayerGene.h"
+#include "SoundSource.h"
 
 namespace
 {
@@ -32,6 +33,10 @@ void PathMove::SwitchCycleDirection()
 		Vector3 nextDistance = m_point->s_vector - m_position;
 		nextDistance.Normalize();
 		m_moveVector = nextDistance;
+		CSoundSource* se = NewGO<CSoundSource>(0);
+		se->Init(L"Assets/sound/mechanical.wav", false);
+		se->SetVolume(2.0f);
+		se->Play(false);
 	}
 	else {
 		m_cycleDirection = enNormal;
@@ -42,6 +47,10 @@ void PathMove::SwitchCycleDirection()
 		Vector3 nextDistance = m_point->s_vector - m_position;
 		nextDistance.Normalize();
 		m_moveVector = nextDistance;
+		CSoundSource* se = NewGO<CSoundSource>(0);
+		se->Init(L"Assets/sound/mechanical.wav", false);
+		se->SetVolume(2.0f);
+		se->Play(false);
 	}
 }
 

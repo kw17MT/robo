@@ -17,6 +17,7 @@ enum enCycleDirection
 
 class PlayerGene;
 class Path;
+class CSoundSourse;
 struct Point;
 class PathMove
 {
