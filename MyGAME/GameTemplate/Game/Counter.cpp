@@ -193,8 +193,11 @@ void Counter::Delete()
 			//キッチンに置く準備
 			//できたハンバーガーの組成をJudge関数で調べ、あっていたらカウンターに置ける。
 			if (g_pad[0]->IsTrigger(enButtonA) && pl2Counter < 100.0f) {
+				bu01->putOnKitchen = 1;
+				//バーガーが合っている場合
 				if (Judge() == true) {
-					bu01->putOnKitchen = 1;
+					m_burgerCorrectFlag = true;
+					//bu01->putOnKitchen = 1;
 					if (m_spriteFlag01 == false) {
 						m_spriteJudge01 = NewGO<SpriteRender>(0);
 						m_spriteJudge01->Init("Assets/Image/win.dds", 100, 100);
@@ -205,47 +208,77 @@ void Counter::Delete()
 						se->Init(L"Assets/sound/crrect_answer2.wav", false);
 						se->SetVolume(0.7f);
 						se->Play(false);
+						//次の具材No.を保存するため、９で初期化。
+						pl01->SetGuzaiNo9();
 					}
 				}
+				//バーガーが間違っている場合。
 				else {
+					m_burgerMistakeFlag = true;
 					if (m_spriteFlag01 == false) {
 						m_spriteJudge01 = NewGO<SpriteRender>(0);
 						m_spriteJudge01->Init("Assets/Image/lose.dds", 100, 100);
 						m_spriteJudge01->SetPosition(m_spritePos01);
 						m_spriteFlag01 = true;
-						Burger* bur01 = FindGO<Burger>("burger01");
-						bur01->Delete();
-						pl01->have = 0;
+						
 						//音を鳴らす
 						CSoundSource* se = NewGO<CSoundSource>(0);
 						se->Init(L"Assets/sound/blip01.wav",false);
 						se->SetVolume(0.7f);
 						se->Play(false);
+						pl01->SetGuzaiNo9();
 					}
 				}
 			}
 
 			if (bu01 != nullptr) {
-				//置いたら30フレーム後に消去
-				if (bu01->putOnKitchen == 1) {
+				//バーガーが合っている場合
+				if (m_burgerCorrectFlag == true) {
 					Delay++;
+					//バーガーを動かす。
 					CounterPos01.y += 100.0f;
+					CounterPos01.z += m_burgerPos.z;
+					m_burgerPos.z += 10.0f;
 					bu01->SetPosition(CounterPos01);
-
-					if (Delay == 30) {
+					//置いたら30フレーム後に消去
+					if (Delay == 60) {
 						//ここで積み上げてた具材の数をScoreに渡してあげる。
 						Score* sco = FindGO<Score>("score");
 						sco->SetBasePoint01(StackNum);
 
-						//次の具材No.を保存するため、９で初期化。
-						pl01->SetGuzaiNo9();
+						
+						pl01->have = 0;
 
 						bu01->ClearModel();
 						DeleteGO(bu01);
 						Delay = 0;
-						pl01->have = 0;
+						
 						StackNum = 0;
 						m_playerGene->AddSubmitBurgerNum();
+						m_burgerPos.z = 0.0f;
+						m_burgerCorrectFlag = false;
+					}
+				}
+				//バーガーが間違っている場合。
+				if (m_burgerMistakeFlag == true) {
+					Delay++;
+					//バーガーを動かす。
+					CounterPos01.y += 100.0f;
+					CounterPos01.x += m_burgerPos.x;
+					m_burgerPos.x += 10.0f;
+					bu01->SetPosition(CounterPos01);
+
+					if (Delay == 60) {
+						Burger* bur01 = FindGO<Burger>("burger01");
+						
+						pl01->have = 0;
+						bu01->ClearModel();
+						DeleteGO(bu01);
+						Delay = 0;
+						
+						StackNum = 0;
+						m_burgerPos.x = 0.0f;
+						m_burgerMistakeFlag = false;
 					}
 				}
 			}
@@ -268,8 +301,11 @@ void Counter::Delete()
 			//キッチンに置く準備
 			//できたハンバーガーの組成をJudge関数でしらべ、あっていたらカウンターに置ける。
 			if (g_pad[1]->IsTrigger(enButtonA) && pl2Counter < 100.0f) {
+				bu02->putOnKitchen = 1;
+				//バーガーが合っている場合
 				if (Judge() == true) {
-					bu02->putOnKitchen = 1;
+					m_burgerCorrectFlag = true;
+					//bu02->putOnKitchen = 1;
 					if (m_spriteFlag02 == false) {
 						m_spriteJudge02 = NewGO<SpriteRender>(0);
 						m_spriteJudge02->Init("Assets/Image/win.dds", 100, 100);
@@ -280,47 +316,74 @@ void Counter::Delete()
 						se->Init(L"Assets/sound/crrect_answer2.wav", false);
 						se->SetVolume(0.7f);
 						se->Play(false);
+						//次の具材No.を保存するため、９で初期化。
+						pl02->SetGuzaiNo9();
+						
 					}
 				}
+				//バーガーが間違っている場合。
 				else {
+					m_burgerMistakeFlag = true;
 					if (m_spriteFlag02 == false) {
 						m_spriteJudge02 = NewGO<SpriteRender>(0);
 						m_spriteJudge02->Init("Assets/Image/lose.dds", 100, 100);
 						m_spriteJudge02->SetPosition(m_spritePos02);
 						m_spriteFlag02 = true;
-						Burger* bur02 = FindGO<Burger>("burger02");
-						bur02->Delete();
-						pl02->have = 0;
 						//音を鳴らす
 						CSoundSource* se = NewGO<CSoundSource>(0);
 						se->Init(L"Assets/sound/blip01.wav", false);
 						se->SetVolume(0.7f);
 						se->Play(false);
-
+						pl02->SetGuzaiNo9();
+						
 					}
 				}
 			}
 
 			if (bu02 != nullptr) {
-				//置いたら30フレーム後に消去
-				if (bu02->putOnKitchen == 1) {
+				//正解したとき。
+				if (m_burgerCorrectFlag == true) {
 					Delay++;
 					CounterPos02.y += 100.0f;
+					CounterPos02.z += m_burgerPos.z;
+					m_burgerPos.z += 10.0f;
 					bu02->SetPosition(CounterPos02);
-
-					if (Delay == 30) {
+					//置いたら30フレーム後に消去
+					if (Delay == 60) {
 						//ここで積み上げてた具材の数をScoreに渡してあげる。
 						Score* sco = FindGO<Score>("score");
 						sco->SetBasePoint02(StackNum);
 
-						//次の具材No.を保存するため、９で初期化。
-						pl02->SetGuzaiNo9();
-
+						
+						
+						pl02->have = 0;
 						DeleteGO(bu02);
 						Delay = 0;
-						pl02->have = 0;
+						
 						StackNum = 0;
 						m_playerGene->AddSubmitBurgerNum();
+						m_burgerPos.z = 0.0f;
+						m_burgerCorrectFlag = false;
+					}
+				}
+				if (m_burgerMistakeFlag == true) {
+					Delay++;
+					CounterPos02.y += 100.0f;
+					CounterPos02.x += m_burgerPos.x;
+					m_burgerPos.x -= 10.0f;
+					bu02->SetPosition(CounterPos02);
+
+					if (Delay == 60) {
+						Burger* bur02 = FindGO<Burger>("burger02");
+						
+						pl02->have = 0;
+						bu02->ClearModel();
+						DeleteGO(bu02);
+						Delay = 0;
+						
+						StackNum = 0;
+						m_burgerPos.x = 0.0f;
+						m_burgerMistakeFlag = false;
 					}
 				}
 			}
