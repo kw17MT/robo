@@ -21,6 +21,9 @@ private:
 	bool m_soundFlag01 = false;								//1Pの音が出ているか？
 	bool m_soundFlag02 = false;								//2Pの音が出ているか？
 
+	bool m_deleteFlag = false;
+	Vector3 m_slidePos = Vector3::Zero;
+
 public:
 	//キッチンのモデルなどの設定。
 	bool Start();			

@@ -26,8 +26,8 @@ private:
 	Vector3 m_counterPos;
 	Vector3 m_position = Vector3::Zero;
 	Vector3 m_burgerPos = Vector3::Zero;
-	bool m_burgerCorrectFlag = false;
-	bool m_burgerMistakeFlag = false;
+	bool m_burgerCorrectFlag = false;		//提出されたバーガーが合っているフラグ。
+	bool m_burgerMistakeFlag = false;		//提出されたバーガーが間違っているフラグ。
 
 	Vector3 m_spritePos01 = { 500.0f,-200.0f,0.0f };
 	Vector3 m_spritePos02 = { -500.0f,-200.0f,0.0f };
