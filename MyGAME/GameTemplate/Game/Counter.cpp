@@ -379,7 +379,7 @@ void Counter::HamBurgerCompare()
 					//不一致の画像が出ていなければ出す。
 					if (m_spriteCompareFlagFalse[i + 1][j] == false) {
 						m_spriteCompare[i + 1][j] = NewGO<SpriteRender>(10);
-						m_spriteCompare[i + 1][j]->Init("Assets/Image/squareCross.dds", 20, 20);
+						m_spriteCompare[i + 1][j]->Init("Assets/Image/JudgeMark/Batsu_White_Black512.dds", 40, 40);
 						m_spriteCompare[i + 1][j]->SetPosition(SetPos);
 						m_spriteCompareFlagFalse[i + 1][j] = true;
 					}
@@ -393,7 +393,7 @@ void Counter::HamBurgerCompare()
 					//一致の画像が出ていなければ出す。
 					if (m_spriteCompareFlagTrue[i + 1][j] == false) {
 						m_spriteCompare[i + 1][j] = NewGO<SpriteRender>(10);
-						m_spriteCompare[i + 1][j]->Init("Assets/Image/square.dds", 20, 20);
+						m_spriteCompare[i + 1][j]->Init("Assets/Image/JudgeMark/Check_White_Red512.dds", 30, 30);
 						m_spriteCompare[i + 1][j]->SetPosition(SetPos);
 						m_spriteCompareFlagTrue[i + 1][j] = true;
 					}
@@ -442,7 +442,7 @@ void Counter::HamBurgerCompare()
 					}
 					if (m_spriteCompareFlagFalse[i][j] == false) {
 						m_spriteCompare[i][j] = NewGO<SpriteRender>(10);
-						m_spriteCompare[i][j]->Init("Assets/Image/squareCross.dds", 20, 20);
+						m_spriteCompare[i][j]->Init("Assets/Image/JudgeMark/Batsu_White_Black512.dds", 40, 40);
 						m_spriteCompare[i][j]->SetPosition(SetPos);
 						m_spriteCompareFlagFalse[i][j] = true;
 					}
@@ -454,7 +454,7 @@ void Counter::HamBurgerCompare()
 					}
 					if (m_spriteCompareFlagTrue[i][j] == false) {
 						m_spriteCompare[i][j] = NewGO<SpriteRender>(10);
-						m_spriteCompare[i][j]->Init("Assets/Image/square.dds", 20, 20);
+						m_spriteCompare[i][j]->Init("Assets/Image/JudgeMark/Check_White_Blue512.dds", 30, 30);
 						m_spriteCompare[i][j]->SetPosition(SetPos);
 						m_spriteCompareFlagTrue[i][j] = true;
 					}
