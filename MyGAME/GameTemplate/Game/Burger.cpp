@@ -43,6 +43,12 @@ bool Burger::Start()
 		SetPosition(KiPos02);
 	}
 
+	//ハンバーガーが出てきたときのエフェクト
+	m_effect.Init(u"Assets/effect/laser.efk");
+	m_effect.Play();
+	m_effect.SetScale({ 10.0f,10.0f,10.0f });
+	m_effect.SetPosition(m_position);
+
 	return true;
 }
 
@@ -197,6 +203,8 @@ void Burger::Update()
 	GrabBurger();
 	
 	SetOnTrashCan();
+
+	m_effect.Update();
 
 	m_skinModelRender->SetPosition(m_position);
 }
