@@ -2,8 +2,12 @@
 class SkinModelRender;
 class TrashCan;
 class Player;
+
 class Effect;
 #include "effect/Effect.h"
+
+class CSoundSourse;
+
 
 class Burger : public IGameObject
 {
