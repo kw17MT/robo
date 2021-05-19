@@ -381,7 +381,8 @@ void CLevel2D::Roulette(int number)
 	m_showHamBurgers[number] = EnHamBurger(rn);
 
 	//カウンターに表示しているバーガーを伝える。
-	if (number == 2) {
+	m_randNum[number] = rn;
+	/*if (number == 2) {
 		m_counter01->m_showHamBurgers[number] = EnHamBurger(rn);
 	}
 	else if (number == 0) {
@@ -390,7 +391,7 @@ void CLevel2D::Roulette(int number)
 	else if (number == 1) {
 		m_counter01->m_showHamBurgers[number] = EnHamBurger(rn);
 		m_counter02->m_showHamBurgers[number] = EnHamBurger(rn);
-	}
+	}*/
 	m_slide[number] = 2;
 	//音を鳴らす
 	m_slideSe[number] = NewGO<CSoundSource>(0);
@@ -446,6 +447,17 @@ void CLevel2D::SpriteSet(int number)
 		sprite[number]->SetPosition(m_slidePos[number]);
 		//画像の位置が一定まで下がったら。
 		if (m_slidePos[number].y < m_spritePositions[number].y - 350.0f) {
+			//カウンターに表示しているバーガーを伝える。
+			if (number == 2) {
+				m_counter01->m_showHamBurgers[number] = EnHamBurger(m_randNum[number]);
+			}
+			else if (number == 0) {
+				m_counter02->m_showHamBurgers[number] = EnHamBurger(m_randNum[number]);
+			}
+			else if (number == 1) {
+				m_counter01->m_showHamBurgers[number] = EnHamBurger(m_randNum[number]);
+				m_counter02->m_showHamBurgers[number] = EnHamBurger(m_randNum[number]);
+			}
 			//スライドフラグを1に変更。
 			m_slide[number] = 1;
 			//メニュー画像を更新。

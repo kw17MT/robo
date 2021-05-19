@@ -476,8 +476,14 @@ void Counter::HamBurgerCompare()
 					SetPos.x += i * 120.0f;
 					SetPos.y += l * 30.0f;
 					SetPos.y += l2->GetSlideAmount(i);
-					if (m_spriteCompareFlagFalse[i + 1][l] == true || m_spriteCompareFlagTrue[i + 1][l] == true) {
-						m_spriteCompare[i + 1][l]->SetPosition(SetPos);
+					if (pl01->GuzaiNo[l] != 9) {
+						if (m_spriteCompareFlagFalse[i + 1][l] == true || m_spriteCompareFlagTrue[i + 1][l] == true) {
+
+							DeleteGO(m_spriteCompare[i + 1][l]);
+							m_spriteCompareFlagFalse[i + 1][l] = false;
+							m_spriteCompareFlagTrue[i + 1][l] = false;
+							//m_spriteCompare[i + 1][l]->SetPosition(SetPos);
+						}
 					}
 				}
 			}
@@ -551,7 +557,16 @@ void Counter::HamBurgerCompare()
 					SetPos.y += l * 30.0f;
 					SetPos.y += l2->GetSlideAmount(i);
 					if (m_spriteCompareFlagFalse[i][l] == true || m_spriteCompareFlagTrue[i][l] == true) {
-						m_spriteCompare[i][l]->SetPosition(SetPos);
+						if (pl02->GuzaiNo[l] != 9) {
+							if (m_spriteCompareFlagFalse[i][l] == true || m_spriteCompareFlagTrue[i][l] == true) {
+
+								DeleteGO(m_spriteCompare[i][l]);
+								m_spriteCompareFlagFalse[i][l] = false;
+								m_spriteCompareFlagTrue[i][l] = false;
+								//m_spriteCompare[i + 1][l]->SetPosition(SetPos);
+							}
+						}
+						//m_spriteCompare[i][l]->SetPosition(SetPos);
 					}
 				}
 			}
