@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "SkinModelRender.h"
 #include "TrashCan.h"
+#include "SoundSource.h"
 
 Burger::Burger()
 {
@@ -79,8 +80,13 @@ void Burger::GrabBurger()
 		pl2Burger = sqrt(pl2Burger);
 
 		//Aボタンを押してプレイヤーとバーガーの距離が150以下なら、バーガーを持つ準備をする。
-		if (g_pad[0]->IsPress(enButtonA) && pl2Burger < 150.0f) {
+		if (g_pad[0]->IsTrigger(enButtonA) && pl2Burger < 150.0f && m_player[0]->have != 2) {
 			m_player[0]->have = 2;
+			//音を鳴らす
+			CSoundSource* se = NewGO<CSoundSource>(0);
+			se->Init(L"Assets/sound/poka01.wav", false);
+			se->SetVolume(2.0f);
+			se->Play(false);
 		}
 		//バーガーの位置をプレイヤーの頭上に持ってくる。
 		if (m_player[0]->have == 2) {
@@ -105,8 +111,12 @@ void Burger::GrabBurger()
 		pl2Burger = sqrt(pl2Burger);
 
 		//Aボタンを押してプレイヤーとバーガーの距離が150以下なら、バーガーを持つ準備をする。
-		if (g_pad[1]->IsPress(enButtonA) && pl2Burger < 200.0f) {
+		if (g_pad[1]->IsTrigger(enButtonA) && pl2Burger < 200.0f && m_player[1]->have != 2) {
 			m_player[1]->have = 2;
+			CSoundSource* se = NewGO<CSoundSource>(0);
+			se->Init(L"Assets/sound/poka01.wav", false);
+			se->SetVolume(2.0f);
+			se->Play(false);
 		}
 		//バーガーの位置をプレイヤーの頭上に持ってくる。
 		if (m_player[1]->have == 2) {
@@ -161,6 +171,11 @@ void Burger::SetOnTrashCan() {
 			decrementTime--;
 			if (decrementTime <= 0) {
 
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/dumping.wav", false);
+				se->SetVolume(2.0f);
+				se->Play(false);
 				burgerExist = 0;
 				m_player[0]->have = 0;
 				decrementTime = 10;
@@ -184,6 +199,11 @@ void Burger::SetOnTrashCan() {
 			decrementTime--;
 			if (decrementTime <= 0) {
 
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/dumping.wav", false);
+				se->SetVolume(2.0f);
+				se->Play(false);
 				burgerExist = 0;
 				m_player[1]->have = 0;
 				decrementTime = 10;

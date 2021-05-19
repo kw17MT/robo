@@ -164,7 +164,7 @@ void GuzaiOkiba::Targeted()
 
 	for (int i = 4; i < 8; i++) {
 		//プレイヤーと具材置き場の距離が一定以下で、ターゲット中で無く、具材が置かれていない場合…
-		if (m_distance[i] < 140.0f && m_targeted01 == false && m_guzaiSet[i] == false && pl01->have == 1) {
+		if (m_distance[i] < 100.0f && m_targeted01 == false && m_guzaiSet[i] == false && pl01->have == 1) {
 			//ターゲット中にアクセス可能な具材置き場に印を表示をするために、ターゲット中の具材置き場の座標を記憶する。
 			m_targetPos01 = m_kitchenPos[i];
 			m_targetPos01.y += 100.0f;
@@ -200,7 +200,7 @@ void GuzaiOkiba::Targeted()
 	//2P側の処理、1Pとほぼ同じ。
 
 	for (int i = 0; i < 4; i++) {
-		if (m_distance[i] < 140.0f && m_targeted02 == false && m_guzaiSet[i] == false && pl02->have == 1) {
+		if (m_distance[i] < 100.0f && m_targeted02 == false && m_guzaiSet[i] == false && pl02->have == 1) {
 			m_targetPos02 = m_kitchenPos[i];
 			m_targetPos02.y += 100.0f;
 			m_targeted02 = true;

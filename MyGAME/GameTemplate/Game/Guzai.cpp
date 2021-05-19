@@ -169,13 +169,14 @@ void Guzai::GrabNPut()
 	Vector3 plPos01 = pl01->GetPosition();
 	Vector3 plPos02 = pl02->GetPosition();
 	
+	
 	//初めてプレイヤーに持たれる時
 	//Aボタンを押したとき、プレイヤーは何も持っていない、一定距離より近い位置にいる、自分はターゲットされているか、一度でも置かれていないか。
 	if (g_pad[0]->IsTrigger(enButtonA)) {
-		if (pl01->have == 0 && guzai2Pl01 < 150.0f && targeted == true && put == 0) {
+		if (pl01->have == 0 && guzai2Pl01 < 150.0f && targeted == true && put == 0 && ki01->GetKitchenCooking() == false) {
 			//音を鳴らす
 			CSoundSource* se = NewGO<CSoundSource>(0);
-			se->Init(L"Assets/sound/putting_a_book2.wav", false);
+			se->Init(L"Assets/sound/poka01.wav", false);
 			se->SetVolume(3.0f);
 			se->Play(false);
 			GetGuzaiOkiba();
@@ -193,7 +194,7 @@ void Guzai::GrabNPut()
 		if (pl02->have == 0 && guzai2Pl02 < 150.0f && targeted == true && put == 0) {
 			//音を鳴らす
 			CSoundSource* se = NewGO<CSoundSource>(0);
-			se->Init(L"Assets/sound/putting_a_book2.wav", false);
+			se->Init(L"Assets/sound/poka01.wav", false);
 			se->SetVolume(3.0f);
 			se->Play(false);
 			GetGuzaiOkiba();
@@ -279,7 +280,7 @@ void Guzai::GrabNPut()
 
 			//音を鳴らす
 			CSoundSource* se = NewGO<CSoundSource>(0);
-			se->Init(L"Assets/sound/putting_a_book2.wav", false);
+			se->Init(L"Assets/sound/poka02.wav", false);
 			se->SetVolume(3.0f);
 			se->Play(false);
 
@@ -321,7 +322,7 @@ void Guzai::GrabNPut()
 
 			//音を鳴らす
 			CSoundSource* se = NewGO<CSoundSource>(0);
-			se->Init(L"Assets/sound/putting_a_book2.wav", false);
+			se->Init(L"Assets/sound/poka02.wav", false);
 			se->SetVolume(3.0f);
 			se->Play(false);
 
@@ -440,7 +441,7 @@ void Guzai::SetGuzaiOkiba()
 				m_setKitchenNum = i;
 				//音を鳴らす
 				CSoundSource* se = NewGO<CSoundSource>(0);
-				se->Init(L"Assets/sound/putting_a_book2.wav", false);
+				se->Init(L"Assets/sound/poka02.wav", false);
 				se->SetVolume(3.0f);
 				se->Play(false);
 				//プレイヤーが何も持っていない状態にする。
@@ -470,7 +471,7 @@ void Guzai::SetGuzaiOkiba()
 				m_setKitchenNum = i;
 				//音を鳴らす
 				CSoundSource* se = NewGO<CSoundSource>(0);
-				se->Init(L"Assets/sound/putting_a_book2.wav", false);
+				se->Init(L"Assets/sound/poka02.wav", false);
 				se->SetVolume(3.0f);
 				se->Play(false);
 				pl02->have = 0;

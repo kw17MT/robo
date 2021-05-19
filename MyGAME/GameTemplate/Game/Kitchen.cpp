@@ -76,6 +76,8 @@ void Kitchen::BornBurger()
 					DeleteGO(m_soundSource);
 					m_soundFlag01 = false;
 				}
+				//ここを１にしていることで、ハンバーガーができているとき具材をとれないようにしておく。
+				m_player[0]->have = 1;
 				//削除フラグを立てる。
 				m_deleteFlag = true;
 				Delay = 40;
@@ -100,8 +102,7 @@ void Kitchen::BornBurger()
 			if (Delay == 0) {
 				//キッチンについている具材を全部消去
 				Delete();
-				//ここを１にしていることで、ハンバーガーができているとき具材をとれないようにしておく。
-				m_player[0]->have = 1;
+				
 				bur = NewGO<Burger>(0, "burger01");
 				bur->SetBurgerNo(1);
 				//音を鳴らす
@@ -109,6 +110,7 @@ void Kitchen::BornBurger()
 				se->Init(L"Assets/sound/thi-n.wav", false);
 				se->SetVolume(2.0f);
 				se->Play(false);
+				
 				
 				m_deleteFlag = false;
 				Delay = 60;
@@ -134,7 +136,8 @@ void Kitchen::BornBurger()
 					DeleteGO(m_soundSource);
 					m_soundFlag02 = false;
 				}
-
+				//ここを１にしていることで、ハンバーガーができているとき具材をとれないようにしておく。
+				m_player[1]->have = 1;
 				m_deleteFlag = true;
 				Delay = 40;
 			}
@@ -158,8 +161,7 @@ void Kitchen::BornBurger()
 			if (Delay == 0) {
 				//キッチンについている具材を全部消去
 				Delete();
-				//ここを１にしていることで、ハンバーガーができているとき具材をとれないようにしておく。
-				m_player[1]->have = 1;
+			
 				bur = NewGO<Burger>(0, "burger02");
 				bur->SetBurgerNo(2);
 				//音を鳴らす
@@ -169,7 +171,7 @@ void Kitchen::BornBurger()
 				se->Play(false);
 
 				m_deleteFlag = false;
-				Delay = 40;
+				Delay = 60;
 			}
 		}
 	}
