@@ -115,6 +115,11 @@ bool Player::Start()
 		m_kitchen = FindGO<Kitchen>("kitchen02");
 	}
 
+	//エフェクトの初期化
+	m_effect.Init(u"Assets/effect/dust.efk");
+	m_effect.SetScale({ 10.0f,10.0f,10.0f });
+
+
 	return true;
 }
 
@@ -248,13 +253,22 @@ void Player::Update()
 		m_skinModelRender->SetPosition(m_position);
 		m_shadow->SetPosition(m_position);
 
-		Effect effect;
-		effect.Init(u"Assets/effect/dust.h");
-		effect.SetPosition(m_position);
-		if (g_pad[0]->IsTrigger(enButtonA)) {
-			effect.Play();
+		//エフェクト再生
+		//移動中なら定期的に発生
+		moveCounter += 1;
+		//エフェクト1つ目
+		if (moveSpeed.x != 0) {
+			if (moveCounter % 12 == 11 ) {
+				m_effect.SetPosition(m_position);
+				m_effect.Play(0);
+			}
 		}
 
+
+		if (moveCounter > 60) {
+			moveCounter = 0;
+		}
+		
 
 	}
 	//P2の処理
@@ -338,6 +352,8 @@ void Player::Update()
 	m_popUpPosition = m_position;
 	m_popUpPosition = m_popUpPosition + playerToPopUp;
 	m_popUp->SetPosition(m_popUpPosition);
+
+	m_effect.Update();
 
 }
 
