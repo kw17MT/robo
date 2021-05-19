@@ -183,7 +183,7 @@ void GuzaiOkiba::Targeted()
 		m_arrow01->Expansion();
 		//ターゲット中の具材置き場とプレイヤーの距離を測り、一定以上になったとき…
 		m_targetDistance01 = TargetDistance(m_kitchenPos[m_targetNo01], pl01->GetPosition());
-		if (m_targetDistance01 >= 140.0f || m_guzaiSet[m_targetNo01] == true) {
+		if (m_targetDistance01 >= 100.0f || m_guzaiSet[m_targetNo01] == true) {
 			//ターゲット状態から戻り、ターゲット中だった具材置き場に対してアクセス不可能にする。
 			m_targeted01 = false;
 			m_kitchenSet[m_targetNo01] = false;
@@ -214,7 +214,7 @@ void GuzaiOkiba::Targeted()
 	if (m_targeted02 == true) {
 		m_arrow02->Expansion();
 		m_targetDistance02 = TargetDistance(m_kitchenPos[m_targetNo02], pl02->GetPosition());
-		if (m_targetDistance02 >= 140.0f || m_guzaiSet[m_targetNo02]) {
+		if (m_targetDistance02 >= 100.0f || m_guzaiSet[m_targetNo02]) {
 			m_targeted02 = false;
 			m_kitchenSet[m_targetNo02] = false;
 		}
