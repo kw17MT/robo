@@ -7,6 +7,7 @@
 #include "SkinModelRender.h"
 #include "TrashCan.h"
 #include "SoundSource.h"
+#include "effect/Effect.h"
 
 Burger::Burger()
 {
@@ -43,6 +44,7 @@ bool Burger::Start()
 		KiPos02.y += 100.0f;
 		SetPosition(KiPos02);
 	}
+
 
 	//ハンバーガーが出てきたときのエフェクト
 	m_effect.Init(u"Assets/effect/kirakira.efk");

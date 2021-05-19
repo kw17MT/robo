@@ -22,10 +22,16 @@ void Effect::Init(const char16_t* filePath)
 	m_effect = EffectEngine::GetInstance()->LoadEffect(filePath);
 	
 }
-void Effect::Play()
+void Effect::Play(const bool& isStop)
 {
 	//再生中のエフェクトを停止する。
-	EffectEngine::GetInstance()->Stop(m_handle);
+	if (isStop == true) {
+		EffectEngine::GetInstance()->Stop(m_handle);
+	}
+	else {
+
+	}
+
 	//新しく再生。
 	m_handle = EffectEngine::GetInstance()->Play(m_effect);
 }

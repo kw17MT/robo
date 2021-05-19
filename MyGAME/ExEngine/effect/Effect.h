@@ -26,7 +26,7 @@ public:
 	/// <remark>
 	/// この関数を呼び出すとエフェクトの再生が開始されます。
 	/// </remark>
-	void Play();
+	void Play(const bool& isStop = true);
 	/*!
 	*@brief	座標を設定。
 	*/

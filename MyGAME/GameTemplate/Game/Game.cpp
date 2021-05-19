@@ -176,6 +176,15 @@ Game::Game()
 	//↓シャドウレシーバー。
 	//ground = NewGO<Ground>(0);
 
+	//カウントダウン用スプライトの初期化
+	m_countSprite = NewGO<SpriteRender>(20);
+	Vector2 ctPivot = { 0.5f,0.5f };
+	Vector3 ctPosition = { 0.0f,100.0f,0.0f };
+	m_countSprite->SetColor(1.0f, 1.0f, 1.0f, 0.0f);
+	m_countSprite->SetPivot(ctPivot);
+	m_countSprite->SetPosition(ctPosition);
+
+
 	//カウントダウンを開始するということを設定する。
 	GetGameDirector().SetGameScene(enGameCountDown);
 
@@ -262,6 +271,7 @@ void Game::Update()
 
 void Game::CountDown()
 {
+
 	//カウントダウン中じゃなかったら。
 	if (!GetGameDirector().GetIsGameCountDown())
 	{
@@ -283,12 +293,17 @@ void Game::CountDown()
 	{
 		//カウントダウンが終了し、ゲームが開始したことを設定する。
 		GetGameDirector().SetGameScene(enGamePlay);
-		DeleteGO(m_font);
+		//DeleteGO(m_font);
+		
+		//スプライト削除
+		if (m_timer < 0.0f) {
+			DeleteGO(m_countSprite);
+		}
+
 		return;
 	}
 
-	
-	std::wstring number;
+	/*std::wstring number;
 	if (m_timer < 1.0f)
 	{
 		number = L"Start";
@@ -303,7 +318,50 @@ void Game::CountDown()
 	m_font->SetColor({ 1.0f,0.0f,0.0f,0.0f });
 	m_font->SetPivot({ 0.5f, 0.5f });
 	m_font->SetPosition({ -100, 200 });
-	m_font->SetScale(scale);
+	m_font->SetScale(scale);*/
+
+	//カウントダウン処理(スプライト)
+	//フェードイン、アウト処理
+	if (fadeOut == false) {
+		alpha += 4.0f / 60.0f;
+	}
+	else {
+		alpha -= 1.0f / 60;
+	}
+
+	if (alpha > 1.0f) {
+		alpha = 1.0f;
+		fadeOut = true;
+	}
+	else if (alpha < 0.0f) {
+		alpha = 0.0f;
+	}
+
+	//スプライト変更処理
+	if (m_timer <= 4.0f && m_timer > 3.0 && changeCount == 3) {
+		m_countSprite->Init("Assets/Image/3.dds", 512, 512);
+		alpha = 0.0f;
+		fadeOut = false;
+		changeCount--;
+	}
+	else if (m_timer <= 3.0f && m_timer > 2.0 && changeCount == 2) {
+		m_countSprite->Init("Assets/Image/2.dds", 512, 512);
+		alpha = 0.0f;
+		fadeOut = false;
+		changeCount--;
+	}
+	else if (m_timer <= 2.0f && m_timer > 1.0 && changeCount == 1) {
+		m_countSprite->Init("Assets/Image/1.dds", 512, 512);
+		alpha = 0.0f;
+		fadeOut = false;
+		changeCount--;
+	}
+	else if (m_timer <= 1.0f && m_timer > 0.0 && changeCount == 0) {
+		m_countSprite->Init("Assets/Image/start.dds", 512, 512);
+		alpha = 0.0f;
+		fadeOut = false;
+		changeCount--;
+	}
 	
 	//開始時のカウントダウンに応じて音を鳴らす。
 	if (m_timer < 1.0f && m_soundFlag00 == false) {
@@ -339,4 +397,5 @@ void Game::CountDown()
 		m_soundFlag03 = true;
 	}
 
+	m_countSprite->SetColor(1.0f, 1.0f, 1.0f, alpha);
 }

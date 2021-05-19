@@ -1,4 +1,6 @@
-#pragma oncez
+
+#pragma once
+
 class SkinModelRender;
 class TrashCan;
 class Player;
@@ -53,7 +55,6 @@ public:
 	//‚P‚Ì‚Éã‚ÌDelete(),ClearNo()‚ğ
 	int burgerExist = 0;
 	int putOnKitchen = 0;
-	
 	
 	Vector3 CounterPos = { 900.0f, 100.0f, -400.0f };
 

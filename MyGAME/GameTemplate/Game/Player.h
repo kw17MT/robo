@@ -1,5 +1,7 @@
 #pragma once
 #include "GuzaiGene.h"
+#include "effect/Effect.h"
+
 
 class Guzai;
 class FontRender;
@@ -7,6 +9,7 @@ class PopUp2D;
 
 class SkinModelRender;
 class Kitchen;
+class Effect;
 
 enum EnItem
 {
@@ -51,6 +54,15 @@ private:
 	EnItem m_enItem = enNonItem;
 
 	int Distance = 0;
+
+	//エフェクト関連
+	//P1
+	int moveCounter01 = 0;
+	Effect m_effect01;
+	//P2
+	int moveCounter02 = 0;
+	Effect m_effect02;
+
 
 public:
 	Player();

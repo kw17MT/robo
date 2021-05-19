@@ -9,6 +9,7 @@
 
 #include "SkinModelRender.h"
 #include "Kitchen.h"
+#include "effect/Effect.h"
 
 namespace
 {
@@ -114,6 +115,14 @@ bool Player::Start()
 		m_kitchen = FindGO<Kitchen>("kitchen02");
 	}
 
+	//エフェクトの初期化
+	//P1
+	m_effect01.Init(u"Assets/effect/dust.efk");
+	m_effect01.SetScale({ 10.0f,10.0f,10.0f });
+	//P2
+	m_effect02.Init(u"Assets/effect/dust.efk");
+	m_effect02.SetScale({ 10.0f,10.0f,10.0f });
+
 	return true;
 }
 
@@ -173,6 +182,8 @@ void Player::GrabFromKitchen()
 void Player::Update()
 {
 	m_skinModelRender->SetPosition(m_position);
+
+	
 
 	//ゲームプレイ中じゃなかったら。
 	if (!GetGameDirector().GetIsGamePlay())
@@ -244,6 +255,22 @@ void Player::Update()
 
 		m_skinModelRender->SetPosition(m_position);
 		m_shadow->SetPosition(m_position);
+
+		//エフェクト再生
+		//移動中なら定期的に発生
+		moveCounter01 += 1;
+		if (moveSpeed.x != 0) {
+			if (moveCounter01 % 12 == 11 ) {
+				m_effect01.SetPosition(m_position);
+				m_effect01.Play(0);
+			}
+		}
+
+		if (moveCounter01 > 60) {
+			moveCounter01 = 0;
+		}
+		
+
 	}
 	//P2の処理
 	if (playerNo == 2) {
@@ -308,6 +335,22 @@ void Player::Update()
 
 		m_skinModelRender->SetPosition(m_position);
 		m_shadow->SetPosition(m_position);
+
+		//エフェクト再生
+		//移動中なら定期的に発生
+		moveCounter02 += 1;
+		if (moveSpeed.x != 0) {
+			if (moveCounter02 % 12 == 11) {
+				m_effect02.SetPosition(m_position);
+				m_effect02.Play(0);
+			}
+		}
+
+		if (moveCounter02 > 60) {
+			moveCounter02 = 0;
+		}
+
+
 	}
 	//アイテム使用処理。
 	UseItem();
@@ -326,6 +369,9 @@ void Player::Update()
 	m_popUpPosition = m_position;
 	m_popUpPosition = m_popUpPosition + playerToPopUp;
 	m_popUp->SetPosition(m_popUpPosition);
+
+	m_effect01.Update();
+	m_effect02.Update();
 
 }
 
