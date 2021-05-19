@@ -17,8 +17,10 @@ void MenuTimer::ResetTimerParam()
 {
 	timer = 1000;
 	m_scale.x = 2.8f;
+	m_lig.ambientLight.Set(0.0f, 100.0f, 0.0f);
 	isTimeUp = false;
 }
+
 
 void MenuTimer::Update()
 {
@@ -52,9 +54,9 @@ void MenuTimer::Update()
 	}
 
 	if (m_scale.x <= 0.0f) {
-		timer = 1000;
-		m_scale.x = 2.8f;
-		m_lig.ambientLight.Set(0.0f, 100.0f, 0.0f);
+		//timer = 1000;
+		//m_scale.x = 2.8f;
+		//m_lig.ambientLight.Set(0.0f, 100.0f, 0.0f);
 		isTimeUp = true;
 	}
 }

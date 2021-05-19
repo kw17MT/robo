@@ -37,12 +37,21 @@ public:
 
 	//ハンバーガーが一致しているかどうかを取得
 	bool GetIsMatchHamBurger(int* numbers, int size, int counterNo);
+
+	//画像を動かす関数。
+	void SpriteSet(int number);
+
+	//画像の移動量を取得
+	float GetSlideAmount(int i) { return m_slideAmount[i]; }
 private:
 	Level2D m_level2D;		//レベル2D。
 	//Sprite m_sprite;			//スプライト。
 	Vector3 m_position;		//座標。
 	Vector3 m_scale;		//大きさ。
-
+	Vector3 m_slidePos[SHOW_HAMBURGER_NUMBER];		//移動
+	float m_slideAmount[SHOW_HAMBURGER_NUMBER] = { 0.0f }; //画像の上下移動量
+	int m_slide[SHOW_HAMBURGER_NUMBER] = { 0 };			//メニュー画像のスライドフラグ。0で動かない、1で上にスライド、2で下にスライド。
+	bool m_TimeUpSet[2] = { false };					//メニューのタイムオーバー中か？
 	SpriteRender* sprite[enHamBurgerNum];
 
 
@@ -60,4 +69,5 @@ private:
 	MissCounter* m_missCounter;
 	Counter* m_counter01;
 	Counter* m_counter02;
+	CSoundSource* m_slideSe[3];
 };

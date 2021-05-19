@@ -75,6 +75,7 @@ bool CLevel2D::Start()
 			sprite[0]->SetScale(objdata.scale);*/
 			//sprite[0]->SetPosition(objdata.position);
 			m_spritePositions[0] = objdata.position;
+			m_slidePos[0] = m_spritePositions[0];
 			m_level2DObjectDatas[enCheeseBurger] = objdata;
 			return true;
 		}
@@ -86,6 +87,7 @@ bool CLevel2D::Start()
 			sprite[1]->SetScale(objdata.scale);*/
 			//sprite[1]->SetPosition(objdata.position);
 			m_spritePositions[1] = objdata.position;
+			m_slidePos[1] = m_spritePositions[1];
 			m_level2DObjectDatas[enTomatoBurger] = objdata;
 
 			return true;
@@ -98,6 +100,7 @@ bool CLevel2D::Start()
 			sprite[2]->SetScale(objdata.scale);*/
 			//sprite[2]->SetPosition(objdata.position);
 			m_spritePositions[2] = objdata.position;
+			m_slidePos[2] = m_spritePositions[2];
 			m_level2DObjectDatas[enEggBurger] = objdata;
 
 			return true;
@@ -239,26 +242,49 @@ void CLevel2D::Update()
 	//m_sprite.Update(m_position, Quaternion::Identity, m_scale);
 	//レベル2DクラスのSpriteの更新処理。
 
-	//プレイヤー1の時間切れ
-	if (m_menuTimer[0]->GetTimeUpState()) {
-		//左のメニューの再抽選
-		Roulette(2);
-		//1Pのミス数を1足す
-		m_missCounter->AddPl1MissCount();
-		//バツ印の画像を出す
-		m_missCounter->ChangeMarkState(true);
-		//バツを付けたのでFALSEにもどしてやる
-		m_menuTimer[0]->SetTimeUpState(false);
+	for (int i = 0; i < SHOW_HAMBURGER_NUMBER; i++) {
+		SpriteSet(i);
 	}
+	//プレイヤー1の時間切れ
+	
+	if (m_menuTimer[0]->GetTimeUpState()) {
+		//時間切れ中のフラグが立っていないとき…
+		if (m_TimeUpSet[0] == false) {
+			//左のメニューの再抽選
+			Roulette(2);
+			//1Pのミス数を1足す
+			m_missCounter->AddPl1MissCount();
+			//バツ印の画像を出す
+			m_missCounter->ChangeMarkState(true);
+			//時間切れのフラグを立てる
+			m_TimeUpSet[0] = true;
+			//音を鳴らす
+			CSoundSource* se = NewGO<CSoundSource>(0);
+			se->Init(L"Assets/sound/blip01.wav", false);
+			se->SetVolume(2.0f);
+			se->Play(false);
+		}
+		
+	}
+
 	//プレイヤー2の時間切れ
+	
 	if (m_menuTimer[1]->GetTimeUpState()) {
-		Roulette(0);
-		m_missCounter->AddPl2MissCount();
-		m_missCounter->ChangeMarkState(true);
-		m_menuTimer[1]->SetTimeUpState(false);
+		if (m_TimeUpSet[1] == false) {
+			Roulette(0);
+			m_missCounter->AddPl2MissCount();
+			m_missCounter->ChangeMarkState(true);
+			
+			m_TimeUpSet[1] = true;
+			//音を鳴らす
+			CSoundSource* se = NewGO<CSoundSource>(0);
+			se->Init(L"Assets/sound/blip01.wav", false);
+			se->SetVolume(2.0f);
+			se->Play(false);
+		}
 	}
 	
-
+	
 	m_level2D.Update();
 }
 
@@ -300,7 +326,7 @@ bool CLevel2D::GetIsMatchHamBurger(int* numbers, int size, int counterNo)
 			{
 				//次に表示するハンバーガー決めるお！
 				Roulette(i);
-				m_menuTimer[counterNo - 1]->ResetTimerParam();
+				//m_menuTimer[counterNo - 1]->ResetTimerParam();
 				return true;
 			}
 			
@@ -336,7 +362,7 @@ bool CLevel2D::GetIsMatchHamBurger(int* numbers, int size, int counterNo)
 			{
 				//次に表示するハンバーガー決めるお！
 				Roulette(i);
-				m_menuTimer[counterNo - 1]->ResetTimerParam();
+				//m_menuTimer[counterNo - 1]->ResetTimerParam();
 
 				return true;
 			}
@@ -353,6 +379,8 @@ void CLevel2D::Roulette(int number)
 	int rn = rand() % enHamBurgerNum;
 
 	m_showHamBurgers[number] = EnHamBurger(rn);
+
+	//カウンターに表示しているバーガーを伝える。
 	if (number == 2) {
 		m_counter01->m_showHamBurgers[number] = EnHamBurger(rn);
 	}
@@ -363,12 +391,70 @@ void CLevel2D::Roulette(int number)
 		m_counter01->m_showHamBurgers[number] = EnHamBurger(rn);
 		m_counter02->m_showHamBurgers[number] = EnHamBurger(rn);
 	}
-	//ハンバーガーの画像を表示しまーす。
-	CSoundSource* se = NewGO<CSoundSource>(0);
-	se->Init(L"Assets/sound/button03b.wav", false);
-	se->SetVolume(2.0f);
-	se->Play(false);
-	ShowHamBurger(number, m_showHamBurgers[number]);
+	m_slide[number] = 2;
+	//音を鳴らす
+	m_slideSe[number] = NewGO<CSoundSource>(0);
+	m_slideSe[number]->Init(L"Assets/sound/machine_rotation1.wav", false);
+	m_slideSe[number]->SetVolume(1.0f);
+	m_slideSe[number]->Play(true);
+	//ShowHamBurger(number, m_showHamBurgers[number]);
+}
+
+void CLevel2D::SpriteSet(int number)
+{
+	//移動フラグによって処理を分ける。
+	switch (m_slide[number])
+	{
+	case 0: {	//0なら動かない。
+		sprite[number]->SetPosition(m_spritePositions[number]);
+	}break;
+	case 1: {	//1なら上にスライド
+		m_slidePos[number].y += 10.0f;
+		m_slideAmount[number] += 10.0f;
+		sprite[number]->SetPosition(m_slidePos[number]);
+
+		//画像の位置が元の位置に戻ったら…
+		if (m_slidePos[number].y == m_spritePositions[number].y) {
+			//2P側のメニュー
+			if (number == 0) {
+				//メニュータイマーを元に戻す
+				m_menuTimer[1]->ResetTimerParam();
+				m_menuTimer[1]->SetTimeUpState(false);
+				//時間切れフラグを元に戻す。
+				m_TimeUpSet[1] = false;
+			}
+			//1P側のメニュー
+			else if (number == 2) {
+				m_menuTimer[0]->ResetTimerParam();
+				//バツを付けたのでFALSEにもどしてやる
+				m_menuTimer[0]->SetTimeUpState(false);
+				m_TimeUpSet[0] = false;
+			}
+			//スライドフラグ0に変更。
+			m_slide[number] = 0;
+			DeleteGO(m_slideSe[number]);
+			//音を鳴らす
+			CSoundSource* se = NewGO<CSoundSource>(0);
+			se->Init(L"Assets/sound/button03b.wav", false);
+			se->SetVolume(2.0f);
+			se->Play(false);
+		}
+	}break;
+	case 2: {	//2なら下にスライド。
+		m_slidePos[number].y -= 10.0f;
+		m_slideAmount[number] -= 10.0f;
+		sprite[number]->SetPosition(m_slidePos[number]);
+		//画像の位置が一定まで下がったら。
+		if (m_slidePos[number].y < m_spritePositions[number].y - 350.0f) {
+			//スライドフラグを1に変更。
+			m_slide[number] = 1;
+			//メニュー画像を更新。
+			ShowHamBurger(number, m_showHamBurgers[number]);
+		}
+	}break;
+	default:
+		break;
+	}
 }
 
 void CLevel2D::ShowHamBurger(int number, EnHamBurger enHamBurger)
@@ -383,6 +469,7 @@ void CLevel2D::ShowHamBurger(int number, EnHamBurger enHamBurger)
 	sprite[number]->Init(objData.ddsFilePath, objData.width, objData.height);
 	sprite[number]->SetScale({ 0.5f,0.5f,0.5f }/*objData.scale*/);
 	//sprite[number]->SetScale(objData.scale);
-
-	sprite[number]->SetPosition(m_spritePositions[number]);
+	//ハンバーガーの画像を表示しまーす。
+	
+	sprite[number]->SetPosition(/*m_spritePositions[number]*/m_slidePos[number]);
 }

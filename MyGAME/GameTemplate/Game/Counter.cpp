@@ -393,6 +393,7 @@ void Counter::Delete()
 
 void Counter::HamBurgerCompare()
 {
+	CLevel2D* l2 = FindGO<CLevel2D>("clevel2d");
 	//1P側の処理
 	if (CounterNo == 1) {
 		for (int i = 2; i >= CounterNo; i--) {
@@ -429,6 +430,7 @@ void Counter::HamBurgerCompare()
 				Vector3 SetPos = { -95.0f,-255.0f,0.0f };
 				SetPos.x += i * 120.0f;
 				SetPos.y += j * 30.0f;
+				SetPos.y += l2->GetSlideAmount(i);
 				//メニューと一致しているかで決める。
 				switch (m_guzaiJudge[i+1][j])
 				{
@@ -464,6 +466,20 @@ void Counter::HamBurgerCompare()
 				default:
 					break;
 				}
+				//チェックマークの座標を更新。
+				if (m_spriteCompareFlagFalse[i + 1][j] == true || m_spriteCompareFlagTrue[i + 1][j] == true) {
+					m_spriteCompare[i + 1][j]->SetPosition(SetPos);
+				}
+				//すでに出したチェック画像は、バーガーの段数を超えて処理する。
+				for (int l = hamburger.size(); l < 5; l++) {
+					Vector3 SetPos = { -95.0f,-255.0f,0.0f };
+					SetPos.x += i * 120.0f;
+					SetPos.y += l * 30.0f;
+					SetPos.y += l2->GetSlideAmount(i);
+					if (m_spriteCompareFlagFalse[i + 1][l] == true || m_spriteCompareFlagTrue[i + 1][l] == true) {
+						m_spriteCompare[i + 1][l]->SetPosition(SetPos);
+					}
+				}
 			}
 		}
 	}
@@ -496,6 +512,7 @@ void Counter::HamBurgerCompare()
 				Vector3 SetPos = { -155.0f,-255.0f,0.0f };
 				SetPos.x += i * 120.0f;
 				SetPos.y += j * 30.0f;
+				SetPos.y += l2->GetSlideAmount(i);
 				switch (m_guzaiJudge[i][j])
 				{
 				case 0: {
@@ -524,6 +541,18 @@ void Counter::HamBurgerCompare()
 				}break;
 				default:
 					break;
+				}
+				if (m_spriteCompareFlagFalse[i][j] == true || m_spriteCompareFlagTrue[i][j] == true) {
+					m_spriteCompare[i][j]->SetPosition(SetPos);
+				}
+				for (int l = hamburger.size(); l < 5; l++) {
+					Vector3 SetPos = { -155.0f,-255.0f,0.0f };
+					SetPos.x += i * 120.0f;
+					SetPos.y += l * 30.0f;
+					SetPos.y += l2->GetSlideAmount(i);
+					if (m_spriteCompareFlagFalse[i][l] == true || m_spriteCompareFlagTrue[i][l] == true) {
+						m_spriteCompare[i][l]->SetPosition(SetPos);
+					}
 				}
 			}
 		}
