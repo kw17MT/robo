@@ -26,7 +26,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	EffectEngine::CreateInstance();
 	Effect laserEffect;
-	laserEffect.Init(u"Assets/effect/laser.efk");
+	laserEffect.Init(u"Assets/effect/smoke.efk");
 	//laserEffect.Play();
 	//laserEffect.Update();
 
