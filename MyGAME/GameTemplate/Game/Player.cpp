@@ -9,6 +9,7 @@
 
 #include "SkinModelRender.h"
 #include "Kitchen.h"
+#include "effect/Effect.h"
 
 namespace
 {
@@ -174,6 +175,8 @@ void Player::Update()
 {
 	m_skinModelRender->SetPosition(m_position);
 
+	
+
 	//ゲームプレイ中じゃなかったら。
 	if (!GetGameDirector().GetIsGamePlay())
 	{
@@ -244,6 +247,15 @@ void Player::Update()
 
 		m_skinModelRender->SetPosition(m_position);
 		m_shadow->SetPosition(m_position);
+
+		Effect effect;
+		effect.Init(u"Assets/effect/dust.h");
+		effect.SetPosition(m_position);
+		if (g_pad[0]->IsTrigger(enButtonA)) {
+			effect.Play();
+		}
+
+
 	}
 	//P2の処理
 	if (playerNo == 2) {

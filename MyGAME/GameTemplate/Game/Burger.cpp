@@ -7,6 +7,7 @@
 #include "SkinModelRender.h"
 #include "TrashCan.h"
 #include "SoundSource.h"
+#include "effect/Effect.h"
 
 Burger::Burger()
 {
@@ -43,6 +44,13 @@ bool Burger::Start()
 		KiPos02.y += 100.0f;
 		SetPosition(KiPos02);
 	}
+
+	/*Effect effect;
+	effect.Init(u"Assets/effect/make.efk");
+	Vector3 pos = { 300.0f,0.0f,300.0f };
+	effect.SetPosition(pos);
+	effect.Play();*/
+
 
 	return true;
 }
