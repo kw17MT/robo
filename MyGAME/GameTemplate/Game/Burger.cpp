@@ -45,7 +45,7 @@ bool Burger::Start()
 	}
 
 	//ハンバーガーが出てきたときのエフェクト
-	m_effect.Init(u"Assets/effect/laser.efk");
+	m_effect.Init(u"Assets/effect/kirakira.efk");
 	m_effect.Play();
 	m_effect.SetScale({ 10.0f,10.0f,10.0f });
 	m_effect.SetPosition(m_position);
