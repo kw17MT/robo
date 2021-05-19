@@ -26,7 +26,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	EffectEngine::CreateInstance();
 	Effect laserEffect;
-	laserEffect.Init(u"Assets/effect/dust.efk");
+
+	laserEffect.Init(u"Assets/effect/kirakira.efk");
+	Vector3 scale = { 10.0f,10.0,10.0f };
+	laserEffect.SetScale(scale);
 	//laserEffect.Play();
 	//laserEffect.Update();
 
@@ -195,7 +198,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			laserEffect.Play();
 		}
 
-		laserEffect.SetPosition({ 0.0f,0.0f,0.0f });
+		laserEffect.SetPosition({ 0.0f,10.0f,0.0f });
 		laserEffect.SetScale({ 10.0f,10.0f,10.0f });
 		laserEffect.Update();
 

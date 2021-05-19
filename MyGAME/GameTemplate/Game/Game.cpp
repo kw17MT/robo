@@ -59,10 +59,10 @@ Game::Game()
 	dishGene = NewGO<DishGene>(0,"dishGene");
 	m_speedManeger = NewGO<DishSpeedManeger>(0, "speedManeger");
 
-	m_bgm = NewGO<CSoundSource>(0);
+	/*m_bgm = NewGO<CSoundSource>(0);
 	m_bgm->Init(L"Assets/sound/BGM/BGM1.wav", false);
 	m_bgm->SetVolume(1.0f);
-	m_bgm->Play(true);
+	m_bgm->Play(true);*/
 
 	////勝敗表示用スプライト
 	////表示するポジションを定義

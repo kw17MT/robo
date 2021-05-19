@@ -1,9 +1,16 @@
+
 #pragma once
 
 class SkinModelRender;
 class TrashCan;
 class Player;
 class CSoundSourse;
+
+class Effect;
+#include "effect/Effect.h"
+
+class CSoundSourse;
+
 
 class Burger : public IGameObject
 {
@@ -51,8 +58,8 @@ public:
 	
 	Vector3 CounterPos = { 900.0f, 100.0f, -400.0f };
 
+	Effect m_effect;
 	SkinModelRender* m_skinModelRender;
 	Player* m_player[2];
 	TrashCan* m_trashCan[2];
 };
-
