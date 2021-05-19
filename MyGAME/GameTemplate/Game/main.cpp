@@ -191,14 +191,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			g_camera3D->SetPosition(camerapos);
 		}
 
-		if (g_pad[0]->IsTrigger(enButtonA)) {
-			laserEffect.Play();
-		}
 
 		laserEffect.SetPosition({ 0.0f,10.0f,0.0f });
 		laserEffect.SetScale({ 10.0f,10.0f,10.0f });
 		laserEffect.Update();
 
+		if (g_pad[0]->IsTrigger(enButtonA)) {
+			laserEffect.Play();
+		}
 		EffectEngine::GetInstance()->Update(0.016f/*g_gameTime->GetFrameDeltaTime()*/);
 		EffectEngine::GetInstance()->Draw();
 
