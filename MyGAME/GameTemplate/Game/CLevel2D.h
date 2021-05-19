@@ -6,6 +6,7 @@ class SpriteRender;
 class MenuTimer;
 class MissCounter;
 class Counter;
+class CSoundSource;
 #include "Level2D.h"
 
 static const int SHOW_HAMBURGER_NUMBER = 3;

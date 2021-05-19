@@ -60,7 +60,7 @@ void Kitchen::BornBurger()
 {
 	if (KitchenNo == 1) {
 		//具材を一つ以上積んでいて、Yボタンを長押し
-		if (stack >= 1 && g_pad[0]->IsPress(enButtonY)) {
+		if (stack >= 1 && g_pad[0]->IsPress(enButtonY) && m_deleteFlag == false) {
 			Delay--;
 			if (m_soundFlag01 == false) {
 				//音を鳴らす
@@ -71,24 +71,16 @@ void Kitchen::BornBurger()
 				m_soundFlag01 = true;
 			}
 			if (Delay == 0) {
-				//キッチンについている具材を全部消去
-				Delete();
-				//ここを１にしていることで、ハンバーガーができているとき具材をとれないようにしておく。
-				m_player[0]->have = 1;
-				bur = NewGO<Burger>(0, "burger01");
-				bur->SetBurgerNo(1);
-				//音を鳴らす
-				CSoundSource* se = NewGO<CSoundSource>(0);
-				se->Init(L"Assets/sound/thi-n.wav", false);
-				se->SetVolume(2.0f);
-				se->Play(false);
 				//音が出ていれば消す。
 				if (m_soundFlag01 == true) {
 					DeleteGO(m_soundSource);
 					m_soundFlag01 = false;
 				}
-				
-				Delay = 60;
+				//ここを１にしていることで、ハンバーガーができているとき具材をとれないようにしておく。
+				m_player[0]->have = 1;
+				//削除フラグを立てる。
+				m_deleteFlag = true;
+				Delay = 40;
 			}
 		}
 		else {
@@ -98,9 +90,36 @@ void Kitchen::BornBurger()
 				m_soundFlag01 = false;
 			}
 		}
+		//削除フラグが立っているとき…
+		if (m_deleteFlag == true) {
+			Delay--;
+			for (int i = 0; i < stack; i++) {
+				m_slidePos = StackedGuzai[i]->GetPosition();
+				//具材のy座標を(速度×積んでる段数)で下げる。
+				m_slidePos.y -= 1.2f * i;
+				StackedGuzai[i]->SetPosition(m_slidePos);
+			}
+			if (Delay == 0) {
+				//キッチンについている具材を全部消去
+				Delete();
+				
+				bur = NewGO<Burger>(0, "burger01");
+				bur->SetBurgerNo(1);
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/thi-n.wav", false);
+				se->SetVolume(2.0f);
+				se->Play(false);
+				
+				
+				m_deleteFlag = false;
+				Delay = 60;
+			}
+		}
 	}
+
 	if (KitchenNo == 2) {
-		if (stack >= 1 && g_pad[1]->IsPress(enButtonY)) {
+		if (stack >= 1 && g_pad[1]->IsPress(enButtonY) && m_deleteFlag == false) {
 			Delay--;
 			if (m_soundFlag02 == false) {
 				//音を鳴らす
@@ -111,24 +130,16 @@ void Kitchen::BornBurger()
 				m_soundFlag02 = true;
 			}
 			if (Delay == 0) {
-				//キッチンについている具材を全部消去
-				Delete();
-				//ここを１にしていることで、ハンバーガーができているとき具材をとれないようにしておく。
-				m_player[1]->have = 1;
-				bur = NewGO<Burger>(0, "burger02");
-				bur->SetBurgerNo(2);
-				//音を鳴らす
-				CSoundSource* se = NewGO<CSoundSource>(0);
-				se->Init(L"Assets/sound/thi-n.wav", false);
-				se->SetVolume(2.0f);
-				se->Play(false);
+				
 				//音が出ていれば消す。
 				if (m_soundFlag02 == true) {
 					DeleteGO(m_soundSource);
 					m_soundFlag02 = false;
 				}
-		
-				Delay = 60;
+				//ここを１にしていることで、ハンバーガーができているとき具材をとれないようにしておく。
+				m_player[1]->have = 1;
+				m_deleteFlag = true;
+				Delay = 40;
 			}
 		}
 		else {
@@ -136,6 +147,31 @@ void Kitchen::BornBurger()
 			if (m_soundFlag02 == true) {
 				DeleteGO(m_soundSource);
 				m_soundFlag02 = false;
+			}
+		}
+		if (m_deleteFlag == true) {
+
+			Delay--;
+			for (int i = 0; i < stack; i++) {
+				m_slidePos = StackedGuzai[i]->GetPosition();
+				//具材のy座標を(速度×積んでる段数)で下げる。
+				m_slidePos.y -= 1.2f * i;
+				StackedGuzai[i]->SetPosition(m_slidePos);
+			}
+			if (Delay == 0) {
+				//キッチンについている具材を全部消去
+				Delete();
+			
+				bur = NewGO<Burger>(0, "burger02");
+				bur->SetBurgerNo(2);
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/thi-n.wav", false);
+				se->SetVolume(2.0f);
+				se->Play(false);
+
+				m_deleteFlag = false;
+				Delay = 60;
 			}
 		}
 	}

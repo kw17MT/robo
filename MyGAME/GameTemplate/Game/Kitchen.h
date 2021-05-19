@@ -21,6 +21,9 @@ private:
 	bool m_soundFlag01 = false;								//1Pの音が出ているか？
 	bool m_soundFlag02 = false;								//2Pの音が出ているか？
 
+	bool m_deleteFlag = false;
+	Vector3 m_slidePos = Vector3::Zero;
+
 public:
 	//キッチンのモデルなどの設定。
 	bool Start();			
@@ -68,6 +71,9 @@ public:
 
 	//スタックしている具材を保存していく。
 	void RegistStackedGuzai(Guzai* m_guzai) { StackedGuzai[stack - 1] = m_guzai; }
+
+	//バーガーの調理状況を取得
+	bool GetKitchenCooking() { return m_deleteFlag; }
 
 	Player* m_player[2];
 	Burger* bur;
