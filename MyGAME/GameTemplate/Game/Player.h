@@ -55,9 +55,13 @@ private:
 
 	int Distance = 0;
 
-	//エフェクト再生周期
-	int moveCounter = 0;
-	Effect m_effect;
+	//エフェクト関連
+	//P1
+	int moveCounter01 = 0;
+	Effect m_effect01;
+	//P2
+	int moveCounter02 = 0;
+	Effect m_effect02;
 
 
 public:
