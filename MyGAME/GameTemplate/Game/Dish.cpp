@@ -11,7 +11,7 @@
 
 namespace
 {
-	const float MOVESPEED = 130.0f;
+	const float MOVESPEED = 260.0f;
 }
 
 bool Dish::Start()
