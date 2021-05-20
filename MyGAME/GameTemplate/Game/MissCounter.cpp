@@ -11,7 +11,7 @@ bool MissCounter::Start()
 			int num = atoi(&objdata.name[6]);
 
 			m_spriteRender[num - 1] = NewGO<SpriteRender>(0);
-			m_spriteRender[num - 1]->Init("Assets/Image/square.dds", 24, 24);
+			m_spriteRender[num - 1]->Init("Assets/Image/square.dds", 36, 36);
 			m_spriteRender[num - 1]->SetPosition(objdata.position);
 
 			return true;
@@ -34,13 +34,13 @@ void MissCounter::Update()
 	if (shouldChangeFilePath) {
 		switch (pl2MissCount) {
 		case 1:
-			m_spriteRender[0]->Init("Assets/Image/squareCross.dds", 24, 24);
+			m_spriteRender[0]->Init("Assets/Image/squareCross.dds", 36, 36);
 			break;
 		case 2:
-			m_spriteRender[1]->Init("Assets/Image/squareCross.dds", 24, 24);
+			m_spriteRender[1]->Init("Assets/Image/squareCross.dds", 36, 36);
 			break;
 		case 3:
-			m_spriteRender[2]->Init("Assets/Image/squareCross.dds", 24, 24);
+			m_spriteRender[2]->Init("Assets/Image/squareCross.dds", 36, 36);
 			pl1Win = true;
 			//2P‘¤‚ÉŸ—˜•\Ž¦‚ð•t‚¯‚é
 			//if (m_result == nullptr) {
@@ -54,13 +54,13 @@ void MissCounter::Update()
 
 		switch (pl1MissCount + 3) {
 		case 4:
-			m_spriteRender[3]->Init("Assets/Image/squareCross.dds", 24, 24);
+			m_spriteRender[3]->Init("Assets/Image/squareCross.dds", 36, 36);
 			break;
 		case 5:
-			m_spriteRender[4]->Init("Assets/Image/squareCross.dds", 24, 24);
+			m_spriteRender[4]->Init("Assets/Image/squareCross.dds", 36, 36);
 			break;
 		case 6:
-			m_spriteRender[5]->Init("Assets/Image/squareCross.dds", 24, 24);
+			m_spriteRender[5]->Init("Assets/Image/squareCross.dds", 36, 36);
 			pl2Win = true;
 			//if (m_result == nullptr) {
 			//	m_result = NewGO<Result>(0);
@@ -71,6 +71,7 @@ void MissCounter::Update()
 			break;
 		}
 		shouldChangeFilePath = false;
+
 	//“¯Žž‚É•‰‚¯‚½‚Æ‚«
 			if (pl1Win == true && pl2Win == true) {
 				m_result[0] = NewGO<Result>(0);
@@ -104,6 +105,5 @@ void MissCounter::Update()
 				isGameSet = true;
 				isGameSet = true;
 			}
-		
 	}
 }

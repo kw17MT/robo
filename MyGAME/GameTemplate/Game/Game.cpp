@@ -43,7 +43,7 @@ Level level;
 
 Game::Game()
 {	
-	ui = NewGO<FixedUI>(1,"ui");
+	
 
 	//リザルトにそれぞれnullptrを入れておく
 	//0 : 引き分け(これだけを表示)
@@ -162,6 +162,8 @@ Game::Game()
 
 	NewGO<CLevel2D>(3, "clevel2d");
 
+	//UI
+	ui = NewGO<FixedUI>(1, "ui");
 
 	//スコアの表示/////////////////////////////////////////////////////////////////////
 	m_score = NewGO<Score>(2, "score");

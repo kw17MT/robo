@@ -56,6 +56,7 @@ bool Result::Start()
 
 	//UI‚ğŒŸõ
 	m_ui = FindGO<FixedUI>("ui");
+
 	if (m_ui->GetIsTimeUp() && GetIsTimeUp() == false) {
 		//“Ç‚İ‚Şdds‚ğŒˆ’è
 		DecideDDS();

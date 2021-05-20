@@ -24,6 +24,7 @@ private:
 
 	std::unique_ptr<PathMove> m_pathMove;		//移動処理を行うクラス。
 
+
 	Light m_lig;
 public:
 	Dish() {}
@@ -32,6 +33,7 @@ public:
 	void SetPosition(Vector3 pos) { m_position = pos; }
 	void SetScale(Vector3 scale) { m_scale = scale; }
 	void SetHavingState(bool state) { isHavingGuzai = state; }
+	enCycleDirection GetCycleDirection() { return m_pathMove->GetCycleDirection(); }
 
 	void Move();
 
