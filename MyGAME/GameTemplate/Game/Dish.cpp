@@ -23,7 +23,7 @@ bool Dish::Start()
 	m_lig.directionalLight.color.Set(100.0f, 100.0f, 100.0f);
 	m_lig.directionalLight.direction.Normalize();
 
-	m_skinModelRender = NewGO<SkinModelRender>(0);
+	m_skinModelRender = NewGO<SkinModelRender>(0,"dish");
 	m_skinModelRender->Init("Assets/modelData/object/dish.tkm", nullptr, enModelUpAxisZ, m_position, &m_lig);
 	m_scale = { 1.0f,1.0f,1.0f };
 	m_skinModelRender->SetScale(m_scale);

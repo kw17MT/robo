@@ -49,6 +49,11 @@ public:
 		return m_enMoveState == enFinal;
 	}
 
+	enCycleDirection GetCycleDirection()
+	{
+		return m_cycleDirection;
+	}
+
 	//客に提供したバーガーの数が規定数に達したら、流れる向きを変える。
 	void SwitchCycleDirection();
 
