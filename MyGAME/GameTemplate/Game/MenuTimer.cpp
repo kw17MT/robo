@@ -35,8 +35,9 @@ void MenuTimer::Update()
 	}
 
 	m_scale.x -= 0.001f;
+	//m_scale.x -= 0.01f;
 	timer--;
-
+	//timer -= 10;
 	//m_lig.ambientLight.y -= 0.1f;
 
 	//ƒQ[ƒW‚ª1/3‚Ü‚Å‚ÍÔ¬•ª‚ğ‘«‚· = ‰©F‚É‚·‚é

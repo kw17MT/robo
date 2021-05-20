@@ -31,6 +31,8 @@ private:
 	//‚Ç‚¿‚ç‚©‚ÌMISS‚ª3‚Â‚½‚Ü‚Á‚½Žž‚ÉTRUE‚É‚·‚é
 	bool isReach3Miss = false;
 
+	//
+	bool tf = false;
 public:
 
 	//UI

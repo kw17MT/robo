@@ -28,6 +28,9 @@ bool MissCounter::Start()
 
 void MissCounter::Update()
 {
+	if (isGameSet == true) {
+		return;
+	}
 	if (shouldChangeFilePath) {
 		switch (pl2MissCount) {
 		case 1:
@@ -68,27 +71,39 @@ void MissCounter::Update()
 			break;
 		}
 		shouldChangeFilePath = false;
-
-		//同時に負けたとき
-		if (pl1Win == true && pl2Win == true) {
-			m_result = NewGO<Result>(0);
-			m_result->SetSprite(0);					//Draw
-			m_result->SetSpritePos(0);				//1 : 右側
-			m_result->Reach3Miss(true);
-		}
-		//1PWIN
-		else if (pl1Win) {
-			m_result = NewGO<Result>(0);
-			m_result->SetSprite(1);					//Win
-			m_result->SetSpritePos(1);				//1 : 右側
-			m_result->Reach3Miss(true);
-		}
-		//2PWIN
-		else if (pl2Win) {
-			m_result = NewGO<Result>(0);
-			m_result->SetSprite(1);					//Win
-			m_result->SetSpritePos(2);				//Left
-			m_result->Reach3Miss(true);
-		}
+	//同時に負けたとき
+			if (pl1Win == true && pl2Win == true) {
+				m_result[0] = NewGO<Result>(0);
+				m_result[0]->SetSprite(0);					//Draw
+				m_result[0]->SetSpritePos(0);				//1 : 右側
+				m_result[0]->Reach3Miss(true);
+				isGameSet = true;
+			}
+			//1PWIN
+			else if (pl1Win) {
+				m_result[0] = NewGO<Result>(0);
+				m_result[0]->SetSprite(1);					//Win
+				m_result[0]->SetSpritePos(1);				//1 : 右側
+				m_result[0]->Reach3Miss(true);
+				m_result[1] = NewGO<Result>(0);
+				m_result[1]->SetSprite(2);					//Lose
+				m_result[1]->SetSpritePos(2);				//2 : 左側
+				m_result[1]->Reach3Miss(true);
+				isGameSet = true;
+			}
+			//2PWIN
+			else if (pl2Win) {
+				m_result[0] = NewGO<Result>(0);
+				m_result[0]->SetSprite(1);					//Win
+				m_result[0]->SetSpritePos(2);				//Left
+				m_result[0]->Reach3Miss(true);
+				m_result[1] = NewGO<Result>(0);
+				m_result[1]->SetSprite(2);					//Lose
+				m_result[1]->SetSpritePos(1);				//2 : 左側
+				m_result[1]->Reach3Miss(true);
+				isGameSet = true;
+				isGameSet = true;
+			}
+		
 	}
 }

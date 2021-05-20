@@ -14,6 +14,8 @@ private:
 	bool pl2Win = false;
 
 	bool shouldChangeFilePath = false;
+
+	bool isGameSet = false;
 public:
 	bool Start();
 	void Update();
@@ -24,7 +26,7 @@ public:
 	void ChangeMarkState(bool state) { shouldChangeFilePath = state; }
 
 	Level2D m_level2D;		//ƒŒƒxƒ‹2DB
-	Result* m_result;
+	Result* m_result[2];
 	SpriteRender* m_spriteRender[6];
 };
 

@@ -56,12 +56,6 @@ bool Result::Start()
 
 	//UIを検索
 	m_ui = FindGO<FixedUI>("ui");
-
-	return true;
-}
-
-void Result::Update()
-{
 	if (m_ui->GetIsTimeUp() && GetIsTimeUp() == false) {
 		//読み込むddsを決定
 		DecideDDS();
@@ -69,7 +63,7 @@ void Result::Update()
 		DecidePos();
 		//タイムアップフラグを立てる
 		SetIsTimeUp();
-	
+
 	}
 
 	//3ミスになったら画像表示
@@ -78,4 +72,29 @@ void Result::Update()
 		DecideDDS();
 		DecidePos();
 	}
+	return true;
+}
+
+void Result::Update()
+{
+//	if (tf == true) {
+//		return;
+//	}
+//	if (m_ui->GetIsTimeUp() && GetIsTimeUp() == false) {
+//		//読み込むddsを決定
+//		DecideDDS();
+//		//スプライトを表示する位置を決定
+//		DecidePos();
+//		//タイムアップフラグを立てる
+//		SetIsTimeUp();
+//	
+//	}
+//
+//	//3ミスになったら画像表示
+//	if (isReach3Miss) {
+//		//読み込むddsを決定
+//		DecideDDS();
+//		DecidePos();
+//	}
+//	tf = true;
 }

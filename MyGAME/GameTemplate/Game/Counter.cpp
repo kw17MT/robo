@@ -10,6 +10,7 @@
 #include "SpriteRender.h"
 #include "SoundSource.h"
 #include "GameDirector.h"
+#include "effect/Effect.h"
 
 Counter::Counter()
 {
