@@ -245,8 +245,13 @@ void Counter::Delete()
 					if (Delay == 60) {
 						//‚±‚±‚ÅÏ‚İã‚°‚Ä‚½‹ïŞ‚Ì”‚ğScore‚É“n‚µ‚Ä‚ ‚°‚éB
 						Score* sco = FindGO<Score>("score");
-						sco->SetBasePoint01(StackNum);
-
+						if (m_bonusPoint == true) {
+							sco->SetBasePoint01(StackNum * 2);
+							m_bonusPoint = false;
+						}
+						else {
+							sco->SetBasePoint01(StackNum);
+						}
 						
 						pl01->have = 0;
 
@@ -353,8 +358,13 @@ void Counter::Delete()
 					if (Delay == 60) {
 						//‚±‚±‚ÅÏ‚İã‚°‚Ä‚½‹ïŞ‚Ì”‚ğScore‚É“n‚µ‚Ä‚ ‚°‚éB
 						Score* sco = FindGO<Score>("score");
-						sco->SetBasePoint02(StackNum);
-
+						if (m_bonusPoint == true) {
+							sco->SetBasePoint02(StackNum * 2);
+							m_bonusPoint = false;
+						}
+						else {
+							sco->SetBasePoint02(StackNum);
+						}
 						
 						
 						pl02->have = 0;

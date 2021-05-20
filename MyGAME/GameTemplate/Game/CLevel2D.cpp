@@ -220,6 +220,10 @@ bool CLevel2D::Start()
 	ShowHamBurger(1, m_showHamBurgers[1]);
 	ShowHamBurger(2, m_showHamBurgers[2]);
 
+	m_randNum[0] = 0;
+	m_randNum[1] = 1;
+	m_randNum[2] = 2;
+
 	//左側ゲージ
 	m_menuTimer[0] = NewGO<MenuTimer>(0);
 	Quaternion rot = Quaternion::Identity;
@@ -324,6 +328,11 @@ bool CLevel2D::GetIsMatchHamBurger(int* numbers, int size, int counterNo)
 			//同じだったお。
 			if (isSame == true)
 			{
+				//中央のメニューが出来たら…
+				if (i == 1) {
+					//ボーナスポイントのフラグを立てる；
+					m_counter01->SetBonusPoint(true);
+				}
 				//次に表示するハンバーガー決めるお！
 				Roulette(i);
 				//m_menuTimer[counterNo - 1]->ResetTimerParam();
@@ -360,6 +369,9 @@ bool CLevel2D::GetIsMatchHamBurger(int* numbers, int size, int counterNo)
 			//同じだったお。
 			if (isSame == true)
 			{
+				if (i == 1) {
+					m_counter02->SetBonusPoint(true);
+				}
 				//次に表示するハンバーガー決めるお！
 				Roulette(i);
 				//m_menuTimer[counterNo - 1]->ResetTimerParam();
@@ -377,7 +389,20 @@ void CLevel2D::Roulette(int number)
 {
 	//TODO ここの乱数要修正？
 	int rn = rand() % enHamBurgerNum;
-
+	
+	//中央のメニューと被らないようにメニューを決める
+	if(number == 1){
+		while (rn == m_randNum[0] || rn == m_randNum[2])
+		{
+			rn = rand() % enHamBurgerNum;
+		}
+	}
+	else {
+		while (rn == m_randNum[1])
+		{
+			rn = rand() % enHamBurgerNum;
+		}
+	}
 	m_showHamBurgers[number] = EnHamBurger(rn);
 
 	//カウンターに表示しているバーガーを伝える。
@@ -408,6 +433,7 @@ void CLevel2D::SpriteSet(int number)
 	{
 	case 0: {	//0なら動かない。
 		sprite[number]->SetPosition(m_spritePositions[number]);
+		//Roulette(number);
 	}break;
 	case 1: {	//1なら上にスライド
 		m_slidePos[number].y += 10.0f;
