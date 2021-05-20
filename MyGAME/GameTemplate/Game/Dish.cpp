@@ -37,6 +37,8 @@ bool Dish::Start()
 
 	m_pathMove = std::make_unique<PathMove>();
 	m_pathMove.get()->Init(m_position, MOVESPEED, enNormalLane);
+
+	m_pathMove.get()
 	
 	return true;
 }
