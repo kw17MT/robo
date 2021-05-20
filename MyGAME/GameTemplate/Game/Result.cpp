@@ -63,13 +63,12 @@ bool Result::Start()
 void Result::Update()
 {
 	if (m_ui->GetIsTimeUp() && GetIsTimeUp() == false) {
-		//読み込むddsを決定
-		DecideDDS();
-		//スプライトを表示する位置を決定
-		DecidePos();
-		//タイムアップフラグを立てる
-		SetIsTimeUp();
-	
+			//読み込むddsを決定
+			DecideDDS();
+			//スプライトを表示する位置を決定
+			DecidePos();
+			//タイムアップフラグを立てる
+			SetIsTimeUp();
 	}
 
 	//3ミスになったら画像表示

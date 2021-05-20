@@ -14,6 +14,7 @@ private:
 	bool pl2Win = false;
 
 	bool shouldChangeFilePath = false;
+
 public:
 	bool Start();
 	void Update();

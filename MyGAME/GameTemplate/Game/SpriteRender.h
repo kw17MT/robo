@@ -25,6 +25,7 @@ public:
 
 	void SetPosition(Vector3 pos) { m_pos = pos; }
 	void SetScale(Vector3 scale) {m_scale = scale;}
+	void SetRotation(Quaternion& rot) { m_Rot = rot; }
 	void SetPivot(Vector2 pivot) { m_pivot = pivot; }
 	//ÉJÉâÅ[ïœçX(Vector4î≈)
 	void SetColor(const Vector4& color) { m_sprite.ColorUpdate(color); }

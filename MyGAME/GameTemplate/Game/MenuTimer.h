@@ -10,7 +10,8 @@ private:
 
 	Light m_lig;
 
-	int timer = 1000;
+	//int timer = 1000;
+	int timer = 100;
 	bool isTimeUp = false;
 public:
 	void SetPosition(Vector3 pos) { m_position = pos; }
