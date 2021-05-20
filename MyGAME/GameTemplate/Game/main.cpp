@@ -28,7 +28,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	Effect laserEffect;
 
 	laserEffect.Init(u"Assets/effect/kirakira.efk");
-	Vector3 scale = { 10.0f,10.0,10.0f };
+	Vector3 scale = { 100.0f,100.0,100.0f };
 	laserEffect.SetScale(scale);
 	//laserEffect.Play();
 	//laserEffect.Update();

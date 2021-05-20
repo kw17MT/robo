@@ -53,7 +53,7 @@ private:
 	int m_slide[SHOW_HAMBURGER_NUMBER] = { 0 };			//メニュー画像のスライドフラグ。0で動かない、1で上にスライド、2で下にスライド。
 	bool m_TimeUpSet[2] = { false };					//メニューのタイムオーバー中か？
 	SpriteRender* sprite[enHamBurgerNum];
-
+	int m_randNum[SHOW_HAMBURGER_NUMBER] = { 0 };
 
 
 	//3つのスプライトの座標。
