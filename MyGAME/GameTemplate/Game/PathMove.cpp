@@ -2,6 +2,7 @@
 #include "PathMove.h"
 #include "PlayerGene.h"
 #include "SoundSource.h"
+#include "CycleDirection.h"
 
 namespace
 {
@@ -33,6 +34,18 @@ void PathMove::SwitchCycleDirection()
 		Vector3 nextDistance = m_point->s_vector - m_position;
 		nextDistance.Normalize();
 		m_moveVector = nextDistance;
+
+		//回転方向スプライト(逆転)
+		m_directSprite[0] = FindGO<CycleDirection>("dirsp1");
+		m_directSprite[0]->ChangeSpriteReverse();
+		m_directSprite[0]->SetDirection(Reverse);				//左回転
+		m_directSprite[0]->SetSide(Left);						//左
+		
+		m_directSprite[1] = FindGO<CycleDirection>("dirsp2");
+		m_directSprite[1]->ChangeSpriteForward();
+		m_directSprite[1]->SetDirection(Forward);				//右回転
+		m_directSprite[1]->SetSide(Right);						//右
+		
 		CSoundSource* se = NewGO<CSoundSource>(0);
 		se->Init(L"Assets/sound/mechanical.wav", false);
 		se->SetVolume(2.0f);
@@ -47,6 +60,18 @@ void PathMove::SwitchCycleDirection()
 		Vector3 nextDistance = m_point->s_vector - m_position;
 		nextDistance.Normalize();
 		m_moveVector = nextDistance;
+
+		//回転方向スプライト(正転)
+		m_directSprite[0] = FindGO<CycleDirection>("dirsp1");
+		m_directSprite[0]->ChangeSpriteForward();
+		m_directSprite[0]->SetDirection(Forward);				//右回転
+		m_directSprite[0]->SetSide(Left);						//左
+		
+		m_directSprite[1] = FindGO<CycleDirection>("dirsp2");
+		m_directSprite[1]->ChangeSpriteReverse();
+		m_directSprite[1]->SetDirection(Reverse);				//左回転
+		m_directSprite[1]->SetSide(Right);						//右
+
 		CSoundSource* se = NewGO<CSoundSource>(0);
 		se->Init(L"Assets/sound/mechanical.wav", false);
 		se->SetVolume(2.0f);
@@ -74,6 +99,20 @@ const Vector3& PathMove::Move()
 
 		if (m_playerGene->GetSubmitBurgerNum() == Num2ChangeCycle) {
 			SwitchCycleDirection();
+		
+		////回転方向スプライト
+		//if (m_directSprite[0] == nullptr) {
+		//	m_directSprite[0] = NewGO<CycleDirection>(0);
+		//	m_directSprite[0]->SetDirection(Forward);
+		//	m_directSprite[0]->SetSide(Left);
+		//}
+		//if (m_directSprite[1] == nullptr) {
+		//	m_directSprite[1] = NewGO<CycleDirection>(0);
+		//	m_directSprite[1]->SetDirection(Reverse);
+		//	m_directSprite[1]->SetSide(Right);
+		//}
+
+
 			m_playerGene->AddChangeCycleNum();
 			if (m_playerGene->GetChangeCycleNum() == m_wayPointNum) {
 				m_playerGene->ResetSubmitBurgerNum();

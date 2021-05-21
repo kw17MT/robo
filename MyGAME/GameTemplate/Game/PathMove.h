@@ -1,6 +1,8 @@
 #pragma once
 #include "PathFactory.h"
 
+class CycleDirection;
+
 enum enMoveState
 {
 	enNone,		//何もしない。
@@ -60,6 +62,9 @@ public:
 	PlayerGene* m_playerGene;
 
 private:
+	//回転方向スプライト
+	CycleDirection* m_directSprite[2] = {nullptr};
+
 	Path* m_path;											//パス。
 	Point* m_point = nullptr;								//今向かってるポイント。
 	Vector3 m_position;

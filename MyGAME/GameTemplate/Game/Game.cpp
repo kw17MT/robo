@@ -31,6 +31,7 @@
 #include "effect/effect.h"
 #include "Floor.h"
 #include "Arrow.h"
+#include "CycleDirection.h"
 
 namespace
 {
@@ -186,6 +187,14 @@ Game::Game()
 	m_countSprite->SetPivot(ctPivot);
 	m_countSprite->SetPosition(ctPosition);
 
+	//コンベア回転方向
+	m_directionSprite[0] = NewGO<CycleDirection>(0,"dirsp1");
+	m_directionSprite[0]->SetDirection(Forward);				//右回転
+	m_directionSprite[0]->SetSide(Left);						//左
+	m_directionSprite[1] = NewGO<CycleDirection>(0, "dirsp2");
+	m_directionSprite[1]->SetDirection(Reverse);				//左回転
+	m_directionSprite[1]->SetSide(Right);						//右
+
 
 	//カウントダウンを開始するということを設定する。
 	GetGameDirector().SetGameScene(enGameCountDown);
@@ -213,6 +222,9 @@ Game::~Game()
 	DeleteGO(guzaiOkiba);
 	DeleteGO(m_score);
 	//DeleteGO(m_bgm);
+	for (int i = 0; i < 2; i++) {
+		DeleteGO(m_directionSprite[i]);
+	}
 }
 
 bool Game::Start()
@@ -291,16 +303,14 @@ void Game::CountDown()
 
 
 
-	if (m_timer <= 0.0f)
-	{
+
+	if (m_timer <= 0.0f && alpha <= 0.0f){
 		//カウントダウンが終了し、ゲームが開始したことを設定する。
 		GetGameDirector().SetGameScene(enGamePlay);
 		//DeleteGO(m_font);
 		
 		//スプライト削除
-		if (m_timer < 0.0f) {
-			DeleteGO(m_countSprite);
-		}
+		DeleteGO (m_countSprite);
 
 		return;
 	}
@@ -322,13 +332,48 @@ void Game::CountDown()
 	m_font->SetPosition({ -100, 200 });
 	m_font->SetScale(scale);*/
 
+	//スプライト変更処理
+	if (m_timer <= 4.0f && m_timer > 3.0 && changeCount == 3) {
+		m_countSprite->Init("Assets/Image/3.dds", 512, 512);
+		alpha = 0.0f;
+		scaleRate = 2.0f;
+		fadeOut = false;
+		changeCount--;
+	}
+	else if (m_timer <= 3.0f && m_timer > 2.0 && changeCount == 2) {
+		m_countSprite->Init("Assets/Image/2.dds", 512, 512);
+		alpha = 0.0f;
+		scaleRate = 2.0f;
+		fadeOut = false;
+		changeCount--;
+	}
+	else if (m_timer <= 2.0f && m_timer > 1.0 && changeCount == 1) {
+		m_countSprite->Init("Assets/Image/1.dds", 512, 512);
+		alpha = 0.0f;
+		scaleRate = 2.0f;
+		fadeOut = false;
+		changeCount--;
+	}
+	else if (m_timer <= 1.0f && m_timer > 0.0 && changeCount == 0) {
+		m_countSprite->Init("Assets/Image/start.dds", 512, 512);
+		alpha = 0.0f;
+		scaleRate = 2.0f;
+		fadeOut = false;
+		changeCount--;
+	}
+
 	//カウントダウン処理(スプライト)
 	//フェードイン、アウト処理
 	if (fadeOut == false) {
-		alpha += 4.0f / 60.0f;
+		alpha += 1.5f / 60.0f;
 	}
 	else {
-		alpha -= 1.0f / 60;
+		if (changeCount == -1) {	//スタートの表示だけ早く消えてもらう
+			alpha -= 2.5f / 60.0f;
+		}
+		else {
+			alpha -= 1.5f / 60.0f;
+		}
 	}
 
 	if (alpha > 1.0f) {
@@ -339,31 +384,12 @@ void Game::CountDown()
 		alpha = 0.0f;
 	}
 
-	//スプライト変更処理
-	if (m_timer <= 4.0f && m_timer > 3.0 && changeCount == 3) {
-		m_countSprite->Init("Assets/Image/3.dds", 512, 512);
-		alpha = 0.0f;
-		fadeOut = false;
-		changeCount--;
+	//スケール縮小処理
+	scaleRate -= 2.0f / 60.0f;
+	if (scaleRate < 1.0f) {
+		scaleRate = 1.0f;
 	}
-	else if (m_timer <= 3.0f && m_timer > 2.0 && changeCount == 2) {
-		m_countSprite->Init("Assets/Image/2.dds", 512, 512);
-		alpha = 0.0f;
-		fadeOut = false;
-		changeCount--;
-	}
-	else if (m_timer <= 2.0f && m_timer > 1.0 && changeCount == 1) {
-		m_countSprite->Init("Assets/Image/1.dds", 512, 512);
-		alpha = 0.0f;
-		fadeOut = false;
-		changeCount--;
-	}
-	else if (m_timer <= 1.0f && m_timer > 0.0 && changeCount == 0) {
-		m_countSprite->Init("Assets/Image/start.dds", 512, 512);
-		alpha = 0.0f;
-		fadeOut = false;
-		changeCount--;
-	}
+
 	
 	//開始時のカウントダウンに応じて音を鳴らす。
 	if (m_timer < 1.0f && m_soundFlag00 == false) {
@@ -399,5 +425,8 @@ void Game::CountDown()
 		m_soundFlag03 = true;
 	}
 
+	m_ctScale = { scaleRate,scaleRate,1.0f };
+
 	m_countSprite->SetColor(1.0f, 1.0f, 1.0f, alpha);
+	m_countSprite->SetScale(m_ctScale);
 }

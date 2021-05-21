@@ -4,6 +4,7 @@
 #include "SpriteRender.h"
 #include "SoundSource.h"
 #include "GameDirector.h"
+#include "CycleDirection.h"
 
 //デストラクタ
 FixedUI::~FixedUI()
@@ -22,9 +23,9 @@ FixedUI::~FixedUI()
 		DeleteGO(TextMiss[i]);
 	}
 
-	DeleteGO(convDirText);
+	/*DeleteGO(convDirText);
 	DeleteGO(convDirLeft);
-	DeleteGO(convDirRight);
+	DeleteGO(convDirRight);*/
 
 }
 
@@ -74,21 +75,21 @@ bool FixedUI::Start()
 	TextMiss[1]->SetText(L"MISS:");
 	TextMiss[1]->SetPosition(posMiss02);
 
-	//コンベア回転方向表示
-	convDirText = NewGO<SpriteRender>(0);
-	convDirText->Init("Assets/Image/forward.dds", 512*0.25, 512*0.25);
-	convDirText->SetPivot({ 0.5f,0.5f });
-	convDirText->SetPosition(posConvDirText);
-	
-	convDirLeft = NewGO<SpriteRender>(0);
-	convDirLeft->Init("Assets/Image/forward_dir.dds", 512*0.5, 512*0.5);
-	convDirLeft->SetPivot({ 0.5f,0.5f });
-	convDirLeft->SetPosition(posConvDirLeft);
-	
-	convDirRight = NewGO<SpriteRender>(0);
-	convDirRight->Init("Assets/Image/reverse_dir.dds", 512*0.5, 512*0.5);
-	convDirRight->SetPivot({ 0.5f,0.5f });
-	convDirRight->SetPosition(posConvDirRight);
+	////コンベア回転方向表示
+	//convDirText = NewGO<SpriteRender>(0);
+	//convDirText->Init("Assets/Image/forward.dds", 512*0.25, 512*0.25);
+	//convDirText->SetPivot({ 0.5f,0.5f });
+	//convDirText->SetPosition(posConvDirText);
+	//
+	//convDirLeft = NewGO<SpriteRender>(0);
+	//convDirLeft->Init("Assets/Image/forward_dir.dds", 512*0.5, 512*0.5);
+	//convDirLeft->SetPivot({ 0.5f,0.5f });
+	//convDirLeft->SetPosition(posConvDirLeft);
+	//
+	//convDirRight = NewGO<SpriteRender>(0);
+	//convDirRight->Init("Assets/Image/reverse_dir.dds", 512*0.5, 512*0.5);
+	//convDirRight->SetPivot({ 0.5f,0.5f });
+	//convDirRight->SetPosition(posConvDirRight);
 
 	//残時間
 	Time = NewGO<FontRender>(5);
@@ -99,6 +100,13 @@ bool FixedUI::Start()
 	Time->SetText(fontRemainingTime.c_str());
 
 	Time->SetPosition(posLastTime);
+
+	/*m_directionSprite[0] = NewGO<CycleDirection>(0);
+	m_directionSprite[0]->SetDirection(Forward);
+	m_directionSprite[0]->SetSide(Left);
+	m_directionSprite[1] = NewGO<CycleDirection>(0);
+	m_directionSprite[0]->SetDirection(Reverse);
+	m_directionSprite[0]->SetSide(Right);*/
 
 	return true;
 }
@@ -185,25 +193,24 @@ void FixedUI::Update()
 
 	
 	}
-
 	
-	//コンベア回転方向表示処理
-	angleLeft += 120.0f / 60.0f;
-	angleRight -= 120.0f / 60.0f;
-	
+	////コンベア回転方向表示処理
+	//angleLeft += 120.0f / 60.0f;
+	//angleRight -= 120.0f / 60.0f;
+	//
 
-	//回転角度を0～360度にする
-	if (angleLeft > 360.0f) {
-		angleLeft = 0.0f;
-	}
-	if (angleRight > 360.0f) {
-		angleRight = 0.0f;
-	}
+	////回転角度を0～360度にする
+	//if (angleLeft > 360.0f) {
+	//	angleLeft = 0.0f;
+	//}
+	//if (angleRight > 360.0f) {
+	//	angleRight = 0.0f;
+	//}
 
-	rotLeft.SetRotationDeg(Vector3::AxisZ, angleLeft);
-	rotRight.SetRotationDeg(Vector3::AxisZ, angleRight);
+	//rotLeft.SetRotationDeg(Vector3::AxisZ, angleLeft);
+	//rotRight.SetRotationDeg(Vector3::AxisZ, angleRight);
 
-	convDirLeft->SetRotation(rotLeft);
-	convDirRight->SetRotation(rotRight);
+	//convDirLeft->SetRotation(rotLeft);
+	//convDirRight->SetRotation(rotRight);
 	
 }

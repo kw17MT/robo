@@ -22,6 +22,7 @@ class PlayerGene;
 class PostEffectTest;
 class ShadowTest;
 class Ground;
+class CycleDirection;
 
 //class PopUp2D;
 class Game : public IGameObject
@@ -63,6 +64,7 @@ public:
 	Result* m_result[3];								//勝敗表示用:引き分けの場合、プレイヤー1、プレイヤー2に用意
 	FontRender* m_font;									//フォント
 	CSoundSource* m_bgm;									//BGM用
+	CycleDirection* m_directionSprite[2] = {nullptr};
 
 	//ここから下はいらないと思う
 	PostEffectTest* postTest;
@@ -81,7 +83,9 @@ public:
 	
 	//カウントダウン用スプライト
 	SpriteRender* m_countSprite = nullptr;
+	Vector3 m_ctScale = Vector3::One;
 	int changeCount = 3;
+	float scaleRate = 2.0f;
 	float alpha = 0.0f;
 	bool fadeOut = false;
 

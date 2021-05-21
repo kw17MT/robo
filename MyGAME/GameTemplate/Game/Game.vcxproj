@@ -296,6 +296,7 @@
     <ClCompile Include="CaslFile.cpp" />
     <ClCompile Include="CLevel2D.cpp" />
     <ClCompile Include="Counter.cpp" />
+    <ClCompile Include="CycleDirection.cpp" />
     <ClCompile Include="Dish.cpp" />
     <ClCompile Include="DishGene.cpp" />
     <ClCompile Include="DishSpeedManeger.cpp" />
@@ -420,6 +421,7 @@
     <ClInclude Include="CaslFile.h" />
     <ClInclude Include="CLevel2D.h" />
     <ClInclude Include="Counter.h" />
+    <ClInclude Include="CycleDirection.h" />
     <ClInclude Include="Dish.h" />
     <ClInclude Include="DishGene.h" />
     <ClInclude Include="DishSpeedManeger.h" />
