@@ -19,6 +19,7 @@ class PlayerGene;
 class SpriteRender;
 class Burger;
 class CSoundSource;
+class Player;
 
 class Counter : public IGameObject
 {
@@ -99,4 +100,8 @@ public:
 	SpriteRender* m_spriteJudge01;
 	SpriteRender* m_spriteJudge02;
 	SpriteRender* m_spriteCompare[4][5];	//ƒƒjƒ…[‚Æˆê’v‚µ‚Ä‚¢‚é‚©‚Ì‰æ‘œ‚ğ•\¦
+
+	Player* pl01 = nullptr;
+	Player* pl02 = nullptr;
+
 };

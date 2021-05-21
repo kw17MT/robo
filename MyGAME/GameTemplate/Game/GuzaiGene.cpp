@@ -10,6 +10,16 @@
 #include <cstdlib>      // srand,rand
 #include <random>		//—”¶¬—p
 
+GuzaiGene::~GuzaiGene()
+{
+	DeleteGO(m_skinModelRender);
+	for (int i = 0; i < guzaiNum; i++) {
+		if (m_guzai[i] != nullptr) {
+			DeleteGO(m_guzai[i]);
+		}
+	}
+}
+
 bool GuzaiGene::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);

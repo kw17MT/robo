@@ -38,15 +38,15 @@ void PathMove::SwitchCycleDirection()
 		//回転方向スプライト(逆転)
 		m_directSprite[0] = FindGO<CycleDirection>("dirsp1");
 		m_directSprite[0]->ChangeSpriteReverse();
-		m_directSprite[0]->SetDirection(Reverse);				//左回転
-		m_directSprite[0]->SetSide(Left);						//左
+		m_directSprite[0]->SetDirection(Reverse);					//左回転
+		m_directSprite[0]->SetSide(Left);							//左
 		
 		m_directSprite[1] = FindGO<CycleDirection>("dirsp2");
 		m_directSprite[1]->ChangeSpriteForward();
-		m_directSprite[1]->SetDirection(Forward);				//右回転
-		m_directSprite[1]->SetSide(Right);						//右
+		m_directSprite[1]->SetDirection(Forward);					//右回転
+		m_directSprite[1]->SetSide(Right);							//右
 		
-		m_directSprite[2] = FindGO<CycleDirection>("dirspfixed");
+		m_directSprite[2] = FindGO<CycleDirection>("dirspfixed");	//固定表示
 		m_directSprite[2]->ChangeFixedSpriteReverse();
 		m_directSprite[2]->SetDirection(FixedReverse);
 
@@ -68,16 +68,16 @@ void PathMove::SwitchCycleDirection()
 		//回転方向スプライト(正転)
 		m_directSprite[0] = FindGO<CycleDirection>("dirsp1");
 		m_directSprite[0]->ChangeSpriteForward();
-		m_directSprite[0]->SetDirection(Forward);				//右回転
-		m_directSprite[0]->SetSide(Left);						//左
+		m_directSprite[0]->SetDirection(Forward);					//右回転
+		m_directSprite[0]->SetSide(Left);							//左
 		
 		m_directSprite[1] = FindGO<CycleDirection>("dirsp2");
 		m_directSprite[1]->ChangeSpriteReverse();
-		m_directSprite[1]->SetDirection(Reverse);				//左回転
-		m_directSprite[1]->SetSide(Right);						//右
+		m_directSprite[1]->SetDirection(Reverse);					//左回転
+		m_directSprite[1]->SetSide(Right);							//右
 
-		m_directSprite[2] = FindGO<CycleDirection>("dirspfixed");
-		m_directSprite[2]->ChangeFixedSpriteForward();
+		m_directSprite[2] = FindGO<CycleDirection>("dirspfixed");	//固定表示
+		m_directSprite[2]->ChangeFixedSpriteForward();				//正転
 		m_directSprite[2]->SetDirection(FixedForward);
 
 		CSoundSource* se = NewGO<CSoundSource>(0);

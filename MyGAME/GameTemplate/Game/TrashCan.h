@@ -19,6 +19,7 @@ private:
 	bool isMoving = false;											//ƒSƒ~” ‚ð“®‚©‚³‚¹‚é‚©
 	int movingTime = 30;											//ƒSƒ~‚ð“ü‚ê‚½Œã‚Ç‚Ì‚­‚ç‚¢‚ÌŽžŠÔ“®‚­‚©
 public:
+	~TrashCan();
 	bool Start();
 	void Update();
 

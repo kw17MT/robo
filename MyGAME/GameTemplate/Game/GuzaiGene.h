@@ -22,7 +22,7 @@ private:
 	Vector3 m_setPos = Vector3::Zero;
 public:
 	GuzaiGene() {};
-	~GuzaiGene() {};
+	~GuzaiGene();
 	//¶¬Ší‚ÌÀ•Wİ’èB
 	bool Start();
 	//‹ïŞ‚ğ¶¬‚·‚éB
@@ -32,7 +32,7 @@ public:
 	bool GetInitialActionState() { return isCompletedSetGuzai; }
 
 	SkinModelRender* m_skinModelRender;
-	Guzai* m_guzai[guzaiNum];
+	Guzai* m_guzai[guzaiNum] = {nullptr};
 	DishGene* m_dishGene;
 	//Buff* m_buff;
 };
