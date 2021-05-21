@@ -4,6 +4,7 @@ class Burger;
 class SkinModelRender;
 class Player;
 class CSoundSource;
+class Meter;
 
 class Kitchen : public IGameObject
 {
@@ -79,5 +80,6 @@ public:
 	Burger* bur;
 	SkinModelRender* m_skinModelRender;
 	CSoundSource* m_soundSource;
+	Meter* m_meter;
 };
 

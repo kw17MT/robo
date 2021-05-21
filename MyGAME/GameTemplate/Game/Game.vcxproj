@@ -320,6 +320,7 @@
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="MapChip2D.cpp" />
     <ClCompile Include="MenuTimer.cpp" />
+    <ClCompile Include="Meter.cpp" />
     <ClCompile Include="MissCounter.cpp" />
     <ClCompile Include="NameKey.cpp" />
     <ClCompile Include="GuzaiGene.cpp" />
@@ -444,6 +445,7 @@
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MapChip2D.h" />
     <ClInclude Include="MenuTimer.h" />
+    <ClInclude Include="Meter.h" />
     <ClInclude Include="MissCounter.h" />
     <ClInclude Include="NameKey.h" />
     <ClInclude Include="GuzaiGene.h" />

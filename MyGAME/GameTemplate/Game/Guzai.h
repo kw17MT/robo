@@ -1,4 +1,5 @@
 #pragma once
+#include "effect/Effect.h"
 
 class Kitchen;
 class SkinModelRender;
@@ -8,6 +9,8 @@ class GuzaiGene;
 class GuzaiOkiba;
 class TrashCan;
 class CSoundSource;
+class Effect;
+class Meter;
 
 class Guzai : public IGameObject
 {
@@ -140,5 +143,7 @@ public:
 	GuzaiOkiba* m_guzaiOkiba;
 	TrashCan* m_trashCan[2];
 	CSoundSource* m_cookingSe;
+	Effect m_effect;
+	Meter* m_meter;
 };
 
