@@ -61,6 +61,9 @@ private:
 	//何段のハンバーガーを作ったのかの変数
 	int StackNum = 0;
 
+//ボーナスポイントのフラグ
+	bool m_bonusPoint = false;
+
 public:
 	//モデルデータなどを初期化。
 	Counter();
@@ -83,6 +86,9 @@ public:
 	{
 		return m_showHamBurgers;
 	}
+
+	void SetBonusPoint(bool tf) { m_bonusPoint = tf; }
+
 	//表示しているハンバーガーの配列。
 	EnHamBurger m_showHamBurgers[11];
 

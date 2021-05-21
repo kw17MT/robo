@@ -29,22 +29,22 @@ Player::~Player()
 bool Player::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	if (playerNo == 1) {
+	//if (playerNo == 1) {
 		m_skinModelRender->Init(
 			"Assets/modelData/Chef/ChefRed/Chef01.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
 			enModelUpAxisZ,
 			m_position
 		);
-	}
-	else {
-		m_skinModelRender->Init(
+//	}
+	//else {
+	/*	m_skinModelRender->Init(
 			"Assets/modelData/Chef/ChefBlue/Chef02.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
 			enModelUpAxisZ,
 			m_position
 		);
-	}
+	}*/
 
 	m_skinModelRender->InitShader(
 		"Assets/shader/model.fx",
@@ -73,7 +73,7 @@ bool Player::Start()
 	m_shadow->SetScale(m_shadowScale);
 	m_shadow->SetPosition(m_position);
 	//ここでアニメーションのロードを行う
-	animationClips[enAnimation_Idle].Load("Assets/animData/idle.tka");
+	animationClips[enAnimation_Idle].Load("Assets/animData/test.tka");
 	/*animationClips[enAnimation_Run].Load("");
 	animationClips[enAnimation_Cut].Load("");
 	animationClips[enAnimation_Cook].Load("");

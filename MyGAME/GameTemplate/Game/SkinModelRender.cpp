@@ -95,6 +95,8 @@ void SkinModelRender::InitAnimation(AnimationClip* animationClip, int animationN
 void SkinModelRender::PlayAnimation(int animNo, float interpolateTime)
 {
 	m_animation.Play(animNo, interpolateTime);
+	//m_animation.Progress(1.0f / 60.0f);
+
 }
 
 bool SkinModelRender::Start()
@@ -105,8 +107,9 @@ bool SkinModelRender::Start()
 void SkinModelRender::Update()
 {
 	//スケルトンを更新。
-	
 	m_skeleton.Update(m_model.GetWorldMatrix());
 
+	m_animation.Progress(1.0f / 60.0f);
+	
 	m_model.UpdateWorldMatrix(m_position, m_rot, m_scale);
 }

@@ -25,13 +25,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	CSoundEngine::GetInstance()->Init();
 
 	EffectEngine::CreateInstance();
-	Effect laserEffect;
-
-	laserEffect.Init(u"Assets/effect/ase.efkefc");
-	Vector3 scale = { 100.0f,100.0,100.0f };
-	laserEffect.SetScale(scale);
-	//laserEffect.Play();
-	//laserEffect.Update();
 
 	//一緒くたにしないと両方のライトの影響を受けなくなる。////////////////////////////////
 	//ディレクションライトの正規化と目の位置をカメラの座標にする。
@@ -194,23 +187,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			g_camera3D->SetPosition(camerapos);
 		}
 
-
-		laserEffect.SetPosition({ 0.0f,10.0f,0.0f });
-		laserEffect.SetScale({ 10.0f,10.0f,10.0f });
-		laserEffect.Update();
-
-		if (g_pad[0]->IsTrigger(enButtonA)) {
-			laserEffect.Play();
-		}
 		EffectEngine::GetInstance()->Update(0.016f/*g_gameTime->GetFrameDeltaTime()*/);
 		EffectEngine::GetInstance()->Draw();
-
-
-
-
-
-	
-
 
 
 

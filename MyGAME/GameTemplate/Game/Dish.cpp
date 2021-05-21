@@ -11,7 +11,7 @@
 
 namespace
 {
-	const float MOVESPEED = 130.0f;
+	const float MOVESPEED = 260.0f;
 }
 
 bool Dish::Start()
@@ -37,7 +37,7 @@ bool Dish::Start()
 
 	m_pathMove = std::make_unique<PathMove>();
 	m_pathMove.get()->Init(m_position, MOVESPEED, enNormalLane);
-	
+
 	return true;
 }
 
