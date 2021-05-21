@@ -2,6 +2,15 @@
 #include "PlayerGene.h"
 #include "Player.h"
 
+PlayerGene::~PlayerGene()
+{
+	for (int i = 0; i < 2; i++) {
+		if (player[i] != nullptr) {
+			DeleteGO(player[i]);
+		}
+	}
+}
+
 bool PlayerGene::Start()
 {
 

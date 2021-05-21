@@ -4,6 +4,12 @@
 #include "Player.h"
 #include "PlayerGene.h"
 
+
+TrashCan::~TrashCan()
+{
+	DeleteGO(m_skinModelRender);
+}
+
 bool TrashCan::Start()
 {
 	player[0] = FindGO<Player>("player01");

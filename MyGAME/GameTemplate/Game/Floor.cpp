@@ -2,6 +2,11 @@
 #include "Floor.h"
 #include "SkinModelRender.h"
 
+Floor::~Floor()
+{
+	DeleteGO(m_skinModelRender);
+}
+
 bool Floor::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);

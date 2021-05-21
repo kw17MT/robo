@@ -9,6 +9,7 @@
 #include "PlayerGene.h"
 #include "TrashCan.h"
 #include "SoundSource.h"
+#include "GameDirector.h"
 #include<random>
 
 #include <ctime>

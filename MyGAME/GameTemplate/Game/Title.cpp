@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "Title.h"
 #include "Fade.h"
-#include "OperationExplanation.h"
+#include "Game.h"
+//#include "OperationExplanation.h"
 
 Title::~Title()
 {
@@ -11,11 +12,7 @@ Title::~Title()
 bool Title::Start()
 {
 	m_spriteRender = NewGO<SpriteRender>(0);
-	m_spriteRender->Init("Assets/Image/title.dds", 1280, 720);
-
-
-	/*Vector4 color = { 1.0f,1.0f,1.0f,0.5f };
-	m_spriteRender->SetColor(color);*/
+	m_spriteRender->Init("Assets/Image/Title_512.dds", 1280, 720);
 
 	return true;
 }
@@ -32,8 +29,9 @@ void Title::Update()
 	}
 	//^‚ÁˆÃ‚É‚È‚Á‚½‚ç‘JˆÚ
 	if (m_fade->GetState() == m_fade->enState_Wait) {
-		auto operationExplanation = NewGO<OperationExplanation>(0);
+		//auto operationExplanation = NewGO<OperationExplanation>(0);
 		m_fade->SetState(m_fade->enState_In);
+		NewGO<Game>(0, "game");
 		DeleteGO(this);
 	}
 }

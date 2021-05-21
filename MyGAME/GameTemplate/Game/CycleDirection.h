@@ -26,7 +26,6 @@ public:
 	void ChangeFixedSpriteForward();
 	void ChangeFixedSpriteReverse();
 
-
 	//セッター
 	void SetDirection(const EnDirection& enDirection) { m_direction = enDirection; }
 	void SetSide(const EnSide& enSide) { m_side = enSide; }

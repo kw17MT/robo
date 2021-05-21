@@ -13,6 +13,7 @@ private:
 public:
 	void SetPosition(Vector3 pos) { m_position = pos; }
 
+	~Floor();
 	bool Start();
 	void Update();
 

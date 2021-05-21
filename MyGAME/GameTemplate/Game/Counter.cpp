@@ -178,7 +178,12 @@ bool Counter::Judge()
 void Counter::Delete()
 {
 	if (CounterNo == 1) {
-		Player* pl01 = FindGO<Player>("player01");
+
+		//Player* pl01 = FindGO<Player>("player01");
+		if (pl01 == nullptr) {
+			pl01 = FindGO<Player>("player01");
+		}
+
 		Vector3 plPos = pl01->GetPosition();
 
 		Vector3 CounterPos01 = m_position;
@@ -292,7 +297,12 @@ void Counter::Delete()
 	}
 
 	if (CounterNo == 2) {
-		Player* pl02 = FindGO<Player>("player02");
+
+		//Player* pl02 = FindGO<Player>("player02");
+		if (pl02 == nullptr) {
+			pl02 = FindGO<Player>("player02");
+		}
+
 		Vector3 plPos = pl02->GetPosition();
 
 		Vector3 CounterPos02 = m_position;
@@ -408,7 +418,10 @@ void Counter::HamBurgerCompare()
 	//1P側の処理
 	if (CounterNo == 1) {
 		for (int i = 2; i >= CounterNo; i--) {
-			Player* pl01 = FindGO<Player>("player01");
+			//Player* pl01 = FindGO<Player>("player01");
+			if (pl01 == nullptr) {
+				pl01 = FindGO<Player>("player01");
+			}
 			HamBurger hamburger = GetHamBurgerFactory().GetHamBurger(m_showHamBurgers[i]);
 			//具材をキッチンに積んでいないとき…
 			for (int k = 0; k < 5; k++) {
@@ -503,7 +516,10 @@ void Counter::HamBurgerCompare()
 	//2P側の処理
 	if (CounterNo == 2) {
 		for (int i = 0; i < CounterNo; i++) {
-			Player* pl02 = FindGO<Player>("player02");
+			//Player* pl02 = FindGO<Player>("player02");
+			if (pl02 == nullptr) {
+				pl02 = FindGO<Player>("player02");
+			}
 			HamBurger hamburger = GetHamBurgerFactory().GetHamBurger(m_showHamBurgers[i]);
 			for (int k = 0; k < 5; k++) {
 				if (pl02->GuzaiNo[k] == 9) {

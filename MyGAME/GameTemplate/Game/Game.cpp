@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
+#include "Title.h"
 #include "Level.h"
 #include "FixedUI.h"
 #include "SpriteRender.h"
@@ -214,12 +215,11 @@ Game::~Game()
 	for (int i = 0; i < 3;i++) {
 		DeleteGO(menu[i]);
 	}
-	for (int i = 0; i < 2;i++) {
-		DeleteGO(player[i]);
-	}
+	
 	for (int i = 0; i < 2; i++) {
 		DeleteGO(m_result[i]);
 	}
+	DeleteGO(playerGene);
 	DeleteGO(guzaiGene);
 	DeleteGO(guzaiOkiba);
 	DeleteGO(m_score);
@@ -227,6 +227,11 @@ Game::~Game()
 	for (int i = 0; i < 3; i++) {
 		DeleteGO(m_directionSprite[i]);
 	}
+
+	for (int i = 0; i < 2; i++) {
+		DeleteGO(player[i]);
+	}
+
 }
 
 bool Game::Start()
@@ -238,6 +243,7 @@ void Game::Update()
 {
 	//カウントダウンする。
 	CountDown();
+
 
 	level.Draw();
 
@@ -281,6 +287,15 @@ void Game::Update()
 		}
 		//game内のタイムアップフラグを立てる
 		SetTimeUp();
+		//ゲーム終了を通知
+		GetGameDirector().SetGameScene(enGameEnd);
+
+	}
+
+	if (GetGameDirector().GetGameScene() == enGameEnd) {
+		NewGO<Title>(0, "title");
+		GetGameDirector().SetGameScene(enNonScene);
+		DeleteGO(this);
 	}
 	
 }

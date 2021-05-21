@@ -2,9 +2,10 @@
 
 enum EnScene
 {
-	enNonScene = -1,
-	enGameCountDown = 0,	//ゲーム開始前のカウントダウン。
-	enGamePlay = 1,		//ゲームプレイ中。
+	enNonScene = -1,	//タイトル
+	enGameCountDown,	//ゲーム開始前のカウントダウン。
+	enGamePlay,			//ゲームプレイ中。
+	enGameEnd,			//ゲーム終了
 	enSceneNumber
 };
 

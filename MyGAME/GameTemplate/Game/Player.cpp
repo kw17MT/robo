@@ -23,7 +23,8 @@ Player::Player()
 
 Player::~Player()
 {
-	DeleteGO(m_popUp);
+	DeleteGO(m_skinModelRender);
+	DeleteGO(m_shadow);
 }
 
 bool Player::Start()
