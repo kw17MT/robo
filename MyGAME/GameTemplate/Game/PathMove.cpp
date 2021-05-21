@@ -46,6 +46,10 @@ void PathMove::SwitchCycleDirection()
 		m_directSprite[1]->SetDirection(Forward);				//‰E‰ñ“]
 		m_directSprite[1]->SetSide(Right);						//‰E
 		
+		m_directSprite[2] = FindGO<CycleDirection>("dirspfixed");
+		m_directSprite[2]->ChangeFixedSpriteReverse();
+		m_directSprite[2]->SetDirection(FixedReverse);
+
 		CSoundSource* se = NewGO<CSoundSource>(0);
 		se->Init(L"Assets/sound/mechanical.wav", false);
 		se->SetVolume(2.0f);
@@ -71,6 +75,10 @@ void PathMove::SwitchCycleDirection()
 		m_directSprite[1]->ChangeSpriteReverse();
 		m_directSprite[1]->SetDirection(Reverse);				//¶‰ñ“]
 		m_directSprite[1]->SetSide(Right);						//‰E
+
+		m_directSprite[2] = FindGO<CycleDirection>("dirspfixed");
+		m_directSprite[2]->ChangeFixedSpriteForward();
+		m_directSprite[2]->SetDirection(FixedForward);
 
 		CSoundSource* se = NewGO<CSoundSource>(0);
 		se->Init(L"Assets/sound/mechanical.wav", false);

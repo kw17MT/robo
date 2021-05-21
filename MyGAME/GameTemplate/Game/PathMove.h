@@ -63,7 +63,7 @@ public:
 
 private:
 	//回転方向スプライト
-	CycleDirection* m_directSprite[2] = {nullptr};
+	CycleDirection* m_directSprite[3] = {nullptr};
 
 	Path* m_path;											//パス。
 	Point* m_point = nullptr;								//今向かってるポイント。

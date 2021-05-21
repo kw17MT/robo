@@ -64,7 +64,7 @@ public:
 	Result* m_result[3];								//勝敗表示用:引き分けの場合、プレイヤー1、プレイヤー2に用意
 	FontRender* m_font;									//フォント
 	CSoundSource* m_bgm;									//BGM用
-	CycleDirection* m_directionSprite[2] = {nullptr};
+	CycleDirection* m_directionSprite[3] = {nullptr};
 
 	//ここから下はいらないと思う
 	PostEffectTest* postTest;

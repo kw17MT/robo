@@ -2,13 +2,16 @@
 class SpriteRender;
 
 enum EnDirection {
-	Forward,
-	Reverse,
+	Forward,		//回転スプライト正転
+	Reverse,		//回転スプライト逆転
+	FixedForward,	//固定表示スプライト正転
+	FixedReverse,	//固定表示スプライト逆転
 };
 
 enum EnSide {
-	Left,
-	Right
+	Left,			//左
+	Right,			//右
+	Up				//画面上部
 };
 
 class CycleDirection : public IGameObject
@@ -20,6 +23,9 @@ public:
 	void Update();
 	void ChangeSpriteForward();
 	void ChangeSpriteReverse();
+	void ChangeFixedSpriteForward();
+	void ChangeFixedSpriteReverse();
+
 
 	//セッター
 	void SetDirection(const EnDirection& enDirection) { m_direction = enDirection; }

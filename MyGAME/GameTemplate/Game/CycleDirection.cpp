@@ -25,6 +25,12 @@ bool CycleDirection::Start()
 	case Reverse:
 		m_sprite->Init("Assets/Image/reverse_dir.dds", WIDTH, HEIGHT);
 		break;
+	case FixedForward:
+		m_sprite->Init("Assets/Image/forward.dds", WIDTH, HEIGHT);
+		break;
+	case FixedReverse:
+		m_sprite->Init("Assets/Image/reverse.dds", WIDTH, HEIGHT);
+		break;
 	defalt:
 		break;
 	}
@@ -36,6 +42,9 @@ bool CycleDirection::Start()
 		break;
 	case Right:
 		m_sprite->SetPosition({ -220.0f, 80.0f,0.0f });
+		break;
+	case Up:
+		m_sprite->SetPosition({ 0.0f, 250.0f,0.0f });
 		break;
 	default:
 		break;
@@ -52,7 +61,7 @@ bool CycleDirection::Start()
 
 void CycleDirection::ChangeSpriteForward()
 {
-	//‰ñ“]•ûŒü‚ª³“]‚Å‚È‚¢‚Æ‚«A³“]‚Ìƒ^ƒCƒ~ƒ“ƒO‚Å³“]ƒXƒvƒ‰ƒCƒg‚É•ÏX
+	//‰ñ“]•ûŒü‚ª‹t“]‚Ì‚Æ‚«A³“]‚Ìƒ^ƒCƒ~ƒ“ƒO‚Å³“]ƒXƒvƒ‰ƒCƒg‚É•ÏX
 	if (m_direction == Reverse) {
 		m_sprite->Init("Assets/Image/forward_dir.dds", WIDTH, HEIGHT);
 	}
@@ -60,14 +69,30 @@ void CycleDirection::ChangeSpriteForward()
 
 void CycleDirection::ChangeSpriteReverse()
 {
-	//‰ñ“]•ûŒü‚ª‹t“]‚Å‚È‚¢‚Æ‚«A‹t“]‚Ìƒ^ƒCƒ~ƒ“ƒO‚Å‹t“]ƒXƒvƒ‰ƒCƒg‚É•ÏX
+	//‰ñ“]•ûŒü‚ª³“]‚Ì‚Æ‚«A‹t“]‚Ìƒ^ƒCƒ~ƒ“ƒO‚Å‹t“]ƒXƒvƒ‰ƒCƒg‚É•ÏX
 	if (m_direction == Forward) {
 		m_sprite->Init("Assets/Image/reverse_dir.dds", WIDTH, HEIGHT);
 	}
 }
 
+void CycleDirection::ChangeFixedSpriteForward()
+{
+	if (m_direction == FixedReverse) {
+		m_sprite->Init("Assets/Image/forward.dds", WIDTH, HEIGHT);
+	}
+}
+
+void CycleDirection::ChangeFixedSpriteReverse()
+{
+	if (m_direction == FixedForward) {
+		m_sprite->Init("Assets/Image/reverse.dds", WIDTH, HEIGHT);
+	}
+}
+
 void CycleDirection::Update()
 {
+	/////////////////////////////////////////////////////
+	//‹¤’Ê•”•ª
 	//ƒQ[ƒ€ƒvƒŒƒC’†‚Å‚È‚¯‚ê‚ÎUpdate‚ðˆ—‚µ‚È‚¢
 	if (!GetGameDirector().GetIsGamePlay()) {
 		return;
@@ -78,24 +103,39 @@ void CycleDirection::Update()
 	if (alpha > 1.0f) {
 		alpha = 1.0f;
 	}
+	/////////////////////////////////////////////////////
 
-	//‰ñ“]Šp“xC³
-	if (m_direction == Forward) {
-		angle += 120.0f / 60.0f;
-		if (angle > 360.0f) {
-			angle = 0.0f;
+	/////////////////////////////////////////////////////
+	//‰ñ“]‚·‚éƒXƒvƒ‰ƒCƒg‚Ì‚Æ‚«
+	if (m_direction == Forward || m_direction == Reverse) {
+		//‰ñ“]Šp“xC³
+		if (m_direction == Forward) {
+			angle += 120.0f / 60.0f;
+			if (angle > 360.0f) {
+				angle = 0.0f;
+			}
 		}
-	}
-	else if (m_direction == Reverse) {
-		angle -= 120.0f / 60.0f;
-		if (angle < 0.0f) {
-			angle = 360.0f;
+		else if (m_direction == Reverse) {
+			angle -= 120.0f / 60.0f;
+			if (angle < 0.0f) {
+				angle = 360.0f;
+			}
 		}
+
+		m_sprite->SetColor({ 2.0f,2.0f,2.0f,alpha });
 	}
+	/////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////
+	//ŒÅ’è•\Ž¦ƒXƒvƒ‰ƒCƒg‚Ì‚Æ‚«
+	if (m_direction == FixedForward || m_direction == FixedReverse) {
+		m_sprite->SetColor({ 1.0f,1.0f,1.0f,alpha });
+		m_sprite->SetScale({ 0.25f,0.25f,1.0f });
+	}
+	/////////////////////////////////////////////////////
 
 	m_rotation.SetRotationDeg(Vector3::AxisZ, angle);
 
 	m_sprite->SetRotation(m_rotation);
-	m_sprite->SetColor({ 1.0f,1.0f,1.0f,alpha });
 }
 

@@ -194,7 +194,9 @@ Game::Game()
 	m_directionSprite[1] = NewGO<CycleDirection>(0, "dirsp2");
 	m_directionSprite[1]->SetDirection(Reverse);				//左回転
 	m_directionSprite[1]->SetSide(Right);						//右
-
+	m_directionSprite[2] = NewGO<CycleDirection>(0, "dirspfixed");
+	m_directionSprite[2]->SetDirection(FixedForward);			//固定表示
+	m_directionSprite[2]->SetSide(Up);							//画面上部
 
 	//カウントダウンを開始するということを設定する。
 	GetGameDirector().SetGameScene(enGameCountDown);
@@ -222,7 +224,7 @@ Game::~Game()
 	DeleteGO(guzaiOkiba);
 	DeleteGO(m_score);
 	//DeleteGO(m_bgm);
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 3; i++) {
 		DeleteGO(m_directionSprite[i]);
 	}
 }
@@ -303,7 +305,7 @@ void Game::CountDown()
 
 
 
-
+	//スプライトの不透明度が0になったらゲームスタート
 	if (m_timer <= 0.0f && alpha <= 0.0f){
 		//カウントダウンが終了し、ゲームが開始したことを設定する。
 		GetGameDirector().SetGameScene(enGamePlay);
