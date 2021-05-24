@@ -8,6 +8,23 @@
 #include "SoundSource.h"
 #include "Meter.h"
 
+Kitchen::~Kitchen()
+{
+	DeleteGO(m_skinModelRender);
+	
+	//バーガーの消去
+	if (bur != nullptr) {
+		DeleteGO(bur);
+	}
+	
+	//スタックした具材が残っていたら消去
+	for (int i = 0; i < 5; i++) {
+		if (StackedGuzai[i] != nullptr) {
+			DeleteGO(StackedGuzai[i]);
+		}
+	}
+}
+
 bool Kitchen::Start()
 {
 	m_player[0] = FindGO<Player>("player01");

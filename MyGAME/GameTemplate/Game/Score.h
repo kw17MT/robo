@@ -58,7 +58,7 @@ public:
 		enResultP2Num		//ダミー(3)
 	}ResultP2;
 
-
+	~Score();
 	bool Start();
 
 	//カウンター側でnumをあてはめ、こちら側のBasePointに加算する。

@@ -13,9 +13,9 @@
 #include "Meter.h"
 #include "GameDirector.h"
 #include<random>
-
 #include <ctime>
 #include <cstdlib>
+
 namespace
 {
 	const float MOVESPEED = 130.0f;
@@ -28,6 +28,15 @@ Guzai::Guzai()
 Guzai::~Guzai()
 {
 	DeleteGO(m_skinModelRender);
+	
+	//ダミーを消去
+	if (targetDummyOnGuzai01 != nullptr) {
+		DeleteGO(targetDummyOnGuzai01);
+	}
+	if (targetDummyOnGuzai02 != nullptr) {
+		DeleteGO(targetDummyOnGuzai02);
+	}
+
 }
 
 void Guzai::ChangeGuzai(int num)
@@ -360,7 +369,8 @@ void Guzai::TargetingNPopDummy()
 		//少し大きいダミーを具材と被るように出す。（色は後で真っ黒にするのでなんでもいい）
 		if (whichPlayerTargetMe != 0 && isSetTargetDummy == false) {
 			if (whichPlayerTargetMe == 1) {
-				SkinModelRender* targetDummyOnGuzai01 = NewGO<SkinModelRender>(1, "targetdummy01");
+				//SkinModelRender* targetDummyOnGuzai01 = NewGO<SkinModelRender>(1, "targetdummy01");
+				targetDummyOnGuzai01 = NewGO<SkinModelRender>(1, "targetdummy01");
 				targetDummyOnGuzai01->Init(NowModelPath, nullptr, enModelUpAxisZ, m_position);
 				targetDummyOnGuzai01->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				targetDummyOnGuzai01->SetFrontCulling("FrontCulling");
@@ -374,7 +384,8 @@ void Guzai::TargetingNPopDummy()
 				isSetTargetDummy = true;
 			}
 			if (whichPlayerTargetMe == 2) {
-				SkinModelRender* targetDummyOnGuzai02 = NewGO<SkinModelRender>(1, "targetdummy02");
+				//SkinModelRender* targetDummyOnGuzai02 = NewGO<SkinModelRender>(1, "targetdummy02");
+				targetDummyOnGuzai02 = NewGO<SkinModelRender>(1, "targetdummy02");
 				targetDummyOnGuzai02->Init(NowModelPath, nullptr, enModelUpAxisZ, m_position);
 				targetDummyOnGuzai02->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				targetDummyOnGuzai02->SetFrontCulling("FrontCulling");

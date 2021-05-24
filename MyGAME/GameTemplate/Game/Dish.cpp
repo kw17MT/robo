@@ -14,6 +14,15 @@ namespace
 	const float MOVESPEED = 260.0f;
 }
 
+Dish::~Dish()
+{
+	DeleteGO(m_skinModelRender);
+	
+	if (m_guzai != nullptr) {
+		DeleteGO(m_guzai);
+	}
+}
+
 bool Dish::Start()
 {
 	m_lig.ambientLight.Set(0.98f, 0.98f, 0.98f);

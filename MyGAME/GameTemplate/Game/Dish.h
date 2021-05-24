@@ -28,7 +28,7 @@ private:
 	Light m_lig;
 public:
 	Dish() {}
-	~Dish() {}
+	~Dish();
 
 	void SetPosition(Vector3 pos) { m_position = pos; }
 	void SetScale(Vector3 scale) { m_scale = scale; }
@@ -41,7 +41,7 @@ public:
 	void Update();
 
 	SkinModelRender* m_skinModelRender;
-	Guzai* m_guzai;
+	Guzai* m_guzai = nullptr;
 	PlayerGene* playerGene;
 	DishSpeedManeger* m_speedManeger;
 	CSoundSource* m_se;

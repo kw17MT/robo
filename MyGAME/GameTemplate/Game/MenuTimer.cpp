@@ -3,6 +3,11 @@
 #include "SkinModelRender.h"
 #include "GameDirector.h"
 
+MenuTimer::~MenuTimer()
+{
+	DeleteGO(m_skinModelRender);
+}
+
 bool MenuTimer::Start()
 {
 	m_lig.ambientLight.Set(0.0f, 100.0f, 0.0f);

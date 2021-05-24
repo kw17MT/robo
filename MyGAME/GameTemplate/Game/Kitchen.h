@@ -26,6 +26,9 @@ private:
 	Vector3 m_slidePos = Vector3::Zero;
 
 public:
+
+	~Kitchen();
+
 	//キッチンのモデルなどの設定。
 	bool Start();			
 

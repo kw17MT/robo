@@ -5,6 +5,13 @@
 #include "FontRender.h"
 #include "SoundSource.h"
 
+Score::~Score()
+{
+	for (int i = 0; i < 2; i++) {
+		DeleteGO(Score[i]);
+	}
+}
+
 bool Score::Start()
 {
 

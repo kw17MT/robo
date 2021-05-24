@@ -16,19 +16,13 @@
 #include "SoundSource.h"
 #include "PostEffectTest.h"
 #include "TrashCan.h"
-
 //#include "ShadowTest.h"
 #include "Ground.h"
-
-
 #include "GameDirector.h"
-
 #include "Player.h"
 #include "PlayerGene.h"
-
 #include  "DishGene.h"
 #include "DishSpeedManeger.h"
-
 #include "effect/effect.h"
 #include "Floor.h"
 #include "Arrow.h"
@@ -46,19 +40,73 @@ Level level;
 Game::Game()
 {	
 	
+}
+
+Game::~Game()
+{
+	if (m_countSprite != nullptr) {
+		DeleteGO(m_countSprite);
+	}
+
+	DeleteGO(floor_r);
+	DeleteGO(floor_l);
+	
+	/*for (int i = 0; i < 3;i++) {
+		DeleteGO(menu[i]);
+	}*/
+	
+	for (int i = 0; i < 2; i++) {
+		if (m_result[i] != nullptr) {
+			DeleteGO(m_result[i]);
+		}
+	}
+
+	DeleteGO(ui);
+	DeleteGO(playerGene);
+	DeleteGO(dishGene);
+	DeleteGO(m_speedManeger);
+	DeleteGO(guzaiGene);
+	DeleteGO(guzaiOkiba);
+	DeleteGO(m_score);
+	//DeleteGO(m_bgm);
+
+	for (int i = 0; i < 2; i++) {
+		DeleteGO(m_trashCan[i]);
+	}
+
+	for (int i = 0; i < 3; i++) {
+		DeleteGO(m_directionSprite[i]);
+	}
+
+	/*for (int i = 0; i < 2; i++) {
+		DeleteGO(player[i]);
+	}*/
+
+	DeleteGO(counter01);
+	DeleteGO(counter02);
+	DeleteGO(kitchen01);
+	DeleteGO(kitchen02);
+
+	DeleteGO(m_level2D);
+
+}
+
+bool Game::Start()
+{
+	//NewGO<CLevel2D>(3, "clevel2d");
+	m_level2D = NewGO<CLevel2D>(3, "clevel2d");
 
 	//リザルトにそれぞれnullptrを入れておく
 	//0 : 引き分け(これだけを表示)
 	//以下、引き分けでない場合
 	//1 : プレイヤー1
 	//2 : プレイヤー2
-
 	for (int i = 0; i < 3; i++) {
 		m_result[i] = nullptr;
 	}
 
 	playerGene = NewGO<PlayerGene>(0, "playerGene");
-	dishGene = NewGO<DishGene>(0,"dishGene");
+	dishGene = NewGO<DishGene>(0, "dishGene");
 	m_speedManeger = NewGO<DishSpeedManeger>(0, "speedManeger");
 
 	/*m_bgm = NewGO<CSoundSource>(0);
@@ -117,13 +165,13 @@ Game::Game()
 			return false;
 		}
 		if (wcscmp(objectData.name, L"FloorBlue") == 0) {
-			
+
 			return false;
 		}
 		if (wcscmp(objectData.name, L"FloorRed") == 0) {
 			return false;
 		}
-		
+
 		if (wcscmp(objectData.name, L"TrashLeft") == 0) {
 			m_trashCan[0] = NewGO<TrashCan>(0, "trashcan01");
 			m_trashCan[0]->SetTrashCanNum(1);
@@ -152,17 +200,16 @@ Game::Game()
 		else {
 			return true;
 		}
+
 		});
 
 	//具材置き場の表示
 	guzaiOkiba = NewGO<GuzaiOkiba>(0, "GuzaiOkiba");
 
-	
+
 
 	////レベル2Dの構築
 	//level2D.Init("Assets/level2D/level2D.casl", [&](Level2DObjectData& objectData2D) {return false; });
-
-	NewGO<CLevel2D>(3, "clevel2d");
 
 	//UI
 	ui = NewGO<FixedUI>(1, "ui");
@@ -181,7 +228,7 @@ Game::Game()
 	//ground = NewGO<Ground>(0);
 
 	//カウントダウン用スプライトの初期化
-	m_countSprite = NewGO<SpriteRender>(20);
+	m_countSprite = NewGO<SpriteRender>(20);					//カウントダウン用　終了時にDeleteされる
 	Vector2 ctPivot = { 0.5f,0.5f };
 	Vector3 ctPosition = { 0.0f,100.0f,0.0f };
 	m_countSprite->SetColor(1.0f, 1.0f, 1.0f, 0.0f);
@@ -189,7 +236,7 @@ Game::Game()
 	m_countSprite->SetPosition(ctPosition);
 
 	//コンベア回転方向
-	m_directionSprite[0] = NewGO<CycleDirection>(0,"dirsp1");
+	m_directionSprite[0] = NewGO<CycleDirection>(0, "dirsp1");
 	m_directionSprite[0]->SetDirection(Forward);				//右回転
 	m_directionSprite[0]->SetSide(Left);						//左
 	m_directionSprite[1] = NewGO<CycleDirection>(0, "dirsp2");
@@ -202,40 +249,8 @@ Game::Game()
 	//カウントダウンを開始するということを設定する。
 	GetGameDirector().SetGameScene(enGameCountDown);
 
-	m_font = NewGO<FontRender>(5);
-}
+	//m_font = NewGO<FontRender>(5);
 
-Game::~Game()
-{
-	DeleteGO(ui);
-	DeleteGO(counter01);
-	DeleteGO(counter02);
-	DeleteGO(kitchen01);
-	DeleteGO(kitchen02);
-	for (int i = 0; i < 3;i++) {
-		DeleteGO(menu[i]);
-	}
-	
-	for (int i = 0; i < 2; i++) {
-		DeleteGO(m_result[i]);
-	}
-	DeleteGO(playerGene);
-	DeleteGO(guzaiGene);
-	DeleteGO(guzaiOkiba);
-	DeleteGO(m_score);
-	//DeleteGO(m_bgm);
-	for (int i = 0; i < 3; i++) {
-		DeleteGO(m_directionSprite[i]);
-	}
-
-	for (int i = 0; i < 2; i++) {
-		DeleteGO(player[i]);
-	}
-
-}
-
-bool Game::Start()
-{
 	return true;
 }
 
@@ -287,16 +302,21 @@ void Game::Update()
 		}
 		//game内のタイムアップフラグを立てる
 		SetTimeUp();
-		//ゲーム終了を通知
-		GetGameDirector().SetGameScene(enGameEnd);
+		////ゲーム終了を通知
+		//GetGameDirector().SetGameScene(enGameEnd);
 
 	}
 
-	if (GetGameDirector().GetGameScene() == enGameEnd) {
+	if (g_pad[0]->IsPress(enButtonLB1)) {
 		NewGO<Title>(0, "title");
-		GetGameDirector().SetGameScene(enNonScene);
 		DeleteGO(this);
 	}
+
+	//if (GetGameDirector().GetGameScene() == enGameEnd) {
+	//	NewGO<Title>(0, "title");
+	//	GetGameDirector().SetGameScene(enNonScene);
+	//	DeleteGO(this);
+	//}
 	
 }
 
@@ -324,7 +344,7 @@ void Game::CountDown()
 	if (m_timer <= 0.0f && alpha <= 0.0f){
 		//カウントダウンが終了し、ゲームが開始したことを設定する。
 		GetGameDirector().SetGameScene(enGamePlay);
-		//DeleteGO(m_font);
+		DeleteGO(m_font);
 		
 		//スプライト削除
 		DeleteGO (m_countSprite);
