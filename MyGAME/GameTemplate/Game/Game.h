@@ -66,6 +66,7 @@ public:
 	FontRender* m_font;									//フォント
 	CSoundSource* m_bgm;									//BGM用
 	CycleDirection* m_directionSprite[3] = {nullptr};
+	Level* m_level;
 
 	//ここから下はいらないと思う
 	PostEffectTest* postTest;

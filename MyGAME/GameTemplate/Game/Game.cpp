@@ -34,7 +34,7 @@ namespace
 	float MAX_COUNTDOWN_FONT_SCALE = 4.0f;
 }
 
-Level level;
+//Level level;
 //Level2D level2D;
 
 Game::Game()
@@ -86,8 +86,8 @@ Game::~Game()
 	DeleteGO(counter02);
 	DeleteGO(kitchen01);
 	DeleteGO(kitchen02);
-
 	DeleteGO(m_level2D);
+	DeleteGO(m_level);
 
 }
 
@@ -95,6 +95,7 @@ bool Game::Start()
 {
 	//NewGO<CLevel2D>(3, "clevel2d");
 	m_level2D = NewGO<CLevel2D>(3, "clevel2d");
+	m_level = NewGO<Level>(0, "level");
 
 	//リザルトにそれぞれnullptrを入れておく
 	//0 : 引き分け(これだけを表示)
@@ -127,7 +128,7 @@ bool Game::Start()
 	//	Buff[0]->SetPosition(pos);
 	//}
 
-	level.Init("Assets/level/level_new4.tkl", [&](ObjectData& objectData) {
+	m_level->Init("Assets/level/level_new4.tkl", [&](ObjectData& objectData) {
 		if (wcscmp(objectData.name, L"CounterPos01") == 0) {
 			counter01 = NewGO<Counter>(0, "counter01");
 			counter01->SetCounterNo(1);
@@ -260,7 +261,7 @@ void Game::Update()
 	CountDown();
 
 
-	level.Draw();
+	m_level->Draw();
 
 	//タイムアップ時に行う処理
 	//結果の表示
@@ -309,6 +310,7 @@ void Game::Update()
 
 	if (g_pad[0]->IsPress(enButtonLB1)) {
 		NewGO<Title>(0, "title");
+		GetGameDirector().SetGameScene(enNonScene);
 		DeleteGO(this);
 	}
 

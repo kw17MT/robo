@@ -8,6 +8,7 @@ class MissCounter;
 class Counter;
 class CSoundSource;
 class CLevel2D;
+class Level;
 #include "Level2D.h"
 
 static const int SHOW_HAMBURGER_NUMBER = 3;

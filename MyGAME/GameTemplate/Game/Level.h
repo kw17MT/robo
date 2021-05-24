@@ -13,7 +13,7 @@ struct ObjectData
 	int number;
 };
 
-class Level
+class Level : public IGameObject
 {
 public:
 	/// <summary>
