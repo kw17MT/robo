@@ -108,6 +108,7 @@
     <ClCompile Include="..\..\ExEngine\effect\Effect.cpp" />
     <ClCompile Include="..\..\ExEngine\effect\EffectEngine.cpp" />
     <ClCompile Include="CycleDirection.cpp" />
+    <ClCompile Include="Meter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -225,5 +226,6 @@
     <ClInclude Include="..\..\ExEngine\effect\Effect.h" />
     <ClInclude Include="..\..\ExEngine\effect\EffectEngine.h" />
     <ClInclude Include="CycleDirection.h" />
+    <ClInclude Include="Meter.h" />
   </ItemGroup>
 </Project>

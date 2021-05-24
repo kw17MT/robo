@@ -9,7 +9,7 @@
 
 #include "SkinModelRender.h"
 #include "Kitchen.h"
-#include "effect/Effect.h"
+//#include "effect/Effect.h"
 
 namespace
 {
@@ -74,7 +74,7 @@ bool Player::Start()
 	m_shadow->SetScale(m_shadowScale);
 	m_shadow->SetPosition(m_position);
 	//ここでアニメーションのロードを行う
-	animationClips[enAnimation_Idle].Load("Assets/animData/test.tka");
+	animationClips[enAnimation_Idle].Load("Assets/animData/swing2.tka");
 	/*animationClips[enAnimation_Run].Load("");
 	animationClips[enAnimation_Cut].Load("");
 	animationClips[enAnimation_Cook].Load("");
@@ -118,6 +118,7 @@ bool Player::Start()
 
 	//エフェクトの初期化
 	//P1
+	//m_effect01.Init(u"Assets/effect/dust.efk");
 	m_effect01.Init(u"Assets/effect/dust.efk");
 	m_effect01.SetScale({ 10.0f,10.0f,10.0f });
 	//P2
@@ -179,6 +180,14 @@ void Player::GrabFromKitchen()
 {
 	
 }
+void Player::StopMove01(bool tf)
+{ 
+	m_moveStop01 = tf;
+}
+void Player::StopMove02(bool tf)
+{
+	m_moveStop02 = tf;
+}
 
 void Player::Update()
 {
@@ -213,7 +222,7 @@ void Player::Update()
 		float LStickZP1 = g_pad[0]->GetLStickYF() * -1.0f; //奥行方向の逆転を-1.0fを掛けて補正
 
 		//回転させるかどうかのチェック(スティックの入力があるかどうかをチェック)
-		if (fabsf(LStickXP1) < 0.001f && fabsf(LStickZP1) < 0.001f) {
+		if (m_moveStop01 == true || m_moveStop02 == true || fabsf(LStickXP1) < 0.001f && fabsf(LStickZP1) < 0.001f) {
 			//return; //returnすると以下の処理がすっ飛ばされてUpdateの最後にいってしまう。
 		}
 		else {
@@ -241,8 +250,16 @@ void Player::Update()
 		//	moveSpeed.z = g_pad[0]->GetLStickYF() * -10.0f;
 		//}
 
-		moveSpeed.x = g_pad[0]->GetLStickXF() * -10.0f;
-		moveSpeed.z = g_pad[0]->GetLStickYF() * -10.0f;
+		if (m_moveStop01 == false && m_moveStop02 == false) {
+			moveSpeed.x = g_pad[0]->GetLStickXF() * -10.0f;
+			moveSpeed.z = g_pad[0]->GetLStickYF() * -10.0f;
+		}
+		if(m_moveStop01 == true || m_moveStop02 == true)
+		{
+			moveSpeed.x = 0.0f;
+			moveSpeed.y = 0.0f;
+			moveSpeed.z = 0.0f;
+		}
 
 		m_position += moveSpeed;
 		
@@ -293,7 +310,7 @@ void Player::Update()
 		float LStickZP2 = g_pad[1]->GetLStickYF() * -1.0f; //奥行方向の逆転を-1.0fを掛けて補正
 
 		//回転させるかどうかのチェック(スティックの入力があるかどうかをチェック)
-		if (fabsf(LStickXP2) < 0.001f && fabsf(LStickZP2) < 0.001f) {
+		if ( m_moveStop01 == true || m_moveStop02 == true || fabsf(LStickXP2) < 0.001f && fabsf(LStickZP2) < 0.001f) {
 			//return; //returnすると以下の処理がすっ飛ばされてUpdateの最後にいってしまう。
 		}
 		else {
@@ -321,9 +338,19 @@ void Player::Update()
 			moveSpeed.z = g_pad[1]->GetLStickYF() * -10.0f;
 		}*/
 
-		moveSpeed.x = g_pad[1]->GetLStickXF() * -10.0f;
-		moveSpeed.z = g_pad[1]->GetLStickYF() * -10.0f;
+	/*	moveSpeed.x = g_pad[1]->GetLStickXF() * -10.0f;
+		moveSpeed.z = g_pad[1]->GetLStickYF() * -10.0f;*/
 
+		if (m_moveStop01 == false && m_moveStop02 == false) {
+			moveSpeed.x = g_pad[1]->GetLStickXF() * -10.0f;
+			moveSpeed.z = g_pad[1]->GetLStickYF() * -10.0f;
+		}
+		if(m_moveStop01 == true || m_moveStop02 == true)
+		{
+			moveSpeed.x = 0.0f;
+			moveSpeed.y = 0.0f;
+			moveSpeed.z = 0.0f;
+		}
 		m_position += moveSpeed;
 
 		//プレイヤーが移動している限り移動速度を保存し続ける。

@@ -63,6 +63,10 @@ private:
 	int moveCounter02 = 0;
 	Effect m_effect02;
 
+	//停止フラグ１
+	bool m_moveStop01 = false;
+	//停止フラグ２
+	bool m_moveStop02 = false;
 
 public:
 	Player();
@@ -87,6 +91,15 @@ public:
 	void SetRotation(Quaternion rot) { m_rotation = rot; }
 	//キャラコンの座標 → プレイヤー自身の座標を取得するように変更
 	Vector3 GetPosition() { return m_position; }
+
+	//移動不可を設定１
+	void StopMove01(bool tf);
+	//移動不可を設定２
+	void StopMove02(bool tf);
+	
+	void SetMoveSpeed(Vector3 speed) {
+		moveSpeed.x = speed.x, moveSpeed.y = speed.y, moveSpeed.z = speed.z;
+	}
 
 	//移動範囲の制限を行う
 	void RestrictPos();

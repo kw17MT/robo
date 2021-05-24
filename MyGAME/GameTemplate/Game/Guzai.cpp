@@ -9,11 +9,13 @@
 #include "PlayerGene.h"
 #include "TrashCan.h"
 #include "SoundSource.h"
+#include "effect/Effect.h"
+#include "Meter.h"
 #include "GameDirector.h"
 #include<random>
-
 #include <ctime>
 #include <cstdlib>
+
 namespace
 {
 	const float MOVESPEED = 130.0f;
@@ -170,6 +172,9 @@ bool Guzai::Start()
 	}
 
 	m_skinModelRender->SetNewModel();
+
+	m_effect.Init(u"Assets/effect/test2.efk");
+	m_effect.SetScale({ 100.0f,100.0f,100.0f });
 
 	return true;
 }
@@ -520,16 +525,38 @@ void Guzai::Cooking()
 		//1P側の処理
 		//1P側のBボタンが押されていて自身のセット場所が1P側だった場合…
 		if (g_pad[0]->IsPress(enButtonB) && m_setKitchenNum >= 4) {
+			
 			//押している時間をインクリメント
 			m_hold01++;
+			pl01->StopMove01(true);
+			pl01->SetMoveSpeed({ 0.0f,0.0f,0.0f });
 			//音が出ていなかったら。
 			if (m_soundFlag01 == false) {
+				//調理の進み具合を示すメーター
+				m_meter = NewGO<Meter>(0);
+				Vector3 pos = m_position;
+				pos.x -= 350.0f;
+				pos.y += 300.0f;
+				pos.z += 20.0f;
+				m_meter->SetPosition(pos);
 				//音を鳴らす
 				m_cookingSe = NewGO<CSoundSource>(0);
 				m_cookingSe->Init(L"Assets/sound/cutting_a_onion_speedy.wav", false);
 				m_cookingSe->SetVolume(1.0f);
 				m_cookingSe->Play(true);
 				m_soundFlag01 = true;
+			}
+			//メーターを少しずつ
+			Vector3 Scale = m_meter->GetScale();
+			Scale.x -= 1.4f / 60.0f;
+			m_meter->SetScale(Scale);
+			if (m_hold01 % 10 == 0) {
+				Vector3 pos = m_position;
+				pos.x -= 100.0f;
+				pos.y += 100.0f;
+				m_effect.SetPosition(pos);
+				//m_effect.Play();
+				m_effect.Update();
 			}
 			//調理完了時間まで押されたら…
 			if (m_hold01 > m_cookingTime) {
@@ -548,17 +575,23 @@ void Guzai::Cooking()
 				}
 				//音が出ていたら。
 				if (m_soundFlag01 == true) {
+					DeleteGO(m_meter);
 					//音を消す。
 					DeleteGO(m_cookingSe);
 					m_soundFlag01 = false;
 				}
+				//動けるようにする。
+				pl01->StopMove01(false);
 			}
 		}
 		else {
 			//ボタンを離したらタイマーは0に戻る。
 			m_hold01 = 0;
+			//動けるようにする。
+			pl01->StopMove01(false);
 			//音が出ていたら。
 			if (m_soundFlag01 == true) {
+				DeleteGO(m_meter);
 				//音を消す。
 				DeleteGO(m_cookingSe);
 				m_soundFlag01 = false;
@@ -569,8 +602,16 @@ void Guzai::Cooking()
 		if (g_pad[1]->IsPress(enButtonB) && m_setKitchenNum < 4) {
 			
 			m_hold02++;
+			pl02->StopMove01(true);
+			pl02->SetMoveSpeed({ 0.0f,0.0f,0.0f });
 			////音が出ていなかったら。
 			if (m_soundFlag02 == false) {
+				m_meter = NewGO<Meter>(0);
+				Vector3 pos = m_position;
+				pos.x += 250.0f;
+				pos.y += 300.0f;
+				pos.z += 20.0f;
+				m_meter->SetPosition(pos);
 				//音を鳴らす
 				m_cookingSe = NewGO<CSoundSource>(0);
 				m_cookingSe->Init(L"Assets/sound/cutting_a_onion_speedy.wav", false);
@@ -578,6 +619,9 @@ void Guzai::Cooking()
 				m_cookingSe->Play(true);
 				m_soundFlag02 = true;
 			}
+			Vector3 Scale = m_meter->GetScale();
+			Scale.x -= 1.4f / 60.0f;
+			m_meter->SetScale(Scale);
 			if (m_hold02 > m_cookingTime) {
 				
 				ChangeModel(TypeNo);
@@ -598,15 +642,18 @@ void Guzai::Cooking()
 					//音を消す。
 					DeleteGO(m_cookingSe);
 					m_soundFlag02 = false;
+					DeleteGO(m_meter);
 				}
+				pl02->StopMove01(false);
 			}
 		}
 		else {
-			
+			pl02->StopMove01(false);
 			m_hold02 = 0;
 			//音が出ていたら。
 			if (m_soundFlag02 == true) {
 				//音を消す。
+				DeleteGO(m_meter);
 				DeleteGO(m_cookingSe);
 				m_soundFlag02 = false;
 			}

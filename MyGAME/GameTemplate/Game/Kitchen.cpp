@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "SkinModelRender.h"
 #include "SoundSource.h"
+#include "Meter.h"
 
 Kitchen::~Kitchen()
 {
@@ -75,11 +76,26 @@ void Kitchen::Delete()
 // ないとエラー
 void Kitchen::BornBurger()
 {
+	Vector3 predistance1 = m_player[0]->GetPosition() - m_position;
+	float distance1 = predistance1.Length();
+	Vector3 predistance2 = m_player[1]->GetPosition() - m_position;
+	float distance2 = predistance2.Length();
 	if (KitchenNo == 1) {
-		//具材を一つ以上積んでいて、Yボタンを長押し
-		if (stack >= 1 && g_pad[0]->IsPress(enButtonY) && m_deleteFlag == false) {
+		//具材を一つ以上積んでいて、Bボタンを長押し
+		if (stack >= 1 && g_pad[0]->IsPress(enButtonB) && m_deleteFlag == false && distance1 < 100.0f) {
 			Delay--;
+			//プレイヤーが動けないようにする。
+			m_player[0]->StopMove02(true);
+			m_player[0]->SetMoveSpeed({ 0.0f,0.0f,0.0f });
 			if (m_soundFlag01 == false) {
+				//調理の進み具合のメーターを表示
+				m_meter = NewGO<Meter>(0);
+				Vector3 pos = m_position;
+				pos.x -= 200.0f;
+				pos.y += 300.0f;
+				pos.z += 100.0f;
+				m_meter->SetPosition(pos);
+				
 				//音を鳴らす
 				m_soundSource = NewGO<CSoundSource>(0);
 				m_soundSource->Init(L"Assets/sound/cutting_a_onion_speedy.wav", false);
@@ -87,9 +103,15 @@ void Kitchen::BornBurger()
 				m_soundSource->Play(true);
 				m_soundFlag01 = true;
 			}
+			//メーターを少しずつ減らす
+			Vector3 scale = m_meter->GetScale();
+			scale.x -= 1.4 / 60;
+			m_meter->SetScale(scale);
 			if (Delay == 0) {
 				//音が出ていれば消す。
 				if (m_soundFlag01 == true) {
+					//メーターを消す
+					DeleteGO(m_meter);
 					DeleteGO(m_soundSource);
 					m_soundFlag01 = false;
 				}
@@ -101,14 +123,22 @@ void Kitchen::BornBurger()
 			}
 		}
 		else {
+			if (m_deleteFlag == false) {
+				Delay = 60;
+				m_player[0]->StopMove02(false);
+			}
+			
 			//音が出ていれば消す。
 			if (m_soundFlag01 == true) {
+				//メーターを消す。
+				DeleteGO(m_meter);
 				DeleteGO(m_soundSource);
 				m_soundFlag01 = false;
 			}
 		}
 		//削除フラグが立っているとき…
 		if (m_deleteFlag == true) {
+			m_player[0]->have = 1;
 			Delay--;
 			for (int i = 0; i < stack; i++) {
 				m_slidePos = StackedGuzai[i]->GetPosition();
@@ -128,7 +158,7 @@ void Kitchen::BornBurger()
 				se->SetVolume(2.0f);
 				se->Play(false);
 				
-				
+				m_player[0]->StopMove02(false);
 				m_deleteFlag = false;
 				Delay = 60;
 			}
@@ -136,9 +166,17 @@ void Kitchen::BornBurger()
 	}
 
 	if (KitchenNo == 2) {
-		if (stack >= 1 && g_pad[1]->IsPress(enButtonY) && m_deleteFlag == false) {
+		if (stack >= 1 && g_pad[1]->IsPress(enButtonB) && m_deleteFlag == false && distance2 < 100.0f) {
 			Delay--;
+			m_player[1]->StopMove02(true);
+			m_player[1]->SetMoveSpeed({ 0.0f,0.0f,0.0f });
 			if (m_soundFlag02 == false) {
+				m_meter = NewGO<Meter>(0);
+				Vector3 pos = m_position;
+				pos.x += 100.0f;
+				pos.y += 300.0f;
+				pos.z += 100.0f;
+				m_meter->SetPosition(pos);
 				//音を鳴らす
 				m_soundSource = NewGO<CSoundSource>(0);
 				m_soundSource->Init(L"Assets/sound/cutting_a_onion_speedy.wav", false);
@@ -146,10 +184,13 @@ void Kitchen::BornBurger()
 				m_soundSource->Play(true);
 				m_soundFlag02 = true;
 			}
+			Vector3 scale = m_meter->GetScale();
+			scale.x -= 1.4 / 60;
+			m_meter->SetScale(scale);
 			if (Delay == 0) {
-				
 				//音が出ていれば消す。
 				if (m_soundFlag02 == true) {
+					DeleteGO(m_meter);
 					DeleteGO(m_soundSource);
 					m_soundFlag02 = false;
 				}
@@ -160,14 +201,19 @@ void Kitchen::BornBurger()
 			}
 		}
 		else {
+			if (m_deleteFlag == false) {
+				Delay = 60;
+				//m_player[1]->StopMove02(false);
+			}
 			//音が出ていれば消す。
 			if (m_soundFlag02 == true) {
+				DeleteGO(m_meter);
 				DeleteGO(m_soundSource);
 				m_soundFlag02 = false;
 			}
 		}
 		if (m_deleteFlag == true) {
-
+			m_player[1]->have = 1;
 			Delay--;
 			for (int i = 0; i < stack; i++) {
 				m_slidePos = StackedGuzai[i]->GetPosition();
@@ -187,8 +233,10 @@ void Kitchen::BornBurger()
 				se->SetVolume(2.0f);
 				se->Play(false);
 
+				m_player[1]->StopMove02(false);
 				m_deleteFlag = false;
 				Delay = 60;
+				
 			}
 		}
 	}
