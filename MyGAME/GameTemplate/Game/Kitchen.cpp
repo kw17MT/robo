@@ -23,6 +23,11 @@ Kitchen::~Kitchen()
 			DeleteGO(StackedGuzai[i]);
 		}
 	}
+
+	if (m_soundFlag01 == true || m_soundFlag02) {
+		DeleteGO(m_soundSource);
+		DeleteGO(m_meter);
+	}
 }
 
 bool Kitchen::Start()

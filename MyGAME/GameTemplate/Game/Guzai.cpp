@@ -37,6 +37,11 @@ Guzai::~Guzai()
 		DeleteGO(targetDummyOnGuzai02);
 	}
 
+	if (m_soundFlag01 == true || m_soundFlag02) {
+		DeleteGO(m_cookingSe);
+		DeleteGO(m_meter);
+	}
+
 }
 
 void Guzai::ChangeGuzai(int num)
