@@ -21,7 +21,7 @@ private:
 	FontRender* Time;
 	
 	//表示する残り時間
-	int remainingTime = 3;
+	int remainingTime = 20;
 	
 	//フレームカウント用、60になったらLastTimeを１減らす。
 	int timer = 0;

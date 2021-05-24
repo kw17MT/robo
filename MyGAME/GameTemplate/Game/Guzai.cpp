@@ -9,13 +9,9 @@
 #include "PlayerGene.h"
 #include "TrashCan.h"
 #include "SoundSource.h"
-<<<<<<< HEAD
 #include "effect/Effect.h"
 #include "Meter.h"
-
-=======
 #include "GameDirector.h"
->>>>>>> e27a7232194ea75a9a62b45d45c6ded24966b0aa
 #include<random>
 
 #include <ctime>
