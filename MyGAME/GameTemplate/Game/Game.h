@@ -1,5 +1,6 @@
 #pragma once
 class Level;
+class CLevel2D;
 class FixedUI;
 class SpriteRender;
 class Guzai;
@@ -18,7 +19,6 @@ class Floor;
 class SoundSource;
 class Player;
 class PlayerGene;
-
 class PostEffectTest;
 class ShadowTest;
 class Ground;
@@ -45,12 +45,13 @@ public:
 	//カウントダウンする。
 	void CountDown();
 
+	CLevel2D* m_level2D = nullptr;
 	FixedUI* ui;										//座標の動かないUI（時間、スコア、ミス）
 	Counter* counter01;									//カウンタ―１
 	Counter* counter02;									//カウンタ―２
 	Kitchen* kitchen01;									///キッチン１
 	Kitchen* kitchen02;									//キッチン２
-	SpriteRender* menu[3];								//メニュー表示３枚分
+	//SpriteRender* menu[3];							//メニュー表示３枚分
 	Player* player[2];									//両プレイヤー
 	PlayerGene* playerGene;								//プレイヤーを生成するもの
 	GuzaiGene* guzaiGene;								//具材を生成するもの

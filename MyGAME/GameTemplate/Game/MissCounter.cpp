@@ -4,6 +4,19 @@
 #include "Level2D.h"
 #include "Result.h"
 
+MissCounter::~MissCounter()
+{
+	for (int i = 0; i < 6; i++) {
+		DeleteGO(m_spriteRender[i]);
+	}
+
+	for (int i = 2; i < 2; i++) {
+		if (m_result[i] != nullptr) {
+			DeleteGO(m_result[2]);
+		}
+	}
+}
+
 bool MissCounter::Start()
 {
 	m_level2D.Init("Assets/level2D/level2D_add.casl", [&](Level2DObjectData& objdata) {

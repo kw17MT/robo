@@ -7,6 +7,7 @@ class MenuTimer;
 class MissCounter;
 class Counter;
 class CSoundSource;
+class CLevel2D;
 #include "Level2D.h"
 
 static const int SHOW_HAMBURGER_NUMBER = 3;
@@ -16,6 +17,7 @@ static const int SHOW_HAMBURGER_NUMBER = 3;
 /// </summary>
 class CLevel2D : public IGameObject
 {
+	~CLevel2D();
 	bool Start() override;
 	void Update() override;
 	void Render(RenderContext& rc) override;
@@ -52,7 +54,7 @@ private:
 	float m_slideAmount[SHOW_HAMBURGER_NUMBER] = { 0.0f }; //画像の上下移動量
 	int m_slide[SHOW_HAMBURGER_NUMBER] = { 0 };			//メニュー画像のスライドフラグ。0で動かない、1で上にスライド、2で下にスライド。
 	bool m_TimeUpSet[2] = { false };					//メニューのタイムオーバー中か？
-	SpriteRender* sprite[enHamBurgerNum];
+	SpriteRender* sprite[enHamBurgerNum] = {nullptr};
 	int m_randNum[SHOW_HAMBURGER_NUMBER] = { 0 };
 
 
@@ -70,4 +72,5 @@ private:
 	Counter* m_counter01;
 	Counter* m_counter02;
 	CSoundSource* m_slideSe[3];
+
 };

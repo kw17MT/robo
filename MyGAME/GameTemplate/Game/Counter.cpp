@@ -12,8 +12,53 @@
 #include "GameDirector.h"
 #include "effect/Effect.h"
 
+Counter::~Counter()
+{
+	DeleteGO(m_skinModelRender);
+	
+	if (m_spriteJudge01 != nullptr) {
+		DeleteGO(m_spriteJudge01);
+	}
+	
+	if (m_spriteJudge02 != nullptr) {
+		DeleteGO(m_spriteJudge02);
+	}
+
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 5; j++) {
+			if (m_spriteCompareFlagFalse[i][j] || m_spriteCompareFlagTrue[i][j]) {
+				DeleteGO(m_spriteCompare[i][j]);
+			}
+		}
+	}
+	
+	////P1側チェック画像は画像配列 3番、2番を使用
+	//if (CounterNo == 1) {
+	//	for (int i = 3; i > 1; i--) {
+	//		for (int j = 0; j < 5; j++) {
+	//			if (m_spriteCompare[i][j] != nullptr) {
+	//				DeleteGO(m_spriteCompare[i][j]);
+	//			}
+	//		}
+	//	}
+	//}
+
+	////P2側チェック画像は画像配列 0番、1番を使用
+	//if (CounterNo == 2) {
+	//	for (int s = 0; s < 2; s++) {
+	//		for (int t = 0; t < 5; t++) {
+	//			if (m_spriteCompare[s][t] != nullptr) {
+	//				DeleteGO(m_spriteCompare[s][t]);
+	//			}
+	//		}
+	//	}
+	//}
+
+}
+
 Counter::Counter()
 {
+
 	//ハンバーガーのデータを作る。
 	/*HamBurger cheese;
 	cheese.push_back(3);
@@ -38,10 +83,18 @@ Counter::Counter()
 
 bool Counter::Start()
 {
+	l2 = FindGO<CLevel2D>("clevel2d");
+
 	m_playerGene = FindGO<PlayerGene>("playerGene");
 
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 
+	//具材の積まれた判定を積まれていない状態にする
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 5; j++) {
+			m_guzaiJudge[i][j] = 2;
+		}
+	}
 
 	m_skinModelRender->Init("Assets/modelData/counter/counter.tkm", nullptr, enModelUpAxisZ, m_position);
 	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
@@ -63,7 +116,7 @@ bool Counter::Start()
 //////////////////////判別するところ////////////////////////////////////////////////////////////////////////////////
 bool Counter::Judge()
 {
-	CLevel2D* l2 = FindGO<CLevel2D>("clevel2d");
+	//CLevel2D* l2 = FindGO<CLevel2D>("clevel2d");
 
 	if (CounterNo == 1) {
 		Kitchen* ki01 = FindGO<Kitchen>("kitchen01");

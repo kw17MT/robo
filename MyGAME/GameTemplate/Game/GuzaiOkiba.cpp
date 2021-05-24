@@ -17,9 +17,19 @@ GuzaiOkiba::~GuzaiOkiba()
 {
 	for (int i = 0; i < 8; i++) {
 		DeleteGO(stock[i]);
+		DeleteGO(m_kitchenRender[i]);
 	}
-	DeleteGO(m_guzaiRender01);
-	DeleteGO(m_guzaiRender02);
+	/*DeleteGO(m_guzaiRender01);
+	DeleteGO(m_guzaiRender02);*/
+	
+	DeleteGO(m_arrow01);
+	DeleteGO(m_arrow02);
+
+	//具材が乗っていたら消去
+	if (guzai != nullptr) {
+		DeleteGO(guzai);
+	}
+
 }
 
 float GuzaiOkiba::TargetDistance(Vector3 v1, Vector3 v2)
@@ -127,7 +137,7 @@ bool GuzaiOkiba::Start()
 			}
 		}
 	
-		});
+	});
 
 	//ターゲット中の具材置き場に出す仮モデルを初期化する。
 

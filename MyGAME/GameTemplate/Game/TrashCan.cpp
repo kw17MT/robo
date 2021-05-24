@@ -8,6 +8,7 @@
 TrashCan::~TrashCan()
 {
 	DeleteGO(m_skinModelRender);
+	DeleteGO(m_targeting);
 }
 
 bool TrashCan::Start()
@@ -20,8 +21,8 @@ bool TrashCan::Start()
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/trashcan/trashcan.tkm", nullptr, enModelUpAxisZ, m_position);
 	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
-
 	m_skinModelRender->SetScale(m_trashcanScale);
+
 	//ゴミ箱に近づくと矢印が出るように
 	m_targeting = NewGO<SkinModelRender>(0);
 	m_targeting->Init("Assets/modelData/Arrow/Arrow_Yellow.tkm", nullptr, enModelUpAxisZ, m_position);
@@ -29,12 +30,12 @@ bool TrashCan::Start()
 	m_targeting->SetScale(m_targetScale);
 
 	if (trashcanNo == 1) {
-	m_targetPos = m_position;
-	m_targetPos.y += 300.0f;
-	m_targeting->SetPosition(m_targetPos);
-
-	m_rot.SetRotationDegY(45.0f);
+		m_targetPos = m_position;
+		m_targetPos.y += 300.0f;
+		m_targeting->SetPosition(m_targetPos);
+		m_rot.SetRotationDegY(45.0f);
 	}
+
 	if (trashcanNo == 2) {
 		m_targetPos = m_position;
 		m_targetPos.y += 300.0f;
@@ -77,6 +78,7 @@ void TrashCan::Update()
 	if (m_playerGene->GetPlayerGeneState() == true) {
 		return;
 	}
+	
 	//プレイヤーの情報が確定しないままの時があるため、最終確認
 	if (player[0] == nullptr) {
 		player[0] = FindGO<Player>("player01");
@@ -153,6 +155,7 @@ void TrashCan::Update()
 			targetUp = false;
 		}
 	}
+	
 	if (targetUp == false) {
 		m_targetPos.y -= 1.0f;
 		if (m_targetPos.y <= 150.0f) {

@@ -46,6 +46,20 @@
 //	return nstring;
 //}
 
+CLevel2D::~CLevel2D()
+{
+	/*DeleteGO(m_counter01);
+	DeleteGO(m_counter02);*/
+	
+	DeleteGO(m_missCounter);
+	for (int i = 0; i < 2; i++) {
+		DeleteGO(m_menuTimer[i]);
+	}
+	for (int i = 0; i < SHOW_HAMBURGER_NUMBER; i++) {
+		DeleteGO(sprite[i]);
+	}
+}
+
 bool CLevel2D::Start()
 {
 	m_counter01 = FindGO<Counter>("counter01");

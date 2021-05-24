@@ -140,5 +140,9 @@ public:
 	GuzaiOkiba* m_guzaiOkiba;
 	TrashCan* m_trashCan[2];
 	CSoundSource* m_cookingSe;
+
+	SkinModelRender* targetDummyOnGuzai01 = nullptr;
+	SkinModelRender* targetDummyOnGuzai02 = nullptr;
+
 };
 

@@ -21,6 +21,7 @@ public:
 	void SetTimeUpState(bool state) { isTimeUp = state; }
 	void ResetTimerParam();
 
+	~MenuTimer();
 	bool Start();
 	void Update();
 

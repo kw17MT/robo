@@ -68,6 +68,7 @@ private:
 public:
 	//モデルデータなどを初期化。
 	Counter();
+	~Counter();
 	bool Start();
 	//Delete関数を呼び出し続ける。
 	void Update();
@@ -95,13 +96,15 @@ public:
 
 	int Delay = 0;
 
-	PlayerGene* m_playerGene;
-	SkinModelRender* m_skinModelRender;
-	SpriteRender* m_spriteJudge01;
-	SpriteRender* m_spriteJudge02;
-	SpriteRender* m_spriteCompare[4][5];	//メニューと一致しているかの画像を表示
+	PlayerGene* m_playerGene = nullptr;
+	SkinModelRender* m_skinModelRender = nullptr;
+	SpriteRender* m_spriteJudge01 = nullptr;
+	SpriteRender* m_spriteJudge02 = nullptr;
+	SpriteRender* m_spriteCompare[4][5] = {nullptr};	//メニューと一致しているかの画像を表示
 
 	Player* pl01 = nullptr;
 	Player* pl02 = nullptr;
+
+	CLevel2D* l2 = nullptr;
 
 };
