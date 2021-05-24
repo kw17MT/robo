@@ -2,6 +2,16 @@
 #include "Arrow.h"
 #include "SkinModelRender.h"
 
+Arrow::Arrow()
+{
+
+}
+
+Arrow::~Arrow()
+{
+	DeleteGO(m_skinModelRender);
+}
+
 bool Arrow::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);

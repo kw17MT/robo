@@ -10,6 +10,8 @@ private:
 	bool m_scaleMaxFlag = false;
 	bool m_scaleMinFlag = false;
 public:
+	Arrow();
+	~Arrow();
 	bool Start();
 	void Update();
 
