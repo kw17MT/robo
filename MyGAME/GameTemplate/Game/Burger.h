@@ -24,6 +24,7 @@ private:
 	int decrementTime = 20;
 	
 	Vector3 pos;
+	Vector3 m_scale;
 
 
 public:
