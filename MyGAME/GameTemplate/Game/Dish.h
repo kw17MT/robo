@@ -44,8 +44,6 @@ public:
 
 	SkinModelRender* m_skinModelRender;
 	Guzai* m_guzai = nullptr;
-	Guzai* m_guza[10];
-	int haveNum = 0;
 	PlayerGene* playerGene;
 	DishSpeedManeger* m_speedManeger;
 	CSoundSource* m_se;
