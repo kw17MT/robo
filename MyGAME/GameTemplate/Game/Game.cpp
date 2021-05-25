@@ -206,7 +206,7 @@ bool Game::Start()
 
 	//具材置き場の表示
 	guzaiOkiba = NewGO<GuzaiOkiba>(0, "GuzaiOkiba");
-
+	guzaiGene = NewGO<GuzaiGene>(0, "GuzaiGene");
 
 
 	////レベル2Dの構築

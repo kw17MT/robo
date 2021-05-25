@@ -7,6 +7,7 @@ class PathMove;
 class DishSpeedManeger;
 class CSoundSource;
 class DishGene;
+class GuzaiGene;
 
 class Dish : public IGameObject
 {
@@ -21,6 +22,7 @@ private:
 	float m_guzaiYPos = 1000.0f;						//具材の高さ。
 	int m_guzaiTimer = 0;
 	bool m_soundFlag = false;
+	int m_guzaiNo;
 
 	std::unique_ptr<PathMove> m_pathMove;		//移動処理を行うクラス。
 
@@ -46,5 +48,6 @@ public:
 	DishSpeedManeger* m_speedManeger;
 	CSoundSource* m_se;
 	DishGene* m_dishGene;
+	GuzaiGene* m_guzaiGene;
 };
 

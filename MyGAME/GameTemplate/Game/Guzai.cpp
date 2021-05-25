@@ -41,7 +41,7 @@ Guzai::~Guzai()
 		DeleteGO(m_cookingSe);
 		DeleteGO(m_meter);
 	}
-
+	
 }
 
 void Guzai::ChangeGuzai(int num)
