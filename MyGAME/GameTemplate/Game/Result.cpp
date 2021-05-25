@@ -2,6 +2,7 @@
 #include "Result.h"
 #include "SpriteRender.h"
 #include "FixedUI.h"
+#include "GameDirector.h"
 
 Result::~Result()
 {
@@ -51,6 +52,7 @@ void Result::DecidePos()
 bool Result::Start()
 {
 	m_spriteRender = NewGO<SpriteRender>(1);
+	
 
 	//中央、左、右の画像表示位置用変数を設定
 	center.Set(0.0f,0.0f,0.0f);
@@ -77,11 +79,28 @@ bool Result::Start()
 		DecideDDS();
 		DecidePos();
 	}
+
+	m_spriteRender->SetPivot({0.5f,0.5f});
+	m_spriteRender->SetScale({ 1.0f * m_scaleRate,1.0f * m_scaleRate,1.0f });
+	m_spriteRender->SetColor({ 1.0f,1.0f,1.0f,m_alpha });
+
 	return true;
 }
 
 void Result::Update()
 {
+	m_scaleRate -= 0.08f;
+	if (m_scaleRate <= 1.0f) {
+		m_scaleRate = 1.0f;
+	}
+
+	m_alpha += 0.03f;
+	if (m_alpha >= 1.0f) {
+		m_alpha = 1.0f;
+	}
+
+
+
 //	if (tf == true) {
 //		return;
 //	}
@@ -102,4 +121,8 @@ void Result::Update()
 //		DecidePos();
 //	}
 //	tf = true;
+
+	m_spriteRender->SetColor({ 1.0f,1.0f,1.0f,m_alpha });
+	m_spriteRender->SetScale({ 1.0f * m_scaleRate,1.0f * m_scaleRate,1.0f });
+
 }

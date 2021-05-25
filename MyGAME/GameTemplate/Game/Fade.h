@@ -1,6 +1,14 @@
 #pragma once
 #include"SpriteRender.h"
 
+//ステート
+enum EnState {
+	enState_In,		//フェードイン
+	enState_Out,	//フェードアウト
+	enState_Wait,	//待機
+};
+
+
 class Fade : public IGameObject
 {
 private:
@@ -12,12 +20,13 @@ public:
 	//更新処理。
 	void Update();
 
-	//ステート
-	enum EnState {
-		enState_In,		//フェードイン
-		enState_Out,	//フェードアウト
-		enState_Wait,	//待機
-	};
+	
+
+	float GetAlpha()
+	{
+		return m_alpha;
+	}
+
 	/// <summary>
 	/// ステート設定
 	/// </summary>

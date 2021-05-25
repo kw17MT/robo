@@ -260,7 +260,6 @@ void Game::Update()
 	//カウントダウンする。
 	CountDown();
 
-
 	m_level->Draw();
 
 	//タイムアップ時に行う処理
@@ -301,24 +300,35 @@ void Game::Update()
 			}
 
 		}
-		//game内のタイムアップフラグを立てる
+		//game内のタイムアップフラグを立て、ゲームシーンをリザルトに移行する
 		SetTimeUp();
+		GetGameDirector().SetGameScene(enResult);
 		////ゲーム終了を通知
 		//GetGameDirector().SetGameScene(enGameEnd);
 
 	}
 
-	if (g_pad[0]->IsPress(enButtonLB1)) {
-		NewGO<Title>(0, "title");
-		GetGameDirector().SetGameScene(enNonScene);
-		DeleteGO(this);
+	//リザルト中にボタンを押すとタイトルに移行
+	if (GetGameDirector().GetGameScene() == enResult) {
+		if (g_pad[0]->IsTrigger(enButtonLB1)) {
+			GetGameDirector().SetGameScene(enNonScene);
+			NewGO<Title>(0, "title");
+			DeleteGO(this);
+		}
 	}
 
-	//if (GetGameDirector().GetGameScene() == enGameEnd) {
-	//	NewGO<Title>(0, "title");
-	//	GetGameDirector().SetGameScene(enNonScene);
-	//	DeleteGO(this);
-	//}
+	/*if (GetGameDirector().GetGameScene() == enGamePlay) {
+		if (g_pad[0]->IsTrigger(enButtonRB1)) {
+			GetGameDirector().SetGameScene(enPause);
+		}
+	}
+
+	if (GetGameDirector().GetGameScene() == enPause) {
+		if (g_pad[0]->IsTrigger(enButtonRB1)) {
+			GetGameDirector().SetGameScene(enGamePlay);
+		}
+	}*/
+
 	
 }
 

@@ -29,6 +29,10 @@ void MenuTimer::ResetTimerParam()
 
 void MenuTimer::Update()
 {
+	if (GetGameDirector().GetGameScene() != enGamePlay) {
+		return;
+	}
+
 	m_skinModelRender->SetScale(m_scale);
 	m_skinModelRender->SetRotation(m_rot);
 	m_skinModelRender->SetPosition(m_position);

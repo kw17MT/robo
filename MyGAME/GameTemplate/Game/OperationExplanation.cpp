@@ -43,9 +43,9 @@ void OperationExplanation::Update()
 		if (m_fade == nullptr) {
 			m_fade = NewGO<Fade>(0, "fade");
 		}
-		if (m_fade->GetState() == m_fade->enState_Wait) {
+		if (m_fade->GetState() == enState_Wait) {
 			NewGO<Game>(0, "game");
-			m_fade->SetState(m_fade->enState_In);
+			m_fade->SetState(enState_In);
 			DeleteGO(this);
 		}
 		break;

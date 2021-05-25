@@ -33,6 +33,12 @@ private:
 
 	//
 	bool tf = false;
+
+	//アルファ用変数
+	float m_alpha = 0.0f;
+	//拡大率用変数
+	float m_scaleRate = 3.0f;
+
 public:
 
 	//UI
