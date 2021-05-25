@@ -80,6 +80,9 @@ private:
 	bool isSetOnTrashCan = false;
 
 	bool canPutOnGuzaiOkiba = true;
+
+	//自分の番号
+	int m_myNo = 100;
 public:	
 	//乱数を用いて具材が生まれると同時にどの具材を流すか設定する。
 	Guzai();
@@ -125,6 +128,12 @@ public:
 	void Rotation();
 	//どっちのプレイヤーに持たれているか。
 	void SetWhichPlayerGet(int num) { whichPlayerGet = num; }
+
+	//番号をセット
+	void SetGuzaiNo(int number) { m_myNo = number; }
+
+	//番号を入手
+	int GetGuziNo() { return m_myNo; }
 
 	//１ならば持たれている。
 	int state = 0;

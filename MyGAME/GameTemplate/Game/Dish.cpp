@@ -8,6 +8,7 @@
 #include "DishSpeedManeger.h"
 #include "SoundSource.h"
 #include "DishGene.h"
+#include "GuzaiGene.h"
 
 namespace
 {
@@ -18,6 +19,7 @@ Dish::~Dish()
 {
 	DeleteGO(m_skinModelRender);
 	
+
 	if (m_guzai != nullptr) {
 		DeleteGO(m_guzai);
 	}
@@ -43,6 +45,7 @@ bool Dish::Start()
 	playerGene = FindGO<PlayerGene>("playerGene");
 	m_speedManeger = FindGO<DishSpeedManeger>("speedManeger");
 	m_dishGene = FindGO<DishGene>("dishGene");
+	m_guzaiGene = FindGO<GuzaiGene>("GuzaiGene");
 
 	m_pathMove = std::make_unique<PathMove>();
 	m_pathMove.get()->Init(m_position, MOVESPEED, enNormalLane);
@@ -66,7 +69,8 @@ void Dish::Move()
 		m_guzaiPos = m_position;
 		//m_guzaiPos.y += 10.0f;
 		m_guzaiPos.y += m_guzaiYPos;
-		m_guzai->SetPosition(m_guzaiPos);
+		m_guzaiGene->m_guzai[m_guzaiNo]->SetPosition(m_guzaiPos);
+		//m_guzai->SetPosition(m_guzaiPos);
 		if (m_guzaiYPos > 800.0f) {
 			m_guzaiYPos -= 4.0f;
 		}
@@ -93,10 +97,21 @@ void Dish::Update()
 	//Å‰‚¾‚¯‚·‚×‚Ä‚ÌŽM‚Ìã‚Éo‚·B
 	if (isCompletedFirstPop == false) {
 		if (playerGene->GetPlayerGeneState() == false) {
-				m_guzai = NewGO<Guzai>(0);
+			for (int i = 0; i < 99; i++) {
+				if (m_guzaiGene->GetGuzaiFlag(i) == false) {
+					m_guzaiGene->m_guzai[i] = NewGO<Guzai>(0);
+					m_guzaiGene->m_guzai[i]->SetGuzaiNo(i);
+					isHavingGuzai = true;
+					m_guzaiNo = i;
+					isCompletedFirstPop = true;
+					m_guzaiGene->SetGuzaiFlag(i, true);
+					break;
+				}
+			}
+				/*m_guzai = NewGO<Guzai>(0);
 				isHavingGuzai = true;
 
-				isCompletedFirstPop = true;
+				isCompletedFirstPop = true;*/
 				
 		}
 	}
@@ -114,7 +129,7 @@ void Dish::Update()
 	
 	
 	//Ž©•ª‚Ìã‚Ì‹ïÞ‚ªŽ‚½‚ê‚Ä‚¢‚é‚È‚ç‚Î
-	if (m_guzai->state == 1) {
+	if (m_guzaiGene->m_guzai[m_guzaiNo]->state == 1) {
 		isHavingGuzai = false;
 	}
 
@@ -123,8 +138,18 @@ void Dish::Update()
 		m_guzaiTimer++;
 		if (m_guzaiTimer > 60) {
 			if (isHavingGuzai == false) {
-				m_guzai = NewGO<Guzai>(0);
-				isHavingGuzai = true;
+				for (int i = 0; i < 99; i++) {
+					if (m_guzaiGene->GetGuzaiFlag(i) == false) {
+						m_guzaiGene->m_guzai[i] = NewGO<Guzai>(0);
+						m_guzaiGene->m_guzai[i]->SetGuzaiNo(i);
+						isHavingGuzai = true;
+						m_guzaiNo = i;
+						m_guzaiGene->SetGuzaiFlag(i, true);
+						break;
+					}
+				}
+				/*m_guzai = NewGO<Guzai>(0);
+				isHavingGuzai = true;*/
 
 				//•â[‚µ‚½ŽM‚Ì–‡”‚ð‚P‘«‚·
 				playerGene->AddRefilledNum();
