@@ -65,7 +65,7 @@ Game::~Game()
 	DeleteGO(playerGene);
 	DeleteGO(dishGene);
 	DeleteGO(m_speedManeger);
-	DeleteGO(guzaiGene);
+	//DeleteGO(guzaiGene);
 	DeleteGO(guzaiOkiba);
 	DeleteGO(m_score);
 	//DeleteGO(m_bgm);

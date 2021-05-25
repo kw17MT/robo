@@ -16,6 +16,8 @@
 #include <ctime>
 #include <cstdlib>
 
+#include "Game.h"
+
 namespace
 {
 	const float MOVESPEED = 130.0f;
