@@ -16,7 +16,7 @@ class Burger : public IGameObject
 {
 private:
 	Vector3 m_position;
-
+	Vector3 m_scale;
 	//‚Ç‚¿‚ç‚É—¬‚ê‚Ä‚¢‚éƒo[ƒK[‚©
 	int BurgerNo = 0;
 	bool isSetOnTrashCan = false;

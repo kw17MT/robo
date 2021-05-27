@@ -28,8 +28,8 @@ bool Burger::Start()
 
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/food/Burger.tkm", nullptr, enModelUpAxisZ, m_position);
-	Vector3 scale = { 10.0f,10.0f,10.0f };
-	m_skinModelRender->SetScale(scale);
+	m_scale = { 10.0f,10.0f,10.0f };
+	m_skinModelRender->SetScale(m_scale);
 	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	if (BurgerNo == 1) {
@@ -229,4 +229,5 @@ void Burger::Update()
 	m_effect.Update();
 
 	m_skinModelRender->SetPosition(m_position);
+	m_skinModelRender->SetScale(m_scale);
 }

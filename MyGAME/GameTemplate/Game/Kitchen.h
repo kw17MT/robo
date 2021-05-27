@@ -5,6 +5,7 @@ class SkinModelRender;
 class Player;
 class CSoundSource;
 class Meter;
+class GuzaiGene;
 
 class Kitchen : public IGameObject
 {
@@ -84,5 +85,6 @@ public:
 	SkinModelRender* m_skinModelRender;
 	CSoundSource* m_soundSource;
 	Meter* m_meter;
+	GuzaiGene* m_guzaiGene;
 };
 

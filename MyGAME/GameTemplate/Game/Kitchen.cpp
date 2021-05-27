@@ -7,6 +7,7 @@
 #include "SkinModelRender.h"
 #include "SoundSource.h"
 #include "Meter.h"
+#include "GuzaiGene.h"
 
 Kitchen::~Kitchen()
 {
@@ -34,6 +35,7 @@ bool Kitchen::Start()
 {
 	m_player[0] = FindGO<Player>("player01");
 	m_player[1] = FindGO<Player>("player02");
+	m_guzaiGene = FindGO<GuzaiGene>("GuzaiGene");
 
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/object/kitchen.tkm", nullptr, enModelUpAxisZ, m_position);
@@ -58,6 +60,7 @@ void Kitchen::Delete()
 	if (KitchenNo == 1) {
 		for (int i = 0;i < stack; i++) {
 			DeleteGO(StackedGuzai[i]);
+			m_guzaiGene->SetGuzaiFlag(StackedGuzai[i]->GetGuziNo(), false);
 		}
 
 		Counter* co01 = FindGO<Counter>("counter01");
@@ -69,6 +72,7 @@ void Kitchen::Delete()
 	if (KitchenNo == 2) {
 		for (int i = 0;i < stack; i++) {
 			DeleteGO(StackedGuzai[i]);
+			m_guzaiGene->SetGuzaiFlag(StackedGuzai[i]->GetGuziNo(), false);
 		}
 		Counter* co02 = FindGO<Counter>("counter02");
 		co02->SetStackNum(stack);
