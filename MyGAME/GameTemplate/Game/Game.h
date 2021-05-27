@@ -90,5 +90,4 @@ public:
 	float scaleRate = 2.0f;
 	float alpha = 0.0f;
 	bool fadeOut = false;
-
 };
