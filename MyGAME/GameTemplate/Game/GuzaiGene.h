@@ -11,7 +11,7 @@ class GuzaiGene : public IGameObject
 private:
 	Vector3 m_position = Vector3::Zero;
 	const Vector3 m_scale = Vector3::Zero;
-	static const int guzaiNum = 36;
+	static const int guzaiNum = 36 + 20;
 
 	bool isCompletedSetGuzai = false;
 
