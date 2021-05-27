@@ -151,7 +151,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		rotX.Apply(g_lig.spDirection);*/
 
 		//ƒJƒƒ‰‚ÌˆÚ“®
-		if (g_pad[0]->GetRStickYF()) {
+		/*if (g_pad[0]->GetRStickYF()) {
 			float move = g_pad[0]->GetRStickYF() * 30.0f;
 			Vector3 camerapos = g_camera3D->GetPosition();
 			Vector3 cameraTarget = g_camera3D->GetTarget();
@@ -185,7 +185,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 			camerapos.y += move;
 			g_camera3D->SetPosition(camerapos);
-		}
+		}*/
 
 		EffectEngine::GetInstance()->Update(0.016f/*g_gameTime->GetFrameDeltaTime()*/);
 		EffectEngine::GetInstance()->Draw();

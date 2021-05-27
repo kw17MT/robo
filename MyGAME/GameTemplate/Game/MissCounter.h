@@ -28,6 +28,6 @@ public:
 
 	Level2D m_level2D;		//ƒŒƒxƒ‹2DB
 	Result* m_result[2] = {nullptr};
-	SpriteRender* m_spriteRender[6];
+	SpriteRender* m_spriteRender[6] = { nullptr };
 };
 

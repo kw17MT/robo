@@ -146,18 +146,16 @@ public:
 	Player* pl02 = nullptr;
 	Kitchen* ki01 = nullptr;
 	Kitchen* ki02 = nullptr;
-	SkinModelRender* m_skinModelRender;
-	PlayerGene* playerGene;
-	GuzaiGene* m_guzaiGene;
-	GuzaiOkiba* m_guzaiOkiba;
-	TrashCan* m_trashCan[2];
-	CSoundSource* m_cookingSe;
+	SkinModelRender* m_skinModelRender = nullptr;
+	PlayerGene* playerGene = nullptr;
+	GuzaiGene* m_guzaiGene = nullptr;
+	GuzaiOkiba* m_guzaiOkiba = nullptr;
+	TrashCan* m_trashCan[2] = { nullptr, nullptr };
+	CSoundSource* m_cookingSe = nullptr;
 
 	SkinModelRender* targetDummyOnGuzai01 = nullptr;
 	SkinModelRender* targetDummyOnGuzai02 = nullptr;
 
-	Effect m_effect;
-	Meter* m_meter;
-
+	Meter* m_meter = nullptr;
 };
 

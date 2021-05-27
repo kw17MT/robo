@@ -25,6 +25,6 @@ public:
 	bool Start();
 	void Update();
 
-	SkinModelRender* m_skinModelRender;
+	SkinModelRender* m_skinModelRender = nullptr;
 };
 

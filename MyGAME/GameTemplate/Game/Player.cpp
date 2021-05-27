@@ -25,6 +25,8 @@ Player::~Player()
 {
 	DeleteGO(m_skinModelRender);
 	DeleteGO(m_shadow);
+	DeleteGO(m_effect01);
+	DeleteGO(m_effect02);
 }
 
 bool Player::Start()
@@ -74,7 +76,7 @@ bool Player::Start()
 	m_shadow->SetScale(m_shadowScale);
 	m_shadow->SetPosition(m_position);
 	//ここでアニメーションのロードを行う
-	animationClips[enAnimation_Idle].Load("Assets/animData/swing2.tka");
+	//animationClips[enAnimation_Idle].Load("Assets/animData/swing2.tka");
 	/*animationClips[enAnimation_Run].Load("");
 	animationClips[enAnimation_Cut].Load("");
 	animationClips[enAnimation_Cook].Load("");
@@ -82,16 +84,16 @@ bool Player::Start()
 	animationClips[enAnimation_HaveRun].Load("");*/
 
 
-	animationClips[enAnimation_Idle].SetLoopFlag(true);
+	//animationClips[enAnimation_Idle].SetLoopFlag(true);
 	/*animationClips[enAnimation_Run].SetLoopFlag(true);
 	animationClips[enAnimation_Cut].SetLoopFlag(true);
 	animationClips[enAnimation_Cook].SetLoopFlag(true);
 	animationClips[enAnimation_HaveIdle].SetLoopFlag(true);
 	animationClips[enAnimation_HaveRun].SetLoopFlag(true);*/
 
-	m_skinModelRender->InitAnimation(animationClips, enAnimation_Num);
+	//m_skinModelRender->InitAnimation(animationClips, enAnimation_Num);
 
-	m_skinModelRender->PlayAnimation(enAnimation_Idle);
+	//m_skinModelRender->PlayAnimation(enAnimation_Idle);
 
 	//具材ナンバー配列のすべての要素を9で初期化
 	for (int i = 0; i < 10; i++) {
@@ -99,15 +101,15 @@ bool Player::Start()
 	}
 
 	//ポップアップ用表示
-	m_popUp = NewGO<PopUp2D>(20, "popup");
-	if (playerNo != 0) {
+	//m_popUp = NewGO<PopUp2D>(20, "popup");
+	/*if (playerNo != 0) {
 		if (playerNo == 1) {
 			m_popUp->SetEnSelf(enPlayer01);
 		}
 		else if (playerNo == 2) {
 			m_popUp->SetEnSelf(enPlayer02);
 		}
-	}
+	}*/
 
 	if (playerNo == 1) {
 		m_kitchen = FindGO<Kitchen>("kitchen01");
@@ -119,11 +121,13 @@ bool Player::Start()
 	//エフェクトの初期化
 	//P1
 	//m_effect01.Init(u"Assets/effect/dust.efk");
-	m_effect01.Init(u"Assets/effect/dust.efk");
-	m_effect01.SetScale({ 10.0f,10.0f,10.0f });
+	m_effect01 = NewGO<Effect>(0);
+	m_effect01->Init(u"Assets/effect/dust.efk");
+	m_effect01->SetScale({ 10.0f,10.0f,10.0f });
 	//P2
-	m_effect02.Init(u"Assets/effect/dust.efk");
-	m_effect02.SetScale({ 10.0f,10.0f,10.0f });
+	m_effect02 = NewGO<Effect>(0);
+	m_effect02->Init(u"Assets/effect/dust.efk");
+	m_effect02->SetScale({ 10.0f,10.0f,10.0f });
 
 	return true;
 }
@@ -279,8 +283,8 @@ void Player::Update()
 		moveCounter01 += 1;
 		if (moveSpeed.x != 0) {
 			if (moveCounter01 % 12 == 11 ) {
-				m_effect01.SetPosition(m_position);
-				m_effect01.Play(0);
+				m_effect01->SetPosition(m_position);
+				m_effect01->Play(0);
 			}
 		}
 
@@ -369,8 +373,8 @@ void Player::Update()
 		moveCounter02 += 1;
 		if (moveSpeed.x != 0) {
 			if (moveCounter02 % 12 == 11) {
-				m_effect02.SetPosition(m_position);
-				m_effect02.Play(0);
+				m_effect02->SetPosition(m_position);
+				m_effect02->Play(0);
 			}
 		}
 
@@ -396,10 +400,10 @@ void Player::Update()
 	Vector3 playerToPopUp = { 200.0f,100.0f,0.0f };
 	m_popUpPosition = m_position;
 	m_popUpPosition = m_popUpPosition + playerToPopUp;
-	m_popUp->SetPosition(m_popUpPosition);
+	//m_popUp->SetPosition(m_popUpPosition);
 
-	m_effect01.Update();
-	m_effect02.Update();
+	m_effect01->Update();
+	m_effect02->Update();
 
 }
 

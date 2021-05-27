@@ -53,7 +53,6 @@ bool Result::Start()
 {
 	m_spriteRender = NewGO<SpriteRender>(1);
 	
-
 	//中央、左、右の画像表示位置用変数を設定
 	center.Set(0.0f,0.0f,0.0f);
 	left.Set(0.0f + 450.0f, 0.0f,0.0f);

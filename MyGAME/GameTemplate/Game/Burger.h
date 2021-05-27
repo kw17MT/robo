@@ -1,34 +1,26 @@
-
 #pragma once
-
 class SkinModelRender;
 class TrashCan;
 class Player;
 class CSoundSourse;
-
 class Effect;
-#include "effect/Effect.h"
-
 class CSoundSourse;
 
+#include "effect/Effect.h"
 
 class Burger : public IGameObject
 {
 private:
 	Vector3 m_position;
 	Vector3 m_scale;
-	//どちらに流れているバーガーか
-	int BurgerNo = 0;
-	bool isSetOnTrashCan = false;
-
-	int decrementTime = 20;
-	
-	Vector3 pos;
-
+	int BurgerNo = 0;									//どちらに流れているバーガーか
+	bool isSetOnTrashCan = false;						//ゴミ箱にセットされたか
+	int decrementTime = 20;								//ゴミ箱にセットした時に消えるまでの遅延時間
+	Vector3 pos;										//ハンバーガーが持たれた時の位置設定用
 
 public:
 	//モデルデータ、影の設定。
-	Burger();
+	Burger() {}
 	~Burger();
 	//バーガーの位置をキッチンの上にして、具材が消える同時にバーガーを出現させる。
 	bool Start();
@@ -58,8 +50,8 @@ public:
 	
 	Vector3 CounterPos = { 900.0f, 100.0f, -400.0f };
 
-	Effect m_effect;
-	SkinModelRender* m_skinModelRender;
-	Player* m_player[2];
-	TrashCan* m_trashCan[2];
+	Effect* m_effect = nullptr;
+	SkinModelRender* m_skinModelRender = nullptr;
+	Player* m_player[2] = { nullptr, nullptr };
+	TrashCan* m_trashCan[2] = { nullptr, nullptr };
 };

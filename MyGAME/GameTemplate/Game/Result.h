@@ -75,8 +75,5 @@ public:
 	void DecideDDS();
 	//スプライトの位置を決める関数
 	void DecidePos();
-
-	
-
 };
 

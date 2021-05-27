@@ -80,11 +80,11 @@ public:
 	//ƒo[ƒK[‚Ì’²—ó‹µ‚ğæ“¾
 	bool GetKitchenCooking() { return m_deleteFlag; }
 
-	Player* m_player[2];
-	Burger* bur;
-	SkinModelRender* m_skinModelRender;
-	CSoundSource* m_soundSource;
-	Meter* m_meter;
-	GuzaiGene* m_guzaiGene;
+	Player* m_player[2] = { nullptr, nullptr };
+	Burger* bur = nullptr;
+	SkinModelRender* m_skinModelRender = nullptr;
+	CSoundSource* m_soundSource = nullptr;
+	Meter* m_meter = nullptr;
+	GuzaiGene* m_guzaiGene = nullptr;
 };
 

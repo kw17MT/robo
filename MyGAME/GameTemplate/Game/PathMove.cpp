@@ -25,11 +25,12 @@ void PathMove::Init(const Vector3& pos, const float move, EnLane enLane)
 
 void PathMove::SwitchCycleDirection()
 {
+	//ここで巻き戻るバグがあると思う
 	if (m_cycleDirection == enNormal) {
 		m_cycleDirection = enReverse;
 		m_point = m_path->GetPoint(m_point->s_number - 2);
 		if (m_point->s_number <= 0) {
-			m_point = m_path->GetPoint(m_wayPointNum - 1);
+			m_point = m_path->GetPoint(m_wayPointNum-1);
 		}
 		Vector3 nextDistance = m_point->s_vector - m_position;
 		nextDistance.Normalize();
@@ -161,6 +162,10 @@ const Vector3& PathMove::Move()
 	//if(m_playerGene->isMoving){
 //		m_moveVector = Vector3::Zero;
 //	}
+
+		/*if (g_pad[0]->IsTrigger(enButtonX)) {
+			SwitchCycleDirection();
+		}*/
 
 	//TODO GameTimeに変える。
 	m_position += m_moveVector * 1.0f / 60.0f * m_moveSpeed;

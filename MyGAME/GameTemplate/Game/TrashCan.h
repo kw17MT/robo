@@ -40,9 +40,9 @@ public:
 	//ゴミを入れられて動くかどうかを変更する　TRUEにすると動き始める
 	void LetStartMoving();
 
-	Player* player[2];
-	SkinModelRender* m_skinModelRender;
-	SkinModelRender* m_targeting;
-	PlayerGene* m_playerGene;
+	Player* player[2] = { nullptr, nullptr };
+	SkinModelRender* m_skinModelRender = nullptr;
+	SkinModelRender* m_targeting = nullptr;
+	PlayerGene* m_playerGene = nullptr;
 };
 

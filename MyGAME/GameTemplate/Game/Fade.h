@@ -12,15 +12,13 @@ enum EnState {
 class Fade : public IGameObject
 {
 private:
-	SpriteRender* m_spriteRender;
+	SpriteRender* m_spriteRender = nullptr;
 	float m_alpha = 0.0f;	//アルファ値
 public:
 	Fade();
 	~Fade();
 	//更新処理。
 	void Update();
-
-	
 
 	float GetAlpha()
 	{

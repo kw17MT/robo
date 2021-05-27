@@ -93,6 +93,13 @@ public:
 	{
 		return strcmp(m_name.c_str(), name) == 0;
 	}
+
+	void SayYourName()
+	{
+		OutputDebugStringA(m_name.c_str());
+		OutputDebugStringA("\n");
+		
+	}
 public:
 
 	void RenderWrapper(RenderContext& renderContext)
@@ -105,6 +112,7 @@ public:
 	void UpdateWrapper()
 	{
 		if (m_isActive && m_isStart && !m_isDead ) {
+			SayYourName();
 			Update();
 		}
 	}

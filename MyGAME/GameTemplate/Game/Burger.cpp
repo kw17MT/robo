@@ -2,21 +2,16 @@
 #include "Burger.h"
 #include "Kitchen.h"
 #include "Counter.h"
-
 #include "Player.h"
 #include "SkinModelRender.h"
 #include "TrashCan.h"
 #include "SoundSource.h"
 #include "effect/Effect.h"
 
-Burger::Burger()
-{
-
-}
-
 Burger::~Burger()
 {
 	DeleteGO(m_skinModelRender);
+	DeleteGO(m_effect);
 }
 
 bool Burger::Start()
@@ -32,6 +27,7 @@ bool Burger::Start()
 	m_skinModelRender->SetScale(m_scale);
 	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 
+	//キッチンの上に座標を設定
 	if (BurgerNo == 1) {
 		Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
 		Vector3 KiPos01 = ki01->GetKitchenPos();
@@ -47,10 +43,11 @@ bool Burger::Start()
 
 
 	//ハンバーガーが出てきたときのエフェクト
-	m_effect.Init(u"Assets/effect/kirakira.efk");
-	m_effect.Play();
-	m_effect.SetScale({ 10.0f,10.0f,10.0f });
-	m_effect.SetPosition(m_position);
+	m_effect = NewGO<Effect>(0);
+	m_effect->Init(u"Assets/effect/kirakira.efk");
+	m_effect->Play();
+	m_effect->SetScale({ 10.0f,10.0f,10.0f });
+	m_effect->SetPosition(m_position);
 
 	return true;
 }
@@ -137,7 +134,6 @@ void Burger::GrabBurger()
 void Burger::ClearNo()
 {
 	if (BurgerNo == 1) {
-		//Player* pl01 = FindGO<Player>("player01");
 		Counter* co01 = FindGO<Counter>("counter01");
 
 		//カウンターに保存していた、今まで積んできた具材の数を０で初期化する。
@@ -149,7 +145,6 @@ void Burger::ClearNo()
 		}
 	}
 	if (BurgerNo == 2) {
-		//Player* pl02 = FindGO<Player>("player02");
 		Counter* co02 = FindGO<Counter>("counter02");
 
 		//カウンターに保存していた、今まで積んできた具材の種類を全部０で初期化する。
@@ -164,6 +159,7 @@ void Burger::ClearNo()
 
 void Burger::SetOnTrashCan() {
 	if (BurgerNo == 1) {
+		//ゴミ箱との距離が一定以下でAボタンが押されたら
 		if (g_pad[0]->IsTrigger(enButtonA)
 			&& m_trashCan[0]->GetCanTrash()) {
 			isSetOnTrashCan = true;
@@ -171,6 +167,7 @@ void Burger::SetOnTrashCan() {
 
 		if (isSetOnTrashCan == true) {
 			decrementTime--;
+			//遅延させた後消す
 			if (decrementTime <= 0) {
 
 				//音を鳴らす
@@ -186,6 +183,7 @@ void Burger::SetOnTrashCan() {
 
 				m_trashCan[0]->ChangeMovingState(true);
 			}
+			//消すまではゴミ箱の上で待機させる。
 			m_position = m_trashCan[0]->GetPosition();
 			m_position.y += 60.0f;
 		}
@@ -226,7 +224,7 @@ void Burger::Update()
 	
 	SetOnTrashCan();
 
-	m_effect.Update();
+	m_effect->Update();
 
 	m_skinModelRender->SetPosition(m_position);
 	m_skinModelRender->SetScale(m_scale);

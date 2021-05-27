@@ -16,8 +16,6 @@
 #include <ctime>
 #include <cstdlib>
 
-#include "Game.h"
-
 namespace
 {
 	const float MOVESPEED = 130.0f;
@@ -43,7 +41,6 @@ Guzai::~Guzai()
 		DeleteGO(m_cookingSe);
 		DeleteGO(m_meter);
 	}
-	
 }
 
 void Guzai::ChangeGuzai(int num)
@@ -179,9 +176,6 @@ bool Guzai::Start()
 	}
 
 	m_skinModelRender->SetNewModel();
-
-	m_effect.Init(u"Assets/effect/test2.efk");
-	m_effect.SetScale({ 100.0f,100.0f,100.0f });
 
 	return true;
 }
@@ -561,9 +555,7 @@ void Guzai::Cooking()
 				Vector3 pos = m_position;
 				pos.x -= 100.0f;
 				pos.y += 100.0f;
-				m_effect.SetPosition(pos);
-				//m_effect.Play();
-				m_effect.Update();
+				
 			}
 			//’²—Š®—¹ŽžŠÔ‚Ü‚Å‰Ÿ‚³‚ê‚½‚çc
 			if (m_hold01 > m_cookingTime) {

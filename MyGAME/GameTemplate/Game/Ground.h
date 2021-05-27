@@ -26,5 +26,5 @@ public:
 
 	//void Render(RenderContext& rc) { model.Draw(rc); }
 
-	SkinModelRender* m_skinModelRender;
+	SkinModelRender* m_skinModelRender = nullptr;
 };

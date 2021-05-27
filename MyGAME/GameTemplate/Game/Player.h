@@ -22,7 +22,7 @@ enum EnItem
 class Player : public IGameObject
 {
 private:
-	PopUp2D* m_popUp = nullptr;
+	//PopUp2D* m_popUp = nullptr;
 
 	//プレイヤーのパラメータ
 	//座標
@@ -58,10 +58,10 @@ private:
 	//エフェクト関連
 	//P1
 	int moveCounter01 = 0;
-	Effect m_effect01;
+	Effect* m_effect01 = nullptr;
 	//P2
 	int moveCounter02 = 0;
-	Effect m_effect02;
+	Effect* m_effect02 = nullptr;
 
 	//停止フラグ１
 	bool m_moveStop01 = false;
@@ -168,11 +168,11 @@ public:
 		enAnimation_Num
 	};
 
-	AnimationClip animationClips[enAnimation_Num];
+	//AnimationClip animationClips[enAnimation_Num];
 
-	Kitchen* m_kitchen;
-	SkinModelRender* m_skinModelRender;
-	SkinModelRender* m_shadow;
+	Kitchen* m_kitchen = nullptr;
+	SkinModelRender* m_skinModelRender = nullptr;
+	SkinModelRender* m_shadow = nullptr;
 };
 
 

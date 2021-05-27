@@ -7,7 +7,8 @@
 /*!
 * @brief	エフェクト。
 */
-class Effect {
+class Effect : public IGameObject
+{
 public:
 	Effect();
 	~Effect();

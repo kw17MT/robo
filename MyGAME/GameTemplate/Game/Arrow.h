@@ -15,6 +15,7 @@ public:
 	bool Start();
 	void Update();
 
+	//–îˆó‚ğÀ•W‚É‚æ‚Á‚Äã‰º‚³‚¹‚éB
 	void Float();
 	void Expansion();
 	void Shrink();
@@ -24,6 +25,6 @@ public:
 	bool GetScaleMax() { return m_scaleMaxFlag; }
 	bool GetScaleMin() { return m_scaleMinFlag; }
 
-	SkinModelRender* m_skinModelRender;
+	SkinModelRender* m_skinModelRender = nullptr;
 };
 

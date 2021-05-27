@@ -24,7 +24,6 @@ class ShadowTest;
 class Ground;
 class CycleDirection;
 
-//class PopUp2D;
 class Game : public IGameObject
 {
 private:
@@ -46,35 +45,26 @@ public:
 	void CountDown();
 
 	CLevel2D* m_level2D = nullptr;
-	FixedUI* ui;										//座標の動かないUI（時間、スコア、ミス）
-	Counter* counter01;									//カウンタ―１
-	Counter* counter02;									//カウンタ―２
-	Kitchen* kitchen01;									///キッチン１
-	Kitchen* kitchen02;									//キッチン２
-	//SpriteRender* menu[3];							//メニュー表示３枚分
-	Player* player[2];									//両プレイヤー
-	PlayerGene* playerGene;								//プレイヤーを生成するもの
-	GuzaiGene* guzaiGene;								//具材を生成するもの
-	Score* m_score = nullptr;							//プレイヤーのスコアを表示する。
-	GuzaiOkiba* guzaiOkiba;								//具材置き場を8個出す
-	DishGene* dishGene;									//ウェイポイントに従って皿を出す
-	DishSpeedManeger* m_speedManeger;					//皿のスピードを管理する
-	TrashCan* m_trashCan[2];							//ゴミ箱
-	Floor* floor_r;										//右の床
-	Floor* floor_l;										//左の床	
-	Result* m_result[3];								//勝敗表示用:引き分けの場合、プレイヤー1、プレイヤー2に用意
-	FontRender* m_font;									//フォント
-	CSoundSource* m_bgm;									//BGM用
-	CycleDirection* m_directionSprite[3] = {nullptr};
-	Level* m_level;
-
-	//ここから下はいらないと思う
-	PostEffectTest* postTest;
-	ShadowTest* shadowTest;
-	Ground* ground;
-
-	//PopUp2D* m_popup2D_1 = nullptr;
-	//PopUp2D* m_popup2D_2 = nullptr;
+	FixedUI* ui = nullptr;											//座標の動かないUI（時間、スコア、ミス）
+	Counter* counter01 = nullptr;									//カウンタ―１
+	Counter* counter02 = nullptr;									//カウンタ―２
+	Kitchen* kitchen01 = nullptr;									///キッチン１
+	Kitchen* kitchen02 = nullptr;									//キッチン２
+	Player* player[2] = { nullptr,nullptr };						//両プレイヤー
+	PlayerGene* playerGene = nullptr;								//プレイヤーを生成するもの
+	GuzaiGene* guzaiGene = nullptr;									//具材を生成するもの
+	Score* m_score = nullptr;										//プレイヤーのスコアを表示する。
+	GuzaiOkiba* guzaiOkiba = nullptr;								//具材置き場を8個出す
+	DishGene* dishGene = nullptr;									//ウェイポイントに従って皿を出す
+	DishSpeedManeger* m_speedManeger = nullptr;						//皿のスピードを管理する
+	TrashCan* m_trashCan[2] = { nullptr, nullptr};					//ゴミ箱
+	Floor* floor_r = nullptr;										//右の床
+	Floor* floor_l = nullptr;										//左の床	
+	Result* m_result[3] = { nullptr,nullptr,nullptr };				//勝敗表示用:引き分けの場合、プレイヤー1、プレイヤー2に用意
+	FontRender* m_font = nullptr;									//フォント
+	CSoundSource* m_bgm = nullptr;									//BGM用
+	CycleDirection* m_directionSprite[3] = {nullptr,nullptr,nullptr};
+	Level* m_level = nullptr;
 
 	bool GetTimeUp() { return isTimeUp; }
 	void SetTimeUp() { isTimeUp = true; }
@@ -90,4 +80,6 @@ public:
 	float scaleRate = 2.0f;
 	float alpha = 0.0f;
 	bool fadeOut = false;
+
+	int a = 0;
 };
