@@ -80,6 +80,6 @@ public:
 	void Update();
 
 	FontRender* Score[2];
-	CSoundSource* moneySound;
+	CSoundSource* moneySound = nullptr;
 };
 

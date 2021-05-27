@@ -39,8 +39,8 @@ public:
 	//‹ïŞ‚Ì‘¶İó‘Ô‚ğ•ÏXB(ˆø”‚É”Ô†‚ğ“ü—Í)
 	void SetGuzaiFlag(int number, bool tf) { m_guzaiFlag[number] = tf; }
 
-	SkinModelRender* m_skinModelRender;
+	SkinModelRender* m_skinModelRender = nullptr;
 	Guzai* m_guzai[99] = {nullptr};
-	DishGene* m_dishGene;
+	DishGene* m_dishGene = nullptr;
 	//Buff* m_buff;
 };

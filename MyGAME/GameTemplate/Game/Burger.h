@@ -60,7 +60,7 @@ public:
 	Vector3 CounterPos = { 900.0f, 100.0f, -400.0f };
 
 	Effect m_effect;
-	SkinModelRender* m_skinModelRender;
-	Player* m_player[2];
-	TrashCan* m_trashCan[2];
+	SkinModelRender* m_skinModelRender = nullptr;
+	Player* m_player[2] = { nullptr };
+	TrashCan* m_trashCan[2] = { nullptr };
 };

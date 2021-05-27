@@ -13,6 +13,6 @@ public:
 	//XVˆ—B
 	void Update();
 private:
-	SpriteRender* m_spriteRender;
+	SpriteRender* m_spriteRender = nullptr;
 	Fade* m_fade = nullptr;
 };

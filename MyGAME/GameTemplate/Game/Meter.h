@@ -19,6 +19,6 @@ public:
 	Vector3 GetScale() { return m_scale; }
 
 	Light m_lig;
-	SkinModelRender* m_skinModelRender;
+	SkinModelRender* m_skinModelRender = nullptr;
 };
 

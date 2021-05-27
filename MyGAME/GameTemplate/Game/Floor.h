@@ -19,6 +19,6 @@ public:
 
 	void ChangeModel(const char* filePath) { m_skinModelRender->ChangeModel(filePath); }
 	void SetRed(bool red) { isRed = red; }
-	SkinModelRender* m_skinModelRender;
+	SkinModelRender* m_skinModelRender = nullptr;
 };
 

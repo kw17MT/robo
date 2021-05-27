@@ -38,6 +38,6 @@ public:
 	//‹ïŞ‚ª~‚Á‚Ä‚«‚½‰¹‚ª–Â‚Á‚½‚©‚ğİ’èB
 	void SetFallingSound(bool tf) { m_fallingSoundFlag = tf; }
 
-	Dish* m_Dish[dishNum];
+	Dish* m_Dish[dishNum] = { nullptr };
 };
 
