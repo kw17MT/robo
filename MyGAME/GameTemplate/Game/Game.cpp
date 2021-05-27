@@ -235,7 +235,7 @@ void Game::Update()
 	OutputDebugStringA("aftCountDown\n");
 
 	OutputDebugStringA("bforLevelDraw\n");
-	//m_level->Draw();
+	m_level->Draw();
 	OutputDebugStringA("aftLevelDraw\n");
 
 	//タイムアップ時に行う処理
