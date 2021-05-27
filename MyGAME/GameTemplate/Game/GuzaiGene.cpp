@@ -12,15 +12,6 @@
 
 GuzaiGene::~GuzaiGene()
 {
-	//DeleteGO(m_skinModelRender);
-
-	////‹ïŞ‚ğíœ
-	//DeleteGO(m_skinModelRender);
-	/*for (int i = 0; i < guzaiNum; i++) {
-		if (m_guzai[i] != nullptr) {
-			DeleteGO(m_guzai[i]);
-		}
-	}*/
 	for (int i = 0; i < 99; i++) {
 		if (m_guzaiFlag[i] == true) {
 			DeleteGO(m_guzai[i]);

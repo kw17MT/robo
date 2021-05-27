@@ -45,4 +45,3 @@ public:
 	SkinModelRender* m_targeting = nullptr;
 	PlayerGene* m_playerGene = nullptr;
 };
-

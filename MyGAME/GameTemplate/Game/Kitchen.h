@@ -18,7 +18,7 @@ private:
 	int KitchenNo = 0;										//どっち側のキッチンか
 	int stack = 0;											//いま何個具材を積んでいるか		
 	bool canGrab = true;									//現在つかめるか（フレームのずれを起こす用）
-	Guzai* StackedGuzai[5];									//キッチンの上にある具材
+	Guzai* StackedGuzai[5] = { nullptr };									//キッチンの上にある具材
 
 	bool m_soundFlag01 = false;								//1Pの音が出ているか？
 	bool m_soundFlag02 = false;								//2Pの音が出ているか？
@@ -31,12 +31,12 @@ public:
 	~Kitchen();
 
 	//キッチンのモデルなどの設定。
-	bool Start();			
+	bool Start();
 
 	void Update();
 
 	//キッチン番号を設定する。
-	void SetKitchenNo(int num) { KitchenNo = num;}
+	void SetKitchenNo(int num) { KitchenNo = num; }
 
 	//キッチンの座標を設定する。
 	void SetKitchenPos(Vector3 pos) { m_kitchenPos = pos; m_position = pos; }

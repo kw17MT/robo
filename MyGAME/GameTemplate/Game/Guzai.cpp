@@ -30,11 +30,11 @@ Guzai::~Guzai()
 	DeleteGO(m_skinModelRender);
 	
 	//ダミーを消去
-	if (targetDummyOnGuzai01 != nullptr) {
-		DeleteGO(targetDummyOnGuzai01);
+	if (targetDummy01 != nullptr) {
+		DeleteGO(targetDummy01);
 	}
-	if (targetDummyOnGuzai02 != nullptr) {
-		DeleteGO(targetDummyOnGuzai02);
+	if (targetDummy02 != nullptr) {
+		DeleteGO(targetDummy02);
 	}
 
 	if (m_soundFlag01 == true || m_soundFlag02) {
@@ -176,7 +176,6 @@ bool Guzai::Start()
 	}
 
 	m_skinModelRender->SetNewModel();
-
 	return true;
 }
 
@@ -234,7 +233,6 @@ void Guzai::GrabNPut()
 			SetPosition(plPos01);
 
 			//具材置き場に置いた後でもまた近づくとダミーが出るようにする。
-			SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
 			if (targetDummy01 != nullptr) {
 				DeleteGO(targetDummy01);
 				isSetTargetDummy = false;
@@ -251,7 +249,6 @@ void Guzai::GrabNPut()
 			plPos02.y += 50.0f;
 			SetPosition(plPos02);
 
-			SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
 			if (targetDummy02 != nullptr) {
 
 				DeleteGO(targetDummy02);
@@ -371,12 +368,12 @@ void Guzai::TargetingNPopDummy()
 		if (whichPlayerTargetMe != 0 && isSetTargetDummy == false) {
 			if (whichPlayerTargetMe == 1) {
 				//SkinModelRender* targetDummyOnGuzai01 = NewGO<SkinModelRender>(1, "targetdummy01");
-				targetDummyOnGuzai01 = NewGO<SkinModelRender>(1, "targetdummy01");
-				targetDummyOnGuzai01->Init(NowModelPath, nullptr, enModelUpAxisZ, m_position);
-				targetDummyOnGuzai01->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
-				targetDummyOnGuzai01->SetFrontCulling("FrontCulling");
-				targetDummyOnGuzai01->SetPosition(m_position);
-				targetDummyOnGuzai01->SetScale(m_dummyScale);
+				targetDummy01 = NewGO<SkinModelRender>(1, "targetdummy01");
+				targetDummy01->Init(NowModelPath, nullptr, enModelUpAxisZ, m_position);
+				targetDummy01->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				targetDummy01->SetFrontCulling("FrontCulling");
+				targetDummy01->SetPosition(m_position);
+				targetDummy01->SetScale(m_dummyScale);
 				//音を鳴らす
 				CSoundSource* se = NewGO<CSoundSource>(0);
 				se->Init(L"Assets/sound/select07.wav", false);
@@ -386,12 +383,12 @@ void Guzai::TargetingNPopDummy()
 			}
 			if (whichPlayerTargetMe == 2) {
 				//SkinModelRender* targetDummyOnGuzai02 = NewGO<SkinModelRender>(1, "targetdummy02");
-				targetDummyOnGuzai02 = NewGO<SkinModelRender>(1, "targetdummy02");
-				targetDummyOnGuzai02->Init(NowModelPath, nullptr, enModelUpAxisZ, m_position);
-				targetDummyOnGuzai02->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
-				targetDummyOnGuzai02->SetFrontCulling("FrontCulling");
-				targetDummyOnGuzai02->SetPosition(m_position);
-				targetDummyOnGuzai02->SetScale(m_dummyScale);
+				targetDummy02 = NewGO<SkinModelRender>(1, "targetdummy02");
+				targetDummy02->Init(NowModelPath, nullptr, enModelUpAxisZ, m_position);
+				targetDummy02->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				targetDummy02->SetFrontCulling("FrontCulling");
+				targetDummy02->SetPosition(m_position);
+				targetDummy02->SetScale(m_dummyScale);
 				//音を鳴らす
 				CSoundSource* se = NewGO<CSoundSource>(0);
 				se->Init(L"Assets/sound/select07.wav", false);
@@ -405,7 +402,8 @@ void Guzai::TargetingNPopDummy()
 		//ダミーを消して、プレイヤー側のTargetingStateとtargetedを元の値に戻してやる。
 		if (guzai2Pl01 >= TargetRangeFar && pl01->GetTargetState() == true && targeted == true) {
 			if (whichPlayerTargetMe == 1) {
-				SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
+				//SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
+				//targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
 				if (targetDummy01 != nullptr) {
 					decrementTime--;
 					if (decrementTime == 0) {
@@ -421,7 +419,8 @@ void Guzai::TargetingNPopDummy()
 		}
 		if (guzai2Pl02 >= TargetRangeFar && pl02->GetTargetState() == true && targeted == true) {
 			if (whichPlayerTargetMe == 2) {
-				SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
+				//SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
+				//targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
 				if (targetDummy02 != nullptr) {
 					decrementTime--;
 					if (decrementTime == 0) {
@@ -525,7 +524,7 @@ void Guzai::Cooking()
 	if (m_guzaiOkibaSet == true && m_isCooked == false && isSetTargetDummy == true) {
 		//1P側の処理
 		//1P側のBボタンが押されていて自身のセット場所が1P側だった場合…
-		if (g_pad[0]->IsPress(enButtonB) && m_setKitchenNum >= 4) {
+		if (g_pad[0]->IsPress(enButtonB) && m_setKitchenNum >= 4 && pl01->have <= 0) {
 			
 			//押している時間をインクリメント
 			m_hold01++;
@@ -564,7 +563,7 @@ void Guzai::Cooking()
 				m_isCooked = true;
 				m_position.y += 50.0f;
 				//そのままだと調理前のダミーが残るので一旦ダミーを消す。
-				SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
+				//SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
 				if (targetDummy01 != nullptr) {
 					DeleteGO(targetDummy01);
 					targeted = false;
@@ -598,7 +597,7 @@ void Guzai::Cooking()
 		}
 
 		//2P側の処理
-		if (g_pad[1]->IsPress(enButtonB) && m_setKitchenNum < 4) {
+		if (g_pad[1]->IsPress(enButtonB) && m_setKitchenNum < 4 && pl02->have <= 0) {
 			
 			m_hold02++;
 			pl02->StopMove01(true);
@@ -627,7 +626,7 @@ void Guzai::Cooking()
 				m_isCooked = true;
 				m_position.y += 50.0f;
 				
-				SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
+				//SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
 				if (targetDummy02 != nullptr) {
 					DeleteGO(targetDummy02);
 
@@ -797,7 +796,7 @@ void Guzai::Update()
 	//ダミーを動かすよう
 	if (isSetTargetDummy == true && state != 1) {
 		if (whichPlayerTargetMe == 1) {
-			SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
+			//SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
 			if (targetDummy01 != nullptr) {
 				//調理後のチーズのみ、そのままだとダミーを出したときモデルが重なってしまうので少しだけy座標を上げる。
 				//if (m_cooking == true && TypeNo == 0) {
@@ -819,7 +818,7 @@ void Guzai::Update()
 			}
 		}
 		if (whichPlayerTargetMe == 2) {
-			SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
+			//SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
 			if (targetDummy02 != nullptr) {
 				/*if (m_cooking == true && TypeNo == 0) {
 					Vector3 SetPos = m_position;
@@ -853,7 +852,7 @@ void Guzai::Update()
 				se->Play(false);
 
 				//具材置き場に置いた後でもまた近づくとダミーが出るようにする。
-				SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
+				//SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
 				if (targetDummy01 != nullptr) {
 					DeleteGO(targetDummy01);
 					isSetTargetDummy = false;
@@ -874,7 +873,7 @@ void Guzai::Update()
 				se->SetVolume(2.0f);
 				se->Play(false);
 
-				SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
+				//SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
 				if (targetDummy02 != nullptr) {
 
 					DeleteGO(targetDummy02);

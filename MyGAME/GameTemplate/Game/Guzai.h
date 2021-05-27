@@ -153,8 +153,8 @@ public:
 	TrashCan* m_trashCan[2] = { nullptr, nullptr };
 	CSoundSource* m_cookingSe = nullptr;
 
-	SkinModelRender* targetDummyOnGuzai01 = nullptr;
-	SkinModelRender* targetDummyOnGuzai02 = nullptr;
+	SkinModelRender* targetDummy01 = nullptr;
+	SkinModelRender* targetDummy02 = nullptr;
 
 	Meter* m_meter = nullptr;
 };

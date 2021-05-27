@@ -65,10 +65,12 @@ public:
 	Player* pl02 = nullptr;
 	Guzai* guzai = nullptr;
 	Kitchen* stock[8]{ nullptr };
-	SkinModelRender* m_kitchenRender[8] = { nullptr };
+	
+	//Kitchen* stock[8] = { nullptr };
+	SkinModelRender* m_kitchenRender[8]{ nullptr };
 	Arrow* m_arrow01 = nullptr;
 	Arrow* m_arrow02 = nullptr;
-	SkinModelRender* m_guzaiRender01 = nullptr;		//1Pがターゲット中にアクセス可能な具材置き場に出すモデル
-	SkinModelRender* m_guzaiRender02 = nullptr;		//2Pがターゲット中にアクセス可能な具材置き場に出すモデル
+	//SkinModelRender* m_guzaiRender01 = nullptr;		//1Pがターゲット中にアクセス可能な具材置き場に出すモデル
+	//SkinModelRender* m_guzaiRender02 = nullptr;		//2Pがターゲット中にアクセス可能な具材置き場に出すモデル
 };
 

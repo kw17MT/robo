@@ -265,43 +265,45 @@ void CLevel2D::Update()
 	}
 	//プレイヤー1の時間切れ
 	
-	if (m_menuTimer[0]->GetTimeUpState()) {
-		//時間切れ中のフラグが立っていないとき…
-		if (m_TimeUpSet[0] == false) {
-			//左のメニューの再抽選
-			Roulette(2);
-			//1Pのミス数を1足す
-			m_missCounter->AddPl1MissCount();
-			//バツ印の画像を出す
-			m_missCounter->ChangeMarkState(true);
-			//時間切れのフラグを立てる
-			m_TimeUpSet[0] = true;
-			//音を鳴らす
-			CSoundSource* se = NewGO<CSoundSource>(0);
-			se->Init(L"Assets/sound/blip01.wav", false);
-			se->SetVolume(2.0f);
-			se->Play(false);
-		}
-		
-	}
+	if (m_slide[2] == 0) {
+		if (m_menuTimer[0]->GetTimeUpState()) {
+			//時間切れ中のフラグが立っていないとき…
+			if (m_TimeUpSet[0] == false) {
+				//左のメニューの再抽選
+				Roulette(2);
+				//1Pのミス数を1足す
+				m_missCounter->AddPl1MissCount();
+				//バツ印の画像を出す
+				m_missCounter->ChangeMarkState(true);
+				//時間切れのフラグを立てる
+				m_TimeUpSet[0] = true;
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/blip01.wav", false);
+				se->SetVolume(2.0f);
+				se->Play(false);
+			}
 
+		}
+	}
 	//プレイヤー2の時間切れ
 	
-	if (m_menuTimer[1]->GetTimeUpState()) {
-		if (m_TimeUpSet[1] == false) {
-			Roulette(0);
-			m_missCounter->AddPl2MissCount();
-			m_missCounter->ChangeMarkState(true);
-			
-			m_TimeUpSet[1] = true;
-			//音を鳴らす
-			CSoundSource* se = NewGO<CSoundSource>(0);
-			se->Init(L"Assets/sound/blip01.wav", false);
-			se->SetVolume(2.0f);
-			se->Play(false);
+	if (m_slide[0] == 0) {
+		if (m_menuTimer[1]->GetTimeUpState()) {
+			if (m_TimeUpSet[1] == false) {
+				Roulette(0);
+				m_missCounter->AddPl2MissCount();
+				m_missCounter->ChangeMarkState(true);
+
+				m_TimeUpSet[1] = true;
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/blip01.wav", false);
+				se->SetVolume(2.0f);
+				se->Play(false);
+			}
 		}
 	}
-	
 	
 	m_level2D.Update();
 }
@@ -431,7 +433,11 @@ void CLevel2D::Roulette(int number)
 		m_counter01->m_showHamBurgers[number] = EnHamBurger(rn);
 		m_counter02->m_showHamBurgers[number] = EnHamBurger(rn);
 	}*/
-	m_slide[number] = 2;
+
+	//画像を動かす
+	
+		m_slide[number] = 2;
+	
 	//音を鳴らす
 	m_slideSe[number] = NewGO<CSoundSource>(0);
 	m_slideSe[number]->Init(L"Assets/sound/machine_rotation1.wav", false);
@@ -485,6 +491,13 @@ void CLevel2D::SpriteSet(int number)
 		m_slidePos[number].y -= 10.0f;
 		m_slideAmount[number] -= 10.0f;
 		sprite[number]->SetPosition(m_slidePos[number]);
+		//提出とタイムアップが重ならないようにする。
+		if (number == 2) {
+			m_menuTimer[0]->SetTimeUpState(false);
+		}
+		if (number == 0) {
+			m_menuTimer[1]->SetTimeUpState(false);
+		}
 		//画像の位置が一定まで下がったら。
 		if (m_slidePos[number].y < m_spritePositions[number].y - 350.0f) {
 			//カウンターに表示しているバーガーを伝える。
