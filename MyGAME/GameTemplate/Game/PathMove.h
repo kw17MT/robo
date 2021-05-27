@@ -65,7 +65,7 @@ private:
 	//回転方向スプライト
 	CycleDirection* m_directSprite[3] = {nullptr};
 
-	Path* m_path;											//パス。
+	Path* m_path = nullptr;											//パス。
 	Point* m_point = nullptr;								//今向かってるポイント。
 	Vector3 m_position;
 	float m_moveSpeed;

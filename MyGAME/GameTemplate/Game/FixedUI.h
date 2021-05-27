@@ -18,10 +18,10 @@ private:
 	
 	//変化する文字。
 	//制限時間、タイムアップのONOFF
-	FontRender* Time;
+	FontRender* Time = nullptr;
 	
 	//表示する残り時間
-	int remainingTime = 20;
+	int remainingTime = 1;
 	
 	//フレームカウント用、60になったらLastTimeを１減らす。
 	int timer = 0;
@@ -63,7 +63,7 @@ public:
 	int GetTime() { return remainingTime; }
 	//残時間が少ないときの色の変化
 	void RemainingTimeColor();
-	CSoundSource* timeSound;
+	CSoundSource* timeSound = nullptr;
 };
 
 

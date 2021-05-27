@@ -68,10 +68,10 @@ private:
 	//ハンバーガースプライトのデータ。ハンバーガーの数だけ用意する。
 	Level2DObjectData m_level2DObjectDatas[enHamBurgerNum];
 
-	MenuTimer* m_menuTimer[2];
-	MissCounter* m_missCounter;
-	Counter* m_counter01;
-	Counter* m_counter02;
-	CSoundSource* m_slideSe[3];
+	MenuTimer* m_menuTimer[2] = { nullptr };
+	MissCounter* m_missCounter = nullptr;
+	Counter* m_counter01 = nullptr;
+	Counter* m_counter02 = nullptr;
+	CSoundSource* m_slideSe[3] = { nullptr };
 
 };

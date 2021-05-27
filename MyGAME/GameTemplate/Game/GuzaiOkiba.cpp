@@ -16,7 +16,7 @@ GuzaiOkiba::GuzaiOkiba()
 GuzaiOkiba::~GuzaiOkiba()
 {
 	for (int i = 0; i < 8; i++) {
-		DeleteGO(stock[i]);
+		//DeleteGO(stock[i]);
 		DeleteGO(m_kitchenRender[i]);
 	}
 	/*DeleteGO(m_guzaiRender01);

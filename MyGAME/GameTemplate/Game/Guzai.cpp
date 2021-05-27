@@ -180,8 +180,7 @@ bool Guzai::Start()
 
 	m_skinModelRender->SetNewModel();
 
-	m_effect.Init(u"Assets/effect/test2.efk");
-	m_effect.SetScale({ 100.0f,100.0f,100.0f });
+	
 
 	return true;
 }
@@ -240,9 +239,6 @@ void Guzai::GrabNPut()
 			SetPosition(plPos01);
 
 			//具材置き場に置いた後でもまた近づくとダミーが出るようにする。
-			//SkinModelRender* targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
-			//targetDummy01 = FindGO<SkinModelRender>("targetdummy01");
-
 			if (targetDummy01 != nullptr) {
 				DeleteGO(targetDummy01);
 				isSetTargetDummy = false;
@@ -259,7 +255,6 @@ void Guzai::GrabNPut()
 			plPos02.y += 50.0f;
 			SetPosition(plPos02);
 
-			//SkinModelRender* targetDummy02 = FindGO<SkinModelRender>("targetdummy02");
 			if (targetDummy02 != nullptr) {
 
 				DeleteGO(targetDummy02);
@@ -535,7 +530,7 @@ void Guzai::Cooking()
 	if (m_guzaiOkibaSet == true && m_isCooked == false && isSetTargetDummy == true) {
 		//1P側の処理
 		//1P側のBボタンが押されていて自身のセット場所が1P側だった場合…
-		if (g_pad[0]->IsPress(enButtonB) && m_setKitchenNum >= 4) {
+		if (g_pad[0]->IsPress(enButtonB) && m_setKitchenNum >= 4 && pl01->have <= 0) {
 			
 			//押している時間をインクリメント
 			m_hold01++;
@@ -565,9 +560,7 @@ void Guzai::Cooking()
 				Vector3 pos = m_position;
 				pos.x -= 100.0f;
 				pos.y += 100.0f;
-				m_effect.SetPosition(pos);
-				//m_effect.Play();
-				m_effect.Update();
+				
 			}
 			//調理完了時間まで押されたら…
 			if (m_hold01 > m_cookingTime) {
@@ -610,7 +603,7 @@ void Guzai::Cooking()
 		}
 
 		//2P側の処理
-		if (g_pad[1]->IsPress(enButtonB) && m_setKitchenNum < 4) {
+		if (g_pad[1]->IsPress(enButtonB) && m_setKitchenNum < 4 && pl02->have <= 0) {
 			
 			m_hold02++;
 			pl02->StopMove01(true);

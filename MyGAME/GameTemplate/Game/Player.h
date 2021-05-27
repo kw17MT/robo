@@ -170,9 +170,9 @@ public:
 
 	AnimationClip animationClips[enAnimation_Num];
 
-	Kitchen* m_kitchen;
-	SkinModelRender* m_skinModelRender;
-	SkinModelRender* m_shadow;
+	Kitchen* m_kitchen = nullptr;
+	SkinModelRender* m_skinModelRender = nullptr;
+	SkinModelRender* m_shadow = nullptr;
 };
 
 

@@ -42,12 +42,12 @@ public:
 	bool Start();
 	void Update();
 
-	SkinModelRender* m_skinModelRender;
+	SkinModelRender* m_skinModelRender = nullptr;
 	Guzai* m_guzai = nullptr;
-	PlayerGene* playerGene;
-	DishSpeedManeger* m_speedManeger;
-	CSoundSource* m_se;
-	DishGene* m_dishGene;
-	GuzaiGene* m_guzaiGene;
+	PlayerGene* playerGene = nullptr;
+	DishSpeedManeger* m_speedManeger = nullptr;
+	CSoundSource* m_se = nullptr;
+	DishGene* m_dishGene = nullptr;
+	GuzaiGene* m_guzaiGene = nullptr;
 };
 

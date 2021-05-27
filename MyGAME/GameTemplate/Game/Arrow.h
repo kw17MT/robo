@@ -24,6 +24,6 @@ public:
 	bool GetScaleMax() { return m_scaleMaxFlag; }
 	bool GetScaleMin() { return m_scaleMinFlag; }
 
-	SkinModelRender* m_skinModelRender;
+	SkinModelRender* m_skinModelRender = nullptr;
 };
 

@@ -8,6 +8,7 @@
 #include "SoundSource.h"
 #include "Meter.h"
 #include "GuzaiGene.h"
+#include "MenuTimer.h"
 
 Kitchen::~Kitchen()
 {
@@ -91,7 +92,7 @@ void Kitchen::BornBurger()
 	float distance2 = predistance2.Length();
 	if (KitchenNo == 1) {
 		//具材を一つ以上積んでいて、Bボタンを長押し
-		if (stack >= 1 && g_pad[0]->IsPress(enButtonB) && m_deleteFlag == false && distance1 < 100.0f) {
+		if (stack >= 1 && g_pad[0]->IsPress(enButtonB) && m_deleteFlag == false && distance1 < 100.0f && m_player[0]->have <= 0) {
 			Delay--;
 			//プレイヤーが動けないようにする。
 			m_player[0]->StopMove02(true);
@@ -175,7 +176,7 @@ void Kitchen::BornBurger()
 	}
 
 	if (KitchenNo == 2) {
-		if (stack >= 1 && g_pad[1]->IsPress(enButtonB) && m_deleteFlag == false && distance2 < 100.0f) {
+		if (stack >= 1 && g_pad[1]->IsPress(enButtonB) && m_deleteFlag == false && distance2 < 100.0f == m_player[1]->have <= 0) {
 			Delay--;
 			m_player[1]->StopMove02(true);
 			m_player[1]->SetMoveSpeed({ 0.0f,0.0f,0.0f });
