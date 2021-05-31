@@ -41,7 +41,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	NewGO<Title>(0, "title");
 	//////////////////////////////////////////////////////////////////////////////////////
 	
-	
+	CStopwatch stopWatch;
 	
 
 	////影描画用のライトカメラを作成する。			〇
@@ -214,6 +214,18 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		bgModel.Draw(renderContext);*/
 
+		//スピンロックを行う。
+		int restTime = 0;
+		do {
+			stopWatch.Stop();
+			restTime = 16 - (int)stopWatch.GetElapsedMillisecond();
+		} while (restTime > 0);
+
+
+		//ストップウォッチの計測終了
+		stopWatch.Stop();
+		//デルタタイムをストップウォッチの計測時間から、計算する
+		GameTime().PushFrameDeltaTime((float)stopWatch.GetElapsed());
 
 
 
