@@ -62,8 +62,8 @@ CLevel2D::~CLevel2D()
 
 bool CLevel2D::Start()
 {
-	m_counter01 = FindGO<Counter>("counter01");
-	m_counter02 = FindGO<Counter>("counter02");
+	m_counter01 = FindGO<Counter>("counter00");
+	m_counter02 = FindGO<Counter>("counter01");
 	//レベルを読み込む。
 	//一番左が配列の3番目の要素、右が1番目の要素
 	

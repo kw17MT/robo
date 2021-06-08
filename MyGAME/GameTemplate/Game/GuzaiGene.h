@@ -1,6 +1,5 @@
 #pragma once
 class Guzai;
-//class Buff;
 class DishGene;
 class SkinModelRender;
 
@@ -9,38 +8,33 @@ class SkinModelRender;
 class GuzaiGene : public IGameObject
 {
 private:
-	Vector3 m_position = Vector3::Zero;
-	const Vector3 m_scale = Vector3::Zero;
-	static const int guzaiNum = 36 + 20;
+	static const int m_guzaiNum = 36 + 20;
 
-	bool isCompletedSetGuzai = false;
-
-	int emptyDishNumber[6];
-	int emptyDishCounter = 0;
-	const int LostNumber = 5;
-	int m_guzaiNum = 0;					//具材の出ている数
-	bool m_guzaiFlag[99] = { false };	//具材が出ているかどうかのフラグ。
+	int m_emptyDishNumber[6];						//空の皿の番号を保存しておく。
+	int m_emptyDishCounter = 0;						//いくつからの皿があるか。
+	const int m_lostNumber = 5;						//補充を開始する空の皿の数
+	bool m_guzaiFlag[99] = { false };				//具材が出ているかどうかのフラグ。
 
 	Vector3 m_setPos = Vector3::Zero;
 public:
 	GuzaiGene() {};
 	~GuzaiGene();
-	//生成器の座標設定。
 	bool Start();
-	//具材を生成する。
-	//ランダム変数を用いてバフを出すか否かを決めている。
 	void Update();
 
-	bool GetInitialActionState() { return isCompletedSetGuzai; }
-
-	//具材が存在しているか？(引数に番号を入力)
+	/**
+	 * @brief 具材が格納されている配列に引数で特定して、それが存在しているかどうかを返す
+	 * @param number 配列の要素番号
+	 * @return 存在している＝TRUE。
+	*/
 	bool GetGuzaiFlag(int number) { return m_guzaiFlag[number]; }
 
-	//具材の存在状態を変更。(引数に番号を入力)
+	/**
+	 * @brief その引数の要素には具材のデータが格納されているか設定する。
+	 * @param number 要素の番号
+	 * @param tf 存在する＝TRUE。
+	*/
 	void SetGuzaiFlag(int number, bool tf) { m_guzaiFlag[number] = tf; }
 
-	SkinModelRender* m_skinModelRender = nullptr;
 	Guzai* m_guzai[99] = {nullptr};
-	DishGene* m_dishGene = nullptr;
-	//Buff* m_buff;
 };

@@ -3,45 +3,44 @@
 
 HamBurgerFactory::HamBurgerFactory()
 {
-	//ハンバーガーのデータを作る。
+	//ハンバーガーの具材種類番号。
 	//０．チーズ　
 	//１．エッグ　
 	//２．レタス　
 	//３．パテ　
 	//４．トマト
-	//５．オニオン  ※追加具材
-	//６．ベーコン　※追加具材
+	//５．オニオン 
+	//６．ベーコン　
 
 	HamBurger cheese;
-	cheese.push_back(3);
-	cheese.push_back(0);
-	cheese.push_back(2);
+	cheese.push_back(3); //３．パテ
+	cheese.push_back(0); //０．チーズ
+	cheese.push_back(2); //２．レタス　
 	m_hamBurgers[enCheeseBurger] = cheese;
 
 	HamBurger tomato;
-	tomato.push_back(3);
-	tomato.push_back(4);
-	tomato.push_back(4);
-	tomato.push_back(2);
+	tomato.push_back(3); //３．パテ
+	tomato.push_back(4); //４．トマト
+	tomato.push_back(4); //４．トマト
+	tomato.push_back(2); //２．レタス　
 	m_hamBurgers[enTomatoBurger] = tomato;
 
 	HamBurger egg;
-	egg.push_back(2);
-	egg.push_back(4);
-	egg.push_back(1);
-	egg.push_back(3);
+	egg.push_back(2); //２．レタス　
+	egg.push_back(4); //４．トマト
+	egg.push_back(1); //１．エッグ
+	egg.push_back(3); //３．パテ
 	m_hamBurgers[enEggBurger] = egg;
 	
-	//以下、追加メニュー
 	//普通のバーガー
 	HamBurger basic;
-	basic.push_back(3); //パティ
+	basic.push_back(3); //パテ
 	m_hamBurgers[enBasicBurger] = basic;
 	
 	//ダブルバーガー
 	HamBurger double_bur;
-	double_bur.push_back(3); //パティ
-	double_bur.push_back(3); //パティ
+	double_bur.push_back(3); //パテ
+	double_bur.push_back(3); //パテ
 	m_hamBurgers[enDoubleBurger] = double_bur;
 
 	//野菜バーガー
@@ -91,5 +90,4 @@ HamBurgerFactory::HamBurgerFactory()
 	ononion.push_back(5); //オニオン
 	ononion.push_back(5); //オニオン
 	m_hamBurgers[enOnOnionBurger] = ononion;
-
 }

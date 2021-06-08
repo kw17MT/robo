@@ -2,9 +2,12 @@
 #include "Arrow.h"
 #include "SkinModelRender.h"
 
-Arrow::Arrow()
+namespace 
 {
-
+	const int TIMER_MAX = 50;
+	const int TIMER_MIDDLE = 25;
+	const float CHANGE_VOLUME_POS = 1.0f;
+	const float CHANGE_VOLUME_SCALE = 0.1f;
 }
 
 Arrow::~Arrow()
@@ -24,25 +27,30 @@ bool Arrow::Start()
 void Arrow::Float()
 {
 	m_timer++;
-	if (m_timer < 25) {
-		m_position.y += 1.0f;
+	//y座標を上にしていく
+	if (m_timer < TIMER_MIDDLE) {
+		m_position.y += CHANGE_VOLUME_POS;
 	}
-	if (m_timer >= 25 && m_timer <= 50) {
-		m_position.y -= 1.0f;
+	//y座標を下にしていく
+	if (m_timer >= TIMER_MIDDLE && m_timer <= TIMER_MAX) {
+		m_position.y -= CHANGE_VOLUME_POS;
 	}
-	if(m_timer > 50) {
+	//タイマーを０にする。
+	if(m_timer > TIMER_MAX) {
 		m_timer = 0;
 	}
-
 }
 
 void Arrow::Expansion()
 {
+	//自身の拡大率は最小でないことを設定する。
 	m_scaleMinFlag = false;
-	m_scale.x += 0.1f;
-	m_scale.y += 0.1f;
-	m_scale.z += 0.1f;
+	//拡大していく。
+	m_scale.x += CHANGE_VOLUME_SCALE;
+	m_scale.y += CHANGE_VOLUME_SCALE;
+	m_scale.z += CHANGE_VOLUME_SCALE;
 
+	//拡大率のどれかが１以上になれば、すべての拡大率を１にする。
 	if (m_scale.x > 1.0f || m_scale.y > 1.0f || m_scale.z > 1.0f) {
 		m_scale = Vector3::One;
 		m_scaleMaxFlag = true;
@@ -51,11 +59,14 @@ void Arrow::Expansion()
 
 void Arrow::Shrink()
 {
+	//自身の拡大率は最大でないことを設定する。
 	m_scaleMaxFlag = false;
-	m_scale.x -= 0.1f;
-	m_scale.y -= 0.1f;
-	m_scale.z -= 0.1f;
+	//縮小していく
+	m_scale.x -= CHANGE_VOLUME_SCALE;
+	m_scale.y -= CHANGE_VOLUME_SCALE;
+	m_scale.z -= CHANGE_VOLUME_SCALE;
 
+	//拡大率のどれかが０未満になれば、すべての拡大率を０にする。
 	if (m_scale.x < 0.0f || m_scale.y < 0.0f || m_scale.z < 0.0f) {
 		m_scale = Vector3::Zero;
 		m_scaleMinFlag = true;

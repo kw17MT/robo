@@ -10,19 +10,57 @@ private:
 	bool m_scaleMaxFlag = false;
 	bool m_scaleMinFlag = false;
 public:
-	Arrow();
+	Arrow() {}
 	~Arrow();
-	bool Start();
-	void Update();
 
-	//矢印を座標によって上下させる。
+	/**
+	 * @brief 矢印のモデルの初期化
+	 * @return true
+	*/
+	bool Start();
+
+	/**
+	 * @brief 上下に動きながら浮遊させる
+	*/
+	void Update();
+	
+	/**
+	 * @brief 矢印を座標によって上下させる。
+	*/
 	void Float();
+
+	/**
+	 * @brief 拡大処理
+	*/
 	void Expansion();
+
+	/**
+	 * @brief 縮小処理
+	*/
 	void Shrink();
 
+	/**
+	 * @brief 新しいポジションの設定
+	 * @param pos 新しい位置座標
+	*/
 	void SetPosition(Vector3 pos) { m_position = pos; }
+
+	/**
+	 * @brief 新しいスケールの設定
+	 * @param scale 新しいスケール
+	*/
 	void SetScale(Vector3 scale) { m_scale = scale; }
+
+	/**
+	 * @brief 拡大率が最大になったらのフラグを取得する
+	 * @return 拡大率は最大になったか
+	*/
 	bool GetScaleMax() { return m_scaleMaxFlag; }
+
+	/**
+	 * @brief 拡大率が最小になったらのフラグを取得する
+	 * @return 拡大率は最小になったか
+	*/
 	bool GetScaleMin() { return m_scaleMinFlag; }
 
 	SkinModelRender* m_skinModelRender = nullptr;

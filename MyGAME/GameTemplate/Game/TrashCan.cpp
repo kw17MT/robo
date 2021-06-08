@@ -13,8 +13,8 @@ TrashCan::~TrashCan()
 
 bool TrashCan::Start()
 {
-	player[0] = FindGO<Player>("player01");
-	player[1] = FindGO<Player>("player02");
+	player[0] = FindGO<Player>("player00");
+	player[1] = FindGO<Player>("player01");
 	m_playerGene = FindGO<PlayerGene>("playerGene");
 
 	//ゴミ箱モデルの設定
@@ -81,10 +81,10 @@ void TrashCan::Update()
 	
 	//プレイヤーの情報が確定しないままの時があるため、最終確認
 	if (player[0] == nullptr) {
-		player[0] = FindGO<Player>("player01");
+		player[0] = FindGO<Player>("player00");
 	}
 	if (player[1] == nullptr) {
-		player[1] = FindGO<Player>("player02");
+		player[1] = FindGO<Player>("player01");
 	}
 
 	//両プレイヤーとの距離を測る。

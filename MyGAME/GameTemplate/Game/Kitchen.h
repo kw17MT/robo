@@ -10,15 +10,15 @@ class GuzaiGene;
 class Kitchen : public IGameObject
 {
 private:
-	Vector3 m_position = Vector3::Zero;
-	Vector3 m_kitchenPos;
-	Vector3 m_scale = Vector3::One;
+	Vector3 m_position = Vector3::Zero;						//キッチンの座標
+	Vector3 m_kitchenPos;									
+	Vector3 m_scale = { 0.3f,0.3f,0.3f };							//キッチンの拡大率
 
 	const int MaxStack = 5;									//キッチンにおける最大数
-	int KitchenNo = 0;										//どっち側のキッチンか
+	int m_kitchenNo = 0;										//どっち側のキッチンか。０が左、１が右
 	int stack = 0;											//いま何個具材を積んでいるか		
 	bool canGrab = true;									//現在つかめるか（フレームのずれを起こす用）
-	Guzai* StackedGuzai[5] = { nullptr };									//キッチンの上にある具材
+	Guzai* StackedGuzai[5] = { nullptr };					//キッチンの上にある具材
 
 	bool m_soundFlag01 = false;								//1Pの音が出ているか？
 	bool m_soundFlag02 = false;								//2Pの音が出ているか？
@@ -36,7 +36,7 @@ public:
 	void Update();
 
 	//キッチン番号を設定する。
-	void SetKitchenNo(int num) { KitchenNo = num; }
+	void SetKitchenNo(int num) { m_kitchenNo = num; }
 
 	//キッチンの座標を設定する。
 	void SetKitchenPos(Vector3 pos) { m_kitchenPos = pos; m_position = pos; }
@@ -80,7 +80,9 @@ public:
 	//バーガーの調理状況を取得
 	bool GetKitchenCooking() { return m_deleteFlag; }
 
-	Player* m_player[2] = { nullptr, nullptr };
+
+private:
+	Player* m_player = nullptr;
 	Burger* bur = nullptr;
 	SkinModelRender* m_skinModelRender = nullptr;
 	CSoundSource* m_soundSource = nullptr;

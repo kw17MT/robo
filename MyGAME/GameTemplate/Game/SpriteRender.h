@@ -15,13 +15,13 @@ public:
 
 	void Update();
 
-	/// <summary>
-	/// 初期化する関数。
-	/// </summary>
-	/// <param name="name">画像のパス</param>
-	/// <param name="a">表示する横幅</param>
-	/// <param name="b">表示する縦幅</param>
-	void Init(const char* name, int a, int b);
+	/**
+	 * @brief 画像の初期化を行う
+	 * @param name ファイルパスの名前
+	 * @param width 横幅
+	 * @param height 縦幅
+	*/
+	void Init(const char* name, int width, int height);
 
 	void SetPosition(Vector3 pos) { m_pos = pos; }
 	void SetScale(Vector3 scale) {m_scale = scale;}

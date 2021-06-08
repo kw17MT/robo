@@ -1,57 +1,87 @@
 #pragma once
-class SkinModelRender;
-class TrashCan;
-class Player;
+#include "effect/Effect.h"
+class Counter;
 class CSoundSourse;
 class Effect;
-class CSoundSourse;
-
-#include "effect/Effect.h"
+class Player;
+class SkinModelRender;
+class TrashCan;
 
 class Burger : public IGameObject
 {
 private:
-	Vector3 m_position;
-	Vector3 m_scale;
-	int BurgerNo = 0;									//どちらに流れているバーガーか
-	bool isSetOnTrashCan = false;						//ゴミ箱にセットされたか
-	int decrementTime = 20;								//ゴミ箱にセットした時に消えるまでの遅延時間
-	Vector3 pos;										//ハンバーガーが持たれた時の位置設定用
+	const Vector3 m_burgerScale = { 10.0f, 10.0f, 10.0f };	//ハンバーガーの拡大率
+	const Vector3 m_10TimesBigger = { 10.0f,10.0f,10.0f };	//大きさを10倍するためのもの
+	Vector3 m_position = Vector3::Zero;						//ハンバーガーの位置
+	Vector3 m_beHadPos = Vector3::Zero;						//ハンバーガーが持たれた時の位置設定用
+
+	int m_burgerNo = 0;										//どちらがつくったバーガーか。０が１P、１が２P
+	int m_decrementTime = 20;								//ゴミ箱にセットした時に消えるまでの遅延時間
+	int m_deleteTimer = 0;									//ボタン長押しでバーガーを消すようにするため。
+	bool m_burgerExist = false;								//１の時に上のDelete(),ClearNo()を
+
+	bool m_isSetOnTrashCan = false;							//ゴミ箱にセットされたか
+	bool m_putOnCounter = false;							//キッチンにいるかどうか、キッチンの上に位置を合わせるための変数
 
 public:
-	//モデルデータ、影の設定。
 	Burger() {}
 	~Burger();
-	//バーガーの位置をキッチンの上にして、具材が消える同時にバーガーを出現させる。
-	bool Start();
-	//バーガーをDeleteGO。
-	void Delete();
-	//プレイヤーがバーガーを持つ処理を行う。
-	void GrabBurger();
-	//バーガーを消した際、カウンターに積んでいた具材の種類を初期化。
-	//プレイヤーに保存していた、ハンバーガーを構成する具材を９で初期化。	
-	void ClearNo();
-	//カウンター側でバーガーのモデルを消すために使う
-	void ClearModel() { DeleteGO(this); }
-
 	void Update();
+
+	/**
+	 * @brief モデルの初期化、必要なインスタンスの情報を探して取ってくる。
+	 * @return true
+	*/
+	bool Start();
 	
+	/**
+	 * @brief ハンバーガーを持つ処理
+	*/
+	void GrabBurger();
+
+	/**
+	 * @brief バーガーを消した際、カウンターに積んでいた具材の種類を初期化。
+	 *プレイヤーに保存していた、ハンバーガーを構成する具材をで初期化。	
+	*/
+	void ClearNo();
+
+	/**
+	 * @brief ハンバーガーの座標のセッター
+	 * @param pos 位置座標
+	*/
 	void SetPosition(Vector3 pos) { m_position = pos; }
-	//バーガーはどちら側のか...１、左　２、右
-	void SetBurgerNo(int num) { BurgerNo = num; }
-	//ゴミ箱にセットして消す
+	
+	/**
+	 * @brief バーガーはどちら側のか
+	 * @param num ０、左　１、右
+	*/
+	void SetBurgerNo(int num) { m_burgerNo = num; }
+
+	/**
+	 * @brief ゴミ箱にセットしてハンバーガーを消す。
+	*/
 	void SetOnTrashCan();
 
-	//ボタン長押しでバーガーを消すようにするため。
-	int DeleteTimer = 0;
-	//１の時に上のDelete(),ClearNo()を
-	int burgerExist = 0;
-	int putOnKitchen = 0;
+	/**
+	 * @brief カウンターに置いたかどうかのセッター
+	 * @param state カウンタ―に置いたらTRUE。
+	*/
+	void SetPutOnCounterState(bool state) { m_putOnCounter = state; }
 	
-	Vector3 CounterPos = { 900.0f, 100.0f, -400.0f };
-
+	/**
+	 * @brief プレイヤー状態
+	*/
+	enum enPlayerState {
+		enFullKitchen = -1,		//キッチンが一杯の状態でレーンの上からはとれないが、具材置き場かキッチン上からはとれるようにするのに必要
+		enNothing,				//何も持っていない
+		enHaveGuzai,			//具材を持っている状態
+		enHaveBurger,			//ハンバーガーを持っている状態
+		enStateNum,				//なりえる状態の数
+	};
+	
+	Counter* m_counter = nullptr;
 	Effect* m_effect = nullptr;
 	SkinModelRender* m_skinModelRender = nullptr;
-	Player* m_player[2] = { nullptr, nullptr };
-	TrashCan* m_trashCan[2] = { nullptr, nullptr };
+	Player* m_player = nullptr;
+	TrashCan* m_trashCan = nullptr;
 };

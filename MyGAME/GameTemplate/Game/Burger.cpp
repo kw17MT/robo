@@ -8,6 +8,22 @@
 #include "SoundSource.h"
 #include "effect/Effect.h"
 
+#include <string>;
+
+namespace {
+	const int KITCHEN_NAME_SIZE = 10;
+	const int PLAYER_NAME_SIZE = 9;
+	const int TRASHCAN_NAME_SIZE = 11;
+	const int COUNTER_NAME_SIZE = 10;
+	const int NONE = 9;
+	const int INIT_DECREMENT_TIME = 20;
+	const float SPACE_BETWEEN_KITCHEN_TO_BURGER = 100.0f;
+	const float AJUST_HEIGHT = 50.0f;
+	const float AJUST_SPEED_TO_FOLLOW_PLAYER = 90.0f;
+	const float DISTANCE_BETWEEN_PLAYER_TO_BURGER = 150.0f;
+	const float SE_VOLUME = 2.0f;
+}
+
 Burger::~Burger()
 {
 	DeleteGO(m_skinModelRender);
@@ -16,205 +32,123 @@ Burger::~Burger()
 
 bool Burger::Start()
 {
-	m_player[0] = FindGO<Player>("player01");
-	m_player[1] = FindGO<Player>("player02");
-	m_trashCan[0] = FindGO<TrashCan>("trashcan01");
-	m_trashCan[1] = FindGO<TrashCan>("trashcan02");
-
+	//モデルの初期化
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/food/Burger.tkm", nullptr, enModelUpAxisZ, m_position);
-	m_scale = { 10.0f,10.0f,10.0f };
-	m_skinModelRender->SetScale(m_scale);
 	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	//モデルの拡大
+	m_skinModelRender->SetScale(m_burgerScale);
 
-	//キッチンの上に座標を設定
-	if (BurgerNo == 1) {
-		Kitchen* ki01 = FindGO<Kitchen>("kitchen01");
-		Vector3 KiPos01 = ki01->GetKitchenPos();
-		KiPos01.y += 100.0f;
-		SetPosition(KiPos01);
-	}
-	if (BurgerNo == 2) {
-		Kitchen* ki02 = FindGO<Kitchen>("kitchen02");
-		Vector3 KiPos02 = ki02->GetKitchenPos();
-		KiPos02.y += 100.0f;
-		SetPosition(KiPos02);
-	}
+	//バーガーの番号を取得
+	int endNo = m_burgerNo;
+	//string型に変えてcharに変換するための準備をする。
+	std::string endNo_string = std::to_string(endNo);
+	//不変箇所を定義
+	char kitchenName[KITCHEN_NAME_SIZE] = "kitchen0";
+	char playerName[PLAYER_NAME_SIZE] = "player0";
+	char trashcanName[TRASHCAN_NAME_SIZE] = "trashcan0";
+	char counterName[COUNTER_NAME_SIZE] = "counter0";
+	//末端番号だけを追加する
+	strcat_s(kitchenName, endNo_string.c_str());
+	strcat_s(playerName, endNo_string.c_str());
+	strcat_s(trashcanName, endNo_string.c_str());
+	strcat_s(counterName, endNo_string.c_str());
+	//所定のキッチンを設定後、座標をとってきてセットする。
+	Kitchen* kitchen = FindGO<Kitchen>(kitchenName);
+	Vector3 kitchenPos = kitchen->GetKitchenPos();
+	kitchenPos.y += SPACE_BETWEEN_KITCHEN_TO_BURGER;
+	SetPosition(kitchenPos);
 
+	//作られた側のプレイヤー、ゴミ箱、カウンターを探す。
+	m_player = FindGO<Player>(playerName);
+	m_trashCan = FindGO<TrashCan>(trashcanName);
+	m_counter = FindGO<Counter>(counterName);
 
 	//ハンバーガーが出てきたときのエフェクト
 	m_effect = NewGO<Effect>(0);
 	m_effect->Init(u"Assets/effect/kirakira.efk");
 	m_effect->Play();
-	m_effect->SetScale({ 10.0f,10.0f,10.0f });
+	m_effect->SetScale(m_10TimesBigger);
 	m_effect->SetPosition(m_position);
 
 	return true;
 }
 
-void Burger::Delete()
-{
-	if (BurgerNo == 1) {
-		Burger* bur01 = FindGO<Burger>("burger01");
-		DeleteGO(bur01);
-		DeleteGO(this);
-	}
-	if (BurgerNo == 2) {
-		Burger* bur02 = FindGO<Burger>("burger02");
-		DeleteGO(bur02);
-		DeleteGO(this);
-	}
-}
-
 //プレイヤーがバーガーを持つ。
 void Burger::GrabBurger()
 {
-	if (BurgerNo == 1) {
-		Vector3 plPos = m_player[0]->GetPosition();
-		Vector3 plSpeed = m_player[0]->GetNormalMoveSpeed();
-		plSpeed *= 90.0f;
-		Vector3 burPos = m_position;
+	Vector3 plPos = m_player->GetPosition();
+	Vector3 plSpeed = m_player->GetNormalMoveSpeed();
+	plSpeed *= AJUST_SPEED_TO_FOLLOW_PLAYER;
+	Vector3 burPos = m_position;
 
-		float pl2Burger = (plPos.x - burPos.x) * (plPos.x - burPos.x) + (plPos.y - burPos.y) * (plPos.y - burPos.y) + (plPos.z - burPos.z) * (plPos.z - burPos.z);
-		pl2Burger = sqrt(pl2Burger);
+	//プレイヤーとハンバーガーの距離を測る
+	Vector3 pl2Burger_vec = plPos - burPos;
+	float pl2Burger = pl2Burger_vec.Length();
 
-		//Aボタンを押してプレイヤーとバーガーの距離が150以下なら、バーガーを持つ準備をする。
-		if (g_pad[0]->IsTrigger(enButtonA) && pl2Burger < 150.0f && m_player[0]->have != 2) {
-			m_player[0]->have = 2;
-			//音を鳴らす
-			CSoundSource* se = NewGO<CSoundSource>(0);
-			se->Init(L"Assets/sound/poka01.wav", false);
-			se->SetVolume(2.0f);
-			se->Play(false);
-		}
-		//バーガーの位置をプレイヤーの頭上に持ってくる。
-		if (m_player[0]->have == 2) {
-			//pos = plPos;
-			//pos.y += 100.0f;
-			plPos += plSpeed;
-			pos = plPos;
-			pos.y += 50.0f;
-			if (putOnKitchen != 1) {
-				m_position = pos;
-			}
-		}
+	//Aボタンを押してプレイヤーとバーガーの距離が一定以下なら、バーガーを持つ準備をする。
+	if (g_pad[m_burgerNo]->IsTrigger(enButtonA) && pl2Burger < DISTANCE_BETWEEN_PLAYER_TO_BURGER && m_player->have != enHaveBurger) {
+		m_player->have = enHaveBurger;
+		//音を鳴らす
+		CSoundSource* se = NewGO<CSoundSource>(0);
+		se->Init(L"Assets/sound/poka01.wav", false);
+		se->SetVolume(SE_VOLUME);
+		se->Play(false);
 	}
-
-	if (BurgerNo == 2) {
-		Vector3 plPos = m_player[1]->GetPosition();
-		Vector3 plSpeed = m_player[1]->GetNormalMoveSpeed();
-		plSpeed *= 90.0f;
-		Vector3 burPos = m_position;
-
-		float pl2Burger = (plPos.x - burPos.x) * (plPos.x - burPos.x) + (plPos.y - burPos.y) * (plPos.y - burPos.y) + (plPos.z - burPos.z) * (plPos.z - burPos.z);
-		pl2Burger = sqrt(pl2Burger);
-
-		//Aボタンを押してプレイヤーとバーガーの距離が150以下なら、バーガーを持つ準備をする。
-		if (g_pad[1]->IsTrigger(enButtonA) && pl2Burger < 200.0f && m_player[1]->have != 2) {
-			m_player[1]->have = 2;
-			CSoundSource* se = NewGO<CSoundSource>(0);
-			se->Init(L"Assets/sound/poka01.wav", false);
-			se->SetVolume(2.0f);
-			se->Play(false);
-		}
-		//バーガーの位置をプレイヤーの頭上に持ってくる。
-		if (m_player[1]->have == 2) {
-			//pos = plPos;
-			//pos.y += 100.0f;
-			plPos += plSpeed;
-			pos = plPos;
-			pos.y += 50.0f;
-			if (putOnKitchen != 1) {
-				m_position = pos;
-			}
+	//バーガーの位置をプレイヤーの前に持ってくる。
+	if (m_player->have == enHaveBurger) {
+		//プレイヤーの移動方向にハンバーガーを持ってくる。
+		plPos += plSpeed;
+		m_beHadPos = plPos;
+		m_beHadPos.y += AJUST_HEIGHT;
+		//カウンタ―に置かれていないとき、プレイヤーの手元に来るように位置調整。
+		if (m_putOnCounter == false) {
+			m_position = m_beHadPos;
 		}
 	}
 }
 
 void Burger::ClearNo()
 {
-	if (BurgerNo == 1) {
-		Counter* co01 = FindGO<Counter>("counter01");
-
-		//カウンターに保存していた、今まで積んできた具材の数を０で初期化する。
-		co01->SetStack0();
-
-		//プレイヤーに保存していた、ハンバーガーを構成する具材を９で初期化。	
-		for (int i = 0;i < 10; i++) {
-			m_player[0]->GuzaiNo[i] = 9;
-		}
-	}
-	if (BurgerNo == 2) {
-		Counter* co02 = FindGO<Counter>("counter02");
-
-		//カウンターに保存していた、今まで積んできた具材の種類を全部０で初期化する。
-		co02->SetStack0();
-
-		//プレイヤーに保存していた、ハンバーガーを構成する具材を９で初期化。	
-		for (int i = 0;i < 10; i++) {
-			m_player[1]->GuzaiNo[i] = 9;
-		}
+	//カウンターに保存されている積んだ具材の”数”を０に。
+	m_counter->SetStack0();
+	//プレイヤーに保存している積んだ具材を何もない状態（９）で初期化する。
+	for (int i = 0;i < m_player->GetMaxNumCanSaveGuzaiType(); i++) {
+		m_player->GuzaiNo[i] = NONE;
 	}
 }
 
-void Burger::SetOnTrashCan() {
-	if (BurgerNo == 1) {
-		//ゴミ箱との距離が一定以下でAボタンが押されたら
-		if (g_pad[0]->IsTrigger(enButtonA)
-			&& m_trashCan[0]->GetCanTrash()) {
-			isSetOnTrashCan = true;
-		}
-
-		if (isSetOnTrashCan == true) {
-			decrementTime--;
-			//遅延させた後消す
-			if (decrementTime <= 0) {
-
-				//音を鳴らす
-				CSoundSource* se = NewGO<CSoundSource>(0);
-				se->Init(L"Assets/sound/dumping.wav", false);
-				se->SetVolume(2.0f);
-				se->Play(false);
-				burgerExist = 0;
-				m_player[0]->have = 0;
-				decrementTime = 10;
-				ClearNo();
-				Delete();
-
-				m_trashCan[0]->ChangeMovingState(true);
-			}
-			//消すまではゴミ箱の上で待機させる。
-			m_position = m_trashCan[0]->GetPosition();
-			m_position.y += 60.0f;
-		}
+void Burger::SetOnTrashCan() 
+{
+	//ゴミ箱との距離が一定以下でAボタンが押されたら
+	if (g_pad[m_burgerNo]->IsTrigger(enButtonA)
+		&& m_trashCan->GetCanTrash()) {
+		m_isSetOnTrashCan = true;
 	}
 
-	if (BurgerNo == 2) {
-		if (g_pad[1]->IsTrigger(enButtonA)
-			&& m_trashCan[1]->GetCanTrash()) {
-			isSetOnTrashCan = true;
+	if (m_isSetOnTrashCan == true) {
+		m_decrementTime--;
+		//遅延させた後消す
+		if (m_decrementTime <= 0) {
+
+			//音を鳴らす
+			CSoundSource* se = NewGO<CSoundSource>(0);
+			se->Init(L"Assets/sound/dumping.wav", false);
+			se->SetVolume(SE_VOLUME);
+			se->Play(false);
+			m_burgerExist = false;
+			m_player->have = enNothing;
+			m_decrementTime = INIT_DECREMENT_TIME;
+			ClearNo();
+
+			m_trashCan->ChangeMovingState(true);
+
+			//ハンバーガーを消す
+			DeleteGO(this);
 		}
-
-		if (isSetOnTrashCan == true) {
-			decrementTime--;
-			if (decrementTime <= 0) {
-
-				//音を鳴らす
-				CSoundSource* se = NewGO<CSoundSource>(0);
-				se->Init(L"Assets/sound/dumping.wav", false);
-				se->SetVolume(2.0f);
-				se->Play(false);
-				burgerExist = 0;
-				m_player[1]->have = 0;
-				decrementTime = 10;
-				ClearNo();
-				Delete();
-
-				m_trashCan[1]->ChangeMovingState(true);
-			}
-			m_position = m_trashCan[1]->GetPosition();
-			m_position.y += 60.0f;
-		}
+		//消すまではゴミ箱の上で待機させる。
+		m_position = m_trashCan->GetPosition();
+		m_position.y += AJUST_HEIGHT;
 	}
 }
 
@@ -227,5 +161,5 @@ void Burger::Update()
 	m_effect->Update();
 
 	m_skinModelRender->SetPosition(m_position);
-	m_skinModelRender->SetScale(m_scale);
+	m_skinModelRender->SetScale(m_burgerScale);
 }

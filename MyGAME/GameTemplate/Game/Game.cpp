@@ -14,7 +14,6 @@
 #include "CLevel2D.h"
 #include "Result.h"
 #include "SoundSource.h"
-#include "PostEffectTest.h"
 #include "TrashCan.h"
 #include "GameDirector.h"
 #include "Player.h"
@@ -69,14 +68,10 @@ Game::~Game()
 		DeleteGO(m_directionSprite[i]);
 	}
 
-	/*for (int i = 0; i < 2; i++) {
-		DeleteGO(player[i]);
-	}*/
-
+	DeleteGO(counter00);
 	DeleteGO(counter01);
-	DeleteGO(counter02);
+	DeleteGO(kitchen00);
 	DeleteGO(kitchen01);
-	DeleteGO(kitchen02);
 	DeleteGO(m_level2D);
 	DeleteGO(m_level);
 
@@ -84,7 +79,6 @@ Game::~Game()
 
 bool Game::Start()
 {
-	//NewGO<CLevel2D>(3, "clevel2d");
 	m_level2D = NewGO<CLevel2D>(3, "clevel2d");
 	m_level = NewGO<Level>(0, "level");
 
@@ -106,34 +100,29 @@ bool Game::Start()
 	m_bgm->SetVolume(1.0f);
 	m_bgm->Play(true);
 
-	////勝敗表示用スプライト
-	////表示するポジションを定義
-	//win_loseLeft.Set(200.0f, 350.0f);
-	//win_loseRight.Set(1080.0f,350.0f);
-
 	m_level->Init("Assets/level/level_new4.tkl", [&](ObjectData& objectData) {
 		if (wcscmp(objectData.name, L"CounterPos01") == 0) {
+			counter00 = NewGO<Counter>(0, "counter00");
+			counter00->SetCounterNo(0);
+			counter00->SetPosition(objectData.Pos);
+			return true;
+		}
+		if (wcscmp(objectData.name, L"CounterPos02") == 0) {
 			counter01 = NewGO<Counter>(0, "counter01");
 			counter01->SetCounterNo(1);
 			counter01->SetPosition(objectData.Pos);
 			return true;
 		}
-		if (wcscmp(objectData.name, L"CounterPos02") == 0) {
-			counter02 = NewGO<Counter>(0, "counter02");
-			counter02->SetCounterNo(2);
-			counter02->SetPosition(objectData.Pos);
-			return true;
-		}
 		if (wcscmp(objectData.name, L"KitchenPos01") == 0) {
-			kitchen01 = NewGO<Kitchen>(0, "kitchen01");
-			kitchen01->SetKitchenNo(1);
-			kitchen01->SetKitchenPos(objectData.Pos);
+			kitchen00 = NewGO<Kitchen>(0, "kitchen00");
+			kitchen00->SetKitchenNo(0);
+			kitchen00->SetKitchenPos(objectData.Pos);
 			return true;
 		}
 		if (wcscmp(objectData.name, L"KitchenPos02") == 0) {
-			kitchen02 = NewGO<Kitchen>(0, "kitchen02");
-			kitchen02->SetKitchenNo(2);
-			kitchen02->SetKitchenPos(objectData.Pos);
+			kitchen01 = NewGO<Kitchen>(0, "kitchen01");
+			kitchen01->SetKitchenNo(1);
+			kitchen01->SetKitchenPos(objectData.Pos);
 
 			return true;
 		}
@@ -157,13 +146,13 @@ bool Game::Start()
 		}
 
 		if (wcscmp(objectData.name, L"TrashLeft") == 0) {
-			m_trashCan[0] = NewGO<TrashCan>(0, "trashcan01");
+			m_trashCan[0] = NewGO<TrashCan>(0, "trashcan00");
 			m_trashCan[0]->SetTrashCanNum(1);
 			m_trashCan[0]->SetPosition(objectData.Pos);
 			return true;
 		}
 		if (wcscmp(objectData.name, L"TrashRight") == 0) {
-			m_trashCan[1] = NewGO<TrashCan>(0, "trashcan02");
+			m_trashCan[1] = NewGO<TrashCan>(0, "trashcan01");
 			m_trashCan[1]->SetTrashCanNum(2);
 			m_trashCan[1]->SetPosition(objectData.Pos);
 			return true;
@@ -190,7 +179,6 @@ bool Game::Start()
 	//具材置き場の表示
 	guzaiOkiba = NewGO<GuzaiOkiba>(0, "GuzaiOkiba");
 	guzaiGene = NewGO<GuzaiGene>(0, "GuzaiGene");
-
 
 	////レベル2Dの構築
 	//level2D.Init("Assets/level2D/level2D.casl", [&](Level2DObjectData& objectData2D) {return false; });
@@ -228,19 +216,19 @@ bool Game::Start()
 
 void Game::Update()
 {
-	OutputDebugStringA("beforeUpdate\n");
+	//OutputDebugStringA("beforeUpdate\n");
 	//カウントダウンする。
-	OutputDebugStringA("bforCountDown\n");
+	//OutputDebugStringA("bforCountDown\n");
 	CountDown();
-	OutputDebugStringA("aftCountDown\n");
+	//OutputDebugStringA("aftCountDown\n");
 
-	OutputDebugStringA("bforLevelDraw\n");
+	//OutputDebugStringA("bforLevelDraw\n");
 	m_level->Draw();
-	OutputDebugStringA("aftLevelDraw\n");
+	//OutputDebugStringA("aftLevelDraw\n");
 
 	//タイムアップ時に行う処理
 	//結果の表示
-	OutputDebugStringA("bforShowResult\n");
+	//OutputDebugStringA("bforShowResult\n");
 	if (ui->GetIsTimeUp() == true && GetTimeUp() == false) {
 		
 		//引き分けのとき(ResultP1 = 0,ResultP2 = 0のとき)、1枚だけ表示
@@ -277,15 +265,15 @@ void Game::Update()
 			}
 
 		}
-		OutputDebugStringA("aftShowResult\n");
+		//OutputDebugStringA("aftShowResult\n");
 		//game内のタイムアップフラグを立て、ゲームシーンをリザルトに移行する
-		OutputDebugStringA("bforSetTimeUp\n");
+		//OutputDebugStringA("bforSetTimeUp\n");
 		SetTimeUp();
-		OutputDebugStringA("aftSetTimeUp\n");
+		//OutputDebugStringA("aftSetTimeUp\n");
 
-		OutputDebugStringA("bforSetGameScene\n");
+		//OutputDebugStringA("bforSetGameScene\n");
 		GetGameDirector().SetGameScene(enResult);
-		OutputDebugStringA("aftSetGameScene\n");
+		//OutputDebugStringA("aftSetGameScene\n");
 		////ゲーム終了を通知
 		//GetGameDirector().SetGameScene(enGameEnd);
 
@@ -312,19 +300,19 @@ void Game::Update()
 		}
 	}*/
 
-	OutputDebugStringA("afterUpdate\n");
+	//OutputDebugStringA("afterUpdate\n");
 }
 
 void Game::CountDown()
 {
-	OutputDebugStringA("bforIsGameCountDown\n");
+	//OutputDebugStringA("bforIsGameCountDown\n");
 	//カウントダウン中じゃなかったら。
 	if (!GetGameDirector().GetIsGameCountDown())
 	{
 		//処理しない。
 		return;
 	}
-	OutputDebugStringA("aftIsGammeCountDown\n");
+	//OutputDebugStringA("aftIsGammeCountDown\n");
 
 
 	//TODO GameTimeにする。
@@ -335,7 +323,7 @@ void Game::CountDown()
 	m_timer -= 1.0f / 60.0f; //画面のリフレッシュレートが60Hzだったので変更
 
 
-	OutputDebugStringA("bforSetGameScene\n");
+	//OutputDebugStringA("bforSetGameScene\n");
 	//スプライトの不透明度が0になったらゲームスタート
 	if (m_timer <= 0.0f && alpha <= 0.0f){
 		//カウントダウンが終了し、ゲームが開始したことを設定する。
@@ -348,7 +336,7 @@ void Game::CountDown()
 
 		return;
 	}
-	OutputDebugStringA("aftSetGameScene\n");
+	//OutputDebugStringA("aftSetGameScene\n");
 
 	/*std::wstring number;
 	if (m_timer < 1.0f)
@@ -368,29 +356,29 @@ void Game::CountDown()
 	m_font->SetScale(scale);*/
 
 	//スプライト変更処理
-	OutputDebugStringA("bforSpriteChange\n");
+	//OutputDebugStringA("bforSpriteChange\n");
 	if (m_countSprite == nullptr)
 	{
 
 	}
 	else if (m_timer <= 4.0f && m_timer > 3.0 && changeCount == 3 && a == 0) {
-		OutputDebugStringA("Image3\n");
+		//OutputDebugStringA("Image3\n");
 		m_countSprite->Init("Assets/Image/3.dds", 512, 512);
 		alpha = 0.0f;
 		scaleRate = 2.0f;
 		fadeOut = false;
 		changeCount--;
-		OutputDebugStringA("afterImage3\n");
+		//OutputDebugStringA("afterImage3\n");
 		a++;
 	}
 	else if (m_timer <= 3.0f && m_timer > 2.0 && changeCount == 2 && a == 1) {
-		OutputDebugStringA("Image2\n");
+		//OutputDebugStringA("Image2\n");
 		m_countSprite->Init("Assets/Image/2.dds", 512, 512);
 		alpha = 0.0f;
 		scaleRate = 2.0f;
 		fadeOut = false;
 		changeCount--;
-		OutputDebugStringA("afterImage2\n");
+		//OutputDebugStringA("afterImage2\n");
 		a++;
 	}
 	else if (m_timer <= 2.0f && m_timer > 1.0 && changeCount == 1 && a == 2) {
@@ -403,31 +391,31 @@ void Game::CountDown()
 
 		m_countSprite->SetPivot(ctPivot);
 		m_countSprite->SetPosition(ctPosition);
-		OutputDebugStringA("Image1\n");
+		//OutputDebugStringA("Image1\n");
 		m_countSprite->Init("Assets/Image/1.dds", 512, 512);
-		OutputDebugStringA("1\n");
+		//OutputDebugStringA("1\n");
 		alpha = 0.0f;
-		OutputDebugStringA("2\n");
+		//OutputDebugStringA("2\n");
 		scaleRate = 2.0f;
-		OutputDebugStringA("3\n");
+		//OutputDebugStringA("3\n");
 		fadeOut = false;
-		OutputDebugStringA("4\n");
+		//OutputDebugStringA("4\n");
 		changeCount--;
-		OutputDebugStringA("afterImage1\n");
+		///OutputDebugStringA("afterImage1\n");
 		a++;
 	}
 	else if (m_timer <= 1.0f && m_timer > 0.0 && changeCount == 0 && a == 3) {
-		OutputDebugStringA("ImageStart\n");
+		//OutputDebugStringA("ImageStart\n");
 		m_countSprite->Init("Assets/Image/start.dds", 512, 512);
 		alpha = 0.0f;
 		scaleRate = 2.0f;
 		fadeOut = false;
 		changeCount--;
-		OutputDebugStringA("afterImageStart\n");
+		//OutputDebugStringA("afterImageStart\n");
 		a++;
 	}
 
-	OutputDebugStringA("aftSpriteChange\n");
+	//OutputDebugStringA("aftSpriteChange\n");
 
 	//カウントダウン処理(スプライト)
 	//フェードイン、アウト処理
@@ -457,7 +445,7 @@ void Game::CountDown()
 		scaleRate = 1.0f;
 	}
 
-	OutputDebugStringA("bforSound\n");
+	//OutputDebugStringA("bforSound\n");
 	//開始時のカウントダウンに応じて音を鳴らす。
 	if (m_timer < 1.0f && m_soundFlag00 == false) {
 		//音を鳴らす
@@ -491,12 +479,12 @@ void Game::CountDown()
 		se->Play(false);
 		m_soundFlag03 = true;
 	}
-	OutputDebugStringA("aftSound\n");
+	///OutputDebugStringA("aftSound\n");
 
 	m_ctScale = { scaleRate,scaleRate,1.0f };
 
 	m_countSprite->SetColor(1.0f, 1.0f, 1.0f, alpha);
 	m_countSprite->SetScale(m_ctScale);
 
-	OutputDebugStringA("\n");
+	//OutputDebugStringA("\n");
 }

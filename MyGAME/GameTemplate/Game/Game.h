@@ -46,10 +46,10 @@ public:
 
 	CLevel2D* m_level2D = nullptr;
 	FixedUI* ui = nullptr;											//座標の動かないUI（時間、スコア、ミス）
-	Counter* counter01 = nullptr;									//カウンタ―１
-	Counter* counter02 = nullptr;									//カウンタ―２
-	Kitchen* kitchen01 = nullptr;									///キッチン１
-	Kitchen* kitchen02 = nullptr;									//キッチン２
+	Counter* counter00 = nullptr;									//カウンタ―１
+	Counter* counter01 = nullptr;									//カウンタ―２
+	Kitchen* kitchen00 = nullptr;									///キッチン１
+	Kitchen* kitchen01 = nullptr;									//キッチン２
 	Player* player[2] = { nullptr,nullptr };						//両プレイヤー
 	PlayerGene* playerGene = nullptr;								//プレイヤーを生成するもの
 	GuzaiGene* guzaiGene = nullptr;									//具材を生成するもの

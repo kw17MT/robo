@@ -9,22 +9,15 @@
 
 #include "SkinModelRender.h"
 #include "Kitchen.h"
-//#include "effect/Effect.h"
 
 namespace
 {
 	float DEBUFFDISTANCE = 100.0f * 100.0f;
 }
 
-Player::Player()
-{
-
-}
-
 Player::~Player()
 {
 	DeleteGO(m_skinModelRender);
-	DeleteGO(m_shadow);
 	DeleteGO(m_effect01);
 	DeleteGO(m_effect02);
 }
@@ -56,71 +49,23 @@ bool Player::Start()
 		DXGI_FORMAT_R32G32B32A32_FLOAT
 	);
 
-	m_shadow = NewGO<SkinModelRender>(0);
-	m_shadow->Init(
-		"Assets/modelData/Chef/ChefRed/Chef01.tkm",
-		"Assets/modelData/Chef/ChefRed/Chef_1.tks",
-		enModelUpAxisZ,
-		m_position
-	);
-	m_shadow->InitShader(
-		"Assets/shader/demodel.fx",
-		"VSMain",
-		"VSSkinMain",
-		DXGI_FORMAT_R32G32B32A32_FLOAT
-	);
-
 	m_scale = { 0.3f,0.4f,0.3f };
-	m_shadowScale = { 0.4f,0.01f,0.4f };
 	m_skinModelRender->SetScale(m_scale);
-	m_shadow->SetScale(m_shadowScale);
-	m_shadow->SetPosition(m_position);
-	//ここでアニメーションのロードを行う
-	//animationClips[enAnimation_Idle].Load("Assets/animData/swing2.tka");
-	/*animationClips[enAnimation_Run].Load("");
-	animationClips[enAnimation_Cut].Load("");
-	animationClips[enAnimation_Cook].Load("");
-	animationClips[enAnimation_HaveIdle].Load("");
-	animationClips[enAnimation_HaveRun].Load("");*/
-
-
-	//animationClips[enAnimation_Idle].SetLoopFlag(true);
-	/*animationClips[enAnimation_Run].SetLoopFlag(true);
-	animationClips[enAnimation_Cut].SetLoopFlag(true);
-	animationClips[enAnimation_Cook].SetLoopFlag(true);
-	animationClips[enAnimation_HaveIdle].SetLoopFlag(true);
-	animationClips[enAnimation_HaveRun].SetLoopFlag(true);*/
-
-	//m_skinModelRender->InitAnimation(animationClips, enAnimation_Num);
-
-	//m_skinModelRender->PlayAnimation(enAnimation_Idle);
 
 	//具材ナンバー配列のすべての要素を9で初期化
 	for (int i = 0; i < 10; i++) {
 		GuzaiNo[i] = 9;
 	}
 
-	//ポップアップ用表示
-	//m_popUp = NewGO<PopUp2D>(20, "popup");
-	/*if (playerNo != 0) {
-		if (playerNo == 1) {
-			m_popUp->SetEnSelf(enPlayer01);
-		}
-		else if (playerNo == 2) {
-			m_popUp->SetEnSelf(enPlayer02);
-		}
-	}*/
-
 	if (playerNo == 1) {
-		m_kitchen = FindGO<Kitchen>("kitchen01");
+		m_kitchen = FindGO<Kitchen>("kitchen00");
 	}
 	if (playerNo == 2) {
-		m_kitchen = FindGO<Kitchen>("kitchen02");
+		m_kitchen = FindGO<Kitchen>("kitchen01");
 	}
 
 	//エフェクトの初期化
 	//P1
-	//m_effect01.Init(u"Assets/effect/dust.efk");
 	m_effect01 = NewGO<Effect>(0);
 	m_effect01->Init(u"Assets/effect/dust.efk");
 	m_effect01->SetScale({ 10.0f,10.0f,10.0f });
@@ -131,13 +76,6 @@ bool Player::Start()
 
 	return true;
 }
-
-/// <summary>
-/// モデルを変更するときに使う
-/// 変更したくない箇所はnullptr
-/// </summary>
-/// <param name="ModelPath">モデルのパス</param>
-/// <param name="ShaderPath">シェーダーのパス</param>
 
 void Player::SetGuzaiNo9()
 {
@@ -180,10 +118,6 @@ void Player::RestrictPos()
 
 }
 
-void Player::GrabFromKitchen()
-{
-	
-}
 void Player::StopMove01(bool tf)
 { 
 	m_moveStop01 = tf;
@@ -196,8 +130,6 @@ void Player::StopMove02(bool tf)
 void Player::Update()
 {
 	m_skinModelRender->SetPosition(m_position);
-
-	
 
 	//ゲームプレイ中じゃなかったら。
 	if (!GetGameDirector().GetIsGamePlay())
@@ -238,22 +170,6 @@ void Player::Update()
 			m_skinModelRender->SetRotation(m_rotation);
 		}
 
-		////バフの効果がついているか確認後移動速度を決め、移動させる。
-		//if (Buff == true) {
-		//	moveSpeed.x = g_pad[0]->GetLStickXF() * -20.0f;
-		//	moveSpeed.z = g_pad[0]->GetLStickYF() * -20.0f;
-
-		//	BuffTime--;
-		//	if (BuffTime == 0) {
-		//		Buff = false;
-		//		BuffTime = 120;
-		//	}
-		//}
-		//if (Buff == false) {
-		//	moveSpeed.x = g_pad[0]->GetLStickXF() * -10.0f;
-		//	moveSpeed.z = g_pad[0]->GetLStickYF() * -10.0f;
-		//}
-
 		if (m_moveStop01 == false && m_moveStop02 == false) {
 			moveSpeed.x = g_pad[0]->GetLStickXF() * -10.0f;
 			moveSpeed.z = g_pad[0]->GetLStickYF() * -10.0f;
@@ -276,7 +192,6 @@ void Player::Update()
 		RestrictPos();
 
 		m_skinModelRender->SetPosition(m_position);
-		m_shadow->SetPosition(m_position);
 
 		//エフェクト再生
 		//移動中なら定期的に発生
@@ -326,25 +241,6 @@ void Player::Update()
 			m_skinModelRender->SetRotation(m_rotation);
 		}
 
-		//バフの効果がついているか確認後移動速度を決め、移動させる。
-		/*if (Buff == true) {
-			moveSpeed.x = g_pad[1]->GetLStickXF() * -20.0f;
-			moveSpeed.z = g_pad[1]->GetLStickYF() * -20.0f;
-
-			BuffTime--;
-			if (BuffTime == 0) {
-				Buff = false;
-				BuffTime = 120;
-			}
-		}
-		if (Buff == false) {
-			moveSpeed.x = g_pad[1]->GetLStickXF() * -10.0f;
-			moveSpeed.z = g_pad[1]->GetLStickYF() * -10.0f;
-		}*/
-
-	/*	moveSpeed.x = g_pad[1]->GetLStickXF() * -10.0f;
-		moveSpeed.z = g_pad[1]->GetLStickYF() * -10.0f;*/
-
 		if (m_moveStop01 == false && m_moveStop02 == false) {
 			moveSpeed.x = g_pad[1]->GetLStickXF() * -10.0f;
 			moveSpeed.z = g_pad[1]->GetLStickYF() * -10.0f;
@@ -366,8 +262,7 @@ void Player::Update()
 		RestrictPos();
 
 		m_skinModelRender->SetPosition(m_position);
-		m_shadow->SetPosition(m_position);
-
+		
 		//エフェクト再生
 		//移動中なら定期的に発生
 		moveCounter02 += 1;
@@ -384,74 +279,9 @@ void Player::Update()
 
 
 	}
-	//アイテム使用処理。
-	UseItem();
-
-	////テスト:ポップアップモデルの変更
-	//if (m_popUp->GetEnState() == enNone) {
-	//	m_popUp->SetEnState(enNearFood);
-	//	m_popUp->ChangeModel();
-	//}
 
 	m_skinModelRender->SetScale(m_scale);
-	m_shadow->SetScale(m_shadowScale);
-
-	//ポップアップ用座標設定
-	Vector3 playerToPopUp = { 200.0f,100.0f,0.0f };
-	m_popUpPosition = m_position;
-	m_popUpPosition = m_popUpPosition + playerToPopUp;
-	//m_popUp->SetPosition(m_popUpPosition);
 
 	m_effect01->Update();
 	m_effect02->Update();
-
-}
-
-void Player::UseItem()
-{
-	//Aボタン押してなかったら。
-	if (!g_pad[0]->IsTrigger(enButtonA))
-	{
-		return;
-	}
-
-	GuzaiGene* gene;
-
-	if (playerNo == 1)
-	{
-		gene = FindGO<GuzaiGene>("gene01");
-	}
-	else if (playerNo == 2)
-	{
-		gene = FindGO<GuzaiGene>("gene02");
-	}
-	else {
-		return;
-	}
-
-	//バフアイテム持ってる時。
-	/*if (m_enItem == enBuffItem)
-	{
-		m_enItem = enNonItem;
-		SetBuffAffect(true);
-		gene->Buffnum = 0;
-
-	}*/
-	//デバフアイテム持ってる時。
-	//else if (m_enItem == enDebuffItem)
-	//{
-	//	auto path = PathFactory::GetInstance().GetPath(enDeBuffLane, playerNo);
-	//	Vector3 pos = path->GetFirstPoint()->s_vector;
-	//	if ((m_position/*m_charaCon.GetPosition()*/ - pos).LengthSq() < DEBUFFDISTANCE)
-	//	{
-	//		m_enItem = enNonItem;
-
-	//		//DeBuff* deBuff = NewGO<DeBuff>(0, "debuff");
-	//		//deBuff->SetBuffNo(playerNo);
-	//		//deBuff->SetPosition(m_position/*m_charaCon.GetPosition()*/);
-	//		//deBuff->m_isDeBuffLane = true;
-
-	//		gene->DeBuffnum = 0;
-	//	}
-	//}
 }

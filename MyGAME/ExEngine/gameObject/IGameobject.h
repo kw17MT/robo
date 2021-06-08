@@ -96,8 +96,8 @@ public:
 
 	void SayYourName()
 	{
-		OutputDebugStringA(m_name.c_str());
-		OutputDebugStringA("\n");
+		//OutputDebugStringA(m_name.c_str());
+		//OutputDebugStringA("\n");
 		
 	}
 public:
