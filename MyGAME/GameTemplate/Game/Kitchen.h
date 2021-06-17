@@ -6,79 +6,117 @@ class Player;
 class CSoundSource;
 class Meter;
 class GuzaiGene;
+class Counter;
 
 class Kitchen : public IGameObject
 {
 private:
-	Vector3 m_position = Vector3::Zero;						//キッチンの座標
-	Vector3 m_kitchenPos;									
-	Vector3 m_scale = { 0.3f,0.3f,0.3f };							//キッチンの拡大率
+	Vector3 m_position = Vector3::Zero;						//キッチンの座標							
+	Vector3 m_scale = { 0.3f,0.3f,0.3f };					//キッチンの拡大率
+	Vector3 m_slidePos = Vector3::Zero;						//具材がハンバーガーになるときに一か所に集まるときのスピード
+	
+	int m_kitchenNo = 0;									//どっち側のキッチンか。０が左、１が右
+	int m_stack = 0;											//いま何個具材を積んでいるか		
+	int m_delay = 60;											//具材を消す時遅延を起こす用の変数
+	const int m_maxStack = 5;									//キッチンにおける最大数
 
-	const int MaxStack = 5;									//キッチンにおける最大数
-	int m_kitchenNo = 0;										//どっち側のキッチンか。０が左、１が右
-	int stack = 0;											//いま何個具材を積んでいるか		
-	bool canGrab = true;									//現在つかめるか（フレームのずれを起こす用）
-	Guzai* StackedGuzai[5] = { nullptr };					//キッチンの上にある具材
-
-	bool m_soundFlag01 = false;								//1Pの音が出ているか？
-	bool m_soundFlag02 = false;								//2Pの音が出ているか？
-
-	bool m_deleteFlag = false;
-	Vector3 m_slidePos = Vector3::Zero;
+	bool m_soundFlag = false;								//音が出ているか？
+	bool m_canGrab = true;									//現在つかめるか（フレームのずれを起こす用）
+	bool m_guzaiDeleteFlag = false;							//具材を消すことが決まっているかどうか
 
 public:
 
 	~Kitchen();
 
-	//キッチンのモデルなどの設定。
+	/**
+	 * @brief キッチンモデルの初期化や、必要オブジェクトのデータ取得。
+	 * @return true
+	*/
 	bool Start();
 
+	/**
+	 * @brief ハンバーガーを生み出すかの判定や、キッチン上から具材を取るかの判定を毎フレーム行う
+	*/
 	void Update();
 
-	//キッチン番号を設定する。
+	/**
+	 * @brief キッチン番号を設定する。
+	 * @param num キッチンの番号　０＝左、１＝右
+	*/
 	void SetKitchenNo(int num) { m_kitchenNo = num; }
 
-	//キッチンの座標を設定する。
-	void SetKitchenPos(Vector3 pos) { m_kitchenPos = pos; m_position = pos; }
+	/**
+	 * @brief キッチンの座標を設定する。
+	 * @param pos 新しいキッチンの座標
+	*/
+	void SetKitchenPos(Vector3 pos) { /*m_kitchenPos = pos;*/ m_position = pos; }
 
-	//キッチンの座標を取得
-	Vector3 GetKitchenPos() { return m_kitchenPos; }
+	/**
+	 * @brief キッチンの座標を取得
+	 * @return 現在のキッチンの座標
+	*/
+	Vector3 GetKitchenPos() { return m_position/*m_kitchenPos*/; }
 
-	//キッチン上の具材を全消去
+	/**
+	 * @brief キッチン上の具材を全部消去、ハンバーガーを生み出す時に使用する
+	*/
 	void Delete();
 
-	//スタックした層数をインクリメント
-	void PlusStack() { stack++; }
+	/**
+	 * @brief キッチン上にある具材の数をインクリメント
+	*/
+	void PlusStack() { m_stack++; }
 
-	//スタックした層数をデクリメント
-	void MinusStack() { stack--; }
+	/**
+	 * @brief スタックした層数をデクリメント
+	*/
+	void MinusStack() { m_stack--; }
 
-	//数えていたStack変数を０に初期化。
-	void SetStack0() { stack = 0; }
+	/**
+	 * @brief キッチン上には具材が存在しないことを設定する
+	*/
+	void SetStack0() { m_stack = 0; }
 
-	//プレイヤー側に具材の種類を格納する際に使用する。
-	int GetStackNum() { return stack; }
+	/**
+	 * @brief 現在何段具材が積まれているかを伝える関数
+	 * @return 現在、積まれている具材の数
+	*/
+	int GetStackNum() { return m_stack; }
 
-	//具材をハンバーガーに変換する。
-	//消す時遅延を起こしてやらないとエラーを吐くためそれ対策
+	/**
+	 * @brief 具材をハンバーガーに加工する。
+	*/
 	void BornBurger();
-	int Delay = 60;
 
-	//具材を消す時に、プレイヤーに格納されている種類No.を９で初期化する。
-	//この関数は具材を消す前に使うこと。
+	/**
+	 * @brief 具材を消す時に、プレイヤーに格納されている種類No.を９で初期化する。
+	 * この関数は具材を消す前に使うこと。
+	*/
 	void ClearNo();
-	//キッチンのモデルを変更する
-	void ChangeModel(const char* modelPath);
-	//拡大率を変更する
+
+	/**
+	 * @brief キッチンの拡大率を変更する。
+	 * @param scale 変更したい拡大率
+	*/
 	void SetScale(Vector3 scale) { m_scale = scale; }
 
-	void ChangeGrabState(bool state) { canGrab = state; }
+	/**
+	 * @brief そのフレーム中にキッチンから具材が取られたか
+	 * @param state TRUE＝取られた。
+	*/
+	void ChangeGrabState(bool state) { m_canGrab = state; }
 
-	//スタックしている具材を保存していく。
-	void RegistStackedGuzai(Guzai* m_guzai) { StackedGuzai[stack - 1] = m_guzai; }
+	/**
+	 * @brief キッチン上にある具材の登録
+	 * Delete関数で使用する。
+	*/
+	void RegistStackedGuzai(Guzai* m_guzai) { m_stackedGuzai[m_stack - 1] = m_guzai; }
 
-	//バーガーの調理状況を取得
-	bool GetKitchenCooking() { return m_deleteFlag; }
+	/**
+	 * @brief ハンバーガーを作っているかどうか。
+	 * @return 
+	*/
+	bool GetKitchenCooking() { return m_guzaiDeleteFlag; }
 
 
 private:
@@ -88,5 +126,7 @@ private:
 	CSoundSource* m_soundSource = nullptr;
 	Meter* m_meter = nullptr;
 	GuzaiGene* m_guzaiGene = nullptr;
+	Counter* m_counter = nullptr;
+	Guzai* m_stackedGuzai[5] = { nullptr };					//キッチンの上にある具材
 };
 

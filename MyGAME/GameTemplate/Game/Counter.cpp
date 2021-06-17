@@ -37,6 +37,8 @@ namespace
 	const int FAULT = 0;
 	const int NOTHING = 2;
 	const int SPRITE_MAX_TIMER = 60;
+	const int GUZAI_CORRECT = 1;
+	const int GUZAI_FAILE = 0;
 
 	const float DISTANCE_TO_FIND_COUNTER = 100.0f;
 	const float SE_VOLUME = 0.7f;
@@ -114,7 +116,7 @@ bool Counter::Start()
 //判別するところ
 bool Counter::Judge()
 {
-	return m_level2d->GetIsMatchHamBurger(m_player->GuzaiNo, m_stackNum, m_counterNo + 1);
+	return m_level2d->GetIsMatchHamBurger(m_player->GetPlayerStackedGuzais(), m_stackNum, m_counterNo + 1);
 }
 
 //バーガーを最終的に消してスコアを発生させる。
@@ -140,7 +142,7 @@ void Counter::Delete()
 	pl2Counter = sqrt(pl2Counter);
 
 	//プレイヤーがバーガーをもっていたら
-	if (m_player->have == enHaveBurger) {
+	if (m_player->GetPlayerState() == enHaveBurger) {
 		//string型に変えてcharに変換するための準備をする。
 		std::string endNo_string = std::to_string(m_counterNo);
 		//不変箇所を定義
@@ -231,7 +233,7 @@ void Counter::Delete()
 					}
 
 					//プレイヤーは何も持っていない状態にする。
-					m_player->have = enNothing;
+					m_player->SetPlayerState(enNothing);
 					//Delayを初期値に戻す
 					m_delay = 0;
 					//ハンバーガーの層数を0にもどす。
@@ -259,7 +261,7 @@ void Counter::Delete()
 				burger->SetPosition(m_burgerPos);
 
 				if (m_delay == MAX_DELAY_NUM) {
-					m_player->have = enNothing;
+					m_player->SetPlayerState(enNothing);
 					DeleteGO(burger);
 					m_delay = 0;
 
@@ -281,7 +283,7 @@ void Counter::HamBurgerCompare()
 			HamBurger hamburger = GetHamBurgerFactory().GetHamBurger(m_showHamBurgers[i]);
 			//具材をキッチンに積んでいないとき…
 			for (int k = 0; k < MAX_STACK_NUM; k++) {
-				if (m_player->GuzaiNo[k] == STACK_NONE) {
+				if (m_player->GetPlayerStackedGuzais(k) == STACK_NONE) {
 					//画像が出ていれば消す
 					if (m_spriteCompareFlagTrue[i + 1][k] == true || m_spriteCompareFlagFalse[i + 1][k] == true) {
 						DeleteGO(m_spriteCompare[i + 1][k]);
@@ -293,11 +295,11 @@ void Counter::HamBurgerCompare()
 			//メニューと合っているか調べる
 			for (int j = 0; j < hamburger.size(); j++) {
 				//積んでなければ何もしない。
-				if (m_player->GuzaiNo[j] == STACK_NONE) {
+				if (m_player->GetPlayerStackedGuzais(j) == STACK_NONE) {
 					m_guzaiJudge[i + 1][j] = NOTHING;
 				}
 				else {
-					if (m_player->GuzaiNo[j] == hamburger[j]) {
+					if (m_player->GetPlayerStackedGuzais(j) == hamburger[j]) {
 						//メニューと一致
 						m_guzaiJudge[i + 1][j] = CORRECT;
 					}
@@ -315,7 +317,7 @@ void Counter::HamBurgerCompare()
 				switch (m_guzaiJudge[i+1][j])
 				{
 					
-				case 0: {
+				case GUZAI_FAILE: {
 					//一致の画像が出ていれば消す。
 					if (m_spriteCompareFlagTrue[i + 1][j] == true) {
 						DeleteGO(m_spriteCompare[i + 1][j]);
@@ -329,7 +331,7 @@ void Counter::HamBurgerCompare()
 						m_spriteCompareFlagFalse[i + 1][j] = true;
 					}
 				}break;
-				case 1: {
+				case GUZAI_CORRECT: {
 					//不一致の画像が出ていれば消す。
 					if (m_spriteCompareFlagFalse[i + 1][j] == true) {
 						DeleteGO(m_spriteCompare[i + 1][j]);
@@ -351,12 +353,12 @@ void Counter::HamBurgerCompare()
 					m_spriteCompare[i + 1][j]->SetPosition(SetPos);
 				}
 				//すでに出したチェック画像は、バーガーの段数を超えて処理する。
-				for (int l = hamburger.size(); l < 5; l++) {
+				for (int l = hamburger.size(); l < MAX_STACK_NUM; l++) {
 					Vector3 SetPos = JUDGEMARK_LEFT_POS;
 					SetPos.x += i * AJUST_POSITION_X_FOR_JUDGEMARK;
 					SetPos.y += l * AJUST_HEIGHT_FOR_JUDGEMARK;
 					SetPos.y += l2->GetSlideAmount(i);
-					if (m_player->GuzaiNo[l] != STACK_NONE) {
+					if (m_player->GetPlayerStackedGuzais(l) != STACK_NONE) {
 						if (m_spriteCompareFlagFalse[i + 1][l] == true || m_spriteCompareFlagTrue[i + 1][l] == true) {
 
 							DeleteGO(m_spriteCompare[i + 1][l]);
@@ -373,7 +375,7 @@ void Counter::HamBurgerCompare()
 		for (int i = 0; i < m_counterNo + 1; i++) {
 			HamBurger hamburger = GetHamBurgerFactory().GetHamBurger(m_showHamBurgers[i]);
 			for (int k = 0; k < MAX_STACK_NUM; k++) {
-				if (m_player->GuzaiNo[k] == STACK_NONE) {
+				if (m_player->GetPlayerStackedGuzais(k) == STACK_NONE) {
 					if (m_spriteCompareFlagTrue[i][k] == true || m_spriteCompareFlagFalse[i][k] == true) {
 						DeleteGO(m_spriteCompare[i][k]);
 						m_spriteCompareFlagTrue[i][k] = false;
@@ -382,11 +384,11 @@ void Counter::HamBurgerCompare()
 				}
 			}
 			for (int j = 0; j < hamburger.size(); j++) {
-				if (m_player->GuzaiNo[j] == STACK_NONE) {
+				if (m_player->GetPlayerStackedGuzais(j) == STACK_NONE) {
 					m_guzaiJudge[i][j] = NOTHING;
 				}
 				else {
-					if (m_player->GuzaiNo[j] == hamburger[j]) {
+					if (m_player->GetPlayerStackedGuzais(j) == hamburger[j]) {
 						m_guzaiJudge[i][j] = CORRECT;
 					}
 					else {
@@ -399,7 +401,7 @@ void Counter::HamBurgerCompare()
 				SetPos.y += l2->GetSlideAmount(i);
 				switch (m_guzaiJudge[i][j])
 				{
-				case 0: {
+				case GUZAI_FAILE: {
 					if (m_spriteCompareFlagTrue[i][j] == true) {
 						DeleteGO(m_spriteCompare[i][j]);
 						m_spriteCompareFlagTrue[i][j] = false;
@@ -411,7 +413,7 @@ void Counter::HamBurgerCompare()
 						m_spriteCompareFlagFalse[i][j] = true;
 					}
 				}break;
-				case 1: {
+				case GUZAI_CORRECT: {
 					if (m_spriteCompareFlagFalse[i][j] == true) {
 						DeleteGO(m_spriteCompare[i][j]);
 						m_spriteCompareFlagFalse[i][j] = false;
@@ -429,13 +431,13 @@ void Counter::HamBurgerCompare()
 				if (m_spriteCompareFlagFalse[i][j] == true || m_spriteCompareFlagTrue[i][j] == true) {
 					m_spriteCompare[i][j]->SetPosition(SetPos);
 				}
-				for (int l = hamburger.size(); l < 5; l++) {
+				for (int l = hamburger.size(); l < MAX_STACK_NUM; l++) {
 					Vector3 SetPos = JUDGEMARK_RIGHT_POS;
 					SetPos.x += i * AJUST_POSITION_X_FOR_JUDGEMARK;
 					SetPos.y += l * AJUST_HEIGHT_FOR_JUDGEMARK;
 					SetPos.y += l2->GetSlideAmount(i);
 					if (m_spriteCompareFlagFalse[i][l] == true || m_spriteCompareFlagTrue[i][l] == true) {
-						if (m_player->GuzaiNo[l] != STACK_NONE) {
+						if (m_player->GetPlayerStackedGuzais(l) != STACK_NONE) {
 							if (m_spriteCompareFlagFalse[i][l] == true || m_spriteCompareFlagTrue[i][l] == true) {
 
 								DeleteGO(m_spriteCompare[i][l]);

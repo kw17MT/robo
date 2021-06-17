@@ -59,7 +59,7 @@ public:
 	//客に提供したバーガーの数が規定数に達したら、流れる向きを変える。
 	void SwitchCycleDirection();
 
-	PlayerGene* m_playerGene;
+	
 
 private:
 	//回転方向スプライト
@@ -76,5 +76,6 @@ private:
 	enCycleDirection m_cycleDirection = enNormal;
 	const int Num2ChangeCycle = 1;
 	const int m_wayPointNum = 36;
+	PlayerGene* m_playerGene;
 };
 

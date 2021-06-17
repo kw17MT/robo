@@ -5,7 +5,6 @@
     <ClCompile Include="GameDirector.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PopUp2D.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Burger.cpp">
       <Filter>Food</Filter>
@@ -315,7 +314,6 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameDirector.h" />
     <ClInclude Include="Light.h" />
-    <ClInclude Include="PopUp2D.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Burger.h">
       <Filter>Food</Filter>

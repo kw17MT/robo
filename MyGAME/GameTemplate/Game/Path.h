@@ -8,7 +8,7 @@
 #pragma once
 struct Point {
 	Vector3 s_vector = Vector3::Zero;				//座標
-	int s_number = 0;									//番号
+	int s_number = 0;								//番号
 };
 
 /**
@@ -66,11 +66,11 @@ public:
 	 */
 	Point* GetPoint(const int& number);
 
-	/// <summary>
-	/// 今が最後のポイントかどうか。
-	/// </summary>
-	/// <param name="number">現在のポイントの番号。</param>
-	/// <returns>最後のポイントだったらtrue。</returns>
+	/**
+	 * @brief 今が最後のポイントかどうか。
+	 * @param number 現在のポイントの番号
+	 * @return 最後のポイントだったらtrue
+	*/
 	bool GetIsFinalPoint(const int& number)
 	{
 		return number == m_pointList.size();

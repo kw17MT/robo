@@ -1,11 +1,6 @@
 #include "stdafx.h"
 #include "SkinModelRender.h"
 
-SkinModelRender::SkinModelRender()
-{
-
-}
-
 SkinModelRender::~SkinModelRender()
 {
 	DeleteGO(this);
@@ -97,11 +92,6 @@ void SkinModelRender::PlayAnimation(int animNo, float interpolateTime)
 	m_animation.Play(animNo, interpolateTime);
 	//m_animation.Progress(1.0f / 60.0f);
 
-}
-
-bool SkinModelRender::Start()
-{
-	return true;
 }
 
 void SkinModelRender::Update()

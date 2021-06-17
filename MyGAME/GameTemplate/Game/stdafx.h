@@ -3,11 +3,6 @@
 
 #include "MiniEngine.h"
 #include "ExEngine.h"
-
 #include "Light.h"
 #include "SoundEngine.h"
-
 #include "GameTime.h"
-
-
-//#include "Shadow.h"

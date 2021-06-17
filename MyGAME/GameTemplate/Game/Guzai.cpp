@@ -18,9 +18,9 @@
 
 namespace
 {
-	const int PLAYER_NONE = 0;
-	const int PLAYER_ONE = 1;
-	const int PLAYER_TWO = 2;
+	const int PLAYER_NONE = -1;
+	const int PLAYER_ONE = 0;
+	const int PLAYER_TWO = 1;
 	const int NONE = 9;
 	const int GUZAI_TYPE_MIN_NUM = 0;
 	const int GUZAI_TYPE_MAX_NUM = 6;
@@ -161,12 +161,12 @@ void Guzai::GrabNPut()
 	//キッチンに置かれたことがない時
 	//Aボタンを押したとき、プレイヤーは何も持っていない、自分はターゲットされているか（ここで距離計測済み）、一度でも置かれていないか。
 	if (g_pad[0]->IsTrigger(enButtonA)) {
-		if (m_player00->have == enNothing && m_targeted == true && m_isPutOnKitchen == false && m_kitchen00->GetKitchenCooking() == false) {
+		if (m_player00->GetPlayerState() == enNothing && m_targeted == true && m_isPutOnKitchen == false && m_kitchen00->GetKitchenCooking() == false) {
 
 			//もたれた！
 			m_isHad = true;
 			//Player0は具材をもっている！
-			m_player00->have = enHaveGuzai;
+			m_player00->SetPlayerState(enHaveGuzai);
 			//自分はどっちのプレイヤーに持たれたか
 			m_whichPlayerGet = PLAYER_ONE;
 			//空の皿の数を1増やす
@@ -182,10 +182,10 @@ void Guzai::GrabNPut()
 		}
 	}
 	if (g_pad[1]->IsTrigger(enButtonA)) {
-		if (m_player01->have == enNothing && m_targeted == true && m_isPutOnKitchen == false && m_kitchen01->GetKitchenCooking() == false) {
+		if (m_player01->GetPlayerState() == enNothing && m_targeted == true && m_isPutOnKitchen == false && m_kitchen01->GetKitchenCooking() == false) {
 
 			m_isHad = true;
-			m_player01->have = enHaveGuzai;
+			m_player01->SetPlayerState(enHaveGuzai);
 			m_whichPlayerGet = PLAYER_TWO;
 			m_playerGene->AddNoHavingDishCounter();
 
@@ -232,9 +232,9 @@ void Guzai::GrabNPut()
 				m_scale = {EGG_SCALE};
 			}
 			//キッチンに置いた具材の種類をプレイヤー側に保存
-			m_player00->GuzaiNo[m_kitchen00->GetStackNum()] = m_typeNo;
+			m_player00->SetPlayerStackedGuzais(m_kitchen00->GetStackNum(), m_typeNo);
 			//プレイヤーは何も持っていない
-			m_player00->have = enNothing;
+			m_player00->SetPlayerState(enNothing);
 			//積んだ層数を1足す
 			m_kitchen00->PlusStack();
 			//この具材はキッチンに置かれている
@@ -271,9 +271,9 @@ void Guzai::GrabNPut()
 				m_scale = { EGG_SCALE };
 			}
 			//キッチンに置いた具材の種類をプレイヤー側に保存
-			m_player01->GuzaiNo[m_kitchen01->GetStackNum()] = m_typeNo;
+			m_player01->SetPlayerStackedGuzais(m_kitchen01->GetStackNum() ,m_typeNo);
 			//プレイヤーは何も持っていない
-			m_player01->have = enNothing;
+			m_player01->SetPlayerState(enNothing);
 			//積んだ層数を1足す
 			m_kitchen01->PlusStack();
 			//この具材は置かれている
@@ -338,7 +338,7 @@ void Guzai::Targeting()
 		if (m_guzai2Pl00 >= m_targetRangeFar && m_player00->GetTargetState() == true && m_targeted == true) {
 			if (m_whichPlayerTargetMe == PLAYER_ONE) {
 				m_decrementTime--;
-				if (m_decrementTime == 0) {
+				if (m_decrementTime <= 0) {
 					m_targeted = false;
 					m_player00->SetTarget(m_targeted);
 					m_decrementTime = m_holdTime;
@@ -349,7 +349,7 @@ void Guzai::Targeting()
 		if (m_guzai2Pl01 >= m_targetRangeFar && m_player01->GetTargetState() == true && m_targeted == true) {
 			if (m_whichPlayerTargetMe == PLAYER_TWO) {
 				m_decrementTime--;
-				if (m_decrementTime == 0) {
+				if (m_decrementTime <= 0) {
 					m_targeted = false;
 					m_player01->SetTarget(m_targeted);
 					m_decrementTime = m_holdTime;
@@ -381,7 +381,7 @@ void Guzai::SetGuzaiOkiba()
 				se->SetVolume(SE_VOLUME);
 				se->Play(false);
 				//プレイヤーが何も持っていない状態にする。
-				m_player00->have = enNothing;
+				m_player00->SetPlayerState(enNothing);
 				m_targeted = false;
 				m_player00->SetTarget(m_targeted);
 				m_decrementTime = m_holdTime;
@@ -406,7 +406,7 @@ void Guzai::SetGuzaiOkiba()
 				se->Init(L"Assets/sound/poka02.wav", false);
 				se->SetVolume(SE_VOLUME);
 				se->Play(false);
-				m_player01->have = enNothing;
+				m_player01->SetPlayerState(enNothing);
 				m_targeted = false;
 				m_player01->SetTarget(m_targeted);
 				m_decrementTime = m_holdTime;
@@ -438,10 +438,10 @@ void Guzai::Cooking()
 	if (m_guzaiOkibaSet == true && m_isCooked == false && m_targeted) {
 		//1P側の処理
 		//1P側のBボタンが押されていて自身のセット場所が1P側だった場合…
-		if (g_pad[0]->IsPress(enButtonB) && m_setKitchenNum >= GUZAIOKIBA_MIDDLE_NUM && m_player00->have <= enNothing) {
+		if (g_pad[0]->IsPress(enButtonB) && m_setKitchenNum >= GUZAIOKIBA_MIDDLE_NUM && m_player00->GetPlayerState() <= enNothing) {
 			//押している時間をインクリメント
 			m_hold01++;
-			m_player00->StopMove01(true);
+			m_player00->StopMove(true);
 			m_player00->SetMoveSpeed(MOVE_SPEED_ZERO);
 			//音が出ていなかったら。
 			if (m_soundFlag01 == false) {
@@ -479,14 +479,14 @@ void Guzai::Cooking()
 					m_soundFlag01 = false;
 				}
 				//動けるようにする。
-				m_player00->StopMove01(false);
+				m_player00->StopMove(false);
 			}
 		}
 		else {
 			//ボタンを離したらタイマーは0に戻る。
 			m_hold01 = 0;
 			//動けるようにする。
-			m_player01->StopMove01(false);
+			m_player00->StopMove(false);
 			//音が出ていたら。
 			if (m_soundFlag01 == true) {
 				DeleteGO(m_meter);
@@ -497,9 +497,9 @@ void Guzai::Cooking()
 		}
 
 		//2P側の処理
-		if (g_pad[1]->IsPress(enButtonB) && m_setKitchenNum < GUZAIOKIBA_MIDDLE_NUM && m_player01->have <= enNothing) {
+		if (g_pad[1]->IsPress(enButtonB) && m_setKitchenNum < GUZAIOKIBA_MIDDLE_NUM && m_player01->GetPlayerState() <= enNothing) {
 			m_hold02++;
-			m_player01->StopMove01(true);
+			m_player01->StopMove(true);
 			m_player01->SetMoveSpeed(MOVE_SPEED_ZERO);
 			////音が出ていなかったら。
 			if (m_soundFlag02 == false) {
@@ -533,11 +533,11 @@ void Guzai::Cooking()
 					m_soundFlag02 = false;
 					DeleteGO(m_meter);
 				}
-				m_player01->StopMove01(false);
+				m_player01->StopMove(false);
 			}
 		}
 		else {
-			m_player01->StopMove01(false);
+			m_player01->StopMove(false);
 			m_hold02 = 0;
 			//音が出ていたら。
 			if (m_soundFlag02 == true) {
@@ -566,7 +566,7 @@ void Guzai::SetOnTrashCan() {
 			se->Init(L"Assets/sound/dumping.wav", false);
 			se->SetVolume(SE_VOLUME);
 			se->Play(false);
-			m_player00->have = enNothing;
+			m_player00->SetPlayerState(enNothing);
 			m_targeted = false;
 			m_player00->SetTarget(m_targeted);
 			//ゴミ箱のリアクションをONにする
@@ -586,7 +586,7 @@ void Guzai::SetOnTrashCan() {
 			se->Init(L"Assets/sound/dumping.wav", false);
 			se->SetVolume(SE_VOLUME);
 			se->Play(false);
-			m_player01->have = enNothing;
+			m_player01->SetPlayerState(enNothing);
 			m_targeted = false;
 			m_player01->SetTarget(m_targeted);
 			m_trashCan[1]->ChangeMovingState(true);

@@ -6,19 +6,45 @@
 #include "GameDirector.h"
 #include "CycleDirection.h"
 
+namespace
+{
+	const Vector2 TIME_TEXT_POS = { -100,350 };
+	const Vector2 TIME_NUMBER_POS = { 50, 350 };
+	const Vector2 SCORE_ONE_POS = { -600,-250 };
+	const Vector2 SCORE_TWO_POS = { 250, -250 };
+	const Vector2 MISS_TEXT_ONE_POS = { -600.0f,-300.0f };
+	const Vector2 MISS_TEXT_TWO_POS = { 250.0f,-300.0f };
+	const Vector2 TIME_NUM_PIVOT = { 0.5f,0.5f };
+
+	
+	const Vector4 MAKE_RED = { 1.0f, 0.0f, 0.0f, 1.0f };
+	const Vector4 LITTLE_COLOR_EXCEPT_RED = { 0.0f,0.02f,0.02f,0.0f };
+
+	const int SCORE_TEXT_NUM = 2;
+	const int MISS_TEXT_NUM = 2;
+	const int SCORE_LEFT = 0;
+	const int SCORE_RIGHT = 1;
+	const int MISS_LEFT = 0;
+	const int MISS_RIGHT = 1;
+	const float SCALE_BIGGER = 1.5f;
+	const float SE_VOLUME = 0.7f;
+	const float REDUCE_SCALE = -0.01f;
+	const int TEN = 10;
+}
+
 //デストラクタ
 FixedUI::~FixedUI()
 {
-	DeleteGO(TextTime);
+	DeleteGO(m_textTime);
 
-	for (int i = 0; i < 2; i++) {
-		DeleteGO(TextScore[i]);
+	for (int i = 0; i < SCORE_TEXT_NUM; i++) {
+		DeleteGO(m_textScore[i]);
 	}
 
-	DeleteGO(Time);
+	DeleteGO(m_time);
 	
-	for (int i = 0; i < 2; i++) {
-		DeleteGO(TextMiss[i]);
+	for (int i = 0; i < MISS_TEXT_NUM; i++) {
+		DeleteGO(m_textMiss[i]);
 	}
 
 }
@@ -27,57 +53,55 @@ bool FixedUI::Start()
 {
 	//各種表示テキストと位置決め
 	//時間(文字)
-	TextTime = NewGO<FontRender>(5);
-	TextTime->SetText(L"TIME : ");
-	TextTime->SetPosition(posTime);
+	m_textTime = NewGO<FontRender>(5);
+	m_textTime->SetText(L"TIME : ");
+	m_textTime->SetPosition(TIME_TEXT_POS);
 
 	//スコア左(文字)
-	TextScore[0] = NewGO<FontRender>(5);
-	TextScore[0]->SetText(L"SCORE : ");
-	TextScore[0]->SetPosition(posScore01);
+	m_textScore[SCORE_LEFT] = NewGO<FontRender>(5);
+	m_textScore[SCORE_LEFT]->SetText(L"SCORE : ");
+	m_textScore[SCORE_LEFT]->SetPosition(SCORE_ONE_POS);
 
 	//スコア右(文字)
-	TextScore[1] = NewGO<FontRender>(5);
-	TextScore[1]->SetText(L"SCORE : ");
-	TextScore[1]->SetPosition(posScore02);
+	m_textScore[SCORE_RIGHT] = NewGO<FontRender>(5);
+	m_textScore[SCORE_RIGHT]->SetText(L"SCORE : ");
+	m_textScore[SCORE_RIGHT]->SetPosition(SCORE_TWO_POS);
 
 	//ミス表示
-	TextMiss[0] = NewGO<FontRender>(5);
-	TextMiss[0]->SetText(L"MISS:");
-	TextMiss[0]->SetPosition(posMiss01);
-	TextMiss[1] = NewGO<FontRender>(5);
-	TextMiss[1]->SetText(L"MISS:");
-	TextMiss[1]->SetPosition(posMiss02);
+	m_textMiss[MISS_LEFT] = NewGO<FontRender>(5);
+	m_textMiss[MISS_LEFT]->SetText(L"MISS:");
+	m_textMiss[MISS_LEFT]->SetPosition(MISS_TEXT_ONE_POS);
+	m_textMiss[MISS_RIGHT] = NewGO<FontRender>(5);
+	m_textMiss[MISS_RIGHT]->SetText(L"MISS:");
+	m_textMiss[MISS_RIGHT]->SetPosition(MISS_TEXT_TWO_POS);
 
 	//残時間
-	Time = NewGO<FontRender>(5);
-	Time->SetPivot({ 0.5f,0.5f });
+	m_time = NewGO<FontRender>(5);
+	m_time->SetPivot(TIME_NUM_PIVOT);
 
 	std::wstring fontRemainingTime;
-	fontRemainingTime = std::to_wstring(remainingTime);
+	fontRemainingTime = std::to_wstring(m_remainingTime);
 	
 	//残り時間を更新する。
-	Time->SetText(fontRemainingTime.c_str());
+	m_time->SetText(fontRemainingTime.c_str());
 
-	Time->SetPosition(posLastTime);
+	m_time->SetPosition(TIME_NUMBER_POS);
 
 	return true;
 }
 
 void FixedUI::RemainingTimeColor()
 {
-	if (remainingTime < 10) {
-		if (timer < 10) {
-			const float Scale = 1.5f;
-			const Vector4 RED = { 1.0f, 0.0f, 0.0f, 1.0f };
-			Time->SetScale(Scale);
-			Time->SetColor(RED);
+	if (m_remainingTime < TEN) {
+		//最初10フレームは赤色にする
+		if (m_timer < TEN) {
+			m_time->SetScale(SCALE_BIGGER);
+			m_time->SetColor(MAKE_RED);
 		}
-		if (timer >= 10) {
-			const float reduceScale = -0.01f;
-			const Vector4 addColorExceptRed = { 0.0f,0.02f,0.02f,0.0f };
-			Time->AddColorPoint(addColorExceptRed);
-			Time->AddFontScale(reduceScale);
+		//10フレーム後になれば赤色以外を少しずつ足して白色にする。
+		if (m_timer >= TEN) {
+			m_time->AddColorPoint(LITTLE_COLOR_EXCEPT_RED);
+			m_time->AddFontScale(REDUCE_SCALE);
 		}
 	}
 }
@@ -94,35 +118,39 @@ void FixedUI::Update()
 	//タイム減少とタイムアップ処理
 	//変数timerの値が60になる度に残時間remainingTimeから1を引いていく
 	//TODO ゲーム内の時間を計ってる。
-	timer++;
-	if (timer >= 60) {
-		if (remainingTime > 0) {
-			remainingTime--;
+	m_timer++;
+	//ここをゲームタイムにする
+	if (m_timer >= 60) {
+		//残り時間がまだあるとき
+		if (m_remainingTime > 0) {
+			//1秒減らす
+			m_remainingTime--;
 		}
-		if (remainingTime < 10) {
+		//残り時間が10秒未満の時
+		if (m_remainingTime < TEN) {
 			//音を出す。
-			timeSound = NewGO<CSoundSource>(0);
-			timeSound->Init(L"Assets/sound/Time.wav", false);
-			timeSound->SetVolume(0.7f);
-			timeSound->Play(false);
+			m_timeSound = NewGO<CSoundSource>(0);
+			m_timeSound->Init(L"Assets/sound/Time.wav", false);
+			m_timeSound->SetVolume(SE_VOLUME);
+			m_timeSound->Play(false);
 		}
-		timer = 0;
+		m_timer = 0;
 	}
 	////タイムアップフラグを立てる
-	if (remainingTime <= 0 && isTimeUp == false) {
-		isTimeUp = true;
+	if (m_remainingTime <= 0 && m_isTimeUp == false) {
+		m_isTimeUp = true;
 	}
 
 	//残時間の変換と更新(int → wstring → const wchar_t*)
 	//残時間LastTimeをstd::wstring型の文字列に変換する
 	std::wstring fontRemainingTime;
-	fontRemainingTime = std::to_wstring(remainingTime);
+	fontRemainingTime = std::to_wstring(m_remainingTime);
 	//残り時間を更新する。
-	Time->SetText(fontRemainingTime.c_str());
+	m_time->SetText(fontRemainingTime.c_str());
 
 	//残時間が少ないときの演出
 	//残り10秒未満になると拡大表示→縮小、色を赤色から白色に変えて強調表示。
-	if (remainingTime > 0) {
+	if (m_remainingTime > 0) {
 		RemainingTimeColor();
 	}
 }

@@ -8,7 +8,7 @@
 #include "Kitchen.h"
 #include "Arrow.h"
 
-namespace
+namespace 
 {
 	const Vector3 POS_ANYONE_CANT_REACH = Vector3::Zero;
 
@@ -181,7 +181,7 @@ void GuzaiOkiba::Targeted()
 
 	for (int i = GUZAIOKIBA_NUM_MIDDLE; i < GUZAIOKIBA_NUM_MAX; i++) {
 		//プレイヤーと具材置き場の距離が一定以下で、ターゲット中で無く、具材が置かれていない場合…
-		if (m_distance[i] < CAN_TARGET_DISTANCE && m_targeted01 == false && m_guzaiSet[i] == false && m_player00->have == HAVE_GUZAI) {
+		if (m_distance[i] < CAN_TARGET_DISTANCE && m_targeted01 == false && m_guzaiSet[i] == false && m_player00->GetPlayerState() == HAVE_GUZAI) {
 			//ターゲット中にアクセス可能な具材置き場に印を表示をするために、ターゲット中の具材置き場の座標を記憶する。
 			m_targetPos01 = m_guzaiOkibaPos[i];
 			m_targetPos01.y += CAN_TARGET_POS_Y;
@@ -216,7 +216,7 @@ void GuzaiOkiba::Targeted()
 	//2P側の処理、1Pとほぼ同じ。
 
 	for (int i = GUZAIOKIBA_NUM_MIN; i < GUZAIOKIBA_NUM_MIDDLE; i++) {
-		if (m_distance[i] < CAN_TARGET_DISTANCE && m_targeted02 == false && m_guzaiSet[i] == false && m_player01->have == HAVE_GUZAI) {
+		if (m_distance[i] < CAN_TARGET_DISTANCE && m_targeted02 == false && m_guzaiSet[i] == false && m_player01->GetPlayerState() == HAVE_GUZAI) {
 			m_targetPos02 = m_guzaiOkibaPos[i];
 			m_targetPos02.y += CAN_TARGET_POS_Y;
 			m_targeted02 = true;

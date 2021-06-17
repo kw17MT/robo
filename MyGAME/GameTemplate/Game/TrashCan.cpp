@@ -4,17 +4,41 @@
 #include "Player.h"
 #include "PlayerGene.h"
 
+namespace
+{
+	const int PLAYER_NAME_SIZE = 9;
+	const float AJUST_ARROW_POS_Y = 300.0f;
+	const int TRASHCAN_SHRINK_TIME_MAX = 30;
+	const int TRASHCAN_SHRINK_TIME_MIN = 20;
+	const int TRASHCAN_EXPAND_TIME_MAX = 20;
+	const int TRASHCAN_EXPAND_TIME_MIN = 0;
+	const float TRASHCAN_SHRINK_RATE = 0.03f;
+	const float TRASHCAN_EXPAND_RATE = 0.015;
+	const int DEFAULT_MOVING_TIME = 30;
+	const float ARROW_CHANGE_SCALE_RATE = 0.1f;
+	const float ARROW_MAX_SCALE = 1.0f;
+	const float ARROW_MIN_SCLAE = 0.0f;
+	const float ARROW_MAX_HEIGHT = 175.0f;
+	const float ARROW_MIN_HEIGHT = 150.0f;
+	const float ARROW_MOVE_RATE = 1.0f;
+}
 
 TrashCan::~TrashCan()
 {
 	DeleteGO(m_skinModelRender);
-	DeleteGO(m_targeting);
+	DeleteGO(m_arrow);
 }
 
 bool TrashCan::Start()
 {
-	player[0] = FindGO<Player>("player00");
-	player[1] = FindGO<Player>("player01");
+	//string型に変えてcharに変換するための準備をする。
+	std::string endNo_string = std::to_string(trashcanNo);
+	//不変箇所を定義
+	char playerName[PLAYER_NAME_SIZE] = "player0";
+	//末端番号だけを追加する
+	strcat_s(playerName, endNo_string.c_str());
+	//必要なデータの探索と確保
+	m_player = FindGO<Player>(playerName);
 	m_playerGene = FindGO<PlayerGene>("playerGene");
 
 	//ゴミ箱モデルの設定
@@ -24,27 +48,16 @@ bool TrashCan::Start()
 	m_skinModelRender->SetScale(m_trashcanScale);
 
 	//ゴミ箱に近づくと矢印が出るように
-	m_targeting = NewGO<SkinModelRender>(0);
-	m_targeting->Init("Assets/modelData/Arrow/Arrow_Yellow.tkm", nullptr, enModelUpAxisZ, m_position);
-	m_targeting->InitShader("Assets/shader/modelTomei.fx", "FrontCulling", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
-	m_targeting->SetScale(m_targetScale);
+	m_arrow = NewGO<SkinModelRender>(0);
+	m_arrow->Init("Assets/modelData/Arrow/Arrow_Yellow.tkm", nullptr, enModelUpAxisZ, m_position);
+	m_arrow->InitShader("Assets/shader/modelTomei.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_arrow->SetScale(m_targetScale);
 
-	if (trashcanNo == 1) {
-		m_targetPos = m_position;
-		m_targetPos.y += 300.0f;
-		m_targeting->SetPosition(m_targetPos);
-		m_rot.SetRotationDegY(45.0f);
-	}
-
-	if (trashcanNo == 2) {
-		m_targetPos = m_position;
-		m_targetPos.y += 300.0f;
-		m_targeting->SetPosition(m_targetPos);
-
-		m_rot.SetRotationDegY(-45.0f);
-	}
-
-	m_targeting->SetRotation(m_rot);
+	//矢印の位置をゴミ箱の上に設定しておく
+	m_arrowPos = m_position;
+	m_arrowPos.y +=AJUST_ARROW_POS_Y;
+	m_arrow->SetPosition(m_arrowPos);
+	m_arrow->SetRotation(m_rot);
 
 	return true;
 }
@@ -59,15 +72,15 @@ float TrashCan::CalcDistance(Vector3 v1, Vector3 v2)
 
 void TrashCan::LetStartMoving()
 {
-	movingTime--;
-	if (movingTime > 20 && movingTime <= 30) {
-		m_trashcanScale.y -= 0.03f;
+	movingTime--;																				//初期値30
+	if (movingTime > TRASHCAN_SHRINK_TIME_MIN && movingTime <= TRASHCAN_SHRINK_TIME_MAX) {		//30~21　10フレーム
+		m_trashcanScale.y -= TRASHCAN_SHRINK_RATE;												//10 * -0.03f = -0.3f
 	}
-	if (movingTime <= 20) {
-		m_trashcanScale.y += 0.015f;
+	if (movingTime > TRASHCAN_EXPAND_TIME_MIN && movingTime <= TRASHCAN_EXPAND_TIME_MAX) {		//20~1　20フレーム
+		m_trashcanScale.y += TRASHCAN_EXPAND_RATE;												//20 * 0.015f = 0.3f
 	}
-	if (movingTime < 0) {
-		movingTime = 30;
+	if (movingTime <= 0) {
+		movingTime = DEFAULT_MOVING_TIME;
 		isMoving = false;
 	}
 }
@@ -78,103 +91,69 @@ void TrashCan::Update()
 	if (m_playerGene->GetPlayerGeneState() == true) {
 		return;
 	}
-	
+
 	//プレイヤーの情報が確定しないままの時があるため、最終確認
-	if (player[0] == nullptr) {
-		player[0] = FindGO<Player>("player00");
-	}
-	if (player[1] == nullptr) {
-		player[1] = FindGO<Player>("player01");
+	if (m_player == nullptr) {
+		//string型に変えてcharに変換するための準備をする。
+		std::string endNo_string = std::to_string(trashcanNo);
+		//不変箇所を定義
+		char playerName[PLAYER_NAME_SIZE] = "player0";
+		//末端番号だけを追加する
+		strcat_s(playerName, endNo_string.c_str());
+		//必要なデータの探索と確保
+		m_player = FindGO<Player>(playerName);
 	}
 
 	//両プレイヤーとの距離を測る。
-	float player01Distance = CalcDistance(player[0]->GetPosition(), m_position);
-	float player02Distance = CalcDistance(player[1]->GetPosition(), m_position);
+	float playerDistance = CalcDistance(m_player->GetPosition(), m_position);
 
 	//矢印の大きさ変更用。近づくと大きくなり、離れると小さくなる。
-	if (trashcanNo == 1) {
-		if (player01Distance < distance) {
-			m_targetScale.x += 0.1f;
-			m_targetScale.y += 0.1f;
-			m_targetScale.z += 0.1f;
+	if (playerDistance < distance) {
+		m_targetScale.x += ARROW_CHANGE_SCALE_RATE;
+		m_targetScale.y += ARROW_CHANGE_SCALE_RATE;
+		m_targetScale.z += ARROW_CHANGE_SCALE_RATE;
 
-			if (m_targetScale.x >= 1.0f) {
-				m_targetScale.x = 1.0f;
-				m_targetScale.y = 1.0f;
-				m_targetScale.z = 1.0f;
-			}
-			canTrash = true;
+		if (m_targetScale.x >= ARROW_MAX_SCALE) {
+			m_targetScale.x = ARROW_MAX_SCALE;
+			m_targetScale.y = ARROW_MAX_SCALE;
+			m_targetScale.z = ARROW_MAX_SCALE;
 		}
-		else {
-			m_targetScale.x -= 0.1f;
-			m_targetScale.y -= 0.1f;
-			m_targetScale.z -= 0.1f;
-
-			if (m_targetScale.x <= 0.0f) {
-				m_targetScale.x = 0.0f;
-				m_targetScale.y = 0.0f;
-				m_targetScale.z = 0.0f;
-			}
-			canTrash = false;
-		}
-		m_targeting->SetScale(m_targetScale);
+		canTrash = true;
 	}
+	else {
+		m_targetScale.x -= ARROW_CHANGE_SCALE_RATE;
+		m_targetScale.y -= ARROW_CHANGE_SCALE_RATE;
+		m_targetScale.z -= ARROW_CHANGE_SCALE_RATE;
 
-	if (trashcanNo == 2) {
-		if (player02Distance < distance) {
-			m_targetScale.x += 0.1f;
-			m_targetScale.y += 0.1f;
-			m_targetScale.z += 0.1f;
-
-			if (m_targetScale.x >= 1.0f) {
-				m_targetScale.x = 1.0f;
-				m_targetScale.y = 1.0f;
-				m_targetScale.z = 1.0f;
-			}
-			canTrash = true;
+		if (m_targetScale.x <= ARROW_MIN_SCLAE) {
+			m_targetScale.x = ARROW_MIN_SCLAE;
+			m_targetScale.y = ARROW_MIN_SCLAE;
+			m_targetScale.z = ARROW_MIN_SCLAE;
 		}
-		else {
-			m_targetScale.x -= 0.1f;
-			m_targetScale.y -= 0.1f;
-			m_targetScale.z -= 0.1f;
-
-			if (m_targetScale.x <= 0.0f) {
-				m_targetScale.x = 0.0f;
-				m_targetScale.y = 0.0f;
-				m_targetScale.z = 0.0f;
-			}
-			canTrash = false;
-		}
-		m_targeting->SetScale(m_targetScale);
+		canTrash = false;
 	}
+	m_arrow->SetScale(m_targetScale);
 
 	//矢印の浮遊処理
 	if (targetUp == true) {
-		m_targetPos.y += 1.0f;
-		if (m_targetPos.y >= 175.0f) {
+		m_arrowPos.y += ARROW_MOVE_RATE;
+		if (m_arrowPos.y >= ARROW_MAX_HEIGHT) {
 			targetUp = false;
 		}
 	}
-	
+
 	if (targetUp == false) {
-		m_targetPos.y -= 1.0f;
-		if (m_targetPos.y <= 150.0f) {
+		m_arrowPos.y -= ARROW_MOVE_RATE;
+		if (m_arrowPos.y <= ARROW_MIN_HEIGHT) {
 			targetUp = true;
 		}
 	}
 
-	if (trashcanNo == 1) {
-		if (isMoving) {
-			LetStartMoving();
-		}
-	}
-	if (trashcanNo == 2) {
-		if (isMoving) {
-			LetStartMoving();
-		}
+	if (isMoving) {
+		LetStartMoving();
 	}
 
-	m_targeting->SetPosition(m_targetPos);
+	m_arrow->SetPosition(m_arrowPos);
 	m_skinModelRender->SetPosition(m_position);
 	m_skinModelRender->SetScale(m_trashcanScale);
 }

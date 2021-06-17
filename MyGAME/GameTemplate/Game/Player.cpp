@@ -3,29 +3,45 @@
 #include "Guzai.h"
 #include "FontRender.h"
 #include "PathFactory.h"
-
 #include "GameDirector.h"
-#include "PopUp2D.h"
-
 #include "SkinModelRender.h"
 #include "Kitchen.h"
 
 namespace
 {
-	float DEBUFFDISTANCE = 100.0f * 100.0f;
+	const Vector3 EFFECT_SCALE = { 10.0f,10.0f,10.0f };
+	const Vector3 FRONT_DIRECTION = { 0.0f,0.0f,1.0f };
+	const Vector3 RIGHT_DIRECTION = { 1.0f,0.0f,0.0f };
+	const Vector3 PLYAER_SPEED_ZERO = Vector3::Zero;
+
+	const int KITCHEN_NAME_SIZE = 10;
+	const int PLAYER_NUMBER_ONE = 0;
+	const int PLAYER_NUMBER_TWO = 1;
+	const int MAX_NUM_TO_GUZAI_STACK = 10;
+	const int STACK_NONE = 9;
+	const int PLAYER_1_RESTRECTED_POS_X_MIN = 900;
+	const int PLAYER_2_RESTRECTED_POS_X_MIN = -1300;
+	const int PLAYER_1_RESTRECTED_POS_X_MAX = 1300;
+	const int PLAYER_2_RESTRECTED_POS_X_MAX = -900;
+	const int PLAYER_RESTRECTED_POS_Z_MIN = -530;
+	const int PLAYER_RESTRECTED_POS_Z_MAX = 190;
+	const int EFFECT_POP_RATE = 12;
+	const int EFFECT_POP = 11;
+	const int EFFECT_TIMER_MAX = 60;
+
+	const float AJUST_PLAYER_SPEED = -10.0f;
 }
 
 Player::~Player()
 {
 	DeleteGO(m_skinModelRender);
-	DeleteGO(m_effect01);
-	DeleteGO(m_effect02);
+	DeleteGO(m_effect);
 }
 
 bool Player::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	if (playerNo == 1) {
+	if (m_playerNo == PLAYER_NUMBER_ONE) {
 		m_skinModelRender->Init(
 			"Assets/modelData/Chef/ChefRed/Chef01.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
@@ -49,86 +65,76 @@ bool Player::Start()
 		DXGI_FORMAT_R32G32B32A32_FLOAT
 	);
 
-	m_scale = { 0.3f,0.4f,0.3f };
+
 	m_skinModelRender->SetScale(m_scale);
 
 	//具材ナンバー配列のすべての要素を9で初期化
-	for (int i = 0; i < 10; i++) {
-		GuzaiNo[i] = 9;
+	for (int i = 0; i < MAX_NUM_TO_GUZAI_STACK; i++) {
+		GuzaiNo[i] = STACK_NONE;
 	}
 
-	if (playerNo == 1) {
-		m_kitchen = FindGO<Kitchen>("kitchen00");
-	}
-	if (playerNo == 2) {
-		m_kitchen = FindGO<Kitchen>("kitchen01");
-	}
+	int endNo = m_playerNo;
+	//string型に変えてcharに変換するための準備をする。
+	std::string endNo_string = std::to_string(endNo);
+	//不変箇所を定義
+	char kitchenName[KITCHEN_NAME_SIZE] = "kitchen0";
+	//末端番号だけを追加する
+	strcat_s(kitchenName, endNo_string.c_str());
+	//所定のキッチンを設定後、座標をとってきてセットする。
+	Kitchen* kitchen = FindGO<Kitchen>(kitchenName);
 
 	//エフェクトの初期化
-	//P1
-	m_effect01 = NewGO<Effect>(0);
-	m_effect01->Init(u"Assets/effect/dust.efk");
-	m_effect01->SetScale({ 10.0f,10.0f,10.0f });
-	//P2
-	m_effect02 = NewGO<Effect>(0);
-	m_effect02->Init(u"Assets/effect/dust.efk");
-	m_effect02->SetScale({ 10.0f,10.0f,10.0f });
+	m_effect = NewGO<Effect>(0);
+	m_effect->Init(u"Assets/effect/dust.efk");
+	m_effect->SetScale(EFFECT_SCALE);
 
 	return true;
 }
 
 void Player::SetGuzaiNo9()
 {
-	for (int i = 0;i < 10;i++)
+	for (int i = 0;i < MAX_NUM_TO_GUZAI_STACK;i++)
 	{
-		GuzaiNo[i] = 9;
+		GuzaiNo[i] = STACK_NONE;
 	}
 }
 
 void Player::RestrictPos()
 {
-	if (playerNo == 1) {
-		if (m_position.x > 1300) {
-			m_position.x = 1300;
+	//座標を用いてプレイヤーの移動範囲を管理する。
+	if (m_playerNo == PLAYER_NUMBER_ONE) {
+		if (m_position.x > PLAYER_1_RESTRECTED_POS_X_MAX) {
+			m_position.x = PLAYER_1_RESTRECTED_POS_X_MAX;
 		}
-		if (m_position.x < 900) {
-			m_position.x = 900;
+		if (m_position.x < PLAYER_1_RESTRECTED_POS_X_MIN) {
+			m_position.x = PLAYER_1_RESTRECTED_POS_X_MIN;
 		}
-		if (m_position.z > 190) {
-			m_position.z = 190;
+		if (m_position.z > PLAYER_RESTRECTED_POS_Z_MAX) {
+			m_position.z = PLAYER_RESTRECTED_POS_Z_MAX;
 		}
-		if (m_position.z < -530) {
-			m_position.z = -530;
-		}
-	}
-	if (playerNo == 2) {
-		if (m_position.x > -900) {
-			m_position.x = -900;
-		}
-		if (m_position.x < -1300) {
-			m_position.x = -1300;
-		}
-		if (m_position.z > 190) {
-			m_position.z = 190;
-		}
-		if (m_position.z < -530) {
-			m_position.z = -530;
+		if (m_position.z < PLAYER_RESTRECTED_POS_Z_MIN) {
+			m_position.z = PLAYER_RESTRECTED_POS_Z_MIN;
 		}
 	}
-
-}
-
-void Player::StopMove01(bool tf)
-{ 
-	m_moveStop01 = tf;
-}
-void Player::StopMove02(bool tf)
-{
-	m_moveStop02 = tf;
+	if (m_playerNo == PLAYER_NUMBER_TWO) {
+		if (m_position.x > PLAYER_2_RESTRECTED_POS_X_MAX) {
+			m_position.x = PLAYER_2_RESTRECTED_POS_X_MAX;
+		}
+		if (m_position.x < PLAYER_2_RESTRECTED_POS_X_MIN) {
+			m_position.x = PLAYER_2_RESTRECTED_POS_X_MIN;
+		}
+		if (m_position.z > PLAYER_RESTRECTED_POS_Z_MAX) {
+			m_position.z = PLAYER_RESTRECTED_POS_Z_MAX;
+		}
+		if (m_position.z < PLAYER_RESTRECTED_POS_Z_MIN) {
+			m_position.z = PLAYER_RESTRECTED_POS_Z_MIN;
+		}
+	}
 }
 
 void Player::Update()
 {
+	//カウントダウン中でも、プレイヤーの初期位置は固定しておきたいため。
 	m_skinModelRender->SetPosition(m_position);
 
 	//ゲームプレイ中じゃなかったら。
@@ -138,150 +144,68 @@ void Player::Update()
 		return;
 	}
 
-	//P1の処理
-	if (playerNo == 1) {
+	//回転処理
+	//自身の上と右を定義(見下ろしなので)
+	Vector3 frontDirP1 = FRONT_DIRECTION;
+	frontDirP1.Normalize();
+	Vector3 rightDirP1 = RIGHT_DIRECTION;
+	rightDirP1.Normalize();
 
-		//回転処理
+	//回転軸の決定
+	Vector3 AxisYP1;
+	AxisYP1.Cross(frontDirP1, rightDirP1);
 
-		//自身の上と右を定義(見下ろしなので)
-		Vector3 frontDirP1 = { 0.0f,0.0f,1.0f };
-		frontDirP1.Normalize();
-		Vector3 rightDirP1 = { 1.0f,0.0f,0.0f };
-		rightDirP1.Normalize();
+	//水平方向と奥行方向への入力を受け取り
+	float LStickXP1 = g_pad[m_playerNo]->GetLStickXF();
+	float LStickZP1 = g_pad[m_playerNo]->GetLStickYF() * -1.0f; //奥行方向の逆転を-1.0fを掛けて補正
 
-		//回転軸の決定
-		Vector3 AxisYP1;
-		AxisYP1.Cross(frontDirP1, rightDirP1);
-
-		//水平方向と奥行方向への入力を受け取り
-		float LStickXP1 = g_pad[0]->GetLStickXF() * 1.0f;
-		float LStickZP1 = g_pad[0]->GetLStickYF() * -1.0f; //奥行方向の逆転を-1.0fを掛けて補正
-
-		//回転させるかどうかのチェック(スティックの入力があるかどうかをチェック)
-		if (m_moveStop01 == true || m_moveStop02 == true || fabsf(LStickXP1) < 0.001f && fabsf(LStickZP1) < 0.001f) {
-			//return; //returnすると以下の処理がすっ飛ばされてUpdateの最後にいってしまう。
-		}
-		else {
-			//二つの入力値が成す角を求める(ラジアン角)
-			angle = atan2(LStickXP1, LStickZP1);
-			//縦軸まわりの回転を求める(ラジアン角を引数に渡すためSetRotation)
-			m_rotation.SetRotation(AxisYP1, -angle);
-
-			m_skinModelRender->SetRotation(m_rotation);
-		}
-
-		if (m_moveStop01 == false && m_moveStop02 == false) {
-			moveSpeed.x = g_pad[0]->GetLStickXF() * -10.0f;
-			moveSpeed.z = g_pad[0]->GetLStickYF() * -10.0f;
-		}
-		if(m_moveStop01 == true || m_moveStop02 == true)
-		{
-			moveSpeed.x = 0.0f;
-			moveSpeed.y = 0.0f;
-			moveSpeed.z = 0.0f;
-		}
-
-		m_position += moveSpeed;
-		
-		//プレイヤーが移動している限り移動速度を保存し続ける。
-		if (moveSpeed.x != 0.0f || moveSpeed.z != 0.0f) {
-			saveMoveSpeed = moveSpeed;
-			saveMoveSpeed.Normalize();
-		}
-
-		RestrictPos();
-
-		m_skinModelRender->SetPosition(m_position);
-
-		//エフェクト再生
-		//移動中なら定期的に発生
-		moveCounter01 += 1;
-		if (moveSpeed.x != 0) {
-			if (moveCounter01 % 12 == 11 ) {
-				m_effect01->SetPosition(m_position);
-				m_effect01->Play(0);
-			}
-		}
-
-		if (moveCounter01 > 60) {
-			moveCounter01 = 0;
-		}
-		
-
+	if (fabsf(LStickXP1) < 0.001f && fabsf(LStickZP1) < 0.001f) {
+		//return; //returnすると以下の処理がすっ飛ばされてUpdateの最後にいってしまう。
 	}
-	//P2の処理
-	if (playerNo == 2) {
+	else {
+		//二つの入力値が成す角を求める(ラジアン角)
+		m_angle = atan2(LStickXP1, LStickZP1);
+		//縦軸まわりの回転を求める(ラジアン角を引数に渡すためSetRotation)
+		m_rotation.SetRotation(AxisYP1, -m_angle);
+	}
 
-		//回転処理
 
-		//自身の上と右を定義(見下ろしなので)
-		Vector3 frontDirP2 = { 0.0f,0.0f,1.0f };
-		frontDirP2.Normalize();
-		Vector3 rightDirP2 = { 1.0f,0.0f,0.0f };
-		rightDirP2.Normalize();
+	if (m_moveStop == false) {
+		m_moveSpeed.x = g_pad[m_playerNo]->GetLStickXF() * AJUST_PLAYER_SPEED;
+		m_moveSpeed.z = g_pad[m_playerNo]->GetLStickYF() * AJUST_PLAYER_SPEED;
+	}
+	if (m_moveStop == true)
+	{
+		m_moveSpeed = PLYAER_SPEED_ZERO;
+	}
 
-		//回転軸の決定
-		Vector3 AxisYP2;
-		AxisYP2.Cross(frontDirP2, rightDirP2);
+	m_position += m_moveSpeed;
 
-		//水平方向と奥行方向への入力を受け取り
-		float LStickXP2 = g_pad[1]->GetLStickXF() * 1.0f;
-		float LStickZP2 = g_pad[1]->GetLStickYF() * -1.0f; //奥行方向の逆転を-1.0fを掛けて補正
+	//プレイヤーが移動している限り移動速度を保存し続ける。
+	if (m_moveSpeed.x != 0.0f || m_moveSpeed.z != 0.0f) {
+		m_saveMoveSpeed = m_moveSpeed;
+		m_saveMoveSpeed.Normalize();
+	}
 
-		//回転させるかどうかのチェック(スティックの入力があるかどうかをチェック)
-		if ( m_moveStop01 == true || m_moveStop02 == true || fabsf(LStickXP2) < 0.001f && fabsf(LStickZP2) < 0.001f) {
-			//return; //returnすると以下の処理がすっ飛ばされてUpdateの最後にいってしまう。
+	RestrictPos();
+
+	m_skinModelRender->SetPosition(m_position);
+
+	//エフェクト再生
+	//移動中なら定期的に発生
+	m_moveCounter++;
+	if (m_moveSpeed.x != 0) {
+		if (m_moveCounter % EFFECT_POP_RATE == EFFECT_POP) {
+			m_effect->SetPosition(m_position);
+			m_effect->Play(0);
 		}
-		else {
-			//二つの入力値が成す角を求める(ラジアン角)
-			angle = atan2(LStickXP2, LStickZP2);
-			//縦軸まわりの回転を求める(ラジアン角を引数に渡すためSetRotation)
-			m_rotation.SetRotation(AxisYP2, -angle);
+	}
 
-			m_skinModelRender->SetRotation(m_rotation);
-		}
-
-		if (m_moveStop01 == false && m_moveStop02 == false) {
-			moveSpeed.x = g_pad[1]->GetLStickXF() * -10.0f;
-			moveSpeed.z = g_pad[1]->GetLStickYF() * -10.0f;
-		}
-		if(m_moveStop01 == true || m_moveStop02 == true)
-		{
-			moveSpeed.x = 0.0f;
-			moveSpeed.y = 0.0f;
-			moveSpeed.z = 0.0f;
-		}
-		m_position += moveSpeed;
-
-		//プレイヤーが移動している限り移動速度を保存し続ける。
-		if (moveSpeed.x != 0.0f || moveSpeed.z != 0.0f) {
-			saveMoveSpeed = moveSpeed;
-			saveMoveSpeed.Normalize();
-		}
-
-		RestrictPos();
-
-		m_skinModelRender->SetPosition(m_position);
-		
-		//エフェクト再生
-		//移動中なら定期的に発生
-		moveCounter02 += 1;
-		if (moveSpeed.x != 0) {
-			if (moveCounter02 % 12 == 11) {
-				m_effect02->SetPosition(m_position);
-				m_effect02->Play(0);
-			}
-		}
-
-		if (moveCounter02 > 60) {
-			moveCounter02 = 0;
-		}
-
-
+	if (m_moveCounter > EFFECT_TIMER_MAX) {
+		m_moveCounter = 0;
 	}
 
 	m_skinModelRender->SetScale(m_scale);
-
-	m_effect01->Update();
-	m_effect02->Update();
+	m_skinModelRender->SetRotation(m_rotation);
+	m_effect->Update();
 }

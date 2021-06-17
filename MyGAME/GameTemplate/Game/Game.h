@@ -29,13 +29,25 @@ class Game : public IGameObject
 private:
 	bool isTimeUp = false;
 	int StockPlaceNum = 0;
-	bool m_soundFlag00 = false; //0の音が鳴っているか？
-	bool m_soundFlag01 = false; //1の音が鳴っているか？
-	bool m_soundFlag02 = false; //2の音が鳴っているか？
-	bool m_soundFlag03 = false; //3の音が鳴っているか？
+
+	bool m_soundFlag = false;
+
+	int changeCount = 1;
+	float scaleRate = 2.0f;
+	float alpha = 0.0f;
+	bool fadeOut = false;
+
+	//カウントダウン用スプライト
+	SpriteRender* m_countSprite = nullptr;
+	Vector3 m_ctScale = Vector3::One;
+	Vector4 m_countDownColor = { 1.0f,1.0f,1.0f,0.0f };
+	//カウントダウン用。
+	float m_timer = 4.0f;
+
+	
 public:
 	//オブジェクトやUIの表示
-	Game();
+	Game() {};
 	~Game();
 
 	bool Start();
@@ -44,6 +56,10 @@ public:
 	//カウントダウンする。
 	void CountDown();
 
+	bool GetTimeUp() { return isTimeUp; }
+	void SetTimeUp() { isTimeUp = true; }
+
+private:
 	CLevel2D* m_level2D = nullptr;
 	FixedUI* ui = nullptr;											//座標の動かないUI（時間、スコア、ミス）
 	Counter* counter00 = nullptr;									//カウンタ―１
@@ -65,21 +81,4 @@ public:
 	CSoundSource* m_bgm = nullptr;									//BGM用
 	CycleDirection* m_directionSprite[3] = {nullptr,nullptr,nullptr};
 	Level* m_level = nullptr;
-
-	bool GetTimeUp() { return isTimeUp; }
-	void SetTimeUp() { isTimeUp = true; }
-
-	//カウントダウン用。
-	float m_timer = 4.0f;
-	//FontRender* m_font;
-	
-	//カウントダウン用スプライト
-	SpriteRender* m_countSprite = nullptr;
-	Vector3 m_ctScale = Vector3::One;
-	int changeCount = 3;
-	float scaleRate = 2.0f;
-	float alpha = 0.0f;
-	bool fadeOut = false;
-
-	int a = 0;
 };

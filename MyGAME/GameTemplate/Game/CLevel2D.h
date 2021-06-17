@@ -11,6 +11,7 @@ class CLevel2D;
 class Level;
 #include "Level2D.h"
 
+static const int SHOW_HAMBURGER_SPECIES = 11;
 static const int SHOW_HAMBURGER_NUMBER = 3;
 
 /// <summary>
@@ -22,9 +23,6 @@ class CLevel2D : public IGameObject
 	bool Start() override;
 	void Update() override;
 	void Render(RenderContext& rc) override;
-	//不要
-	//Level2Dから渡されたname(パスの一部）を用いてSpriteRenderで使うconst char*型を作る。
-	//const char* MakePathFromName(const char* name);
 
 	//次に表示するハンバーガーを決めるお(´・ω・｀)！
 	void Roulette(int number);
@@ -38,21 +36,43 @@ public:
 		return m_showHamBurgers;
 	}
 
-	//ハンバーガーが一致しているかどうかを取得
+	//
+
+	/**
+	 * @brief ハンバーガーが一致しているかどうかを取得
+	 * @param numbers 積み上げた具材の種類。
+	 * @param size ハンバーガーの層数
+	 * @param counterNo 作られたハンバーガーの番号
+	 * @return TRUE＝すべて一致、FALSE＝どこかちがう
+	*/
 	bool GetIsMatchHamBurger(int* numbers, int size, int counterNo);
 
-	//画像を動かす関数。
+	/**
+	 * @brief 画像を動かす関数。
+	 * @param number 画像の状態 enMenuSlideState
+	*/
 	void SpriteSet(int number);
 
-	//画像の移動量を取得
+	/**
+	 * @brief 画像の移動量を取得
+	 * @param i 移動量
+	 * @return 
+	*/
 	float GetSlideAmount(int i) { return m_slideAmount[i]; }
+
+	enum enMenuSlideState {
+		enStop,
+		enSlideUp,
+		enSlideDown,
+		enSlideStateNum
+	};
+
 private:
-	Level2D m_level2D;		//レベル2D。
-	//Sprite m_sprite;			//スプライト。
-	Vector3 m_position;		//座標。
-	Vector3 m_scale;		//大きさ。
-	Vector3 m_slidePos[SHOW_HAMBURGER_NUMBER];		//移動
-	float m_slideAmount[SHOW_HAMBURGER_NUMBER] = { 0.0f }; //画像の上下移動量
+	Level2D m_level2D;										//レベル2D。
+	//Vector3 m_position;									//座標。
+	//Vector3 m_scale;										//大きさ。
+	Vector3 m_slidePos[SHOW_HAMBURGER_NUMBER];				//メニューを上か下にスライド移動
+	float m_slideAmount[SHOW_HAMBURGER_NUMBER] = { 0.0f };	//画像の上下移動量
 	int m_slide[SHOW_HAMBURGER_NUMBER] = { 0 };			//メニュー画像のスライドフラグ。0で動かない、1で上にスライド、2で下にスライド。
 	bool m_TimeUpSet[2] = { false };					//メニューのタイムオーバー中か？
 	SpriteRender* sprite[enHamBurgerNum] = {nullptr};
@@ -63,13 +83,13 @@ private:
 	Vector3 m_spritePositions[SHOW_HAMBURGER_NUMBER];
 
 	//表示しているハンバーガーの配列。
-	EnHamBurger m_showHamBurgers[SHOW_HAMBURGER_NUMBER];
+	EnHamBurger m_showHamBurgers[SHOW_HAMBURGER_SPECIES];
 
 	//ハンバーガースプライトのデータ。ハンバーガーの数だけ用意する。
 	Level2DObjectData m_level2DObjectDatas[enHamBurgerNum];
 	MenuTimer* m_menuTimer[2] = { nullptr, nullptr };
 	MissCounter* m_missCounter = nullptr;
+	Counter* m_counter00 = nullptr;
 	Counter* m_counter01 = nullptr;
-	Counter* m_counter02 = nullptr;
 	CSoundSource* m_slideSe[3] = { nullptr, nullptr, nullptr };
 };

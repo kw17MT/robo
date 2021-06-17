@@ -9,27 +9,29 @@ struct CaslData;
 /// 2Dのレベルデータ。
 /// </summary>
 struct Level2DObjectData {
-	Vector3 position = Vector3::Zero;		//座標。
-	Quaternion rotation = Quaternion::Identity;	//回転。
-	Vector3 scale = Vector3::One;			//拡大率。
-	int width = 0;		//横幅。
-	int height = 0;		//縦幅。
-	const char* name;	//名前。
-	const char* ddsFilePath;		//.ddsファイルのファイルパス。
-	/// <summary>
-	/// 引数で渡したオブジェクト名のオブジェクトを調べる。
-	/// </summary>
-	/// <param name="objName">調べる名前。</param>
-	/// <returns>名前が同じ場合にtrueを返します。</returns>
+	Vector3 position = Vector3::Zero;					//座標。
+	Quaternion rotation = Quaternion::Identity;			//回転。
+	Vector3 scale = Vector3::One;						//拡大率。
+	int width = 0;										//横幅。
+	int height = 0;										//縦幅。
+	const char* name;									//名前。
+	const char* ddsFilePath;							//.ddsファイルのファイルパス。
+	
+	/**
+	 * @brief 引数で渡したオブジェクト名のオブジェクトを調べる。
+	 * @param objName 調べる名前
+	 * @return 名前が同じ場合にtrueを返します。
+	*/
 	bool EqualObjectName(const char* objName) const
 	{
 		return strcmp(objName, name) == 0;
 	}
-	/// <summary>
-	/// 名前が前方一致するか調べる。
-	/// </summary>
-	/// <param name="n">調べる名前。</param>
-	/// <returns>名前が同じ場合にtrueを返します。</returns>
+	
+	/**
+	 * @brief 名前が前方一致するか調べる。
+	 * @param n 調べる名前。
+	 * @return 名前が同じ場合にtrueを返します。
+	*/
 	bool ForwardMatchName(const char* n) const
 	{
 		auto len = strlen(n);

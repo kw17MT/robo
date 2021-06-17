@@ -5,7 +5,7 @@ enum EnLane
 {
 	enNonLane = -1,
 	enNormalLane = 0,		//普通のレーン。
-	enLaneNum = 1		//レーンの数。
+	enLaneNum = 1			//レーンの数。
 };
 
 class PathFactory

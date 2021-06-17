@@ -4,55 +4,130 @@ class Player;
 class PlayerGene : public IGameObject
 {
 private:
-	Vector3 player01Pos = { 1000.0f,0.0f,0.0f };
-	Vector3 player02Pos = { -1000.0f, 0.0f, 0.0f };
-	Quaternion player01Rot;
-	Quaternion player02Rot;
+	Vector3 m_player01Pos = { 1000.0f,0.0f,0.0f };									//プレイヤー1の初期位置
+	Vector3 m_player02Pos = { -1000.0f, 0.0f, 0.0f };								//プレイヤー2の初期位置
+	Quaternion m_player01Rot = Quaternion::Identity;								//プレイヤー1の回転							
+	Quaternion m_player02Rot = Quaternion::Identity;								//プレイヤー2の回転
 
-	int playerNum = 0;																//何人プレイヤーを生成したかの数
-	bool isWorking = true;															//プレイヤー生成器が稼働中か　稼働中ならプレイヤー生成が終わっていない
-
-	int noHavingDishCounter = 0;													//空の皿の数
-	int refilledNum = 0;				
+	int m_playerNum = 0;															//何人プレイヤーを生成したかの数
+	int m_noHavingDishCounter = 0;													//空の皿の数
+	int m_refilledNum = 0;															//補充できた具材の数
+	int m_submitBurgerNum = 0;														//提出したバーガーの数
+	int m_changeCycleNum = 0;														//何個補充したか。Dishで使用。これがmaxNum2Refillと同値になると補充完了を意味し、noHavingDish、refilledNumを０で初期化する。
 	
-	int SubmitBurgerNum = 0;														//提出したバーガーの数
-	int ChangeCycleNum = 0;															//何個補充したか。Dishで使用。これがmaxNum2Refillと同値になると補充完了を意味し、noHavingDish、refilledNumを０で初期化する。
-	bool m_isGameSet = false;
+	bool m_isGameSet = false;														//ゲームが終了したか
+	bool m_isWorking = true;														//プレイヤー生成器が稼働中か　稼働中ならプレイヤー生成が終わっていない
+
 public:
 	~PlayerGene();
+	
+	bool Start() { return true; }
 
-	bool Start();
+	/**
+	 * @brief プレイヤーを2体出す。
+	*/
 	void Update();
 
-	//各プレイヤーの座標セッター
-	void SetPlayer01Pos(Vector3 pos) { player01Pos = pos; }
-	void SetPlayer02Pos(Vector3 pos) { player02Pos = pos; }
+	/**
+	 * @brief プレイヤー１の位置を変える
+	 * @param pos 新しい位置座標
+	*/
+	void SetPlayer01Pos(Vector3 pos) { m_player01Pos = pos; }
 
-	//空の皿の計測関係
-	int GetNoHavingDishCounter() { return noHavingDishCounter; }					//空の皿のゲッタ―
-	void AddNoHavingDishCounter() { noHavingDishCounter++; }						//空の皿の数を1つ足す
-	void MinusNoHavingDishCounter() { noHavingDishCounter--; }						//空の皿の数を1つ消す　具材置き場で使う。
-	void ResetNohavingDishCounter() { noHavingDishCounter = 0; }					//補充完了時に空の皿を０に戻す
-	//補充した皿関係	
-	int GetRefilledNum() { return refilledNum; }									//補充完了した皿の数
-	void AddRefilledNum() { refilledNum++; }										//補充完了した皿の数を一つ足す
-	void ResetRefilledNum() { refilledNum = 0; }									//補充完了時に補充した皿を０に戻す
+	/**
+	 * @brief プレイヤー２の位置を変える
+	 * @param pos 新しい位置座標
+	*/
+	void SetPlayer02Pos(Vector3 pos) { m_player02Pos = pos; }
 
-	//提出したバーガー関係
-	void AddSubmitBurgerNum() { SubmitBurgerNum++; }								//提出したバーガーの数を1つ足す
-	int GetSubmitBurgerNum() { return SubmitBurgerNum; }							//提出したバーガーの数を返す
-	void ResetSubmitBurgerNum() { SubmitBurgerNum = 0; }							//
-	//流れを変えた回数関係
-	void AddChangeCycleNum() { ChangeCycleNum++; }									//流れを変えた回数
-	int GetChangeCycleNum() { return ChangeCycleNum; }								//流れを変えた回数のゲッタ―
-	void ResetChangeCycleNum() { ChangeCycleNum = 0; }								//
+	/**
+	 * @brief 空の皿はいくつあるかを返す
+	 * @return 空の皿の数
+	*/
+	int GetNoHavingDishCounter() { return m_noHavingDishCounter; }
 
-	//プレイヤー生成器電源状態,true = 動いてる, false = 止まってる。
-	bool GetPlayerGeneState() { return isWorking; }
+	/**
+	 * @brief 空の皿の数を1つ足す
+	*/
+	void AddNoHavingDishCounter() { m_noHavingDishCounter++; }
 
+	/**
+	 * @brief 空の皿の数を1つ消す　具材置き場で使う。
+	*/
+	void MinusNoHavingDishCounter() { m_noHavingDishCounter--; }
+
+	/**
+	 * @brief 補充完了時に空の皿を０に戻す
+	*/
+	void ResetNohavingDishCounter() { m_noHavingDishCounter = 0; }
+
+	/**
+	 * @brief 補充完了した皿の数を返す
+	 * @return 補充完了した皿の数
+	*/
+	int GetRefilledNum() { return m_refilledNum; }
+
+	/**
+	 * @brief 補充完了した皿の数を一つ足す
+	*/
+	void AddRefilledNum() { m_refilledNum++; }
+
+	/**
+	 * @brief 補充完了時に補充した皿を０に戻す
+	*/
+	void ResetRefilledNum() { m_refilledNum = 0; }
+
+	/**
+	 * @brief 提出したバーガーの数を1つ足す
+	*/
+	void AddSubmitBurgerNum() { m_submitBurgerNum++; }
+
+	/**
+	 * @brief 提出したバーガーの数を返す
+	 * @return 提出したバーガーの数
+	*/
+	int GetSubmitBurgerNum() { return m_submitBurgerNum; }
+
+	/**
+	 * @brief 提出したハンバーガーの数をリセットする。
+	*/
+	void ResetSubmitBurgerNum() { m_submitBurgerNum = 0; }	
+
+	/**
+	 * @brief 流れを変えた回数をインクリメントする。
+	*/
+	void AddChangeCycleNum() { m_changeCycleNum++; }
+
+	/**
+	 * @brief 流れを変えた回数を返す
+	 * @return 流れを変えた回数
+	*/
+	int GetChangeCycleNum() { return m_changeCycleNum; }
+
+	/**
+	 * @brief 流れを変えた回数をリセットする。
+	*/
+	void ResetChangeCycleNum() { m_changeCycleNum = 0; }
+
+	/**
+	 * @brief プレイヤー生成器電源状態
+	 * @return true = 動いてる, false = 止まってる。
+	*/
+	bool GetPlayerGeneState() { return m_isWorking; }
+
+	/**
+	 * @brief ゲームは終わっているか返す
+	 * @return TRUE＝終わっている
+	*/
 	bool GetIsGameSet() { return m_isGameSet; }
+
+	/**
+	 * @brief ゲームが終わっているかどうかを設定する。
+	 * @param state ゲームが終わっているかどうか
+	*/
 	void SetIsGameSet(bool state) { m_isGameSet = state; }
 
-	Player* player[2] = { nullptr };
+private:
+	Player* m_player[2] = { nullptr };
 };
 

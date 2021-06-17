@@ -87,8 +87,8 @@ void Burger::GrabBurger()
 	float pl2Burger = pl2Burger_vec.Length();
 
 	//Aボタンを押してプレイヤーとバーガーの距離が一定以下なら、バーガーを持つ準備をする。
-	if (g_pad[m_burgerNo]->IsTrigger(enButtonA) && pl2Burger < DISTANCE_BETWEEN_PLAYER_TO_BURGER && m_player->have != enHaveBurger) {
-		m_player->have = enHaveBurger;
+	if (g_pad[m_burgerNo]->IsTrigger(enButtonA) && pl2Burger < DISTANCE_BETWEEN_PLAYER_TO_BURGER && m_player->GetPlayerState() != enHaveBurger) {
+		m_player->SetPlayerState(enHaveBurger);
 		//音を鳴らす
 		CSoundSource* se = NewGO<CSoundSource>(0);
 		se->Init(L"Assets/sound/poka01.wav", false);
@@ -96,7 +96,7 @@ void Burger::GrabBurger()
 		se->Play(false);
 	}
 	//バーガーの位置をプレイヤーの前に持ってくる。
-	if (m_player->have == enHaveBurger) {
+	if (m_player->GetPlayerState() == enHaveBurger) {
 		//プレイヤーの移動方向にハンバーガーを持ってくる。
 		plPos += plSpeed;
 		m_beHadPos = plPos;
@@ -114,7 +114,7 @@ void Burger::ClearNo()
 	m_counter->SetStack0();
 	//プレイヤーに保存している積んだ具材を何もない状態（９）で初期化する。
 	for (int i = 0;i < m_player->GetMaxNumCanSaveGuzaiType(); i++) {
-		m_player->GuzaiNo[i] = NONE;
+		m_player->ClearSpecificGuzaiNo(i);
 	}
 }
 
@@ -137,7 +137,7 @@ void Burger::SetOnTrashCan()
 			se->SetVolume(SE_VOLUME);
 			se->Play(false);
 			m_burgerExist = false;
-			m_player->have = enNothing;
+			m_player->SetPlayerState(enNothing);
 			m_decrementTime = INIT_DECREMENT_TIME;
 			ClearNo();
 

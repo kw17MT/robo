@@ -2,40 +2,42 @@
 #include "PlayerGene.h"
 #include "Player.h"
 
+namespace
+{
+	const int PLAYER_NUMBER_ONE = 0;
+	const int PLAYER_NUMBER_TWO = 1;
+	const int PLAYER_MAX_NUM = 2;
+}
+
 PlayerGene::~PlayerGene()
 {
-	for (int i = 0; i < 2; i++) {
-		if (player[i] != nullptr) {
-			DeleteGO(player[i]);
+	for (int i = 0; i < PLAYER_MAX_NUM; i++) {
+		if (m_player[i] != nullptr) {
+			DeleteGO(m_player[i]);
 		}
 	}
 }
 
-bool PlayerGene::Start()
-{
-
-	return true;
-}
-
 void PlayerGene::Update()
 {
-	if (isWorking) {
-		if (playerNum == 0) {
-			player[0] = NewGO<Player>(0, "player00");
-			player[0]->SetPosition(player01Pos);
-			player01Rot.SetRotationDegY(90.0f);
-			player[0]->SetRotation(player01Rot);
-			player[0]->SetPlayerNo(1);
-			playerNum++;
+	//ÉvÉåÉCÉÑÅ[ÇÃê∂ê¨äÌÇ™ìÆÇ¢ÇƒÇ¢ÇÈÇ∆Ç´
+	if (m_isWorking) {
+		if (m_playerNum == PLAYER_NUMBER_ONE) {
+			m_player[PLAYER_NUMBER_ONE] = NewGO<Player>(0, "player00");
+			m_player[PLAYER_NUMBER_ONE]->SetPosition(m_player01Pos);
+			m_player01Rot.SetRotationDegY(90.0f);
+			m_player[PLAYER_NUMBER_ONE]->SetRotation(m_player01Rot);
+			m_player[PLAYER_NUMBER_ONE]->SetPlayerNo(PLAYER_NUMBER_ONE);
+			m_playerNum++;
 		}
-		if (playerNum == 1) {
-			player[1] = NewGO<Player>(0, "player01");
-			player[1]->SetPosition(player02Pos);
-			player02Rot.SetRotationDegY(270.0f);
-			player[1]->SetRotation(player02Rot);
-			player[1]->SetPlayerNo(2);
-			playerNum++;
-			isWorking = false;
+		if (m_playerNum == PLAYER_NUMBER_TWO) {
+			m_player[PLAYER_NUMBER_TWO] = NewGO<Player>(0, "player01");
+			m_player[PLAYER_NUMBER_TWO]->SetPosition(m_player02Pos);
+			m_player02Rot.SetRotationDegY(270.0f);
+			m_player[PLAYER_NUMBER_TWO]->SetRotation(m_player02Rot);
+			m_player[PLAYER_NUMBER_TWO]->SetPlayerNo(PLAYER_NUMBER_TWO);
+			m_playerNum++;
+			m_isWorking = false;
 		}
 	}
 }

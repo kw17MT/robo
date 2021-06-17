@@ -8,62 +8,46 @@ class PathMove;
 class FixedUI : public IGameObject
 {
 private:
-	//変化させない文字
-	//Time,TimeUp,Score,Itemの固定文字
-	FontRender* TextTime = nullptr;
-	FontRender* TextScore[2] = { nullptr, nullptr };
-	
-	//ミス用の文字
-	FontRender* TextMiss[2] = { nullptr, nullptr};
-	
-	//変化する文字。
-	//制限時間、タイムアップのONOFF
-	FontRender* Time = nullptr;
-	
-	//表示する残り時間
-	int remainingTime = 120;
-	
-	//フレームカウント用、60になったらLastTimeを１減らす。
-	int timer = 0;
-	
-	//タイムアップフラグ
-	bool isTimeUp = false;
-
-	//それぞれのプレイヤーのスコア
-	int score01 = 0;
-	int score02 = 0;
-
-	//それぞれのパラメーターの座標
-	Vector2 posTime = { -100,350 };
-	Vector2 posLastTime = { 50, 350 };
-
-	Vector2 posItem01 = { -600,350 };
-	Vector2 posItem02 = { 350, 350 };
-
-	Vector2 posScore01 = { -600,-250 };
-	Vector2 posScore02 = { 250, -250 };
-
-	//ミス表示位置
-	Vector2 posMiss01 = { -600.0f,-300.0f };
-	Vector2 posMiss02 = { 250.0f,-300.0f };
-
-	RenderContext renderContext = g_graphicsEngine->GetRenderContext();
+	int m_remainingTime = 100;						//表示する残り時間
+	int m_timer = 0;									//フレームカウント用、60になったらLastTimeを１減らす。
+	bool m_isTimeUp = false;							//タイムアップフラグ
 public:
-	
-	//デストラクタ
 	~FixedUI();
+
+	/**
+	 * @brief 表示する画像の初期化
+	 * @return true
+	*/
 	bool Start();
 	
-	//ここで毎フレーム文字を表示している。
+	/**
+	 * @brief 残り時間や文字の表示
+	*/
 	void Update();
 
-	//ゲッター
-	//タイムアップ状態を取得(true : ON , false : OFF)
-	bool GetIsTimeUp() { return isTimeUp; }
-	int GetTime() { return remainingTime; }
-	//残時間が少ないときの色の変化
+	/**
+	 * @brief タイムアップ状態を取得
+	 * @return TRUE＝タイムアップしている　FALSE＝してない
+	*/
+	bool GetIsTimeUp() { return m_isTimeUp; }
+
+	/**
+	 * @brief 残り時間を変えす
+	 * @return 残り時間
+	*/
+	int GetTime() { return m_remainingTime; }
+
+	/**
+	 * @brief 残時間が少ないときの色の変化
+	*/
 	void RemainingTimeColor();
-	CSoundSource* timeSound = nullptr;
+
+private:
+	FontRender* m_textTime = nullptr;								//時間の文字部分
+	FontRender* m_textScore[2] = { nullptr, nullptr };				//スコアの文字部分
+	FontRender* m_textMiss[2] = { nullptr, nullptr };				//ミスの文字部分
+	FontRender* m_time = nullptr;									//時間の数字部分
+	CSoundSource* m_timeSound = nullptr;							//残り時間わずかの時に出す音用
 };
 
 

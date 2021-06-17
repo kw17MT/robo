@@ -1,97 +1,167 @@
 #pragma once
 #include "GuzaiGene.h"
 #include "effect/Effect.h"
-
-
 class Guzai;
 class FontRender;
 class PopUp2D;
-
 class SkinModelRender;
 class Kitchen;
 class Effect;
-
-enum EnItem
-{
-	enNonItem = -1,
-	enBuffItem = 0,
-	enDebuffItem = 1,
-	enItemNum = 2,
-};
 
 class Player : public IGameObject
 {
 private:
 	//プレイヤーのパラメータ
-	Vector3 m_position = Vector3::Zero;								//座標
-	Vector3 moveSpeed = Vector3::Zero;								//移動速度
-	Vector3 saveMoveSpeed = Vector3::Zero;							//プレイヤーの移動速度を保存するベクトル
-	Vector3 m_scale = Vector3::One;									//スケール
-	Quaternion m_rotation = Quaternion::Identity;					//回転
-	float angle = 0.0f;												//角度
-	int playerNo = 0;												//１で左、２で右
+	Vector3 m_position = Vector3::Zero;								//プレイヤーの座標
+	Vector3 m_moveSpeed = Vector3::Zero;							//プレイヤーの移動速度
+	Vector3 m_saveMoveSpeed = Vector3::Zero;						//プレイヤーの移動速度を保存するベクトル
+	Vector3 m_scale = { 0.3f,0.4f,0.3f };							//プレイヤーのスケール
+	Quaternion m_rotation = Quaternion::Identity;					//プレイヤーの回転
 
-	bool TargetingState = false;									//今、具材をターゲットしているか。1個以上ターゲティングしないように。
-	int Distance = 0;
+	float m_angle = 0.0f;											//プレイヤーの角度
 
-	//エフェクト関連
-	int moveCounter01 = 0;											//P1
-	int moveCounter02 = 0;											//P2
-	
-	bool m_moveStop01 = false;										//停止フラグ１
-	bool m_moveStop02 = false;										//停止フラグ２
+	int m_playerNo = 0;												//０で左、１で右
+	int have = enNothing;											//プレイヤーが具材を持っているか。１なら具材を持っている。２ならハンバーガーを持っている。-1でキッチンからはとれる状態
+	int GuzaiNo[10];												//積み上げている具材の種類を格納していく。
+	int m_moveCounter = 0;											//P1
+	const int m_maxNumCanSaveGuzaiType = 10;						//プレイヤーが保存できる具材種類の総数
 
-	const int m_maxNumCanSaveGuzaiType = 10;								//プレイヤーが保存できる具材種類の総数
+	bool m_targetingState = false;									//今、具材をターゲットしているか。1個以上ターゲティングしないように。
+	bool m_moveStop = false;										//停止フラグ１
 
 public:
 	Player() {};
 	~Player();
+
+	/**
+	 * @brief モデル、歩く時のエフェクトの初期化
+	 * @return true
+	*/
 	bool Start();
 	
-
-	//移動処理。
+	/**
+	 * @brief 主に移動の処理
+	*/
 	void Update();
 
-	//具材格納用配列を９で初期化
+	/**
+	 * @brief プレイヤー内の具材格納用配列を９で初期化
+	*/
 	void SetGuzaiNo9();
 
-	//セッター
-	void SetPlayerNo(int num) { playerNo = num; }
-	void SetPosition(Vector3 pos) { m_position = pos; }
-	void SetRotation(Quaternion rot) { m_rotation = rot; }
-	void SetMoveSpeed(Vector3 speed) { moveSpeed = speed; }
-	//現在ターゲティングしているかどうか
-	void SetTarget(bool target) { TargetingState = target; }
+	/**
+	 * @brief プレイヤーの番号を設定
+	 * @param num ０＝左　１＝右
+	*/
+	void SetPlayerNo(int num) { m_playerNo = num; }
 
-	//ゲッタ―
+	/**
+	 * @brief 新しい位置の設定
+	 * @param pos 新しい位置
+	*/
+	void SetPosition(Vector3 pos) { m_position = pos; }
+
+	/**
+	 * @brief 新しい回転の設定
+	 * @param rot 新しい回転
+	*/
+	void SetRotation(Quaternion rot) { m_rotation = rot; }
+
+	/**
+	 * @brief 新しい移動速度の設定
+	 * @param speed 新しい移動速度
+	*/
+	void SetMoveSpeed(Vector3 speed) { m_moveSpeed = speed; }
+
+	/**
+	 * @brief 自分は何かをターゲットしているか
+	 * @param target TRUE＝している
+	*/
+	void SetTarget(bool target) { m_targetingState = target; }
+
+	/**
+	 * @brief プレイヤーの状態を設定する
+	 * @param state 状態の番号。列挙型enPlayerStateを参照
+	*/
+	void SetPlayerState(int state) { have = state; };
+
+	void SetPlayerStackedGuzais(int num, int guzaiType) { GuzaiNo[num] = guzaiType; }
+
+	/**
+	 * @brief 現在の位置を返す
+	 * @return 現在の位置
+	*/
 	Vector3 GetPosition() { return m_position; }
-	//現在のターゲティング状態を返す。
-	bool GetTargetState() { return TargetingState; }
-	//プレイヤーの正規化された移動速度を入手
-	Vector3 GetNormalMoveSpeed() { return saveMoveSpeed; }
+	
+	/**
+	 * @brief 現在のターゲティング状態を返す。
+	 * @return ターゲティング状態　TRUE＝している
+	*/
+	bool GetTargetState() { return m_targetingState; }
+
+	/**
+	 * @brief プレイヤーの正規化された移動速度を入手
+	 * @return プレイヤーの正規化された移動速度
+	*/
+	Vector3 GetNormalMoveSpeed() { return m_saveMoveSpeed; }
+
+	/**
+	 * @brief プレイヤーが保存できる具材の種類の総数
+	 * @return 今のところ10個
+	*/
 	int GetMaxNumCanSaveGuzaiType() { return m_maxNumCanSaveGuzaiType; }
 
-	//移動不可を設定１
-	void StopMove01(bool tf);
-	//移動不可を設定２
-	void StopMove02(bool tf);
+	/**
+	 * @brief プレイヤーの状態を返す。
+	 * @return enPlayerStateを参照
+	*/
+	int GetPlayerState() { return have; }
 
-	//移動範囲の制限を行う
+	/**
+	 * @brief その段数には何の具材を積んでいるのかを返す
+	 * @param num 積んでいる具材の段数の場所（0~4)
+	 * @return true
+	*/
+	int GetPlayerStackedGuzais(int num) { return GuzaiNo[num]; }
+
+	/**
+	 * @brief 積み上げている具材すべての情報を渡す
+	 * @return  積み上げている具材すべての情報
+	*/
+	int* GetPlayerStackedGuzais() { return GuzaiNo; }
+
+	/**
+	 * @brief 移動不可を設定
+	 * @param tf TRUE＝移動できない　FALSE＝移動できる
+	*/
+	void StopMove(bool tf) { m_moveStop = tf; }
+
+	/**
+	 * @brief 座標による移動範囲の制限を行う
+	*/
 	void RestrictPos();
-
-	//一番最後にキッチンに積んだ具材の記録を消す
-	void ClearLatestGuzaiNo(int num) { GuzaiNo[num] = 9; }
-
-	//プレイヤーが具材を持っているか。１なら具材を持っている。２ならハンバーガーを持っている。-1でキッチンからはとれる状態
-	int have = 0;
 	
-	//積み上げている具材の種類を格納していく。
-	int GuzaiNo[10];
+	/**
+	 * @brief 一番最後にキッチンに積んだ具材の記録を消す
+	 * @param num 消したい箇所の要素番号
+	*/
+	void ClearSpecificGuzaiNo(int num) { GuzaiNo[num] = 9; }
 
+	/**
+	 * @brief プレイヤーの状態
+	*/
+	enum enPlayerState {
+		enFullKitchen = -1,		//キッチンが一杯の状態でレーンの上からはとれないが、具材置き場かキッチン上からはとれるようにするのに必要
+		enNothing,				//何も持っていない
+		enHaveGuzai,			//具材を持っている状態
+		enHaveBurger,			//ハンバーガーを持っている状態
+		enStateNum,				//なりえる状態の数
+	};
+
+private:
 	Kitchen* m_kitchen = nullptr;
 	SkinModelRender* m_skinModelRender = nullptr;
-	Effect* m_effect01 = nullptr;
-	Effect* m_effect02 = nullptr;
+	Effect* m_effect = nullptr;
 };
 
 

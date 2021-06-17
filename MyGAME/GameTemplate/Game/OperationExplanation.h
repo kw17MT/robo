@@ -14,7 +14,6 @@ struct SpriteData
 class OperationExplanation : public IGameObject
 {
 private:
-	SpriteRender* m_spriteRender;
 	//ステート
 	enum EnState {
 		enState_Idle,
@@ -23,17 +22,22 @@ private:
 	};
 	EnState m_currentState;		//ステート
 
-	SpriteData m_spriteData[6];	//スプライトのデータ
 	int m_currentPage = 0;		//今のページ
+	int m_nextWidth = 1200;		//次の横の長さ
+	int m_nextHeight = 700;		//次の縦の長さ
 
-	//試し用
-	int a = 1200;
-	int b = 700;
-
-	Fade* m_fade = nullptr;		//フェード
 public:
+	/**
+	 * @brief 画像の初期化
+	*/
 	OperationExplanation();
+
 	~OperationExplanation();
+
 	//更新処理。
 	void Update();
+private:
+	Fade* m_fade = nullptr;		//フェード
+	SpriteData m_spriteData[6];	//スプライトのデータ
+	SpriteRender* m_spriteRender;
 };

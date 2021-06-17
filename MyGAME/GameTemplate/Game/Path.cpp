@@ -27,7 +27,6 @@ void Path::Load(const char* filePath,int guzaiNo)
 			point.s_vector = objectData.Pos;
 			point.s_number = pointNm;
 			m_pointList[pointNm - 1] = point;
-			//m_pointList.insert(pointNm, point);
 			return true;
 		}
 

@@ -2,7 +2,14 @@
 #include "Title.h"
 #include "Fade.h"
 #include "Game.h"
-//#include "OperationExplanation.h"
+
+namespace
+{
+	const int SPRITE_WIDTH = 1280;
+	const int SPRITE_HEIGHT = 720;
+
+	const int PLAYER_ONE_PAD = 0;
+}
 
 Title::~Title()
 {
@@ -19,13 +26,8 @@ bool Title::Start()
 
 void Title::Update()
 {
-	/*if (g_pad[0]->IsTrigger(enButtonA)) {
-		NewGO<Game>(0, "game");
-		DeleteGO(this);
-	}*/
-
 	if (m_fade == nullptr) {
-		if (g_pad[0]->IsTrigger(enButtonA))
+		if (g_pad[PLAYER_ONE_PAD]->IsTrigger(enButtonA))
 		{
 			//フェード
 			m_fade = NewGO<Fade>(0, "fade");
@@ -36,7 +38,6 @@ void Title::Update()
 	if (m_fade->GetState() == enState_Wait) {
 		//真っ暗になりきった段階でタイトルのスプライトを削除
 		DeleteGO(m_spriteRender);
-		//auto operationExplanation = NewGO<OperationExplanation>(0);
 		//フェードインに移行
 		m_fade->SetState(enState_In);
 		//ゲームを生成

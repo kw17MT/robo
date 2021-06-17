@@ -11,32 +11,37 @@ enum EnState {
 
 class Fade : public IGameObject
 {
-private:
-	SpriteRender* m_spriteRender = nullptr;
-	float m_alpha = 0.0f;	//アルファ値
+private:	
+	SpriteRender* m_spriteRender = nullptr;					//画像
+	float m_alpha = 0.0f;									//アルファ値
 public:
 	Fade();
 	~Fade();
 	//更新処理。
 	void Update();
 
+	/**
+	 * @brief アルファ値を返す
+	 * @return 透明度
+	*/
 	float GetAlpha()
 	{
 		return m_alpha;
 	}
-
-	/// <summary>
-	/// ステート設定
-	/// </summary>
-	/// <param name="state">ステート</param>
+	
+	/**
+	 * @brief ステート設定
+	 * @param state 状態
+	*/
 	void SetState(EnState state)
 	{
 		m_state = state;
 	}
-	/// <summary>
-	/// ステート取得
-	/// </summary>
-	/// <returns>ステート</returns>
+	
+	/**
+	 * @brief ステート取得
+	 * @return ステート
+	*/
 	EnState GetState() const
 	{
 		return m_state;

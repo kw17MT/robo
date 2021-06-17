@@ -20,7 +20,10 @@ private:
 	GameDirector() {}
 	~GameDirector() {}
 public:
-	//GameDirectorのインスタンスを取得。
+	/**
+	 * @brief GameDirectorのインスタンスを取得。
+	 * @return GameDirectorのインスタンス
+	*/
 	static GameDirector& GetInstance()
 	{
 		static GameDirector instance;
@@ -28,24 +31,38 @@ public:
 	}
 
 	//ゲームシーンを設定。
+
+	/**
+	 * @brief 
+	 * @param enScene 
+	*/
 	void SetGameScene(EnScene enScene)
 	{
 		m_enScene = enScene;
 	}
-	
-	//今がどんなシーンが取得。
+
+	/**
+	 * @brief 今がどんなシーンが取得。
+	 * @return 今のシーン状況
+	*/
 	EnScene GetGameScene() const
 	{
 		return m_enScene;
 	}
-	
- 	//カウントダウン中？
+
+	/**
+	 * @brief カウントダウン中？
+	 * @return ０＝カウントダウン中
+	*/
 	bool GetIsGameCountDown() const
 	{
 		return m_enScene == enGameCountDown;
 	}
 
-	//ゲームプレイ中？
+	/**
+	 * @brief ゲームプレイ中？
+	 * @return １＝プレイ中
+	*/
 	bool GetIsGamePlay() const
 	{
 		return m_enScene == enGamePlay;

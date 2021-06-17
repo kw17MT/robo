@@ -17,21 +17,70 @@ private:
 	Vector2 m_pivot;						//!<ピボット。
 
 public:
+	/**
+	 * @brief 位置を設定する
+	 * @param pos 新しい位置
+	*/
 	void SetPosition(const Vector2& pos);
+
+	/**
+	 * @brief 新しい回転を設定する
+	 * @param rotation 新しい回転
+	*/
 	void SetRotation(float rotation);
+
+	/**
+	 * @brief 新しい拡大率の設定
+	 * @param scale 新しい拡大率
+	*/
 	void SetScale(float scale);
 
+	/**
+	 * @brief テキストの設定
+	 * @param text テキスト
+	*/
 	void SetText(const wchar_t* text);
 
-	
-	
+	/**
+	 * @brief アルファ抜きの色の設定
+	 * @param color 色
+	*/
 	void SetColor(const Vector3& color);
+
+	/**
+	 * @brief アルファ込みの色の設定
+	 * @param color 色
+	*/
 	void SetColor(const Vector4& color);
+
+	/**
+	 * @brief 色の加算
+	 * @param colorPoint 加算する色
+	*/
 	void AddColorPoint(Vector4 colorPoint);
+
+	/**
+	 * @brief テキストの色を返す
+	 * @return テキストの色
+	*/
 	Vector4 GetColor() { return m_color; }
+
+	/**
+	 * @brief カラーの色合いの程度を返す
+	 * @return 全部の色の平均値
+	*/
 	float GetColorVolume();
+
+	/**
+	 * @brief フォントのサイズを変更する
+	 * @param size 加算する拡大率
+	*/
 	void  AddFontScale(float size);
 
+	/**
+	 * @brief 画像の中心を決める
+	 * @param pivot 中心にしたいところ
+	*/
 	void SetPivot(const Vector2& pivot);
 };
 

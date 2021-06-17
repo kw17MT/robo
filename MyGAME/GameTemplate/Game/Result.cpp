@@ -4,27 +4,36 @@
 #include "FixedUI.h"
 #include "GameDirector.h"
 
+namespace
+{
+	const int DRAW = 0;
+	const int WIN = 1;
+	const int LOSE = 2;
+
+	const float AJUST_SPRITE_SCALE = 0.75f;
+	const float AJUST_SPRITE_HALF = 0.5f;
+	const float SHRINK_RATE = 0.08f;
+	const float ALPHA_INCREASE_RATE = 0.03f;
+	const float FIXED_SCALE_ONE_Z = 1.0f;
+}
+
 Result::~Result()
 {
-	//DeleteGO(this);
 	DeleteGO(m_spriteRender);
 }
 
 void Result::DecideDDS()
 {
 	//spriteNumの値に応じて初期化に使用するDDSを振り分ける
-	switch (spriteNum) {
-	case 0: //引き分け
-		//m_spriteRender = NewGO<SpriteRender>(1);
-		m_spriteRender->Init("Assets/Image/draw.dds", wideth*0.75f, height*0.75f);
+	switch (m_spriteNum) {
+	case DRAW:
+		m_spriteRender->Init("Assets/Image/draw.dds", m_wideth * AJUST_SPRITE_SCALE, m_height * AJUST_SPRITE_SCALE);
 		break;
-	case 1: //勝利
-		//m_spriteRender = NewGO<SpriteRender>(1);
-		m_spriteRender->Init("Assets/Image/win.dds", wideth*0.75f, height*0.75f);
+	case WIN:
+		m_spriteRender->Init("Assets/Image/win.dds", m_wideth * AJUST_SPRITE_SCALE, m_height * AJUST_SPRITE_SCALE);
 		break;
-	case 2: //敗北
-		//m_spriteRender = NewGO<SpriteRender>(1);
-		m_spriteRender->Init("Assets/Image/lose.dds", wideth*0.5f, height*0.5f);
+	case LOSE: 
+		m_spriteRender->Init("Assets/Image/lose.dds", m_wideth * AJUST_SPRITE_HALF, m_height * AJUST_SPRITE_HALF);
 		break;
 	default:
 		break;
@@ -34,15 +43,15 @@ void Result::DecideDDS()
 void Result::DecidePos()
 {
 	//positionNumの値に応じて表示位置を振り分ける
-	switch (positionNum) {
-	case 0: //引き分け : 画面中央くらい
-		m_spriteRender->SetPosition(center);
+	switch (m_positionNum) {
+	case DRAW: //引き分け : 画面中央くらい
+		m_spriteRender->SetPosition(m_center);
 		break;
-	case 1: //左側
-		m_spriteRender->SetPosition(left);
+	case WIN: //左側
+		m_spriteRender->SetPosition(m_left);
 		break;
-	case 2://右側
-		m_spriteRender->SetPosition(right);
+	case LOSE://右側
+		m_spriteRender->SetPosition(m_right);
 		break;
 	default:
 		break;
@@ -52,76 +61,45 @@ void Result::DecidePos()
 bool Result::Start()
 {
 	m_spriteRender = NewGO<SpriteRender>(1);
-	
-	//中央、左、右の画像表示位置用変数を設定
-	center.Set(0.0f,0.0f,0.0f);
-	left.Set(0.0f + 450.0f, 0.0f,0.0f);
-	right.Set(0.0f - 450.0f, 0.0f,0.0f);
 
 	//UIを検索
 	if (m_ui == nullptr) {
 		m_ui = FindGO<FixedUI>("ui");
 	}
 
-	if (m_ui->GetIsTimeUp() && isTimeUp == false) {
+	if (m_ui->GetIsTimeUp()) {
 		//読み込むddsを決定
 		DecideDDS();
 		//スプライトを表示する位置を決定
 		DecidePos();
-		//タイムアップフラグを立てる
-		isTimeUp = true;
 	}
 
 	//3ミスになったら画像表示
-	if (isReach3Miss) {
+	if (m_isReach3Miss) {
 		//読み込むddsを決定
 		DecideDDS();
 		DecidePos();
 	}
 
-	m_spriteRender->SetPivot({0.5f,0.5f});
-	m_spriteRender->SetScale({ 1.0f * m_scaleRate,1.0f * m_scaleRate,1.0f });
-	m_spriteRender->SetColor({ 1.0f,1.0f,1.0f,m_alpha });
+	m_spriteRender->SetPivot(m_pivot);
+	m_spriteRender->SetScale({m_scaleRate, m_scaleRate, FIXED_SCALE_ONE_Z });
+	m_spriteRender->SetColor(m_color);
 
 	return true;
 }
 
 void Result::Update()
 {
-	m_scaleRate -= 0.08f;
+	m_scaleRate -= SHRINK_RATE;
 	if (m_scaleRate <= 1.0f) {
 		m_scaleRate = 1.0f;
 	}
 
-	m_alpha += 0.03f;
+	m_alpha += ALPHA_INCREASE_RATE;
 	if (m_alpha >= 1.0f) {
 		m_alpha = 1.0f;
 	}
-
-
-
-//	if (tf == true) {
-//		return;
-//	}
-//	if (m_ui->GetIsTimeUp() && GetIsTimeUp() == false) {
-//		//読み込むddsを決定
-//		DecideDDS();
-//		//スプライトを表示する位置を決定
-//		DecidePos();
-//		//タイムアップフラグを立てる
-//		SetIsTimeUp();
-//	
-//	}
-//
-//	//3ミスになったら画像表示
-//	if (isReach3Miss) {
-//		//読み込むddsを決定
-//		DecideDDS();
-//		DecidePos();
-//	}
-//	tf = true;
-
-	m_spriteRender->SetColor({ 1.0f,1.0f,1.0f,m_alpha });
-	m_spriteRender->SetScale({ 1.0f * m_scaleRate,1.0f * m_scaleRate,1.0f });
-
+	m_color.w = m_alpha;
+	m_spriteRender->SetColor(m_color);
+	m_spriteRender->SetScale({m_scaleRate,m_scaleRate,FIXED_SCALE_ONE_Z });
 }

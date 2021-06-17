@@ -20,5 +20,5 @@ void SpriteRender::Init(const char* name, int width, int height)
 
 void SpriteRender::Update()
 {
-	m_sprite.Update(m_pos, m_Rot, m_scale, m_pivot);
+	m_sprite.Update(m_pos, m_rot, m_scale, m_pivot);
 }

@@ -5,75 +5,84 @@ class FixedUI;
 class Result : public IGameObject
 {
 private:
-	//各種パラメータ
-	Vector2 m_position = Vector2::Zero;
-	Vector2 m_pivot = Vector2::Zero;
-	Vector2 m_scale;
-	Quaternion m_rotation = Quaternion::Identity;
+	Vector2 m_position = Vector2::Zero;						//画像の位置
+	Vector2 m_pivot = {0.5f,0.5f};							//画像の中心
+	Vector2 m_scale;										//画像の拡大率
+	const Vector3 m_center = { 0.0f,0.0f,0.0f };			//中央表示用の位置
+	const Vector3 m_left = { 450.0f, 0.0f, 0.0f };			//左表示用の位置
+	const Vector3 m_right = { -450.0f, 0.0f, 0.0f };		//右表示用の位置
+	Vector4 m_color = { 1.0f,1.0f,1.0f, 0.0f};				//初期カラー
+	Quaternion m_rotation = Quaternion::Identity;			//画像の回転
 
-	//中央、左、右の画像表示位置用変数を用意
-	//スプライトレンダーのSetPositionの引数がVector3なのでVector3型とする
-	Vector3 center = Vector3::Zero;
-	Vector3 left = Vector3::Zero;
-	Vector3 right = Vector3::Zero;
+	const int m_wideth = 512;								//画像の縦
+	const int m_height = 512;								//画像の縦
+	int m_spriteNum;										//どのスプライトにするかを決めるための整数値
+	int m_positionNum;										//どの位置に表示するかを決めるための整数値
 	
-	//画像の縦横解像度を定数で決めておく
-	const int wideth = 512;
-	const int height = 512;
-
-	//タイムアップフラグ
-	bool isTimeUp = false;
-	//どのスプライトにするかを決めるための整数値
-	int spriteNum;
-	//どの位置に表示するかを決めるための整数値
-	int positionNum;
-	
-	//どちらかのMISSが3つたまった時にTRUEにする
-	bool isReach3Miss = false;
-
-	//
-	bool tf = false;
-
-	//アルファ用変数
-	float m_alpha = 0.0f;
-	//拡大率用変数
-	float m_scaleRate = 3.0f;
+	float m_alpha = 0.0f;									//アルファ用変数
+	float m_scaleRate = 3.0f;								//拡大率用変数
+	bool m_isReach3Miss = false;							//どちらかのMISSが3つたまった時にTRUEにする
 
 public:
-
-	//UI
-	FixedUI* m_ui = nullptr;
-	//スプライトレンダー
-	SpriteRender* m_spriteRender = nullptr;
-
-	//コンストラクタなど
 	~Result();
+	
+	/**
+	 * @brief 画像の初期化
+	*/
 	bool Start();
+
+	/**
+	 * @brief 縮小と透明度のアップ
+	*/
 	void Update();
 
-	//ゲッター各種
-	Vector2 GetPos() { return m_position; }
-	Vector2 GetPivot() { return m_pivot; }
-	Vector2 GetScale() { return m_scale; }
-	Quaternion GetRotation() { return m_rotation; }
-	bool GetIsTimeUp() { return isTimeUp; }
-
-	//セッター
+	/**
+	 * @brief 新しい座標の設定
+	*/
 	void SetPosition(const Vector2& pos) { m_position = pos; }
-	void SetPivot(const Vector2& piv) { m_pivot = piv; }
-	void SetScale(const Vector2& scl) { m_scale = scl; }
-	void SetRotation(const Quaternion& rot) { m_rotation = rot; }
-	void SetIsTimeUp() { isTimeUp = true; }
-	void Reach3Miss(bool state) { isReach3Miss = state; }
 
-	//どのスプライトにするか呼び出し元で決めてもらうための関数
-	void SetSprite(const int& No) { spriteNum = No; }
-	//どの位置に表示するか呼び出し元で決めてもらうための関数
-	void SetSpritePos(const int& posNo) { positionNum = posNo; }
-	
-	//ddsの振り分け関数
+	/**
+	 * @brief 新しい中心の設定
+	*/
+	void SetPivot(const Vector2& piv) { m_pivot = piv; }
+
+	/**
+	 * @brief 新しい拡大率の設定
+	*/
+	void SetScale(const Vector2& scl) { m_scale = scl; }
+
+	/**
+	 * @brief 新しい回転の設定
+	*/
+	void SetRotation(const Quaternion& rot) { m_rotation = rot; }
+
+	/**
+	 * @brief どちらかのプレイヤーが3ミスになったか
+	*/
+	void Reach3Miss(bool state) { m_isReach3Miss = state; }
+
+	/**
+	 * @brief 呼び出しもとで画像の種類を決定する
+	*/
+	void SetSprite(const int& No) { m_spriteNum = No; }
+
+	/**
+	 * @brief 位置番号を指定して座標を設定する
+	*/
+	void SetSpritePos(const int& posNo) { m_positionNum = posNo; }
+
+	/**
+	 * @brief ddsの振り分け関数
+	*/
 	void DecideDDS();
-	//スプライトの位置を決める関数
+
+	/**
+	 * @brief 位置を決定する
+	*/
 	void DecidePos();
+
+private:
+	FixedUI* m_ui = nullptr;								//タイムアップしているか確認するためのインスタンス
+	SpriteRender* m_spriteRender = nullptr;					//勝ち、負け、引き分けの画像
 };
 
