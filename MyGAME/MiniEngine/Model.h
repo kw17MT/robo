@@ -26,7 +26,7 @@ struct ModelInitData {
 	Skeleton* m_skeleton = nullptr;									//スケルトン。
 	EnModelUpAxis m_modelUpAxis = enModelUpAxisZ;					//モデルの上方向。
 	D3D12_CULL_MODE cullingMode = D3D12_CULL_MODE_BACK;
-	DXGI_FORMAT m_colorBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+	DXGI_FORMAT m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 };
 
 /// <summary>

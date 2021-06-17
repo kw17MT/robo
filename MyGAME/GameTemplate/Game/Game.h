@@ -24,27 +24,21 @@ class ShadowTest;
 class Ground;
 class CycleDirection;
 
+class CountDown;
+
 class Game : public IGameObject
 {
 private:
-	bool isTimeUp = false;
-	int StockPlaceNum = 0;
+	Vector4 m_countDownColor = { 1.0f,1.0f,1.0f,0.0f };			//カウントダウン画像のカラー
 
-	bool m_soundFlag = false;
+	bool m_isTimeUp = false;									//ゲームはタイムアップしたか
+	bool m_soundFlag = false;									//現在なんらかの音はなっているか（カウントダウン関係）
+	bool m_fadeOut = false;										//フェードアウトを開始するか
 
-	int changeCount = 1;
-	float scaleRate = 2.0f;
-	float alpha = 0.0f;
-	bool fadeOut = false;
-
-	//カウントダウン用スプライト
-	SpriteRender* m_countSprite = nullptr;
-	Vector3 m_ctScale = Vector3::One;
-	Vector4 m_countDownColor = { 1.0f,1.0f,1.0f,0.0f };
-	//カウントダウン用。
-	float m_timer = 4.0f;
-
-	
+	int m_changeCount = 1;										//カウントダウンの
+	float m_scaleRate = 2.0f;									//
+	float m_alpha = 0.0f;										//
+	float m_timer = 4.0f;										//カウントダウン用。
 public:
 	//オブジェクトやUIの表示
 	Game() {};
@@ -54,10 +48,10 @@ public:
 	void Update();
 
 	//カウントダウンする。
-	void CountDown();
+	//void CountDown();
 
-	bool GetTimeUp() { return isTimeUp; }
-	void SetTimeUp() { isTimeUp = true; }
+	bool GetTimeUp() { return m_isTimeUp; }
+	void SetTimeUp() { m_isTimeUp = true; }
 
 private:
 	CLevel2D* m_level2D = nullptr;
@@ -77,8 +71,8 @@ private:
 	Floor* floor_r = nullptr;										//右の床
 	Floor* floor_l = nullptr;										//左の床	
 	Result* m_result[3] = { nullptr,nullptr,nullptr };				//勝敗表示用:引き分けの場合、プレイヤー1、プレイヤー2に用意
-	FontRender* m_font = nullptr;									//フォント
 	CSoundSource* m_bgm = nullptr;									//BGM用
 	CycleDirection* m_directionSprite[3] = {nullptr,nullptr,nullptr};
 	Level* m_level = nullptr;
+	CountDown* m_countDown = nullptr;								//カウントダウン
 };

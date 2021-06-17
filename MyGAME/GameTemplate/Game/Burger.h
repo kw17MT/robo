@@ -11,7 +11,6 @@ class Burger : public IGameObject
 {
 private:
 	const Vector3 m_burgerScale = { 10.0f, 10.0f, 10.0f };	//ハンバーガーの拡大率
-	const Vector3 m_10TimesBigger = { 10.0f,10.0f,10.0f };	//大きさを10倍するためのもの
 	Vector3 m_position = Vector3::Zero;						//ハンバーガーの位置
 	Vector3 m_beHadPos = Vector3::Zero;						//ハンバーガーが持たれた時の位置設定用
 
@@ -24,8 +23,19 @@ private:
 	bool m_putOnCounter = false;							//キッチンにいるかどうか、キッチンの上に位置を合わせるための変数
 
 public:
+	/**
+	 * @brief コストラクタ
+	*/
 	Burger() {}
+	
+	/**
+	 * @briefデストラクタ
+	*/
 	~Burger();
+
+	/**
+	 * @brief ハンバーガーの移動処理、掴まれたかの判定処理。
+	*/
 	void Update();
 
 	/**
@@ -71,7 +81,7 @@ public:
 	/**
 	 * @brief プレイヤー状態
 	*/
-	enum enPlayerState {
+	enum EnPlayerState {
 		enFullKitchen = -1,		//キッチンが一杯の状態でレーンの上からはとれないが、具材置き場かキッチン上からはとれるようにするのに必要
 		enNothing,				//何も持っていない
 		enHaveGuzai,			//具材を持っている状態
@@ -79,9 +89,10 @@ public:
 		enStateNum,				//なりえる状態の数
 	};
 	
-	Counter* m_counter = nullptr;
-	Effect* m_effect = nullptr;
-	SkinModelRender* m_skinModelRender = nullptr;
-	Player* m_player = nullptr;
-	TrashCan* m_trashCan = nullptr;
+private:
+	Counter* m_counter = nullptr;							//対応するカウンター
+	Effect* m_effect = nullptr;								//エフェクト
+	SkinModelRender* m_skinModelRender = nullptr;			//モデルのレンダー
+	Player* m_player = nullptr;								//対応するプレイヤー
+	TrashCan* m_trashCan = nullptr;							//対応するゴミ箱
 };

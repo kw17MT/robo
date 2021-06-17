@@ -11,6 +11,8 @@
 #include <string>;
 
 namespace {
+	const Vector3 EFFECT_SCALE = { 10.0f,10.0f,10.0f };
+
 	const int KITCHEN_NAME_SIZE = 10;
 	const int PLAYER_NAME_SIZE = 9;
 	const int TRASHCAN_NAME_SIZE = 11;
@@ -22,6 +24,9 @@ namespace {
 	const float AJUST_SPEED_TO_FOLLOW_PLAYER = 90.0f;
 	const float DISTANCE_BETWEEN_PLAYER_TO_BURGER = 150.0f;
 	const float SE_VOLUME = 2.0f;
+
+	const char BURGER_MODEL_PATH[33] = "Assets/modelData/food/Burger.tkm";
+	const char SHADER_PATH[23] = "Assets/shader/model.fx";
 }
 
 Burger::~Burger()
@@ -34,8 +39,8 @@ bool Burger::Start()
 {
 	//ÉÇÉfÉãÇÃèâä˙âª
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init("Assets/modelData/food/Burger.tkm", nullptr, enModelUpAxisZ, m_position);
-	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_skinModelRender->Init(BURGER_MODEL_PATH, nullptr, enModelUpAxisZ, m_position);
+	m_skinModelRender->InitShader(SHADER_PATH, "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 	//ÉÇÉfÉãÇÃägëÂ
 	m_skinModelRender->SetScale(m_burgerScale);
 
@@ -68,7 +73,7 @@ bool Burger::Start()
 	m_effect = NewGO<Effect>(0);
 	m_effect->Init(u"Assets/effect/kirakira.efk");
 	m_effect->Play();
-	m_effect->SetScale(m_10TimesBigger);
+	m_effect->SetScale(EFFECT_SCALE);
 	m_effect->SetPosition(m_position);
 
 	return true;
@@ -159,7 +164,6 @@ void Burger::Update()
 	SetOnTrashCan();
 
 	m_effect->Update();
-
 	m_skinModelRender->SetPosition(m_position);
 	m_skinModelRender->SetScale(m_burgerScale);
 }

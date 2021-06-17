@@ -309,6 +309,7 @@
     <ClCompile Include="Path.cpp">
       <Filter>ObjectMovement</Filter>
     </ClCompile>
+    <ClCompile Include="CountDown.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
@@ -645,6 +646,7 @@
     <ClInclude Include="Path.h">
       <Filter>ObjectMovement</Filter>
     </ClInclude>
+    <ClInclude Include="CountDown.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Food">
