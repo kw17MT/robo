@@ -111,9 +111,6 @@
     <ClCompile Include="..\..\MiniEngine\DescriptorHeap.cpp">
       <Filter>EngineRelated</Filter>
     </ClCompile>
-    <ClCompile Include="DishSpeedManeger.cpp">
-      <Filter>EngineRelated</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\ExEngine\effect\Effect.cpp">
       <Filter>EngineRelated</Filter>
     </ClCompile>
@@ -310,6 +307,8 @@
       <Filter>ObjectMovement</Filter>
     </ClCompile>
     <ClCompile Include="CountDown.cpp" />
+    <ClCompile Include="GuzaiManager.cpp" />
+    <ClCompile Include="DishManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
@@ -422,9 +421,6 @@
       <Filter>EngineRelated</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MiniEngine\DescriptorHeap_inline.h">
-      <Filter>EngineRelated</Filter>
-    </ClInclude>
-    <ClInclude Include="DishSpeedManeger.h">
       <Filter>EngineRelated</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ExEngine\effect\Effect.h">
@@ -647,6 +643,8 @@
       <Filter>ObjectMovement</Filter>
     </ClInclude>
     <ClInclude Include="CountDown.h" />
+    <ClInclude Include="GuzaiManager.h" />
+    <ClInclude Include="DishManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Food">

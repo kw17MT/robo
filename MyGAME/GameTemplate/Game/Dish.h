@@ -61,7 +61,7 @@ public:
 	 * @brief —Ö‚Ì“à‘¤‚É‚ ‚éM‚Ì‰ñ“]‚ğ•\¦‚µ‚Ä‚¢‚é‚à‚Ì‚Ì‰ñ“]•ûŒü‚ğæ“¾
 	 * @return ‰ñ“]•ûŒü
 	*/
-	enCycleDirection GetCycleDirection() { return m_pathMove->GetCycleDirection(); }
+	EnCycleDirection GetCycleDirection() { return m_pathMove->GetCycleDirection(); }
 
 	/**
 	 * @brief M©g‚Æã‚Ì‹ïŞ‚ÌˆÚ“®‚ğ‚¨‚±‚È‚¤B
@@ -76,5 +76,7 @@ private:
 	CSoundSource* m_se = nullptr;
 	DishGene* m_dishGene = nullptr;
 	GuzaiGene* m_guzaiGene = nullptr;
+
+	std::vector<Guzai*> v_m_guzai;
 };
 

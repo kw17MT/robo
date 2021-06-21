@@ -17,9 +17,7 @@ private:
 	Vector3 m_position = Vector3::Zero;					//具材の座標
 	Vector3 m_scale = Vector3::One;						//具材の拡大率
 	const Vector3 m_TargetedScale = { 1.3f,1.3f,1.3f }; //ターゲットされた時の拡大率
-
 	Quaternion m_rotation = Quaternion::Identity;		//具材の回転
-	
 	int m_typeNo = 9;									//０．チーズ　１．エッグ　２．レタス　３．パテ　４．トマト　５．オニオン　６．ベーコン
 	int m_decrementTime = m_holdTime;					//HOLDTIMEが待ち時間。DECREMENTTIMEが徐々に減らしていく役割がある。
 	int m_whichPlayerGet = 0;							//その具材はどちらのプレイヤーにつかまれたか
@@ -32,13 +30,11 @@ private:
 	const int m_holdTime = 10;							//一度ターゲッティングしたものをある程度見つめるための時間。
 	const int m_targetRangeNear = 100;					//ターゲットする最短距離。
 	const int m_targetRangeFar = 110;					//ターゲッティングを切り始める距離。（実際はディレイがあるため消えるのはもうちょっと先になる）
-
-	float m_guzai2Pl00 = 0.0f;							//具材からプレイヤーへの距離
-	float m_guzai2Pl01 = 0.0f;
-	float m_kit2Pl00 = 0.0f;							//キッチンからプレイヤーへの距離
-	float m_kit2Pl01 = 0.0f;
+	float m_guzai2Pl00 = 0.0f;							//具材からプレイヤー1への距離
+	float m_guzai2Pl01 = 0.0f;							//具材からプレイヤー2への距離
+	float m_kit2Pl00 = 0.0f;							//キッチンからプレイヤー1への距離
+	float m_kit2Pl01 = 0.0f;							//キッチンからプレイヤー2への距離
 	float m_angle = 0.0f;								//回転の際の角度
-
 	bool m_targeted = false;							//ターゲティングされた具材を設定するよう。
 	bool m_guzaiOkibaSet = false;						//自身が具材置き場にセットされているか？
 	bool m_isCooked = false;							//自身が調理されているか？
@@ -49,7 +45,6 @@ private:
 	bool m_isHad = false;								//１ならば持たれている。
 	bool m_returnedFromKitchen = false;					//一度キッチンに置かれてから、また取られたとき
 	bool m_isPutOnKitchen = false;						//TRUEならばもうキッチンに置かれている。
-
 	const char* m_nowModelPath;							//その具材は何であるかのメモ用、ターゲティングのオブジェクトを作成時に使用。
 
 public:	
@@ -170,7 +165,7 @@ public:
 		enBacon,			//６．ベーコン　
 		enGuzaiTypeNum		//具材の種類数
 	};
-
+private:
 	Player* m_player00 = nullptr;
 	Player* m_player01 = nullptr;
 	Kitchen* m_kitchen00 = nullptr;

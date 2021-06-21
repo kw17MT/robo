@@ -5,10 +5,11 @@
 #include "Guzai.h"
 #include "PlayerGene.h"
 #include "PathMove.h"
-#include "DishSpeedManeger.h"
 #include "SoundSource.h"
 #include "DishGene.h"
 #include "GuzaiGene.h"
+#include "GuzaiManager.h"
+#include "DishManager.h"
 
 namespace
 {
@@ -28,12 +29,16 @@ namespace
 
 Dish::~Dish()
 {
+	//皿のモデルを削除
 	DeleteGO(m_skinModelRender);
 	
-
-	if (m_guzai != nullptr) {
-		DeleteGO(m_guzai);
+	//この皿が出した具材をすべて削除のつもり
+	for (Guzai* guzai : v_m_guzai)
+	{
+		DeleteGO(guzai);
 	}
+	//全ての具材の要素を全削除
+	v_m_guzai.clear();
 }
 
 bool Dish::Start()
@@ -52,9 +57,7 @@ bool Dish::Start()
 	m_skinModelRender->SetScale(m_scale);
 	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	
 	m_playerGene = FindGO<PlayerGene>("playerGene");
-	m_speedManeger = FindGO<DishSpeedManeger>("speedManeger");
 	m_dishGene = FindGO<DishGene>("dishGene");
 	m_guzaiGene = FindGO<GuzaiGene>("GuzaiGene");
 
@@ -77,10 +80,9 @@ void Dish::Move()
 	//具材を皿の上に移動させる
 	if (m_isHavingGuzai == true) {
 		m_guzaiPos = m_position;
-		//m_guzaiPos.y += 10.0f;
 		m_guzaiPos.y += m_guzaiYPos;
-		m_guzaiGene->m_guzai[m_guzaiNo]->SetPosition(m_guzaiPos);
-		//再ポップが行われて、皿のかなり高い位置にあるとき
+		v_m_guzai.back()->SetPosition(m_guzaiPos);
+		//再ポップが行われて、具材が皿のかなり高い位置にあるとき
 		if (m_guzaiYPos > DROP_POS_PHASE1) {
 			//ゆっくり落ちてくる。
 			m_guzaiYPos -= DROP_SPEED_PHASE1;
@@ -110,19 +112,12 @@ void Dish::Update()
 	if (m_isCompletedFirstPop == false) {
 		//プレイヤーは具材より先にしっかりと出ているか
 		if (m_playerGene->GetPlayerGeneState() == false) {
-			for (int i = 0; i < MAX_GUZAI_POP_NUM; i++) {
-				//空いている箇所を見つける
-				if (m_guzaiGene->GetGuzaiFlag(i) == false) {
-					m_guzaiGene->m_guzai[i] = NewGO<Guzai>(0);
-					m_guzaiGene->m_guzai[i]->SetGuzaiNo(i);
-					m_isHavingGuzai = true;
-					m_guzaiNo = i;
-					m_isCompletedFirstPop = true;
-					m_guzaiGene->SetGuzaiFlag(i, true);
-					//1回だけ出すため
-					break;
-				}
-			}
+			//一つ目の具材を出す。
+			v_m_guzai.push_back(NewGO<Guzai>(0));
+			//この皿は具材持っている。
+			m_isHavingGuzai = true;
+			//最初のポップが完了した。
+			m_isCompletedFirstPop = true;
 		}
 	}
 	else {
@@ -134,40 +129,32 @@ void Dish::Update()
 			se->Play(false);
 			m_dishGene->SetSetSound(true);
 		}
-		
 	}
 	
-	
 	//自分の上の具材が持たれているならば
-	if (m_guzaiGene->m_guzai[m_guzaiNo]->GetisHadState() == true) {
+	if (v_m_guzai.back()->GetisHadState() == true) {
 		m_isHavingGuzai = false;
 	}
 
-	//空の皿が規定数より多いので、空の皿だけに補充を開始する。
-	if (m_playerGene->GetNoHavingDishCounter() >= m_maxNum2Refill) {
+	//補充するように命令されたか
+	if (GuzaiManager::GetInstance().IsOrderedRefill()) {
+		//発生するまでの遅延を発生させる
 		m_guzaiTimer++;
 		if (m_guzaiTimer > GUZAI_POP_DELAY) {
+			//この皿は具材を持っていなかったら
 			if (m_isHavingGuzai == false) {
-				for (int i = 0; i < MAX_GUZAI_POP_NUM; i++) {
-					if (m_guzaiGene->GetGuzaiFlag(i) == false) {
-						m_guzaiGene->m_guzai[i] = NewGO<Guzai>(0);
-						m_guzaiGene->m_guzai[i]->SetGuzaiNo(i);
-						m_isHavingGuzai = true;
-						m_guzaiNo = i;
-						m_guzaiGene->SetGuzaiFlag(i, true);
-						break;
-					}
-				}
-
+				//追加の具材を出す。
+				v_m_guzai.push_back(NewGO<Guzai>(0));
+				m_isHavingGuzai = true;
 				//補充した皿の枚数を１足す
-				m_playerGene->AddRefilledNum();
+				GuzaiManager::GetInstance().AddRefilledGuzaiNum();
 			}
 			//補充した皿の数が空だった皿の数と同じになったら、０で初期化
-			if (m_playerGene->GetRefilledNum() >= m_maxNum2Refill) {
-				//空の皿は０のはずだから、カウントをリセットする。
-				m_playerGene->ResetNohavingDishCounter();
-				//次に具材を補充するときに、０からカウントしたいためカウントをリセットする。
-				m_playerGene->ResetRefilledNum();
+			if (GuzaiManager::GetInstance().GetRefilledGuzaiNum() >= m_maxNum2Refill) {
+				//空の皿、補充した回数を０にリセットする。
+				GuzaiManager::GetInstance().ResetParamAboutDishAndRefill();
+				//命令を「何もしない」にしておく
+				GuzaiManager::GetInstance().SetNothingOrder();
 				m_dishGene->SetFallingSound(false);
 				m_dishGene->SetSetSound(false);
 			}
@@ -175,14 +162,13 @@ void Dish::Update()
 		}
 	}
 
-	if (m_speedManeger->GetSpeedUpState() == true) {
+	if (DishManager::GetInstance().GetSpeedUpState() == true/*m_speedManeger->GetSpeedUpState() == true*/) {
 		float moveSpeed = MOVE_SPEED * 2.0f;
 		m_pathMove.get()->ChangeMoveSpeed(moveSpeed);
 	}
-	if (m_speedManeger->GetSpeedUpState() == false) {
+	else{
 		m_pathMove.get()->ChangeMoveSpeed(MOVE_SPEED);
 	}
-
 
 	Move();
 

@@ -8,7 +8,6 @@ namespace
 {
 	const Vector3 DEFAULT_SCALE = { 2.0f,2.0f,1.0f };
 	const Vector4 COUNTDOWN_START_COLOR = { 1.0f,1.0f,1.0f,0.0f };
-
 	const int AJUST_TIMER_SPEED = 2;
 	const int COUNTDOWN_SPRITE_WIDTH = 512;
 	const int COUNTDOWN_SPRITE_HEIGHT = 512;
@@ -16,7 +15,6 @@ namespace
 	const int COUNTDOWN_PHASE_TWO = 2;
 	const int COUNTDOWN_PHASE_THREE = 3;
 	const int COUNTDOWN_PHASE_END = 4;
-
 	const float COUNTDOWN_PHASE1_START = 4.0f;
 	const float COUNTDOWN_PHASE1_END = 3.0f;
 	const float COUNTDOWN_PHASE2_START = 3.0f;
@@ -29,13 +27,6 @@ namespace
 	const float COUNTDOWN_START_SCALE = 2.0f;
 	const float SE_VOLUME = 1.0f;
 	const float COLOR_ALPHA_RUN_OUT = 0.0f;
-
-	const char SPRITE_ONE_PATH[19] = "Assets/Image/1.dds";
-	const char SPRITE_TWO_PATH[19] = "Assets/Image/2.dds";
-	const char SPRITE_THREE_PATH[19] = "Assets/Image/3.dds";
-	const char SPRITE_START_PATH[23] = "Assets/Image/start.dds";
-	const wchar_t SOUND_BUZZER_PATH[36] = L"Assets/sound/basketball_buzzer1.wav";
-	const wchar_t SOUND_CLICK_PATH[22] = L"Assets/sound/Time.wav";
 }
 
 bool CountDown::Start()
@@ -74,7 +65,7 @@ void CountDown::Update()
 		//３を出す段階。
 		if (m_timer <= COUNTDOWN_PHASE1_START && m_timer > COUNTDOWN_PHASE1_END && m_changeCount == COUNTDOWN_PHASE_ONE) {
 			//ファイルパスを３で初期化
-			m_spriteRender->Init(SPRITE_THREE_PATH, COUNTDOWN_SPRITE_WIDTH, COUNTDOWN_SPRITE_HEIGHT);
+			m_spriteRender->Init("Assets/Image/3.dds", COUNTDOWN_SPRITE_WIDTH, COUNTDOWN_SPRITE_HEIGHT);
 			//透明にする
 			m_alpha = 0.0f;
 			//最初の拡大率に戻す
@@ -86,7 +77,7 @@ void CountDown::Update()
 		}
 		//２を出す段階。
 		else if (m_timer <= COUNTDOWN_PHASE2_START && m_timer > COUNTDOWN_PHASE2_END && m_changeCount == COUNTDOWN_PHASE_TWO) {
-			m_spriteRender->Init(SPRITE_TWO_PATH, COUNTDOWN_SPRITE_WIDTH, COUNTDOWN_SPRITE_HEIGHT);
+			m_spriteRender->Init("Assets/Image/2.dds", COUNTDOWN_SPRITE_WIDTH, COUNTDOWN_SPRITE_HEIGHT);
 			m_alpha = 0.0f;
 			m_scale = DEFAULT_SCALE;
 			m_isFadeIn = true;
@@ -95,7 +86,7 @@ void CountDown::Update()
 		}
 		//１を出す段階。
 		else if (m_timer <= COUNTDOWN_PHASE3_START && m_timer > COUNTDOWN_PHASE3_END && m_changeCount == COUNTDOWN_PHASE_THREE) {
-			m_spriteRender->Init(SPRITE_ONE_PATH, COUNTDOWN_SPRITE_WIDTH, COUNTDOWN_SPRITE_HEIGHT);
+			m_spriteRender->Init("Assets/Image/1.dds", COUNTDOWN_SPRITE_WIDTH, COUNTDOWN_SPRITE_HEIGHT);
 			m_alpha = 0.0f;
 			m_scale = DEFAULT_SCALE;
 			m_isFadeIn = true;
@@ -104,7 +95,7 @@ void CountDown::Update()
 		}
 		//STARTを出す段階
 		else if (m_timer <= COUNTDOWN_PHASE_FINAL_START && m_timer > COUNTDOWN_PHASE_FINAL_END && m_changeCount == COUNTDOWN_PHASE_END) {
-			m_spriteRender->Init(SPRITE_START_PATH, COUNTDOWN_SPRITE_WIDTH, COUNTDOWN_SPRITE_HEIGHT);
+			m_spriteRender->Init("Assets/Image/start.dds", COUNTDOWN_SPRITE_WIDTH, COUNTDOWN_SPRITE_HEIGHT);
 			m_alpha = 0.0f;
 			m_scale = DEFAULT_SCALE;
 			m_isFadeIn = true;
@@ -144,7 +135,7 @@ void CountDown::Update()
 	if (m_timer < COUNTDOWN_PHASE_FINAL_START && m_soundFlag == true) {
 		//音を鳴らす
 		CSoundSource* se = NewGO<CSoundSource>(0);
-		se->Init(SOUND_BUZZER_PATH, false);
+		se->Init(L"Assets/sound/basketball_buzzer1.wav", false);
 		se->SetVolume(SE_VOLUME);
 		se->Play(false);
 		m_soundFlag = false;
@@ -152,7 +143,7 @@ void CountDown::Update()
 	else if (m_timer < COUNTDOWN_PHASE1_START && m_timer > COUNTDOWN_PHASE_FINAL_START && m_soundFlag == true) {
 		//音を鳴らす
 		CSoundSource* se = NewGO<CSoundSource>(0);
-		se->Init(SOUND_CLICK_PATH, false);
+		se->Init(L"Assets/sound/Time.wav", false);
 		se->SetVolume(SE_VOLUME);
 		se->Play(false);
 		m_soundFlag = false;

@@ -3,6 +3,7 @@
 #include "PlayerGene.h"
 #include "SoundSource.h"
 #include "CycleDirection.h"
+#include "DishManager.h"
 
 namespace
 {
@@ -20,7 +21,6 @@ void PathMove::Init(const Vector3& pos, const float move, EnLane enLane)
 	m_path = PathFactory::GetInstance().GetPath(enLane);
 
 	m_point = m_path->GetNearPoint(m_position);
-	m_playerGene = FindGO<PlayerGene>("playerGene");
 }
 
 void PathMove::SwitchCycleDirection()
@@ -101,20 +101,19 @@ const Vector3& PathMove::Move()
 			return m_position;
 		}
 
-		//提出したハンバーガーの数が、具材の流れを変える規定数に達したら
-		if (m_playerGene->GetSubmitBurgerNum() == Num2ChangeCycle) {
+		//皿の流れる向きを変えろと言われたら
+		if (DishManager::GetInstance().GetOrderedDirection()) {
+			//向きを変える。
 			SwitchCycleDirection();
-			//皿が一つ流れを変えるにしたがってインクリメント
-			m_playerGene->AddChangeCycleNum();
-			//全部の皿が流れを変えたら
-			if (m_playerGene->GetChangeCycleNum() == m_wayPointNum) {
-				//いままで提出したハンバーガーの数をリセットする
-				m_playerGene->ResetSubmitBurgerNum();
-				//さっきインクリメントした皿が流れを変えた総数をリセットする。
-				m_playerGene->ResetChangeCycleNum();
+			//向きを変えた回数を記録する（＋１する）
+			DishManager::GetInstance().AddCompletedChangeDirectionNum();
+
+			//向きを変えた回数が皿の総数と一致したならば全部一致したので、向きを変える命令を止める
+			if (DishManager::GetInstance().JudgeChangedAllDirection()) {
+			DishManager::GetInstance().SetOrderChangeDirection(false);
 			}
 		}
-
+		
 		Vector3 distance = m_point->s_vector - m_position;
 		if (distance.LengthSq() <= DISTANCE) {
 			//次のパスに向けての移動ベクトルを求める

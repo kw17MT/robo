@@ -13,12 +13,10 @@ private:
 	const Vector3 m_burgerScale = { 10.0f, 10.0f, 10.0f };	//ハンバーガーの拡大率
 	Vector3 m_position = Vector3::Zero;						//ハンバーガーの位置
 	Vector3 m_beHadPos = Vector3::Zero;						//ハンバーガーが持たれた時の位置設定用
-
 	int m_burgerNo = 0;										//どちらがつくったバーガーか。０が１P、１が２P
 	int m_decrementTime = 20;								//ゴミ箱にセットした時に消えるまでの遅延時間
 	int m_deleteTimer = 0;									//ボタン長押しでバーガーを消すようにするため。
 	bool m_burgerExist = false;								//１の時に上のDelete(),ClearNo()を
-
 	bool m_isSetOnTrashCan = false;							//ゴミ箱にセットされたか
 	bool m_putOnCounter = false;							//キッチンにいるかどうか、キッチンの上に位置を合わせるための変数
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "PathFactory.h"
+#include "DishManager.h"
 
 class CycleDirection;
 
@@ -11,10 +12,10 @@ enum enMoveState
 	enFinal		//最終ポイント到達。
 };
 
-enum enCycleDirection
+enum EnCycleDirection
 {
 	enNormal,
-	enReverse,
+	enReverse
 };
 
 class PlayerGene;
@@ -51,7 +52,11 @@ public:
 		return m_enMoveState == enFinal;
 	}
 
-	enCycleDirection GetCycleDirection()
+	/**
+	 * @brief 今、どっち向きに流れているか
+	 * @return 流れている向き
+	*/
+	EnCycleDirection GetCycleDirection()
 	{
 		return m_cycleDirection;
 	}
@@ -59,23 +64,22 @@ public:
 	//客に提供したバーガーの数が規定数に達したら、流れる向きを変える。
 	void SwitchCycleDirection();
 
-	
-
 private:
-	//回転方向スプライト
-	CycleDirection* m_directSprite[3] = {nullptr};
-
-	Path* m_path = nullptr;											//パス。
-	Point* m_point = nullptr;								//今向かってるポイント。
-	Vector3 m_position;
-	float m_moveSpeed;
-	EnLane m_enLane = enNonLane;
 	Vector3 	m_moveVector;		//移動ベクトル。
-	enMoveState m_enMoveState = enStart;
+	Vector3 m_position;
 	int m_guzaiNo = 0;
-	enCycleDirection m_cycleDirection = enNormal;
 	const int Num2ChangeCycle = 1;
 	const int m_wayPointNum = 36;
-	PlayerGene* m_playerGene;
+	float m_moveSpeed;
+	int m_submitedBurgerNum = 0;
+
+	EnLane m_enLane = enNonLane;
+	enMoveState m_enMoveState = enStart;
+	EnCycleDirection m_cycleDirection = enNormal;
+
+	CycleDirection* m_directSprite[3] = { nullptr };					//回転方向スプライト
+	Path* m_path = nullptr;											//パス。
+	Point* m_point = nullptr;										//今向かってるポイント。
+	PlayerGene* m_playerGene = nullptr;
 };
 

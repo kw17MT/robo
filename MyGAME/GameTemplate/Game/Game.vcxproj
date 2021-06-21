@@ -300,7 +300,7 @@
     <ClCompile Include="CycleDirection.cpp" />
     <ClCompile Include="Dish.cpp" />
     <ClCompile Include="DishGene.cpp" />
-    <ClCompile Include="DishSpeedManeger.cpp" />
+    <ClCompile Include="DishManager.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="FixedUI.cpp" />
     <ClCompile Include="Floor.cpp" />
@@ -311,6 +311,7 @@
     <ClCompile Include="GaussianBlur.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Guzai.cpp" />
+    <ClCompile Include="GuzaiManager.cpp" />
     <ClCompile Include="GuzaiOkiba.cpp" />
     <ClCompile Include="HamBurgerFactory.cpp" />
     <ClCompile Include="Kitchen.cpp" />
@@ -425,7 +426,7 @@
     <ClInclude Include="CycleDirection.h" />
     <ClInclude Include="Dish.h" />
     <ClInclude Include="DishGene.h" />
-    <ClInclude Include="DishSpeedManeger.h" />
+    <ClInclude Include="DishManager.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="FixedUI.h" />
     <ClInclude Include="Floor.h" />
@@ -436,6 +437,7 @@
     <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Guzai.h" />
+    <ClInclude Include="GuzaiManager.h" />
     <ClInclude Include="GuzaiOkiba.h" />
     <ClInclude Include="HamBurgerFactory.h" />
     <ClInclude Include="Kitchen.h" />

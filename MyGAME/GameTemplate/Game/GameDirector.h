@@ -76,6 +76,3 @@ static inline GameDirector& GetGameDirector()
 {
 	return GameDirector::GetInstance();
 }
-
-
-

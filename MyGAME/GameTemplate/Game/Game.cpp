@@ -19,13 +19,15 @@
 #include "Player.h"
 #include "PlayerGene.h"
 #include "DishGene.h"
-#include "DishSpeedManeger.h"
 #include "effect/effect.h"
 #include "Floor.h"
 #include "Arrow.h"
 #include "CycleDirection.h"
-
 #include "CountDown.h"
+#include "DishManager.h"
+#include <ctime>
+#include <cstdlib>
+#include <random>
 
 namespace
 {
@@ -92,7 +94,6 @@ Game::~Game()
 	DeleteGO(ui);
 	DeleteGO(playerGene);
 	DeleteGO(dishGene);
-	DeleteGO(m_speedManeger);
 	DeleteGO(guzaiGene);
 	DeleteGO(guzaiOkiba);
 	DeleteGO(m_score);
@@ -124,8 +125,6 @@ bool Game::Start()
 	playerGene = NewGO<PlayerGene>(0, "playerGene");
 	//皿の生成器を作成
 	dishGene = NewGO<DishGene>(0, "dishGene");
-	//皿の速度管理をするもの
-	m_speedManeger = NewGO<DishSpeedManeger>(0, "speedManeger");
 	//レベルを利用したオブジェクトの配置
 	m_level->Init("Assets/level/level_new4.tkl", [&](ObjectData& objectData) {
 		//カウンターのオブジェクト（左）を出す
@@ -241,7 +240,7 @@ void Game::Update()
 	//タイムアップ時に行う処理
 	//結果の表示
 	if (ui->GetIsTimeUp() == true && GetTimeUp() == false) {
-		
+
 		//引き分けのとき(ResultP1 = 0,ResultP2 = 0のとき)、1枚だけ表示
 		if (m_score->ResultP1 == m_score->ResultP2) {
 			m_result[RESULT_DRAW] = NewGO<Result>(1, "result");
@@ -283,10 +282,48 @@ void Game::Update()
 		////ゲーム終了を通知
 	}
 
+	//皿のスピードアップまでの時間が0以下であれば
+	if(DishManager::GetInstance().GetTimeTillSpeedUp() <= 0){
+		//ランダムな数を取得する。
+		std::random_device rnd;
+		std::mt19937 mt(rnd());
+		std::uniform_int_distribution<int> rand(10, 20);
+		////10~20までの整数を取得する。
+		float TimeTillSpeedUp = rand(mt);
+		//スピードアップまでの時間を設定してやる。
+		DishManager::GetInstance().SetTimeTillSpeedUp(TimeTillSpeedUp);
+		float TimeToSpeedUp = TimeTillSpeedUp / 4.0f;
+		//スピードアップまでの時間を設定してやる。
+		DishManager::GetInstance().SetTimeTillSpeedUp(TimeToSpeedUp);
+	}
+	//スピードアップまでの時間が設定されているor残っているならば
+	else {
+		//1フレームにかかる時間を取得
+		float gameTime = GameTime().GetFrameDeltaTime();
+		//1秒に1へらしていく。
+		DishManager::GetInstance().DecreaseTimeTillSpeedUp(gameTime);
+		//スピードアップまでの時間が０になったら
+		if (DishManager::GetInstance().GetTimeTillSpeedUp() <= 0.0f) {
+			//現在のスピードアップの状態を逆にする。
+			DishManager::GetInstance().SwitchSpeedUpState();
+		}
+	}
+	//現在スピードアップ中ならば
+	if (DishManager::GetInstance().GetSpeedUpState() == true) {
+		float gameTime = GameTime().GetFrameDeltaTime();
+		//ゲームタイムを用いてスピードアップの有効時間を減らしていく。
+		DishManager::GetInstance().DecreaseActiveTimeForSpeedUp(gameTime);
+		//スピードアップの有効時間がなくなったら
+		if (DishManager::GetInstance().GetActiveTimeForSpeedUp() <= 0.0f) {
+			//現在のスピードアップの状態を逆にする。（普通の速度にする）
+			DishManager::GetInstance().SwitchSpeedUpState();
+		}
+	}
+
 	//リザルト中にプレイヤー1がAボタンを押すとタイトルに移行
 	if (GetGameDirector().GetGameScene() == enResult) {
 		if (g_pad[PLAYER_ONE_CONTROLLER]->IsTrigger(enButtonA)) {
-			GetGameDirector().SetGameScene(enNonScene);
+			GetGameDirector().SetGameScene(enGameEnd);
 			NewGO<Title>(0, "title");
 			DeleteGO(this);
 		}
