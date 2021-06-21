@@ -215,10 +215,12 @@ bool Game::Start()
 
 	//コンベア回転方向の画像を3枚出す。
 	m_directionSprite[DIRECTION_SPRITE_LEFT] = NewGO<CycleDirection>(0, "dirsp1");
-	m_directionSprite[DIRECTION_SPRITE_LEFT]->SetDirection(Forward);				//右回転
+	m_directionSprite[DIRECTION_SPRITE_LEFT]->SetDirection(Reverse);				//右回転
+	m_directionSprite[DIRECTION_SPRITE_LEFT]->ChangeSpriteReverse();
 	m_directionSprite[DIRECTION_SPRITE_LEFT]->SetSide(Left);						//左
 	m_directionSprite[DIRECTION_SPRITE_RIGHT] = NewGO<CycleDirection>(0, "dirsp2");
-	m_directionSprite[DIRECTION_SPRITE_RIGHT]->SetDirection(Reverse);				//左回転
+	m_directionSprite[DIRECTION_SPRITE_RIGHT]->SetDirection(Forward);				//左回転
+	m_directionSprite[DIRECTION_SPRITE_RIGHT]->ChangeSpriteForward();
 	m_directionSprite[DIRECTION_SPRITE_RIGHT]->SetSide(Right);						//右
 	m_directionSprite[DIRECTION_SPRITE_UP] = NewGO<CycleDirection>(0, "dirspfixed");
 	m_directionSprite[DIRECTION_SPRITE_UP]->SetDirection(FixedForward);				//固定表示

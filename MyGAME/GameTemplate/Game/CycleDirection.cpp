@@ -15,7 +15,7 @@ namespace{
 
 	const int WIDTH = 512;
 	const int HEIGHT = 512;
-	const float SPRITE_CYCLE_SPEED = 1.0f / 60.0f;
+	
 	const float SPRITE_ANGLE_CHANGE_RATE = 2.0f;
 }
 
@@ -102,6 +102,7 @@ void CycleDirection::ChangeFixedSpriteReverse()
 
 void CycleDirection::Update()
 {
+	const float SPRITE_CYCLE_SPEED = GameTime().GetFrameDeltaTime();
 	/////////////////////////////////////////////////////
 	//‹¤’Ê•”•ª
 	//ƒQ[ƒ€ƒvƒŒƒC’†‚Å‚È‚¯‚ê‚ÎUpdate‚ðˆ—‚µ‚È‚¢
@@ -114,6 +115,9 @@ void CycleDirection::Update()
 	if (m_alpha > 1.0f) {
 		m_alpha = 1.0f;
 	}
+	m_finalColor.w = m_alpha;
+	m_fixedColor.w = m_alpha;
+	m_sprite->SetColor(m_finalColor);
 	/////////////////////////////////////////////////////
 
 	/////////////////////////////////////////////////////
@@ -132,8 +136,7 @@ void CycleDirection::Update()
 				m_angle = 360.0f;
 			}
 		}
-
-		m_sprite->SetColor(m_finalColor);
+		
 	}
 	/////////////////////////////////////////////////////
 

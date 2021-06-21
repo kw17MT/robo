@@ -239,8 +239,6 @@ void Counter::Delete()
 					m_delay = 0;
 					//ハンバーガーの層数を0にもどす。
 					m_stackNum = 0;
-					//提出できた正しいハンバーガーの数をインクリメント。具材の反転に使用する。
-					//m_playerGene->AddSubmitBurgerNum();
 					//皿の動く向きを逆にさせる命令を発信する。
 					DishManager::GetInstance().SetOrderChangeDirection(true);
 					//次のハンバーガーのために、カウンターの座標に書き換える。

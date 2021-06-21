@@ -41,17 +41,17 @@ void PathMove::SwitchCycleDirection()
 
 		//回転方向スプライト(逆転)
 		m_directSprite[LEFT_CYCLE_SPRITE] = FindGO<CycleDirection>("dirsp1");
-		m_directSprite[LEFT_CYCLE_SPRITE]->ChangeSpriteReverse();
-		m_directSprite[LEFT_CYCLE_SPRITE]->SetDirection(Reverse);					//左回転
+		m_directSprite[LEFT_CYCLE_SPRITE]->ChangeSpriteForward();
+		m_directSprite[LEFT_CYCLE_SPRITE]->SetDirection(Forward);					//右回転
 		m_directSprite[LEFT_CYCLE_SPRITE]->SetSide(Left);							//左
-		
+
 		m_directSprite[RIGHT_CYCLE_SPRITE] = FindGO<CycleDirection>("dirsp2");
-		m_directSprite[RIGHT_CYCLE_SPRITE]->ChangeSpriteForward();
-		m_directSprite[RIGHT_CYCLE_SPRITE]->SetDirection(Forward);					//右回転
+		m_directSprite[RIGHT_CYCLE_SPRITE]->ChangeSpriteReverse();
+		m_directSprite[RIGHT_CYCLE_SPRITE]->SetDirection(Reverse);					//左回転
 		m_directSprite[RIGHT_CYCLE_SPRITE]->SetSide(Right);							//右
-		
+
 		m_directSprite[FIXED_CYCLE_SPRITE] = FindGO<CycleDirection>("dirspfixed");	//固定表示
-		m_directSprite[FIXED_CYCLE_SPRITE]->ChangeFixedSpriteReverse();
+		m_directSprite[FIXED_CYCLE_SPRITE]->ChangeFixedSpriteForward();				//正転
 		m_directSprite[FIXED_CYCLE_SPRITE]->SetDirection(FixedReverse);
 
 		CSoundSource* se = NewGO<CSoundSource>(0);
@@ -71,17 +71,17 @@ void PathMove::SwitchCycleDirection()
 
 		//回転方向スプライト(正転)
 		m_directSprite[LEFT_CYCLE_SPRITE] = FindGO<CycleDirection>("dirsp1");
-		m_directSprite[LEFT_CYCLE_SPRITE]->ChangeSpriteForward();
-		m_directSprite[LEFT_CYCLE_SPRITE]->SetDirection(Forward);					//右回転
+		m_directSprite[LEFT_CYCLE_SPRITE]->ChangeSpriteReverse();
+		m_directSprite[LEFT_CYCLE_SPRITE]->SetDirection(Reverse);					//左回転
 		m_directSprite[LEFT_CYCLE_SPRITE]->SetSide(Left);							//左
-		
+
 		m_directSprite[RIGHT_CYCLE_SPRITE] = FindGO<CycleDirection>("dirsp2");
-		m_directSprite[RIGHT_CYCLE_SPRITE]->ChangeSpriteReverse();
-		m_directSprite[RIGHT_CYCLE_SPRITE]->SetDirection(Reverse);					//左回転
+		m_directSprite[RIGHT_CYCLE_SPRITE]->ChangeSpriteForward();
+		m_directSprite[RIGHT_CYCLE_SPRITE]->SetDirection(Forward);					//右回転
 		m_directSprite[RIGHT_CYCLE_SPRITE]->SetSide(Right);							//右
 
 		m_directSprite[FIXED_CYCLE_SPRITE] = FindGO<CycleDirection>("dirspfixed");	//固定表示
-		m_directSprite[FIXED_CYCLE_SPRITE]->ChangeFixedSpriteForward();				//正転
+		m_directSprite[FIXED_CYCLE_SPRITE]->ChangeFixedSpriteReverse();
 		m_directSprite[FIXED_CYCLE_SPRITE]->SetDirection(FixedForward);
 
 		CSoundSource* se = NewGO<CSoundSource>(0);

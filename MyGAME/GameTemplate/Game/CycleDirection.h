@@ -77,8 +77,8 @@ public:
 	EnSide GetSide() { return m_side; }
 
 private:
-	const Vector4 m_finalColor = { 2.0f,2.0f,2.0f,m_alpha };	//回転の画像の色
-	const Vector4 m_fixedColor = { 1.0f,1.0f,1.0f,m_alpha };	//固定する画像の色
+	Vector4 m_finalColor = { 2.0f,2.0f,2.0f,m_alpha };	//回転の画像の色
+	Vector4 m_fixedColor = { 1.0f,1.0f,1.0f,m_alpha };	//固定する画像の色
 	Vector3 m_scale = { 0.5f,0.5f,1.0f };						//拡大率
 	Vector3 m_position = Vector3::Zero;							//画像の位置
 	Quaternion m_rotation = Quaternion::Identity;				//回転
