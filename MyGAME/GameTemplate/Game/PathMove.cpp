@@ -11,6 +11,8 @@ namespace
 	const int LEFT_CYCLE_SPRITE = 0;
 	const int RIGHT_CYCLE_SPRITE = 1;
 	const int FIXED_CYCLE_SPRITE = 2;
+
+	const float SE_VOLUME = 2.0f;
 }
 
 void PathMove::Init(const Vector3& pos, const float move, EnLane enLane)
@@ -86,7 +88,7 @@ void PathMove::SwitchCycleDirection()
 
 		CSoundSource* se = NewGO<CSoundSource>(0);
 		se->Init(L"Assets/sound/mechanical.wav", false);
-		se->SetVolume(2.0f);
+		se->SetVolume(SE_VOLUME);
 		se->Play(false);
 	}
 }
@@ -102,7 +104,7 @@ const Vector3& PathMove::Move()
 		}
 
 		//皿の流れる向きを変えろと言われたら
-		if (DishManager::GetInstance().GetOrderedDirection()) {
+		if (DishManager::GetInstance().GetIsOrderedDirection()) {
 			//向きを変える。
 			SwitchCycleDirection();
 			//向きを変えた回数を記録する（＋１する）
@@ -139,6 +141,8 @@ const Vector3& PathMove::Move()
 		}
 
 	//TODO GameTimeに変える。
-	m_position += m_moveVector * 1.0f / 60.0f * m_moveSpeed;
+		float gameTime = GameTime().GetFrameDeltaTime();
+
+	m_position += m_moveVector * gameTime * m_moveSpeed;
 	return m_position;
 }

@@ -47,8 +47,7 @@ public:
 	bool Start();
 	void Update();
 
-	//カウントダウンする。
-	//void CountDown();
+	void DoWhenTimeUp();
 
 	bool GetTimeUp() { return m_isTimeUp; }
 	void SetTimeUp() { m_isTimeUp = true; }

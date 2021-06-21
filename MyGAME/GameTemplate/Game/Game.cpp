@@ -235,11 +235,49 @@ bool Game::Start()
 	return true;
 }
 
-void Game::Update()
+void DishSpeedUp()
 {
-	m_level->Draw();
+	//皿のスピードアップまでの時間が0以下であれば
+	if (DishManager::GetInstance().GetTimeTillSpeedUp() <= 0) {
+		//ランダムな数を取得する。
+		std::random_device rnd;
+		std::mt19937 mt(rnd());
+		std::uniform_int_distribution<int> rand(9, 15);
+		////10~20までの整数を取得する。
+		float TimeTillSpeedUp = rand(mt);
+		//スピードアップまでの時間を設定してやる。
+		DishManager::GetInstance().SetTimeTillSpeedUp(TimeTillSpeedUp);
+		float TimeForSpeedUp = TimeTillSpeedUp / 3.0f;
+		//スピードアップまでの時間を設定してやる。
+		DishManager::GetInstance().SetActiveTimeForSpeedUp(TimeForSpeedUp);
+	}
+	//スピードアップまでの時間が設定されているor残っているならば
+	else {
+		//1フレームにかかる時間を取得
+		float gameTime = GameTime().GetFrameDeltaTime();
+		//1秒に1へらしていく。
+		DishManager::GetInstance().DecreaseTimeTillSpeedUp(gameTime);
+		//スピードアップまでの時間が０になったら
+		if (DishManager::GetInstance().GetTimeTillSpeedUp() <= 0.0f) {
+			//現在のスピードアップの状態を逆にする。
+			DishManager::GetInstance().SwitchSpeedUpState();
+		}
+	}
+	//現在スピードアップ中ならば
+	if (DishManager::GetInstance().GetSpeedUpState() == true) {
+		float gameTime = GameTime().GetFrameDeltaTime();
+		//ゲームタイムを用いてスピードアップの有効時間を減らしていく。
+		DishManager::GetInstance().DecreaseActiveTimeForSpeedUp(gameTime);
+		//スピードアップの有効時間がなくなったら
+		if (DishManager::GetInstance().GetActiveTimeForSpeedUp() <= 0.0f) {
+			//現在のスピードアップの状態を逆にする。（普通の速度にする）
+			DishManager::GetInstance().SwitchSpeedUpState();
+		}
+	}
+}
 
-	//タイムアップ時に行う処理
+void Game::DoWhenTimeUp()
+{
 	//結果の表示
 	if (ui->GetIsTimeUp() == true && GetTimeUp() == false) {
 
@@ -281,46 +319,20 @@ void Game::Update()
 		SetTimeUp();
 
 		GetGameDirector().SetGameScene(enResult);
-		////ゲーム終了を通知
+		//ゲーム終了を通知
 	}
+}
 
-	//皿のスピードアップまでの時間が0以下であれば
-	if(DishManager::GetInstance().GetTimeTillSpeedUp() <= 0){
-		//ランダムな数を取得する。
-		std::random_device rnd;
-		std::mt19937 mt(rnd());
-		std::uniform_int_distribution<int> rand(10, 20);
-		////10~20までの整数を取得する。
-		float TimeTillSpeedUp = rand(mt);
-		//スピードアップまでの時間を設定してやる。
-		DishManager::GetInstance().SetTimeTillSpeedUp(TimeTillSpeedUp);
-		float TimeToSpeedUp = TimeTillSpeedUp / 4.0f;
-		//スピードアップまでの時間を設定してやる。
-		DishManager::GetInstance().SetTimeTillSpeedUp(TimeToSpeedUp);
-	}
-	//スピードアップまでの時間が設定されているor残っているならば
-	else {
-		//1フレームにかかる時間を取得
-		float gameTime = GameTime().GetFrameDeltaTime();
-		//1秒に1へらしていく。
-		DishManager::GetInstance().DecreaseTimeTillSpeedUp(gameTime);
-		//スピードアップまでの時間が０になったら
-		if (DishManager::GetInstance().GetTimeTillSpeedUp() <= 0.0f) {
-			//現在のスピードアップの状態を逆にする。
-			DishManager::GetInstance().SwitchSpeedUpState();
-		}
-	}
-	//現在スピードアップ中ならば
-	if (DishManager::GetInstance().GetSpeedUpState() == true) {
-		float gameTime = GameTime().GetFrameDeltaTime();
-		//ゲームタイムを用いてスピードアップの有効時間を減らしていく。
-		DishManager::GetInstance().DecreaseActiveTimeForSpeedUp(gameTime);
-		//スピードアップの有効時間がなくなったら
-		if (DishManager::GetInstance().GetActiveTimeForSpeedUp() <= 0.0f) {
-			//現在のスピードアップの状態を逆にする。（普通の速度にする）
-			DishManager::GetInstance().SwitchSpeedUpState();
-		}
-	}
+void Game::Update()
+{
+	//レベルの描画
+	m_level->Draw();
+
+	//タイムアップ時に行う処理
+	DoWhenTimeUp();
+
+	//たまに皿の速度が上がる処理。ランダム性を持たすためにUpdate関数に書かなくてはならない
+	DishSpeedUp();
 
 	//リザルト中にプレイヤー1がAボタンを押すとタイトルに移行
 	if (GetGameDirector().GetGameScene() == enResult) {

@@ -114,7 +114,6 @@ public:
 	Kitchen* m_kitchen = nullptr;
 	CLevel2D* m_level2d = nullptr;
 	Player* m_player = nullptr;
-	PlayerGene* m_playerGene = nullptr;
 	SkinModelRender* m_skinModelRender = nullptr;
 	SpriteRender* m_spriteJudge = nullptr;
 	SpriteRender* m_spriteCompare[4][5] = {nullptr};	//ƒƒjƒ…[‚Æˆê’v‚µ‚Ä‚¢‚é‚©‚Ì‰æ‘œ‚ğ•\¦

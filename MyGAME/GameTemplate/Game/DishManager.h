@@ -121,21 +121,36 @@ public:
 		m_activeTimeForSpeedUp -= gameTime;
 	}
 
+	/**
+	 * @brief 皿の回転の向きを変更するかどうかを設定する。
+	 * @param changeOrder 向きを変えるかどうか
+	*/
 	void SetOrderChangeDirection(bool changeOrder)
 	{
 		m_letChangeDirection = changeOrder;
 	}
 
-	bool GetOrderedDirection()
+	/**
+	 * @brief 皿の回転の向きを変えるべきかどうかを返す。
+	 * @return TRUE＝変えろ！
+	*/
+	bool GetIsOrderedDirection()
 	{
 		return m_letChangeDirection;
 	}
 
+	/**
+	 * @brief 向きが変わった皿の総数を計算する。（インクリメント）
+	*/
 	void AddCompletedChangeDirectionNum()
 	{
 		m_completedChangeDirectionNum++;
 	}
 
+	/**
+	 * @brief 全部の皿の向きが変わったかどうか
+	 * @return TRUE＝終わった。
+	*/
 	bool JudgeChangedAllDirection()
 	{
 		return m_dishNum == m_completedChangeDirectionNum;

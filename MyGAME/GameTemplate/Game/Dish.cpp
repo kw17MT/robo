@@ -13,7 +13,7 @@
 
 namespace
 {
-	const float MOVE_SPEED = 130.0f;
+	const float MOVE_SPEED = 70.0f;
 	const float LIGHT_DIRECTION_PISITIVE = 1.0f;
 	const Vector3 LIGHT_DIRECTION_RIGHTER = { 100.0f,100.0f,100.0f };
 	const float DROP_POS_PHASE1 = 800.0f;

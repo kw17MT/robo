@@ -106,7 +106,7 @@ bool Counter::Start()
 	m_level2d = FindGO<CLevel2D>("clevel2d");
 	m_player = FindGO<Player>(playerName);
 	m_kitchen = FindGO<Kitchen>(kitchenName);
-	m_playerGene = FindGO<PlayerGene>("playerGene");
+//m_playerGene = FindGO<PlayerGene>("playerGene");
 
 	//ハンバーガーのポジションをカウンターの位置にするため。
 	m_burgerPos = m_position;
