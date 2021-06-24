@@ -80,6 +80,24 @@ public:
 	}
 
 	/// <summary>
+	/// ビューポートとシザリング矩形をセットで設定
+	/// </summary>
+	/// <param name="viewport">ビューポート</param>
+	void SetViewportAndScissor(D3D12_VIEWPORT& viewport)
+	{
+		//シザリング矩形も設定する。
+		D3D12_RECT scissorRect;
+		scissorRect.bottom = static_cast<LONG>(viewport.Height);
+		scissorRect.top = 0;
+		scissorRect.left = 0;
+		scissorRect.right = static_cast<LONG>(viewport.Width);
+		SetScissorRect(scissorRect);
+
+		m_commandList->RSSetViewports(1, &viewport);
+		m_currentViewport = viewport;
+	}
+
+	/// <summary>
 	/// ルートシグネチャを設定。
 	/// </summary>
 	void SetRootSignature(ID3D12RootSignature* rootSignature)

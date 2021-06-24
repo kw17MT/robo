@@ -7,7 +7,6 @@
 #include "SkinModelRender.h"
 #include "SoundSource.h"
 #include "Meter.h"
-#include "GuzaiGene.h"
 #include "MenuTimer.h"
 
 namespace
@@ -16,6 +15,7 @@ namespace
 
 	const int PLAYER_NAME_SIZE = 9;
 	const int COUNTER_NAME_SIZE = 10;
+	const int BURGER_NAME_SIZE = 9;
 	const int AJUST_METER_POS_X_No0 = 200;
 	const int AJUST_METER_POS_X_No1 = 100;
 	const int AJUST_METER_POS_Y = 300;
@@ -29,7 +29,7 @@ namespace
 	const int DEFAULT_DELAY_NUMBER = 60;
 
 	const float SCALE_DECREASE_SPEED = 1.4f / 60.0f;
-	const float GUZAI_DOWN_SPEED = 1.2f;
+	const float GUZAI_DOWN_SPEED = 0.7f;
 	const float SE_VOLUME = 1.5f;
 	const float DISTANCE_BETWEEN_PLAYER_TO_KITCHEN = 100.0f;
 }
@@ -69,7 +69,6 @@ bool Kitchen::Start()
 	//必要なデータの探索と確保
 	m_player = FindGO<Player>(playerName);
 	m_counter = FindGO<Counter>(counterName);
-	m_guzaiGene = FindGO<GuzaiGene>("GuzaiGene");
 
 	//モデルデータの初期化
 	m_skinModelRender = NewGO<SkinModelRender>(0);
@@ -89,7 +88,7 @@ void Kitchen::Delete()
 		//積んでいる具材の消去
 		DeleteGO(m_stackedGuzai[i]);
 		//保存していた具材いちをFALSE＝ない　に設定
-		m_guzaiGene->SetGuzaiFlag(m_stackedGuzai[i]->GetGuziNo(), false);
+		//m_guzaiGene->SetGuzaiFlag(m_stackedGuzai[i]->GetGuziNo(), false);
 	}
 
 	//キッチンに積んでいた具材の数をカウンターの方に移す
@@ -106,7 +105,7 @@ void Kitchen::BornBurger()
 	float distance = preDistance.Length();
 
 	//具材を一つ以上積んでいて、Bボタンを長押し
-	if (m_stack > 0 && g_pad[m_kitchenNo]->IsPress(enButtonB) && m_guzaiDeleteFlag == false && distance < DISTANCE_BETWEEN_PLAYER_TO_KITCHEN && m_player->GetPlayerState() <= NOTHING) {
+	if (m_stack > 0 && g_pad[m_kitchenNo]->IsPress(enButtonB) && m_isPlayerCookingOnKitchen == false && distance < DISTANCE_BETWEEN_PLAYER_TO_KITCHEN && m_player->GetPlayerState() <= NOTHING) {
 		m_delay--;
 		//プレイヤーが動けないようにする。
 		m_player->StopMove(true);
@@ -153,12 +152,12 @@ void Kitchen::BornBurger()
 			//ここで具材を持っていることにして、ハンバーガーができているとき具材をとれないようにしておく。
 			m_player->SetPlayerState(HAVE_GUZAI);
 			//削除フラグを立てる。
-			m_guzaiDeleteFlag = true;
+			m_isPlayerCookingOnKitchen = true;
 			m_delay = DEFAULT_DELAY_NUMBER;
 		}
 	}
 	else {
-		if (m_guzaiDeleteFlag == false) {
+		if (m_isPlayerCookingOnKitchen == false) {
 			m_delay = DEFAULT_DELAY_NUMBER;
 			m_player -> StopMove(false);
 		}
@@ -172,7 +171,7 @@ void Kitchen::BornBurger()
 		}
 	}
 	//削除フラグが立っているとき…
-	if (m_guzaiDeleteFlag == true) {
+	if (m_isPlayerCookingOnKitchen == true) {
 		m_player->SetPlayerState(HAVE_GUZAI);
 		m_delay--;
 		for (int i = 0; i < m_stack; i++) {
@@ -191,6 +190,7 @@ void Kitchen::BornBurger()
 			if (m_kitchenNo == 1) {
 				bur = NewGO<Burger>(0, "burger01");
 			}
+
 			bur->SetBurgerNo(m_kitchenNo);
 			//音を鳴らす
 			CSoundSource* se = NewGO<CSoundSource>(0);
@@ -199,7 +199,7 @@ void Kitchen::BornBurger()
 			se->Play(false);
 
 			m_player->StopMove(false);
-			m_guzaiDeleteFlag = false;
+			m_isPlayerCookingOnKitchen = false;
 			m_delay = DEFAULT_DELAY_NUMBER;
 		}
 	}
@@ -232,13 +232,13 @@ void Kitchen::Update()
 	//取る処理
 	//1層以上積まれていたらとれるようにする。
 	if (m_stack >= 1 && distance <= DISTANCE_BETWEEN_PLAYER_TO_KITCHEN) {
-		if (g_pad[0]->IsTrigger(enButtonA) && /*m_kitchenNo == 1 &&*/ m_canGrab == true && m_player->GetPlayerState() <= NOTHING) {
+		if (g_pad[m_kitchenNo]->IsTrigger(enButtonA) && /*m_kitchenNo == 1 &&*/ m_canGrab == true && m_player->GetPlayerState() <= NOTHING) {
 			//この具材は一回キッチンから帰ってきたか
 			m_stackedGuzai[m_stack - 1]->SetReturnedState(true);
 			//持たれているか
 			m_stackedGuzai[m_stack - 1]->SetisHadState(true);
 			//どちらのプレイヤーに持たれているか
-			m_stackedGuzai[m_stack - 1]->SetWhichPlayerGet(1);
+			m_stackedGuzai[m_stack - 1]->SetWhichPlayerGet(m_kitchenNo);
 			//一番上だった具材の番号を９にして何も入っていない状態にする。
 			m_player->ClearSpecificGuzaiNo(m_stack - 1);
 			//この具材はキッチンに置かれているか
@@ -251,7 +251,7 @@ void Kitchen::Update()
 	}
 	
 	//キッチンに5個以上具材があると"コンベアからは"取れないようにする。
-	if (m_stack >= m_maxStack /*&& m_kitchenNo == 1*/) {
+	if (m_stack >= m_maxStack) {
 		m_player->SetPlayerState(FULL_KITCHEN);
 	}
 

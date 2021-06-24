@@ -1,5 +1,4 @@
 #pragma once
-#include "GuzaiGene.h"
 #include "effect/Effect.h"
 class Guzai;
 class FontRender;
@@ -21,8 +20,8 @@ private:
 	float m_angle = 0.0f;											//プレイヤーの角度
 
 	int m_playerNo = 0;												//０で左、１で右
-	int have = enNothing;											//プレイヤーが具材を持っているか。１なら具材を持っている。２ならハンバーガーを持っている。-1でキッチンからはとれる状態
-	int GuzaiNo[10];												//積み上げている具材の種類を格納していく。
+	int m_have = enNothing;											//プレイヤーが具材を持っているか。１なら具材を持っている。２ならハンバーガーを持っている。-1でキッチンからはとれる状態
+	int m_guzaiNo[10];												//積み上げている具材の種類を格納していく。
 	int m_moveCounter = 0;											//P1
 	const int m_maxNumCanSaveGuzaiType = 10;						//プレイヤーが保存できる具材種類の総数
 
@@ -83,9 +82,9 @@ public:
 	 * @brief プレイヤーの状態を設定する
 	 * @param state 状態の番号。列挙型enPlayerStateを参照
 	*/
-	void SetPlayerState(int state) { have = state; };
+	void SetPlayerState(int state) { m_have = state; };
 
-	void SetPlayerStackedGuzais(int num, int guzaiType) { GuzaiNo[num] = guzaiType; }
+	void SetPlayerStackedGuzais(int num, int guzaiType) { m_guzaiNo[num] = guzaiType; }
 
 	/**
 	 * @brief 現在の位置を返す
@@ -115,20 +114,20 @@ public:
 	 * @brief プレイヤーの状態を返す。
 	 * @return enPlayerStateを参照
 	*/
-	int GetPlayerState() { return have; }
+	int GetPlayerState() { return m_have; }
 
 	/**
 	 * @brief その段数には何の具材を積んでいるのかを返す
 	 * @param num 積んでいる具材の段数の場所（0~4)
 	 * @return true
 	*/
-	int GetPlayerStackedGuzais(int num) { return GuzaiNo[num]; }
+	int GetPlayerStackedGuzais(int num) { return m_guzaiNo[num]; }
 
 	/**
 	 * @brief 積み上げている具材すべての情報を渡す
 	 * @return  積み上げている具材すべての情報
 	*/
-	int* GetPlayerStackedGuzais() { return GuzaiNo; }
+	int* GetPlayerStackedGuzais() { return m_guzaiNo; }
 
 	/**
 	 * @brief 移動不可を設定
@@ -145,7 +144,7 @@ public:
 	 * @brief 一番最後にキッチンに積んだ具材の記録を消す
 	 * @param num 消したい箇所の要素番号
 	*/
-	void ClearSpecificGuzaiNo(int num) { GuzaiNo[num] = 9; }
+	void ClearSpecificGuzaiNo(int num) { m_guzaiNo[num] = 9; }
 
 	/**
 	 * @brief プレイヤーの状態

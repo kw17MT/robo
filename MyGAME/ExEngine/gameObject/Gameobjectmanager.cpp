@@ -5,6 +5,7 @@
 #include "ExEngine.h"
 #include "GameObjectManager.h"
 
+
 GameObjectManager* GameObjectManager::m_instance = nullptr;
 
 GameObjectManager::GameObjectManager()
@@ -73,9 +74,8 @@ GameObjectManager::GameObjectManager()
 
 	//finalSprite.Init(finalSpriteData);
 
-
-	//シャドウ関連
-	shadowTarget.Create(
+	//シャドウのオフスクリーンレンダリング作成
+	shadowMap.Create(
 		1024,
 		1024,
 		1,
@@ -84,16 +84,12 @@ GameObjectManager::GameObjectManager()
 		DXGI_FORMAT_D32_FLOAT,
 		clearColor
 	);
-
-	lightCamera.SetPosition(0, 1000, 0);
-	lightCamera.SetUp({ 1, 0, 0 });
-	lightCamera.SetViewAngle(Math::DegToRad(20.0f));
+	//ライトカメラの作成
+	lightCamera.SetPosition(0.0f, 500.0f, 0.0f);
+	lightCamera.SetTarget(0.0f, 0.0f, 0.0f);
+	lightCamera.SetUp({ 1, 0, 0 });							//カメラの上をX座標にしておく
+	lightCamera.SetViewAngle(Math::DegToRad(90.0f));
 	lightCamera.Update();
-
-	
-
-
-
 }
 GameObjectManager::~GameObjectManager()
 {
@@ -136,27 +132,33 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.ClearRenderTargetView(mainRenderTarget);*/
 
 	//シャドウマップのレンダリングターゲットに設定する。
-	rc.WaitUntilToPossibleSetRenderTarget(shadowTarget);
-	rc.SetRenderTargetAndViewport(shadowTarget);
-	rc.ClearRenderTargetView(shadowTarget);
+	rc.WaitUntilToPossibleSetRenderTarget(shadowMap);
+	rc.SetRenderTargetAndViewport(shadowMap);
+	rc.ClearRenderTargetView(shadowMap);
 
-
-
-	//shadowSprite.Draw(rc);
-	rc.WaitUntilFinishDrawingToRenderTarget(shadowTarget);
-
-	rc.SetRenderTarget(
-		g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
-		g_graphicsEngine->GetCurrentFrameBuffuerDSV()
-	);
-	rc.SetViewport(g_graphicsEngine->GetFrameBufferViewport());
-	
-	//モデルのドロー
 	for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
-			go->RenderWrapper(rc);
+				go->RenderWrapper(rc);
 		}
-	} 
+	}
+
+	rc.WaitUntilFinishDrawingToRenderTarget(shadowMap);
+
+	//正常に戻す/////////////////////////////////////////////////////
+	//rc.SetRenderTarget(
+	//	g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
+	//	g_graphicsEngine->GetCurrentFrameBuffuerDSV()
+	//);
+	//rc.SetViewport(g_graphicsEngine->GetFrameBufferViewport());
+	////rc.SetViewportAndScissor(g_graphicsEngine->GetFrameBufferViewport());
+	//
+	////モデルのドロー
+	//for (auto& goList : m_gameObjectListArray) {
+	//	for (auto& go : goList) {
+	//		go->RenderWrapper(rc);
+	//	}
+	//} 
+	//////////////////////////////////////////////////////////////////
 
 
 	////モデルが全部ドローできるまで待つ。

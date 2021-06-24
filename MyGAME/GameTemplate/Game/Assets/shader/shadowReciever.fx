@@ -51,11 +51,10 @@ SPSIn VSMain(SVSIn vsIn)
 	psIn.pos = mul(mView, worldPos);
 	psIn.pos = mul(mProj, psIn.pos);
 	psIn.uv = vsIn.uv;
-	psIn.normal = mul(mWorld, vsIn.normal);
 
 	//step-5 ライトビュースクリーン空間の座標を計算する。
 	psIn.posInLVP = mul(mLVP, worldPos);
-
+	psIn.normal = mul(mWorld, vsIn.normal);
 
 	return psIn;
 }
@@ -71,18 +70,18 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 	shadowMapUV *= float2(0.5f, -0.5f);
 	shadowMapUV += 0.5f;
 
-
-
 	//step-7 計算したUV座標を使って、シャドウマップから影情報をサンプリング
 	float3 shadowMap = 1.0f;
 
-	if (shadowMapUV.x > 0.0f && shadowMapUV.x < 1.0f && shadowMapUV.y > 0.0f && shadowMapUV.y < 1.0f) {
+	if (shadowMapUV.x > 0.0f 
+		&& shadowMapUV.x < 1.0f 
+		&& shadowMapUV.y > 0.0f 
+		&& shadowMapUV.y < 1.0f) {
 		shadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV);
 	}
 
 	//step-8 サンプリングした影情報をテクスチャカラーに乗算する。
 	color.xyz *= shadowMap;
 
-	
 	return color;
 }

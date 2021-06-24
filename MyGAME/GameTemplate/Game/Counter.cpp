@@ -106,7 +106,6 @@ bool Counter::Start()
 	m_level2d = FindGO<CLevel2D>("clevel2d");
 	m_player = FindGO<Player>(playerName);
 	m_kitchen = FindGO<Kitchen>(kitchenName);
-//m_playerGene = FindGO<PlayerGene>("playerGene");
 
 	//ハンバーガーのポジションをカウンターの位置にするため。
 	m_burgerPos = m_position;
@@ -118,6 +117,13 @@ bool Counter::Start()
 bool Counter::Judge()
 {
 	return m_level2d->GetIsMatchHamBurger(m_player->GetPlayerStackedGuzais(), m_stackNum, m_counterNo + 1);
+}
+
+float Counter::CalcDistance(Vector3 pos1, Vector3 pos2)
+{
+	//地点１と地点２の距離を測る。
+	Vector3 distance = pos1 - pos2;
+	return distance.Length();
 }
 
 //バーガーを最終的に消してスコアを発生させる。
@@ -139,8 +145,7 @@ void Counter::Delete()
 	Vector3 plPos = m_player->GetPosition();
 
 	//カウンターからプレイヤーの距離
-	float pl2Counter = (plPos.x - m_position.x) * (plPos.x - m_position.x) + (plPos.y - m_position.y) * (plPos.y - m_position.y) + (plPos.z - m_position.z) * (plPos.z - m_position.z);
-	pl2Counter = sqrt(pl2Counter);
+	float playerToCounter = CalcDistance(plPos, m_position);
 
 	//プレイヤーがバーガーをもっていたら
 	if (m_player->GetPlayerState() == enHaveBurger) {
@@ -155,7 +160,7 @@ void Counter::Delete()
 
 		//カウンターに置く準備
 		//できたハンバーガーの組成をJudge関数で調べる。
-		if (g_pad[m_counterNo]->IsTrigger(enButtonA) && pl2Counter < DISTANCE_TO_FIND_COUNTER) {
+		if (g_pad[m_counterNo]->IsTrigger(enButtonA) && playerToCounter < DISTANCE_TO_FIND_COUNTER) {
 			burger->SetPutOnCounterState(true);
 			//バーガーが合っている場合
 			if (Judge() == true) {
@@ -458,6 +463,7 @@ void Counter::Update()
 	Delete();
 	HamBurgerCompare();
 	
+	//CorrectやMissの画像
 	if (m_spriteFlag == true) {
 		m_spriteTime++;
 		if (m_spriteTime > SPRITE_MAX_TIMER) {

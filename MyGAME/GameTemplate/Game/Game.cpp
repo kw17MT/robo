@@ -5,7 +5,6 @@
 #include "FixedUI.h"
 #include "SpriteRender.h"
 #include "Guzai.h"
-#include "GuzaiGene.h"
 #include "GuzaiOkiba.h"
 #include "Kitchen.h"
 #include "Counter.h"
@@ -28,7 +27,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <random>
-
+#include "ShadowParam.h"
 namespace
 {
 	const Vector2 COUNTDOWN_PIVOT = { 0.5f,0.5f };
@@ -94,7 +93,7 @@ Game::~Game()
 	DeleteGO(ui);
 	DeleteGO(playerGene);
 	DeleteGO(dishGene);
-	DeleteGO(guzaiGene);
+	//DeleteGO(guzaiGene);
 	DeleteGO(guzaiOkiba);
 	DeleteGO(m_score);
 	DeleteGO(m_bgm);
@@ -205,7 +204,6 @@ bool Game::Start()
 	//具材置き場の表示
 	guzaiOkiba = NewGO<GuzaiOkiba>(0, "GuzaiOkiba");
 	//具材の生成、補充を管理するもの
-	guzaiGene = NewGO<GuzaiGene>(0, "GuzaiGene");
 	//UI全般を出すもの
 	ui = NewGO<FixedUI>(1, "ui");
 	//スコアの表示を行うもの
@@ -231,6 +229,9 @@ bool Game::Start()
 	m_bgm->Init(L"Assets/sound/BGM/BGM1.wav", false);
 	m_bgm->SetVolume(SE_VOLUME);
 	m_bgm->Play(true);
+
+	//影を作る光の向きとかのパラメータを初期化
+	ShadowParam::GetInstance().SetLightCameraParam({ 0.0f,500.0f,0.0f });
 	
 	return true;
 }

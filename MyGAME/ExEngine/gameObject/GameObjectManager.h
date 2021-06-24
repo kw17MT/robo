@@ -7,8 +7,8 @@
 #include "gameObject/IGameObject.h"
 #include <functional>
 #include <vector>
-class Shadow;
-
+class ShadowParam;
+class SkinModelRender;
 
 /// <summary>
 /// GameObjectManagerクラス
@@ -78,6 +78,16 @@ public:
 		m_gameObjectListArray.at(prio).push_back(newObject);
 		return newObject;
 	}
+
+	/*template<class T>
+	T* ShadowNewGameObject(int prio, const char* objectName)
+	{
+		T* newObject = new T();
+		newObject->SetName(objectName);
+		m_shadowObjectListArray.at(prio).push_back(newObject);
+		return newObject;
+	}*/
+
 	/*!
 		*@brief	ゲームオブジェクトの削除。
 		*/
@@ -126,13 +136,22 @@ public:
 			}
 		}
 	}
+
+	RenderTarget* GetShadowMap() 
+	{
+		return &shadowMap;
+	}
+
+	Camera* GetLightCamera()
+	{
+		return &lightCamera;
+	}
 	
 private:
 	enum { GAME_OBJECT_PRIO_MAX = 255 };		//!<ゲームオブジェクトの優先度の最大値。
 	typedef std::list<IGameObject*>	 GameObjectList;
 	std::array<GameObjectList, GAME_OBJECT_PRIO_MAX>	m_gameObjectListArray;							//!<ゲームオブジェクトの優先度付きリスト。
 	static GameObjectManager* m_instance;		//唯一のインスタンスのアドレスを記録する変数。
-
 
 	RootSignature rootSignature;
 	//メインレンダーターゲット
@@ -151,16 +170,11 @@ private:
 	SpriteInitData finalSpriteData;
 	Sprite finalSprite;
 
-	
 	//シャドウ関連
-	float clearColor[4] = { 1.0f,1.0f,1.0f,1.0f };
-	RenderTarget shadowTarget;
-
+	float clearColor[4] = { 1.0f,0.5f,0.5f,1.0f };
+	RenderTarget shadowMap;
 	//ライト座標から見た影を作るためのもの
 	Camera lightCamera;
-
-	SpriteInitData shadowSpriteData;
-	Sprite shadowSprite;
 };
 
 
@@ -198,6 +212,13 @@ static inline T* NewGO( int priority, const char* objectName = nullptr)
 {
 	return GameObjectManager::GetInstance()->NewGameObject<T>( priority, objectName);
 }
+
+
+//template<class T>
+//static inline T* ShadowNewGO(int priority, const char* objectName = nullptr)
+//{
+//	return GameObjectManager::GetInstance()->ShadowNewGameObject<T>(priority, objectName);
+//}
 	
 /*!
 	*@brief	ゲームオブジェクト削除のヘルパー関数。

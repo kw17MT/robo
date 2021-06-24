@@ -75,7 +75,10 @@ void Arrow::Shrink()
 
 void Arrow::Update()
 {
+	//•‚—Vˆ—
 	Float();
+	//ˆÊ’uÝ’è
 	m_skinModelRender->SetPosition(m_position);
+	//Šg‘å—¦Ý’è
 	m_skinModelRender->SetScale(m_scale);
 }

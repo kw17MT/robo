@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Floor.h"
 #include "SkinModelRender.h"
+#include "ShadowParam.h"
 
 namespace
 {
@@ -19,17 +20,18 @@ bool Floor::Start()
 
 	//ƒ‚ƒfƒ‹‚Ì‰Šú‰»
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	if(isRed) {
-		m_skinModelRender->Init("Assets/modelData/floor/floor_red.tkm", nullptr, enModelUpAxisZ, m_position, &m_lig);
+	if (isRed) {
+		m_skinModelRender->InitForRecieveShadow("Assets/modelData/floor/floor_red.tkm", nullptr, enModelUpAxisZ, m_position);
 	}
 	else {
-		m_skinModelRender->Init("Assets/modelData/floor/floor_blue.tkm", nullptr, enModelUpAxisZ, m_position, &m_lig);
+		m_skinModelRender->InitForRecieveShadow("Assets/modelData/floor/floor_blue.tkm", nullptr, enModelUpAxisZ, m_position);
 	}
-	m_skinModelRender->InitShader("Assets/shader/demodel.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+
 	return true;
 }
 
 void Floor::Update()
 {
 	m_skinModelRender->SetPosition(m_position);
+	//m_skinModelRender->SetScale({ 3.0f,3.0f,3.0f });
 }

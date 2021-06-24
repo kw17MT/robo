@@ -29,7 +29,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//ゲームタイムを測るもの
 	CStopwatch stopWatch;
-
+	
 	//一緒くたにしないと両方のライトの影響を受けなくなる。////////////////////////////////
 	//ディレクションライトの正規化と目の位置をカメラの座標にする。
 	g_lig.directionalLight.direction.Normalize();
@@ -57,7 +57,38 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		
 		g_lig.eyePos = g_camera3D->GetPosition();
 		g_postLig.eyePos = g_camera3D->GetPosition();
-		
+
+
+		//ライトカメラをアップデートしてみてる
+		GameObjectManager::GetInstance()->GetLightCamera()->Update();
+		//カメラの移動
+		if (g_pad[0]->IsPress(enButtonLeft)) {
+			Vector3 a = g_camera3D->GetPosition();
+			a.y -= 20.0f;
+			g_camera3D->SetPosition(a);			
+		}
+		if (g_pad[0]->IsPress(enButtonRight)) {
+			Vector3 a = g_camera3D->GetPosition();
+			a.y += 20.0f;
+			g_camera3D->SetPosition(a);
+		}
+		if (g_pad[0]->IsPress(enButtonUp)) {
+			Vector3 a = g_camera3D->GetPosition();
+			Vector3 b = g_camera3D->GetTarget();
+			a.z -= 20.0f;
+			b.z -= 20.0f;
+			g_camera3D->SetPosition(a);
+			g_camera3D->SetTarget(b);
+		}
+		if (g_pad[0]->IsPress(enButtonDown)) {
+			Vector3 a = g_camera3D->GetPosition();
+			a.z += 20.0f;
+			Vector3 b = g_camera3D->GetTarget();
+			b.z += 20.0f;
+			g_camera3D->SetPosition(a);
+			g_camera3D->SetTarget(b);
+		}
+
 		//スピンロックを行う。
 		int restTime = 0;
 		do {

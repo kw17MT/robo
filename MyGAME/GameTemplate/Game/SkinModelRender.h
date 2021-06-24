@@ -13,6 +13,7 @@ private:
 	Vector3 m_scale = Vector3::One;										//モデルの拡大率
 	Quaternion m_rot = Quaternion::Identity;							//モデルの回転
 
+	bool m_isCastShadow = false;
 public:
 	SkinModelRender() {};
 	//インスタンスを破棄
@@ -75,6 +76,25 @@ public:
 	//モデルのファイルパスのみを変更するときに使用する。
 
 	/**
+	 * @brief 影を生成する人のモデル初期化関数
+	 * @param filePath 　
+	 * @param skeletonPath 
+	 * @param UpAxis 
+	 * @param pos 
+	 * @param pLig 
+	*/
+	void InitForCastShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* pLig);
+
+	/**
+	 * @brief 影が映るもののモデル初期化関数
+	 * @param filePath 
+	 * @param skeletonPath 
+	 * @param UpAxis 
+	 * @param pos 
+	*/
+	void InitForRecieveShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
+
+	/**
 	 * @brief モデルのファイルパスを変えたいときに使用
 	 * @param newModelFilePath 新しいファイルパス
 	*/
@@ -107,14 +127,6 @@ public:
 	void InitLight(Light& light);
 
 	/**
-	 * @brief 影を落とす背景用の初期化関数
-	 * @param texture 適応するテクスチャ
-	 * @param lightcamera ライトの位置
-	 * @param lightcamerasize カメラのサイズ
-	*/
-	void InitBackGroundLight(Texture texture, Matrix lightcamera, Matrix lightcamerasize);
-
-	/**
 	 * @brief アニメーションを設定する。
 	 * @param animation アニメーション
 	 * @param animationNum アニメーションの数
@@ -132,8 +144,22 @@ public:
 	 * @brief モデルを描く
 	 * @param rc レンダーコンテキスト
 	*/
-	void Render(RenderContext& rc) { m_model.Draw(rc); }
+	void Render(RenderContext& rc) 
+	{
+		if (m_isCastShadow) {
+			m_model.Draw(rc, *GameObjectManager::GetInstance()->GetLightCamera());
+		}
+		else {
+			m_model.Draw(rc);
+		}
+	}
 
+	/**
+	 * @brief 影を生成するときに使用する
+	 * @param rc 今のレンダーターゲット
+	 * @param lightCamera 光の位置
+	*/
+	/*void Render(RenderContext& rc, Camera lightCamera) { m_model.Draw(rc, lightCamera); }*/
 private:
 	Animation m_animation;
 	AnimationClip* m_animationClip;

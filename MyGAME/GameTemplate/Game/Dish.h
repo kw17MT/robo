@@ -5,10 +5,8 @@ class SkinModelRender;
 class Guzai;
 class PlayerGene;
 class PathMove;
-class DishSpeedManeger;
 class CSoundSource;
 class DishGene;
-class GuzaiGene;
 
 class Dish : public IGameObject
 {
@@ -69,14 +67,10 @@ public:
 	void Move();
 
 private:
-	SkinModelRender* m_skinModelRender = nullptr;
-	Guzai* m_guzai = nullptr;
-	PlayerGene* m_playerGene = nullptr;
-	DishSpeedManeger* m_speedManeger = nullptr;
-	CSoundSource* m_se = nullptr;
-	DishGene* m_dishGene = nullptr;
-	GuzaiGene* m_guzaiGene = nullptr;
-
-	std::vector<Guzai*> v_m_guzai;
+	SkinModelRender* m_skinModelRender = nullptr;			//具材のモデル
+	PlayerGene* m_playerGene = nullptr;						//プレイヤー生成器
+	CSoundSource* m_se = nullptr;							//SE用
+	DishGene* m_dishGene = nullptr;							//皿生成器
+	std::vector<Guzai*> m_guzai;							//具材の格納場所
 };
 

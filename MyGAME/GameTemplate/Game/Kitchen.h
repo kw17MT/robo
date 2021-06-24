@@ -5,7 +5,6 @@ class SkinModelRender;
 class Player;
 class CSoundSource;
 class Meter;
-class GuzaiGene;
 class Counter;
 
 class Kitchen : public IGameObject
@@ -22,7 +21,7 @@ private:
 
 	bool m_soundFlag = false;								//音が出ているか？
 	bool m_canGrab = true;									//現在つかめるか（フレームのずれを起こす用）
-	bool m_guzaiDeleteFlag = false;							//具材を消すことが決まっているかどうか
+	bool m_isPlayerCookingOnKitchen = false;							//具材を消すことが決まっているかどうか
 
 public:
 
@@ -113,10 +112,10 @@ public:
 	void RegistStackedGuzai(Guzai* m_guzai) { m_stackedGuzai[m_stack - 1] = m_guzai; }
 
 	/**
-	 * @brief ハンバーガーを作っているかどうか。
-	 * @return 
+	 * @brief プレイヤーはキッチンでハンバーガーを作っている途中か
+	 * @return TRUE＝作成中。キッチン上の具材をとれなくする。
 	*/
-	bool GetKitchenCooking() { return m_guzaiDeleteFlag; }
+	bool GetIsPlayerCookingOnKitchen() { return m_isPlayerCookingOnKitchen; }
 
 
 private:
@@ -125,7 +124,6 @@ private:
 	SkinModelRender* m_skinModelRender = nullptr;
 	CSoundSource* m_soundSource = nullptr;
 	Meter* m_meter = nullptr;
-	GuzaiGene* m_guzaiGene = nullptr;
 	Counter* m_counter = nullptr;
 	Guzai* m_stackedGuzai[5] = { nullptr };					//キッチンの上にある具材
 };

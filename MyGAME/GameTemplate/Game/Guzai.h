@@ -2,7 +2,6 @@
 #include "effect/Effect.h"
 class CSoundSource;
 class Effect;
-class GuzaiGene;
 class GuzaiOkiba;
 class Kitchen;
 class Meter;
@@ -35,7 +34,7 @@ private:
 	float m_kit2Pl00 = 0.0f;							//キッチンからプレイヤー1への距離
 	float m_kit2Pl01 = 0.0f;							//キッチンからプレイヤー2への距離
 	float m_angle = 0.0f;								//回転の際の角度
-	bool m_targeted = false;							//ターゲティングされた具材を設定するよう。
+	bool m_isTargeted = false;							//ターゲティングされた具材を設定するよう。
 	bool m_guzaiOkibaSet = false;						//自身が具材置き場にセットされているか？
 	bool m_isCooked = false;							//自身が調理されているか？
 	bool m_soundFlag01 = false;							//1Pの音を鳴らしたかのフラグ
@@ -52,6 +51,15 @@ public:
 	~Guzai();
 	bool Start();
 	void Update();
+
+	/**
+	 * @brief 地点１と地点２の距離をはかる
+	 * @param pos1 地点１
+	 * @param pos2 地点２
+	 * @return ２地点間の距離
+	*/
+	float CalcDistance(Vector3 pos1, Vector3 pos2);
+
 	/**
 	 * @brief ポジションのゲッタ―
 	 * @return 具材の位置座標
@@ -115,7 +123,7 @@ public:
 	/**
 	 * @brief 具材を持ったり置いたりする処理
 	*/
-	void GrabNPut();
+	void GrabAndPut();
 	/**
 	 * @brief 一定範囲内で一番近い具材をターゲットする
 	*/

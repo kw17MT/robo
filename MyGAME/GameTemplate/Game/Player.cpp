@@ -42,35 +42,50 @@ bool Player::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	if (m_playerNo == PLAYER_NUMBER_ONE) {
-		m_skinModelRender->Init(
+		/*m_skinModelRender->Init(
 			"Assets/modelData/Chef/ChefRed/Chef01.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
 			enModelUpAxisZ,
 			m_position
+		);*/
+		m_skinModelRender->InitForCastShadow(
+			"Assets/modelData/Chef/ChefRed/Chef01.tkm",
+			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
+			enModelUpAxisZ,
+			m_position,
+			nullptr
 		);
 	}
 	else {
-		m_skinModelRender->Init(
+		/*m_skinModelRender->Init(
 			"Assets/modelData/Chef/ChefBlue/Chef02.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
 			enModelUpAxisZ,
 			m_position
+		);*/
+		m_skinModelRender->InitForCastShadow(
+			"Assets/modelData/Chef/ChefBlue/Chef02.tkm",
+			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
+			enModelUpAxisZ,
+			m_position,
+			nullptr
 		);
 	}
 
-	m_skinModelRender->InitShader(
-		"Assets/shader/model.fx",
-		"VSMain",
-		"VSSkinMain",
-		DXGI_FORMAT_R32G32B32A32_FLOAT
-	);
+	/*m_skinModelRender->InitForCastShadow(
+		"Assets/modelData/Chef/ChefRed/Chef01.tkm",
+		"Assets/modelData/Chef/ChefRed/Chef_1.tks",
+		enModelUpAxisZ,
+		m_position,
+		nullptr
+	);*/
 
 
 	m_skinModelRender->SetScale(m_scale);
 
 	//具材ナンバー配列のすべての要素を9で初期化
 	for (int i = 0; i < MAX_NUM_TO_GUZAI_STACK; i++) {
-		GuzaiNo[i] = STACK_NONE;
+		m_guzaiNo[i] = STACK_NONE;
 	}
 
 	int endNo = m_playerNo;
@@ -95,7 +110,7 @@ void Player::SetGuzaiNo9()
 {
 	for (int i = 0;i < MAX_NUM_TO_GUZAI_STACK;i++)
 	{
-		GuzaiNo[i] = STACK_NONE;
+		m_guzaiNo[i] = STACK_NONE;
 	}
 }
 

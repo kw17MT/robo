@@ -42,6 +42,8 @@ public:
 	*/
 	void SetRed(bool red) { isRed = red; }
 
+	void SetShadowParam(Texture tex, Camera lightCamera);
+
 private:
 	SkinModelRender* m_skinModelRender = nullptr;
 };

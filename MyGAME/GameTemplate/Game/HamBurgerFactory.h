@@ -26,19 +26,29 @@ private:
 	~HamBurgerFactory() {}
 
 public:
+	/**
+	 * @brief インスタンスを取得する。
+	 * @return インスタンス
+	*/
 	static HamBurgerFactory& GetInstance()
 	{
 		static HamBurgerFactory instance;
 		return instance;
 	}
 
-	//ハンバーガーを取得。
+	/**
+	 * @brief ハンバーガーを取得。
+	 * @param enHamBurger ハンバーガーの種類
+	 * @return ハンバーガーの情報を取得
+	*/
 	HamBurger& GetHamBurger(EnHamBurger enHamBurger)
 	{
 		return m_hamBurgers[enHamBurger];
 	}
 private:
-	//ハンバーガーの配列。
+	/**
+	 * @brief ハンバーガーの配列。
+	*/
 	HamBurger m_hamBurgers[enHamBurgerNum];
 
 };

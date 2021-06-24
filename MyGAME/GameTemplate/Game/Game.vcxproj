@@ -325,7 +325,6 @@
     <ClCompile Include="Meter.cpp" />
     <ClCompile Include="MissCounter.cpp" />
     <ClCompile Include="NameKey.cpp" />
-    <ClCompile Include="GuzaiGene.cpp" />
     <ClCompile Include="OperationExplanation.cpp" />
     <ClCompile Include="Path.cpp" />
     <ClCompile Include="PathFactory.cpp" />
@@ -334,6 +333,7 @@
     <ClCompile Include="PlayerGene.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="Score.cpp" />
+    <ClCompile Include="ShadowParam.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="SoundPreCompile.cpp" />
@@ -450,7 +450,6 @@
     <ClInclude Include="Meter.h" />
     <ClInclude Include="MissCounter.h" />
     <ClInclude Include="NameKey.h" />
-    <ClInclude Include="GuzaiGene.h" />
     <ClInclude Include="OperationExplanation.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="PathFactory.h" />
@@ -459,6 +458,7 @@
     <ClInclude Include="PlayerGene.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Score.h" />
+    <ClInclude Include="ShadowParam.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="SoundPreCompile.h" />

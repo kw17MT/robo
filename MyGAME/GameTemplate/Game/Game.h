@@ -4,7 +4,6 @@ class CLevel2D;
 class FixedUI;
 class SpriteRender;
 class Guzai;
-class GuzaiGene;
 class GuzaiOkiba;
 class Kitchen;
 class Counter;
@@ -61,7 +60,6 @@ private:
 	Kitchen* kitchen01 = nullptr;									//キッチン２
 	Player* player[2] = { nullptr,nullptr };						//両プレイヤー
 	PlayerGene* playerGene = nullptr;								//プレイヤーを生成するもの
-	GuzaiGene* guzaiGene = nullptr;									//具材を生成するもの
 	Score* m_score = nullptr;										//プレイヤーのスコアを表示する。
 	GuzaiOkiba* guzaiOkiba = nullptr;								//具材置き場を8個出す
 	DishGene* dishGene = nullptr;									//ウェイポイントに従って皿を出す

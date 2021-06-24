@@ -44,10 +44,10 @@ bool Burger::Start()
 	//string型に変えてcharに変換するための準備をする。
 	std::string endNo_string = std::to_string(endNo);
 	//不変箇所を定義
-	char kitchenName[KITCHEN_NAME_SIZE] = "kitchen0";
 	char playerName[PLAYER_NAME_SIZE] = "player0";
 	char trashcanName[TRASHCAN_NAME_SIZE] = "trashcan0";
 	char counterName[COUNTER_NAME_SIZE] = "counter0";
+	char kitchenName[KITCHEN_NAME_SIZE] = "kitchen0";
 	//末端番号だけを追加する
 	strcat_s(kitchenName, endNo_string.c_str());
 	strcat_s(playerName, endNo_string.c_str());

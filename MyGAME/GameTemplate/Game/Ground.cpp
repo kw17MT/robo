@@ -4,7 +4,7 @@
 
 bool Ground::Start()
 {
-	shadowMap.Create(
+	/*shadowMap.Create(
 		1024,
 		1024,
 		1,
@@ -22,7 +22,7 @@ bool Ground::Start()
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/Floor.tkm",nullptr, enModelUpAxisZ, m_position);
 	m_skinModelRender->InitShader("Assets/shader/shadowReciever.fx", nullptr, nullptr, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	m_skinModelRender->InitBackGroundLight(shadowMap.GetRenderTargetTexture(), lightCamera.GetViewProjectionMatrix(), lightCamera.GetViewProjectionMatrix());
+	m_skinModelRender->InitBackGroundLight(shadowMap.GetRenderTargetTexture(), lightCamera.GetViewProjectionMatrix(), lightCamera.GetViewProjectionMatrix());*/
 
 	
 

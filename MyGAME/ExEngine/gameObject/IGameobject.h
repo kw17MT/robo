@@ -94,12 +94,12 @@ public:
 		return strcmp(m_name.c_str(), name) == 0;
 	}
 
-	void SayYourName()
-	{
+	//void SayYourName()
+	//{
 		//OutputDebugStringA(m_name.c_str());
 		//OutputDebugStringA("\n");
-		
-	}
+	//	
+	//}
 public:
 
 	void RenderWrapper(RenderContext& renderContext)
@@ -112,7 +112,7 @@ public:
 	void UpdateWrapper()
 	{
 		if (m_isActive && m_isStart && !m_isDead ) {
-			SayYourName();
+			//SayYourName();
 			Update();
 		}
 	}
@@ -131,14 +131,14 @@ public:
 			m_name = name;
 		}
 	}
+
 	friend class CGameObjectManager;
 protected:
 	std::string m_name;								//ゲームオブジェクトの名前
 	bool m_isStart = false;							//Startの開始フラグ。
 	bool m_isDead = false;							//死亡フラグ。
 	bool m_isRegistDeadList = false;				//死亡リストに積まれている。
-	bool m_isNewFromGameObjectManager;	//GameObjectManagerでnewされた。
-	bool m_isRegist = false;							//GameObjectManagerに登録されている？
+	bool m_isNewFromGameObjectManager;				//GameObjectManagerでnewされた。
+	bool m_isRegist = false;						//GameObjectManagerに登録されている？
 	bool m_isActive = true;							//Activeフラグ。
-	
 };

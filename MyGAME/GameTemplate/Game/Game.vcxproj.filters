@@ -78,9 +78,6 @@
     <ClCompile Include="Guzai.cpp">
       <Filter>Food</Filter>
     </ClCompile>
-    <ClCompile Include="GuzaiGene.cpp">
-      <Filter>Food</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\MiniEngine\Animation.cpp">
       <Filter>EngineRelated</Filter>
     </ClCompile>
@@ -309,6 +306,7 @@
     <ClCompile Include="CountDown.cpp" />
     <ClCompile Include="GuzaiManager.cpp" />
     <ClCompile Include="DishManager.cpp" />
+    <ClCompile Include="ShadowParam.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
@@ -385,9 +383,6 @@
       <Filter>UI,Sprite</Filter>
     </ClInclude>
     <ClInclude Include="Guzai.h">
-      <Filter>Food</Filter>
-    </ClInclude>
-    <ClInclude Include="GuzaiGene.h">
       <Filter>Food</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MiniEngine\Animation.h">
@@ -645,6 +640,7 @@
     <ClInclude Include="CountDown.h" />
     <ClInclude Include="GuzaiManager.h" />
     <ClInclude Include="DishManager.h" />
+    <ClInclude Include="ShadowParam.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Food">

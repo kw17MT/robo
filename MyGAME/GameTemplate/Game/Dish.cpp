@@ -7,7 +7,6 @@
 #include "PathMove.h"
 #include "SoundSource.h"
 #include "DishGene.h"
-#include "GuzaiGene.h"
 #include "GuzaiManager.h"
 #include "DishManager.h"
 
@@ -33,12 +32,12 @@ Dish::~Dish()
 	DeleteGO(m_skinModelRender);
 	
 	//この皿が出した具材をすべて削除のつもり
-	for (Guzai* guzai : v_m_guzai)
+	for (Guzai* guzai : m_guzai)
 	{
 		DeleteGO(guzai);
 	}
 	//全ての具材の要素を全削除
-	v_m_guzai.clear();
+	m_guzai.clear();
 }
 
 bool Dish::Start()
@@ -59,7 +58,6 @@ bool Dish::Start()
 
 	m_playerGene = FindGO<PlayerGene>("playerGene");
 	m_dishGene = FindGO<DishGene>("dishGene");
-	m_guzaiGene = FindGO<GuzaiGene>("GuzaiGene");
 
 	m_pathMove = std::make_unique<PathMove>();
 	m_pathMove.get()->Init(m_position, MOVE_SPEED, enNormalLane);
@@ -81,7 +79,7 @@ void Dish::Move()
 	if (m_isHavingGuzai == true) {
 		m_guzaiPos = m_position;
 		m_guzaiPos.y += m_guzaiYPos;
-		v_m_guzai.back()->SetPosition(m_guzaiPos);
+		m_guzai.back()->SetPosition(m_guzaiPos);
 		//再ポップが行われて、具材が皿のかなり高い位置にあるとき
 		if (m_guzaiYPos > DROP_POS_PHASE1) {
 			//ゆっくり落ちてくる。
@@ -113,7 +111,7 @@ void Dish::Update()
 		//プレイヤーは具材より先にしっかりと出ているか
 		if (m_playerGene->GetPlayerGeneState() == false) {
 			//一つ目の具材を出す。
-			v_m_guzai.push_back(NewGO<Guzai>(0));
+			m_guzai.push_back(NewGO<Guzai>(0));
 			//この皿は具材持っている。
 			m_isHavingGuzai = true;
 			//最初のポップが完了した。
@@ -132,7 +130,7 @@ void Dish::Update()
 	}
 	
 	//自分の上の具材が持たれているならば
-	if (v_m_guzai.back()->GetisHadState() == true) {
+	if (m_guzai.back()->GetisHadState() == true) {
 		m_isHavingGuzai = false;
 	}
 
@@ -144,13 +142,13 @@ void Dish::Update()
 			//この皿は具材を持っていなかったら
 			if (m_isHavingGuzai == false) {
 				//追加の具材を出す。
-				v_m_guzai.push_back(NewGO<Guzai>(0));
+				m_guzai.push_back(NewGO<Guzai>(0));
 				m_isHavingGuzai = true;
 				//補充した皿の枚数を１足す
 				GuzaiManager::GetInstance().AddRefilledGuzaiNum();
 			}
 			//補充した皿の数が空だった皿の数と同じになったら、０で初期化
-			if (GuzaiManager::GetInstance().GetRefilledGuzaiNum() >= m_maxNum2Refill) {
+			if (GuzaiManager::GetInstance().GetRefilledGuzaiNum() >= GuzaiManager::GetInstance().GetEmptyDishNum()) {
 				//空の皿、補充した回数を０にリセットする。
 				GuzaiManager::GetInstance().ResetParamAboutDishAndRefill();
 				//命令を「何もしない」にしておく

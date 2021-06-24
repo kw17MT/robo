@@ -14,6 +14,7 @@ void SkinModelRender::Init(const char* modelFilePath, EnModelUpAxis UpAxis, Vect
 
 	m_modelInitData.m_vsEntryPointFunc = "VSMain";
 	m_modelInitData.m_vsSkinEntryPointFunc = "VSSkinMain";
+	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
@@ -31,6 +32,8 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 
 	m_modelInitData.m_vsEntryPointFunc = "VSMain";
 	m_modelInitData.m_vsSkinEntryPointFunc = "VSSkinMain";
+	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+
 
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
@@ -42,6 +45,70 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 	}
 	m_modelInitData.m_expandConstantBufferSize = sizeof(g_lig);
 	
+	if (skeletonPath != nullptr) {
+		m_skeleton.Init(skeletonPath);
+		m_modelInitData.m_skeleton = &m_skeleton;
+	}
+
+	m_model.Init(m_modelInitData);
+	//初期化終わり//
+
+	//キャラコンの初期化
+	m_charaCon.Init(0.0f, 0.0f, pos);
+}
+
+void SkinModelRender::InitForCastShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* pLig = nullptr)
+{
+	m_modelInitData.m_tkmFilePath = modelFilePath;
+
+	m_modelInitData.m_fxFilePath = "Assets/shader/drawShadowMap.fx";
+
+	m_modelInitData.m_vsEntryPointFunc = "VSMain";
+	m_modelInitData.m_vsSkinEntryPointFunc = "VSMain";
+	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32_FLOAT;
+
+	m_modelInitData.m_modelUpAxis = UpAxis;
+
+	if (pLig) {
+		m_modelInitData.m_expandConstantBuffer = pLig;
+	}
+	else {
+		m_modelInitData.m_expandConstantBuffer = &g_lig;
+	}
+	m_modelInitData.m_expandConstantBufferSize = sizeof(g_lig);
+
+	if (skeletonPath != nullptr) {
+		m_skeleton.Init(skeletonPath);
+		m_modelInitData.m_skeleton = &m_skeleton;
+	}
+
+	m_model.Init(m_modelInitData);
+	//初期化終わり//
+
+	//キャラコンの初期化
+	m_charaCon.Init(0.0f, 0.0f, pos);
+
+	m_isCastShadow = true;
+}
+
+void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)
+{
+	m_modelInitData.m_tkmFilePath = modelFilePath;
+
+	m_modelInitData.m_fxFilePath = "Assets/shader/shadowReciever.fx";
+
+	m_modelInitData.m_vsEntryPointFunc = "VSMain";
+	m_modelInitData.m_vsSkinEntryPointFunc = "VSMain";
+	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+
+
+	m_modelInitData.m_modelUpAxis = UpAxis;
+
+	m_modelInitData.m_expandShaderResoruceView = &GameObjectManager::GetInstance()->GetShadowMap()->GetRenderTargetTexture();
+	m_modelInitData.m_expandConstantBuffer = (void*)&GameObjectManager::GetInstance()->GetLightCamera()->GetProjectionMatrix();
+	m_modelInitData.m_expandConstantBufferSize = sizeof(GameObjectManager::GetInstance()->GetLightCamera()->GetProjectionMatrix());
+	
+
 	if (skeletonPath != nullptr) {
 		m_skeleton.Init(skeletonPath);
 		m_modelInitData.m_skeleton = &m_skeleton;
@@ -73,13 +140,6 @@ void SkinModelRender::InitLight(Light& light) {
 	m_modelInitData.m_expandConstantBufferSize = sizeof(light);
 }
 
-void SkinModelRender::InitBackGroundLight(Texture target, Matrix lightcamera, Matrix lightcamerasize)
-{
-	m_modelInitData.m_expandShaderResoruceView = &target;
-	m_modelInitData.m_expandConstantBuffer = (void*)&lightcamera;
-	m_modelInitData.m_expandConstantBufferSize = sizeof(lightcamerasize);
-}
-
 void SkinModelRender::InitAnimation(AnimationClip* animationClip, int animationNum)
 {
 	m_animationClip = animationClip;
@@ -90,8 +150,6 @@ void SkinModelRender::InitAnimation(AnimationClip* animationClip, int animationN
 void SkinModelRender::PlayAnimation(int animNo, float interpolateTime)
 {
 	m_animation.Play(animNo, interpolateTime);
-	//m_animation.Progress(1.0f / 60.0f);
-
 }
 
 void SkinModelRender::Update()
@@ -99,7 +157,7 @@ void SkinModelRender::Update()
 	//スケルトンを更新。
 	m_skeleton.Update(m_model.GetWorldMatrix());
 
-	m_animation.Progress(1.0f / 60.0f);
+	m_animation.Progress(GameTime().GetFrameDeltaTime());
 	
 	m_model.UpdateWorldMatrix(m_position, m_rot, m_scale);
 }

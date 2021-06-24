@@ -3,7 +3,6 @@
 #include "Guzai.h"
 #include "math.h"
 #include "Kitchen.h"
-#include "GuzaiGene.h"
 #include "GuzaiOkiba.h"
 #include "SkinModelRender.h"
 #include "Player.h"
@@ -153,57 +152,65 @@ bool Guzai::Start()
 	return true;
 }
 
-void Guzai::GrabNPut()
+void Guzai::GrabAndPut()
 {
 	//どちらに持たれるか分からないため、両方のポジションが毎フレーム必要。
 	Vector3 plPos00 = m_player00->GetPosition();
 	Vector3 plPos01 = m_player01->GetPosition();
 	
-	//キッチンに置かれたことがない時
+	//キッチンから具材を取るときの処理はキッチンにあり！
+
+	//プレイヤー1の持つ処理
+	//Aボタンを押したとき
 	if (g_pad[PLAYER_ONE_CONTROLLER]->IsTrigger(enButtonA)) {
-		//Aボタンを押したとき、プレイヤーは何も持っていない、自分はターゲットされているか（ここで距離計測済み）、一度でも置かれていないか。
-		//最後の引数は、キッチン上でハンバーガーを作るために一か所に集まっている最中に取れないようにするため。
-		if (m_player00->GetPlayerState() == enNothing && m_targeted == true && m_isPutOnKitchen == false && m_kitchen00->GetKitchenCooking() == false) {
-			//もたれた！
-			m_isHad = true;
-			//Player0は具材をもっている！
-			m_player00->SetPlayerState(enHaveGuzai);
-			//自分はどっちのプレイヤーに持たれたか
-			m_whichPlayerGet = PLAYER_ONE;
-			//音を鳴らす
-			CSoundSource* se = NewGO<CSoundSource>(0);
-			se->Init(L"Assets/sound/poka01.wav", false);
-			se->SetVolume(SE_VOLUME);
-			se->Play(false);
-			//具材置き場にセットされていないものならば
-			if (m_guzaiOkibaSet == false) {
-				//素直に空の皿の数を1増やす
-				GuzaiManager::GetInstance().AddEmptyDishNum();
+		//私（この具材）はプレイヤー１にロックオンされている。
+		if (m_whichPlayerTargetMe == PLAYER_ONE) {
+			//プレイヤー1は何も持っていない。私はターゲットされている（距離測定済）。私はキッチン上にない。プレイヤー1はバーガー作成中ではない。
+			//最後の引数は、キッチン上でハンバーガーを作るために一か所に集まっている最中に取れないようにするため。
+			if (m_player00->GetPlayerState() == enNothing && m_isTargeted == true && m_isPutOnKitchen == false && m_kitchen00->GetIsPlayerCookingOnKitchen() == false) {
+				//もたれた！
+				m_isHad = true;
+				//Player0は具材をもっている！
+				m_player00->SetPlayerState(enHaveGuzai);
+				//自分はどっちのプレイヤーに持たれたか
+				m_whichPlayerGet = PLAYER_ONE;
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/poka01.wav", false);
+				se->SetVolume(SE_VOLUME);
+				se->Play(false);
+				//普通に流れている具材をとった時
+				if (m_guzaiOkibaSet == false) {
+					//素直に空の皿の数を1増やす
+					GuzaiManager::GetInstance().AddEmptyDishNum();
+				}
+				//補充を開始するかどうか判断する。
+				GuzaiManager::GetInstance().JudgeToOrderRefill();
+				//それが具材置き場にあった時の処理
+				AwayFromGuzaiOkiba();
 			}
-			//補充を開始するかどうか判断する。
-			GuzaiManager::GetInstance().JudgeToOrderRefill();
-			//それが具材置き場にあった時の処理
-			AwayFromGuzaiOkiba();
 		}
 	}
+	//プレイヤー2の持つ処理
 	if (g_pad[PLAYER_TWO_CONTROLLER]->IsTrigger(enButtonA)) {
-		if (m_player01->GetPlayerState() == enNothing && m_targeted == true && m_isPutOnKitchen == false && m_kitchen01->GetKitchenCooking() == false) {
-
-			m_isHad = true;
-			m_player01->SetPlayerState(enHaveGuzai);
-			m_whichPlayerGet = PLAYER_TWO;
-			//音を鳴らす
-			CSoundSource* se = NewGO<CSoundSource>(0);
-			se->Init(L"Assets/sound/poka01.wav", false);
-			se->SetVolume(SE_VOLUME);
-			se->Play(false);
-			if (m_guzaiOkibaSet == false) {
-				//空の皿の数を1増やす
-				GuzaiManager::GetInstance().AddEmptyDishNum();
+		if (m_whichPlayerTargetMe == PLAYER_TWO) {
+			if (m_player01->GetPlayerState() == enNothing && m_isTargeted == true && m_isPutOnKitchen == false && m_kitchen01->GetIsPlayerCookingOnKitchen() == false) {
+				m_isHad = true;
+				m_player01->SetPlayerState(enHaveGuzai);
+				m_whichPlayerGet = PLAYER_TWO;
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/poka01.wav", false);
+				se->SetVolume(SE_VOLUME);
+				se->Play(false);
+				if (m_guzaiOkibaSet == false) {
+					//空の皿の数を1増やす
+					GuzaiManager::GetInstance().AddEmptyDishNum();
+				}
+				//補充を開始するかどうか判断する。
+				GuzaiManager::GetInstance().JudgeToOrderRefill();
+				AwayFromGuzaiOkiba();
 			}
-			//補充を開始するかどうか判断する。
-			GuzaiManager::GetInstance().JudgeToOrderRefill();
-			AwayFromGuzaiOkiba();
 		}
 	}
 
@@ -216,8 +223,8 @@ void Guzai::GrabNPut()
 			plPos00 += pl00MSpeed;
 			plPos00.y += AJUST_HEIGHT;
 			SetPosition(plPos00);
-
-			m_targeted = false;
+			//持っている最中、その具材を拡大表示したくないため。
+			m_isTargeted = false;
 		}
 		if (m_whichPlayerGet == PLAYER_TWO) {
 			Vector3 pl01MSpeed = m_player01->GetNormalMoveSpeed();
@@ -225,16 +232,16 @@ void Guzai::GrabNPut()
 			plPos01 += pl01MSpeed;
 			plPos01.y += AJUST_HEIGHT;
 			SetPosition(plPos01);
-
-			m_targeted = false;
+			m_isTargeted = false;
 		}
 	}
 
 	//ここはキッチンに置く処理
 	//Aボタンを押してその具材が調理されているとき（する必要がない時）
 	if (g_pad[PLAYER_ONE_CONTROLLER]->IsTrigger(enButtonA) && m_isCooked == true && m_whichPlayerGet == PLAYER_ONE) {
-		//自分は持たれているか、距離は一定以内か、一度キッチンに置かれていないか。←pl01->have = enNothingを回避するため必要
+		//自分は持たれている。距離は一定以内。一度キッチンに置かれていないか。←pl01->have = enNothingを回避するため必要
 		if (m_isHad == true && m_kit2Pl00 < DISTANCE_BETWEEN_PLAYER_TO_GUZAI && m_returnedFromKitchen == false) {
+			//具材の種類に応じて、キッチン上専用のモデルに切り替える。
 			ChangeModel(m_typeNo);
 			//卵だった時少し小さく
 			if (m_typeNo == enEgg) {
@@ -251,9 +258,9 @@ void Guzai::GrabNPut()
 			//自分は持たれていない
 			m_isHad = false;
 			//ターゲティングしていた具材を運んでいる最中は別の具材をターゲティングしたくないため、ここで初期化。
+			m_isTargeted = false;
 			//プレイヤーはターゲットしていないにする。
-			m_targeted = false;
-			m_player00->SetTarget(m_targeted);
+			m_player00->SetTarget(m_isTargeted);
 			//キッチンのY座標を 積んだ具材数 分上げる。
 			m_position = m_kitchen00->GetKitchenPos();
 			m_position.y += m_kitchen00->GetStackNum() * AJUST_HEIGHT;
@@ -275,39 +282,26 @@ void Guzai::GrabNPut()
 	if (g_pad[PLAYER_TWO_CONTROLLER]->IsTrigger(enButtonA) && m_isCooked == true && m_whichPlayerGet == PLAYER_TWO) {
 		if (m_isHad == true && m_kit2Pl01 < DISTANCE_BETWEEN_PLAYER_TO_GUZAI && m_returnedFromKitchen == false) {
 			ChangeModel(m_typeNo);
-			//卵やった時少し小さく
 			if (m_typeNo == enEgg) {
 				m_scale = { EGG_SCALE };
 			}
-			//キッチンに置いた具材の種類をプレイヤー側に保存
 			m_player01->SetPlayerStackedGuzais(m_kitchen01->GetStackNum() ,m_typeNo);
-			//プレイヤーは何も持っていない
 			m_player01->SetPlayerState(enNothing);
-			//積んだ層数を1足す
 			m_kitchen01->PlusStack();
-			//この具材は置かれている
 			m_isPutOnKitchen = true;
-			//自分は持たれていない
 			m_isHad = false;
-			//ターゲティングしていた具材を運んでいる最中は別の具材をターゲティングしたくないため、ここで初期化。
-			//プレイヤーはターゲットしていないにする。
-			m_targeted = false;
-			m_player01->SetTarget(m_targeted);
-			//キッチンのY座標を 積んだ具材数 分上げる。
+			m_isTargeted = false;
+			m_player01->SetTarget(m_isTargeted);
 			m_position = m_kitchen01->GetKitchenPos();
 			m_position.y += m_kitchen01->GetStackNum() * AJUST_HEIGHT;
 			m_skinModelRender->SetPosition(m_position);
 
-			//音を鳴らす
 			CSoundSource* se = NewGO<CSoundSource>(0);
 			se->Init(L"Assets/sound/poka02.wav", false);
 			se->SetVolume(SE_VOLUME);
 			se->Play(false);
 
-			//キッチンにあるスタックした具材の一覧にこの具材を追加。
 			m_kitchen01->RegistStackedGuzai(this);
-
-			//同じフレームで取れないようにする。
 			m_kitchen01->ChangeGrabState(false);
 		}
 	}
@@ -315,13 +309,14 @@ void Guzai::GrabNPut()
 
 void Guzai::Targeting()
 {
-		//具材との距離が一定以下　で　プレイヤーは何もロックしていなかったら。
-		//近くの具材をターゲットし、プレイヤーのターゲット状態をTRUEに。
-		if (m_guzai2Pl00 < m_targetRangeNear && m_player00->GetTargetState() == false && !m_targeted && m_isPutOnKitchen == false) {
+		//具材との距離が一定以下。プレイヤーは何もターゲットしていない。私は誰にもターゲットされていない。キッチンに置かれていない。
+		if (m_guzai2Pl00 < m_targetRangeNear && m_player00->GetTargetState() == false && !m_isTargeted && m_isPutOnKitchen == false) {
+			//私をターゲットしているのはプレイヤー１だ。
 			m_whichPlayerTargetMe = PLAYER_ONE;
-			m_targeted = true;
-			//プレイヤーが具材をターゲットしている状態であることを設定する。
-			m_player00->SetTarget(m_targeted);
+			//私はターゲットされた。
+			m_isTargeted = true;
+			//プレイヤー１が具材はターゲットしている。
+			m_player00->SetTarget(m_isTargeted);
 
 			//音を鳴らす
 			CSoundSource* se = NewGO<CSoundSource>(0);
@@ -329,38 +324,41 @@ void Guzai::Targeting()
 			se->SetVolume(SE_VOLUME_SMALL);
 			se->Play(false);
 		}
-		if (m_guzai2Pl01 < m_targetRangeNear && m_player01->GetTargetState() == false && !m_targeted && m_isPutOnKitchen == false) {
+		if (m_guzai2Pl01 < m_targetRangeNear && m_player01->GetTargetState() == false && !m_isTargeted && m_isPutOnKitchen == false) {
 			m_whichPlayerTargetMe = PLAYER_TWO;
-			m_targeted = true;
-			//プレイヤーが具材をターゲットしている状態であることを設定する。
-			m_player01->SetTarget(m_targeted);
+			m_isTargeted = true;
+			m_player01->SetTarget(m_isTargeted);
 
-			//音を鳴らす。
 			CSoundSource* se = NewGO<CSoundSource>(0);
 			se->Init(L"Assets/sound/select07.wav", false);
 			se->SetVolume(SE_VOLUME_SMALL);
 			se->Play(false);
 		}
 
-		//ここでターゲットしていた具材から一定以上離れたら
-		//ダミーを消して、プレイヤー側のTargetingStateとtargetedを元の値に戻してやる。
-		if (m_guzai2Pl00 >= m_targetRangeFar && m_player00->GetTargetState() == true && m_targeted == true) {
+		//プレイヤー１が離れた。プレイヤー１は何かをターゲットしている。私はターゲットされている。
+		if (m_guzai2Pl00 >= m_targetRangeFar && m_player00->GetTargetState() == true && m_isTargeted == true) {
+			//プレイヤー１にターゲットされているとき
 			if (m_whichPlayerTargetMe == PLAYER_ONE) {
+				//ある程度ターゲットの切り替えに遅延を起こしたいため、それ用の変数
 				m_decrementTime--;
 				if (m_decrementTime <= 0) {
-					m_targeted = false;
-					m_player00->SetTarget(m_targeted);
+					//私はターゲットから逃れた
+					m_isTargeted = false;
+					//プレイヤー１は何もターゲットしていない
+					m_player00->SetTarget(m_isTargeted);
+					//次の遅延用に遅延時間を元に戻す
 					m_decrementTime = m_holdTime;
+					//私は誰にもターゲットされていない。
 					m_whichPlayerTargetMe = PLAYER_NONE;
 				}
 			}
 		}
-		if (m_guzai2Pl01 >= m_targetRangeFar && m_player01->GetTargetState() == true && m_targeted == true) {
+		if (m_guzai2Pl01 >= m_targetRangeFar && m_player01->GetTargetState() == true && m_isTargeted == true) {
 			if (m_whichPlayerTargetMe == PLAYER_TWO) {
 				m_decrementTime--;
 				if (m_decrementTime <= 0) {
-					m_targeted = false;
-					m_player01->SetTarget(m_targeted);
+					m_isTargeted = false;
+					m_player01->SetTarget(m_isTargeted);
 					m_decrementTime = m_holdTime;
 					m_whichPlayerTargetMe = PLAYER_NONE;
 				}
@@ -369,8 +367,7 @@ void Guzai::Targeting()
 }
 void Guzai::SetGuzaiOkiba()
 {
-	//1P側の処理
-	//具材がプレイヤーに持たれているときに、Aボタンが押されたら…
+	//プレイヤー１はAボタンを押した。私は持たれている。プレイヤー１に持たれている。
 	if (g_pad[PLAYER_ONE_CONTROLLER]->IsTrigger(enButtonA) && m_isHad == true && m_whichPlayerGet == PLAYER_ONE) {
 		//1P側の具材置き場の番号は4～7なので、その範囲で調べる。
 		for (int i = GUZAIOKIBA_MIDDLE_NUM; i < GUZAIOKIBA_MAX_NUM; i++) {
@@ -378,11 +375,14 @@ void Guzai::SetGuzaiOkiba()
 			if (m_guzaiOkiba->FindKitchenSet(i) == true && m_guzaiOkiba->FindGuzaiSet(i) == false && m_guzaiOkibaSet == false) {
 				//セット可能ならば具材置き場にセットされたことを伝え、自身の座標をセットされた具材置き場にする。
 				m_guzaiOkiba->GuzaiSet(i, true);
+				//座標を具材置き場の上にセットする。
 				m_position = m_guzaiOkiba->GetKitchenPos(i);
 				if (m_isCooked == true) {
 					m_position.y += AJUST_HEIGHT;
 				}
+				//具材置き場にセットされた。
 				m_guzaiOkibaSet = true;
+				//どこのキッチンにセットされたか。
 				m_setKitchenNum = i;
 				//音を鳴らす
 				CSoundSource* se = NewGO<CSoundSource>(0);
@@ -391,9 +391,13 @@ void Guzai::SetGuzaiOkiba()
 				se->Play(false);
 				//プレイヤーが何も持っていない状態にする。
 				m_player00->SetPlayerState(enNothing);
-				m_targeted = false;
-				m_player00->SetTarget(m_targeted);
+				//私はターゲットされていない。
+				m_isTargeted = false;
+				//プレイヤー１は何もターゲットしていない。
+				m_player00->SetTarget(m_isTargeted);
+				//遅延時間を元に戻す
 				m_decrementTime = m_holdTime;
+				//私は誰にも持たれていない。
 				m_isHad = false;
 			}
 		}
@@ -416,8 +420,8 @@ void Guzai::SetGuzaiOkiba()
 				se->SetVolume(SE_VOLUME);
 				se->Play(false);
 				m_player01->SetPlayerState(enNothing);
-				m_targeted = false;
-				m_player01->SetTarget(m_targeted);
+				m_isTargeted = false;
+				m_player01->SetTarget(m_isTargeted);
 				m_decrementTime = m_holdTime;
 				m_isHad = false;
 			}
@@ -442,7 +446,7 @@ void Guzai::AwayFromGuzaiOkiba()
 void Guzai::Cooking()
 {
 	//自身が具材置き場にセットされていて、調理されておらず、ダミーを出しているとき。
-	if (m_guzaiOkibaSet == true && m_isCooked == false && m_targeted) {
+	if (m_guzaiOkibaSet == true && m_isCooked == false && m_isTargeted) {
 		//1P側の処理
 		//1P側のBボタンが押されていて自身のセット場所が1P側だった場合…
 		if (g_pad[PLAYER_ONE_CONTROLLER]->IsPress(enButtonB) && m_setKitchenNum >= GUZAIOKIBA_MIDDLE_NUM && m_player00->GetPlayerState() <= enNothing) {
@@ -475,8 +479,8 @@ void Guzai::Cooking()
 				ChangeModel(m_typeNo);
 				m_isCooked = true;
 				m_position.y += AJUST_HEIGHT;
-				m_targeted = false;
-				m_player00->SetTarget(m_targeted);
+				m_isTargeted = false;
+				m_player00->SetTarget(m_isTargeted);
 				m_whichPlayerTargetMe = PLAYER_NONE;
 				//音が出ていたら。
 				if (m_soundFlag01 == true) {
@@ -530,8 +534,8 @@ void Guzai::Cooking()
 				ChangeModel(m_typeNo);
 				m_isCooked = true;
 				m_position.y += AJUST_HEIGHT;
-				m_targeted = false;
-				m_player01->SetTarget(m_targeted);
+				m_isTargeted = false;
+				m_player01->SetTarget(m_isTargeted);
 				m_whichPlayerTargetMe = PLAYER_NONE;
 				//音が出ていたら。
 				if (m_soundFlag02 == true) {
@@ -558,13 +562,13 @@ void Guzai::Cooking()
 }
 
 void Guzai::SetOnTrashCan() {
-	
-	
+	//プレイヤー１に持たれている
 	if (m_whichPlayerGet == PLAYER_ONE) {
-		if (g_pad[PLAYER_ONE_CONTROLLER]->IsTrigger(enButtonA)					//Aボタンを押して
-			&& m_isHad == true								//この具材が持たれていて
-			&& m_trashCan[0]->GetCanTrash()) {				//ゴミ箱は捨てる用意ができているか（距離的に）
-			m_isSetOnTrashCan = true;							//ゴミ箱で捨てる準備
+		//プレイヤー１がAボタンを押した
+		if (g_pad[PLAYER_ONE_CONTROLLER]->IsTrigger(enButtonA)			//Aボタンを押して
+			&& m_isHad == true											//この具材が持たれていて
+			&& m_trashCan[0]->GetCanTrash()) {							//ゴミ箱は捨てる用意ができているか（距離的に）
+			m_isSetOnTrashCan = true;									//ゴミ箱で捨てる準備
 		}
 		if (m_isSetOnTrashCan == true) {
 			DeleteGO(this);
@@ -574,8 +578,8 @@ void Guzai::SetOnTrashCan() {
 			se->SetVolume(SE_VOLUME);
 			se->Play(false);
 			m_player00->SetPlayerState(enNothing);
-			m_targeted = false;
-			m_player00->SetTarget(m_targeted);
+			m_isTargeted = false;
+			m_player00->SetTarget(m_isTargeted);
 			//ゴミ箱のリアクションをONにする
 			m_trashCan[0]->ChangeMovingState(true);
 		}
@@ -594,8 +598,8 @@ void Guzai::SetOnTrashCan() {
 			se->SetVolume(SE_VOLUME);
 			se->Play(false);
 			m_player01->SetPlayerState(enNothing);
-			m_targeted = false;
-			m_player01->SetTarget(m_targeted);
+			m_isTargeted = false;
+			m_player01->SetTarget(m_isTargeted);
 			m_trashCan[1]->ChangeMovingState(true);
 		}
 	}
@@ -637,20 +641,23 @@ void Guzai::Rotation()
 	}
 }
 
-float CalcDistance(Vector3 pos1, Vector3 pos2)
+float Guzai::CalcDistance(Vector3 pos1, Vector3 pos2)
 {
+	//地点１と地点２の距離を測る。
 	Vector3 distance = pos1 - pos2;
 	return distance.Length();
 }
 
 void Guzai::Update()
 {
+	//１フレームにかかる時間（秒）を取得する。
 	float gameTime = GameTime().GetFrameDeltaTime();
 
 	//プレイヤー生成中はUpdate関数をスルー
 	if (m_playerGene->GetPlayerGeneState() == true) {
 		return;
 	}
+	//ゲームが終了したら、自身を消す。
 	if (GameDirector::GetInstance().GetGameScene() == enGameEnd) {
 		DeleteGO(this);
 	}
@@ -679,7 +686,7 @@ void Guzai::Update()
 	m_kitchen00->ChangeGrabState(true);
 	m_kitchen01->ChangeGrabState(true);
 
-	GrabNPut();
+	GrabAndPut();
 
 	if (m_canPutOnGuzaiOkiba) {
 		SetGuzaiOkiba();
@@ -692,10 +699,11 @@ void Guzai::Update()
 
 	Rotation();
 
-	
-
+	//キッチンに置かれて戻ってきたモデルのものだったら。
 	if (m_returnedFromKitchen){
+		//私は持たれている
 		if (m_isHad == true) {
+			//プレイヤー１にもたれている
 			if (m_whichPlayerGet == PLAYER_ONE) {
 				//具材の位置をプレイヤーの少し前にする。
 				Vector3 pl00MSpeed = m_player00->GetNormalMoveSpeed();
@@ -722,7 +730,6 @@ void Guzai::Update()
 		}
 		m_returnedFromKitchen = false;
 	}
-
 	//モデルの回転状況を更新する。
 	m_skinModelRender->SetRotation(m_rotation);
 
@@ -737,7 +744,7 @@ void Guzai::Update()
 		m_skinModelRender->SetPosition(m_position);
 	}
 	//プレイヤーにターゲットされていたら拡大表示
-	if (m_targeted == true) {
+	if (m_isTargeted == true) {
 		m_skinModelRender->SetScale(m_TargetedScale);
 	}
 	//されていなければ普通のサイズに

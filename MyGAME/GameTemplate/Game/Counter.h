@@ -26,9 +26,9 @@ private:
 	int m_spriteTime = 0;								//正誤画像を出す時間
 	int m_guzaiJudge[4][5] = { 2 };						//積まれた具材が合っているか？0,違っている。1,合っている。2,積まれていない。
 	int m_menuNum = 3;									//表示できるメニューの種類。
-	int m_counterNo = 0;									//カウンター番号　０が左、１が右
+	int m_counterNo = 0;								//カウンター番号　０が左、１が右
 	int m_stackNum = 0;									//何段のハンバーガーを作ったのかの変数、スコアに使用する
-	int m_delay = 0;										//遅延時間
+	int m_delay = 0;									//遅延時間
 
 public:
 	Counter() {};
@@ -44,6 +44,14 @@ public:
 	 * @brief ハンバーガーをどうするかの選定
 	*/
 	void Update();
+
+	/**
+	 * @brief 地点１と地点２の距離をはかる
+	 * @param pos1 地点１
+	 * @param pos2 地点２
+	 * @return ２地点間の距離
+	*/
+	float CalcDistance(Vector3 pos1, Vector3 pos2);
 
 	/**
 	 * @brief カウンターに近いところでAボタン押下後、ハンバーガーの判定とスコアの増加をするかの判定
@@ -111,10 +119,10 @@ public:
 	};
 	
 	EnHamBurger m_showHamBurgers[11];					//表示しているハンバーガーの配列。
-	Kitchen* m_kitchen = nullptr;
-	CLevel2D* m_level2d = nullptr;
-	Player* m_player = nullptr;
-	SkinModelRender* m_skinModelRender = nullptr;
-	SpriteRender* m_spriteJudge = nullptr;
+	Kitchen* m_kitchen = nullptr;						//対応するキッチン
+	CLevel2D* m_level2d = nullptr;						//レベル２D
+	Player* m_player = nullptr;							//対応するプレイヤー
+	SkinModelRender* m_skinModelRender = nullptr;		//カウンターのモデル
+	SpriteRender* m_spriteJudge = nullptr;				//MISSやCORRECTの文字表示用
 	SpriteRender* m_spriteCompare[4][5] = {nullptr};	//メニューと一致しているかの画像を表示
 };
