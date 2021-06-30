@@ -3,7 +3,7 @@
 #include "Burger.h"
 #include "Kitchen.h"
 #include "Score.h"
-#include "CLevel2D.h";
+#include "CLevel2D.h"
 #include "PlayerGene.h"
 #include "Player.h"
 #include "SkinModelRender.h"
@@ -40,13 +40,13 @@ namespace
 	const int SPRITE_MAX_TIMER = 60;
 	const int GUZAI_CORRECT = 1;
 	const int GUZAI_FAILE = 0;
+	const int BONUS_RATIO = 2.0f;
 
 	const float DISTANCE_TO_FIND_COUNTER = 100.0f;
 	const float SE_VOLUME = 0.7f;
 	const float MOVE_AMOUNT_LITTLE = 10.0f;
 	const float AJUST_HEIGHT_FOR_JUDGEMARK = 30.0f;
 	const float AJUST_POSITION_X_FOR_JUDGEMARK = 120.0f;
-	const float BONUS_RATIO = 2.0f;
 }
 
 

@@ -51,8 +51,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		clearColor
 	);
 
-	RenderTarget a = *GameObjectManager::GetInstance()->GetShadowMap();
-	Camera b = *GameObjectManager::GetInstance()->GetLightCamera();
+	//RenderTarget a = *GameObjectManager::GetInstance()->GetShadowMap();
+	//Camera b = *GameObjectManager::GetInstance()->GetLightCamera();
 
 	// シャドウマップに描画するモデルを初期化する
 	ModelInitData shadowTestData;

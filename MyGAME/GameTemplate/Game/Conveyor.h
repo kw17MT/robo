@@ -3,7 +3,7 @@ class Conveyor : public IGameObject
 {
 private:
 	Vector3 m_position = Vector3::Zero;									//コンベアの位置座標
-	Vector3 m_scale = { 0.8f,1.0f,1.0f };
+	const Vector3 m_scale = { 0.8f,1.0f,1.0f };							//コンベアの拡大率調整
 public:
 
 	/**

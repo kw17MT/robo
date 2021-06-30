@@ -181,7 +181,8 @@ private:
 	SkinModelRender* m_skinModelRender = nullptr;
 	PlayerGene* m_playerGene = nullptr;
 	GuzaiOkiba* m_guzaiOkiba = nullptr;
-	TrashCan* m_trashCan[2] = { nullptr, nullptr };
+	//TrashCan* m_trashCan[2] = { nullptr, nullptr };
+	std::array<TrashCan*, 2> m_trashCan = { nullptr, nullptr };
 	CSoundSource* m_cookingSe = nullptr;
 	Meter* m_meter = nullptr;
 };

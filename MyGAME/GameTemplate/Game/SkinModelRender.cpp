@@ -149,24 +149,24 @@ void SkinModelRender::InitLight(Light& light) {
 	m_modelInitData.m_expandConstantBufferSize = sizeof(light);
 }
 
-void SkinModelRender::InitAnimation(AnimationClip* animationClip, int animationNum)
-{
-	m_animationClip = animationClip;
+//void SkinModelRender::InitAnimation(AnimationClip* animationClip, int animationNum)
+//{
+//	m_animationClip = animationClip;
+//
+//	m_animation.Init(m_skeleton, m_animationClip, animationNum);
+//}
 
-	m_animation.Init(m_skeleton, m_animationClip, animationNum);
-}
-
-void SkinModelRender::PlayAnimation(int animNo, float interpolateTime)
-{
-	m_animation.Play(animNo, interpolateTime);
-}
+//void SkinModelRender::PlayAnimation(int animNo, float interpolateTime)
+//{
+//	m_animation.Play(animNo, interpolateTime);
+//}
 
 void SkinModelRender::Update()
 {
 	//スケルトンを更新。
 	m_skeleton.Update(m_model.GetWorldMatrix());
 
-	m_animation.Progress(GameTime().GetFrameDeltaTime());
+	//m_animation.Progress(GameTime().GetFrameDeltaTime());
 	
 	m_model.UpdateWorldMatrix(m_position, m_rot, m_scale);
 	m_shadow.UpdateWorldMatrix(m_position, m_rot, m_scale);

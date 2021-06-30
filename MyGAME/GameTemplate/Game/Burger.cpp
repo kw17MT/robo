@@ -7,7 +7,7 @@
 #include "TrashCan.h"
 #include "SoundSource.h"
 #include "effect/Effect.h"
-#include <string>;
+#include <string>
 
 namespace {
 	const Vector3 EFFECT_SCALE = { 10.0f,10.0f,10.0f };
@@ -34,8 +34,9 @@ bool Burger::Start()
 {
 	//モデルの初期化
 	m_skinModelRender = NewGO<SkinModelRender>(0);
+	//通常描画用モデルの初期化
 	m_skinModelRender->Init("Assets/modelData/food/Burger.tkm", nullptr, enModelUpAxisZ, m_position);
-	//m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	//シャドウキャスター用の初期化
 	m_skinModelRender->InitForCastShadow("Assets/modelData/food/Burger.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
 	//モデルの拡大
 	m_skinModelRender->SetScale(m_burgerScale);
@@ -78,17 +79,20 @@ bool Burger::Start()
 //プレイヤーがバーガーを持つ。
 void Burger::GrabBurger()
 {
+	//プレイヤーの位置座標を取得
 	Vector3 plPos = m_player->GetPosition();
+	//プレイヤーの通常移動速度を取得
 	Vector3 plSpeed = m_player->GetNormalMoveSpeed();
+	//プレイヤーの移動速度を上げる
 	plSpeed *= AJUST_SPEED_TO_FOLLOW_PLAYER;
-	Vector3 burPos = m_position;
 
 	//プレイヤーとハンバーガーの距離を測る
-	Vector3 pl2Burger_vec = plPos - burPos;
-	float pl2Burger = pl2Burger_vec.Length();
+	Vector3 playerToBurger_vec = plPos - m_position;
+	float playerToBurger = playerToBurger_vec.Length();
 
 	//Aボタンを押してプレイヤーとバーガーの距離が一定以下なら、バーガーを持つ準備をする。
-	if (g_pad[m_burgerNo]->IsTrigger(enButtonA) && pl2Burger < DISTANCE_BETWEEN_PLAYER_TO_BURGER && m_player->GetPlayerState() != enHaveBurger) {
+	if (g_pad[m_burgerNo]->IsTrigger(enButtonA) && playerToBurger < DISTANCE_BETWEEN_PLAYER_TO_BURGER && m_player->GetPlayerState() != enHaveBurger) {
+		//プレイヤーの状態を、ハンバーガー所持状態にする
 		m_player->SetPlayerState(enHaveBurger);
 		//音を鳴らす
 		CSoundSource* se = NewGO<CSoundSource>(0);
@@ -101,6 +105,7 @@ void Burger::GrabBurger()
 		//プレイヤーの移動方向にハンバーガーを持ってくる。
 		plPos += plSpeed;
 		m_beHadPos = plPos;
+		//高さを調整。
 		m_beHadPos.y += AJUST_HEIGHT;
 		//カウンタ―に置かれていないとき、プレイヤーの手元に来るように位置調整。
 		if (m_putOnCounter == false) {
@@ -124,20 +129,21 @@ void Burger::SetOnTrashCan()
 	//ゴミ箱との距離が一定以下でAボタンが押されたら
 	if (g_pad[m_burgerNo]->IsTrigger(enButtonA)
 		&& m_trashCan->GetCanTrash()) {
+		//ハンバーガーがゴミ箱にセットされている状態にする。
 		m_isSetOnTrashCan = true;
 	}
-
+	//ハンバーガーがゴミ箱にセットされていたら
 	if (m_isSetOnTrashCan == true) {
 		m_decrementTime--;
 		//遅延させた後消す
 		if (m_decrementTime <= 0) {
-
 			//音を鳴らす
 			CSoundSource* se = NewGO<CSoundSource>(0);
 			se->Init(L"Assets/sound/dumping.wav", false);
 			se->SetVolume(SE_VOLUME);
 			se->Play(false);
-			m_burgerExist = false;
+			//
+			//m_burgerExist = false;
 			m_player->SetPlayerState(enNothing);
 			m_decrementTime = DEFAULT_DECREMENT_TIME;
 			ClearNo();

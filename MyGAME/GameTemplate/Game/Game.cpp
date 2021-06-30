@@ -250,10 +250,10 @@ void DishSpeedUp()
 		std::mt19937 mt(rnd());
 		std::uniform_int_distribution<int> rand(9, 15);
 		////10~20までの整数を取得する。
-		float TimeTillSpeedUp = rand(mt);
+		int TimeTillSpeedUp = rand(mt);
 		//スピードアップまでの時間を設定してやる。
 		DishManager::GetInstance().SetTimeTillSpeedUp(TimeTillSpeedUp);
-		float TimeForSpeedUp = TimeTillSpeedUp / 3.0f;
+		int TimeForSpeedUp = TimeTillSpeedUp / 3;
 		//スピードアップまでの時間を設定してやる。
 		DishManager::GetInstance().SetActiveTimeForSpeedUp(TimeForSpeedUp);
 	}

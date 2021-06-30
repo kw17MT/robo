@@ -15,8 +15,8 @@ private:
 	Vector3 m_scale = Vector3::One;										//モデルの拡大率
 	Quaternion m_rot = Quaternion::Identity;							//モデルの回転
 
-	RenderTarget m_shadowMap = *GameObjectManager::GetInstance()->GetShadowMap();
-	Camera m_lightCamera = *GameObjectManager::GetInstance()->GetLightCamera();
+	RenderTarget m_shadowMap = GameObjectManager::GetInstance()->GetShadowMap();
+	Camera m_lightCamera = GameObjectManager::GetInstance()->GetLightCamera();
 
 	bool m_isCastShadow = false;
 public:
@@ -141,14 +141,14 @@ public:
 	 * @param animation アニメーション
 	 * @param animationNum アニメーションの数
 	*/
-	void InitAnimation(AnimationClip* animation, int animationNum);
+	//void InitAnimation(AnimationClip* animation, int animationNum);
 
 	/**
 	 * @brief アニメーションを再生する
 	 * @param animNo アニメーションの数
 	 * @param interpolateTime 流れる時間
 	*/
-	void PlayAnimation(int animNo, float interpolateTime = 0.0f);
+	//void PlayAnimation(int animNo, float interpolateTime = 0.0f);
 
 	/**
 	 * @brief モデルを描く
@@ -173,7 +173,7 @@ public:
 		}
 		//影作る
 		if (GameObjectManager::GetInstance()->GetRenderTypes() == 1) {
-			m_shadow.Draw(rc, *GameObjectManager::GetInstance()->GetLightCamera());
+			m_shadow.Draw(rc, GameObjectManager::GetInstance()->GetLightCamera());
 			return;
 		}
 	}
@@ -185,7 +185,7 @@ public:
 	*/
 	/*void Render(RenderContext& rc, Camera lightCamera) { m_model.Draw(rc, lightCamera); }*/
 private:
-	Animation m_animation;
-	AnimationClip* m_animationClip;
+	//Animation m_animation;
+	//AnimationClip* m_animationClip = nullptr;
 };
 
