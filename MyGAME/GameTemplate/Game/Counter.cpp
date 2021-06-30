@@ -72,7 +72,8 @@ bool Counter::Start()
 	//カウンターのモデルを初期化して、判定するハンバーガーの種類を格納していく
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/counter/counter.tkm", nullptr, enModelUpAxisZ, m_position);
-	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	//m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_skinModelRender->InitForCastShadow("Assets/modelData/counter/counter.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
 	m_showHamBurgers[0] = enCheeseBurger;
 	m_showHamBurgers[1] = enTomatoBurger;
 	m_showHamBurgers[2] = enEggBurger;

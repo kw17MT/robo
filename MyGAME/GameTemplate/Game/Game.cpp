@@ -28,6 +28,8 @@
 #include <cstdlib>
 #include <random>
 #include "ShadowParam.h"
+#include "Conveyor.h"
+
 namespace
 {
 	const Vector2 COUNTDOWN_PIVOT = { 0.5f,0.5f };
@@ -112,6 +114,7 @@ Game::~Game()
 	DeleteGO(kitchen01);
 	DeleteGO(m_level2D);
 	DeleteGO(m_level);
+	DeleteGO(m_conveyor);
 }
 
 bool Game::Start()
@@ -166,7 +169,9 @@ bool Game::Start()
 		}
 		//コンベアのモデルを出す。
 		if (wcscmp(objectData.name, L"Conveyor") == SAME_NAME) {
-			return false;
+			m_conveyor = NewGO<Conveyor>(0);
+			m_conveyor->SetPosition(objectData.Pos);
+			return true;
 		}
 		//ゴミ箱（左）を出す。
 		if (wcscmp(objectData.name, L"TrashLeft") == SAME_NAME) {
@@ -326,8 +331,16 @@ void Game::DoWhenTimeUp()
 
 void Game::Update()
 {
-	//レベルの描画
-	m_level->Draw();
+	//auto& renderContext = g_graphicsEngine->GetRenderContext();
+	//RenderTarget shadowMap = *GameObjectManager::GetInstance()->GetShadowMap();
+	//renderContext.WaitUntilToPossibleSetRenderTarget(shadowMap);
+	//renderContext.SetRenderTargetAndViewport(shadowMap);
+	//renderContext.ClearRenderTargetView(shadowMap);
+	////レベルの描画
+	//m_level->Draw(renderContext);
+	//renderContext.WaitUntilFinishDrawingToRenderTarget(shadowMap);
+
+	//m_level->Draw(g_graphicsEngine->GetRenderContext());
 
 	//タイムアップ時に行う処理
 	DoWhenTimeUp();

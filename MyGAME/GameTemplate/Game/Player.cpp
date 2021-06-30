@@ -40,14 +40,18 @@ Player::~Player()
 
 bool Player::Start()
 {
+	//’Êíƒ‚ƒfƒ‹
 	m_skinModelRender = NewGO<SkinModelRender>(0);
+	//‰e—pƒ‚ƒfƒ‹
 	if (m_playerNo == PLAYER_NUMBER_ONE) {
-		/*m_skinModelRender->Init(
+		//’Êí•`‰æ
+		m_skinModelRender->Init(
 			"Assets/modelData/Chef/ChefRed/Chef01.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
 			enModelUpAxisZ,
 			m_position
-		);*/
+		);
+		//‰e•`‰æ—p
 		m_skinModelRender->InitForCastShadow(
 			"Assets/modelData/Chef/ChefRed/Chef01.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
@@ -55,14 +59,16 @@ bool Player::Start()
 			m_position,
 			nullptr
 		);
+
+		
 	}
 	else {
-		/*m_skinModelRender->Init(
+		m_skinModelRender->Init(
 			"Assets/modelData/Chef/ChefBlue/Chef02.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
 			enModelUpAxisZ,
 			m_position
-		);*/
+		);
 		m_skinModelRender->InitForCastShadow(
 			"Assets/modelData/Chef/ChefBlue/Chef02.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
@@ -71,15 +77,6 @@ bool Player::Start()
 			nullptr
 		);
 	}
-
-	/*m_skinModelRender->InitForCastShadow(
-		"Assets/modelData/Chef/ChefRed/Chef01.tkm",
-		"Assets/modelData/Chef/ChefRed/Chef_1.tks",
-		enModelUpAxisZ,
-		m_position,
-		nullptr
-	);*/
-
 
 	m_skinModelRender->SetScale(m_scale);
 

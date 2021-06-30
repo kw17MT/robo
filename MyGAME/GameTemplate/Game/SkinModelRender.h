@@ -5,13 +5,18 @@ class SkinModelRender :public IGameObject
 {
 private:
 	ModelInitData m_modelInitData;										//モデルのファイルパスやシェーダーを設定する
+	ModelInitData m_shadowData;
 	Model m_model;														//モデル
+	Model m_shadow;
 	Skeleton m_skeleton;												//スケルトン
 	CharacterController m_charaCon;										//モデルの衝突判定や移動関係
 
 	Vector3 m_position = Vector3::Zero;									//モデルの位置座標
 	Vector3 m_scale = Vector3::One;										//モデルの拡大率
 	Quaternion m_rot = Quaternion::Identity;							//モデルの回転
+
+	RenderTarget m_shadowMap = *GameObjectManager::GetInstance()->GetShadowMap();
+	Camera m_lightCamera = *GameObjectManager::GetInstance()->GetLightCamera();
 
 	bool m_isCastShadow = false;
 public:
@@ -92,7 +97,7 @@ public:
 	 * @param UpAxis 
 	 * @param pos 
 	*/
-	void InitForRecieveShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
+	void InitForRecieveShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* lig);
 
 	/**
 	 * @brief モデルのファイルパスを変えたいときに使用
@@ -103,7 +108,12 @@ public:
 	/**
 	 * @brief 新しいファイルパスを適応する。
 	*/
-	void SetNewModel() { m_model.Init(m_modelInitData); }
+	void SetNewModel() {
+		m_model.Init(m_modelInitData); 
+		if (m_isCastShadow) {
+			m_shadow.Init(m_shadowData);
+		}
+	}
 
 	/**
 	 * @brief シェーダーのファイルパスと使うピクセルシェーダ―を変えたいときに使用する。
@@ -146,11 +156,25 @@ public:
 	*/
 	void Render(RenderContext& rc) 
 	{
+		/*
 		if (m_isCastShadow) {
+			GameObjectManager::GetInstance()->GetLightCamera()->Update();
 			m_model.Draw(rc, *GameObjectManager::GetInstance()->GetLightCamera());
 		}
 		else {
 			m_model.Draw(rc);
+		}
+		*/
+
+		//普通描画
+		if (GameObjectManager::GetInstance()->GetRenderTypes() == 0) {				
+			m_model.Draw(rc);
+			return;
+		}
+		//影作る
+		if (GameObjectManager::GetInstance()->GetRenderTypes() == 1) {
+			m_shadow.Draw(rc, *GameObjectManager::GetInstance()->GetLightCamera());
+			return;
 		}
 	}
 

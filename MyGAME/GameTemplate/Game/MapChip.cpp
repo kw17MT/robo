@@ -16,3 +16,8 @@ void MapChip::Draw()
 {
 	m_model.Draw(g_graphicsEngine->GetRenderContext());
 }
+
+void MapChip::Draw(RenderContext& rc)
+{
+	m_model.Draw(rc);
+}

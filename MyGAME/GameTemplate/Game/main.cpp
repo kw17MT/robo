@@ -29,6 +29,56 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//ゲームタイムを測るもの
 	CStopwatch stopWatch;
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// 影描画用のライトカメラを作成する
+	Camera lightCamera;
+	lightCamera.SetPosition(0, 1500, 0);
+	lightCamera.SetTarget(0, 0, 0);
+	lightCamera.SetUp({ 1, 0, 0 });
+	lightCamera.Update();
+	// シャドウマップ描画用のレンダリングターゲットを作成する
+	float clearColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	RenderTarget shadowMap;
+	shadowMap.Create(
+		1024,
+		1024,
+		1,
+		1,
+		DXGI_FORMAT_R8G8B8A8_UNORM,
+		DXGI_FORMAT_D32_FLOAT,
+		clearColor
+	);
+
+	RenderTarget a = *GameObjectManager::GetInstance()->GetShadowMap();
+	Camera b = *GameObjectManager::GetInstance()->GetLightCamera();
+
+	// シャドウマップに描画するモデルを初期化する
+	ModelInitData shadowTestData;
+	shadowTestData.m_fxFilePath = "Assets/shader/drawShadowMap.fx";
+	shadowTestData.m_tkmFilePath = "Assets/modelData/Chef/ChefRed/Chef01.tkm";
+
+	Model shadowTest;
+	shadowTest.Init(shadowTestData);
+	shadowTest.UpdateWorldMatrix(
+		{ 0, 50, 0 },
+		g_quatIdentity,
+		g_vec3One
+	);
+
+	// step-1 影を受ける背景モデルを初期化
+	ModelInitData bgModelData;
+	bgModelData.m_tkmFilePath = "Assets/modelData/floor/floor_red.tkm";
+	bgModelData.m_fxFilePath = "Assets/shader/shadowReciever.fx";
+	//書き終えた影のテクスチャを持っていく
+	bgModelData.m_expandShaderResoruceView = /*&a.GetRenderTargetTexture();*/&shadowMap.GetRenderTargetTexture();
+	bgModelData.m_expandConstantBuffer = (void*)/*&b.GetViewProjectionMatrix();*/&lightCamera.GetViewProjectionMatrix();
+	bgModelData.m_expandConstantBufferSize = sizeof(/*b.GetViewProjectionMatrix()*/lightCamera.GetViewProjectionMatrix());
+
+	Model floor;
+	floor.Init(bgModelData);
+
 	
 	//一緒くたにしないと両方のライトの影響を受けなくなる。////////////////////////////////
 	//ディレクションライトの正規化と目の位置をカメラの座標にする。
@@ -58,9 +108,35 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		g_lig.eyePos = g_camera3D->GetPosition();
 		g_postLig.eyePos = g_camera3D->GetPosition();
 
-
 		//ライトカメラをアップデートしてみてる
-		GameObjectManager::GetInstance()->GetLightCamera()->Update();
+		//GameObjectManager::GetInstance()->GetLightCamera()->Update();
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+		//renderContext.WaitUntilToPossibleSetRenderTarget(shadowMap);
+		//renderContext.SetRenderTargetAndViewport(shadowMap);
+		//renderContext.ClearRenderTargetView(shadowMap);
+
+		//// 影モデルを描画
+		//shadowTest.Draw(renderContext, lightCamera);
+
+		//// 書き込み完了待ち
+		//renderContext.WaitUntilFinishDrawingToRenderTarget(shadowMap);
+
+		//// 通常レンダリング
+		//// レンダリングターゲットをフレームバッファーに戻す
+		//renderContext.SetRenderTarget(
+		//	g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
+		//	g_graphicsEngine->GetCurrentFrameBuffuerDSV()
+		//);
+		//renderContext.SetViewportAndScissor(g_graphicsEngine->GetFrameBufferViewport());
+
+		//// step-2 影を受ける背景を描画
+		//floor.Draw(renderContext);
+
+
+
 		//カメラの移動
 		if (g_pad[0]->IsPress(enButtonLeft)) {
 			Vector3 a = g_camera3D->GetPosition();

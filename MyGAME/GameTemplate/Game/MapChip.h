@@ -16,6 +16,8 @@ public:
 	//使用するシェーダーを設定。
 	void Draw();
 
+	void Draw(RenderContext& rc);
+
 private:
 	Model m_model;
 	ModelInitData m_modeldata;

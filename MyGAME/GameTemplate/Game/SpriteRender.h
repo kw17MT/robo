@@ -68,7 +68,15 @@ public:
 	 * @brief 画像を描く
 	 * @param rc レンダーターゲット
 	*/
-	void Render(RenderContext& rc) { m_sprite.Draw(rc); }
+	void Render(RenderContext& rc) 
+	{ 
+		if (GameObjectManager::GetInstance()->GetRenderTypes() == 0) {
+			m_sprite.Draw(rc);
+		}
+		else {
+			return;
+		}
+	}
 };
 
 

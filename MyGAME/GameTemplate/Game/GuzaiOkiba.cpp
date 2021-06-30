@@ -76,7 +76,8 @@ bool GuzaiOkiba::Start()
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT] = NewGO<SkinModelRender>(0);
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->SetScale(m_guzaiOkibaScale);
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				//m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1],nullptr);
 				return true;
 			}break;
 			case GUZAIOKIBA_NUMBER_TWO: {
@@ -84,7 +85,9 @@ bool GuzaiOkiba::Start()
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT] = NewGO<SkinModelRender>(0);
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->SetScale(m_guzaiOkibaScale);
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				//m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
+
 				return true;
 			}break;
 			case GUZAIOKIBA_NUMBER_THREE: {
@@ -92,7 +95,9 @@ bool GuzaiOkiba::Start()
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT] = NewGO<SkinModelRender>(0);
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->SetScale(m_guzaiOkibaScale);
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				//m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
+
 				return true;
 			}break;
 			case GUZAIOKIBA_NUMBER_FOUR: {
@@ -100,7 +105,9 @@ bool GuzaiOkiba::Start()
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT] = NewGO<SkinModelRender>(0);
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->SetScale(m_guzaiOkibaScale);
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				//m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
+
 				return true;
 			}break;
 			default:
@@ -118,7 +125,8 @@ bool GuzaiOkiba::Start()
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = NewGO<SkinModelRender>(0);
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->SetScale(m_guzaiOkibaScale);
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				//m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
 				return true;
 			}break;
 			case GUZAIOKIBA_NUMBER_TWO: {
@@ -126,7 +134,8 @@ bool GuzaiOkiba::Start()
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = NewGO<SkinModelRender>(0);
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->SetScale(m_guzaiOkibaScale);
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				//m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
 				return true;
 			}break;
 			case GUZAIOKIBA_NUMBER_THREE: {
@@ -134,7 +143,9 @@ bool GuzaiOkiba::Start()
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = NewGO<SkinModelRender>(0);
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->SetScale(m_guzaiOkibaScale);
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				//m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
+
 				return true;
 			}break;
 			case GUZAIOKIBA_NUMBER_FOUR: {
@@ -142,7 +153,8 @@ bool GuzaiOkiba::Start()
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = NewGO<SkinModelRender>(0);
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->SetScale(m_guzaiOkibaScale);
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				//m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
 				return true;
 			}break;
 			default:

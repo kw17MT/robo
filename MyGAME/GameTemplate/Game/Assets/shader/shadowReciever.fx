@@ -14,7 +14,6 @@ cbuffer ShadowCb : register(b1) {
 }
 
 
-
 //頂点シェーダーへの入力。
 struct SVSIn{
 	float4 pos 			: POSITION;		//スクリーン空間でのピクセルの座標。
@@ -65,6 +64,8 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 {
 	float4 color = g_albedo.Sample(g_sampler, psIn.uv);
 
+	//return color;
+
 	//step-6 ライトビュースクリーン空間からUV空間に座標変換。
 	float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
 	shadowMapUV *= float2(0.5f, -0.5f);
@@ -79,6 +80,9 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 		&& shadowMapUV.y < 1.0f) {
 		shadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV);
 	}
+
+
+	//return shadowMap;
 
 	//step-8 サンプリングした影情報をテクスチャカラーに乗算する。
 	color.xyz *= shadowMap;

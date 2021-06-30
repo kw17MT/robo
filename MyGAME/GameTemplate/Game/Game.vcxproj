@@ -295,6 +295,7 @@
     <ClCompile Include="Burger.cpp" />
     <ClCompile Include="CaslFile.cpp" />
     <ClCompile Include="CLevel2D.cpp" />
+    <ClCompile Include="Conveyor.cpp" />
     <ClCompile Include="CountDown.cpp" />
     <ClCompile Include="Counter.cpp" />
     <ClCompile Include="CycleDirection.cpp" />
@@ -421,6 +422,7 @@
     <ClInclude Include="Burger.h" />
     <ClInclude Include="CaslFile.h" />
     <ClInclude Include="CLevel2D.h" />
+    <ClInclude Include="Conveyor.h" />
     <ClInclude Include="CountDown.h" />
     <ClInclude Include="Counter.h" />
     <ClInclude Include="CycleDirection.h" />

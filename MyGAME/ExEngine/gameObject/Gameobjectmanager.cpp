@@ -23,56 +23,56 @@ GameObjectManager::GameObjectManager()
 	//	D3D12_TEXTURE_ADDRESS_MODE_WRAP
 	//);
 
-	////メインのレンダーターゲットの初期化
-	//mainRenderTarget.Create(
-	//	1280,
-	//	720,
-	//	1,
-	//	1,
-	//	DXGI_FORMAT_R32G32B32A32_FLOAT,
-	//	DXGI_FORMAT_D32_FLOAT
-	//);
+	//メインのレンダーターゲットの初期化
+	mainRenderTarget.Create(
+		1280,
+		720,
+		1,
+		1,
+		DXGI_FORMAT_R32G32B32A32_FLOAT,
+		DXGI_FORMAT_D32_FLOAT
+	);
 
-	//copyToBufferSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
-	//copyToBufferSpriteData.m_width = 1280;
-	//copyToBufferSpriteData.m_height = 720;
-	//copyToBufferSpriteData.m_fxFilePath = "Assets/shader/sample2D.fx";
+	copyToBufferSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
+	copyToBufferSpriteData.m_width = 1280;
+	copyToBufferSpriteData.m_height = 720;
+	copyToBufferSpriteData.m_fxFilePath = "Assets/shader/sample2D.fx";
 
-	//copyToBufferSprite.Init(copyToBufferSpriteData);
+	copyToBufferSprite.Init(copyToBufferSpriteData);
 
-	////輝度用のレンダーターゲットの初期化
-	//luminanceRenderTarget.Create(
-	//	1280,
-	//	720,
-	//	1,
-	//	1,
-	//	DXGI_FORMAT_R32G32B32A32_FLOAT,
-	//	DXGI_FORMAT_D32_FLOAT
-	//);
-	////輝度用のスプライトデータとスプライトの初期化
-	//luminanceSpriteData.m_fxFilePath = "Assets/shader/postEffect.fx";
-	//luminanceSpriteData.m_vsEntryPointFunc = "VSMain";
-	//luminanceSpriteData.m_psEntryPoinFunc = "PSLuminance";
-	//luminanceSpriteData.m_width = 1280;
-	//luminanceSpriteData.m_height = 720;
+	//輝度用のレンダーターゲットの初期化
+	luminanceRenderTarget.Create(
+		1280,
+		720,
+		1,
+		1,
+		DXGI_FORMAT_R32G32B32A32_FLOAT,
+		DXGI_FORMAT_D32_FLOAT
+	);
+	//輝度用のスプライトデータとスプライトの初期化
+	luminanceSpriteData.m_fxFilePath = "Assets/shader/postEffect.fx";
+	luminanceSpriteData.m_vsEntryPointFunc = "VSMain";
+	luminanceSpriteData.m_psEntryPoinFunc = "PSLuminance";
+	luminanceSpriteData.m_width = 1280;
+	luminanceSpriteData.m_height = 720;
 
-	//luminanceSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
-	//luminanceSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	luminanceSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
+	luminanceSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
-	//luminanceSprite.Init(luminanceSpriteData);
+	luminanceSprite.Init(luminanceSpriteData);
 
-	//gaussianBlur.Init(&luminanceRenderTarget.GetRenderTargetTexture());
+	gaussianBlur.Init(&luminanceRenderTarget.GetRenderTargetTexture());
 
-	////最終表示用の画像の初期化
-	//finalSpriteData.m_textures[0] = &gaussianBlur.GetBokeTexture();
-	//finalSpriteData.m_width = 1280;
-	//finalSpriteData.m_height = 720;
+	//最終表示用の画像の初期化
+	finalSpriteData.m_textures[0] = &gaussianBlur.GetBokeTexture();
+	finalSpriteData.m_width = 1280;
+	finalSpriteData.m_height = 720;
 
-	//finalSpriteData.m_fxFilePath = "Assets/shader/sample2D.fx";
-	//finalSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
-	//finalSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	finalSpriteData.m_fxFilePath = "Assets/shader/sample2D.fx";
+	finalSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
+	finalSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
-	//finalSprite.Init(finalSpriteData);
+	finalSprite.Init(finalSpriteData);
 
 	//シャドウのオフスクリーンレンダリング作成
 	shadowMap.Create(
@@ -85,11 +85,20 @@ GameObjectManager::GameObjectManager()
 		clearColor
 	);
 	//ライトカメラの作成
-	lightCamera.SetPosition(0.0f, 500.0f, 0.0f);
+	lightCamera.SetPosition(0.0f, 1500.0f, 200.0f);
 	lightCamera.SetTarget(0.0f, 0.0f, 0.0f);
-	lightCamera.SetUp({ 1, 0, 0 });							//カメラの上をX座標にしておく
-	lightCamera.SetViewAngle(Math::DegToRad(90.0f));
+	lightCamera.SetUp({ 0, 0, -1});							//カメラの上をX座標にしておく
+	lightCamera.SetViewAngle(Math::DegToRad(60.0f));
 	lightCamera.Update();
+
+
+	spData.m_textures[0] = &shadowMap.GetRenderTargetTexture();
+	spData.m_fxFilePath = "Assets/shader/sprite.fx";
+	spData.m_width = 1280;
+	spData.m_height =720 ;
+
+
+	sp.Init(spData);
 }
 GameObjectManager::~GameObjectManager()
 {
@@ -127,15 +136,13 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	//①メインレンダリングターゲットに切り替える
 	//　レンダリングターゲットはメンバ変数にある
 	//　コンストラクタで初期化。				→フォーマットの違いでERRORがでるかもしれない。それぞれのクラスで同じフォーマットで初期化する。
-	/*rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
-	rc.SetRenderTargetAndViewport(mainRenderTarget);
-	rc.ClearRenderTargetView(mainRenderTarget);*/
+	
 
 	//シャドウマップのレンダリングターゲットに設定する。
 	rc.WaitUntilToPossibleSetRenderTarget(shadowMap);
 	rc.SetRenderTargetAndViewport(shadowMap);
 	rc.ClearRenderTargetView(shadowMap);
-
+	m_renderTypes = 1;									//影するよ
 	for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
 				go->RenderWrapper(rc);
@@ -144,42 +151,38 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 
 	rc.WaitUntilFinishDrawingToRenderTarget(shadowMap);
 
-	//正常に戻す/////////////////////////////////////////////////////
-	//rc.SetRenderTarget(
-	//	g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
-	//	g_graphicsEngine->GetCurrentFrameBuffuerDSV()
-	//);
-	//rc.SetViewport(g_graphicsEngine->GetFrameBufferViewport());
-	////rc.SetViewportAndScissor(g_graphicsEngine->GetFrameBufferViewport());
-	//
-	////モデルのドロー
+	
+	//rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
+	//rc.SetRenderTargetAndViewport(mainRenderTarget);
+	//rc.ClearRenderTargetView(mainRenderTarget);
+
 	//for (auto& goList : m_gameObjectListArray) {
 	//	for (auto& go : goList) {
 	//		go->RenderWrapper(rc);
 	//	}
-	//} 
-	//////////////////////////////////////////////////////////////////
-
+	//}
 
 	////モデルが全部ドローできるまで待つ。
 	//rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 
+	/*
 	////ブルーム用のメンバとかつくってもいいかも
 
 	////輝度用の画像を出力する
-	/*rc.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
+	rc.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
 	rc.SetRenderTargetAndViewport(luminanceRenderTarget);
 	rc.ClearRenderTargetView(luminanceRenderTarget);
 	luminanceSprite.Draw(rc);
-	rc.WaitUntilFinishDrawingToRenderTarget(luminanceRenderTarget);*/
+	rc.WaitUntilFinishDrawingToRenderTarget(luminanceRenderTarget);
 
 	//ガウシアンブラーをかける。
-	//gaussianBlur.ExecuteOnGPU(rc, 40);
+	gaussianBlur.ExecuteOnGPU(rc, 40);
 	//最終結果となる画像をメインレンダーターゲットに設定して描く
-	/*rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
+	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
 	rc.SetRenderTargetAndViewport(mainRenderTarget);
 	finalSprite.Draw(rc);
-	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);*/
+	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
+	*/
 
 	////ガウシアンブラーをかける。
 	//gaussianBlur.ExecuteOnGPU(rc, 60);
@@ -213,4 +216,23 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	);
 
 	copyToBufferSprite.Draw(rc);*/
+
+	//正常に戻す/////////////////////////////////////////////////////
+	rc.SetRenderTarget(
+		g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
+		g_graphicsEngine->GetCurrentFrameBuffuerDSV()
+	);
+	m_renderTypes = 0;
+	rc.SetViewport(g_graphicsEngine->GetFrameBufferViewport());
+	//rc.SetViewportAndScissor(g_graphicsEngine->GetFrameBufferViewport());
+
+	//モデルのドロー
+	for (auto& goList : m_gameObjectListArray) {
+		for (auto& go : goList) {
+			go->RenderWrapper(rc);
+		}
+	}
+
+	//sp.Draw(rc);
+	//////////////////////////////////////////////////////////////////
 }

@@ -35,7 +35,8 @@ bool Burger::Start()
 	//ƒ‚ƒfƒ‹‚Ì‰Šú‰»
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/food/Burger.tkm", nullptr, enModelUpAxisZ, m_position);
-	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	//m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_skinModelRender->InitForCastShadow("Assets/modelData/food/Burger.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
 	//ƒ‚ƒfƒ‹‚ÌŠg‘å
 	m_skinModelRender->SetScale(m_burgerScale);
 

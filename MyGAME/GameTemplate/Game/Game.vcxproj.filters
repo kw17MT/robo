@@ -307,6 +307,7 @@
     <ClCompile Include="GuzaiManager.cpp" />
     <ClCompile Include="DishManager.cpp" />
     <ClCompile Include="ShadowParam.cpp" />
+    <ClCompile Include="Conveyor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
@@ -641,6 +642,7 @@
     <ClInclude Include="GuzaiManager.h" />
     <ClInclude Include="DishManager.h" />
     <ClInclude Include="ShadowParam.h" />
+    <ClInclude Include="Conveyor.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Food">

@@ -22,6 +22,7 @@ class PostEffectTest;
 class ShadowTest;
 class Ground;
 class CycleDirection;
+class Conveyor;
 
 class CountDown;
 
@@ -72,4 +73,5 @@ private:
 	CycleDirection* m_directionSprite[3] = {nullptr,nullptr,nullptr};
 	Level* m_level = nullptr;
 	CountDown* m_countDown = nullptr;								//カウントダウン
+	Conveyor* m_conveyor = nullptr;
 };

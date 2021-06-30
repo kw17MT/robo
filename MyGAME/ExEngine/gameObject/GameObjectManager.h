@@ -79,14 +79,14 @@ public:
 		return newObject;
 	}
 
-	/*template<class T>
+	template<class T>
 	T* ShadowNewGameObject(int prio, const char* objectName)
 	{
 		T* newObject = new T();
 		newObject->SetName(objectName);
 		m_shadowObjectListArray.at(prio).push_back(newObject);
 		return newObject;
-	}*/
+	}
 
 	/*!
 		*@brief	ゲームオブジェクトの削除。
@@ -146,12 +146,23 @@ public:
 	{
 		return &lightCamera;
 	}
+
+	int GetRenderTypes()
+	{
+		return m_renderTypes;
+	}
 	
 private:
 	enum { GAME_OBJECT_PRIO_MAX = 255 };		//!<ゲームオブジェクトの優先度の最大値。
 	typedef std::list<IGameObject*>	 GameObjectList;
 	std::array<GameObjectList, GAME_OBJECT_PRIO_MAX>	m_gameObjectListArray;							//!<ゲームオブジェクトの優先度付きリスト。
+	//影を生成するモデルの保存場所
+	std::array<GameObjectList, GAME_OBJECT_PRIO_MAX>	m_shadowObjectListArray;
 	static GameObjectManager* m_instance;		//唯一のインスタンスのアドレスを記録する変数。
+
+	//TODO 変数名およびマジックナンバーを直す
+	//0 普通　1 影
+	int m_renderTypes = 0;
 
 	RootSignature rootSignature;
 	//メインレンダーターゲット
@@ -171,10 +182,14 @@ private:
 	Sprite finalSprite;
 
 	//シャドウ関連
-	float clearColor[4] = { 1.0f,0.5f,0.5f,1.0f };
+	float clearColor[4] = { 1.0f,1.0f,1.0f,1.0f };
 	RenderTarget shadowMap;
 	//ライト座標から見た影を作るためのもの
 	Camera lightCamera;
+
+
+	SpriteInitData spData;
+	Sprite sp;
 };
 
 
@@ -214,11 +229,11 @@ static inline T* NewGO( int priority, const char* objectName = nullptr)
 }
 
 
-//template<class T>
-//static inline T* ShadowNewGO(int priority, const char* objectName = nullptr)
-//{
-//	return GameObjectManager::GetInstance()->ShadowNewGameObject<T>(priority, objectName);
-//}
+template<class T>
+static inline T* ShadowNewGO(int priority, const char* objectName = nullptr)
+{
+	return GameObjectManager::GetInstance()->ShadowNewGameObject<T>(priority, objectName);
+}
 	
 /*!
 	*@brief	ゲームオブジェクト削除のヘルパー関数。
@@ -229,6 +244,7 @@ static inline void DeleteGO(IGameObject* go)
 {
 	GameObjectManager::GetInstance()->DeleteGameObject(go);
 }
+
 
 
 

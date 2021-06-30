@@ -95,6 +95,13 @@ void Level::Draw()
 	}
 }
 
+void Level::Draw(RenderContext& rc)
+{
+	for (const auto& mapchip : m_mapChipList) {
+		mapchip->Draw(rc);
+	}
+}
+
 void Level::MatrixTklToLevel()
 {
 	m_tkl.QuaryObject([&](TklFile::SObject& tklObj) {

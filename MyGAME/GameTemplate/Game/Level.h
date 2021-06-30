@@ -26,6 +26,8 @@ public:
 	/// </summary>
 	void Draw();
 
+	void Draw(RenderContext& rc);
+
 	/// <summary>
 	/// TklのマトリックスをLevelに変換する。
 	/// </summary>

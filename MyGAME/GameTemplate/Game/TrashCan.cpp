@@ -44,7 +44,8 @@ bool TrashCan::Start()
 	//ゴミ箱モデルの設定
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/trashcan/trashcan.tkm", nullptr, enModelUpAxisZ, m_position);
-	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	//m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_skinModelRender->InitForCastShadow("Assets/modelData/trashcan/trashcan.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
 	m_skinModelRender->SetScale(m_trashcanScale);
 
 	//ゴミ箱に近づくと矢印が出るように

@@ -54,8 +54,8 @@ bool Dish::Start()
 	m_skinModelRender = NewGO<SkinModelRender>(0,"dish");
 	m_skinModelRender->Init("Assets/modelData/object/dish.tkm", nullptr, enModelUpAxisZ, m_position, &m_lig);
 	m_skinModelRender->SetScale(m_scale);
-	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
-
+	//m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_skinModelRender->InitForCastShadow("Assets/modelData/object/dish.tkm", nullptr, enModelUpAxisZ, m_position, &m_lig);
 	m_playerGene = FindGO<PlayerGene>("playerGene");
 	m_dishGene = FindGO<DishGene>("dishGene");
 
