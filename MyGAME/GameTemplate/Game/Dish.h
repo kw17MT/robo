@@ -56,10 +56,10 @@ public:
 	void SetHavingState(bool state) { m_isHavingGuzai = state; }
 
 	/**
-	 * @brief 輪の内側にある皿の回転を表示しているものの回転方向を取得
-	 * @return 回転方向
+	 * @brief		イラン気がする
+	 * @return 
 	*/
-	EnCycleDirection GetCycleDirection() { return m_pathMove->GetCycleDirection(); }
+	//EnCycleDirection GetCycleDirection() { return m_pathMove->GetCycleDirection(); }
 
 	/**
 	 * @brief 皿自身と上の具材の移動をおこなう。

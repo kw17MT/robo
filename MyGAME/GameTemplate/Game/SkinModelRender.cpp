@@ -98,16 +98,16 @@ void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char
 
 	m_modelInitData.m_fxFilePath = "Assets/shader/shadowReciever.fx";
 
-	m_modelInitData.m_vsEntryPointFunc = "VSMain";
-	m_modelInitData.m_vsSkinEntryPointFunc = "VSMain";
+	//m_modelInitData.m_vsEntryPointFunc = "VSMain";
+	//m_modelInitData.m_vsSkinEntryPointFunc = "VSMain";
 	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
 
 	m_modelInitData.m_modelUpAxis = UpAxis;
 	if (lig == nullptr) {
 		m_modelInitData.m_expandShaderResoruceView = &m_shadowMap.GetRenderTargetTexture();//&GameObjectManager::GetInstance()->GetShadowMap()->GetRenderTargetTexture();
-		m_modelInitData.m_expandConstantBuffer = (void*)&m_lightCamera.GetProjectionMatrix();//&GameObjectManager::GetInstance()->GetLightCamera()->GetProjectionMatrix();
-		m_modelInitData.m_expandConstantBufferSize = sizeof(m_lightCamera.GetProjectionMatrix()/*GameObjectManager::GetInstance()->GetLightCamera()->GetProjectionMatrix()*/);
+		m_modelInitData.m_expandConstantBuffer = (void*)&m_lightCamera.GetViewProjectionMatrix();//&GameObjectManager::GetInstance()->GetLightCamera()->GetProjectionMatrix();
+		m_modelInitData.m_expandConstantBufferSize = sizeof(m_lightCamera.GetViewProjectionMatrix()/*GameObjectManager::GetInstance()->GetLightCamera()->GetProjectionMatrix()*/);
 	}
 	else {
 		m_modelInitData.m_expandShaderResoruceView = &m_shadowMap.GetRenderTargetTexture();//&GameObjectManager::GetInstance()->GetShadowMap()->GetRenderTargetTexture();

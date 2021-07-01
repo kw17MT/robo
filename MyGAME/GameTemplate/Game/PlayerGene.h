@@ -8,20 +8,11 @@ private:
 	Vector3 m_player02Pos = { -1000.0f, 0.0f, 0.0f };								//プレイヤー2の初期位置
 	Quaternion m_player01Rot = Quaternion::Identity;								//プレイヤー1の回転							
 	Quaternion m_player02Rot = Quaternion::Identity;								//プレイヤー2の回転
-
-	int m_playerNum = 0;															//何人プレイヤーを生成したかの数
-	int m_noHavingDishCounter = 0;													//空の皿の数
-	int m_refilledNum = 0;															//補充できた具材の数
-	int m_submitBurgerNum = 0;														//提出したバーガーの数
-	int m_changeCycleNum = 0;														//何個補充したか。Dishで使用。これがmaxNum2Refillと同値になると補充完了を意味し、noHavingDish、refilledNumを０で初期化する。
 	
-	bool m_isGameSet = false;														//ゲームが終了したか
 	bool m_isWorking = true;														//プレイヤー生成器が稼働中か　稼働中ならプレイヤー生成が終わっていない
 
 public:
 	~PlayerGene();
-	
-	bool Start() { return true; }
 
 	/**
 	 * @brief プレイヤーを2体出す。
@@ -47,6 +38,5 @@ public:
 	bool GetPlayerGeneState() { return m_isWorking; }
 
 private:
-	Player* m_player[2] = { nullptr };
+	std::array<Player*, 2> m_player = { nullptr };				//出現させるプレイヤーモデル
 };
-

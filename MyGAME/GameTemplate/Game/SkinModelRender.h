@@ -5,9 +5,9 @@ class SkinModelRender :public IGameObject
 {
 private:
 	ModelInitData m_modelInitData;										//モデルのファイルパスやシェーダーを設定する
-	ModelInitData m_shadowData;
+	ModelInitData m_shadowData;											//影生成のためのモデル情報
 	Model m_model;														//モデル
-	Model m_shadow;
+	Model m_shadow;														//影モデル
 	Skeleton m_skeleton;												//スケルトン
 	CharacterController m_charaCon;										//モデルの衝突判定や移動関係
 
@@ -15,8 +15,8 @@ private:
 	Vector3 m_scale = Vector3::One;										//モデルの拡大率
 	Quaternion m_rot = Quaternion::Identity;							//モデルの回転
 
-	RenderTarget m_shadowMap = GameObjectManager::GetInstance()->GetShadowMap();
-	Camera m_lightCamera = GameObjectManager::GetInstance()->GetLightCamera();
+	RenderTarget m_shadowMap = GameObjectManager::GetInstance()->GetShadowMap();	//作成したシャドウの取得
+	Camera m_lightCamera = GameObjectManager::GetInstance()->GetLightCamera();		//ライトカメラの取得
 
 	bool m_isCastShadow = false;
 public:
@@ -156,16 +156,6 @@ public:
 	*/
 	void Render(RenderContext& rc) 
 	{
-		/*
-		if (m_isCastShadow) {
-			GameObjectManager::GetInstance()->GetLightCamera()->Update();
-			m_model.Draw(rc, *GameObjectManager::GetInstance()->GetLightCamera());
-		}
-		else {
-			m_model.Draw(rc);
-		}
-		*/
-
 		//普通描画
 		if (GameObjectManager::GetInstance()->GetRenderTypes() == 0) {				
 			m_model.Draw(rc);
@@ -178,13 +168,8 @@ public:
 		}
 	}
 
-	/**
-	 * @brief 影を生成するときに使用する
-	 * @param rc 今のレンダーターゲット
-	 * @param lightCamera 光の位置
-	*/
-	/*void Render(RenderContext& rc, Camera lightCamera) { m_model.Draw(rc, lightCamera); }*/
 private:
+	//アニメーションを付ける際に使う
 	//Animation m_animation;
 	//AnimationClip* m_animationClip = nullptr;
 };

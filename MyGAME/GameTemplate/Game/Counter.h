@@ -19,12 +19,15 @@ private:
 	bool m_burgerCorrectFlag = false;					//提出されたバーガーが合っているフラグ。
 	bool m_burgerMistakeFlag = false;					//提出されたバーガーが間違っているフラグ。
 	bool m_spriteFlag = false;							//正誤画像が出ているか
-	bool m_spriteCompareFlagTrue[4][5] = { false };		//メニューと一致しているときの画像表示フラグ
-	bool m_spriteCompareFlagFalse[4][5] = { false };	//メニューと不一致のときの画像表示フラグ
+	//bool m_spriteCompareFlagTrue[4][5] = { false };		//メニューと一致しているときの画像表示フラグ
+	std::array<std::array<bool, 5>, 4> m_spriteCompareFlagTrue = { false };								//要素5個の配列を4つ作る　＝　5列4行
+	//bool m_spriteCompareFlagFalse[4][5] = { false };	//メニューと不一致のときの画像表示フラグ
+	std::array<std::array<bool, 5>, 4> m_spriteCompareFlagFalse = { false };
 	bool m_bonusPoint = false;							//ボーナスポイントのフラグ
 
 	int m_spriteTime = 0;								//正誤画像を出す時間
-	int m_guzaiJudge[4][5] = { 2 };						//積まれた具材が合っているか？0,違っている。1,合っている。2,積まれていない。
+	//int m_guzaiJudge[4][5] = { 2 };						//積まれた具材が合っているか？0,違っている。1,合っている。2,積まれていない。
+	std::array<std::array<int, 5>, 4> m_guzaiJudge = { 2 };
 	int m_menuNum = 3;									//表示できるメニューの種類。
 	int m_counterNo = 0;								//カウンター番号　０が左、１が右
 	int m_stackNum = 0;									//何段のハンバーガーを作ったのかの変数、スコアに使用する
@@ -118,11 +121,13 @@ public:
 		enStateNum,				//なりえる状態の数
 	};
 	
-	EnHamBurger m_showHamBurgers[11];					//表示しているハンバーガーの配列。
+	EnHamBurger m_showHamBurgers[enHamBurgerNum];					//表示しているハンバーガーの配列。
+	//std::array<EnHamBurger, enHamBurgerNum> m_showHamBurgers;
 	Kitchen* m_kitchen = nullptr;						//対応するキッチン
 	CLevel2D* m_level2d = nullptr;						//レベル２D
 	Player* m_player = nullptr;							//対応するプレイヤー
 	SkinModelRender* m_skinModelRender = nullptr;		//カウンターのモデル
 	SpriteRender* m_spriteJudge = nullptr;				//MISSやCORRECTの文字表示用
-	SpriteRender* m_spriteCompare[4][5] = {nullptr};	//メニューと一致しているかの画像を表示
+	//SpriteRender* m_spriteCompare[4][5] = {nullptr};	//メニューと一致しているかの画像を表示
+	std::array<std::array<SpriteRender*, 5>, 4> m_spriteCompare = { nullptr };
 };

@@ -393,7 +393,8 @@ public:
 		viewport.Height = static_cast<float>(renderTarget.GetHeight());
 		viewport.MinDepth = D3D12_MIN_DEPTH;
 		viewport.MaxDepth = D3D12_MAX_DEPTH;
-		SetViewport(viewport);
+		//SetViewport(viewport);
+		SetViewportAndScissor(viewport);
 		SetRenderTarget(renderTarget);
 	}
 

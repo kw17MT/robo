@@ -17,8 +17,8 @@ namespace
 	const int KITCHEN_NAME_SIZE = 10;
 	const int PLAYER_NUMBER_ONE = 0;
 	const int PLAYER_NUMBER_TWO = 1;
-	const int MAX_NUM_TO_GUZAI_STACK = 10;
-	const int STACK_NONE = 9;
+	const int MAX_NUM_TO_STACK_GUZAI = 10;
+	const int STACK_EMPTY = 9;
 	const int PLAYER_1_RESTRECTED_POS_X_MIN = 900;
 	const int PLAYER_2_RESTRECTED_POS_X_MIN = -1300;
 	const int PLAYER_1_RESTRECTED_POS_X_MAX = 1300;
@@ -40,11 +40,11 @@ Player::~Player()
 
 bool Player::Start()
 {
-	//通常モデル
+	//モデルの描画
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	//影用モデル
+
 	if (m_playerNo == PLAYER_NUMBER_ONE) {
-		//通常描画
+		//通常描画用
 		m_skinModelRender->Init(
 			"Assets/modelData/Chef/ChefRed/Chef01.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
@@ -63,12 +63,14 @@ bool Player::Start()
 		
 	}
 	else {
+		//通常描画用
 		m_skinModelRender->Init(
 			"Assets/modelData/Chef/ChefBlue/Chef02.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
 			enModelUpAxisZ,
 			m_position
 		);
+		//影描画用
 		m_skinModelRender->InitForCastShadow(
 			"Assets/modelData/Chef/ChefBlue/Chef02.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
@@ -78,13 +80,13 @@ bool Player::Start()
 		);
 	}
 
+	//拡大率の調整
 	m_skinModelRender->SetScale(m_scale);
 
-	//具材ナンバー配列のすべての要素を9で初期化
-	for (int i = 0; i < MAX_NUM_TO_GUZAI_STACK; i++) {
-		m_guzaiNo[i] = STACK_NONE;
-	}
+	//念のため具材ナンバー配列のすべての要素を何もない状態に初期化
+	SetGuzaiEmpty();
 
+	//プレイヤー番号を用いて対応するオブジェクトを検索するための番号
 	int endNo = m_playerNo;
 	//string型に変えてcharに変換するための準備をする。
 	std::string endNo_string = std::to_string(endNo);
@@ -92,7 +94,7 @@ bool Player::Start()
 	char kitchenName[KITCHEN_NAME_SIZE] = "kitchen0";
 	//末端番号だけを追加する
 	strcat_s(kitchenName, endNo_string.c_str());
-	//所定のキッチンを設定後、座標をとってきてセットする。
+	//所定のキッチンを取得。
 	Kitchen* kitchen = FindGO<Kitchen>(kitchenName);
 
 	//エフェクトの初期化
@@ -103,11 +105,11 @@ bool Player::Start()
 	return true;
 }
 
-void Player::SetGuzaiNo9()
+void Player::SetGuzaiEmpty()
 {
-	for (int i = 0;i < MAX_NUM_TO_GUZAI_STACK;i++)
+	for (int i = 0;i < MAX_NUM_TO_STACK_GUZAI;i++)
 	{
-		m_guzaiNo[i] = STACK_NONE;
+		m_guzaiNo[i] = STACK_EMPTY;
 	}
 }
 
@@ -144,18 +146,8 @@ void Player::RestrictPos()
 	}
 }
 
-void Player::Update()
+void Player::PlayerRotation()
 {
-	//カウントダウン中でも、プレイヤーの初期位置は固定しておきたいため。
-	m_skinModelRender->SetPosition(m_position);
-
-	//ゲームプレイ中じゃなかったら。
-	if (!GetGameDirector().GetIsGamePlay())
-	{
-		//処理しない。
-		return;
-	}
-
 	//回転処理
 	//自身の上と右を定義(見下ろしなので)
 	Vector3 frontDirP1 = FRONT_DIRECTION;
@@ -180,8 +172,10 @@ void Player::Update()
 		//縦軸まわりの回転を求める(ラジアン角を引数に渡すためSetRotation)
 		m_rotation.SetRotation(AxisYP1, -m_angle);
 	}
+}
 
-
+void Player::RestrictMove()
+{
 	if (m_moveStop == false) {
 		m_moveSpeed.x = g_pad[m_playerNo]->GetLStickXF() * AJUST_PLAYER_SPEED;
 		m_moveSpeed.z = g_pad[m_playerNo]->GetLStickYF() * AJUST_PLAYER_SPEED;
@@ -198,11 +192,10 @@ void Player::Update()
 		m_saveMoveSpeed = m_moveSpeed;
 		m_saveMoveSpeed.Normalize();
 	}
+}
 
-	RestrictPos();
-
-	m_skinModelRender->SetPosition(m_position);
-
+void Player::PopWalkingEffect()
+{
 	//エフェクト再生
 	//移動中なら定期的に発生
 	m_moveCounter++;
@@ -216,7 +209,30 @@ void Player::Update()
 	if (m_moveCounter > EFFECT_TIMER_MAX) {
 		m_moveCounter = 0;
 	}
+}
 
+void Player::Update()
+{
+	//カウントダウン中でも、プレイヤーの初期位置は固定しておきたいため。
+	m_skinModelRender->SetPosition(m_position);
+
+	//ゲームプレイ中じゃなかったら。
+	if (!GetGameDirector().GetIsGamePlay())
+	{
+		//処理しない。
+		return;
+	}
+
+	PlayerRotation();
+
+
+	RestrictMove();
+
+	RestrictPos();
+
+	PopWalkingEffect();
+
+	m_skinModelRender->SetPosition(m_position);
 	m_skinModelRender->SetScale(m_scale);
 	m_skinModelRender->SetRotation(m_rotation);
 	m_effect->Update();

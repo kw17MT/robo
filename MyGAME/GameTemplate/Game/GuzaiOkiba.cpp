@@ -67,96 +67,49 @@ bool GuzaiOkiba::Start()
 		//オブジェクトの名前を比較して、StockRightが一致した時
 		if (wcsncmp(objectData.name, StockRight, NAME_SIZE_STOCKRIGHT) == 0) {
 			//レベル上のオブジェクトの番号を取得
-			m_guzaiOkibaNo = _wtoi(&objectData.name[NUMBER_OF_OKIBA_RIGHT]);
+			int m_guzaiOkibaNo = _wtoi(&objectData.name[NUMBER_OF_OKIBA_RIGHT]);
 
 			switch (m_guzaiOkibaNo)
 			{
-			case GUZAIOKIBA_NUMBER_ONE: {
-				m_guzaiOkibaPos[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT] = objectData.Pos;
+			case GUZAIOKIBA_NUMBER_ONE:
+			case GUZAIOKIBA_NUMBER_TWO:
+			case GUZAIOKIBA_NUMBER_THREE:
+			case GUZAIOKIBA_NUMBER_FOUR: 
+				//具材置き場のナンバリングが1~4の時、具材置き場のインスタンスを作成
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT] = NewGO<SkinModelRender>(0);
+				//通常描画用のモデル初期化
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->SetScale(m_guzaiOkibaScale);
-				//m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1],nullptr);
-				return true;
-			}break;
-			case GUZAIOKIBA_NUMBER_TWO: {
-				m_guzaiOkibaPos[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT] = objectData.Pos;
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT] = NewGO<SkinModelRender>(0);
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->SetScale(m_guzaiOkibaScale);
-				//m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+				//シャドウキャスト用の初期化
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
-
-				return true;
-			}break;
-			case GUZAIOKIBA_NUMBER_THREE: {
+				//位置をレベル上と同じにする
 				m_guzaiOkibaPos[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT] = objectData.Pos;
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT] = NewGO<SkinModelRender>(0);
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
+				//拡大率を調節。
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->SetScale(m_guzaiOkibaScale);
-				//m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
-
 				return true;
-			}break;
-			case GUZAIOKIBA_NUMBER_FOUR: {
-				m_guzaiOkibaPos[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT] = objectData.Pos;
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT] = NewGO<SkinModelRender>(0);
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->SetScale(m_guzaiOkibaScale);
-				//m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
-
-				return true;
-			}break;
+				break;
+			//ナンバリングが正しくできていないとき
 			default:
+				//何も出さない
 				break;
 			}
 		}
 		//オブジェクトの名前を比較して、StockLeftが一致した時
 		if (wcsncmp(objectData.name, StockLeft, NAME_SIZE_STOCKLEFT) == 0) {
 			//レベル上のオブジェクトの番号を取得
-			m_guzaiOkibaNo = _wtoi(&objectData.name[NUMBER_OF_OKIBA_LEFT]);
+			int m_guzaiOkibaNo = _wtoi(&objectData.name[NUMBER_OF_OKIBA_LEFT]);
 			switch (m_guzaiOkibaNo)
 			{
-			case GUZAIOKIBA_NUMBER_ONE: {
-				m_guzaiOkibaPos[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = objectData.Pos;
+			case GUZAIOKIBA_NUMBER_ONE: 
+			case GUZAIOKIBA_NUMBER_TWO:
+			case GUZAIOKIBA_NUMBER_THREE:
+			case GUZAIOKIBA_NUMBER_FOUR:
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = NewGO<SkinModelRender>(0);
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->SetScale(m_guzaiOkibaScale);
-				//m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
-				return true;
-			}break;
-			case GUZAIOKIBA_NUMBER_TWO: {
 				m_guzaiOkibaPos[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = objectData.Pos;
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = NewGO<SkinModelRender>(0);
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->SetScale(m_guzaiOkibaScale);
-				//m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
 				return true;
-			}break;
-			case GUZAIOKIBA_NUMBER_THREE: {
-				m_guzaiOkibaPos[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = objectData.Pos;
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = NewGO<SkinModelRender>(0);
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->SetScale(m_guzaiOkibaScale);
-				//m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
-
-				return true;
-			}break;
-			case GUZAIOKIBA_NUMBER_FOUR: {
-				m_guzaiOkibaPos[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = objectData.Pos;
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = NewGO<SkinModelRender>(0);
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->SetScale(m_guzaiOkibaScale);
-				//m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
-				return true;
-			}break;
+				break;
 			default:
 				break;
 			}
@@ -164,10 +117,12 @@ bool GuzaiOkiba::Start()
 	
 	});
 
-	//ターゲット中の具材置き場に出す仮モデルを初期化する。
+	//具材置き場に近づいたときに出現する矢印
 	m_arrow00 = NewGO<Arrow>(0);
+	//１P側にセット
 	m_arrow00->SetPosition(m_Arrow01Pos);
 	m_arrow01 = NewGO<Arrow>(0);
+	//２P側にセット
 	m_arrow01->SetPosition(m_Arrow02Pos);
 
 	return true;
@@ -190,7 +145,6 @@ void GuzaiOkiba::PlayerDistance()
 void GuzaiOkiba::Targeted()
 {
 	//1P側の処理
-
 	for (int i = GUZAIOKIBA_NUM_MIDDLE; i < GUZAIOKIBA_NUM_MAX; i++) {
 		//プレイヤーと具材置き場の距離が一定以下で、ターゲット中で無く、具材が置かれていない場合…
 		if (m_distance[i] < CAN_TARGET_DISTANCE && m_targeted01 == false && m_guzaiSet[i] == false && m_player00->GetPlayerState() == HAVE_GUZAI) {

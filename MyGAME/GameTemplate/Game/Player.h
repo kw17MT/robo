@@ -19,12 +19,12 @@ private:
 
 	float m_angle = 0.0f;											//プレイヤーの角度
 
+	const int m_maxNumCanSaveGuzaiType = 10;						//プレイヤーが保存できる具材種類の総数
 	int m_playerNo = 0;												//０で左、１で右
 	int m_have = enNothing;											//プレイヤーが具材を持っているか。１なら具材を持っている。２ならハンバーガーを持っている。-1でキッチンからはとれる状態
-	int m_guzaiNo[10] = {9,9,9,9,9,9,9,9,9,9};												//積み上げている具材の種類を格納していく。
-	int m_moveCounter = 0;											//P1
-	const int m_maxNumCanSaveGuzaiType = 10;						//プレイヤーが保存できる具材種類の総数
-
+	int m_guzaiNo[10] = {9,9,9,9,9,9,9,9,9,9};			//積み上げている具材の種類を格納していく。
+	int m_moveCounter = 0;											//プレイヤーが歩いたときに生じるエフェクトのタイマー
+	
 	bool m_targetingState = false;									//今、具材をターゲットしているか。1個以上ターゲティングしないように。
 	bool m_moveStop = false;										//停止フラグ１
 
@@ -46,7 +46,7 @@ public:
 	/**
 	 * @brief プレイヤー内の具材格納用配列を９で初期化
 	*/
-	void SetGuzaiNo9();
+	void SetGuzaiEmpty();
 
 	/**
 	 * @brief プレイヤーの番号を設定
@@ -147,6 +147,21 @@ public:
 	void ClearSpecificGuzaiNo(int num) { m_guzaiNo[num] = 9; }
 
 	/**
+	 * @brief プレイヤーの移動に伴う回転設定
+	*/
+	void PlayerRotation();
+
+	/**
+	 * @brief 調理中など、プレイヤーを移動を制限させるかどうかの判定を行う
+	*/
+	void RestrictMove();
+
+	/**
+	 * @brief 移動している時に生じさせるエフェクトを出す
+	*/
+	void PopWalkingEffect();
+
+	/**
 	 * @brief プレイヤーの状態
 	*/
 	enum enPlayerState {
@@ -158,9 +173,9 @@ public:
 	};
 
 private:
-	Kitchen* m_kitchen = nullptr;
-	SkinModelRender* m_skinModelRender = nullptr;
-	Effect* m_effect = nullptr;
+	Kitchen* m_kitchen = nullptr;						//キッチンの情報取得用
+	SkinModelRender* m_skinModelRender = nullptr;		//プレイヤーのモデル
+	Effect* m_effect = nullptr;							//エフェクト
 };
 
 

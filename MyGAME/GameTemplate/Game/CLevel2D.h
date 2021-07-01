@@ -69,8 +69,6 @@ public:
 
 private:
 	Level2D m_level2D;										//レベル2D。
-	//Vector3 m_position;									//座標。
-	//Vector3 m_scale;										//大きさ。
 	Vector3 m_slidePos[SHOW_HAMBURGER_NUMBER];				//メニューを上か下にスライド移動
 	float m_slideAmount[SHOW_HAMBURGER_NUMBER] = { 0.0f };	//画像の上下移動量
 	int m_slide[SHOW_HAMBURGER_NUMBER] = { 0 };			//メニュー画像のスライドフラグ。0で動かない、1で上にスライド、2で下にスライド。

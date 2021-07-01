@@ -4,7 +4,7 @@ class SkinModelRender;
 class MenuTimer : public IGameObject
 {
 private:
-	Vector3 m_position;											//タイマーの位置
+	Vector3 m_position = Vector3::Zero;											//タイマーの位置
 	Vector3 m_scale = { 2.8f,1.0f,1.0f };						//タイマーの拡大率。Xを拡大して横長にしている
 	Quaternion m_rot = Quaternion::Identity;					//回転
 
@@ -64,6 +64,6 @@ public:
 	void ResetTimerParam();
 
 private:
-	SkinModelRender* m_skinModelRender = nullptr;
+	SkinModelRender* m_skinModelRender = nullptr;		//モデル
 };
 

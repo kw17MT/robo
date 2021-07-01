@@ -44,9 +44,19 @@ public:
 	*/
 	void ChangeMarkState(bool state) { m_shouldChangeFilePath = state; }
 
+	/**
+	 * @brief 四角の画像をバツの画像に変える。
+	*/
+	void TurnSquareIntoCross();
+
+	/**
+	 * @brief 結果の画像を出現させる。
+	*/
+	void PopResultSprite();
+
 private:
-	Level2D m_level2D;		
-	Result* m_result[2] = {nullptr};
-	SpriteRender* m_spriteRender[6] = { nullptr };
+	Level2D m_level2D;											//レベル２Dの取得用
+	std::array<Result*, 2> m_result = {nullptr};				//リザルト表示する画像取得用
+	std::array<SpriteRender*, 6> m_spriteRender = { nullptr };	//ミスカウンター用の画像
 };
 

@@ -31,7 +31,7 @@ namespace
 	const int SPRIRE_BATSU_SCALE = 40;
 	const int COUNTER_NUMBER_ZERO = 0;
 	const int COUNTER_NUMBER_ONE = 1;
-	const int STACK_NONE = 9;
+	const int STACK_EMPTY = 9;
 	const int MAX_DELAY_NUM = 60;
 	const int MAX_STACK_NUM = 5;
 	const int CORRECT = 1;
@@ -183,7 +183,7 @@ void Counter::Delete()
 					se->SetVolume(SE_VOLUME);
 					se->Play(false);
 					//次の具材No.を保存するため、９で初期化。
-					m_player->SetGuzaiNo9();
+					m_player->SetGuzaiEmpty();
 				}
 			}
 			else {
@@ -203,7 +203,7 @@ void Counter::Delete()
 					se->Init(L"Assets/sound/blip01.wav", false);
 					se->SetVolume(SE_VOLUME);
 					se->Play(false);
-					m_player->SetGuzaiNo9();
+					m_player->SetGuzaiEmpty();
 				}
 			}
 		}
@@ -290,7 +290,7 @@ void Counter::HamBurgerCompare()
 			HamBurger hamburger = GetHamBurgerFactory().GetHamBurger(m_showHamBurgers[i]);
 			//具材をキッチンに積んでいないとき…
 			for (int k = 0; k < MAX_STACK_NUM; k++) {
-				if (m_player->GetPlayerStackedGuzais(k) == STACK_NONE) {
+				if (m_player->GetPlayerStackedGuzais(k) == STACK_EMPTY) {
 					//画像が出ていれば消す
 					if (m_spriteCompareFlagTrue[i + 1][k] == true || m_spriteCompareFlagFalse[i + 1][k] == true) {
 						DeleteGO(m_spriteCompare[i + 1][k]);
@@ -302,7 +302,7 @@ void Counter::HamBurgerCompare()
 			//メニューと合っているか調べる
 			for (int j = 0; j < hamburger.size(); j++) {
 				//積んでなければ何もしない。
-				if (m_player->GetPlayerStackedGuzais(j) == STACK_NONE) {
+				if (m_player->GetPlayerStackedGuzais(j) == STACK_EMPTY) {
 					m_guzaiJudge[i + 1][j] = NOTHING;
 				}
 				else {
@@ -365,7 +365,7 @@ void Counter::HamBurgerCompare()
 					SetPos.x += i * AJUST_POSITION_X_FOR_JUDGEMARK;
 					SetPos.y += l * AJUST_HEIGHT_FOR_JUDGEMARK;
 					SetPos.y += l2->GetSlideAmount(i);
-					if (m_player->GetPlayerStackedGuzais(l) != STACK_NONE) {
+					if (m_player->GetPlayerStackedGuzais(l) != STACK_EMPTY) {
 						if (m_spriteCompareFlagFalse[i + 1][l] == true || m_spriteCompareFlagTrue[i + 1][l] == true) {
 
 							DeleteGO(m_spriteCompare[i + 1][l]);
@@ -382,7 +382,7 @@ void Counter::HamBurgerCompare()
 		for (int i = 0; i < m_counterNo + 1; i++) {
 			HamBurger hamburger = GetHamBurgerFactory().GetHamBurger(m_showHamBurgers[i]);
 			for (int k = 0; k < MAX_STACK_NUM; k++) {
-				if (m_player->GetPlayerStackedGuzais(k) == STACK_NONE) {
+				if (m_player->GetPlayerStackedGuzais(k) == STACK_EMPTY) {
 					if (m_spriteCompareFlagTrue[i][k] == true || m_spriteCompareFlagFalse[i][k] == true) {
 						DeleteGO(m_spriteCompare[i][k]);
 						m_spriteCompareFlagTrue[i][k] = false;
@@ -391,7 +391,7 @@ void Counter::HamBurgerCompare()
 				}
 			}
 			for (int j = 0; j < hamburger.size(); j++) {
-				if (m_player->GetPlayerStackedGuzais(j) == STACK_NONE) {
+				if (m_player->GetPlayerStackedGuzais(j) == STACK_EMPTY) {
 					m_guzaiJudge[i][j] = NOTHING;
 				}
 				else {
@@ -444,7 +444,7 @@ void Counter::HamBurgerCompare()
 					SetPos.y += l * AJUST_HEIGHT_FOR_JUDGEMARK;
 					SetPos.y += l2->GetSlideAmount(i);
 					if (m_spriteCompareFlagFalse[i][l] == true || m_spriteCompareFlagTrue[i][l] == true) {
-						if (m_player->GetPlayerStackedGuzais(l) != STACK_NONE) {
+						if (m_player->GetPlayerStackedGuzais(l) != STACK_EMPTY) {
 							if (m_spriteCompareFlagFalse[i][l] == true || m_spriteCompareFlagTrue[i][l] == true) {
 
 								DeleteGO(m_spriteCompare[i][l]);

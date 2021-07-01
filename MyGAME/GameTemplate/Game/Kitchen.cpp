@@ -72,26 +72,24 @@ bool Kitchen::Start()
 
 	//モデルデータの初期化
 	m_skinModelRender = NewGO<SkinModelRender>(0);
+	//通常描画モデルの初期化
 	m_skinModelRender->Init("Assets/modelData/object/kitchen.tkm", nullptr, enModelUpAxisZ, m_position);
-	//m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	//シャドウキャスト用の初期化
 	m_skinModelRender->InitForCastShadow("Assets/modelData/object/kitchen.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
+	//拡大率調整
 	m_skinModelRender->SetScale(m_scale);
 
 	return true;
 }
 
-//積んでいる具材の全消去、それに関するパラメータの初期化
-//BornBurger()でつかう
+//積んでいる具材の全消去と、それに関するパラメータの初期化
 void Kitchen::Delete()
 {
 	//積んでいる具材の消去
 	for (int i = 0;i < m_stack; i++) {
 		//積んでいる具材の消去
 		DeleteGO(m_stackedGuzai[i]);
-		//保存していた具材いちをFALSE＝ない　に設定
-		//m_guzaiGene->SetGuzaiFlag(m_stackedGuzai[i]->GetGuziNo(), false);
 	}
-
 	//キッチンに積んでいた具材の数をカウンターの方に移す
 	m_counter->SetStackNum(m_stack);
 	//キッチンに積んでいる具材数を０で初期化
@@ -102,10 +100,11 @@ void Kitchen::Delete()
 // ないとエラー
 void Kitchen::BornBurger()
 {
+	//プレイヤーとキッチンとの間の距離
 	Vector3 preDistance = m_player->GetPosition() - m_position;
 	float distance = preDistance.Length();
 
-	//具材を一つ以上積んでいて、Bボタンを長押し
+	//具材を一つ以上積んでいて、Bボタンを長押し、プレイヤーは調理していない（何もしていない）とき
 	if (m_stack > 0 && g_pad[m_kitchenNo]->IsPress(enButtonB) && m_isPlayerCookingOnKitchen == false && distance < DISTANCE_BETWEEN_PLAYER_TO_KITCHEN && m_player->GetPlayerState() <= NOTHING) {
 		m_delay--;
 		//プレイヤーが動けないようにする。
@@ -115,11 +114,13 @@ void Kitchen::BornBurger()
 			//調理の進み具合のメーターを表示
 			m_meter = NewGO<Meter>(0);
 			if (m_kitchenNo == KITCHEN_NUMBER_0) {
+				//基本となる位置をキッチンの場所にする。
 				Vector3 pos = m_position;
+				//位置の調整を加える
 				pos.x -= AJUST_METER_POS_X_No0;
 				pos.y += AJUST_METER_POS_Y;
 				pos.z += AJUST_METER_POS_Z;
-
+				//メーターの場所を設定。
 				m_meter->SetPosition(pos);
 			}
 			if (m_kitchenNo == KITCHEN_NUMBER_1) {
@@ -154,6 +155,7 @@ void Kitchen::BornBurger()
 			m_player->SetPlayerState(HAVE_GUZAI);
 			//削除フラグを立てる。
 			m_isPlayerCookingOnKitchen = true;
+			//遅延する時間を元に戻す
 			m_delay = DEFAULT_DELAY_NUMBER;
 		}
 	}

@@ -16,12 +16,12 @@ GameObjectManager::GameObjectManager()
 	}
 	m_instance = this;
 
-	//rootSignature.Init(
-	//	D3D12_FILTER_MIN_MAG_MIP_LINEAR,
-	//	D3D12_TEXTURE_ADDRESS_MODE_WRAP,
-	//	D3D12_TEXTURE_ADDRESS_MODE_WRAP,
-	//	D3D12_TEXTURE_ADDRESS_MODE_WRAP
-	//);
+	rootSignature.Init(
+		D3D12_FILTER_MIN_MAG_MIP_LINEAR,
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP
+	);
 
 	//メインのレンダーターゲットの初期化
 	mainRenderTarget.Create(
@@ -85,18 +85,16 @@ GameObjectManager::GameObjectManager()
 		clearColor
 	);
 	//ライトカメラの作成
-	lightCamera.SetPosition(0.0f, 1500.0f, 200.0f);
+	lightCamera.SetPosition(1000.0f, 1000.0f, 300.0f);
 	lightCamera.SetTarget(0.0f, 0.0f, 0.0f);
 	lightCamera.SetUp({ 0, 0, -1});							//カメラの上をX座標にしておく
-	lightCamera.SetViewAngle(Math::DegToRad(60.0f));
+	lightCamera.SetViewAngle(Math::DegToRad(90.0f));
 	lightCamera.Update();
-
 
 	spData.m_textures[0] = &shadowMap.GetRenderTargetTexture();
 	spData.m_fxFilePath = "Assets/shader/sprite.fx";
 	spData.m_width = 1280;
 	spData.m_height =720 ;
-
 
 	sp.Init(spData);
 }
@@ -137,6 +135,39 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	//　レンダリングターゲットはメンバ変数にある
 	//　コンストラクタで初期化。				→フォーマットの違いでERRORがでるかもしれない。それぞれのクラスで同じフォーマットで初期化する。
 	
+	/*if (g_pad[0]->IsPress(enButtonUp)) {
+		Vector3 a = lightCamera.GetPosition();
+		a.z += 20.0f;
+		lightCamera.SetPosition(a);
+	}
+	if (g_pad[0]->IsPress(enButtonDown)) {
+		Vector3 a = lightCamera.GetPosition();
+		a.z -= 20.0f;
+		lightCamera.SetPosition(a);
+	}
+	if (g_pad[0]->IsPress(enButtonLeft)) {
+		Vector3 a = lightCamera.GetPosition();
+		a.y += 20.0f;
+		lightCamera.SetPosition(a);
+	}
+	if (g_pad[0]->IsPress(enButtonRight)) {
+		Vector3 a = lightCamera.GetPosition();
+		a.y -= 20.0f;
+		lightCamera.SetPosition(a);
+	}
+
+	if (g_pad[0]->IsPress(enButtonY)) {
+		Vector3 a = lightCamera.GetTarget();
+		a.z -= 10.0f;
+		lightCamera.SetTarget(a);
+	}
+
+	if (g_pad[0]->IsPress(enButtonX)) {
+		Vector3 a = lightCamera.GetTarget();
+		a.z += 10.0f;
+		lightCamera.SetTarget(a);
+	}*/
+
 
 	//シャドウマップのレンダリングターゲットに設定する。
 	rc.WaitUntilToPossibleSetRenderTarget(shadowMap);
@@ -224,7 +255,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	);
 	m_renderTypes = 0;
 	rc.SetViewport(g_graphicsEngine->GetFrameBufferViewport());
-	//rc.SetViewportAndScissor(g_graphicsEngine->GetFrameBufferViewport());
+	rc.SetViewportAndScissor(g_graphicsEngine->GetFrameBufferViewport());
 
 	//モデルのドロー
 	for (auto& goList : m_gameObjectListArray) {

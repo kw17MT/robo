@@ -12,14 +12,14 @@ private:
 	Vector3 m_targetScale = Vector3::Zero;							//矢印の拡大率
 	Quaternion m_rot = Quaternion::Identity;						//矢印の回転
 	
-	int movingTime = 30;											//ゴミを入れた後どのくらいの時間動くか
-	int trashcanNo = 0;												//ゴミ箱の番号、１が左、２が右
+	int m_movingTime = 30;											//ゴミを入れた後どのくらいの時間動くか
+	int m_trashcanNo = 0;											//ゴミ箱の番号、１が左、２が右
 
-	const float distance = 130.0f;									//ゴミ箱がプレイヤーを識別する距離
+	const float m_distance = 130.0f;								//ゴミ箱がプレイヤーを識別する距離
 
-	bool canTrash = false;											//プレイヤーが近いとTRUEにして捨てることができるようにする。
-	bool targetUp = true;											//ターゲットアイコンを浮遊させるよう
-	bool isMoving = false;											//ゴミ箱を動かさせるか
+	bool m_canTrash = false;										//プレイヤーが近いとTRUEにして捨てることができるようにする。
+	bool m_targetUp = true;											//ターゲットアイコンを浮遊させるよう
+	bool m_isMoving = false;										//ゴミ箱を動かさせるか
 
 public:
 	~TrashCan();
@@ -57,13 +57,13 @@ public:
 	 * @brief ゴミ箱の番号の設定　０が左　１が右
 	 * @param num ゴミ箱の番号
 	*/
-	void SetTrashCanNum(int num) { trashcanNo = num; }
+	void SetTrashCanNum(int num) { m_trashcanNo = num; }
 
 	/**
 	 * @brief ゴミ箱は現在何かを捨てられる状態かを返す
 	 * @return ゴミ箱の状態
 	*/
-	bool GetCanTrash() { return canTrash; }
+	bool GetCanTrash() { return m_canTrash; }
 
 	/**
 	 * @brief ２地点間の距離を求める
@@ -77,16 +77,26 @@ public:
 	 * @brief ゴミ箱は何かを捨てられてリアクションをしているか
 	 * @param state TRUE＝している
 	*/
-	void ChangeMovingState(bool state) { isMoving = state; }
+	void ChangeMovingState(bool state) { m_isMoving = state; }
 	
 	/**
 	 * @brief ゴミを入れられたらリアクションをする
 	*/
 	void LetStartMoving();
 
+	/**
+	 * @brief 矢印の拡大率を変化させる
+	*/
+	void ChangeArrowScale();
+
+	/**
+	 * @brief 矢印の浮遊処理
+	*/
+	void FloatArrow();
+
 private:
-	Player* m_player = nullptr;
-	SkinModelRender* m_skinModelRender = nullptr;
-	SkinModelRender* m_arrow = nullptr;
-	PlayerGene* m_playerGene = nullptr;
+	Player* m_player = nullptr;								//プレイヤーの情報取得用
+	SkinModelRender* m_skinModelRender = nullptr;			//ゴミ箱のモデル用
+	SkinModelRender* m_arrow = nullptr;						//矢印のモデル用
+	PlayerGene* m_playerGene = nullptr;						//プレイヤー生成器の情報取得用
 };

@@ -66,6 +66,7 @@ public:
 	void SetFallingSound(bool tf) { m_fallingSoundFlag = tf; }
 
 private:
-	Dish* m_Dish[m_dishMaxNum] = { nullptr };
+	//Dish* m_Dish[m_dishMaxNum] = { nullptr };
+	std::array<Dish*, m_dishMaxNum> m_Dish = { nullptr };
 };
 

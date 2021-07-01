@@ -27,7 +27,6 @@
 #include <ctime>
 #include <cstdlib>
 #include <random>
-#include "ShadowParam.h"
 #include "Conveyor.h"
 
 namespace
@@ -233,10 +232,7 @@ bool Game::Start()
 	m_bgm = NewGO<CSoundSource>(0);
 	m_bgm->Init(L"Assets/sound/BGM/BGM1.wav", false);
 	m_bgm->SetVolume(SE_VOLUME);
-	m_bgm->Play(true);
-
-	//影を作る光の向きとかのパラメータを初期化
-	ShadowParam::GetInstance().SetLightCameraParam({ 0.0f,500.0f,0.0f });
+	//m_bgm->Play(true);
 	
 	return true;
 }
@@ -331,17 +327,6 @@ void Game::DoWhenTimeUp()
 
 void Game::Update()
 {
-	//auto& renderContext = g_graphicsEngine->GetRenderContext();
-	//RenderTarget shadowMap = *GameObjectManager::GetInstance()->GetShadowMap();
-	//renderContext.WaitUntilToPossibleSetRenderTarget(shadowMap);
-	//renderContext.SetRenderTargetAndViewport(shadowMap);
-	//renderContext.ClearRenderTargetView(shadowMap);
-	////レベルの描画
-	//m_level->Draw(renderContext);
-	//renderContext.WaitUntilFinishDrawingToRenderTarget(shadowMap);
-
-	//m_level->Draw(g_graphicsEngine->GetRenderContext());
-
 	//タイムアップ時に行う処理
 	DoWhenTimeUp();
 

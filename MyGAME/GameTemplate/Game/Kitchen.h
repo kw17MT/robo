@@ -48,13 +48,13 @@ public:
 	 * @brief キッチンの座標を設定する。
 	 * @param pos 新しいキッチンの座標
 	*/
-	void SetKitchenPos(Vector3 pos) { /*m_kitchenPos = pos;*/ m_position = pos; }
+	void SetKitchenPos(Vector3 pos) { m_position = pos; }
 
 	/**
 	 * @brief キッチンの座標を取得
 	 * @return 現在のキッチンの座標
 	*/
-	Vector3 GetKitchenPos() { return m_position/*m_kitchenPos*/; }
+	Vector3 GetKitchenPos() { return m_position; }
 
 	/**
 	 * @brief キッチン上の具材を全部消去、ハンバーガーを生み出す時に使用する
@@ -107,6 +107,7 @@ public:
 
 	/**
 	 * @brief キッチン上にある具材の登録
+	 * ここの具材は複製する必要がなく、パラメーターをいじりたいのでconst不要
 	 * Delete関数で使用する。
 	*/
 	void RegistStackedGuzai(Guzai* m_guzai) { m_stackedGuzai[m_stack - 1] = m_guzai; }
@@ -125,6 +126,6 @@ private:
 	CSoundSource* m_soundSource = nullptr;
 	Meter* m_meter = nullptr;
 	Counter* m_counter = nullptr;
-	Guzai* m_stackedGuzai[5] = { nullptr };					//キッチンの上にある具材
+	std::array<Guzai*, 5> m_stackedGuzai = { nullptr };					//キッチンの上にある具材
 };
 

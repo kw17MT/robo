@@ -133,12 +133,12 @@ public:
 		return shadowMap;
 	}
 
-	const Camera& GetLightCamera()
+	Camera& GetLightCamera()
 	{
 		return lightCamera;
 	}
 
-	int GetRenderTypes()
+	const int GetRenderTypes()
 	{
 		return m_renderTypes;
 	}

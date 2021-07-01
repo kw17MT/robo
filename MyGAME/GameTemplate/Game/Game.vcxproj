@@ -243,7 +243,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\ExEngine\effect\Effect.cpp" />
     <ClCompile Include="..\..\ExEngine\effect\EffectEngine.cpp" />
-    <ClCompile Include="..\..\ExEngine\gameObject\Gameobjectmanager.cpp" />
+    <ClCompile Include="..\..\ExEngine\gameObject\GameObjectManager.cpp" />
     <ClCompile Include="..\..\ExEngine\gameObject\IGameObject.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\CapsuleCollider.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\CharacterController.cpp" />
@@ -310,7 +310,6 @@
     <ClCompile Include="GameDirector.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="GaussianBlur.cpp" />
-    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Guzai.cpp" />
     <ClCompile Include="GuzaiManager.cpp" />
     <ClCompile Include="GuzaiOkiba.cpp" />
@@ -334,7 +333,6 @@
     <ClCompile Include="PlayerGene.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="Score.cpp" />
-    <ClCompile Include="ShadowParam.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="SoundPreCompile.cpp" />
@@ -437,7 +435,6 @@
     <ClInclude Include="GameDirector.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="GaussianBlur.h" />
-    <ClInclude Include="Ground.h" />
     <ClInclude Include="Guzai.h" />
     <ClInclude Include="GuzaiManager.h" />
     <ClInclude Include="GuzaiOkiba.h" />
@@ -460,7 +457,6 @@
     <ClInclude Include="PlayerGene.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Score.h" />
-    <ClInclude Include="ShadowParam.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="SoundPreCompile.h" />

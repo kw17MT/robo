@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Floor.h"
 #include "SkinModelRender.h"
-#include "ShadowParam.h"
 
 namespace
 {
