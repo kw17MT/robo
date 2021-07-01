@@ -80,7 +80,8 @@ GameObjectManager::GameObjectManager()
 		1024,
 		1,
 		1,
-		DXGI_FORMAT_R8G8B8A8_UNORM,
+		//DXGI_FORMAT_R8G8B8A8_UNORM,			//投影シャドウで使う
+		DXGI_FORMAT_R32_FLOAT,					//デプスシャドウで使う
 		DXGI_FORMAT_D32_FLOAT,
 		clearColor
 	);
@@ -89,6 +90,13 @@ GameObjectManager::GameObjectManager()
 	lightCamera.SetTarget(0.0f, 0.0f, 0.0f);
 	lightCamera.SetUp({ 0, 0, -1});							//カメラの上をX座標にしておく
 	lightCamera.SetViewAngle(Math::DegToRad(90.0f));
+
+	//平行投影にする場合
+	/*
+	lightCamera.SetUpdateProjMatrixFunc(Camera::enUpdateProjMatrixFunc_Ortho);
+	lightCamera.SetWidth(1280);
+	lightCamera.SetHeight(720);
+	*/
 	lightCamera.Update();
 
 	spData.m_textures[0] = &shadowMap.GetRenderTargetTexture();
@@ -135,40 +143,6 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	//　レンダリングターゲットはメンバ変数にある
 	//　コンストラクタで初期化。				→フォーマットの違いでERRORがでるかもしれない。それぞれのクラスで同じフォーマットで初期化する。
 	
-	/*if (g_pad[0]->IsPress(enButtonUp)) {
-		Vector3 a = lightCamera.GetPosition();
-		a.z += 20.0f;
-		lightCamera.SetPosition(a);
-	}
-	if (g_pad[0]->IsPress(enButtonDown)) {
-		Vector3 a = lightCamera.GetPosition();
-		a.z -= 20.0f;
-		lightCamera.SetPosition(a);
-	}
-	if (g_pad[0]->IsPress(enButtonLeft)) {
-		Vector3 a = lightCamera.GetPosition();
-		a.y += 20.0f;
-		lightCamera.SetPosition(a);
-	}
-	if (g_pad[0]->IsPress(enButtonRight)) {
-		Vector3 a = lightCamera.GetPosition();
-		a.y -= 20.0f;
-		lightCamera.SetPosition(a);
-	}
-
-	if (g_pad[0]->IsPress(enButtonY)) {
-		Vector3 a = lightCamera.GetTarget();
-		a.z -= 10.0f;
-		lightCamera.SetTarget(a);
-	}
-
-	if (g_pad[0]->IsPress(enButtonX)) {
-		Vector3 a = lightCamera.GetTarget();
-		a.z += 10.0f;
-		lightCamera.SetTarget(a);
-	}*/
-
-
 	//シャドウマップのレンダリングターゲットに設定する。
 	rc.WaitUntilToPossibleSetRenderTarget(shadowMap);
 	rc.SetRenderTargetAndViewport(shadowMap);

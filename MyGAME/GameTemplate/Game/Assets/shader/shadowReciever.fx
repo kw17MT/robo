@@ -62,32 +62,59 @@ SPSIn VSMain(SVSIn vsIn)
 /// </summary>
 float4 PSMain( SPSIn psIn ) : SV_Target0
 {
+	//以下から投影シャドウマップの作成。/////////////////////////////////////////////////////////////////////
+	//float4 color = g_albedo.Sample(g_sampler, psIn.uv);
+	//color.x *= 4.5f;
+	//color.y *= 4.5f;
+	//color.z *= 4.5f;
+
+	////ライトビュースクリーン空間からUV空間に座標変換。
+	//float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
+	//shadowMapUV *= float2(0.5f, -0.5f);
+	//shadowMapUV += 0.5f;
+
+	////計算したUV座標を使って、シャドウマップから影情報をサンプリング
+	//float3 shadowMap = 1.0f;
+
+	//if (shadowMapUV.x > 0.0f 
+	//	&& shadowMapUV.x < 1.0f 
+	//	&& shadowMapUV.y > 0.0f 
+	//	&& shadowMapUV.y < 1.0f) {
+	//	shadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV);
+	//}
+
+	////サンプリングした影情報をテクスチャカラーに乗算する。
+	//color.xyz *= shadowMap;
+
+	//return color;
+	//ここまで投影シャドウマップ/////////////////////////////////////////////////////////////////////////////
+
+	//ここからデプスシャドウの作成///////////////////////////////////////////////////////////////////////////
 	float4 color = g_albedo.Sample(g_sampler, psIn.uv);
 	color.x *= 4.5f;
 	color.y *= 4.5f;
 	color.z *= 4.5f;
-	//return color;
 
-	//step-6 ライトビュースクリーン空間からUV空間に座標変換。
+	//ライトビュースクリーン空間からUV空間に座標変換。
 	float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
 	shadowMapUV *= float2(0.5f, -0.5f);
 	shadowMapUV += 0.5f;
 
-	//step-7 計算したUV座標を使って、シャドウマップから影情報をサンプリング
-	float3 shadowMap = 1.0f;
+	//ライトビュースクリーン空間でのZ値を計算する
+	float zInLVP = psIn.posInLVP.z / psIn.posInLVP.w;
 
-	if (shadowMapUV.x > 0.0f 
-		&& shadowMapUV.x < 1.0f 
-		&& shadowMapUV.y > 0.0f 
+	if (shadowMapUV.x > 0.0f
+		&& shadowMapUV.x < 1.0f
+		&& shadowMapUV.y > 0.0f
 		&& shadowMapUV.y < 1.0f) {
-		shadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV);
+		//シャドウマップに描き込まれているZ値と比較する
+		float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
+		if (zInLVP > zInShadowMap)
+		{
+			color.xyz *= 0.5f;
+		}
 	}
 
-
-	//return shadowMap;
-
-	//step-8 サンプリングした影情報をテクスチャカラーに乗算する。
-	color.xyz *= shadowMap;
-
 	return color;
+	//ここまでデプスシャドウマップ///////////////////////////////////////////////////////////////////////////
 }

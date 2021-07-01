@@ -233,6 +233,13 @@ bool Game::Start()
 	m_bgm->Init(L"Assets/sound/BGM/BGM1.wav", false);
 	m_bgm->SetVolume(SE_VOLUME);
 	//m_bgm->Play(true);
+
+
+	//デプスシャドウ確認用の床作成
+	//消すこと
+	m_depthTest = NewGO<Floor>(0);
+	Vector3 depthPos = { 0.0f,200.0f,0.0f };
+	m_depthTest->SetPosition(depthPos);
 	
 	return true;
 }

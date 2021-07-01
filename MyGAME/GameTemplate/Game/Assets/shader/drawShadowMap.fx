@@ -38,7 +38,7 @@ sampler g_sampler : register(s0);				// サンプラステート。
 /// <summary>
 SPSIn VSMain(SVSIn vsIn)
 {
-	//step-8 シャドウマップ描画用の頂点シェーダーを実装。
+	//シャドウマップ描画用の頂点シェーダーを実装。
 	SPSIn psIn;
 	psIn.pos = mul(mWorld, vsIn.pos);
 	psIn.pos = mul(mView, psIn.pos);
@@ -53,7 +53,10 @@ SPSIn VSMain(SVSIn vsIn)
 /// </summary>
 float4 PSMain( SPSIn psIn ) : SV_Target0
 {
-	//step-9 シャドウマップ描画用のピクセルシェーダーを実装。
-	return float4( 0.5f, 0.5f, 0.5f, 1.0f);
-	//return float4(psIn.pos.z, psIn.pos.z, psIn.pos.z, 1.0f);
+	//シャドウマップ描画用のピクセルシェーダーを実装。
+	//return float4( 0.5f, 0.5f, 0.5f, 1.0f);
+	
+
+	//デプスシャドウ描画用
+	return float4(psIn.pos.z, psIn.pos.z, psIn.pos.z, 1.0f);
 }

@@ -138,7 +138,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 
 		//カメラの移動
-		/*if (g_pad[0]->IsPress(enButtonLeft)) {
+		if (g_pad[0]->IsPress(enButtonLeft)) {
 			Vector3 a = g_camera3D->GetPosition();
 			a.y -= 20.0f;
 			g_camera3D->SetPosition(a);			
@@ -151,19 +151,19 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		if (g_pad[0]->IsPress(enButtonUp)) {
 			Vector3 a = g_camera3D->GetPosition();
 			Vector3 b = g_camera3D->GetTarget();
-			a.z -= 20.0f;
+			a.x -= 20.0f;
 			b.z -= 20.0f;
 			g_camera3D->SetPosition(a);
-			g_camera3D->SetTarget(b);
+			//g_camera3D->SetTarget(b);
 		}
 		if (g_pad[0]->IsPress(enButtonDown)) {
 			Vector3 a = g_camera3D->GetPosition();
-			a.z += 20.0f;
+			a.x += 20.0f;
 			Vector3 b = g_camera3D->GetTarget();
 			b.z += 20.0f;
 			g_camera3D->SetPosition(a);
-			g_camera3D->SetTarget(b);
-		}*/
+			//g_camera3D->SetTarget(b);
+		}
 
 		//スピンロックを行う。
 		int restTime = 0;
