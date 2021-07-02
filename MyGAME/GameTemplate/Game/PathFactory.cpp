@@ -8,8 +8,7 @@ namespace
 
 PathFactory::PathFactory()
 {
-	LANEPATH[0] = "Assets/level/WayPoint_new.tkl";
-	LANEPATH[1] = "Assets/level/debuffwaypoint.tkl";
+	LANEPATH[0] = "Assets/level/dishWayPoint.tkl";
 
 
 	for (int i = 0; i < enLaneNum; i++)

@@ -45,11 +45,12 @@ bool Player::Start()
 
 	if (m_playerNo == PLAYER_NUMBER_ONE) {
 		//’Êí•`‰æ—p
-		m_skinModelRender->Init(
+		m_skinModelRender->InitForRecieveShadow(
 			"Assets/modelData/Chef/ChefRed/Chef01.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
 			enModelUpAxisZ,
-			m_position
+			m_position,
+			nullptr
 		);
 		//‰e•`‰æ—p
 		m_skinModelRender->InitForCastShadow(
@@ -64,11 +65,12 @@ bool Player::Start()
 	}
 	else {
 		//’Êí•`‰æ—p
-		m_skinModelRender->Init(
+		m_skinModelRender->InitForRecieveShadow(
 			"Assets/modelData/Chef/ChefBlue/Chef02.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
 			enModelUpAxisZ,
-			m_position
+			m_position,
+			nullptr
 		);
 		//‰e•`‰æ—p
 		m_skinModelRender->InitForCastShadow(
@@ -228,7 +230,7 @@ void Player::Update()
 
 	RestrictMove();
 
-	RestrictPos();
+	//RestrictPos();
 
 	PopWalkingEffect();
 

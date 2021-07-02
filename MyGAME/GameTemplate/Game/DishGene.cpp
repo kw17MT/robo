@@ -28,7 +28,7 @@ bool DishGene::Start()
 	//WayPointと名前の付いたオブジェクトを探す。
 	const wchar_t* wayPoint = L"WayPoint";
 	std::vector<DishData> dishData;
-	level.Init("Assets/level/WayPoint_new.tkl", [&](ObjectData& objectData) {
+	level.Init("Assets/level/dishWayPoint.tkl", [&](ObjectData& objectData) {
 		//WayPointを含む名前のオブジェクトで、
 		if (wcsncmp(objectData.name, wayPoint, NAME_SIZE_WAYPOINT) == 0) {
 			int dishNumber = 0;

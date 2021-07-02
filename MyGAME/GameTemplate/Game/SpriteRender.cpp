@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "SpriteRender.h"
-#include "FixedUI.h"
 
 void SpriteRender::Init(const char* name, int width, int height)
 {

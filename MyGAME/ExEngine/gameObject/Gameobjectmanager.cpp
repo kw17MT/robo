@@ -36,7 +36,7 @@ GameObjectManager::GameObjectManager()
 	copyToBufferSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
 	copyToBufferSpriteData.m_width = 1280;
 	copyToBufferSpriteData.m_height = 720;
-	copyToBufferSpriteData.m_fxFilePath = "Assets/shader/sample2D.fx";
+	copyToBufferSpriteData.m_fxFilePath = "Assets/shader/spriteHalfAlpha.fx";
 
 	copyToBufferSprite.Init(copyToBufferSpriteData);
 
@@ -68,7 +68,7 @@ GameObjectManager::GameObjectManager()
 	finalSpriteData.m_width = 1280;
 	finalSpriteData.m_height = 720;
 
-	finalSpriteData.m_fxFilePath = "Assets/shader/sample2D.fx";
+	finalSpriteData.m_fxFilePath = "Assets/shader/spriteHalfAlpha.fx";
 	finalSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
 	finalSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
@@ -86,10 +86,10 @@ GameObjectManager::GameObjectManager()
 		clearColor
 	);
 	//ライトカメラの作成
-	lightCamera.SetPosition(1000.0f, 1000.0f, 300.0f);
+	lightCamera.SetPosition(0.0f, 1000.0f, -500.0f);
 	lightCamera.SetTarget(0.0f, 0.0f, 0.0f);
 	lightCamera.SetUp({ 0, 0, -1});							//カメラの上をX座標にしておく
-	lightCamera.SetViewAngle(Math::DegToRad(90.0f));
+	lightCamera.SetViewAngle(Math::DegToRad(120.0f));
 
 	//平行投影にする場合
 	/*

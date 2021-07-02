@@ -63,7 +63,7 @@ bool GuzaiOkiba::Start()
 	//不変箇所を定義
 	const wchar_t* StockRight = L"StockRight";
 	const wchar_t* StockLeft = L"StockLeft";
-	level.Init("Assets/level/level_new4.tkl", [&](ObjectData& objectData) {
+	level.Init("Assets/level/level.tkl", [&](ObjectData& objectData) {
 		//オブジェクトの名前を比較して、StockRightが一致した時
 		if (wcsncmp(objectData.name, StockRight, NAME_SIZE_STOCKRIGHT) == 0) {
 			//レベル上のオブジェクトの番号を取得
@@ -78,7 +78,7 @@ bool GuzaiOkiba::Start()
 				//具材置き場のナンバリングが1~4の時、具材置き場のインスタンスを作成
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT] = NewGO<SkinModelRender>(0);
 				//通常描画用のモデル初期化
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
+				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitForRecieveShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
 				//シャドウキャスト用の初期化
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
 				//位置をレベル上と同じにする
@@ -104,7 +104,7 @@ bool GuzaiOkiba::Start()
 			case GUZAIOKIBA_NUMBER_THREE:
 			case GUZAIOKIBA_NUMBER_FOUR:
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = NewGO<SkinModelRender>(0);
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->Init("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
+				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitForRecieveShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
 				m_guzaiOkibaPos[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = objectData.Pos;
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->SetScale(m_guzaiOkibaScale);

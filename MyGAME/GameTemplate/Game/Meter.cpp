@@ -16,8 +16,7 @@ bool Meter::Start()
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//通常描画モデルの初期化
 	m_skinModelRender->Init("Assets/modelData/gauge/gauge_red.tkm", nullptr, enModelUpAxisY, m_position, &m_lig);
-	//シャドウキャスト用の初期化
-	m_skinModelRender->InitShader("Assets/shader/model.fx", "VSMain", "VSSkinMain", DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_skinModelRender->InitForCastShadow("Assets/modelData/gauge/gauge_red.tkm", nullptr, enModelUpAxisY, m_position, nullptr);
 	//モデルの向きを調節
 	m_skinModelRender->SetRotation(m_rot);
 

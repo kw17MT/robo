@@ -7,7 +7,7 @@ bool Conveyor::Start()
 	//コンベアのインスタンス作成
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//シャドウレシーバ―として初期化
-	m_skinModelRender->InitForRecieveShadow("Assets/modelData/Conveyor.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
+	m_skinModelRender->InitForRecieveShadow("Assets/modelData/conveyor/Conveyor.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
 
 	return true;
 }

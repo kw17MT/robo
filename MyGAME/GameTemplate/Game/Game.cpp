@@ -94,7 +94,6 @@ Game::~Game()
 	DeleteGO(ui);
 	DeleteGO(playerGene);
 	DeleteGO(dishGene);
-	//DeleteGO(guzaiGene);
 	DeleteGO(guzaiOkiba);
 	DeleteGO(m_score);
 	DeleteGO(m_bgm);
@@ -127,7 +126,7 @@ bool Game::Start()
 	//皿の生成器を作成
 	dishGene = NewGO<DishGene>(0, "dishGene");
 	//レベルを利用したオブジェクトの配置
-	m_level->Init("Assets/level/level_new4.tkl", [&](ObjectData& objectData) {
+	m_level->Init("Assets/level/level.tkl", [&](ObjectData& objectData) {
 		//カウンターのオブジェクト（左）を出す
 		if (wcscmp(objectData.name, L"CounterPos01") == SAME_NAME) {
 			counter00 = NewGO<Counter>(0, "counter00");

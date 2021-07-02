@@ -61,15 +61,6 @@ public:
 	Vector3 GetScale() { return m_scale; }
 
 	/**
-	 * @brief モデルの初期化を行う
-	 * @param modelFilePath モデルのファイルパス　Assets/～
-	 * @param UpAxis どの軸を上にするか
-	 * @param pos モデルを出現させる最初の位置
-	*/
-	void Init(const char* modelFilePath, EnModelUpAxis UpAxis, Vector3 pos);
-	//モデルのファイルパスと初期位置を設定する。
-
-	/**
 	 * @brief モデルの初期化を行う。ライトを独自のものにしたいときはこっちをつかう
 	 * @param filePath モデルのファイルパス
 	 * @param skeletonPath スケルトンのファイルパス

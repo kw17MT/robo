@@ -46,7 +46,7 @@ bool TrashCan::Start()
 	//ƒSƒ~” ƒ‚ƒfƒ‹‚Ìİ’è
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//’Êí•`‰æ—pƒ‚ƒfƒ‹‚Ì‰Šú‰»
-	m_skinModelRender->Init("Assets/modelData/trashcan/trashcan.tkm", nullptr, enModelUpAxisZ, m_position);
+	m_skinModelRender->InitForRecieveShadow("Assets/modelData/trashcan/trashcan.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
 	//‰e¶¬—p‚Ì‰Šú‰»
 	m_skinModelRender->InitForCastShadow("Assets/modelData/trashcan/trashcan.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
 	//Šg‘å—¦‚ğ’²®
