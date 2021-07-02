@@ -100,6 +100,11 @@ public:
 	void InitForRecieveShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* lig);
 
 	/**
+	 * @brief 床専用シャドウレシーバ―としての初期化
+	*/
+	void InitAsFloor(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
+
+	/**
 	 * @brief モデルのファイルパスを変えたいときに使用
 	 * @param newModelFilePath 新しいファイルパス
 	*/

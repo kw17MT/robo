@@ -52,7 +52,8 @@ bool Dish::Start()
 
 	//M‚Ìƒ‚ƒfƒ‹‰Šú‰»
 	m_skinModelRender = NewGO<SkinModelRender>(0,"dish");
-	m_skinModelRender->Init("Assets/modelData/object/dish.tkm", nullptr, enModelUpAxisZ, m_position, &m_lig);
+	//m_skinModelRender->Init("Assets/modelData/object/dish.tkm", nullptr, enModelUpAxisZ, m_position, &m_lig);
+	m_skinModelRender->InitForRecieveShadow("Assets/modelData/object/dish.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
 	m_skinModelRender->SetScale(m_scale);
 	m_skinModelRender->InitForCastShadow("Assets/modelData/object/dish.tkm", nullptr, enModelUpAxisZ, m_position, &m_lig);
 	m_playerGene = FindGO<PlayerGene>("playerGene");

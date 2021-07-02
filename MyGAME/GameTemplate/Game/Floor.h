@@ -42,7 +42,7 @@ public:
 	*/
 	void SetRed(bool red) { isRed = red; }
 
-	void SetShadowParam(Texture tex, Camera lightCamera);
+	void SetScale(Vector3 scale) { m_scale = scale; }
 
 private:
 	SkinModelRender* m_skinModelRender = nullptr;

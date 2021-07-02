@@ -20,10 +20,10 @@ bool Floor::Start()
 	//ƒ‚ƒfƒ‹‚Ì‰Šú‰»
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	if (isRed) {
-		m_skinModelRender->InitForRecieveShadow("Assets/modelData/floor/floor_red.tkm", nullptr, enModelUpAxisZ, m_position, nullptr/*&m_lig*/);
+		m_skinModelRender->InitAsFloor("Assets/modelData/floor/floor_red.tkm", nullptr, enModelUpAxisZ, m_position);
 	}
 	else {
-		m_skinModelRender->InitForRecieveShadow("Assets/modelData/floor/floor_blue.tkm", nullptr, enModelUpAxisZ, m_position, nullptr/*&m_lig*/);
+		m_skinModelRender->InitAsFloor("Assets/modelData/floor/floor_blue.tkm", nullptr, enModelUpAxisZ, m_position);
 	}
 
 	return true;
@@ -32,5 +32,5 @@ bool Floor::Start()
 void Floor::Update()
 {
 	m_skinModelRender->SetPosition(m_position);
-	//m_skinModelRender->SetScale({ 3.0f,3.0f,3.0f });
+	m_skinModelRender->SetScale(m_scale);
 }

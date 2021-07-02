@@ -238,8 +238,10 @@ bool Game::Start()
 	//デプスシャドウ確認用の床作成
 	//消すこと
 	m_depthTest = NewGO<Floor>(0);
-	Vector3 depthPos = { 0.0f,200.0f,0.0f };
+	Vector3 depthPos = { -700.0f,200.0f,-500.0f };
 	m_depthTest->SetPosition(depthPos);
+	Vector3 depthScale = { 0.2f,1.0f,0.1f };
+	m_depthTest->SetScale(depthScale);
 	
 	return true;
 }

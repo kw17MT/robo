@@ -87,7 +87,7 @@ void SkinModelRender::InitForCastShadow(const char* modelFilePath, const char* s
 	//初期化終わり//
 
 	//キャラコンの初期化
-	m_charaCon.Init(0.0f, 0.0f, pos);
+	//m_charaCon.Init(0.0f, 0.0f, pos);
 
 	m_isCastShadow = true;
 }
@@ -98,8 +98,7 @@ void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char
 
 	m_modelInitData.m_fxFilePath = "Assets/shader/shadowReciever.fx";
 
-	//m_modelInitData.m_vsEntryPointFunc = "VSMain";
-	//m_modelInitData.m_vsSkinEntryPointFunc = "VSMain";
+
 	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
 
@@ -125,6 +124,31 @@ void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char
 
 	//キャラコンの初期化
 	m_charaCon.Init(0.0f, 0.0f, pos);
+}
+
+void SkinModelRender::InitAsFloor(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)
+{
+	m_modelInitData.m_tkmFilePath = modelFilePath;
+
+	m_modelInitData.m_fxFilePath = "Assets/shader/shadowRecieverForFloor.fx";
+
+
+	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+
+
+	m_modelInitData.m_modelUpAxis = UpAxis;
+
+	m_modelInitData.m_expandShaderResoruceView = &m_shadowMap.GetRenderTargetTexture();//&GameObjectManager::GetInstance()->GetShadowMap()->GetRenderTargetTexture();
+	m_modelInitData.m_expandConstantBuffer = (void*)&m_lightCamera.GetViewProjectionMatrix();//&GameObjectManager::GetInstance()->GetLightCamera()->GetProjectionMatrix();
+	m_modelInitData.m_expandConstantBufferSize = sizeof(m_lightCamera.GetViewProjectionMatrix()/*GameObjectManager::GetInstance()->GetLightCamera()->GetProjectionMatrix()*/);
+
+
+	if (skeletonPath != nullptr) {
+		m_skeleton.Init(skeletonPath);
+		m_modelInitData.m_skeleton = &m_skeleton;
+	}
+
+	m_model.Init(m_modelInitData);
 }
 
 void SkinModelRender::ChangeModel(const char* newModelFilePath)
