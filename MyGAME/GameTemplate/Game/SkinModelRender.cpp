@@ -39,7 +39,7 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 	m_model.Init(m_modelInitData);
 
 	//キャラコンの初期化
-	m_charaCon.Init(0.0f, 0.0f, pos);
+	//m_charaCon.Init(0.0f, 0.0f, pos);
 }
 
 //影を出すための初期化
@@ -97,7 +97,7 @@ void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char
 	/****************************************************/
 	/*	投影シャドウを適用								*/
 	/****************************************************/
-	//m_modelInitData.m_fxFilePath = "Assets/shader/shadowprojectionShadowReciever.fx";
+	//m_modelInitData.m_fxFilePath = "Assets/shader/shadow/projectionShadowReciever.fx";
 
 	/****************************************************/
 	/*	デプスシャドウを適用							*/
@@ -129,7 +129,7 @@ void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char
 	//初期化終わり//
 
 	//キャラコンの初期化
-	m_charaCon.Init(0.0f, 0.0f, pos);
+	//m_charaCon.Init(0.0f, 0.0f, pos);
 }
 
 void SkinModelRender::InitAsFloor(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)

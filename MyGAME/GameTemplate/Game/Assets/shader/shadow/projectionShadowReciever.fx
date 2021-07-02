@@ -64,9 +64,9 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 {
 	//以下から投影シャドウマップの作成。/////////////////////////////////////////////////////////////////////
 	float4 color = g_albedo.Sample(g_sampler, psIn.uv);
-	color.x *= 4.5f;
-	color.y *= 4.5f;
-	color.z *= 4.5f;
+	color.x *= 1.2f;
+	color.y *= 1.2f;
+	color.z *= 1.2f;
 
 	//ライトビュースクリーン空間からUV空間に座標変換。
 	float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;

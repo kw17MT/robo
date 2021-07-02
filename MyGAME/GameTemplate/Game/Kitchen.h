@@ -19,6 +19,8 @@ private:
 	int m_delay = 60;											//具材を消す時遅延を起こす用の変数
 	const int m_maxStack = 5;									//キッチンにおける最大数
 
+	float m_distance = 0.0f;
+
 	bool m_soundFlag = false;								//音が出ているか？
 	bool m_canGrab = true;									//現在つかめるか（フレームのずれを起こす用）
 	bool m_isPlayerCookingOnKitchen = false;							//具材を消すことが決まっているかどうか
@@ -118,6 +120,7 @@ public:
 	*/
 	bool GetIsPlayerCookingOnKitchen() { return m_isPlayerCookingOnKitchen; }
 
+	void TakePlayerLastestGuzai();
 
 private:
 	Player* m_player = nullptr;

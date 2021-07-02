@@ -22,6 +22,10 @@ struct ModelInitData {
 	const char* m_fxFilePath = nullptr;								//.fxファイルのファイルパス。
 	void* m_expandConstantBuffer = nullptr;							//ユーザー拡張の定数バッファ。
 	int m_expandConstantBufferSize = 0;								//ユーザー拡張の定数バッファのサイズ。
+	/*追加部分*********************************/
+	void* m_expandConstantBufferForLight = nullptr;					//ライト用の拡張バッファ。
+	int m_expandConstantBufferForLightSize = 0;						//ライト用の拡張バッファサイズ。
+	/******************************************/
 	IShaderResource* m_expandShaderResoruceView = nullptr;			//ユーザー拡張のシェーダーリソース。
 	Skeleton* m_skeleton = nullptr;									//スケルトン。
 	EnModelUpAxis m_modelUpAxis = enModelUpAxisZ;					//モデルの上方向。

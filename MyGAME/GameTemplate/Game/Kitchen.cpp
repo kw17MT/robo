@@ -215,26 +215,11 @@ void Kitchen::ClearNo()
 	}
 }
 
-void Kitchen::Update()
+void Kitchen::TakePlayerLastestGuzai()
 {
-	if (m_player == nullptr) {
-		//string型に変えてcharに変換するための準備をする。
-		std::string endNo_string = std::to_string(m_kitchenNo);
-		//不変箇所を定義
-		char playerName[PLAYER_NAME_SIZE] = "player0";
-		//末端番号だけを追加する
-		strcat_s(playerName, endNo_string.c_str());
-
-		//必要なデータの探索と確保
-		m_player = FindGO<Player>(playerName);
-	}
-	
-	Vector3 predistance = m_player->GetPosition() - m_position;
-	float distance = predistance.Length();
-
 	//取る処理
 	//1層以上積まれていたらとれるようにする。
-	if (m_stack >= 1 && distance <= DISTANCE_BETWEEN_PLAYER_TO_KITCHEN) {
+	if (m_stack >= 1 && m_distance <= DISTANCE_BETWEEN_PLAYER_TO_KITCHEN) {
 		if (g_pad[m_kitchenNo]->IsTrigger(enButtonA) && /*m_kitchenNo == 1 &&*/ m_canGrab == true && m_player->GetPlayerState() <= NOTHING) {
 			//この具材は一回キッチンから帰ってきたか
 			m_stackedGuzai[m_stack - 1]->SetReturnedState(true);
@@ -252,12 +237,35 @@ void Kitchen::Update()
 			m_player->SetPlayerState(HAVE_GUZAI);
 		}
 	}
-	
+
 	//キッチンに5個以上具材があると"コンベアからは"取れないようにする。
 	if (m_stack >= m_maxStack) {
 		m_player->SetPlayerState(FULL_KITCHEN);
 	}
+}
 
+void Kitchen::Update()
+{
+	if (m_player == nullptr) {
+		//string型に変えてcharに変換するための準備をする。
+		std::string endNo_string = std::to_string(m_kitchenNo);
+		//不変箇所を定義
+		char playerName[PLAYER_NAME_SIZE] = "player0";
+		//末端番号だけを追加する
+		strcat_s(playerName, endNo_string.c_str());
+
+		//必要なデータの探索と確保
+		m_player = FindGO<Player>(playerName);
+	}
+	
+	//毎フレームプレイヤーとキッチンの距離を測る
+	Vector3 preDistance = m_player->GetPosition() - m_position;
+	m_distance = preDistance.Length();
+
+	//キッチンに1個以上具材が乗っていてプレイヤーが側でAボタンを押したら一番上の具材を渡す。
+	TakePlayerLastestGuzai();
+
+	//キッチンでプレイヤーがハンバーガーを作る処理
 	BornBurger();
 
 	m_skinModelRender->SetPosition(m_position);

@@ -99,12 +99,7 @@ GameObjectManager::GameObjectManager()
 	*/
 	lightCamera.Update();
 
-	spData.m_textures[0] = &shadowMap.GetRenderTargetTexture();
-	spData.m_fxFilePath = "Assets/shader/sprite.fx";
-	spData.m_width = 1280;
-	spData.m_height =720 ;
 
-	sp.Init(spData);
 }
 GameObjectManager::~GameObjectManager()
 {
@@ -237,7 +232,5 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 			go->RenderWrapper(rc);
 		}
 	}
-
-	//sp.Draw(rc);
 	//////////////////////////////////////////////////////////////////
 }
