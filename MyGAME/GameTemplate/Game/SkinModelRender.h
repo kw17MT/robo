@@ -25,7 +25,11 @@ private:
 	}a;
 
 	bool m_isCastShadow = false;
+	bool isBurger = false;
 public:
+
+	void SetBurger(bool state) { isBurger = state; }
+
 	SkinModelRender() {};
 	//インスタンスを破棄
 	~SkinModelRender();
@@ -74,7 +78,7 @@ public:
 	 * @param pos モデルを出現させる最初の位置
 	 * @param pLig 設定した独自のライト
 	*/
-	void Init(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* pLig = nullptr);
+	void Init(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* pLig);
 	//モデルのファイルパスのみを変更するときに使用する。
 
 	/**
@@ -167,6 +171,11 @@ public:
 		if (GameObjectManager::GetInstance()->GetRenderTypes() == 1) {
 			m_shadow.Draw(rc, GameObjectManager::GetInstance()->GetLightCamera());
 			return;
+		}
+		if (GameObjectManager::GetInstance()->GetRenderTypes() == 2) {
+			if (isBurger) {
+				m_model.Draw(rc);
+			}
 		}
 	}
 

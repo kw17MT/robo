@@ -63,20 +63,22 @@ void  FontRender::AddFontScale(float scale)
 
 void FontRender::Render(RenderContext& rc)
 {
-	m_font.Begin(rc);
-	const wchar_t* text = nullptr;
+	if (GameObjectManager::GetInstance()->GetRenderTypes() == 0) {
+		m_font.Begin(rc);
+		const wchar_t* text = nullptr;
 
-	if (m_text.c_str() != nullptr) {
-		text = m_text.c_str();
+		if (m_text.c_str() != nullptr) {
+			text = m_text.c_str();
+		}
+
+		m_font.Draw(
+			text,
+			m_position,
+			m_color,
+			m_rotation,
+			m_scale,
+			m_pivot);
+
+		m_font.End(rc);
 	}
-
-	m_font.Draw(
-		text,
-		m_position,
-		m_color,
-		m_rotation,
-		m_scale,
-		m_pivot);
-
-	m_font.End(rc);
 }

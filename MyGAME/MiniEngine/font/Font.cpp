@@ -22,7 +22,7 @@ void Font::Draw(
 	float rotation,
 	float scale,
 	Vector2 pivot)
-{		
+{
 	if (text == nullptr) {
 		return;
 	}
@@ -62,11 +62,12 @@ void Font::Draw(
 				rotation,
 				scale,
 				pivot
-				
+
 			);
 		}
 
 	}
+
 	fontEngine.Draw(
 		text,
 		pos,

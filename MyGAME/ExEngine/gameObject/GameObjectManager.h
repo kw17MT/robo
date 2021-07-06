@@ -150,7 +150,7 @@ private:
 	static GameObjectManager* m_instance;		//唯一のインスタンスのアドレスを記録する変数。
 
 	//TODO 変数名およびマジックナンバーを直す
-	//0 普通　1 影
+	//0 普通　1 影 2 輝度
 	int m_renderTypes = 0;
 
 	RootSignature rootSignature;

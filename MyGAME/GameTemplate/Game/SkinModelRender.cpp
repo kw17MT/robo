@@ -7,7 +7,7 @@ SkinModelRender::~SkinModelRender()
 }
 
 //モデルを通常描画するための初期化
-void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* pLig)
+void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* pLig = nullptr)
 {
 	//モデルのファイルパス設定
 	m_modelInitData.m_tkmFilePath = modelFilePath;
@@ -21,8 +21,8 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 	//どの軸を上にするか
 	m_modelInitData.m_modelUpAxis = UpAxis;
 	//もし、任意のライトがあるならば
-	if (pLig) {
-		m_modelInitData.m_expandConstantBuffer = pLig;
+	if (pLig != nullptr) {
+		m_modelInitData.m_expandConstantBuffer = &pLig;
 		m_modelInitData.m_expandConstantBufferSize = sizeof(pLig);
 	}
 	//なかったら共通のやつを使う
@@ -30,6 +30,7 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 		m_modelInitData.m_expandConstantBuffer = &g_lig;
 		m_modelInitData.m_expandConstantBufferSize = sizeof(g_lig);
 	}
+
 	//モデルのスケルトンがあるなら
 	if (skeletonPath != nullptr) {
 		m_skeleton.Init(skeletonPath);

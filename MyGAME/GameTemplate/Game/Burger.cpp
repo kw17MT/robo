@@ -35,7 +35,7 @@ bool Burger::Start()
 	//モデルの初期化
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//通常描画用モデルの初期化
-	m_skinModelRender->Init("Assets/modelData/food/Burger.tkm", nullptr, enModelUpAxisZ, m_position);
+	m_skinModelRender->Init("Assets/modelData/food/Burger.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
 	//シャドウキャスター用の初期化
 	m_skinModelRender->InitForCastShadow("Assets/modelData/food/Burger.tkm", nullptr, enModelUpAxisZ, m_position);
 	//モデルの拡大
@@ -72,6 +72,8 @@ bool Burger::Start()
 	m_effect->Play();
 	m_effect->SetScale(EFFECT_SCALE);
 	m_effect->SetPosition(m_position);
+
+	m_skinModelRender->SetBurger(true);
 
 	return true;
 }

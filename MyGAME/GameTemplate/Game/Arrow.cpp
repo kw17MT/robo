@@ -19,7 +19,7 @@ bool Arrow::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//通常モデルの初期化
-	m_skinModelRender->Init("Assets/modelData/Arrow/Arrow_Yellow.tkm", nullptr, enModelUpAxisZ, m_position);
+	m_skinModelRender->Init("Assets/modelData/Arrow/Arrow_Yellow.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
 	//シャドウキャスト用の初期化
 	m_skinModelRender->InitForCastShadow("Assets/modelData/Arrow/Arrow_Yellow.tkm", nullptr, enModelUpAxisZ, m_position);
 	return true;

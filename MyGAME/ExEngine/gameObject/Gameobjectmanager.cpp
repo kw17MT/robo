@@ -138,6 +138,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	//　レンダリングターゲットはメンバ変数にある
 	//　コンストラクタで初期化。				→フォーマットの違いでERRORがでるかもしれない。それぞれのクラスで同じフォーマットで初期化する。
 	
+	/*シャドウマップ作成************************************************************************/
 	//シャドウマップのレンダリングターゲットに設定する。
 	rc.WaitUntilToPossibleSetRenderTarget(shadowMap);
 	rc.SetRenderTargetAndViewport(shadowMap);
@@ -148,31 +149,34 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 			go->RenderWrapper(rc);
 		}
 	}
-
 	rc.WaitUntilFinishDrawingToRenderTarget(shadowMap);
+	/********************************************************************************************/
 
-	
-	//rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
-	//rc.SetRenderTargetAndViewport(mainRenderTarget);
-	//rc.ClearRenderTargetView(mainRenderTarget);
 
-	//for (auto& goList : m_gameObjectListArray) {
-	//	for (auto& go : goList) {
-	//		go->RenderWrapper(rc);
-	//	}
-	//}
+	/*通常マップ作成*****************************************************************************/
+	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
+	rc.SetRenderTargetAndViewport(mainRenderTarget);
+	rc.ClearRenderTargetView(mainRenderTarget);
+	m_renderTypes = 0;
+	for (auto& goList : m_gameObjectListArray) {
+		for (auto& go : goList) {
+			go->RenderWrapper(rc);
+		}
+	}
 
-	////モデルが全部ドローできるまで待つ。
-	//rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
+	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
+	/********************************************************************************************/
 
-	/*
-	////ブルーム用のメンバとかつくってもいいかも
-
-	////輝度用の画像を出力する
+	/*輝度マップ作成*****************************************************************************/
 	rc.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
 	rc.SetRenderTargetAndViewport(luminanceRenderTarget);
 	rc.ClearRenderTargetView(luminanceRenderTarget);
-	luminanceSprite.Draw(rc);
+	m_renderTypes = 2;
+	for (auto& goList : m_gameObjectListArray) {
+		for (auto& go : goList) {
+			go->RenderWrapper(rc);
+		}
+	}
 	rc.WaitUntilFinishDrawingToRenderTarget(luminanceRenderTarget);
 
 	//ガウシアンブラーをかける。
@@ -182,7 +186,14 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.SetRenderTargetAndViewport(mainRenderTarget);
 	finalSprite.Draw(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
-	*/
+	/********************************************************************************************/
+	
+	/*現在のレンダーターゲットをフレームバッファにコピー*****************************************/
+	rc.SetRenderTarget(
+		g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
+		g_graphicsEngine->GetCurrentFrameBuffuerDSV()
+	);
+	/*輝度マップ作成*****************************************************************************/
 
 	////ガウシアンブラーをかける。
 	//gaussianBlur.ExecuteOnGPU(rc, 60);
@@ -218,19 +229,18 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	copyToBufferSprite.Draw(rc);*/
 
 	//正常に戻す/////////////////////////////////////////////////////
-	rc.SetRenderTarget(
-		g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
-		g_graphicsEngine->GetCurrentFrameBuffuerDSV()
-	);
+	
 	m_renderTypes = 0;
 	rc.SetViewport(g_graphicsEngine->GetFrameBufferViewport());
 	rc.SetViewportAndScissor(g_graphicsEngine->GetFrameBufferViewport());
+	
+	copyToBufferSprite.Draw(rc);
 
-	//モデルのドロー
-	for (auto& goList : m_gameObjectListArray) {
-		for (auto& go : goList) {
-			go->RenderWrapper(rc);
-		}
-	}
+	////モデルのドロー
+	//for (auto& goList : m_gameObjectListArray) {
+	//	for (auto& go : goList) {
+	//		go->RenderWrapper(rc);
+	//	}
+	//}
 	//////////////////////////////////////////////////////////////////
 }

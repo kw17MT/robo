@@ -29,6 +29,9 @@
 #include <random>
 #include "Conveyor.h"
 
+//消すこと
+#include "Burger.h"
+
 namespace
 {
 	const Vector2 COUNTDOWN_PIVOT = { 0.5f,0.5f };
@@ -235,12 +238,17 @@ bool Game::Start()
 
 
 	//デプスシャドウ確認用の床作成
-	//消すこと
+	//消すこと　DeleteGO書いてない
 	m_depthTest = NewGO<Floor>(0);
 	Vector3 depthPos = { -700.0f,200.0f,-500.0f };
 	m_depthTest->SetPosition(depthPos);
 	Vector3 depthScale = { 0.2f,1.0f,0.1f };
 	m_depthTest->SetScale(depthScale);
+
+	//輝度確認用のハンバーガーも消して
+	//Updateにあり
+	//DeleteGO書いてない　ヘッダ消すこと
+
 	
 	return true;
 }
@@ -348,5 +356,13 @@ void Game::Update()
 			NewGO<Title>(0, "title");
 			DeleteGO(this);
 		}
+	}
+
+
+
+
+	//消すこと
+	if (g_pad[0]->IsTrigger(enButtonX)) {
+		NewGO<Burger>(0);
 	}
 }
