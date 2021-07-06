@@ -73,7 +73,7 @@ bool Burger::Start()
 	m_effect->SetScale(EFFECT_SCALE);
 	m_effect->SetPosition(m_position);
 
-	m_skinModelRender->SetBurger(true);
+	m_skinModelRender->SetApplyBlur(true);
 
 	return true;
 }

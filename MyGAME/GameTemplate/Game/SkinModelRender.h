@@ -25,10 +25,10 @@ private:
 	}a;
 
 	bool m_isCastShadow = false;
-	bool isBurger = false;
+	bool m_isApplyBlur = false;
 public:
 
-	void SetBurger(bool state) { isBurger = state; }
+	void SetApplyBlur(bool state) { m_isApplyBlur = state; }
 
 	SkinModelRender() {};
 	//インスタンスを破棄
@@ -173,7 +173,7 @@ public:
 			return;
 		}
 		if (GameObjectManager::GetInstance()->GetRenderTypes() == 2) {
-			if (isBurger) {
+			if (m_isApplyBlur) {
 				m_model.Draw(rc);
 			}
 		}

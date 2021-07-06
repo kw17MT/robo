@@ -17,7 +17,7 @@ struct DirectionalLight {
 	float3 color;
 };
 
-//ライトビュープロジェクション行列にアクセする定数バッファを定義。
+//ライトビュープロジェクション行列にアクセスする定数バッファを定義。
 cbuffer ShadowCb : register(b1) {
 	float4x4 mLVP;
 

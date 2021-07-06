@@ -153,19 +153,22 @@ private:
 	//0 普通　1 影 2 輝度
 	int m_renderTypes = 0;
 
-	RootSignature rootSignature;
+
 	//メインレンダーターゲット
 	RenderTarget mainRenderTarget;
+
 	//フレームバッファにコピーしてきた画像の貼り付け
 	SpriteInitData copyToBufferSpriteData;
 	Sprite copyToBufferSprite;
-	//輝度画像用のメンバ
+
+	//輝度画像用
 	RenderTarget luminanceRenderTarget;
 	SpriteInitData luminanceSpriteData;
 	Sprite luminanceSprite;
+
 	//ガウシアンブラー
-	GaussianBlur gaussianBlur;
-	//GaussianBlur gaussianBlur[4];
+	GaussianBlur gaussianBlur[4];
+
 	//輝度を合算した画像。
 	SpriteInitData finalSpriteData;
 	Sprite finalSprite;
@@ -175,10 +178,6 @@ private:
 	RenderTarget shadowMap;
 	//ライト座標から見た影を作るためのもの
 	Camera lightCamera;
-
-
-	SpriteInitData spData;
-	Sprite sp;
 };
 
 

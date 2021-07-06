@@ -16,13 +16,6 @@ GameObjectManager::GameObjectManager()
 	}
 	m_instance = this;
 
-	rootSignature.Init(
-		D3D12_FILTER_MIN_MAG_MIP_LINEAR,
-		D3D12_TEXTURE_ADDRESS_MODE_WRAP,
-		D3D12_TEXTURE_ADDRESS_MODE_WRAP,
-		D3D12_TEXTURE_ADDRESS_MODE_WRAP
-	);
-
 	//メインのレンダーターゲットの初期化
 	mainRenderTarget.Create(
 		1280,
@@ -33,6 +26,7 @@ GameObjectManager::GameObjectManager()
 		DXGI_FORMAT_D32_FLOAT
 	);
 
+	//フレームバッファに運ぶ用の画像データ
 	copyToBufferSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
 	copyToBufferSpriteData.m_width = 1280;
 	copyToBufferSpriteData.m_height = 720;
@@ -61,10 +55,17 @@ GameObjectManager::GameObjectManager()
 
 	luminanceSprite.Init(luminanceSpriteData);
 
-	gaussianBlur.Init(&luminanceRenderTarget.GetRenderTargetTexture());
+	//ガウシアンブラーの初期化
+	gaussianBlur[0].Init(&luminanceRenderTarget.GetRenderTargetTexture());
+	gaussianBlur[1].Init(&gaussianBlur[0].GetBokeTexture());
+	gaussianBlur[2].Init(&gaussianBlur[1].GetBokeTexture());
+	gaussianBlur[3].Init(&gaussianBlur[2].GetBokeTexture());
 
 	//最終表示用の画像の初期化
-	finalSpriteData.m_textures[0] = &gaussianBlur.GetBokeTexture();
+	finalSpriteData.m_textures[0] = &gaussianBlur[0].GetBokeTexture();
+	finalSpriteData.m_textures[1] = &gaussianBlur[1].GetBokeTexture();
+	finalSpriteData.m_textures[2] = &gaussianBlur[2].GetBokeTexture();
+	finalSpriteData.m_textures[3] = &gaussianBlur[3].GetBokeTexture();
 	finalSpriteData.m_width = 1280;
 	finalSpriteData.m_height = 720;
 
@@ -98,8 +99,6 @@ GameObjectManager::GameObjectManager()
 	lightCamera.SetHeight(720);
 	*/
 	lightCamera.Update();
-
-
 }
 GameObjectManager::~GameObjectManager()
 {
@@ -167,7 +166,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 	/********************************************************************************************/
 
-	/*輝度マップ作成*****************************************************************************/
+	/*川瀬式ガウシアンブラー*********************************************************************/
 	rc.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
 	rc.SetRenderTargetAndViewport(luminanceRenderTarget);
 	rc.ClearRenderTargetView(luminanceRenderTarget);
@@ -179,9 +178,11 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	}
 	rc.WaitUntilFinishDrawingToRenderTarget(luminanceRenderTarget);
 
-	//ガウシアンブラーをかける。
-	gaussianBlur.ExecuteOnGPU(rc, 40);
-	//最終結果となる画像をメインレンダーターゲットに設定して描く
+	gaussianBlur[0].ExecuteOnGPU(rc, 5);
+	gaussianBlur[1].ExecuteOnGPU(rc, 5);
+	gaussianBlur[2].ExecuteOnGPU(rc, 5);
+	gaussianBlur[3].ExecuteOnGPU(rc, 5);
+
 	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
 	rc.SetRenderTargetAndViewport(mainRenderTarget);
 	finalSprite.Draw(rc);
@@ -193,54 +194,11 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 		g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
 		g_graphicsEngine->GetCurrentFrameBuffuerDSV()
 	);
-	/*輝度マップ作成*****************************************************************************/
-
-	////ガウシアンブラーをかける。
-	//gaussianBlur.ExecuteOnGPU(rc, 60);
-	////最終結果となる画像をメインレンダーターゲットに設定して描く
-	//rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
-	//rc.SetRenderTargetAndViewport(mainRenderTarget);
-	//finalSprite.Draw(rc);
-	//rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
-
-	////ガウシアンブラーをかける。
-	//gaussianBlur.ExecuteOnGPU(rc, 80);
-	////最終結果となる画像をメインレンダーターゲットに設定して描く
-	//rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
-	//rc.SetRenderTargetAndViewport(mainRenderTarget);
-	//finalSprite.Draw(rc);
-	//rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
-
-	////ガウシアンブラーをかける。
-	//gaussianBlur.ExecuteOnGPU(rc, 160);
-	////最終結果となる画像をメインレンダーターゲットに設定して描く
-	//rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
-	//rc.SetRenderTargetAndViewport(mainRenderTarget);
-	//finalSprite.Draw(rc);
-	//rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
-
-	////②メインレンダリングターゲットの内容を
-	////  フレームバッファにコピー。
-	/*rc.SetRenderTarget(
-		g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
-		g_graphicsEngine->GetCurrentFrameBuffuerDSV()
-	);
-
-	copyToBufferSprite.Draw(rc);*/
-
-	//正常に戻す/////////////////////////////////////////////////////
-	
-	m_renderTypes = 0;
+	//描画するサイズを設定
 	rc.SetViewport(g_graphicsEngine->GetFrameBufferViewport());
 	rc.SetViewportAndScissor(g_graphicsEngine->GetFrameBufferViewport());
-	
-	copyToBufferSprite.Draw(rc);
+	/********************************************************************************************/
 
-	////モデルのドロー
-	//for (auto& goList : m_gameObjectListArray) {
-	//	for (auto& go : goList) {
-	//		go->RenderWrapper(rc);
-	//	}
-	//}
-	//////////////////////////////////////////////////////////////////
+	//最終結果表示
+	copyToBufferSprite.Draw(rc);
 }
