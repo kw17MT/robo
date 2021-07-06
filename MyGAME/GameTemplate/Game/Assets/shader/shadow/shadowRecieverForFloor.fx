@@ -14,6 +14,7 @@ cbuffer ShadowCb : register(b1) {
 }
 
 
+
 //頂点シェーダーへの入力。
 struct SVSIn{
 	float4 pos 			: POSITION;		//スクリーン空間でのピクセルの座標。

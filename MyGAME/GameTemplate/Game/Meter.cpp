@@ -16,7 +16,7 @@ bool Meter::Start()
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//’Êí•`‰æƒ‚ƒfƒ‹‚Ì‰Šú‰»
 	m_skinModelRender->Init("Assets/modelData/gauge/gauge_red.tkm", nullptr, enModelUpAxisY, m_position, &m_lig);
-	m_skinModelRender->InitForCastShadow("Assets/modelData/gauge/gauge_red.tkm", nullptr, enModelUpAxisY, m_position, nullptr);
+	m_skinModelRender->InitForCastShadow("Assets/modelData/gauge/gauge_red.tkm", nullptr, enModelUpAxisY, m_position);
 	//ƒ‚ƒfƒ‹‚ÌŒü‚«‚ð’²ß
 	m_skinModelRender->SetRotation(m_rot);
 

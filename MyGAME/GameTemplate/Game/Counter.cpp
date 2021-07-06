@@ -73,7 +73,7 @@ bool Counter::Start()
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//m_skinModelRender->Init("Assets/modelData/counter/counter.tkm", nullptr, enModelUpAxisZ, m_position);
 	m_skinModelRender->InitForRecieveShadow("Assets/modelData/counter/counter.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
-	m_skinModelRender->InitForCastShadow("Assets/modelData/counter/counter.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
+	m_skinModelRender->InitForCastShadow("Assets/modelData/counter/counter.tkm", nullptr, enModelUpAxisZ, m_position);
 	m_showHamBurgers[0] = enCheeseBurger;
 	m_showHamBurgers[1] = enTomatoBurger;
 	m_showHamBurgers[2] = enEggBurger;

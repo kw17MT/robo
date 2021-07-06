@@ -80,7 +80,7 @@ bool GuzaiOkiba::Start()
 				//通常描画用のモデル初期化
 				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitForRecieveShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
 				//シャドウキャスト用の初期化
-				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
+				m_guzaiOkibaRender[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
 				//位置をレベル上と同じにする
 				m_guzaiOkibaPos[m_guzaiOkibaNo - AJUST_ARRAY_NUM_RIGHT] = objectData.Pos;
 				//拡大率を調節。
@@ -105,7 +105,7 @@ bool GuzaiOkiba::Start()
 			case GUZAIOKIBA_NUMBER_FOUR:
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = NewGO<SkinModelRender>(0);
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitForRecieveShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
-				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1], nullptr);
+				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->InitForCastShadow("Assets/modelData/desk/desk_new.tkm", nullptr, enModelUpAxisZ, m_guzaiOkibaPos[m_guzaiOkibaNo - 1]);
 				m_guzaiOkibaPos[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT] = objectData.Pos;
 				m_guzaiOkibaRender[m_guzaiOkibaNo + AJUST_ARRAY_NUM_LEFT]->SetScale(m_guzaiOkibaScale);
 				return true;

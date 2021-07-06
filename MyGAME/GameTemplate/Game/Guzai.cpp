@@ -108,9 +108,10 @@ bool Guzai::Start()
 	//具材のモデルを初期化
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//通常描画用モデルの初期化
+	//m_skinModelRender->InitForRecieveShadow("Assets/modelData/gu/cheese.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
 	m_skinModelRender->Init("Assets/modelData/gu/cheese.tkm",nullptr, enModelUpAxisZ, m_position);
 	//影生成用の初期化
-	m_skinModelRender->InitForCastShadow("Assets/modelData/gu/cheese.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
+	m_skinModelRender->InitForCastShadow("Assets/modelData/gu/cheese.tkm", nullptr, enModelUpAxisZ, m_position);
 	//具材を追加したので乱数が出力する値を変更
 	std::random_device rnd;
 	std::mt19937 mt(rnd());

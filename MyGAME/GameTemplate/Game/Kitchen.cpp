@@ -75,7 +75,7 @@ bool Kitchen::Start()
 	//通常描画モデルの初期化
 	m_skinModelRender->InitForRecieveShadow("Assets/modelData/kitchen/kitchen.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
 	//シャドウキャスト用の初期化
-	m_skinModelRender->InitForCastShadow("Assets/modelData/kitchen/kitchen.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
+	m_skinModelRender->InitForCastShadow("Assets/modelData/kitchen/kitchen.tkm", nullptr, enModelUpAxisZ, m_position);
 	//拡大率調整
 	m_skinModelRender->SetScale(m_scale);
 

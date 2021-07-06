@@ -76,8 +76,8 @@ GameObjectManager::GameObjectManager()
 
 	//シャドウのオフスクリーンレンダリング作成
 	shadowMap.Create(
-		1024,
-		1024,
+		2048,
+		2048,
 		1,
 		1,
 		//DXGI_FORMAT_R8G8B8A8_UNORM,			//投影シャドウで使う
@@ -88,8 +88,8 @@ GameObjectManager::GameObjectManager()
 	//ライトカメラの作成
 	lightCamera.SetPosition(0.0f, 1000.0f, -500.0f);
 	lightCamera.SetTarget(0.0f, 0.0f, 0.0f);
-	lightCamera.SetUp({ 0, 0, -1});							//カメラの上をX座標にしておく
-	lightCamera.SetViewAngle(Math::DegToRad(120.0f));
+	lightCamera.SetUp({ 1, 0, 0});							//カメラの上をX座標にしておく
+	lightCamera.SetViewAngle(Math::DegToRad(145.0f));
 
 	//平行投影にする場合
 	/*
@@ -145,7 +145,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	m_renderTypes = 1;									//影するよ
 	for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
-				go->RenderWrapper(rc);
+			go->RenderWrapper(rc);
 		}
 	}
 

@@ -48,6 +48,10 @@ public:
 		const char* psEntryPointFunc,
 		void* expandData,
 		int expandDataSize,
+		/**勝手に改造********************************************/
+		//void* expandLightData,
+		//int expandLightDataSize,
+		/*****************************************************/
 		IShaderResource* expandShaderResourceView,
 		D3D12_CULL_MODE cullingMode,
 		DXGI_FORMAT m_colorBufferFormat
@@ -130,4 +134,8 @@ private:
 	std::vector< DescriptorHeap > m_descriptorHeap;		//ディスクリプタヒープ。
 	Skeleton* m_skeleton = nullptr;								//スケルトン。
 	void* m_expandData = nullptr;						//ユーザー拡張データ。
+	/*勝手に追加************************/
+	//ConstantBuffer m_expandConstantBufferForLight;
+	//void* m_expandLightData = nullptr;					//ライト用拡張データ
+	/**********************************/
 };

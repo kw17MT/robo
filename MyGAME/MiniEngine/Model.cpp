@@ -54,6 +54,8 @@ void Model::Init(const ModelInitData& initData)
 		initData.m_psEntryPointFunc,
 		initData.m_expandConstantBuffer,
 		initData.m_expandConstantBufferSize,
+		//initData.m_expandConstantBufferForLight,
+		//initData.m_expandConstantBufferForLightSize,
 		initData.m_expandShaderResoruceView,
 		initData.cullingMode,
 		initData.m_colorBufferFormat

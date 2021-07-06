@@ -9,7 +9,7 @@ private:
 	Model m_model;														//モデル
 	Model m_shadow;														//影モデル
 	Skeleton m_skeleton;												//スケルトン
-	CharacterController m_charaCon;										//モデルの衝突判定や移動関係
+	//CharacterController m_charaCon;									//モデルの衝突判定や移動関係
 
 	Vector3 m_position = Vector3::Zero;									//モデルの位置座標
 	Vector3 m_scale = Vector3::One;										//モデルの拡大率
@@ -17,6 +17,12 @@ private:
 
 	RenderTarget m_shadowMap = GameObjectManager::GetInstance()->GetShadowMap();	//作成したシャドウの取得
 	Camera m_lightCamera = GameObjectManager::GetInstance()->GetLightCamera();		//ライトカメラの取得
+
+	struct wannaCopyToVRAM
+	{
+		Matrix s_lightCameraMatrix = GameObjectManager::GetInstance()->GetLightCamera().GetViewProjectionMatrix();
+		Light s_lig;
+	}a;
 
 	bool m_isCastShadow = false;
 public:
@@ -79,7 +85,7 @@ public:
 	 * @param pos 
 	 * @param pLig 
 	*/
-	void InitForCastShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* pLig);
+	void InitForCastShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
 
 	/**
 	 * @brief 影が映るもののモデル初期化関数

@@ -15,7 +15,7 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 	m_modelInitData.m_fxFilePath = "Assets/shader/model.fx";
 	//頂点シェーダー設定
 	m_modelInitData.m_vsEntryPointFunc = "VSMain";
-	m_modelInitData.m_vsSkinEntryPointFunc = "VSSkinMain";
+	m_modelInitData.m_vsSkinEntryPointFunc = "VSMain";
 	//使う色の範囲設定
 	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	//どの軸を上にするか
@@ -43,7 +43,7 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 }
 
 //影を出すための初期化
-void SkinModelRender::InitForCastShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* pLig = nullptr)
+void SkinModelRender::InitForCastShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)
 {
 	m_shadowData.m_tkmFilePath = modelFilePath;
 
@@ -66,15 +66,7 @@ void SkinModelRender::InitForCastShadow(const char* modelFilePath, const char* s
 	m_shadowData.m_vsSkinEntryPointFunc = "VSMain";
 
 
-	m_shadowData.m_modelUpAxis = UpAxis;
-
-	if (pLig) {
-		m_shadowData.m_expandConstantBuffer = pLig;
-	}
-	else {
-		m_shadowData.m_expandConstantBuffer = &g_lig;
-	}
-	m_shadowData.m_expandConstantBufferSize = sizeof(g_lig);
+	m_shadowData.m_modelUpAxis = UpAxis;	
 
 	if (skeletonPath != nullptr) {
 		m_skeleton.Init(skeletonPath);
@@ -107,23 +99,36 @@ void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char
 	//カラーバッファーのフォーマットは共通
 	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
-
 	m_modelInitData.m_modelUpAxis = UpAxis;
-	if (lig == nullptr) {
-		m_modelInitData.m_expandShaderResoruceView = &m_shadowMap.GetRenderTargetTexture();
-		m_modelInitData.m_expandConstantBuffer = (void*)&m_lightCamera.GetViewProjectionMatrix();
-		m_modelInitData.m_expandConstantBufferSize = sizeof(m_lightCamera.GetViewProjectionMatrix());
+
+	//シャドウマップのテクスチャ、ライトカメラのビュープロ行列の取得
+	/*if (lig == nullptr) {
+	m_modelInitData.m_expandShaderResoruceView = &m_shadowMap.GetRenderTargetTexture();
+	m_modelInitData.m_expandConstantBuffer = (void*)&m_lightCamera.GetViewProjectionMatrix();
+	m_modelInitData.m_expandConstantBufferSize = sizeof(m_lightCamera.GetViewProjectionMatrix());
 	}
 	else {
 		m_modelInitData.m_expandShaderResoruceView = &m_shadowMap.GetRenderTargetTexture();
 		m_modelInitData.m_expandConstantBuffer = &lig;
 		m_modelInitData.m_expandConstantBufferSize = sizeof(lig);
-	}
+	}*/
+
+	m_modelInitData.m_expandShaderResoruceView = &m_shadowMap.GetRenderTargetTexture();
+	m_modelInitData.m_expandConstantBuffer = (void*)&a;
+	m_modelInitData.m_expandConstantBufferSize = sizeof(a);
+	
+	/*PBRの追加を試みる******************/
+	/*if (lig) {
+		m_modelInitData.m_expandConstantBufferForLight = &lig;
+		m_modelInitData.m_expandConstantBufferForLightSize = sizeof(lig);
+	}*/
+	/**********************************/
 
 	if (skeletonPath != nullptr) {
 		m_skeleton.Init(skeletonPath);
 		m_modelInitData.m_skeleton = &m_skeleton;
 	}
+
 
 	m_model.Init(m_modelInitData);
 	//初期化終わり//
