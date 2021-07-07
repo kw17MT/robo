@@ -89,7 +89,10 @@ void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
 	//シャドウマップのテクスチャ、ライトカメラのビュープロ行列の取得
-	m_modelInitData.m_expandShaderResoruceView = &m_shadowMap.GetRenderTargetTexture();
+	//auto& sm = GameObjectManager::GetInstance()->GetShadowMap();
+	
+	m_modelInitData.m_expandShaderResoruceView = &GameObjectManager::GetInstance()->GetShadowMap().GetRenderTargetTexture();
+
 	m_modelInitData.m_expandConstantBuffer = (void*)&s_dataCopyToVRAM;
 	m_modelInitData.m_expandConstantBufferSize = sizeof(s_dataCopyToVRAM);
 	
@@ -114,6 +117,7 @@ void SkinModelRender::InitAsFloor(const char* modelFilePath, const char* skeleto
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
 	m_modelInitData.m_expandShaderResoruceView = &m_shadowMap.GetRenderTargetTexture();
+
 	m_modelInitData.m_expandConstantBuffer = (void*)&m_lightCamera.GetViewProjectionMatrix();
 	m_modelInitData.m_expandConstantBufferSize = sizeof(m_lightCamera.GetViewProjectionMatrix());
 

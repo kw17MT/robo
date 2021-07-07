@@ -16,22 +16,23 @@ struct DirectionalLight {
 	float3 color;
 };
 
+struct SpotLight
+{
+	float3 spotPosition;
+	float3 spotColor;
+	float3 spotDirection;
+	float spotRange;
+};
+
 cbuffer LightCb : register (b1) {
-	/*float3 ligDir;
-	float3 ligColor;*/
 	DirectionalLight directionalLight;
 
 	float3 eyePos;
 	float specPow;
 	float3 ambientLight;
-
-	//ポイントライト、スポットライトが欲しい時以下を使う。
-	/*float3 ptPos;
-	float3 ptColor;
-	float ptRange;
-
-	float3 spDir;
-	float spAngle;*/
+	
+	SpotLight spotLight0;
+	SpotLight spotLight1;
 };
 	
 

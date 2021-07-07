@@ -51,7 +51,7 @@ public:
 	/// レンダリングターゲットとなるテクスチャを取得。
 	/// </summary>
 	/// <returns></returns>
-	Texture& GetRenderTargetTexture()
+	Texture& GetRenderTargetTexture() 
 	{
 		return m_renderTargetTexture;
 	}

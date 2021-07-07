@@ -128,7 +128,7 @@ public:
 		}
 	}
 
-	const RenderTarget& GetShadowMap() 
+	RenderTarget& GetShadowMap() 
 	{
 		return shadowMap;
 	}

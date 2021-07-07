@@ -18,7 +18,7 @@ private:
 	bool m_isCastShadow = false;										//具材のシャドウ用モデルのファイルパス変更に使用する。
 	bool m_isApplyBlur = false;											//ブラーを適応するかどうか
 
-	RenderTarget m_shadowMap = GameObjectManager::GetInstance()->GetShadowMap();	//作成したシャドウの取得
+	RenderTarget& m_shadowMap = GameObjectManager::GetInstance()->GetShadowMap();	//作成したシャドウの取得
 	Camera m_lightCamera = GameObjectManager::GetInstance()->GetLightCamera();		//ライトカメラの取得
 
 	struct wannaCopyToVRAM
