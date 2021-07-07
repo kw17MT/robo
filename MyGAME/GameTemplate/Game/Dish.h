@@ -24,8 +24,6 @@ private:
 	int m_guzaiNo = 0;									//具材は何番目の位置に格納されているか
 
 	std::unique_ptr<PathMove> m_pathMove;				//移動処理を行うクラス。
-
-	Light m_lig;										//皿独自のライト
 public:
 	Dish() {}
 	~Dish();

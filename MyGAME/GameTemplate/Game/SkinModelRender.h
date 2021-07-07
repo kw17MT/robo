@@ -1,4 +1,5 @@
 #pragma once
+#include "LightManager.h"
 class AnimationClip;
 
 class SkinModelRender :public IGameObject
@@ -9,11 +10,13 @@ private:
 	Model m_model;														//モデル
 	Model m_shadow;														//影モデル
 	Skeleton m_skeleton;												//スケルトン
-	//CharacterController m_charaCon;									//モデルの衝突判定や移動関係
 
 	Vector3 m_position = Vector3::Zero;									//モデルの位置座標
 	Vector3 m_scale = Vector3::One;										//モデルの拡大率
 	Quaternion m_rot = Quaternion::Identity;							//モデルの回転
+
+	bool m_isCastShadow = false;										//具材のシャドウ用モデルのファイルパス変更に使用する。
+	bool m_isApplyBlur = false;											//ブラーを適応するかどうか
 
 	RenderTarget m_shadowMap = GameObjectManager::GetInstance()->GetShadowMap();	//作成したシャドウの取得
 	Camera m_lightCamera = GameObjectManager::GetInstance()->GetLightCamera();		//ライトカメラの取得
@@ -21,15 +24,12 @@ private:
 	struct wannaCopyToVRAM
 	{
 		Matrix s_lightCameraMatrix = GameObjectManager::GetInstance()->GetLightCamera().GetViewProjectionMatrix();
-		Light s_lig;
-	}a;
+		AllLight s_lig = LightManager::GetInstance().GetLightData();
+	}s_dataCopyToVRAM;
 
-	bool m_isCastShadow = false;
-	bool m_isApplyBlur = false;
+
+
 public:
-
-	void SetApplyBlur(bool state) { m_isApplyBlur = state; }
-
 	SkinModelRender() {};
 	//インスタンスを破棄
 	~SkinModelRender();
@@ -78,7 +78,7 @@ public:
 	 * @param pos モデルを出現させる最初の位置
 	 * @param pLig 設定した独自のライト
 	*/
-	void Init(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* pLig);
+	void Init(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
 	//モデルのファイルパスのみを変更するときに使用する。
 
 	/**
@@ -98,7 +98,7 @@ public:
 	 * @param UpAxis 
 	 * @param pos 
 	*/
-	void InitForRecieveShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* lig);
+	void InitForRecieveShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
 
 	/**
 	 * @brief 床専用シャドウレシーバ―としての初期化
@@ -137,12 +137,6 @@ public:
 	void SetFrontCulling(const char* psEntryPoint) { m_modelInitData.m_psEntryPointFunc = psEntryPoint; }
 
 	/**
-	 * @brief 影響を受けるライトの変更。
-	 * @param light 適応したい新しいライト
-	*/
-	void InitLight(Light& light);
-
-	/**
 	 * @brief アニメーションを設定する。
 	 * @param animation アニメーション
 	 * @param animationNum アニメーションの数
@@ -155,6 +149,12 @@ public:
 	 * @param interpolateTime 流れる時間
 	*/
 	//void PlayAnimation(int animNo, float interpolateTime = 0.0f);
+
+	/**
+	 * @brief ブラーを適応するか
+	 * @param state TRUE＝適応する
+	*/
+	void SetApplyBlur(bool state) { m_isApplyBlur = state; }
 
 	/**
 	 * @brief モデルを描く

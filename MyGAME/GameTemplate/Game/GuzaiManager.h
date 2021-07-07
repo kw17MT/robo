@@ -69,6 +69,10 @@ public:
 		m_emptyDishNum++;
 	}
 
+	/**
+	 * @brief ‹ó‚ÌM‚Ì”‚ğæ“¾‚·‚é
+	 * @return ‹ó‚ÌM‚Ì”
+	*/
 	int GetEmptyDishNum()
 	{
 		return m_emptyDishNum;

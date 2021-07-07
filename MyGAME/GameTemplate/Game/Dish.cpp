@@ -42,18 +42,10 @@ Dish::~Dish()
 
 bool Dish::Start()
 {
-	//皿、特有のライトを設定する。
-	m_lig.ambientLight.Set(AJUST_AMBIENTLIGHT);
-	m_lig.directionalLight.direction.x = LIGHT_DIRECTION_PISITIVE;
-	m_lig.directionalLight.direction.y = LIGHT_DIRECTION_PISITIVE;
-	m_lig.directionalLight.direction.z = LIGHT_DIRECTION_PISITIVE;
-	m_lig.directionalLight.color.Set(LIGHT_DIRECTION_RIGHTER);
-	m_lig.directionalLight.direction.Normalize();
-
 	//皿のモデル初期化
 	m_skinModelRender = NewGO<SkinModelRender>(0,"dish");
-	//m_skinModelRender->Init("Assets/modelData/object/dish.tkm", nullptr, enModelUpAxisZ, m_position, &m_lig);
-	m_skinModelRender->InitForRecieveShadow("Assets/modelData/dish/dish.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
+	//m_skinModelRender->Init("Assets/modelData/object/dish.tkm", nullptr, enModelUpAxisZ, m_position);
+	m_skinModelRender->InitForRecieveShadow("Assets/modelData/dish/dish.tkm", nullptr, enModelUpAxisZ, m_position);
 	m_skinModelRender->SetScale(m_scale);
 	m_skinModelRender->InitForCastShadow("Assets/modelData/dish/dish.tkm", nullptr, enModelUpAxisZ, m_position);
 	m_playerGene = FindGO<PlayerGene>("playerGene");

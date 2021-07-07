@@ -12,7 +12,6 @@ class Result;
 class FontRender;
 class Level;
 class DishGene;
-class DishSpeedManeger;
 class TrashCan;
 class Floor;
 class SoundSource;
@@ -64,7 +63,6 @@ private:
 	Score* m_score = nullptr;										//プレイヤーのスコアを表示する。
 	GuzaiOkiba* guzaiOkiba = nullptr;								//具材置き場を8個出す
 	DishGene* dishGene = nullptr;									//ウェイポイントに従って皿を出す
-	DishSpeedManeger* m_speedManeger = nullptr;						//皿のスピードを管理する
 	TrashCan* m_trashCan[2] = { nullptr, nullptr};					//ゴミ箱
 	Floor* floor_r = nullptr;										//右の床
 	Floor* floor_l = nullptr;										//左の床	

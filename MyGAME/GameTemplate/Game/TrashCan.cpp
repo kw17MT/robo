@@ -46,7 +46,7 @@ bool TrashCan::Start()
 	//ゴミ箱モデルの設定
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//通常描画用モデルの初期化
-	m_skinModelRender->InitForRecieveShadow("Assets/modelData/trashcan/trashcan.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
+	m_skinModelRender->InitForRecieveShadow("Assets/modelData/trashcan/trashcan.tkm", nullptr, enModelUpAxisZ, m_position);
 	//影生成用の初期化
 	m_skinModelRender->InitForCastShadow("Assets/modelData/trashcan/trashcan.tkm", nullptr, enModelUpAxisZ, m_position);
 	//拡大率を調整
@@ -55,7 +55,7 @@ bool TrashCan::Start()
 	//ゴミ箱に近づくと矢印が出るように
 	m_arrow = NewGO<SkinModelRender>(0);
 	//通常モデルの初期化
-	m_arrow->Init("Assets/modelData/Arrow/Arrow_Yellow.tkm", nullptr, enModelUpAxisZ, m_position, nullptr);
+	m_arrow->Init("Assets/modelData/Arrow/Arrow_Yellow.tkm", nullptr, enModelUpAxisZ, m_position);
 	//シャドウキャスト用の初期化
 	m_arrow->InitForCastShadow("Assets/modelData/Arrow/Arrow_Yellow.tkm", nullptr, enModelUpAxisZ, m_position);
 	//拡大率を調整

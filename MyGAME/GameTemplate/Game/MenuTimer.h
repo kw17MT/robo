@@ -8,8 +8,6 @@ private:
 	Vector3 m_scale = { 2.8f,1.0f,1.0f };						//タイマーの拡大率。Xを拡大して横長にしている
 	Quaternion m_rot = Quaternion::Identity;					//回転
 
-	Light m_lig;												//タイマー独自のライト
-
 	bool m_isTimeUp = false;									//タイマーが０になったか
 public:
 	/**

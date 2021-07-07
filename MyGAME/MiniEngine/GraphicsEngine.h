@@ -13,10 +13,6 @@
 #include "Camera.h"
 #include "NullTextureMaps.h"
 #include "font/FontEngine.h"
-#include "Light.h"
-
-extern Light g_lig;
-extern Light g_postLig;
 
 /// <summary>
 /// DirectX12に依存するグラフィックスエンジン

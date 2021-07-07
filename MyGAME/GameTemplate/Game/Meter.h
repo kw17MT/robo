@@ -7,8 +7,6 @@ private:
 	Vector3 m_scale = { 1.4f,1.0f,1.0f };			//ゲージの拡大率
 	Quaternion m_rot = Quaternion::Identity;		//ゲージの回転
 
-	Light m_lig;									//独自のライト
-
 public:
 	Meter() {};
 	

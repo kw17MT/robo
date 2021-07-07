@@ -49,8 +49,7 @@ bool Player::Start()
 			"Assets/modelData/Chef/ChefRed/Chef01.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
 			enModelUpAxisZ,
-			m_position,
-			nullptr
+			m_position
 		);
 		//‰e•`‰æ—p
 		m_skinModelRender->InitForCastShadow(
@@ -68,8 +67,7 @@ bool Player::Start()
 			"Assets/modelData/Chef/ChefBlue/Chef02.tkm",
 			"Assets/modelData/Chef/ChefRed/Chef_1.tks",
 			enModelUpAxisZ,
-			m_position,
-			nullptr
+			m_position
 		);
 		//‰e•`‰æ—p
 		m_skinModelRender->InitForCastShadow(

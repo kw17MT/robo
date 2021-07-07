@@ -23,11 +23,9 @@ MenuTimer::~MenuTimer()
 
 bool MenuTimer::Start()
 {
-	//環境光でモデルの色を変える。
-	m_lig.ambientLight.Set(MAKE_MODEL_GREEN);
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//通常描画用モデルの初期化
-	m_skinModelRender->Init("Assets/modelData/gauge/gauge_red.tkm", nullptr, enModelUpAxisY, m_position, &m_lig);
+	m_skinModelRender->Init("Assets/modelData/gauge/gauge_red.tkm", nullptr, enModelUpAxisY, m_position);
 	//モデルの向きの調節
 	m_skinModelRender->SetRotation(m_rot);
 	return true;
@@ -38,7 +36,7 @@ void MenuTimer::ResetTimerParam()
 	//拡大率を初期の状態にする。
 	m_scale.x = DEFAULT_TIMER_SCALE_X;
 	//緑色にする
-	m_lig.ambientLight.Set(MAKE_MODEL_GREEN);
+	//m_lig.ambientLight.Set(MAKE_MODEL_GREEN);
 	m_isTimeUp = false;
 }
 
@@ -57,19 +55,19 @@ void MenuTimer::Update()
 
 	//ゲージの大きさが一定異以上であるとき赤成分を足す = 徐々に黄色にしていく
 	if (m_scale.x >= TIMER_TURN_YELLOW_POINT) {
-		m_lig.ambientLight.x += MAKE_YELLOW_AMOUNT;
+		//m_lig.ambientLight.x += MAKE_YELLOW_AMOUNT;
 		//赤色が丁度良くなったら
-		if (m_lig.ambientLight.x >= GOOD_AMOUNT_OF_RED) {
+		/*if (m_lig.ambientLight.x >= GOOD_AMOUNT_OF_RED) {
 			m_lig.ambientLight.x = GOOD_AMOUNT_OF_RED;
-		}
+		}*/
 	}
 	//ゲージの色を赤くしたいポイントまで縮小したら
 	if (m_scale.x < TIMER_TURN_RED_POINT) {
 		//ひたすら、緑色成分を抜いていく。
-		m_lig.ambientLight.y -= MAKE_RED_AMOUNT;
-		if (m_lig.ambientLight.y <= 0.0f) {
-			m_lig.ambientLight.y = 0.0f;
-		}
+		//m_lig.ambientLight.y -= MAKE_RED_AMOUNT;
+		//if (m_lig.ambientLight.y <= 0.0f) {
+		//	m_lig.ambientLight.y = 0.0f;
+		//}
 	}
 
 	//タイマーの縮尺が0になったら＝残量が消えたら

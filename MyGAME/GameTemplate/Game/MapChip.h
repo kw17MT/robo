@@ -1,5 +1,5 @@
 #pragma once
-
+#include "LightManager.h"
 
 class MapChip
 {
@@ -21,5 +21,6 @@ public:
 private:
 	Model m_model;
 	ModelInitData m_modeldata;
+	AllLight m_lig = LightManager::GetInstance().GetLightData();
 };
 

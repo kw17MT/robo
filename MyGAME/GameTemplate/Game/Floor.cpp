@@ -14,9 +14,6 @@ Floor::~Floor()
 
 bool Floor::Start()
 {
-	//環境光を高めて全体的に明るくする。
-	m_lig.ambientLight.Set(AJUST_LIGHT_RIGHTER);
-
 	//モデルの初期化
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	if (isRed) {

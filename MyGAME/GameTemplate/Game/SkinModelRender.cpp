@@ -7,7 +7,7 @@ SkinModelRender::~SkinModelRender()
 }
 
 //モデルを通常描画するための初期化
-void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* pLig = nullptr)
+void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)
 {
 	//モデルのファイルパス設定
 	m_modelInitData.m_tkmFilePath = modelFilePath;
@@ -20,16 +20,9 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	//どの軸を上にするか
 	m_modelInitData.m_modelUpAxis = UpAxis;
-	//もし、任意のライトがあるならば
-	if (pLig != nullptr) {
-		m_modelInitData.m_expandConstantBuffer = &pLig;
-		m_modelInitData.m_expandConstantBufferSize = sizeof(pLig);
-	}
-	//なかったら共通のやつを使う
-	else {
-		m_modelInitData.m_expandConstantBuffer = &g_lig;
-		m_modelInitData.m_expandConstantBufferSize = sizeof(g_lig);
-	}
+	
+	m_modelInitData.m_expandConstantBuffer = &s_dataCopyToVRAM.s_lig;
+	m_modelInitData.m_expandConstantBufferSize = sizeof(s_dataCopyToVRAM.s_lig);
 
 	//モデルのスケルトンがあるなら
 	if (skeletonPath != nullptr) {
@@ -38,9 +31,6 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 	}
 
 	m_model.Init(m_modelInitData);
-
-	//キャラコンの初期化
-	//m_charaCon.Init(0.0f, 0.0f, pos);
 }
 
 //影を出すための初期化
@@ -75,15 +65,11 @@ void SkinModelRender::InitForCastShadow(const char* modelFilePath, const char* s
 	}
 
 	m_shadow.Init(m_shadowData);
-	//初期化終わり//
-
-	//キャラコンの初期化
-	//m_charaCon.Init(0.0f, 0.0f, pos);
 
 	m_isCastShadow = true;
 }
 
-void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, Light* lig = nullptr)
+void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)
 {
 	m_modelInitData.m_tkmFilePath = modelFilePath;
 
@@ -103,27 +89,10 @@ void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
 	//シャドウマップのテクスチャ、ライトカメラのビュープロ行列の取得
-	/*if (lig == nullptr) {
 	m_modelInitData.m_expandShaderResoruceView = &m_shadowMap.GetRenderTargetTexture();
-	m_modelInitData.m_expandConstantBuffer = (void*)&m_lightCamera.GetViewProjectionMatrix();
-	m_modelInitData.m_expandConstantBufferSize = sizeof(m_lightCamera.GetViewProjectionMatrix());
-	}
-	else {
-		m_modelInitData.m_expandShaderResoruceView = &m_shadowMap.GetRenderTargetTexture();
-		m_modelInitData.m_expandConstantBuffer = &lig;
-		m_modelInitData.m_expandConstantBufferSize = sizeof(lig);
-	}*/
-
-	m_modelInitData.m_expandShaderResoruceView = &m_shadowMap.GetRenderTargetTexture();
-	m_modelInitData.m_expandConstantBuffer = (void*)&a;
-	m_modelInitData.m_expandConstantBufferSize = sizeof(a);
+	m_modelInitData.m_expandConstantBuffer = (void*)&s_dataCopyToVRAM;
+	m_modelInitData.m_expandConstantBufferSize = sizeof(s_dataCopyToVRAM);
 	
-	/*PBRの追加を試みる******************/
-	/*if (lig) {
-		m_modelInitData.m_expandConstantBufferForLight = &lig;
-		m_modelInitData.m_expandConstantBufferForLightSize = sizeof(lig);
-	}*/
-	/**********************************/
 
 	if (skeletonPath != nullptr) {
 		m_skeleton.Init(skeletonPath);
@@ -132,10 +101,6 @@ void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char
 
 
 	m_model.Init(m_modelInitData);
-	//初期化終わり//
-
-	//キャラコンの初期化
-	//m_charaCon.Init(0.0f, 0.0f, pos);
 }
 
 void SkinModelRender::InitAsFloor(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)
@@ -176,11 +141,6 @@ void SkinModelRender::InitShader(const char* shaderFilePath, const char* entryPo
 	m_modelInitData.m_vsEntryPointFunc = entryPointPath;
 	m_modelInitData.m_vsSkinEntryPointFunc = skinEntryPointPath;
 	m_modelInitData.m_colorBufferFormat = colorBuffer;
-}
-
-void SkinModelRender::InitLight(Light& light) {
-	m_modelInitData.m_expandConstantBuffer = &light;
-	m_modelInitData.m_expandConstantBufferSize = sizeof(light);
 }
 
 //void SkinModelRender::InitAnimation(AnimationClip* animationClip, int animationNum)

@@ -28,6 +28,7 @@
 #include <cstdlib>
 #include <random>
 #include "Conveyor.h"
+#include "LightManager.h"
 
 //Á‚·‚±‚Æ
 #include "Burger.h"
@@ -358,11 +359,11 @@ void Game::Update()
 		}
 	}
 
-
-
-
 	//Á‚·‚±‚Æ
 	if (g_pad[0]->IsTrigger(enButtonX)) {
 		NewGO<Burger>(0);
 	}
+
+	//–Úü‚ÌˆÊ’u‚ÌXV
+	LightManager::GetInstance().UpdateEyePos();
 }

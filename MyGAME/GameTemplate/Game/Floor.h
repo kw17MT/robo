@@ -9,7 +9,7 @@ private:
 	Vector3 m_scale = Vector3::One;					//°‚ÌŠg‘å—¦
 
 	bool isRed = false;								//Ô‚¢°‚É‚·‚é‚©‚Ç‚¤‚©
-	Light m_lig;									//°“Æ©‚Ìƒ‰ƒCƒg
+
 public:
 	~Floor();
 

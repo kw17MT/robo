@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "GraphicsEngine.h"
 
-Light g_lig;
-Light g_postLig;
-
 GraphicsEngine* g_graphicsEngine = nullptr;	//グラフィックスエンジン
 Camera* g_camera2D = nullptr;				//2Dカメラ。
 Camera* g_camera3D = nullptr;				//3Dカメラ。

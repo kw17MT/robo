@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Level.h"
-#include "Light.h"
 
 
 void Level::Init(const char* name, std::function<bool(ObjectData& objectData)> hookFunc )
