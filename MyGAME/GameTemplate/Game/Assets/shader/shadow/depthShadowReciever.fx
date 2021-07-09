@@ -17,13 +17,14 @@ struct DirectionalLight {
 	float3 color;
 };
 
-struct SpotLight
-{
-	float3 spotPosition;
-	float3 spotColor;
-	float3 spotDirection;
-	float spotRange;
-};
+//struct SpotLight
+//{
+//	float3 spotPosition;
+//	float3 spotColor;
+//	float  spotRange;
+//	float3 spotDirection;
+//	float  spotAngle
+//};
 
 //ライトビュープロジェクション行列にアクセスする定数バッファを定義。
 cbuffer ShadowCb : register(b1) {
@@ -37,14 +38,14 @@ cbuffer ShadowCb : register(b1) {
 	float3 ambientLight;
 	/**************************/
 
-	/*****スポットライト用*********************/
+	/*****スポットライト用************/
 	//SpotLight spotLight0;
 	//SpotLight spotLight1;
 	float3 spotPosition;
 	float3 spotColor;
-	float spotRange;
+	float  spotRange;
 	float3 spotDirection;
-	float spotAngle;
+	float  spotAngle;
 	/**************************/
 }
 
@@ -235,124 +236,130 @@ float CookTrranceSpecular(float3 L, float3 V, float3 N, float metaric)
 float4 PSMain(SPSIn psIn) : SV_Target0
 {
 	/*スポットライト計算開始-------------------------------------------------------------------------------*/
-		//影響度
-		//float3 toEye = eyePos - psIn.worldPos;
-		//toEye = normalize(toEye);
-		//float3 Pt2Surface = psIn.worldPos - /*spotLight0.*/spotPosition;
-		//float distance = length(Pt2Surface);
-		//float affect = 1.0f - 1.0f / /*spotLight0.*/spotRange * distance;
-		//if (affect < 0.0f) { affect = 0.0f; }
-		//affect = pow(affect, 1.0f);
+	//物体から目へのベクトル
+	float3 toEye = eyePos - psIn.worldPos;
+	toEye = normalize(toEye);
+	////ポイントライトから物体へのベクトル
+	//float3 pointLightToSurface = psIn.worldPos - /*spotLight0.*/spotPosition;
+	////ポイントライトから物体への距離
+	//float3 distance = length(pointLightToSurface);
+	//pointLightToSurface = normalize(pointLightToSurface);
+	//
+	////距離による影響度
+	//float distanceAffect = 1.0f - 1.0f / /*spotLight0.*/spotRange * distance;
+	//if (distanceAffect < 0.0f) { distanceAffect = 0.0f; }
+	//distanceAffect = pow(distanceAffect, 1.0f);
 
-		//Pt2Surface = normalize(Pt2Surface);
+	////角度による影響度
+	//float angle = dot(pointLightToSurface, /*spotLight0.*/spotDirection);
+	//angle = abs(acos(angle));
+	//float angleAffect = 1.0f - 1.0f / /*spotLight0.*/spotAngle * angle;
+	//if (angleAffect < 0.0f) { angleAffect = 0.0f; }
+	//angleAffect = pow(angleAffect, 0.5f);
 
-		////拡散反射光
-		//t = dot(Pt2Surface, psIn.normal);
-		//t *= -1.0f;
-		//if (t < 0.0f) { t = 0.0f; }
+	////ポイントライト拡散反射光
+	//float t = dot(pointLightToSurface, psIn.normal);
+	//t *= -1.0f;
+	//t = max(0.0f, t);
+	//float3 pointDiff = /*spotLight0.*/spotColor * t;
 
-		//float3 pointDiff = /*spotLight0.*/spotColor * t;
-		//pointDiff *= affect;
+	////ポイントライト鏡面反射光
+	//float3 pointRef = reflect(pointLightToSurface, psIn.normal);
+	//t = dot(toEye, pointRef);
+	//t = max(0.0f, t);
+	//t = pow(t, 5.0f);
+	//float3 pointSpec = /*spotLight0.*/spotColor * t;
 
-		////鏡面反射光
-		//float3 pointRef = reflect(Pt2Surface, psIn.normal);
-		//t = dot(toEye, pointRef);
-		//if (t < 0.0f) { t = 0.0f; }
-		//t = pow(t, 5.0f);
+	////スポットライトにする
+	//pointDiff *= distanceAffect;
+	//pointSpec *= distanceAffect;
 
-		//float3 pointSpec = /*spotLight0.*/spotColor * t;
-		//pointSpec *= affect;
-		///////////////////////////////////////////////////////////////////////
+	//float3 spotDiff = pointDiff * angleAffect;
+	//float3 spotSpec = pointSpec * angleAffect;
 
-		////スポットライト用///////////////////////////////////////////////////
-		//float angle = dot(Pt2Surface, /*spotLight0.*/spotDirection);
-		//angle = acos(/*spotLight0.*/angle);
+	//float4 finalSpotLight = { 0.0f, 0.0f, 0.0f, 0.0f }
+	//finalSpotLight.xyz = pointDiff + pointSpec;
 
-		//float AngleAffect = 1.0f - 1.0f / /*spotLight0.*/spotAngle * angle;
-		//if (AngleAffect < 0.0f) { AngleAffect = 0.0f; }
-		//AngleAffect = pow(AngleAffect, 0.5f);
+	//return finalSpotLight;
+	
+	/*スポットライト計算終わり-------------------------------------------------------------------------------*/
 
-		//float3 spotDiff = pointDiff * AngleAffect;
-		//float3 spotSpec = pointSpec * AngleAffect;
+	/*　PBR計算開始　**********************************************************************************************/
+	float3 lig = 0;
+	//float3 normal = GetNormal(psIn.normal, psIn.tangent, psIn.biNormal, psIn.uv);
+	//todo tangentがないモデルがあったので、今回は法線マップはあきらめる。
+	float3 normal = psIn.normal;
 
-		/*スポットライト計算終わり-------------------------------------------------------------------------------*/
+	//アルベドカラー、鏡面反射率の取得
+	float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
+	float3 specColor = g_specMap.SampleLevel(g_sampler, psIn.uv, 0).rgb;
+	float metaric = g_specMap.Sample(g_sampler, psIn.uv).a;
+	metaric *= 1.2f;
+	//目から物体のワールド座標への向き計算
+	//float3 toEye = normalize(eyePos - psIn.worldPos);
+	//拡散光の影響度を計算
+	float diffuseFromFresnel = CalcDiffuseFromFresnel(normal, directionalLight.direction, toEye);
+	//物体の法線向きとディレクションライトの向きがどれだけ似ているか計算
+	float NdotL = saturate(dot(normal, directionalLight.direction));
+	//光の強さ計算
+	float3 lambertDiffuse = directionalLight.color * NdotL / PI;
+	//最終的に適用する拡散反射光を計算
+	float3 diffuse = albedoColor * diffuseFromFresnel * lambertDiffuse;
 
-		/*　PBR計算開始　**********************************************************************************************/
-		float3 lig = 0;
-		//float3 normal = GetNormal(psIn.normal, psIn.tangent, psIn.biNormal, psIn.uv);
-		//todo tangentがないモデルがあったので、今回は法線マップはあきらめる。
-		float3 normal = psIn.normal;
+	//下のようにHLSLではデバックすることもできる。
+	//return (albedoColor * diffuseFromFresnel);
 
-		//アルベドカラー、鏡面反射率の取得
-		float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
-		float3 specColor = g_specMap.SampleLevel(g_sampler, psIn.uv, 0).rgb;
-		float metaric = g_specMap.Sample(g_sampler, psIn.uv).a;
-		metaric *= 1.2f;
-		//目から物体のワールド座標への向き計算
-		float3 toEye = normalize(eyePos - psIn.worldPos);
-		//拡散光の影響度を計算
-		float diffuseFromFresnel = CalcDiffuseFromFresnel(normal, directionalLight.direction, toEye);
-		//物体の法線向きとディレクションライトの向きがどれだけ似ているか計算
-		float NdotL = saturate(dot(normal, directionalLight.direction));
-		//光の強さ計算
-		float3 lambertDiffuse = directionalLight.color * NdotL / PI;
-		//最終的に適用する拡散反射光を計算
-		float3 diffuse = albedoColor * diffuseFromFresnel * lambertDiffuse;
+	//クックトランスモデルを利用した鏡面反射率を計算する
+	float3 spec = CookTrranceSpecular(directionalLight.direction, toEye, normal, metaric) * directionalLight.color;
 
-		//下のようにHLSLではデバックすることもできる。
-		//return (albedoColor * diffuseFromFresnel);
+	//金属度（metaric)が強ければ、色は鏡面反射のspecularColor、弱ければ白。
+	//SpecularColorの強さを鏡面反射の強さとして扱う。
+	float specTerm = length(specColor.xyz);
+	//specTerm = 0.1f;														//ここをアクティブにすると鼻の上の黒いのは消える。
+	//ここで金属度metaricを利用して、白っぽい色から物体の色へ線形補完する。
+	spec *= lerp(float3(specTerm, specTerm, specTerm), specColor, metaric);
 
-		//クックトランスモデルを利用した鏡面反射率を計算する
-		float3 spec = CookTrranceSpecular(directionalLight.direction, toEye, normal, metaric) * directionalLight.color;
+	//鏡面反射率を使って、拡散反射光と鏡面反射光を合成する
+	lig += diffuse * (1.0f - specTerm) + spec;
 
-		//金属度（metaric)が強ければ、色は鏡面反射のspecularColor、弱ければ白。
-		//SpecularColorの強さを鏡面反射の強さとして扱う。
-		float specTerm = length(specColor.xyz);
-		//specTerm = 0.1f;														//ここをアクティブにすると鼻の上の黒いのは消える。
-		//ここで金属度metaricを利用して、白っぽい色から物体の色へ線形補完する。
-		spec *= lerp(float3(specTerm, specTerm, specTerm), specColor, metaric);
+	lig += ambientLight * albedoColor;
 
-		//鏡面反射率を使って、拡散反射光と鏡面反射光を合成する
-		lig += diffuse * (1.0f - specTerm) + spec;
-
-		lig += ambientLight * albedoColor;
-
-		float4 finalColor = 1.0f;
-		finalColor.xyz = lig;
-		//出力するカラーにアルベドマップのアルファ値を渡すとモデルに適用したテクスチャの透過率が適用される
-		finalColor.a = albedoColor.a;
-		//PBR完成
-		//return finalColor;
+	float4 finalColor = 1.0f;
+	finalColor.xyz = lig;
+	//出力するカラーにアルベドマップのアルファ値を渡すとモデルに適用したテクスチャの透過率が適用される
+	finalColor.a = albedoColor.a;
+	//PBR完成
+	//return finalColor;
 
 
-		/*　PBR計算終わり　**********************************************************************************************/
+	/*　PBR計算終わり　**********************************************************************************************/
 
-		//ここからデプスシャドウの作成///////////////////////////////////////////////////////////////////////////
+	//ここからデプスシャドウの作成///////////////////////////////////////////////////////////////////////////
 
-		float4 color = g_albedo.Sample(g_sampler, psIn.uv);
+	float4 color = g_albedo.Sample(g_sampler, psIn.uv);
 
-		//ライトビュースクリーン空間からUV空間に座標変換。
-		float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
-		shadowMapUV *= float2(0.5f, -0.5f);
-		shadowMapUV += 0.5f;
+	//ライトビュースクリーン空間からUV空間に座標変換。
+	float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
+	shadowMapUV *= float2(0.5f, -0.5f);
+	shadowMapUV += 0.5f;
 
-		//ライトビュースクリーン空間でのZ値を計算する
-		float zInLVP = psIn.posInLVP.z / psIn.posInLVP.w;
+	//ライトビュースクリーン空間でのZ値を計算する
+	float zInLVP = psIn.posInLVP.z / psIn.posInLVP.w;
 
-		if (shadowMapUV.x > 0.0f
-			&& shadowMapUV.x < 1.0f
-			&& shadowMapUV.y > 0.0f
-			&& shadowMapUV.y < 1.0f) {
-			//シャドウマップに描き込まれているZ値と比較する
-			float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
-			//シャドウアクネ解決のため実数値で補正、調整
-			if (zInLVP > zInShadowMap + 0.0001f)
-			{
-				//color.xyz *= 0.5f;
-				finalColor.xyz *= 0.5f;
-			}
+	if (shadowMapUV.x > 0.0f
+		&& shadowMapUV.x < 1.0f
+		&& shadowMapUV.y > 0.0f
+		&& shadowMapUV.y < 1.0f) {
+		//シャドウマップに描き込まれているZ値と比較する
+		float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
+		//シャドウアクネ解決のため実数値で補正、調整
+		if (zInLVP > zInShadowMap + 0.0001f)
+		{
+			//color.xyz *= 0.5f;
+			finalColor.xyz *= 0.5f;
 		}
-		//return color;
-		return finalColor;
-		//ここまでデプスシャドウマップ///////////////////////////////////////////////////////////////////////////
+	}
+	//return color;
+	return finalColor/* + finalSpotLight*/;
+	//ここまでデプスシャドウマップ///////////////////////////////////////////////////////////////////////////
 }

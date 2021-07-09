@@ -113,6 +113,7 @@ const Vector3& PathMove::Move()
 			//Œü‚«‚ğ•Ï‚¦‚½‰ñ”‚ªM‚Ì‘”‚Æˆê’v‚µ‚½‚È‚ç‚Î‘S•”ˆê’v‚µ‚½‚Ì‚ÅAŒü‚«‚ğ•Ï‚¦‚é–½—ß‚ğ~‚ß‚é
 			if (DishManager::GetInstance().JudgeChangedAllDirection()) {
 			DishManager::GetInstance().SetOrderChangeDirection(false);
+			DishManager::GetInstance().ResetCompletedChangeDirectionNum();
 			}
 		}
 		

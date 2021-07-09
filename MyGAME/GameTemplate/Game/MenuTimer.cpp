@@ -50,7 +50,7 @@ void MenuTimer::Update()
 	}
 
 	//毎フレームタイマーの拡大率をXのみ下げていく。
-	m_scale.x -= TIMER_DECREASE_RATE;
+	m_scale.x -= TIMER_DECREASE_RATE ;
 	//timer--;
 
 	//ゲージの大きさが一定異以上であるとき赤成分を足す = 徐々に黄色にしていく

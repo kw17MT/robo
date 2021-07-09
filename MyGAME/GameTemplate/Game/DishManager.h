@@ -148,6 +148,14 @@ public:
 	}
 
 	/**
+	 * @brief 向きが変わった皿の総数をリセットする
+	*/
+	void ResetCompletedChangeDirectionNum()
+	{
+		m_completedChangeDirectionNum = 0;
+	}
+
+	/**
 	 * @brief 全部の皿の向きが変わったかどうか
 	 * @return TRUE＝終わった。
 	*/

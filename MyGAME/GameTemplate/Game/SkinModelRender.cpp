@@ -89,8 +89,6 @@ void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
 	//シャドウマップのテクスチャ、ライトカメラのビュープロ行列の取得
-	//auto& sm = GameObjectManager::GetInstance()->GetShadowMap();
-	
 	m_modelInitData.m_expandShaderResoruceView = &GameObjectManager::GetInstance()->GetShadowMap().GetRenderTargetTexture();
 
 	m_modelInitData.m_expandConstantBuffer = (void*)&s_dataCopyToVRAM;
