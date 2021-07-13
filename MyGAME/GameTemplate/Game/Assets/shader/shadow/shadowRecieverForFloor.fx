@@ -27,8 +27,15 @@ struct SPSIn{
 	float3 normal		: NORMAL;		//法線。
 	float2 uv 			: TEXCOORD0;	//uv座標。
 
-	//step-4 ライトビュースクリーン空間での座標を追加。
+	//ライトビュースクリーン空間での座標
 	float4 posInLVP : TEXCOORD1;
+    float3 depthInView : TEXCOORD2;
+};
+
+struct SPSOut
+{
+    float4 s_color : SV_Target0;
+    float s_depth : SV_Target1;
 };
 
 ///////////////////////////////////////////////////
@@ -47,12 +54,18 @@ SPSIn VSMain(SVSIn vsIn)
 {
 	//通常の座標変換。
 	SPSIn psIn;
+	//ワールド座標に変換
 	float4 worldPos = mul(mWorld, vsIn.pos);
+	//ビュー座標に変換
 	psIn.pos = mul(mView, worldPos);
+	//カメラからの深度を記録
+    psIn.depthInView = psIn.pos.z;
+	//プロジェクション行列に変換
 	psIn.pos = mul(mProj, psIn.pos);
+	//UVの座標を記録
 	psIn.uv = vsIn.uv;
 
-	//step-5 ライトビュースクリーン空間の座標を計算する。
+	//ライトビュースクリーン空間の座標を計算する。
 	psIn.posInLVP = mul(mLVP, worldPos);
 	psIn.normal = mul(mWorld, vsIn.normal);
 
@@ -61,7 +74,7 @@ SPSIn VSMain(SVSIn vsIn)
 /// <summary>
 /// 影が落とされる3Dモデル用のピクセルシェーダー。
 /// </summary>
-float4 PSMain( SPSIn psIn ) : SV_Target0
+/*float4*/SPSOut PSMain( SPSIn psIn ) : SV_Target0
 {
 	//以下から投影シャドウマップの作成。/////////////////////////////////////////////////////////////////////
 	//float4 color = g_albedo.Sample(g_sampler, psIn.uv);
@@ -116,6 +129,11 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 		}
 	}
 
-	return color;
+	//return color;
 	//ここまでデプスシャドウマップ///////////////////////////////////////////////////////////////////////////
+	
+    SPSOut Out;
+    Out.s_color = color;
+    Out.s_depth = psIn.depthInView;
+    return Out;
 }

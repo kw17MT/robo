@@ -39,16 +39,10 @@ cbuffer ShadowCb : register(b1) {
 	float3 ambientLight;
 	/**************************/
 
-	/*****スポットライト用************/
+	/*スポットライト用*********/
 	SpotLight spotLight[2];
 	/**************************/
 }
-
-//スキニング用の頂点データをひとまとめ。
-//struct SSkinVSIn {
-//	int4  Indices  	: BLENDINDICES0;
-//	float4 Weights  : BLENDWEIGHT0;
-//};
 
 //頂点シェーダーへの入力。
 struct SVSIn{
@@ -66,7 +60,7 @@ struct SPSIn{
 	float4 pos 			: SV_POSITION;	//スクリーン空間でのピクセルの座標。
 	float3 normal		: NORMAL;		//法線。
 	float2 uv 			: TEXCOORD0;	//uv座標。
-	/***********************/
+	/*今は不使用**********************/
 	float3 tangent      : TANGENT;		//タンジェント
 	float3 biNormal     : BINORMAL;		//
 	/****************/
