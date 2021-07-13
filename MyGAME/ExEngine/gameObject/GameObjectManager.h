@@ -177,10 +177,12 @@ private:
 	//ライト座標から見た影を作るためのもの
 	Camera lightCamera;
 
+	//被写界深度関連
+	GaussianBlur depthGaussian;
 	RenderTarget depthInViewMap;
 	SpriteInitData combineDepthSpriteData;
-	Sprite combineDepthSprite;
-
+	Sprite depthInViewSprite;
+	RenderTarget* depthTargets[2] = { &mainRenderTarget, &depthInViewMap };
 };
 
 

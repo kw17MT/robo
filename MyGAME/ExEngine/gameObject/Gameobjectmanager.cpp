@@ -26,7 +26,7 @@ GameObjectManager::GameObjectManager()
 		DXGI_FORMAT_D32_FLOAT
 	);
 
-	//フレームバッファに運ぶ用の画像データ
+	//最終表示用の画像データ
 	copyToBufferSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
 	copyToBufferSpriteData.m_width = 1280;
 	copyToBufferSpriteData.m_height = 720;
@@ -109,7 +109,19 @@ GameObjectManager::GameObjectManager()
 		DXGI_FORMAT_UNKNOWN
 	);
 
-	//combineDepthSpriteData.m_textures[0] = &gaussianBlur[0].GetBokeTexture();
+	depthGaussian.Init(&mainRenderTarget.GetRenderTargetTexture());
+
+	//被写界深度込みの合成画像
+	combineDepthSpriteData.m_textures[0] = &depthGaussian.GetBokeTexture();//&gaussianBlur[0].GetBokeTexture();
+	combineDepthSpriteData.m_textures[1] = &depthInViewMap.GetRenderTargetTexture();
+	combineDepthSpriteData.m_width = 1280;
+	combineDepthSpriteData.m_height = 720;
+	combineDepthSpriteData.m_fxFilePath = "Assets/shader/depthInView.fx";
+	combineDepthSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	combineDepthSpriteData.m_alphaBlendMode = AlphaBlendMode_Trans;
+	depthInViewSprite.Init(combineDepthSpriteData);
+
+	//depthTargets[] = { &mainRenderTarget, &depthInViewMap };
 }
 GameObjectManager::~GameObjectManager()
 {
@@ -177,6 +189,21 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 	/********************************************************************************************/
 
+	/*被写界深度マップ作成***********************************************************************/
+	rc.WaitUntilToPossibleSetRenderTargets(2, depthTargets);
+	rc.SetRenderTargetsAndViewport(2, depthTargets);
+	rc.ClearRenderTargetViews(2, depthTargets);
+	for (auto& goList : m_gameObjectListArray) {
+		for (auto& go : goList) {
+			go->RenderWrapper(rc);
+		}
+	}
+
+	rc.WaitUntilFinishDrawingToRenderTargets(2, depthTargets);
+	depthGaussian.ExecuteOnGPU(rc, 5);
+	/********************************************************************************************/
+
+
 	/*川瀬式ガウシアンブラー*********************************************************************/
 	rc.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
 	rc.SetRenderTargetAndViewport(luminanceRenderTarget);
@@ -193,10 +220,13 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	gaussianBlur[1].ExecuteOnGPU(rc, 5);
 	gaussianBlur[2].ExecuteOnGPU(rc, 5);
 	gaussianBlur[3].ExecuteOnGPU(rc, 5);
+	/********************************************************************************************/
 
+	/*ここから最終的に表示する画面（画像）を作成*************************************************/
 	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
 	rc.SetRenderTargetAndViewport(mainRenderTarget);
 	finalSprite.Draw(rc);
+	depthInViewSprite.Draw(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 	/********************************************************************************************/
 	

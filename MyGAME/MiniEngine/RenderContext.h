@@ -398,6 +398,19 @@ public:
 		SetRenderTarget(renderTarget);
 	}
 
+	void SetRenderTargetsAndViewport(UINT numRT, RenderTarget* renderTargets[])
+	{
+		D3D12_VIEWPORT viewport;
+		viewport.TopLeftX = 0;
+		viewport.TopLeftY = 0;
+		viewport.Width = static_cast<float>(renderTargets[0]->GetWidth());
+		viewport.Height = static_cast<float>(renderTargets[0]->GetHeight());
+		viewport.MinDepth = D3D12_MIN_DEPTH;
+		viewport.MaxDepth = D3D12_MAX_DEPTH;
+		SetViewportAndScissor(viewport);
+		SetRenderTargets(numRT, renderTargets);
+	}
+
 private:
 	enum { MAX_DESCRIPTOR_HEAP = 4 };	//ディスクリプタヒープの最大数。
 	enum { MAX_CONSTANT_BUFFER = 8 };	//定数バッファの最大数。足りなくなったら増やしてね。

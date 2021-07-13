@@ -73,6 +73,15 @@ struct SPSIn{
 	//step-4 ライトビュースクリーン空間での座標を追加。
 	float4 posInLVP : TEXCOORD1;
 	float4 worldPos	: TEXCOORD2;		//ワールド座標
+	
+    float3 depthInView : TEXCOORD3;			//深度
+};
+
+//被写界深度用に深度値を持たせた構造体。
+struct SPSOut
+{
+	float4 s_color : SV_Target0;
+	float  s_depth : SV_Target1;
 };
 
 ///////////////////////////////////////////////////
@@ -118,6 +127,8 @@ SPSIn VSMain(SVSIn vsIn)
 	psIn.worldPos = psIn.pos;
 	//ビュー座標に変換
 	psIn.pos = mul(mView, psIn.pos);
+	//深度値を取得（カメラからの深度値が欲しいため、このタイミング
+    psIn.depthInView = psIn.pos.z;
 	//スクリーン座標に変換
 	psIn.pos = mul(mProj, psIn.pos);
 	//法線情報の獲得
@@ -229,7 +240,7 @@ float CookTrranceSpecular(float3 L, float3 V, float3 N, float metaric)
 /// <summary>
 /// 影が落とされる3Dモデル用のピクセルシェーダー。
 /// </summary>
-float4 PSMain(SPSIn psIn) : SV_Target0
+SPSOut/*float4*/ PSMain(SPSIn psIn) : SV_Target0
 {
 	//物体から目へのベクトル
 	float3 toEye = eyePos - psIn.worldPos;
@@ -367,6 +378,11 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 		}
 	}
 	//return color;
-    return finalColor + finalSpotLight;
+    //return finalColor + finalSpotLight;
 	//ここまでデプスシャドウマップ///////////////////////////////////////////////////////////////////////////
+	
+    SPSOut Out;
+    Out.s_color = finalColor + finalSpotLight;
+    Out.s_depth = psIn.depthInView;
+    return Out;
 }
