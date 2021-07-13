@@ -30,9 +30,6 @@
 #include "Conveyor.h"
 #include "LightManager.h"
 
-//消すこと
-#include "Burger.h"
-
 namespace
 {
 	const Vector2 COUNTDOWN_PIVOT = { 0.5f,0.5f };
@@ -235,7 +232,7 @@ bool Game::Start()
 	m_bgm = NewGO<CSoundSource>(0);
 	m_bgm->Init(L"Assets/sound/BGM/BGM1.wav", false);
 	m_bgm->SetVolume(SE_VOLUME);
-	//m_bgm->Play(true);
+	m_bgm->Play(true);
 
 
 	//デプスシャドウ確認用の床作成
@@ -245,10 +242,6 @@ bool Game::Start()
 	m_depthTest->SetPosition(depthPos);
 	Vector3 depthScale = { 0.2f,1.0f,0.1f };
 	m_depthTest->SetScale(depthScale);
-
-	//輝度確認用のハンバーガーも消して
-	//Updateにあり
-	//DeleteGO書いてない　ヘッダ消すこと
 
 	
 	return true;
@@ -357,11 +350,6 @@ void Game::Update()
 			NewGO<Title>(0, "title");
 			DeleteGO(this);
 		}
-	}
-
-	//消すこと
-	if (g_pad[0]->IsTrigger(enButtonX)) {
-		NewGO<Burger>(0);
 	}
 
 	//目線の位置の更新

@@ -78,7 +78,10 @@ void MeshParts::CreateDescriptorHeaps()
 			descriptorHeap.RegistShaderResource(0, mesh->m_materials[matNo]->GetAlbedoMap());		//アルベドマップ。
 			descriptorHeap.RegistShaderResource(1, mesh->m_materials[matNo]->GetNormalMap());		//法線マップ。
 			descriptorHeap.RegistShaderResource(2, mesh->m_materials[matNo]->GetSpecularMap());		//スペキュラマップ。
-			descriptorHeap.RegistShaderResource(3, m_boneMatricesStructureBuffer);							//ボーンのストラクチャードバッファ。
+			descriptorHeap.RegistShaderResource(3, m_boneMatricesStructureBuffer);					//ボーンのストラクチャードバッファ。
+			/**勝手に改造************************/
+			descriptorHeap.RegistShaderResource(4, mesh->m_materials[matNo]->GetNormalMap());		//AOマップで使用（法線マップを取得で良いのか分からないがちょうどいい）。
+			/************************************/
 			if (m_expandShaderResourceView){
 				descriptorHeap.RegistShaderResource(EXPAND_SRV_REG__START_NO, *m_expandShaderResourceView);
 			}
@@ -86,11 +89,6 @@ void MeshParts::CreateDescriptorHeaps()
 			if (m_expandConstantBuffer.IsValid()) {
 				descriptorHeap.RegistConstantBuffer(1, m_expandConstantBuffer);
 			}
-			/**勝手に改造************************/
-			//if (m_expandConstantBufferForLight.IsValid()) {
-			//	descriptorHeap.RegistConstantBuffer(2, m_expandConstantBufferForLight);
-			//}
-			/**************************/
 			//ディスクリプタヒープへの登録を確定させる。
 			descriptorHeap.Commit();
 			descriptorHeapNo++;

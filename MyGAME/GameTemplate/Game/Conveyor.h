@@ -1,4 +1,6 @@
 #pragma once
+class SkinModelRender;
+
 class Conveyor : public IGameObject
 {
 private:

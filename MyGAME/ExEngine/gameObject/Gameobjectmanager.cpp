@@ -91,7 +91,6 @@ GameObjectManager::GameObjectManager()
 	lightCamera.SetTarget(0.0f, 0.0f, 0.0f);
 	lightCamera.SetUp({ 1, 0, 0});							//カメラの上をX座標にしておく
 	lightCamera.SetViewAngle(Math::DegToRad(145.0f));
-
 	//平行投影にする場合
 	/*
 	lightCamera.SetUpdateProjMatrixFunc(Camera::enUpdateProjMatrixFunc_Ortho);
@@ -99,6 +98,18 @@ GameObjectManager::GameObjectManager()
 	lightCamera.SetHeight(720);
 	*/
 	lightCamera.Update();
+
+	//被写界深度用レンダーターゲット
+	depthInViewMap.Create(
+		1280,
+		720,
+		1,
+		1,
+		DXGI_FORMAT_R32_FLOAT,
+		DXGI_FORMAT_UNKNOWN
+	);
+
+	//combineDepthSpriteData.m_textures[0] = &gaussianBlur[0].GetBokeTexture();
 }
 GameObjectManager::~GameObjectManager()
 {

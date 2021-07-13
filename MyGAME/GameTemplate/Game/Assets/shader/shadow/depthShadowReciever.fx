@@ -3,6 +3,7 @@
  */
 
 static const float PI = 3.14f;
+static const int SpotLightNum = 2;
 
 //モデル用の定数バッファ
 cbuffer ModelCb : register(b0){
@@ -17,14 +18,14 @@ struct DirectionalLight {
 	float3 color;
 };
 
-//struct SpotLight
-//{
-//	float3 spotPosition;
-//	float3 spotColor;
-//	float  spotRange;
-//	float3 spotDirection;
-//	float  spotAngle
-//};
+struct SpotLight
+{
+    float3 spotPosition;
+    float3 spotColor;
+    float spotRange;
+    float3 spotDirection;
+    float spotAngle;
+};
 
 //ライトビュープロジェクション行列にアクセスする定数バッファを定義。
 cbuffer ShadowCb : register(b1) {
@@ -39,13 +40,7 @@ cbuffer ShadowCb : register(b1) {
 	/**************************/
 
 	/*****スポットライト用************/
-	//SpotLight spotLight0;
-	//SpotLight spotLight1;
-	float3 spotPosition;
-	float3 spotColor;
-	float  spotRange;
-	float3 spotDirection;
-	float  spotAngle;
+	SpotLight spotLight[2];
 	/**************************/
 }
 
@@ -87,6 +82,7 @@ struct SPSIn{
 Texture2D<float4> g_albedo : register(t0);		//アルベドマップ。
 Texture2D<float4> g_normalMap : register(t1);		//法線マップ。
 Texture2D<float4> g_specMap : register(t2);		//鏡面マップ
+Texture2D<float4> g_aoMap : register(t4);		//アンビエントオクルージョンマップ
 Texture2D<float4> g_shadowMap : register(t10);	//シャドウマップ。
 
 sampler g_sampler : register(s0);				// サンプラステート。
@@ -235,53 +231,60 @@ float CookTrranceSpecular(float3 L, float3 V, float3 N, float metaric)
 /// </summary>
 float4 PSMain(SPSIn psIn) : SV_Target0
 {
-	/*スポットライト計算開始-------------------------------------------------------------------------------*/
 	//物体から目へのベクトル
 	float3 toEye = eyePos - psIn.worldPos;
 	toEye = normalize(toEye);
-	////ポイントライトから物体へのベクトル
-	//float3 pointLightToSurface = psIn.worldPos - /*spotLight0.*/spotPosition;
-	////ポイントライトから物体への距離
-	//float3 distance = length(pointLightToSurface);
-	//pointLightToSurface = normalize(pointLightToSurface);
-	//
-	////距離による影響度
-	//float distanceAffect = 1.0f - 1.0f / /*spotLight0.*/spotRange * distance;
-	//if (distanceAffect < 0.0f) { distanceAffect = 0.0f; }
-	//distanceAffect = pow(distanceAffect, 1.0f);
-
-	////角度による影響度
-	//float angle = dot(pointLightToSurface, /*spotLight0.*/spotDirection);
-	//angle = abs(acos(angle));
-	//float angleAffect = 1.0f - 1.0f / /*spotLight0.*/spotAngle * angle;
-	//if (angleAffect < 0.0f) { angleAffect = 0.0f; }
-	//angleAffect = pow(angleAffect, 0.5f);
-
-	////ポイントライト拡散反射光
-	//float t = dot(pointLightToSurface, psIn.normal);
-	//t *= -1.0f;
-	//t = max(0.0f, t);
-	//float3 pointDiff = /*spotLight0.*/spotColor * t;
-
-	////ポイントライト鏡面反射光
-	//float3 pointRef = reflect(pointLightToSurface, psIn.normal);
-	//t = dot(toEye, pointRef);
-	//t = max(0.0f, t);
-	//t = pow(t, 5.0f);
-	//float3 pointSpec = /*spotLight0.*/spotColor * t;
-
-	////スポットライトにする
-	//pointDiff *= distanceAffect;
-	//pointSpec *= distanceAffect;
-
-	//float3 spotDiff = pointDiff * angleAffect;
-	//float3 spotSpec = pointSpec * angleAffect;
-
-	//float4 finalSpotLight = { 0.0f, 0.0f, 0.0f, 0.0f }
-	//finalSpotLight.xyz = pointDiff + pointSpec;
-
-	//return finalSpotLight;
+	/*スポットライト計算開始-------------------------------------------------------------------------------*/
+	//最終的なスポットライト
+    float4 finalSpotLight = { 0.0f, 0.0f, 0.0f, 0.0f };
+    for (int i = 0; i < SpotLightNum; i++)
+    {
+		//ポイントライトから物体へのベクトル
+        float3 pointLightToSurface = psIn.worldPos - spotLight[i].spotPosition;
+		//ポイントライトから物体への距離
+        float3 distance = length(pointLightToSurface);
+        pointLightToSurface = normalize(pointLightToSurface);
 	
+	//距離による影響度
+        float distanceAffect = 1.0f - 1.0f / spotLight[i].spotRange * distance;
+        if (distanceAffect < 0.0f)
+        {
+            distanceAffect = 0.0f;
+        }
+        distanceAffect = pow(distanceAffect, 1.0f);
+
+	//角度による影響度
+        float angle = dot(pointLightToSurface, spotLight[i].spotDirection);
+        angle = abs(acos(angle));
+        float angleAffect = 1.0f - 1.0f / spotLight[i].spotAngle * angle;
+        if (angleAffect < 0.0f)
+        {
+            angleAffect = 0.0f;
+        }
+        angleAffect = pow(angleAffect, 0.5f);
+
+	//ポイントライト拡散反射光
+        float t = dot(pointLightToSurface, psIn.normal);
+        t *= -1.0f;
+        t = max(0.0f, t);
+        float3 pointDiff = spotLight[i].spotColor * t;
+
+	//ポイントライト鏡面反射光
+        float3 pointRef = reflect(pointLightToSurface, psIn.normal);
+        t = dot(toEye, pointRef);
+        t = max(0.0f, t);
+        t = pow(t, 5.0f);
+        float3 pointSpec = spotLight[i].spotColor * t;
+
+	//スポットライトにする
+        pointDiff *= distanceAffect;
+        pointSpec *= distanceAffect;
+
+        float3 spotDiff = pointDiff * angleAffect;
+        float3 spotSpec = pointSpec * angleAffect;
+		
+        finalSpotLight.xyz += pointDiff + pointSpec;
+    }
 	/*スポットライト計算終わり-------------------------------------------------------------------------------*/
 
 	/*　PBR計算開始　**********************************************************************************************/
@@ -315,14 +318,18 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	//金属度（metaric)が強ければ、色は鏡面反射のspecularColor、弱ければ白。
 	//SpecularColorの強さを鏡面反射の強さとして扱う。
 	float specTerm = length(specColor.xyz);
-	//specTerm = 0.1f;														//ここをアクティブにすると鼻の上の黒いのは消える。
 	//ここで金属度metaricを利用して、白っぽい色から物体の色へ線形補完する。
 	spec *= lerp(float3(specTerm, specTerm, specTerm), specColor, metaric);
 
 	//鏡面反射率を使って、拡散反射光と鏡面反射光を合成する
 	lig += diffuse * (1.0f - specTerm) + spec;
+	
+	//AOマップを使用した環境光の適用
+    float3 ambient = ambientLight;
+	float ambientPower = g_aoMap.Sample(g_sampler, psIn.uv);
+    ambient *= ambientPower;
 
-	lig += ambientLight * albedoColor;
+	lig += ambient * albedoColor;
 
 	float4 finalColor = 1.0f;
 	finalColor.xyz = lig;
@@ -353,13 +360,13 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 		//シャドウマップに描き込まれているZ値と比較する
 		float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
 		//シャドウアクネ解決のため実数値で補正、調整
-		if (zInLVP > zInShadowMap + 0.0001f)
+		if (zInLVP > zInShadowMap + 0.00001f)
 		{
 			//color.xyz *= 0.5f;
 			finalColor.xyz *= 0.5f;
 		}
 	}
 	//return color;
-	return finalColor/* + finalSpotLight*/;
+    return finalColor + finalSpotLight;
 	//ここまでデプスシャドウマップ///////////////////////////////////////////////////////////////////////////
 }

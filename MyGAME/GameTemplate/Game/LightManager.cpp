@@ -5,20 +5,16 @@ LightManager::LightManager()
 {
 	//ディレクションライトの正規化
 	s_allLight.directionalLight.directionalDirection.Normalize();
-	//s_allLight.directionalDirection.Normalize();
 	//視点（メインカメラの位置）
 	s_allLight.directionalLight.eyePos = g_camera3D->GetPosition();
-	//s_allLight.eyePos = g_camera3D->GetPosition();
-	//スポットライト2種類の初期化、正規化
-	s_allLight.spotDirection.Normalize();
-
-	/*s_allLight.spotLight0.spotPosition = { 500.0f, 100.0f, 0.0f };
-	s_allLight.spotLight0.spotDirection = { 1.0f, -1.0f, 0.0 };
-	s_allLight.spotLight0.spotDirection.Normalize();
-	s_allLight.spotLight0.spotColor = { 0.3f,0.0f,0.0f };*/
-
-	/*s_allLight.spotLight1.spotPosition = { -500.0f,100.0f,0.0f };
-	s_allLight.spotLight1.spotDirection = { -1.0f, -1.0f, 0.0 };
-	s_allLight.spotLight1.spotDirection.Normalize();
-	s_allLight.spotLight1.spotColor = { 0.0f,0.0f,0.3f };*/
+	//スポットライト1個目の初期化（赤色）
+	s_allLight.spotLight[0].spotPosition = { 1000.0f, 200.0f, 0.0f };
+	s_allLight.spotLight[0].spotDirection = { 1.0f, -1.0f, 0.0 };
+	s_allLight.spotLight[0].spotDirection.Normalize();
+	s_allLight.spotLight[0].spotColor = { 0.5f,0.0f,0.0f };
+	//スポットライト2個目の初期化（青色）
+	s_allLight.spotLight[1].spotPosition = { -1000.0f,200.0f,0.0f };
+	s_allLight.spotLight[1].spotDirection = { -1.0f, -1.0f, 0.0 };
+	s_allLight.spotLight[1].spotDirection.Normalize();
+	s_allLight.spotLight[1].spotColor = { 0.0f,0.0f,0.5f };
 }

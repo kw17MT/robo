@@ -12,6 +12,7 @@ class Skeleton;
 class Material;
 class IShaderResource;
 
+const int MAX_MODEL_EXPAND_SRV = 16;	//拡張SRVの最大数。
 
 /// <summary>
 /// メッシュ
@@ -134,8 +135,4 @@ private:
 	std::vector< DescriptorHeap > m_descriptorHeap;		//ディスクリプタヒープ。
 	Skeleton* m_skeleton = nullptr;								//スケルトン。
 	void* m_expandData = nullptr;						//ユーザー拡張データ。
-	/*勝手に追加************************/
-	//ConstantBuffer m_expandConstantBufferForLight;
-	//void* m_expandLightData = nullptr;					//ライト用拡張データ
-	/**********************************/
 };

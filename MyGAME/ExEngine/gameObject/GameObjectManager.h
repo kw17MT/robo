@@ -7,8 +7,6 @@
 #include "gameObject/IGameObject.h"
 #include <functional>
 #include <vector>
-class ShadowParam;
-class SkinModelRender;
 
 /// <summary>
 /// GameObjectManagerクラス
@@ -178,6 +176,11 @@ private:
 	RenderTarget shadowMap;
 	//ライト座標から見た影を作るためのもの
 	Camera lightCamera;
+
+	RenderTarget depthInViewMap;
+	SpriteInitData combineDepthSpriteData;
+	Sprite combineDepthSprite;
+
 };
 
 
