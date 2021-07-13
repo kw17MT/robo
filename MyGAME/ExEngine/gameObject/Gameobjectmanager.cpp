@@ -200,7 +200,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	}
 
 	rc.WaitUntilFinishDrawingToRenderTargets(2, depthTargets);
-	depthGaussian.ExecuteOnGPU(rc, 5);
+	depthGaussian.ExecuteOnGPU(rc, 120);
 	/********************************************************************************************/
 
 

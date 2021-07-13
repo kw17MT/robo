@@ -114,10 +114,13 @@ void SkinModelRender::InitAsFloor(const char* modelFilePath, const char* skeleto
 
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
-	m_modelInitData.m_expandShaderResoruceView = &m_shadowMap.GetRenderTargetTexture();
+	m_modelInitData.m_expandShaderResoruceView = &GameObjectManager::GetInstance()->GetShadowMap().GetRenderTargetTexture();
 
-	m_modelInitData.m_expandConstantBuffer = (void*)&m_lightCamera.GetViewProjectionMatrix();
-	m_modelInitData.m_expandConstantBufferSize = sizeof(m_lightCamera.GetViewProjectionMatrix());
+	//m_modelInitData.m_expandConstantBuffer = (void*)&GameObjectManager::GetInstance()->GetLightCamera().GetViewProjectionMatrix();
+	//m_modelInitData.m_expandConstantBufferSize = sizeof(GameObjectManager::GetInstance()->GetLightCamera().GetViewProjectionMatrix());
+
+	m_modelInitData.m_expandConstantBuffer = (void*)&s_dataCopyToVRAM;
+	m_modelInitData.m_expandConstantBufferSize = sizeof(s_dataCopyToVRAM);
 
 
 	if (skeletonPath != nullptr) {

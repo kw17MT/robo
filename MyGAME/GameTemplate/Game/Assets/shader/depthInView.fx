@@ -36,6 +36,10 @@ Texture2D<float4> depthTexture : register(t1);
 
 sampler Sampler : register(s0);
 
+const int depthInViewStart = 800;
+const int depthInViewEnd = 2000;
+
+
 /*!
  * @brief 被写界深度のピクセルシェーダー
  */
@@ -43,11 +47,14 @@ float4 PSMain(PSInput psIn) : SV_Target0
 {
     float depth = depthTexture.Sample(Sampler, psIn.uv);
 
-    clip(depth - 800.0f);
+	//深度値800以下のものはピクセルキル
+	//800以下は被写界深度しない
+    clip(depth - 1000);
 	
     float4 boke = bokeTexture.Sample(Sampler, psIn.uv);
 	
-    boke.a = min(1.0f, (depth - 800.0f) / 2000.0f);
+	//2000でボケ度最高値に
+    boke.a = min(1.0f, (depth - 1000) / 1800);
 	
     return boke;
 }
