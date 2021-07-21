@@ -28,16 +28,18 @@ namespace
 
 Dish::~Dish()
 {
-	//ŽM‚Ìƒ‚ƒfƒ‹‚ðíœ
-	DeleteGO(m_skinModelRender);
-	
 	//‚±‚ÌŽM‚ªo‚µ‚½‹ïÞ‚ð‚·‚×‚Äíœ‚Ì‚Â‚à‚è
 	for (Guzai* guzai : m_guzai)
 	{
-		DeleteGO(guzai);
+		if (guzai != nullptr) {
+			DeleteGO(guzai);
+		}
 	}
 	//‘S‚Ä‚Ì‹ïÞ‚Ì—v‘f‚ð‘Síœ
 	m_guzai.clear();
+
+	//ŽM‚Ìƒ‚ƒfƒ‹‚ðíœ
+	DeleteGO(m_skinModelRender);
 }
 
 bool Dish::Start()
@@ -160,7 +162,7 @@ void Dish::Update()
 		m_pathMove.get()->ChangeMoveSpeed(MOVE_SPEED);
 	}
 
-	Move();
+		Move();
 
 	m_skinModelRender->SetScale(m_scale);
 }

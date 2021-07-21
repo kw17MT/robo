@@ -27,7 +27,6 @@ namespace {
 Burger::~Burger()
 {
 	DeleteGO(m_skinModelRender);
-	DeleteGO(m_effect);
 }
 
 bool Burger::Start()
@@ -67,7 +66,7 @@ bool Burger::Start()
 	m_counter = FindGO<Counter>(counterName);
 
 	//ハンバーガーが出てきたときのエフェクト
-	m_effect = NewGO<Effect>(0);
+	Effect* m_effect = NewGO<Effect>(0);
 	m_effect->Init(u"Assets/effect/kirakira.efk");
 	m_effect->Play();
 	m_effect->SetScale(EFFECT_SCALE);
@@ -167,7 +166,6 @@ void Burger::Update()
 	
 	SetOnTrashCan();
 
-	m_effect->Update();
 	m_skinModelRender->SetPosition(m_position);
 	m_skinModelRender->SetScale(m_burgerScale);
 }

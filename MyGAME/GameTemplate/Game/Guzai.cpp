@@ -753,4 +753,8 @@ void Guzai::Update()
 	else {
 		m_skinModelRender->SetScale(m_scale);
 	}
+
+	if (m_shouldDelete == true) {
+		DeleteGO(this);
+	}
 }

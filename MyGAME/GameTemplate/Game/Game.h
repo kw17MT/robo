@@ -22,8 +22,9 @@ class ShadowTest;
 class Ground;
 class CycleDirection;
 class Conveyor;
-
 class CountDown;
+
+#include "PathFactory.h"
 
 class Game : public IGameObject
 {

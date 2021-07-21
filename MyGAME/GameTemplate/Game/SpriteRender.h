@@ -53,7 +53,7 @@ public:
 	 * @brief カラー変更(Vector4版)
 	 * @param color 色
 	*/
-	void SetColor(const Vector4& color) { m_sprite.ColorUpdate(color); }
+	void SetColor(const Vector4 color) { m_sprite.ColorUpdate(color); }
 
 	/**
 	 * @brief カラー変更(float版)

@@ -64,6 +64,11 @@ public:
 	//客に提供したバーガーの数が規定数に達したら、流れる向きを変える。
 	void SwitchCycleDirection();
 
+	/**
+	 * @brief 流れを表す画像の回転方向を変更する。
+	*/
+	void SwitchCycleSpriteDirection();
+
 private:
 	Vector3 	m_moveVector;		//移動ベクトル。
 	Vector3 m_position;

@@ -24,7 +24,12 @@ private:
 		AllLight s_lig = LightManager::GetInstance().GetLightData();
 	}s_dataCopyToVRAM;
 
-
+	enum EnRenderTaypes
+	{
+		enRenderNormal,
+		enRenderShade,
+		enRenderLuminance
+	};
 
 public:
 	SkinModelRender() {};
@@ -160,16 +165,16 @@ public:
 	void Render(RenderContext& rc) 
 	{
 		//•’Ê•`‰æ
-		if (GameObjectManager::GetInstance()->GetRenderTypes() == 0) {				
+		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderNormal) {				
 			m_model.Draw(rc);
 			return;
 		}
 		//‰eì‚é
-		if (GameObjectManager::GetInstance()->GetRenderTypes() == 1) {
+		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderShade) {
 			m_shadow.Draw(rc, GameObjectManager::GetInstance()->GetLightCamera());
 			return;
 		}
-		if (GameObjectManager::GetInstance()->GetRenderTypes() == 2) {
+		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderLuminance) {
 			if (m_isApplyBlur) {
 				m_model.Draw(rc);
 			}

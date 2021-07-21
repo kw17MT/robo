@@ -226,7 +226,7 @@
 		m_world = m_world * mRot;
 		m_world = m_world * mTrans;
 	}
-	void Sprite::ColorUpdate(const Vector4& color)
+	void Sprite::ColorUpdate(const Vector4 color)
 	{
 		m_color.x = color.x;
 		m_color.y = color.y;

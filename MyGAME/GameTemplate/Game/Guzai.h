@@ -18,7 +18,7 @@ private:
 	const Vector3 m_TargetedScale = { 1.3f,1.3f,1.3f }; //ターゲットされた時の拡大率
 	Quaternion m_rotation = Quaternion::Identity;		//具材の回転
 	int m_typeNo = 9;									//０．チーズ　１．エッグ　２．レタス　３．パテ　４．トマト　５．オニオン　６．ベーコン
-	int m_decrementTime = m_holdTime;					//HOLDTIMEが待ち時間。DECREMENTTIMEが徐々に減らしていく役割がある。
+	int m_decrementTime = 10;							//HOLDTIMEが待ち時間。DECREMENTTIMEが徐々に減らしていく役割がある。
 	int m_whichPlayerGet = 0;							//その具材はどちらのプレイヤーにつかまれたか
 	int m_whichPlayerTargetMe = 0;						//どちらのプレイヤーにターゲットされたか
 	int m_setKitchenNum = 9;							//自身がセットされた具材置き場の番号
@@ -44,7 +44,9 @@ private:
 	bool m_isHad = false;								//１ならば持たれている。
 	bool m_returnedFromKitchen = false;					//一度キッチンに置かれてから、また取られたとき
 	bool m_isPutOnKitchen = false;						//TRUEならばもうキッチンに置かれている。
-	const char* m_nowModelPath;							//その具材は何であるかのメモ用、ターゲティングのオブジェクトを作成時に使用。
+	const char* m_nowModelPath;					//その具材は何であるかのメモ用、ターゲティングのオブジェクトを作成時に使用。
+
+	bool m_shouldDelete = false;
 
 public:	
 	Guzai() {};
@@ -124,6 +126,9 @@ public:
 	 * @brief 具材を持ったり置いたりする処理
 	*/
 	void GrabAndPut();
+
+	void SetShouldDeleted(bool state) { m_shouldDelete = state; }
+	
 	/**
 	 * @brief 一定範囲内で一番近い具材をターゲットする
 	*/

@@ -161,7 +161,7 @@ public:
 	*/
 	bool JudgeChangedAllDirection()
 	{
-		return m_dishNum == m_completedChangeDirectionNum;
+		return m_dishNum + 1 == m_completedChangeDirectionNum;
 	}
 };
 

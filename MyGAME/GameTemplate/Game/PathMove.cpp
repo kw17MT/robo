@@ -15,10 +15,13 @@ namespace
 	const float SE_VOLUME = 2.0f;
 }
 
+//これをつかっているところ探す
 void PathMove::Init(const Vector3& pos, const float move, EnLane enLane)
 {
 	m_position = pos;
 	m_moveSpeed = move;
+
+	m_cycleDirection = enNormal;
 
 	m_path = PathFactory::GetInstance().GetPath(enLane);
 
@@ -41,21 +44,6 @@ void PathMove::SwitchCycleDirection()
 		nextDistance.Normalize();
 		m_moveVector = nextDistance;
 
-		//回転方向スプライト(逆転)
-		m_directSprite[LEFT_CYCLE_SPRITE] = FindGO<CycleDirection>("dirsp1");
-		m_directSprite[LEFT_CYCLE_SPRITE]->ChangeSpriteForward();
-		m_directSprite[LEFT_CYCLE_SPRITE]->SetDirection(Forward);					//右回転
-		m_directSprite[LEFT_CYCLE_SPRITE]->SetSide(Left);							//左
-
-		m_directSprite[RIGHT_CYCLE_SPRITE] = FindGO<CycleDirection>("dirsp2");
-		m_directSprite[RIGHT_CYCLE_SPRITE]->ChangeSpriteReverse();
-		m_directSprite[RIGHT_CYCLE_SPRITE]->SetDirection(Reverse);					//左回転
-		m_directSprite[RIGHT_CYCLE_SPRITE]->SetSide(Right);							//右
-
-		m_directSprite[FIXED_CYCLE_SPRITE] = FindGO<CycleDirection>("dirspfixed");	//固定表示
-		m_directSprite[FIXED_CYCLE_SPRITE]->ChangeFixedSpriteForward();				//正転
-		m_directSprite[FIXED_CYCLE_SPRITE]->SetDirection(FixedReverse);
-
 		CSoundSource* se = NewGO<CSoundSource>(0);
 		se->Init(L"Assets/sound/mechanical.wav", false);
 		se->SetVolume(2.0f);
@@ -71,6 +59,38 @@ void PathMove::SwitchCycleDirection()
 		nextDistance.Normalize();
 		m_moveVector = nextDistance;
 
+		
+
+		CSoundSource* se = NewGO<CSoundSource>(0);
+		se->Init(L"Assets/sound/mechanical.wav", false);
+		se->SetVolume(SE_VOLUME);
+		se->Play(false);
+	}
+}
+
+//ここをスプライトのみの変更関数を作成する。
+void PathMove::SwitchCycleSpriteDirection()
+{
+	//逆転方向に変える
+	if (m_cycleDirection == enNormal) {
+		m_cycleDirection = enReverse;
+		//回転方向スプライト(逆転)
+		m_directSprite[LEFT_CYCLE_SPRITE] = FindGO<CycleDirection>("dirsp1");
+		m_directSprite[LEFT_CYCLE_SPRITE]->ChangeSpriteForward();
+		m_directSprite[LEFT_CYCLE_SPRITE]->SetDirection(Forward);					//右回転
+		m_directSprite[LEFT_CYCLE_SPRITE]->SetSide(Left);							//左
+
+		m_directSprite[RIGHT_CYCLE_SPRITE] = FindGO<CycleDirection>("dirsp2");
+		m_directSprite[RIGHT_CYCLE_SPRITE]->ChangeSpriteReverse();
+		m_directSprite[RIGHT_CYCLE_SPRITE]->SetDirection(Reverse);					//左回転
+		m_directSprite[RIGHT_CYCLE_SPRITE]->SetSide(Right);							//右
+
+		m_directSprite[FIXED_CYCLE_SPRITE] = FindGO<CycleDirection>("dirspfixed");	//固定表示
+		m_directSprite[FIXED_CYCLE_SPRITE]->ChangeFixedSpriteForward();				//正転
+		m_directSprite[FIXED_CYCLE_SPRITE]->SetDirection(FixedReverse);
+	}
+	else {
+		m_cycleDirection = enNormal;
 		//回転方向スプライト(正転)
 		m_directSprite[LEFT_CYCLE_SPRITE] = FindGO<CycleDirection>("dirsp1");
 		m_directSprite[LEFT_CYCLE_SPRITE]->ChangeSpriteReverse();
@@ -85,11 +105,6 @@ void PathMove::SwitchCycleDirection()
 		m_directSprite[FIXED_CYCLE_SPRITE] = FindGO<CycleDirection>("dirspfixed");	//固定表示
 		m_directSprite[FIXED_CYCLE_SPRITE]->ChangeFixedSpriteReverse();
 		m_directSprite[FIXED_CYCLE_SPRITE]->SetDirection(FixedForward);
-
-		CSoundSource* se = NewGO<CSoundSource>(0);
-		se->Init(L"Assets/sound/mechanical.wav", false);
-		se->SetVolume(SE_VOLUME);
-		se->Play(false);
 	}
 }
 
@@ -110,10 +125,13 @@ const Vector3& PathMove::Move()
 			//向きを変えた回数を記録する（＋１する）
 			DishManager::GetInstance().AddCompletedChangeDirectionNum();
 
-			//向きを変えた回数が皿の総数と一致したならば全部一致したので、向きを変える命令を止める
+			//向きを変えた回数が皿の総数と一致したならば
 			if (DishManager::GetInstance().JudgeChangedAllDirection()) {
-			DishManager::GetInstance().SetOrderChangeDirection(false);
-			DishManager::GetInstance().ResetCompletedChangeDirectionNum();
+				//画像の向きだけを変える。
+				SwitchCycleSpriteDirection();
+				//全部一致したので、向きを変える命令を止める
+				DishManager::GetInstance().SetOrderChangeDirection(false);
+				DishManager::GetInstance().ResetCompletedChangeDirectionNum();
 			}
 		}
 		

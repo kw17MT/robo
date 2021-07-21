@@ -17,7 +17,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ゲームオブジェクトマネージャーのインスタンスを作成する。
 	GameObjectManager::CreateInstance();
 	PhysicsWorld::CreateInstance();
-
 	//サウンドを鳴らす用のインスタンス
 	CSoundEngine::CreateInstance();
 	CSoundEngine::GetInstance()->Init();
@@ -54,32 +53,32 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 
 		//カメラの移動
-		if (g_pad[0]->IsPress(enButtonLeft)) {
-			Vector3 a = g_camera3D->GetPosition();
-			a.y -= 20.0f;
-			g_camera3D->SetPosition(a);			
-		}
-		if (g_pad[0]->IsPress(enButtonRight)) {
-			Vector3 a = g_camera3D->GetPosition();
-			a.y += 20.0f;
-			g_camera3D->SetPosition(a);
-		}
-		if (g_pad[0]->IsPress(enButtonUp)) {
-			Vector3 a = g_camera3D->GetPosition();
-			Vector3 b = g_camera3D->GetTarget();
-			a.x -= 20.0f;
-			b.z -= 20.0f;
-			g_camera3D->SetPosition(a);
-			//g_camera3D->SetTarget(b);
-		}
-		if (g_pad[0]->IsPress(enButtonDown)) {
-			Vector3 a = g_camera3D->GetPosition();
-			a.x += 20.0f;
-			Vector3 b = g_camera3D->GetTarget();
-			b.z += 20.0f;
-			g_camera3D->SetPosition(a);
-			//g_camera3D->SetTarget(b);
-		}
+		//if (g_pad[0]->IsPress(enButtonLeft)) {
+		//	Vector3 a = g_camera3D->GetPosition();
+		//	a.y -= 20.0f;
+		//	g_camera3D->SetPosition(a);			
+		//}
+		//if (g_pad[0]->IsPress(enButtonRight)) {
+		//	Vector3 a = g_camera3D->GetPosition();
+		//	a.y += 20.0f;
+		//	g_camera3D->SetPosition(a);
+		//}
+		//if (g_pad[0]->IsPress(enButtonUp)) {
+		//	Vector3 a = g_camera3D->GetPosition();
+		//	Vector3 b = g_camera3D->GetTarget();
+		//	a.x -= 20.0f;
+		//	b.z -= 20.0f;
+		//	g_camera3D->SetPosition(a);
+		//	//g_camera3D->SetTarget(b);
+		//}
+		//if (g_pad[0]->IsPress(enButtonDown)) {
+		//	Vector3 a = g_camera3D->GetPosition();
+		//	a.x += 20.0f;
+		//	Vector3 b = g_camera3D->GetTarget();
+		//	b.z += 20.0f;
+		//	g_camera3D->SetPosition(a);
+		//	//g_camera3D->SetTarget(b);
+		//}
 
 		//スピンロックを行う。
 		int restTime = 0;

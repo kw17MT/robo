@@ -176,7 +176,7 @@ void CLevel2D::Update()
 		}
 	}
 	//プレイヤー2の時間切れ
-	if (m_slide[SHOW_BURGER_RIGHT] == 0) {
+	if (m_slide[SHOW_BURGER_RIGHT] == enStop) {
 		if (m_menuTimer[MENU_TIMEOVER_RIGHT]->GetTimeUpState()) {
 			if (m_TimeUpSet[MENU_TIMEOVER_RIGHT] == false) {
 				Roulette(SHOW_BURGER_RIGHT);
@@ -198,7 +198,10 @@ void CLevel2D::Update()
 
 void CLevel2D::Render(RenderContext& rc)
 {
-	m_level2D.Draw(rc);
+	if (GameObjectManager::GetInstance()->GetRenderTypes() == 0)
+	{
+		m_level2D.Draw(rc);
+	}
 }
 
 //ここのカウンターナンバーは１or２でいい。引数の時点でナンバーにインクリメントする。

@@ -121,6 +121,10 @@ void Score::AddScoreNChangeColor() {
 
 void Score::Update()
 {
+	if (g_pad[0]->IsPress(enButtonX)) {
+		m_basePoint00++;
+	}
+
 	if (m_ui->GetIsTimeUp() == true && m_isTimeUp == false) {
 		//タイムアップ時、プレイヤーそれぞれに勝敗の状態を記録する
 		SetResult();

@@ -30,6 +30,7 @@
 #include "Conveyor.h"
 #include "LightManager.h"
 
+
 namespace
 {
 	const Vector2 COUNTDOWN_PIVOT = { 0.5f,0.5f };
@@ -114,6 +115,7 @@ Game::~Game()
 	DeleteGO(m_level2D);
 	DeleteGO(m_level);
 	DeleteGO(m_conveyor);
+	DeleteGO(ui);
 }
 
 bool Game::Start()
@@ -220,10 +222,12 @@ bool Game::Start()
 	m_directionSprite[DIRECTION_SPRITE_LEFT]->SetDirection(Reverse);				//右回転
 	m_directionSprite[DIRECTION_SPRITE_LEFT]->ChangeSpriteReverse();
 	m_directionSprite[DIRECTION_SPRITE_LEFT]->SetSide(Left);						//左
+
 	m_directionSprite[DIRECTION_SPRITE_RIGHT] = NewGO<CycleDirection>(0, "dirsp2");
 	m_directionSprite[DIRECTION_SPRITE_RIGHT]->SetDirection(Forward);				//左回転
 	m_directionSprite[DIRECTION_SPRITE_RIGHT]->ChangeSpriteForward();
 	m_directionSprite[DIRECTION_SPRITE_RIGHT]->SetSide(Right);						//右
+
 	m_directionSprite[DIRECTION_SPRITE_UP] = NewGO<CycleDirection>(0, "dirspfixed");
 	m_directionSprite[DIRECTION_SPRITE_UP]->SetDirection(FixedForward);				//固定表示
 	m_directionSprite[DIRECTION_SPRITE_UP]->SetSide(Up);							//画面上部
@@ -237,11 +241,11 @@ bool Game::Start()
 
 	//デプスシャドウ確認用の床作成
 	//消すこと　DeleteGO書いてない
-	m_depthTest = NewGO<Floor>(0);
+	/*m_depthTest = NewGO<Floor>(0);
 	Vector3 depthPos = { -700.0f,200.0f,-500.0f };
 	m_depthTest->SetPosition(depthPos);
 	Vector3 depthScale = { 0.2f,1.0f,0.1f };
-	m_depthTest->SetScale(depthScale);
+	m_depthTest->SetScale(depthScale);*/
 
 	
 	return true;
@@ -299,7 +303,6 @@ void Game::DoWhenTimeUp()
 			m_result[RESULT_DRAW]->SetSprite(RESULT_DRAW);									//0 : 引き分け
 			m_result[RESULT_DRAW]->SetSpritePos(RESULT_DRAW);								//中央くらいの位置
 		}
-
 		//勝敗が決まっているとき(enumの返す整数値が異なるとき),2枚を表示
 		else if (m_score->ResultP1 != m_score->ResultP2) {
 			//プレイヤー1
@@ -346,7 +349,7 @@ void Game::Update()
 	//リザルト中にプレイヤー1がAボタンを押すとタイトルに移行
 	if (GetGameDirector().GetGameScene() == enResult) {
 		if (g_pad[PLAYER_ONE_CONTROLLER]->IsTrigger(enButtonA)) {
-			GetGameDirector().SetGameScene(enGameEnd);
+			GetGameDirector().SetGameScene(enNonScene);
 			NewGO<Title>(0, "title");
 			DeleteGO(this);
 		}

@@ -70,6 +70,9 @@ bool DishGene::Start()
 			m_Dish[m_popedDishNum]->SetPosition(objectData.Pos);
 			//皿を一つ出したので変数をインクリメント
 			m_popedDishNum++;
+
+			if (m_popedDishNum == m_dishMaxNum) return true;
+
 			return true;
 		}
 	});

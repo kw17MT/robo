@@ -165,7 +165,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.WaitUntilToPossibleSetRenderTarget(shadowMap);
 	rc.SetRenderTargetAndViewport(shadowMap);
 	rc.ClearRenderTargetView(shadowMap);
-	m_renderTypes = 1;									//‰e‚·‚é‚æ
+	m_renderTypes = enRenderShade;									//‰e‚·‚é‚æ
 	for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
 			go->RenderWrapper(rc);
@@ -179,7 +179,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
 	rc.SetRenderTargetAndViewport(mainRenderTarget);
 	rc.ClearRenderTargetView(mainRenderTarget);
-	m_renderTypes = 0;
+	m_renderTypes = enRenderNormal;
 	for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
 			go->RenderWrapper(rc);
@@ -208,7 +208,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
 	rc.SetRenderTargetAndViewport(luminanceRenderTarget);
 	rc.ClearRenderTargetView(luminanceRenderTarget);
-	m_renderTypes = 2;
+	m_renderTypes = enRenderLuminance;
 	for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
 			go->RenderWrapper(rc);

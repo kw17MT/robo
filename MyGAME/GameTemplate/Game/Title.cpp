@@ -37,7 +37,7 @@ void Title::Update()
 	//真っ暗になったら遷移
 	if (m_fade->GetState() == enState_Wait) {
 		//真っ暗になりきった段階でタイトルのスプライトを削除
-		DeleteGO(m_spriteRender);
+		DeleteGO(this);
 		//フェードインに移行
 		m_fade->SetState(enState_In);
 		//ゲームを生成

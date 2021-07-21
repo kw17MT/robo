@@ -13,7 +13,7 @@ class PathFactory
 private:
 	PathFactory();
 	~PathFactory() {}
-
+	static PathFactory* instance;
 public:
 	static PathFactory& GetInstance()
 	{

@@ -136,7 +136,14 @@ public:
 		return lightCamera;
 	}
 
-	const int GetRenderTypes()
+	enum EnRenderTypes
+	{
+		enRenderNormal,
+		enRenderShade,
+		enRenderLuminance
+	};
+
+	const EnRenderTypes& GetRenderTypes() const
 	{
 		return m_renderTypes;
 	}
@@ -149,7 +156,7 @@ private:
 
 	//TODO 変数名およびマジックナンバーを直す
 	//0 普通　1 影 2 輝度
-	int m_renderTypes = 0;
+	EnRenderTypes m_renderTypes = enRenderNormal;
 
 
 	//メインレンダーターゲット
