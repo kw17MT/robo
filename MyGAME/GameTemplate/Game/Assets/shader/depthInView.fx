@@ -49,12 +49,12 @@ float4 PSMain(PSInput psIn) : SV_Target0
 
 	//深度値800以下のものはピクセルキル
 	//800以下は被写界深度しない
-    clip(depth - 1100);
+    clip(depth - 1590.0f);
 	
     float4 boke = bokeTexture.Sample(Sampler, psIn.uv);
 	
 	//2000でボケ度最高値に
-    boke.a = min(1.0f, (depth - 1100) / 1800);
+    boke.a = min(1.0f, (depth - 1590) / 35);
 	
     return boke;
 }

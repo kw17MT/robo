@@ -28,7 +28,8 @@ private:
 	{
 		enRenderNormal,
 		enRenderShade,
-		enRenderLuminance
+		enRenderLuminance,
+		enRenderDepthInView
 	};
 
 public:
@@ -165,7 +166,8 @@ public:
 	void Render(RenderContext& rc) 
 	{
 		//•’Ê•`‰æ
-		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderNormal) {				
+		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderNormal
+			|| GameObjectManager::GetInstance()->GetRenderTypes() == enRenderDepthInView) {
 			m_model.Draw(rc);
 			return;
 		}

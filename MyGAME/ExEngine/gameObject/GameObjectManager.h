@@ -138,9 +138,10 @@ public:
 
 	enum EnRenderTypes
 	{
-		enRenderNormal,
-		enRenderShade,
-		enRenderLuminance
+		enRenderNormal,							//通常描画
+		enRenderShade,							//影の描画
+		enRenderLuminance,						//輝度の描画
+		enRenderDepthinView						//被写界深度の描画
 	};
 
 	const EnRenderTypes& GetRenderTypes() const

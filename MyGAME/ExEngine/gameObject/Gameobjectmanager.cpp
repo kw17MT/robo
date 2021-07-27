@@ -174,25 +174,11 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.WaitUntilFinishDrawingToRenderTarget(shadowMap);
 	/********************************************************************************************/
 
-
-	/*通常マップ作成*****************************************************************************/
-	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
-	rc.SetRenderTargetAndViewport(mainRenderTarget);
-	rc.ClearRenderTargetView(mainRenderTarget);
-	m_renderTypes = enRenderNormal;
-	for (auto& goList : m_gameObjectListArray) {
-		for (auto& go : goList) {
-			go->RenderWrapper(rc);
-		}
-	}
-
-	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
-	/********************************************************************************************/
-
 	/*被写界深度マップ作成***********************************************************************/
 	rc.WaitUntilToPossibleSetRenderTargets(2, depthTargets);
 	rc.SetRenderTargetsAndViewport(2, depthTargets);
 	rc.ClearRenderTargetViews(2, depthTargets);
+	m_renderTypes = enRenderDepthinView;
 	for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
 			go->RenderWrapper(rc);
@@ -222,11 +208,25 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	gaussianBlur[3].ExecuteOnGPU(rc, 5);
 	/********************************************************************************************/
 
+	/*通常マップ作成*****************************************************************************/
+	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
+	rc.SetRenderTargetAndViewport(mainRenderTarget);
+	rc.ClearRenderTargetView(mainRenderTarget);
+	m_renderTypes = enRenderNormal;
+	for (auto& goList : m_gameObjectListArray) {
+		for (auto& go : goList) {
+			go->RenderWrapper(rc);
+		}
+	}
+
+	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
+	/********************************************************************************************/
+
 	/*ここから最終的に表示する画面（画像）を作成*************************************************/
 	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
 	rc.SetRenderTargetAndViewport(mainRenderTarget);
-	finalSprite.Draw(rc);
 	depthInViewSprite.Draw(rc);
+	finalSprite.Draw(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 	/********************************************************************************************/
 	
