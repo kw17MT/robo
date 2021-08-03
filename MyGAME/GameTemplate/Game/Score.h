@@ -22,10 +22,8 @@ private:
 	std::wstring m_prevScore00 = L"0";							//プレイヤー1の前のスコア
 	std::wstring m_nowScore01 = L"0";							//プレイヤー2の現在のスコア
 	std::wstring m_prevScore01 = L"0";							//プレイヤー2の前のスコア
-public:
-	
-	
 
+public:
 	//勝敗の状態
 	//プレイヤー1
 
@@ -78,13 +76,13 @@ public:
 	 * @brief プレイヤー1の点数を返す
 	 * @return プレイヤー1の点数
 	*/
-	int GetPlayer00Score() { return m_score00; }
+	int GetPlayer00Score() const { return m_score00; }
 
 	/**
 	 * @brief プレイヤー2の点数を返す
 	 * @return プレイヤー2の点数
 	*/
-	int GetPlayer01Score() { return m_score01; }
+	int GetPlayer01Score() const { return m_score01; }
 
 	/**
 	 * @brief タイムアップフラグをtrueにする

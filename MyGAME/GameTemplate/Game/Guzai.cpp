@@ -19,6 +19,10 @@
 namespace
 {
 	const Vector3 EGG_SCALE = { 0.7f,1.0f,0.7f };
+	const Vector3 MAX_COOKED_EGG_SCALE = { 1.0,1.3f,1.0f };
+	const Vector3 MAX_TARGETED_SCALE = { 1.3f,1.3f,1.3f };
+	const Vector3 MIN_TARGETED_SCALE = Vector3::One;
+	const Vector3 TARGETED_SCALE_AMOUNT = { 0.05f,0.05f,0.05f };
 	const Vector3 MOVE_SPEED_ZERO = Vector3::Zero;
 	const int PLAYER_NONE = -1;
 	const int PLAYER_ONE = 0;
@@ -35,8 +39,11 @@ namespace
 	const float AJUST_SPEED_TO_FOLLOW_PLAYER = 90.0f;
 	const float AJUST_HEIGHT = 50.0f;
 	const float DISTANCE_BETWEEN_PLAYER_TO_GUZAI = 100.0f;
+	const float SE_GRAB_VOLUME = 0.9f;
+	const float SE_PUT_VOLUME = 1.0f;
 	const float SE_VOLUME = 3.0f;
-	const float SE_VOLUME_SMALL = 0.2f;
+	const float SE_CUTTING_VOLUME = 0.8f;
+	const float SE_TARGET_VOLUME = 0.2f;
 	const float ANGLE_ADD_AMOUNT = 2.0f;
 	const float AJUST_METER_X_POS0 = 350.0f;
 	const float AJUST_METER_X_POS1 = 250.0f;
@@ -56,52 +63,27 @@ Guzai::~Guzai()
 }
 
 //キッチン上で別のモデルに差し替える用
-void Guzai::ChangeModel(int& guzaiType)
+void Guzai::ChangeModel(const int guzaiType)
 {
-	switch (guzaiType) {
-	case enCheese:
-		m_skinModelRender->ChangeModel("Assets/modelData/food/cheese_kitchen.tkm");
-		m_nowModelPath = "Assets/modelData/food/cheese_kitchen.tkm";
-		break;
-	case enEgg:
-		m_skinModelRender->ChangeModel("Assets/modelData/food/egg_kitchen.tkm");
-		m_nowModelPath = "Assets/modelData/food/egg_kitchen.tkm";
-		break;
-	case enLettuce:
-		m_skinModelRender->ChangeModel("Assets/modelData/food/lettuce_kitchen.tkm");
-		m_nowModelPath = "Assets/modelData/food/lettuce_kitchen.tkm";
-		break;
-	case enPatty:
-		m_skinModelRender->ChangeModel("Assets/modelData/food/patty_kitchen.tkm");
-		m_nowModelPath = "Assets/modelData/food/patty_kitchen.tkm";
-		break;
-	case enTomato:
-		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato_kitchen.tkm");
-		m_nowModelPath = "Assets/modelData/food/tomato_kitchen.tkm";
-		break;
-	case enOnion:
-		m_skinModelRender->ChangeModel("Assets/modelData/food/onion_kitchen.tkm");
-		m_nowModelPath = "Assets/modelData/food/onion_kitchen.tkm";
-		break;
-	case enBacon:
-		m_skinModelRender->ChangeModel("Assets/modelData/food/bacon_kitchen.tkm");
-		m_nowModelPath = "Assets/modelData/food/bacon_kitchen.tkm";
-		break;
-	default:
-		break;
-	}
-	
+	//ヘッダに定義してあるファイルパス集を使用して具材のモデルを変更
+	m_skinModelRender->ChangeModel(m_changedFilePaths[guzaiType]);
+	//モデルに新しいファイルパスを適用する。
 	m_skinModelRender->SetNewModel();
 }
 
 bool Guzai::Start()
 {
+	//両プレイヤーの情報取得
 	m_player00 = FindGO<Player>("player00");
 	m_player01 = FindGO<Player>("player01");
+	//両キッチンの情報取得
 	m_kitchen00 = FindGO<Kitchen>("kitchen00");
 	m_kitchen01 = FindGO<Kitchen>("kitchen01");
+	//プレイヤー生成器の情報取得
 	m_playerGene = FindGO<PlayerGene>("playerGene");
+	//全具材置き場の情報取得
 	m_guzaiOkiba = FindGO<GuzaiOkiba>("GuzaiOkiba");
+	//両ゴミ箱の情報取得
 	m_trashCan[0] = FindGO<TrashCan>("trashcan00");
 	m_trashCan[1] = FindGO<TrashCan>("trashcan01");
 
@@ -112,49 +94,28 @@ bool Guzai::Start()
 	m_skinModelRender->Init("Assets/modelData/gu/cheese.tkm",nullptr, enModelUpAxisZ, m_position);
 	//影生成用の初期化
 	m_skinModelRender->InitForCastShadow("Assets/modelData/gu/cheese.tkm", nullptr, enModelUpAxisZ, m_position);
-	//具材を追加したので乱数が出力する値を変更
+	//乱数を用いて出現させるモデルの決定
 	std::random_device rnd;
 	std::mt19937 mt(rnd());
 	std::uniform_int_distribution<int> rand(GUZAI_TYPE_MIN_NUM, GUZAI_TYPE_MAX_NUM);
 
 	m_typeNo = rand(mt);
 
-	switch (m_typeNo) {
-	case enCheese:
-		m_skinModelRender->ChangeModel("Assets/modelData/food/cheese.tkm");
-		m_nowModelPath = "Assets/modelData/food/cheese.tkm";
-		break;
-	case enEgg:
-		m_skinModelRender->ChangeModel("Assets/modelData/food/egg.tkm");
-		m_nowModelPath = "Assets/modelData/food/egg.tkm";
-		break;
-	case enLettuce:
-		m_skinModelRender->ChangeModel("Assets/modelData/food/lettuce.tkm");
-		m_nowModelPath = "Assets/modelData/food/lettuce.tkm";
-		break;
-	case enPatty:
-		m_skinModelRender->ChangeModel("Assets/modelData/food/patty.tkm");
-		m_nowModelPath = "Assets/modelData/food/patty.tkm";
-		break;
-	case enTomato:
-		m_skinModelRender->ChangeModel("Assets/modelData/food/tomato.tkm");
-		m_nowModelPath = "Assets/modelData/food/tomato.tkm";
-		break;
-	case enOnion:
-		m_skinModelRender->ChangeModel("Assets/modelData/food/onion.tkm");
-		m_nowModelPath = "Assets/modelData/food/onion.tkm";
-		break;
-	case enBacon:
-		m_skinModelRender->ChangeModel("Assets/modelData/food/bacon.tkm");
-		m_nowModelPath = "Assets/modelData/food/bacon.tkm";
-		break;
+	//ヘッダに定義してあるファイルパス集を使用して具材のモデルを変更
+	m_skinModelRender->ChangeModel(m_normalFilePaths[m_typeNo]);
+	//モデルに新しいファイルパスを適用する。
+	m_skinModelRender->SetNewModel();
+
+	//自身がトマトとオニオン以外の時、調理される必要はないため
+	if (m_typeNo != enTomato && m_typeNo != enOnion) {
+		//調理されたフラグをすでに立てておく。
+		m_isCooked = true;
 	}
 
-	m_skinModelRender->SetNewModel();
 	return true;
 }
 
-void Guzai::GrabAndPut()
+void Guzai::Grab()
 {
 	//どちらに持たれるか分からないため、両方のポジションが毎フレーム必要。
 	Vector3 plPos00 = m_player00->GetPosition();
@@ -167,7 +128,7 @@ void Guzai::GrabAndPut()
 	if (g_pad[PLAYER_ONE_CONTROLLER]->IsTrigger(enButtonA)) {
 		//私（この具材）はプレイヤー１にロックオンされている。
 		if (m_whichPlayerTargetMe == PLAYER_ONE) {
-			//プレイヤー1は何も持っていない。私はターゲットされている（距離測定済）。私はキッチン上にない。プレイヤー1はバーガー作成中ではない。
+			//プレイヤー1は何も持っていない。私はターゲットされている（距離測定済）。自身はキッチン上にない。プレイヤー1はバーガー作成中ではない。
 			//最後の引数は、キッチン上でハンバーガーを作るために一か所に集まっている最中に取れないようにするため。
 			if (m_player00->GetPlayerState() == enNothing && m_isTargeted == true && m_isPutOnKitchen == false && m_kitchen00->GetIsPlayerCookingOnKitchen() == false) {
 				//もたれた！
@@ -179,7 +140,7 @@ void Guzai::GrabAndPut()
 				//音を鳴らす
 				CSoundSource* se = NewGO<CSoundSource>(0);
 				se->Init(L"Assets/sound/poka01.wav", false);
-				se->SetVolume(SE_VOLUME);
+				se->SetVolume(SE_GRAB_VOLUME);
 				se->Play(false);
 				//普通に流れている具材をとった時
 				if (m_guzaiOkibaSet == false) {
@@ -203,7 +164,7 @@ void Guzai::GrabAndPut()
 				//音を鳴らす
 				CSoundSource* se = NewGO<CSoundSource>(0);
 				se->Init(L"Assets/sound/poka01.wav", false);
-				se->SetVolume(SE_VOLUME);
+				se->SetVolume(SE_GRAB_VOLUME);
 				se->Play(false);
 				if (m_guzaiOkibaSet == false) {
 					//空の皿の数を1増やす
@@ -237,7 +198,10 @@ void Guzai::GrabAndPut()
 			m_isTargeted = false;
 		}
 	}
+}
 
+void Guzai::Put()
+{
 	//ここはキッチンに置く処理
 	//Aボタンを押してその具材が調理されているとき（する必要がない時）
 	if (g_pad[PLAYER_ONE_CONTROLLER]->IsTrigger(enButtonA) && m_isCooked == true && m_whichPlayerGet == PLAYER_ONE) {
@@ -247,7 +211,7 @@ void Guzai::GrabAndPut()
 			ChangeModel(m_typeNo);
 			//卵だった時少し小さく
 			if (m_typeNo == enEgg) {
-				m_scale = {EGG_SCALE};
+				m_scale = { EGG_SCALE };
 			}
 			//キッチンに置いた具材の種類をプレイヤー側に保存
 			m_player00->SetPlayerStackedGuzais(m_kitchen00->GetStackNum(), m_typeNo);
@@ -271,7 +235,7 @@ void Guzai::GrabAndPut()
 			//音を鳴らす
 			CSoundSource* se = NewGO<CSoundSource>(0);
 			se->Init(L"Assets/sound/poka02.wav", false);
-			se->SetVolume(SE_VOLUME);
+			se->SetVolume(SE_PUT_VOLUME);
 			se->Play(false);
 
 			//キッチンにあるスタックした具材の一覧にこの具材を追加。
@@ -287,7 +251,7 @@ void Guzai::GrabAndPut()
 			if (m_typeNo == enEgg) {
 				m_scale = { EGG_SCALE };
 			}
-			m_player01->SetPlayerStackedGuzais(m_kitchen01->GetStackNum() ,m_typeNo);
+			m_player01->SetPlayerStackedGuzais(m_kitchen01->GetStackNum(), m_typeNo);
 			m_player01->SetPlayerState(enNothing);
 			m_kitchen01->PlusStack();
 			m_isPutOnKitchen = true;
@@ -300,7 +264,7 @@ void Guzai::GrabAndPut()
 
 			CSoundSource* se = NewGO<CSoundSource>(0);
 			se->Init(L"Assets/sound/poka02.wav", false);
-			se->SetVolume(SE_VOLUME);
+			se->SetVolume(SE_PUT_VOLUME);
 			se->Play(false);
 
 			m_kitchen01->RegistStackedGuzai(this);
@@ -323,7 +287,7 @@ void Guzai::Targeting()
 			//音を鳴らす
 			CSoundSource* se = NewGO<CSoundSource>(0);
 			se->Init(L"Assets/sound/select07.wav", false);
-			se->SetVolume(SE_VOLUME_SMALL);
+			se->SetVolume(SE_TARGET_VOLUME);
 			se->Play(false);
 		}
 		if (m_guzai2Pl01 < m_targetRangeNear && m_player01->GetTargetState() == false && !m_isTargeted && m_isPutOnKitchen == false) {
@@ -333,7 +297,7 @@ void Guzai::Targeting()
 
 			CSoundSource* se = NewGO<CSoundSource>(0);
 			se->Init(L"Assets/sound/select07.wav", false);
-			se->SetVolume(SE_VOLUME_SMALL);
+			se->SetVolume(SE_TARGET_VOLUME);
 			se->Play(false);
 		}
 
@@ -389,7 +353,7 @@ void Guzai::SetGuzaiOkiba()
 				//音を鳴らす
 				CSoundSource* se = NewGO<CSoundSource>(0);
 				se->Init(L"Assets/sound/poka02.wav", false);
-				se->SetVolume(SE_VOLUME);
+				se->SetVolume(SE_PUT_VOLUME);
 				se->Play(false);
 				//プレイヤーが何も持っていない状態にする。
 				m_player00->SetPlayerState(enNothing);
@@ -419,7 +383,7 @@ void Guzai::SetGuzaiOkiba()
 				//音を鳴らす
 				CSoundSource* se = NewGO<CSoundSource>(0);
 				se->Init(L"Assets/sound/poka02.wav", false);
-				se->SetVolume(SE_VOLUME);
+				se->SetVolume(SE_PUT_VOLUME);
 				se->Play(false);
 				m_player01->SetPlayerState(enNothing);
 				m_isTargeted = false;
@@ -442,6 +406,44 @@ void Guzai::AwayFromGuzaiOkiba()
 		m_setKitchenNum = NONE;
 		//取った瞬間に置くことを防ぐため。次のフレームからとれるような処理にしている。
 		m_canPutOnGuzaiOkiba = false;
+	}
+}
+
+void Guzai::ChangeScaleDependOnJudgedState()
+{
+	//プレイヤーにターゲットされていたら拡大表示
+	if (m_isTargeted == true) {
+		if (m_typeNo == enEgg) {
+			m_scale += TARGETED_SCALE_AMOUNT;
+			if (m_scale.x >= MAX_COOKED_EGG_SCALE.x) {
+				m_scale = MAX_COOKED_EGG_SCALE;
+			}
+			m_skinModelRender->SetScale(m_scale);
+		}
+		else {
+			m_scale += TARGETED_SCALE_AMOUNT;
+			if (m_scale.x >= MAX_TARGETED_SCALE.x) {
+				m_scale = MAX_TARGETED_SCALE;
+			}
+			m_skinModelRender->SetScale(m_scale);
+		}
+	}
+	//されていなければ普通のサイズに
+	else {
+		if (m_typeNo == enEgg) {
+			m_scale -= TARGETED_SCALE_AMOUNT;
+			if (m_scale.x <= EGG_SCALE.x) {
+				m_scale = EGG_SCALE;
+			}
+			m_skinModelRender->SetScale(m_scale);
+		}
+		else {
+			m_scale -= TARGETED_SCALE_AMOUNT;
+			if (m_scale.x <= MIN_TARGETED_SCALE.x) {
+				m_scale = MIN_TARGETED_SCALE;
+			}
+			m_skinModelRender->SetScale(m_scale);
+		}
 	}
 }
 
@@ -468,6 +470,7 @@ void Guzai::Cooking()
 				//音を鳴らす
 				m_cookingSe = NewGO<CSoundSource>(0);
 				m_cookingSe->Init(L"Assets/sound/cutting_a_onion_speedy.wav", false);
+				m_cookingSe->SetVolume(SE_CUTTING_VOLUME);
 				m_cookingSe->Play(true);
 				m_soundFlag01 = true;
 			}
@@ -525,6 +528,7 @@ void Guzai::Cooking()
 				//音を鳴らす
 				m_cookingSe = NewGO<CSoundSource>(0);
 				m_cookingSe->Init(L"Assets/sound/cutting_a_onion_speedy.wav", false);
+				m_cookingSe->SetVolume(SE_CUTTING_VOLUME);
 				m_cookingSe->Play(true);
 				m_soundFlag02 = true;
 			}
@@ -577,7 +581,7 @@ void Guzai::SetOnTrashCan() {
 			//音を鳴らす
 			CSoundSource* se = NewGO<CSoundSource>(0);
 			se->Init(L"Assets/sound/dumping.wav", false);
-			se->SetVolume(SE_VOLUME);
+			se->SetVolume(SE_PUT_VOLUME);
 			se->Play(false);
 			m_player00->SetPlayerState(enNothing);
 			m_isTargeted = false;
@@ -597,12 +601,12 @@ void Guzai::SetOnTrashCan() {
 			//音を鳴らす
 			CSoundSource* se = NewGO<CSoundSource>(0);
 			se->Init(L"Assets/sound/dumping.wav", false);
-			se->SetVolume(SE_VOLUME);
+			se->SetVolume(SE_PUT_VOLUME);
 			se->Play(false);
 			m_player01->SetPlayerState(enNothing);
 			m_isTargeted = false;
 			m_player01->SetTarget(m_isTargeted);
-			m_trashCan[1]->ChangeMovingState(true);
+			m_trashCan[PLAYER_TWO]->ChangeMovingState(true);
 		}
 	}
 }
@@ -650,6 +654,44 @@ float Guzai::CalcDistance(Vector3 pos1, Vector3 pos2)
 	return distance.Length();
 }
 
+void Guzai::IfReturnedFromKitchen()
+{
+	//キッチンに置かれて戻ってきたら具材の状態を更新。
+	if (m_returnedFromKitchen) {
+		//私は持たれている
+		if (m_isHad == true) {
+			//プレイヤー１にもたれている
+			if (m_whichPlayerGet == PLAYER_ONE) {
+				//具材の位置をプレイヤーの少し前にする。
+				Vector3 pl00MSpeed = m_player00->GetNormalMoveSpeed();
+				Vector3 plPos00 = m_player00->GetPosition();
+				pl00MSpeed *= AJUST_SPEED_TO_FOLLOW_PLAYER;
+				plPos00 += pl00MSpeed;
+				SetPosition(plPos00);
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/putting_a_book2.wav", false);
+				se->SetVolume(SE_VOLUME);
+				se->Play(false);
+			}
+			if (m_whichPlayerGet == PLAYER_TWO) {
+				Vector3 pl01MSpeed = m_player01->GetNormalMoveSpeed();
+				Vector3 plPos01 = m_player01->GetPosition();
+				pl01MSpeed *= AJUST_SPEED_TO_FOLLOW_PLAYER;
+				plPos01 += pl01MSpeed;
+				SetPosition(plPos01);
+				//音を鳴らす
+				CSoundSource* se = NewGO<CSoundSource>(0);
+				se->Init(L"Assets/sound/putting_a_book2.wav", false);
+				se->SetVolume(SE_VOLUME);
+				se->Play(false);
+			}
+		}
+		m_returnedFromKitchen = false;
+	}
+	//モデルの回転状況を更新する。
+}
+
 void Guzai::Update()
 {
 	//１フレームにかかる時間（秒）を取得する。
@@ -678,61 +720,40 @@ void Guzai::Update()
 	//キッチンからプレイヤーへの距離
 	m_kit2Pl01 = CalcDistance(kitchen01Pos, plPos01);
 
-	//トマトとオニオン以外は調理しないでよい。
-	if (m_typeNo != enTomato && m_typeNo != enOnion) {
-		m_isCooked = true;
-	}
-
+	//プレイヤーにターゲットされる処理。
 	Targeting();
 
+	//置く処理より先にキッチンから取られる状態に設定しておく。
+	//GrabAndPut関数で、具材をキッチンに置いたフレームはキッチンから具材をとれないようにしている。
 	m_kitchen00->ChangeGrabState(true);
 	m_kitchen01->ChangeGrabState(true);
 
-	GrabAndPut();
+	//具材が取られる処理。
+	Grab();
 
+	//置かれる処理
+	Put();
+
+	//具材置き場に具材を置く処理
 	if (m_canPutOnGuzaiOkiba) {
 		SetGuzaiOkiba();
 	}
+	//上の関数で個の変数をFALSEにしているが、次フレームからはとれるようにしたいためすぐにTRUEに。
 	m_canPutOnGuzaiOkiba = true;
 
+	//加工すべき具材を加工する。
 	Cooking();
 
+	//ゴミ箱にものを捨てる処理
 	SetOnTrashCan();
 
+	//具材の回転処理。キッチン上ではその場で回転、持たれていたらプレイヤーの正面に来るように
 	Rotation();
 
-	//キッチンに置かれて戻ってきたモデルのものだったら。
-	if (m_returnedFromKitchen){
-		//私は持たれている
-		if (m_isHad == true) {
-			//プレイヤー１にもたれている
-			if (m_whichPlayerGet == PLAYER_ONE) {
-				//具材の位置をプレイヤーの少し前にする。
-				Vector3 pl00MSpeed = m_player00->GetNormalMoveSpeed();
-				pl00MSpeed *= AJUST_SPEED_TO_FOLLOW_PLAYER;
-				plPos00 += pl00MSpeed;
-				SetPosition(plPos00);
-				//音を鳴らす
-				CSoundSource* se = NewGO<CSoundSource>(0);
-				se->Init(L"Assets/sound/putting_a_book2.wav", false);
-				se->SetVolume(SE_VOLUME);
-				se->Play(false);
-			}
-			if (m_whichPlayerGet == PLAYER_TWO) {
-				Vector3 pl01MSpeed = m_player01->GetNormalMoveSpeed();
-				pl01MSpeed *= AJUST_SPEED_TO_FOLLOW_PLAYER;
-				plPos01 += pl01MSpeed;
-				SetPosition(plPos01);
-				//音を鳴らす
-				CSoundSource* se = NewGO<CSoundSource>(0);
-				se->Init(L"Assets/sound/putting_a_book2.wav", false);
-				se->SetVolume(SE_VOLUME);
-				se->Play(false);
-			}
-		}
-		m_returnedFromKitchen = false;
-	}
-	//モデルの回転状況を更新する。
+	//キッチンからプレイヤーの手に来た時の処理
+	IfReturnedFromKitchen();
+	
+	//モデルの回転を更新
 	m_skinModelRender->SetRotation(m_rotation);
 
 	//具材置き場に置かれているときの位置調整
@@ -745,16 +766,7 @@ void Guzai::Update()
 	else {
 		m_skinModelRender->SetPosition(m_position);
 	}
-	//プレイヤーにターゲットされていたら拡大表示
-	if (m_isTargeted == true) {
-		m_skinModelRender->SetScale(m_TargetedScale);
-	}
-	//されていなければ普通のサイズに
-	else {
-		m_skinModelRender->SetScale(m_scale);
-	}
 
-	if (m_shouldDelete == true) {
-		DeleteGO(this);
-	}
+	//ターゲットされているかどうかの状況に応じた拡大率の更新
+	ChangeScaleDependOnJudgedState();
 }

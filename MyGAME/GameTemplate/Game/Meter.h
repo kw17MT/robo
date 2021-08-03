@@ -41,7 +41,7 @@ public:
 	 * @brief Œ»İ‚ÌŠg‘å—¦‚ÌŠl“¾
 	 * @return Œ»İ‚ÌŠg‘å—¦
 	*/
-	Vector3 GetScale() { return m_scale; }
+	Vector3 GetScale() const{ return m_scale; }
 
 private:
 	SkinModelRender* m_skinModelRender = nullptr;				//ƒ‚ƒfƒ‹

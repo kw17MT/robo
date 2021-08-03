@@ -7,6 +7,8 @@
 
 namespace
 {
+	const Vector4 ADD_COLOR_AMOUNT_EXCEPT_RED = { 0.0f,0.01f,0.01f,0.0f };
+
 	const int SCORE_POP_NUM = 2;
 	const int SCORE_FOR_PLAYER_ONE = 0;
 	const int SCORE_FOR_PLAYER_TWO = 1;
@@ -82,8 +84,7 @@ void Score::AddScoreNChangeColor() {
 	//スコアの色を変えなければならないならば
 	if (m_isChangeColor00 == true) {
 		//赤色以外の要素を少しずつ足していく。
-		Vector4 addColorExceptRed = { 0.0f,0.01f,0.01f,0.0f };
-		m_score[SCORE_FOR_PLAYER_ONE]->AddColorPoint(addColorExceptRed);
+		m_score[SCORE_FOR_PLAYER_ONE]->AddColorPoint(ADD_COLOR_AMOUNT_EXCEPT_RED);
 		//RBGすべての色が1.0f以上になったら色の変更をやめる。
 		if (m_score[SCORE_FOR_PLAYER_ONE]->GetColorVolume() >= 1.0f) {
 			m_isChangeColor00 = false;
@@ -110,8 +111,7 @@ void Score::AddScoreNChangeColor() {
 
 	m_score[SCORE_FOR_PLAYER_TWO]->SetText(m_nowScore01.c_str());
 	if (m_isChangeColor01 == true) {
-		Vector4 addColorExceptRed = { 0.0f,0.01f,0.01f,0.0f };
-		m_score[SCORE_FOR_PLAYER_TWO]->AddColorPoint(addColorExceptRed);
+		m_score[SCORE_FOR_PLAYER_TWO]->AddColorPoint(ADD_COLOR_AMOUNT_EXCEPT_RED);
 		if (m_score[SCORE_FOR_PLAYER_TWO]->GetColorVolume() >= 1.0f) {
 			m_isChangeColor01 = false;
 		}

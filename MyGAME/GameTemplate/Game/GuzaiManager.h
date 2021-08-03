@@ -73,7 +73,7 @@ public:
 	 * @brief ‹ó‚ÌM‚Ì”‚ğæ“¾‚·‚é
 	 * @return ‹ó‚ÌM‚Ì”
 	*/
-	int GetEmptyDishNum()
+	int GetEmptyDishNum() const
 	{
 		return m_emptyDishNum;
 	}
@@ -90,7 +90,7 @@ public:
 	 * @brief •â[‚ªŠ®—¹‚µ‚½‰ñ”‚ğ•Ô‚·B
 	 * @return •â[‚ªŠ®—¹‚µ‚½‰ñ”
 	*/
-	int GetRefilledGuzaiNum()
+	int GetRefilledGuzaiNum() const
 	{
 		return m_refilledGuzaiNum;
 	}

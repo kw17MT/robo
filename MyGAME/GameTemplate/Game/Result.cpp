@@ -27,13 +27,13 @@ void Result::DecideDDS()
 	//spriteNumの値に応じて初期化に使用するDDSを振り分ける
 	switch (m_spriteNum) {
 	case DRAW:
-		m_spriteRender->Init("Assets/Image/draw.dds", m_wideth * AJUST_SPRITE_SCALE, m_height * AJUST_SPRITE_SCALE);
+		m_spriteRender->Init("Assets/Image/draw.dds", static_cast<int>(m_wideth * AJUST_SPRITE_SCALE), static_cast<int>(m_height * AJUST_SPRITE_SCALE));
 		break;
 	case WIN:
-		m_spriteRender->Init("Assets/Image/win.dds", m_wideth * AJUST_SPRITE_SCALE, m_height * AJUST_SPRITE_SCALE);
+		m_spriteRender->Init("Assets/Image/win.dds", static_cast<int>(m_wideth * AJUST_SPRITE_SCALE), static_cast<int>(m_height * AJUST_SPRITE_SCALE));
 		break;
 	case LOSE: 
-		m_spriteRender->Init("Assets/Image/lose.dds", m_wideth * AJUST_SPRITE_HALF, m_height * AJUST_SPRITE_HALF);
+		m_spriteRender->Init("Assets/Image/lose.dds", static_cast<int>(m_wideth * AJUST_SPRITE_HALF), static_cast<int>(m_height * AJUST_SPRITE_HALF));
 		break;
 	default:
 		break;
@@ -78,6 +78,7 @@ bool Result::Start()
 	if (m_isReach3Miss) {
 		//読み込むddsを決定
 		DecideDDS();
+		//出す位置を決定する。
 		DecidePos();
 	}
 
@@ -90,16 +91,19 @@ bool Result::Start()
 
 void Result::Update()
 {
+	//出現時、縮小していく。
 	m_scaleRate -= SHRINK_RATE;
 	if (m_scaleRate <= 1.0f) {
 		m_scaleRate = 1.0f;
 	}
-
+	//透明度をおおきくしていく
 	m_alpha += ALPHA_INCREASE_RATE;
 	if (m_alpha >= 1.0f) {
 		m_alpha = 1.0f;
 	}
+	//透明度の更新
 	m_color.w = m_alpha;
+	//色の更新
 	m_spriteRender->SetColor(m_color);
 	m_spriteRender->SetScale({m_scaleRate,m_scaleRate,FIXED_SCALE_ONE_Z });
 }

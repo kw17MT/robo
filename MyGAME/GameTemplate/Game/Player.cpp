@@ -221,13 +221,16 @@ void Player::Update()
 		return;
 	}
 
+	//プレイヤーの回転処理
 	PlayerRotation();
 
-
+	//移動の宣言をつかさどる
 	RestrictMove();
 
-	RestrictPos();
+	//移動を制限
+	//RestrictPos();
 
+	//歩いたときにエフェクトを出す
 	PopWalkingEffect();
 
 	m_skinModelRender->SetPosition(m_position);

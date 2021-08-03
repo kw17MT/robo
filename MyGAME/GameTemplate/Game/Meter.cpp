@@ -2,6 +2,11 @@
 #include "Meter.h"
 #include "SkinModelRender.h"
 
+namespace 
+{
+	const int USING_LIGHT_NUMBER = 2;
+}
+
 Meter::~Meter()
 {
 	//モデルの消去
@@ -10,12 +15,11 @@ Meter::~Meter()
 
 bool Meter::Start()
 {
-	//ライトを用いてのゲージの色の変更
-	//m_lig.ambientLight.Set(0.0f, 100.0f, 0.0f);
-	//ゲージのモデルの初期化
+
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//通常描画モデルの初期化
-	m_skinModelRender->Init("Assets/modelData/gauge/gauge_red.tkm", nullptr, enModelUpAxisY, m_position);
+	m_skinModelRender->InitAsGauge("Assets/modelData/gauge/gauge_red.tkm", nullptr, enModelUpAxisY, m_position, USING_LIGHT_NUMBER);
+	//影用モデルの初期化
 	m_skinModelRender->InitForCastShadow("Assets/modelData/gauge/gauge_red.tkm", nullptr, enModelUpAxisY, m_position);
 	//モデルの向きを調節
 	m_skinModelRender->SetRotation(m_rot);

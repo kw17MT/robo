@@ -1,5 +1,10 @@
 #pragma once
 #include "SkinModelRender.h"
+
+/**
+ * @brief 具材置き場の近くにプレイヤーがいると出現する。
+ * 見た目のサポートを行うオブジェクト
+*/
 class Arrow : public IGameObject
 {
 private:
@@ -55,14 +60,15 @@ public:
 	 * @brief 拡大率が最大になったらのフラグを取得する
 	 * @return 拡大率は最大になったか
 	*/
-	bool GetScaleMax() { return m_scaleMaxFlag; }
+	bool GetScaleMax() const { return m_scaleMaxFlag; }
 
 	/**
 	 * @brief 拡大率が最小になったらのフラグを取得する
 	 * @return 拡大率は最小になったか
 	*/
-	bool GetScaleMin() { return m_scaleMinFlag; }
+	bool GetScaleMin() const { return m_scaleMinFlag; }
 
-	SkinModelRender* m_skinModelRender = nullptr;
+private:
+	SkinModelRender* m_skinModelRender = nullptr;		//矢印のモデル
 };
 

@@ -13,7 +13,7 @@ namespace
 	const int TRASHCAN_EXPAND_TIME_MAX = 20;
 	const int TRASHCAN_EXPAND_TIME_MIN = 0;
 	const float TRASHCAN_SHRINK_RATE = 0.03f;
-	const float TRASHCAN_EXPAND_RATE = 0.015;
+	const float TRASHCAN_EXPAND_RATE = 0.015f;
 	const int DEFAULT_MOVING_TIME = 30;
 	const float ARROW_CHANGE_SCALE_RATE = 0.1f;
 	const float ARROW_MAX_SCALE = 1.0f;
@@ -63,25 +63,21 @@ bool TrashCan::Start()
 
 	//矢印の位置をゴミ箱の上に設定しておく
 	m_arrowPos = m_position;
+	//ゴミ箱の少し上に調整
 	m_arrowPos.y +=AJUST_ARROW_POS_Y;
+	//矢印の位置を更新
 	m_arrow->SetPosition(m_arrowPos);
 	m_arrow->SetRotation(m_rot);
 
 	return true;
 }
 
-float TrashCan::CalcDistance(Vector3 v1, Vector3 v2)
-{
-	Vector3 v3 = v1 - v2;
-	float ans = v3.Length();
-
-	return ans;
-}
-
 void TrashCan::LetStartMoving()
 {
+	//ゴミ箱が動いているとき
 	if (m_isMoving) {
-		m_movingTime--;																					//初期値30
+		m_movingTime--;																					
+		//Y座標における拡大率を減少させてへこませる														//初期値30
 		if (m_movingTime > TRASHCAN_SHRINK_TIME_MIN && m_movingTime <= TRASHCAN_SHRINK_TIME_MAX) {		//30~21　10フレーム
 			m_trashcanScale.y -= TRASHCAN_SHRINK_RATE;													//10 * -0.03f = -0.3f
 		}
@@ -97,7 +93,7 @@ void TrashCan::LetStartMoving()
 
 void TrashCan::ChangeArrowScale()
 {
-	//両プレイヤーとの距離を測る。
+	//プレイヤーとの距離を測る。
 	float playerDistance = CalcDistance(m_player->GetPosition(), m_position);
 
 	//矢印の大きさ変更用。近づくと大きくなり、離れると小さくなる。

@@ -22,6 +22,7 @@ private:
 	int m_guzaiTimer = 0;								//具材を再POPさせるときに遅延を生じさせるもの
 	bool m_soundFlag = false;							//今、音を鳴らしているか
 	int m_guzaiNo = 0;									//具材は何番目の位置に格納されているか
+	bool m_popedSound = false;							//具材がポップした時の音を出すか
 
 	std::unique_ptr<PathMove> m_pathMove;				//移動処理を行うクラス。
 public:
@@ -54,21 +55,25 @@ public:
 	void SetHavingState(bool state) { m_isHavingGuzai = state; }
 
 	/**
-	 * @brief		イラン気がする
-	 * @return 
-	*/
-	//EnCycleDirection GetCycleDirection() { return m_pathMove->GetCycleDirection(); }
-
-	/**
 	 * @brief 皿自身と上の具材の移動をおこなう。
 	*/
 	void Move();
+
+	/**
+	 * @brief　具材をポップさせるときの処理 
+	*/
+	void PopGuzaiOnDish();
+
+	/**
+	 * @brief 具材を補充すべきかどうか
+	*/
+	void ShouldRefill();
 
 private:
 	SkinModelRender* m_skinModelRender = nullptr;			//具材のモデル
 	PlayerGene* m_playerGene = nullptr;						//プレイヤー生成器
 	CSoundSource* m_se = nullptr;							//SE用
 	DishGene* m_dishGene = nullptr;							//皿生成器
-	std::vector<Guzai*> m_guzai;							//具材の格納場所
+	std::vector<Guzai*> m_guzai = { nullptr };				//具材の格納場所
 };
 

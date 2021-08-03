@@ -9,6 +9,11 @@ private:
 	Quaternion m_rot = Quaternion::Identity;					//回転
 
 	bool m_isTimeUp = false;									//タイマーが０になったか
+	int m_gaugeNumber = 0;										//０が左、１が右
+
+	bool m_completedMakeYellow = false;
+	bool m_completedMakeRed = false;
+	bool m_stirringBigger = true;
 public:
 	/**
 	 * @brief タイマーのインスタンスの破棄
@@ -48,7 +53,7 @@ public:
 	 * @brief タイムアップしたか返す
 	 * @return TRUE＝タイムアップした
 	*/
-	bool GetTimeUpState() { return m_isTimeUp; }
+	bool GetTimeUpState() const { return m_isTimeUp; }
 
 	/**
 	 * @brief タイムアップしたかの設定
@@ -57,9 +62,20 @@ public:
 	void SetTimeUpState(bool state) { m_isTimeUp = state; }
 
 	/**
+	 * @brief どちら側にあるゲージかを設定
+	 * @param gaugeNumber ０が左、１が右
+	*/
+	void SetNumber(int gaugeNumber) { m_gaugeNumber = gaugeNumber; }
+
+	/**
 	 * @brief タイマーの拡大率、色を初期値に設定する。
 	*/
-	void ResetTimerParam();
+	void ResetTimerParam(int lightNumber);
+
+	/**
+	 * @brief ゲージが赤になったら鼓動させる
+	*/
+	void StirringGauge();
 
 private:
 	SkinModelRender* m_skinModelRender = nullptr;		//モデル

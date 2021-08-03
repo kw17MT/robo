@@ -51,7 +51,7 @@ public:
 	 * @brief ゴミ箱の座標を返す。
 	 * @return ゴミ箱の座標
 	*/
-	Vector3 GetPosition() { return m_position; }
+	Vector3 GetPosition() const { return m_position; }
 
 	/**
 	 * @brief ゴミ箱の番号の設定　０が左　１が右
@@ -63,7 +63,7 @@ public:
 	 * @brief ゴミ箱は現在何かを捨てられる状態かを返す
 	 * @return ゴミ箱の状態
 	*/
-	bool GetCanTrash() { return m_canTrash; }
+	bool GetCanTrash() const { return m_canTrash; }
 
 	/**
 	 * @brief ２地点間の距離を求める
@@ -71,7 +71,12 @@ public:
 	 * @param v2 地点２
 	 * @return ２地点間の距離
 	*/
-	float CalcDistance(Vector3 v1, Vector3 v2);
+	float CalcDistance(Vector3 v1, Vector3 v2)
+	{
+		Vector3 v3 = v1 - v2;
+		float ans = v3.Length();
+		return ans;
+	}
 
 	/**
 	 * @brief ゴミ箱は何かを捨てられてリアクションをしているか

@@ -17,6 +17,6 @@ public:
 	bool Start();
 	void Update();
 private:
-	SpriteRender* m_spriteRender;
+	SpriteRender* m_spriteRender = nullptr;
 };
 

@@ -75,7 +75,8 @@ struct SPSIn{
 struct SPSOut
 {
 	float4 s_color : SV_Target0;
-	float  s_depth : SV_Target1;
+    float4 s_normal : SV_Target1;
+	float  s_depth : SV_Target2;
 };
 
 ///////////////////////////////////////////////////
@@ -234,7 +235,7 @@ float CookTrranceSpecular(float3 L, float3 V, float3 N, float metaric)
 /// <summary>
 /// 影が落とされる3Dモデル用のピクセルシェーダー。
 /// </summary>
-SPSOut/*float4*/ PSMain(SPSIn psIn) : SV_Target0
+SPSOut PSMain(SPSIn psIn) : SV_Target0
 {
 	//物体から目へのベクトル
 	float3 toEye = eyePos - psIn.worldPos;
@@ -300,6 +301,7 @@ SPSOut/*float4*/ PSMain(SPSIn psIn) : SV_Target0
 
 	//アルベドカラー、鏡面反射率の取得
 	float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
+	
 	float3 specColor = g_specMap.SampleLevel(g_sampler, psIn.uv, 0).rgb;
 	float metaric = g_specMap.Sample(g_sampler, psIn.uv).a;
 	metaric *= 1.2f;
@@ -331,7 +333,7 @@ SPSOut/*float4*/ PSMain(SPSIn psIn) : SV_Target0
 	
 	//AOマップを使用した環境光の適用
     float3 ambient = ambientLight;
-	float ambientPower = g_aoMap.Sample(g_sampler, psIn.uv);
+    float ambientPower = g_aoMap.Sample(g_sampler, psIn.uv);
     ambient *= ambientPower;
 
 	lig += ambient * albedoColor;

@@ -19,6 +19,9 @@ enum EnHamBurger
 	enHamBurgerNum			//ハンバーガーの数。
 };
 
+/**
+ * @brief ハンバーガーのレシピを作る。
+*/
 class HamBurgerFactory
 {
 private:

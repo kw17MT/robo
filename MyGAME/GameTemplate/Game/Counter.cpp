@@ -40,7 +40,7 @@ namespace
 	const int SPRITE_MAX_TIMER = 60;
 	const int GUZAI_CORRECT = 1;
 	const int GUZAI_FAILE = 0;
-	const int BONUS_RATIO = 2.0f;
+	const int BONUS_RATIO = 2;
 
 	const float DISTANCE_TO_FIND_COUNTER = 100.0f;
 	const float SE_VOLUME = 0.7f;
@@ -52,12 +52,15 @@ namespace
 
 Counter::~Counter()
 {
+	//カウンターのモデルを消去
 	DeleteGO(m_skinModelRender);
 	
+	//判定結果を表す画像を消去
 	if (m_spriteJudge != nullptr) {
 		DeleteGO(m_spriteJudge);
 	}
 
+	//メニュー上に出す正誤判定の画像を消去
 	for (int i = 0; i < ROWS_NUM; i++) {
 		for (int j = 0; j < COLUMNS_NUM; j++) {
 			if (m_spriteCompareFlagFalse[i][j] || m_spriteCompareFlagTrue[i][j]) {
@@ -71,9 +74,11 @@ bool Counter::Start()
 {
 	//カウンターのモデルを初期化して、判定するハンバーガーの種類を格納していく
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	//m_skinModelRender->Init("Assets/modelData/counter/counter.tkm", nullptr, enModelUpAxisZ, m_position);
+	//影を受け取り、画面上に出てくるモデルを初期化
 	m_skinModelRender->InitForRecieveShadow("Assets/modelData/counter/counter.tkm", nullptr, enModelUpAxisZ, m_position);
+	//影をつくるモデルの初期化
 	m_skinModelRender->InitForCastShadow("Assets/modelData/counter/counter.tkm", nullptr, enModelUpAxisZ, m_position);
+	//ハンバーガーのレシピを取得
 	m_showHamBurgers[0] = enCheeseBurger;
 	m_showHamBurgers[1] = enTomatoBurger;
 	m_showHamBurgers[2] = enEggBurger;
@@ -105,7 +110,9 @@ bool Counter::Start()
 	strcat_s(trashcanName, endNo_string.c_str());
 
 	m_level2d = FindGO<CLevel2D>("clevel2d");
+	//対応するプレイヤーのオブジェクトを取得
 	m_player = FindGO<Player>(playerName);
+	//対応するキッチンのオブジェクトを取得
 	m_kitchen = FindGO<Kitchen>(kitchenName);
 
 	//ハンバーガーのポジションをカウンターの位置にするため。
@@ -117,7 +124,9 @@ bool Counter::Start()
 //判別するところ
 bool Counter::Judge()
 {
-	return m_level2d->GetIsMatchHamBurger(m_player->GetPlayerStackedGuzais(), m_stackNum, m_counterNo + 1);
+	//プレイヤーが積み上げてきた具材の種類から、提出されたハンバーガーが正しいか判別する。
+	//今回の関数内では第一引数の配列の要素全てにおいて変更する内容がないためconst_castを使用
+	return m_level2d->GetIsMatchHamBurger(const_cast<int*>(m_player->GetPlayerStackedGuzais()), m_stackNum, m_counterNo + 1);
 }
 
 float Counter::CalcDistance(Vector3 pos1, Vector3 pos2)
@@ -129,7 +138,7 @@ float Counter::CalcDistance(Vector3 pos1, Vector3 pos2)
 
 //バーガーを最終的に消してスコアを発生させる。
 //カウンターに近いところでAボタンを押すといったん載せて消す。
-void Counter::Delete()
+void Counter::JudgeAndDelete()
 {
 	//プレイヤーの情報が取得できていなかったとき
 	if (m_player == nullptr) {
@@ -283,6 +292,10 @@ void Counter::Delete()
 
 void Counter::HamBurgerCompare()
 {
+	//警告（C26451）の回避のため、変数を用意した。
+	const int one = 1;
+	static_cast<int>(one);
+
 	CLevel2D* l2 = FindGO<CLevel2D>("clevel2d");
 	//1P側の処理
 	if (m_counterNo == COUNTER_NUMBER_ZERO) {
@@ -292,10 +305,10 @@ void Counter::HamBurgerCompare()
 			for (int k = 0; k < MAX_STACK_NUM; k++) {
 				if (m_player->GetPlayerStackedGuzais(k) == STACK_EMPTY) {
 					//画像が出ていれば消す
-					if (m_spriteCompareFlagTrue[i + 1][k] == true || m_spriteCompareFlagFalse[i + 1][k] == true) {
-						DeleteGO(m_spriteCompare[i + 1][k]);
-						m_spriteCompareFlagTrue[i + 1][k] = false;
-						m_spriteCompareFlagFalse[i + 1][k] = false;
+					if (m_spriteCompareFlagTrue[i + one][k] == true || m_spriteCompareFlagFalse[i + one][k] == true) {
+						DeleteGO(m_spriteCompare[i + one][k]);
+						m_spriteCompareFlagTrue[i + one][k] = false;
+						m_spriteCompareFlagFalse[i + one][k] = false;
 					}
 				}
 			}
@@ -303,16 +316,16 @@ void Counter::HamBurgerCompare()
 			for (int j = 0; j < hamburger.size(); j++) {
 				//積んでなければ何もしない。
 				if (m_player->GetPlayerStackedGuzais(j) == STACK_EMPTY) {
-					m_guzaiJudge[i + 1][j] = NOTHING;
+					m_guzaiJudge[i + one][j] = NOTHING;
 				}
 				else {
 					if (m_player->GetPlayerStackedGuzais(j) == hamburger[j]) {
 						//メニューと一致
-						m_guzaiJudge[i + 1][j] = CORRECT;
+						m_guzaiJudge[i + one][j] = CORRECT;
 					}
 					else {
 						//メニューと不一致
-						m_guzaiJudge[i + 1][j] = FAULT;
+						m_guzaiJudge[i + one][j] = FAULT;
 					}
 				}
 
@@ -321,56 +334,56 @@ void Counter::HamBurgerCompare()
 				SetPos.y += j * AJUST_HEIGHT_FOR_JUDGEMARK;
 				SetPos.y += l2->GetSlideAmount(i);
 				//メニューと一致しているかで決める。
-				switch (m_guzaiJudge[i+1][j])
+				switch (m_guzaiJudge[i+ one][j])
 				{
 					
 				case GUZAI_FAILE: {
 					//一致の画像が出ていれば消す。
-					if (m_spriteCompareFlagTrue[i + 1][j] == true) {
-						DeleteGO(m_spriteCompare[i + 1][j]);
-						m_spriteCompareFlagTrue[i + 1][j] = false;
+					if (m_spriteCompareFlagTrue[i + one][j] == true) {
+						DeleteGO(m_spriteCompare[i + one][j]);
+						m_spriteCompareFlagTrue[i + one][j] = false;
 					}
 					//不一致の画像が出ていなければ出す。
-					if (m_spriteCompareFlagFalse[i + 1][j] == false) {
-						m_spriteCompare[i + 1][j] = NewGO<SpriteRender>(10);
-						m_spriteCompare[i + 1][j]->Init("Assets/Image/JudgeMark/Batsu_White_Black512.dds", SPRIRE_BATSU_SCALE, SPRIRE_BATSU_SCALE);
-						m_spriteCompare[i + 1][j]->SetPosition(SetPos);
-						m_spriteCompareFlagFalse[i + 1][j] = true;
+					if (m_spriteCompareFlagFalse[i + one][j] == false) {
+						m_spriteCompare[i + one][j] = NewGO<SpriteRender>(10);
+						m_spriteCompare[i + one][j]->Init("Assets/Image/JudgeMark/Batsu_White_Black512.dds", SPRIRE_BATSU_SCALE, SPRIRE_BATSU_SCALE);
+						m_spriteCompare[i + one][j]->SetPosition(SetPos);
+						m_spriteCompareFlagFalse[i + one][j] = true;
 					}
 				}break;
 				case GUZAI_CORRECT: {
 					//不一致の画像が出ていれば消す。
-					if (m_spriteCompareFlagFalse[i + 1][j] == true) {
-						DeleteGO(m_spriteCompare[i + 1][j]);
-						m_spriteCompareFlagFalse[i + 1][j] = false;
+					if (m_spriteCompareFlagFalse[i + one][j] == true) {
+						DeleteGO(m_spriteCompare[i + one][j]);
+						m_spriteCompareFlagFalse[i + one][j] = false;
 					}
 					//一致の画像が出ていなければ出す。
-					if (m_spriteCompareFlagTrue[i + 1][j] == false) {
-						m_spriteCompare[i + 1][j] = NewGO<SpriteRender>(10);
-						m_spriteCompare[i + 1][j]->Init("Assets/Image/JudgeMark/Check_White_Red512.dds", SPRITE_CHECK_SCALE, SPRITE_CHECK_SCALE);
-						m_spriteCompare[i + 1][j]->SetPosition(SetPos);
-						m_spriteCompareFlagTrue[i + 1][j] = true;
+					if (m_spriteCompareFlagTrue[i + one][j] == false) {
+						m_spriteCompare[i + one][j] = NewGO<SpriteRender>(10);
+						m_spriteCompare[i + one][j]->Init("Assets/Image/JudgeMark/Check_White_Red512.dds", SPRITE_CHECK_SCALE, SPRITE_CHECK_SCALE);
+						m_spriteCompare[i + one][j]->SetPosition(SetPos);
+						m_spriteCompareFlagTrue[i + one][j] = true;
 					}
 				}break;
 				default:
 					break;
 				}
 				//チェックマークの座標を更新。
-				if (m_spriteCompareFlagFalse[i + 1][j] == true || m_spriteCompareFlagTrue[i + 1][j] == true) {
-					m_spriteCompare[i + 1][j]->SetPosition(SetPos);
+				if (m_spriteCompareFlagFalse[i + one][j] == true || m_spriteCompareFlagTrue[i + one][j] == true) {
+					m_spriteCompare[i + one][j]->SetPosition(SetPos);
 				}
 				//すでに出したチェック画像は、バーガーの段数を超えて処理する。
-				for (int l = hamburger.size(); l < MAX_STACK_NUM; l++) {
+				for (int l = static_cast<int>(hamburger.size()); l < MAX_STACK_NUM; l++) {
 					Vector3 SetPos = JUDGEMARK_LEFT_POS;
 					SetPos.x += i * AJUST_POSITION_X_FOR_JUDGEMARK;
 					SetPos.y += l * AJUST_HEIGHT_FOR_JUDGEMARK;
 					SetPos.y += l2->GetSlideAmount(i);
 					if (m_player->GetPlayerStackedGuzais(l) != STACK_EMPTY) {
-						if (m_spriteCompareFlagFalse[i + 1][l] == true || m_spriteCompareFlagTrue[i + 1][l] == true) {
+						if (m_spriteCompareFlagFalse[i + one][l] == true || m_spriteCompareFlagTrue[i + one][l] == true) {
 
-							DeleteGO(m_spriteCompare[i + 1][l]);
-							m_spriteCompareFlagFalse[i + 1][l] = false;
-							m_spriteCompareFlagTrue[i + 1][l] = false;
+							DeleteGO(m_spriteCompare[i + one][l]);
+							m_spriteCompareFlagFalse[i + one][l] = false;
+							m_spriteCompareFlagTrue[i + one][l] = false;
 						}
 					}
 				}
@@ -438,7 +451,7 @@ void Counter::HamBurgerCompare()
 				if (m_spriteCompareFlagFalse[i][j] == true || m_spriteCompareFlagTrue[i][j] == true) {
 					m_spriteCompare[i][j]->SetPosition(SetPos);
 				}
-				for (int l = hamburger.size(); l < MAX_STACK_NUM; l++) {
+				for (int l = static_cast<int>(hamburger.size()); l < MAX_STACK_NUM; l++) {
 					Vector3 SetPos = JUDGEMARK_RIGHT_POS;
 					SetPos.x += i * AJUST_POSITION_X_FOR_JUDGEMARK;
 					SetPos.y += l * AJUST_HEIGHT_FOR_JUDGEMARK;
@@ -461,18 +474,21 @@ void Counter::HamBurgerCompare()
 
 void Counter::Update()
 {
-	Delete();
+	//提出されたハンバーガーを判定し、削除する
+	JudgeAndDelete();
+	//今作成しているハンバーガーの組成の正誤判定
 	HamBurgerCompare();
 	
-	//CorrectやMissの画像
+	//判定結果の正誤表示の画像が出ていたら
 	if (m_spriteFlag == true) {
 		m_spriteTime++;
+		//一定時間後消去
 		if (m_spriteTime > SPRITE_MAX_TIMER) {
 			DeleteGO(m_spriteJudge);
 			m_spriteFlag = false;
 			m_spriteTime = 0;
 		}
 	}
-
+	//位置を更新
 	m_skinModelRender->SetPosition(m_position);
 }

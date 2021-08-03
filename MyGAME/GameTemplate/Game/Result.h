@@ -7,7 +7,7 @@ class Result : public IGameObject
 private:
 	Vector2 m_position = Vector2::Zero;						//画像の位置
 	Vector2 m_pivot = {0.5f,0.5f};							//画像の中心
-	Vector2 m_scale;										//画像の拡大率
+	Vector2 m_scale = { 1.0f,1.0f };										//画像の拡大率
 	const Vector3 m_center = { 0.0f,0.0f,0.0f };			//中央表示用の位置
 	const Vector3 m_left = { 450.0f, 0.0f, 0.0f };			//左表示用の位置
 	const Vector3 m_right = { -450.0f, 0.0f, 0.0f };		//右表示用の位置
@@ -16,8 +16,8 @@ private:
 
 	const int m_wideth = 512;								//画像の縦
 	const int m_height = 512;								//画像の縦
-	int m_spriteNum;										//どのスプライトにするかを決めるための整数値
-	int m_positionNum;										//どの位置に表示するかを決めるための整数値
+	int m_spriteNum = 0;										//どのスプライトにするかを決めるための整数値
+	int m_positionNum = 0;										//どの位置に表示するかを決めるための整数値
 	
 	float m_alpha = 0.0f;									//アルファ用変数
 	float m_scaleRate = 3.0f;								//拡大率用変数
@@ -64,12 +64,12 @@ public:
 	/**
 	 * @brief 呼び出しもとで画像の種類を決定する
 	*/
-	void SetSprite(const int& No) { m_spriteNum = No; }
+	void SetSprite(int No) { m_spriteNum = No; }
 
 	/**
 	 * @brief 位置番号を指定して座標を設定する
 	*/
-	void SetSpritePos(const int& posNo) { m_positionNum = posNo; }
+	void SetSpritePos(int posNo) { m_positionNum = posNo; }
 
 	/**
 	 * @brief ddsの振り分け関数

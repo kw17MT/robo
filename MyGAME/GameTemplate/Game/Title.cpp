@@ -19,14 +19,17 @@ Title::~Title()
 bool Title::Start()
 {
 	m_spriteRender = NewGO<SpriteRender>(0);
-	m_spriteRender->Init("Assets/Image/Title_512.dds", 1280, 720);
+	//タイトル画像のファイルパス、縦幅、横幅を設定
+	m_spriteRender->Init("Assets/Image/Title_512.dds", SPRITE_WIDTH, SPRITE_HEIGHT);
 
 	return true;
 }
 
 void Title::Update()
 {
+	//フェードアウト実行ちゅうでなく
 	if (m_fade == nullptr) {
+		//タイトル中にAボタンが押されたら
 		if (g_pad[PLAYER_ONE_PAD]->IsTrigger(enButtonA))
 		{
 			//フェード
@@ -42,7 +45,6 @@ void Title::Update()
 		m_fade->SetState(enState_In);
 		//ゲームを生成
 		NewGO<Game>(0, "game");
-		//DeleteGO(this);
 	}
 
 	//フェード用画像の不等明度が0以下になったときにフェード画像とタイトル自身を削除

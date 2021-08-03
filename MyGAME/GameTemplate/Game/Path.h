@@ -40,7 +40,7 @@ public:
 	 */
 	int GetNumberPoint()
 	{
-		return m_pointList.size();
+		return static_cast<int>(m_pointList.size());
 	}
 	/**
 	 * \brief Å‰‚Ìƒ|ƒCƒ“ƒg‚ğæ“¾.

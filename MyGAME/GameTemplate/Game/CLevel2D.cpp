@@ -8,7 +8,7 @@
 
 namespace
 {
-	const Vector3 MENU_TIMER_LEFT_POS = { 480.0f,5.0f,770.0f };
+	const Vector3 MENU_TIMER_LEFT_POS = { 480.0f,5.0f,750.0f };
 	const Vector3 MENU_TIMER_RIGHT_POS = { -480.0f,5.0f,750.0f };
 	const Vector3 MENU_SCALE = { 0.5f,0.5f,0.5f };
 
@@ -131,13 +131,14 @@ bool CLevel2D::Start()
 	m_menuTimer[MENU_TIMER_LEFT] = NewGO<MenuTimer>(0);
 	Quaternion rot = Quaternion::Identity;
 	//左右反転
-	rot.SetRotationDegY(180.0f);
+	rot.SetRotationDegZ(180.0f);
 	m_menuTimer[MENU_TIMER_LEFT]->SetRotation(rot);
 	m_menuTimer[MENU_TIMER_LEFT]->SetPosition(MENU_TIMER_LEFT_POS);
-	
+	m_menuTimer[MENU_TIMER_LEFT]->SetNumber(MENU_TIMER_LEFT);
 	//右側ゲージ
 	m_menuTimer[MENU_TIMER_RIGHT] = NewGO<MenuTimer>(0);
 	m_menuTimer[MENU_TIMER_RIGHT]->SetPosition(MENU_TIMER_RIGHT_POS);
+	m_menuTimer[MENU_TIMER_RIGHT]->SetNumber(MENU_TIMER_RIGHT);
 
 
 	m_missCounter = NewGO<MissCounter>(0);
@@ -340,14 +341,14 @@ void CLevel2D::SpriteSet(int number)
 			//2P側のメニュー
 			if (number == enStop) {
 				//メニュータイマーを元に戻す
-				m_menuTimer[MENU_TIMER_RIGHT]->ResetTimerParam();
+				m_menuTimer[MENU_TIMER_RIGHT]->ResetTimerParam(MENU_TIMER_RIGHT);
 				m_menuTimer[MENU_TIMER_RIGHT]->SetTimeUpState(false);
 				//時間切れフラグを元に戻す。
 				m_TimeUpSet[MENU_TIMEUP_RIGHT] = false;
 			}
 			//1P側のメニュー
 			else if (number == enSlideDown) {
-				m_menuTimer[MENU_TIMER_LEFT]->ResetTimerParam();
+				m_menuTimer[MENU_TIMER_LEFT]->ResetTimerParam(MENU_TIMER_LEFT);
 				//バツを付けたのでFALSEにもどしてやる
 				m_menuTimer[MENU_TIMER_LEFT]->SetTimeUpState(false);
 				m_TimeUpSet[MENU_TIMEUP_LEFT] = false;

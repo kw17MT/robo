@@ -56,7 +56,7 @@ public:
 	 * @brief キッチンの座標を取得
 	 * @return 現在のキッチンの座標
 	*/
-	Vector3 GetKitchenPos() { return m_position; }
+	Vector3 GetKitchenPos() const { return m_position; }
 
 	/**
 	 * @brief キッチン上の具材を全部消去、ハンバーガーを生み出す時に使用する
@@ -82,7 +82,7 @@ public:
 	 * @brief 現在何段具材が積まれているかを伝える関数
 	 * @return 現在、積まれている具材の数
 	*/
-	int GetStackNum() { return m_stack; }
+	int GetStackNum() const { return m_stack; }
 
 	/**
 	 * @brief 具材をハンバーガーに加工する。
@@ -118,8 +118,11 @@ public:
 	 * @brief プレイヤーはキッチンでハンバーガーを作っている途中か
 	 * @return TRUE＝作成中。キッチン上の具材をとれなくする。
 	*/
-	bool GetIsPlayerCookingOnKitchen() { return m_isPlayerCookingOnKitchen; }
+	bool GetIsPlayerCookingOnKitchen() const { return m_isPlayerCookingOnKitchen; }
 
+	/**
+	 * @brief キッチンの状にある一番後に置かれた具材をプレイヤーに持たせる。
+	*/
 	void TakePlayerLastestGuzai();
 
 private:

@@ -2,6 +2,7 @@
 #include "DishGene.h"
 #include "Level.h"
 #include "Dish.h"
+#include "SoundSource.h"
 
 #include <string>
 
@@ -75,6 +76,7 @@ bool DishGene::Start()
 
 			return true;
 		}
+		return true;
 	});
 	//‚±‚±‚Ü‚Å‚«‚½‚ç‘S•”o‚½‚Í‚¸‚È‚Ì‚Å‰Ò“­ó‘Ô‚ğFALSE‚É
 	m_dishGeneState = false;

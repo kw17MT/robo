@@ -68,13 +68,13 @@ public:
 	 * @brief ‰ñ“]‚Ì•ûŒü‚ğ•Ô‚·
 	 * @return ‰ñ“]‚Ì•ûŒü
 	*/
-	EnDirection GetDirection() { return m_direction; }
+	EnDirection GetDirection() const { return m_direction; }
 
 	/**
 	 * @brief ‚Ç‚¿‚ç‚É•\¦‚³‚ê‚Ä‚¢‚é‚©•Ô‚·
 	 * @return •\¦ˆÊ’u
 	*/
-	EnSide GetSide() { return m_side; }
+	EnSide GetSide() const { return m_side; }
 
 private:
 	Vector4 m_finalColor = { 2.0f,2.0f,2.0f,m_alpha };	//‰ñ“]‚Ì‰æ‘œ‚ÌF

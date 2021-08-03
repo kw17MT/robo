@@ -10,6 +10,10 @@ class PlayerGene;
 class SkinModelRender;
 class TrashCan;
 
+/**
+ * @brief 具材のクラス
+ * 7種類ある。
+*/
 class Guzai : public IGameObject
 {
 private:
@@ -29,6 +33,8 @@ private:
 	const int m_holdTime = 10;							//一度ターゲッティングしたものをある程度見つめるための時間。
 	const int m_targetRangeNear = 100;					//ターゲットする最短距離。
 	const int m_targetRangeFar = 110;					//ターゲッティングを切り始める距離。（実際はディレイがあるため消えるのはもうちょっと先になる）
+	const static int m_maxGuzaiTypeNum = 7;
+	const static int m_maxFilePathSize = 256;
 	float m_guzai2Pl00 = 0.0f;							//具材からプレイヤー1への距離
 	float m_guzai2Pl01 = 0.0f;							//具材からプレイヤー2への距離
 	float m_kit2Pl00 = 0.0f;							//キッチンからプレイヤー1への距離
@@ -44,9 +50,28 @@ private:
 	bool m_isHad = false;								//１ならば持たれている。
 	bool m_returnedFromKitchen = false;					//一度キッチンに置かれてから、また取られたとき
 	bool m_isPutOnKitchen = false;						//TRUEならばもうキッチンに置かれている。
-	const char* m_nowModelPath;					//その具材は何であるかのメモ用、ターゲティングのオブジェクトを作成時に使用。
 
-	bool m_shouldDelete = false;
+	//通常時のモデルのパス集
+	char m_normalFilePaths[m_maxGuzaiTypeNum][m_maxFilePathSize] = {
+		"Assets/modelData/food/cheese.tkm",
+		"Assets/modelData/food/egg.tkm",
+		"Assets/modelData/food/lettuce.tkm",
+		"Assets/modelData/food/patty.tkm",
+		"Assets/modelData/food/tomato.tkm",
+		"Assets/modelData/food/onion.tkm",
+		"Assets/modelData/food/bacon.tkm",
+	};
+
+	//具材がキッチンに運ばれた時のモデルのパス集
+	char m_changedFilePaths[m_maxGuzaiTypeNum][m_maxFilePathSize] = {
+		"Assets/modelData/food/cheese_kitchen.tkm",
+		"Assets/modelData/food/egg_kitchen.tkm",
+		"Assets/modelData/food/lettuce_kitchen.tkm",
+		"Assets/modelData/food/patty_kitchen.tkm",
+		"Assets/modelData/food/tomato_kitchen.tkm",
+		"Assets/modelData/food/onion_kitchen.tkm",
+		"Assets/modelData/food/bacon_kitchen.tkm",
+	};
 
 public:	
 	Guzai() {};
@@ -66,68 +91,68 @@ public:
 	 * @brief ポジションのゲッタ―
 	 * @return 具材の位置座標
 	*/
-	Vector3 GetPosition() { return m_position; }
+	Vector3 GetPosition() const { return m_position; }
 	/**
 	 * @brief 自分の具材ナンバーのゲッタ―
 	 * @return 具材種類の番号
 	*/
-	int GetTypeNo() { return m_typeNo; }
+	int GetTypeNo() const { return m_typeNo; }
 	/**
 	 * @brief 自分に設定された番号を入手
 	 * @return マイナンバーの取得
 	*/
-	int GetGuziNo() { return m_myNo; }		
+	int GetGuziNo() const { return m_myNo; }		
 	/**
 	 * @brief 自分が持たれたかどうかを返す。
 	 * @return 持たれているかどうか。
 	*/
-	bool GetisHadState() { return m_isHad; }							
+	bool GetisHadState() const { return m_isHad; }							
 	/**
 	 * @brief 位置座標を設定する。
 	 * @param pos 位置座標
 	*/
-	void SetPosition(Vector3 pos) { m_position = pos; }
+	void SetPosition(const Vector3 pos) { m_position = pos; }
 	/**
 	 * @brief 拡大率を設定する。
 	 * @param scale 拡大率
 	*/
-	void SetScale(Vector3 scale) { m_scale = scale; }
+	void SetScale(const Vector3 scale) { m_scale = scale; }
 	/**
 	 * @brief どちらのプレイヤーに持たれているかを設定する。
 	 * @param num プレイヤー番号
 	*/
-	void SetWhichPlayerGet(int num) { m_whichPlayerGet = num; }
+	void SetWhichPlayerGet(const int num) { m_whichPlayerGet = num; }
 	/**
 	 * @brief 自分の番号を設定する。
 	 * @param number マイナンバー
 	*/
-	void SetGuzaiNo(int number) { m_myNo = number; }					
+	void SetGuzaiNo(const int number) { m_myNo = number; }					
 	/**
 	 * @brief キッチンに置かれているかどうかを設定する。
 	 * @param state キッチンに置かれている＝TRUE。
 	*/
-	void SetPutState(bool state) { m_isPutOnKitchen = state; }			//キッチンに置かれているかの変数の変更
+	void SetPutState(const bool isPut) { m_isPutOnKitchen = isPut; }			//キッチンに置かれているかの変数の変更
 	/**
 	 * @brief プレイヤーに持たれているかどうかを設定する。
 	 * @param state プレイヤーに持たれている＝TRUE。
 	*/
-	void SetisHadState(bool state) { m_isHad = state; }
+	void SetisHadState(const bool beHad) { m_isHad = beHad; }
 	/**
 	 * @brief キッチンから帰ってきた具材かどうかを設定する。
 	 * @param state キッチンから帰ってきた＝TRUE。
 	*/
-	void SetReturnedState(bool state) { m_returnedFromKitchen = state; }
+	void SetReturnedState(const bool returned) { m_returnedFromKitchen = returned; }
 	/**
 	 * @brief キッチンに置いたときに違うモデルに差し替える
 	 * @param guzaiType 具材の種類の番号
 	*/
-	void ChangeModel(int& guzaiType);
+	void ChangeModel(const int guzaiType);
 	/**
 	 * @brief 具材を持ったり置いたりする処理
 	*/
-	void GrabAndPut();
+	void Grab();
 
-	void SetShouldDeleted(bool state) { m_shouldDelete = state; }
+	void Put();
 	
 	/**
 	 * @brief 一定範囲内で一番近い具材をターゲットする
@@ -155,6 +180,16 @@ public:
 	void Rotation();
 
 	/**
+	 * @brief 具材のターゲット状態により、拡大率を変更させる。
+	*/
+	void ChangeScaleDependOnJudgedState();
+
+	/**
+	 * @brief キッチンから具材が取られた時の具材の位置を更新
+	*/
+	void IfReturnedFromKitchen();
+
+	/**
 	 * @brief プレイヤーの状態
 	*/
 	enum enPlayerState {
@@ -179,16 +214,15 @@ public:
 		enGuzaiTypeNum		//具材の種類数
 	};
 private:
-	Player* m_player00 = nullptr;
-	Player* m_player01 = nullptr;
-	Kitchen* m_kitchen00 = nullptr;
-	Kitchen* m_kitchen01 = nullptr;
-	SkinModelRender* m_skinModelRender = nullptr;
-	PlayerGene* m_playerGene = nullptr;
-	GuzaiOkiba* m_guzaiOkiba = nullptr;
-	//TrashCan* m_trashCan[2] = { nullptr, nullptr };
-	std::array<TrashCan*, 2> m_trashCan = { nullptr, nullptr };
-	CSoundSource* m_cookingSe = nullptr;
-	Meter* m_meter = nullptr;
+	Player* m_player00 = nullptr;										//プレイヤー1のオブジェクト取得用
+	Player* m_player01 = nullptr;										//プレイヤー2のオブジェクト取得用
+	Kitchen* m_kitchen00 = nullptr;										//キッチン1のオブジェクト取得用
+	Kitchen* m_kitchen01 = nullptr;										//キッチン2のオブジェクト取得用
+	SkinModelRender* m_skinModelRender = nullptr;						//具材のモデル設定用
+	PlayerGene* m_playerGene = nullptr;									//プレイヤー生成器のオブジェクト取得用
+	GuzaiOkiba* m_guzaiOkiba = nullptr;									//全具材置き場のオブジェクト取得用
+	std::array<TrashCan*, 2> m_trashCan = { nullptr, nullptr };			//ゴミ箱のオブジェクト取得用
+	CSoundSource* m_cookingSe = nullptr;								//料理した時の音
+	Meter* m_meter = nullptr;											//料理するときのゲージ用
 };
 

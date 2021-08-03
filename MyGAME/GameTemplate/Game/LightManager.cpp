@@ -18,3 +18,20 @@ LightManager::LightManager()
 	s_allLight.spotLight[1].spotDirection.Normalize();
 	s_allLight.spotLight[1].spotColor = { 0.0f,0.0f,0.5f };
 }
+
+void LightManager::MakeGaugeLightYellow(int lightNumber)
+{
+	s_gaugeLight[lightNumber].ambient.y = 1.0f;
+	s_gaugeLight[lightNumber].ambient.x = 1.0f;
+}
+
+void LightManager::MakeGaugeLightRed(int lightNumber)
+{
+	s_gaugeLight[lightNumber].ambient.y = 0.0f;
+	s_gaugeLight[lightNumber].ambient.x = 1.0f;
+}
+
+void LightManager::MakeGaugeLightGreen(int lightNumber)
+{
+	s_gaugeLight[lightNumber].ambient = { 0.0f,1.0f,0.0f };
+}

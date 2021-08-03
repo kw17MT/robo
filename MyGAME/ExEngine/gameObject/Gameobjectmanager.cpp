@@ -175,7 +175,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	/********************************************************************************************/
 
 	/*被写界深度マップ作成***********************************************************************/
-	rc.WaitUntilToPossibleSetRenderTargets(2, depthTargets);
+	/*rc.WaitUntilToPossibleSetRenderTargets(2, depthTargets);
 	rc.SetRenderTargetsAndViewport(2, depthTargets);
 	rc.ClearRenderTargetViews(2, depthTargets);
 	m_renderTypes = enRenderDepthinView;
@@ -186,7 +186,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	}
 
 	rc.WaitUntilFinishDrawingToRenderTargets(2, depthTargets);
-	depthGaussian.ExecuteOnGPU(rc, 120);
+	depthGaussian.ExecuteOnGPU(rc, 120);*/
 	/********************************************************************************************/
 
 
@@ -225,7 +225,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	/*ここから最終的に表示する画面（画像）を作成*************************************************/
 	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
 	rc.SetRenderTargetAndViewport(mainRenderTarget);
-	depthInViewSprite.Draw(rc);
+	//depthInViewSprite.Draw(rc);
 	finalSprite.Draw(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 	/********************************************************************************************/

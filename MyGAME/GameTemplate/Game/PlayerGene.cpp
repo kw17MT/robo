@@ -40,6 +40,7 @@ void PlayerGene::Update()
 		m_player[PLAYER_NUMBER_TWO]->SetRotation(m_player02Rot);
 		m_player[PLAYER_NUMBER_TWO]->SetPlayerNo(PLAYER_NUMBER_TWO);
 
+		//‚±‚Ì¶¬Ší‚Ì“®‚«‚ğ~‚ß‚é
 		m_isWorking = false;
 	}
 }

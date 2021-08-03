@@ -23,10 +23,7 @@ public:
 	 * @brief コンベアの位置を設定する
 	 * @param pos 新しい位置座標
 	*/
-	void SetPosition(Vector3 pos)
-	{
-		m_position = pos;
-	}
+	void SetPosition(Vector3 pos) { m_position = pos; }
 
 private:
 	SkinModelRender* m_skinModelRender = nullptr;		//コンベアのモデル

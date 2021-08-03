@@ -6,7 +6,7 @@
 class DishManager
 {
 private:
-	const int m_dishNum = 36;
+	const int m_dishNum = 37;
 	bool m_isSpeedUp = false;											//皿の移動速度をスピードアップさせるか
 	float m_timeTillSpeedUp = 0.0f;										//スピードアップまでの時間
 	float m_activeTimeForSpeedUp = 0.0f;								//スピードアップの有効時間
@@ -46,7 +46,7 @@ public:
 	 * @brief スピードアップを実行するか返す。
 	 * @return TRUE＝スピードアップ、FALSE＝普通のスピード
 	*/
-	bool GetSpeedUpState()
+	bool GetSpeedUpState() const 
 	{
 		return m_isSpeedUp; 
 	}
@@ -90,7 +90,7 @@ public:
 	 * @brief スピード
 	 * @return 
 	*/
-	float GetTimeTillSpeedUp()
+	float GetTimeTillSpeedUp() const
 	{
 		return m_timeTillSpeedUp;
 	}
@@ -99,7 +99,7 @@ public:
 	 * @brief スピードアップの有効時間を返す
 	 * @return スピードアップの有効時間
 	*/
-	float GetActiveTimeForSpeedUp()
+	float GetActiveTimeForSpeedUp() const
 	{
 		return m_activeTimeForSpeedUp;
 	}
@@ -134,7 +134,7 @@ public:
 	 * @brief 皿の回転の向きを変えるべきかどうかを返す。
 	 * @return TRUE＝変えろ！
 	*/
-	bool GetIsOrderedDirection()
+	bool GetIsOrderedDirection() const
 	{
 		return m_letChangeDirection;
 	}
@@ -159,9 +159,9 @@ public:
 	 * @brief 全部の皿の向きが変わったかどうか
 	 * @return TRUE＝終わった。
 	*/
-	bool JudgeChangedAllDirection()
+	bool JudgeChangedAllDirection() const
 	{
-		return m_dishNum + 1 == m_completedChangeDirectionNum;
+		return m_dishNum == m_completedChangeDirectionNum;
 	}
 };
 

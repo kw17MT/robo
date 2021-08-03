@@ -25,6 +25,7 @@ namespace
 	const float COUNTDOWN_PHASE_FINAL_END = 0.0f;
 	const float COUNTDOWN_SHRINK_SPEED = 2.0f / 60.0f;
 	const float COUNTDOWN_START_SCALE = 2.0f;
+	const float SE_BUZZER_VOLUME = 0.4f;
 	const float SE_VOLUME = 1.0f;
 	const float COLOR_ALPHA_RUN_OUT = 0.0f;
 }
@@ -132,15 +133,15 @@ void CountDown::Update()
 	}
 
 	//開始時のカウントダウンに応じて音を鳴らす。
-	if (m_timer < COUNTDOWN_PHASE_FINAL_START && m_soundFlag == true) {
+	if (m_timer < COUNTDOWN_PHASE_FINAL_START && m_soundFlag == true && m_isFadeIn == false) {
 		//音を鳴らす
 		CSoundSource* se = NewGO<CSoundSource>(0);
 		se->Init(L"Assets/sound/basketball_buzzer1.wav", false);
-		se->SetVolume(SE_VOLUME);
+		se->SetVolume(SE_BUZZER_VOLUME);
 		se->Play(false);
 		m_soundFlag = false;
 	}
-	else if (m_timer < COUNTDOWN_PHASE1_START && m_timer > COUNTDOWN_PHASE_FINAL_START && m_soundFlag == true) {
+	else if (m_timer < COUNTDOWN_PHASE1_START && m_timer > COUNTDOWN_PHASE_FINAL_START && m_soundFlag == true && m_isFadeIn == false) {
 		//音を鳴らす
 		CSoundSource* se = NewGO<CSoundSource>(0);
 		se->Init(L"Assets/sound/Time.wav", false);

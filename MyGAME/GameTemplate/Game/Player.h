@@ -90,50 +90,50 @@ public:
 	 * @brief 現在の位置を返す
 	 * @return 現在の位置
 	*/
-	Vector3 GetPosition() { return m_position; }
+	Vector3 GetPosition() const { return m_position; }
 	
 	/**
 	 * @brief 現在のターゲティング状態を返す。
 	 * @return ターゲティング状態　TRUE＝している
 	*/
-	bool GetTargetState() { return m_targetingState; }
+	bool GetTargetState() const { return m_targetingState; }
 
 	/**
 	 * @brief プレイヤーの正規化された移動速度を入手
 	 * @return プレイヤーの正規化された移動速度
 	*/
-	Vector3 GetNormalMoveSpeed() { return m_saveMoveSpeed; }
+	Vector3 GetNormalMoveSpeed() const { return m_saveMoveSpeed; }
 
 	/**
 	 * @brief プレイヤーが保存できる具材の種類の総数
 	 * @return 今のところ10個
 	*/
-	int GetMaxNumCanSaveGuzaiType() { return m_maxNumCanSaveGuzaiType; }
+	int GetMaxNumCanSaveGuzaiType() const { return m_maxNumCanSaveGuzaiType; }
 
 	/**
 	 * @brief プレイヤーの状態を返す。
 	 * @return enPlayerStateを参照
 	*/
-	int GetPlayerState() { return m_have; }
+	int GetPlayerState() const { return m_have; }
 
 	/**
 	 * @brief その段数には何の具材を積んでいるのかを返す
 	 * @param num 積んでいる具材の段数の場所（0~4)
 	 * @return true
 	*/
-	int GetPlayerStackedGuzais(int num) { return m_guzaiNo[num]; }
+	int GetPlayerStackedGuzais(int num) const { return m_guzaiNo[num]; }
 
 	/**
 	 * @brief 積み上げている具材すべての情報を渡す
 	 * @return  積み上げている具材すべての情報
 	*/
-	int* GetPlayerStackedGuzais() { return m_guzaiNo; }
+	const int* GetPlayerStackedGuzais() const { return m_guzaiNo; }
 
 	/**
 	 * @brief 移動不可を設定
 	 * @param tf TRUE＝移動できない　FALSE＝移動できる
 	*/
-	void StopMove(bool tf) { m_moveStop = tf; }
+	void StopMove(bool makeStoped) { m_moveStop = makeStoped; }
 
 	/**
 	 * @brief 座標による移動範囲の制限を行う

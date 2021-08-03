@@ -9,6 +9,10 @@ private:
 	Quaternion m_rot = Quaternion::Identity;			//‰æ‘œ‚Ì‰ñ“]
 	Vector2 m_pivot = { 0.5f,0.5f };					//‰æ‘œ‚Ì’†S
 
+	enum {
+		enRenderNormal
+	};
+
 public:
 	SpriteRender() {};
 
@@ -70,7 +74,7 @@ public:
 	*/
 	void Render(RenderContext& rc) 
 	{ 
-		if (GameObjectManager::GetInstance()->GetRenderTypes() == 0) {
+		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderNormal) {
 			m_sprite.Draw(rc);
 		}
 		else {

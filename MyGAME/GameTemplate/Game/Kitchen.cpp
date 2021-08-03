@@ -88,7 +88,7 @@ void Kitchen::Delete()
 	//積んでいる具材の消去
 	for (int i = 0;i < m_stack; i++) {
 		//積んでいる具材の消去
-		m_stackedGuzai[i]->SetShouldDeleted(true);
+		DeleteGO(m_stackedGuzai[i]);
 	}
 	//キッチンに積んでいた具材の数をカウンターの方に移す
 	m_counter->SetStackNum(m_stack);

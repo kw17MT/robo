@@ -33,6 +33,33 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 	m_model.Init(m_modelInitData);
 }
 
+//ゲージのモデルの初期化
+void SkinModelRender::InitAsGauge(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, int gaugeNumber)
+{
+	//モデルのファイルパス設定
+	m_modelInitData.m_tkmFilePath = modelFilePath;
+	//モデルが使用するシェーダー（下はPBRのみ）
+	m_modelInitData.m_fxFilePath = "Assets/shader/forGauge.fx";
+	//頂点シェーダー設定
+	m_modelInitData.m_vsEntryPointFunc = "VSMain";
+	m_modelInitData.m_vsSkinEntryPointFunc = "VSMain";
+	//使う色の範囲設定
+	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+	//どの軸を上にするか
+	m_modelInitData.m_modelUpAxis = UpAxis;
+	//ゲージ専用の光を取得
+	m_modelInitData.m_expandConstantBuffer = &LightManager::GetInstance().GetGaugeLight(gaugeNumber);
+	m_modelInitData.m_expandConstantBufferSize = sizeof(LightManager::GetInstance().GetGaugeLight(gaugeNumber));
+
+	//モデルのスケルトンがあるなら
+	if (skeletonPath != nullptr) {
+		m_skeleton.Init(skeletonPath);
+		m_modelInitData.m_skeleton = &m_skeleton;
+	}
+
+	m_model.Init(m_modelInitData);
+}
+
 //影を出すための初期化
 void SkinModelRender::InitForCastShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)
 {
@@ -116,9 +143,6 @@ void SkinModelRender::InitAsFloor(const char* modelFilePath, const char* skeleto
 
 	m_modelInitData.m_expandShaderResoruceView = &GameObjectManager::GetInstance()->GetShadowMap().GetRenderTargetTexture();
 
-	//m_modelInitData.m_expandConstantBuffer = (void*)&GameObjectManager::GetInstance()->GetLightCamera().GetViewProjectionMatrix();
-	//m_modelInitData.m_expandConstantBufferSize = sizeof(GameObjectManager::GetInstance()->GetLightCamera().GetViewProjectionMatrix());
-
 	m_modelInitData.m_expandConstantBuffer = (void*)&s_dataCopyToVRAM;
 	m_modelInitData.m_expandConstantBufferSize = sizeof(s_dataCopyToVRAM);
 
@@ -139,14 +163,6 @@ void SkinModelRender::ChangeModel(const char* newModelFilePath)
 	}
 }
 
-
-void SkinModelRender::InitShader(const char* shaderFilePath, const char* entryPointPath, const char* skinEntryPointPath, DXGI_FORMAT colorBuffer)
-{
-	m_modelInitData.m_fxFilePath = shaderFilePath;
-	m_modelInitData.m_vsEntryPointFunc = entryPointPath;
-	m_modelInitData.m_vsSkinEntryPointFunc = skinEntryPointPath;
-	m_modelInitData.m_colorBufferFormat = colorBuffer;
-}
 
 //void SkinModelRender::InitAnimation(AnimationClip* animationClip, int animationNum)
 //{

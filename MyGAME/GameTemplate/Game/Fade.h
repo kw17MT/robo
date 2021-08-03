@@ -24,7 +24,7 @@ public:
 	 * @brief アルファ値を返す
 	 * @return 透明度
 	*/
-	float GetAlpha()
+	float GetAlpha() const
 	{
 		return m_alpha;
 	}

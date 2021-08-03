@@ -20,8 +20,8 @@ private:
 	Vector3 m_Arrow2Scale = Vector3::One;								//2P用の矢印の拡大率
 	Vector3 m_playerPos[2];												//プレイヤーの座標
 	int m_guzaiType = 0;												//具材の番号(種類)
-	int m_targetNo01;													//1Pがアクセス可能な具材置き場の番号
-	int m_targetNo02;													//2Pがアクセス可能な具材置き場の番号
+	int m_targetNo01 = 9;													//1Pがアクセス可能な具材置き場の番号
+	int m_targetNo02 = 9;													//2Pがアクセス可能な具材置き場の番号
 	std::array<bool, 8> m_guzaiOkibaSet = { false };					//具材置き場にセット可能か？ trueでセット可能 falseでセット不可能
 	std::array<bool, 8> m_guzaiSet = { false };							//具材置き場のセット状況 trueで置かれている falseで置かれていない
 	bool m_targeted01 = false;											//1Pがターゲット中か？
@@ -81,9 +81,9 @@ public:
 	/**
 	 * @brief 具材置き場の状態を変更したことを伝える関数
 	 * @param num 具材置き場の番号を入力(0～7)
-	 * @param tf 具材セット完了でtrue 具材取り出しでfalse
+	 * @param isPut 具材セット完了でtrue 具材取り出しでfalse
 	*/
-	void GuzaiSet(int num, bool tf) { m_guzaiSet[num] = tf; }
+	void GuzaiSet(int num, bool isPut) { m_guzaiSet[num] = isPut; }
 
 	/**
 	 * @brief 具材置き場の座標を入手

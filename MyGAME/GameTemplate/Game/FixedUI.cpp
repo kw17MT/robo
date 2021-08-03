@@ -35,14 +35,15 @@ namespace
 //デストラクタ
 FixedUI::~FixedUI()
 {
+	//TIMEの固定文字を消去
 	DeleteGO(m_textTime);
-
+	//SCOREの固定文字を消去
 	for (int i = 0; i < SCORE_TEXT_NUM; i++) {
 		DeleteGO(m_textScore[i]);
 	}
-
+	//可変の時間表示を消去
 	DeleteGO(m_time);
-	
+	//MISSの固定文字を消去
 	for (int i = 0; i < MISS_TEXT_NUM; i++) {
 		DeleteGO(m_textMiss[i]);
 	}
@@ -118,24 +119,18 @@ void FixedUI::Update()
 	//タイム減少とタイムアップ処理
 	//変数timerの値が60になる度に残時間remainingTimeから1を引いていく
 	//TODO ゲーム内の時間を計ってる。
-	m_timer++;
-	//ここをゲームタイムにする
-	if (m_timer >= 60) {
-		//残り時間がまだあるとき
-		if (m_remainingTime > 0) {
-			//1秒減らす
-			m_remainingTime--;
-		}
-		//残り時間が10秒未満の時
-		if (m_remainingTime < TEN) {
-			//音を出す。
-			m_timeSound = NewGO<CSoundSource>(0);
-			m_timeSound->Init(L"Assets/sound/Time.wav", false);
-			m_timeSound->SetVolume(SE_VOLUME);
-			m_timeSound->Play(false);
-		}
-		m_timer = 0;
+	float gameTime = GameTime().GetFrameDeltaTime();
+
+	m_remainingTime -= gameTime / 2.0f;
+	//残り時間が10秒未満の時
+	if (m_remainingTime < TEN) {
+		//音を出す。
+		m_timeSound = NewGO<CSoundSource>(0);
+		m_timeSound->Init(L"Assets/sound/Time.wav", false);
+		m_timeSound->SetVolume(SE_VOLUME);
+		m_timeSound->Play(false);
 	}
+
 	////タイムアップフラグを立てる
 	if (m_remainingTime <= 0 && m_isTimeUp == false) {
 		m_isTimeUp = true;
@@ -144,7 +139,7 @@ void FixedUI::Update()
 	//残時間の変換と更新(int → wstring → const wchar_t*)
 	//残時間LastTimeをstd::wstring型の文字列に変換する
 	std::wstring fontRemainingTime;
-	fontRemainingTime = std::to_wstring(m_remainingTime);
+	fontRemainingTime = std::to_wstring(static_cast<int>(m_remainingTime));
 	//残り時間を更新する。
 	m_time->SetText(fontRemainingTime.c_str());
 

@@ -11,6 +11,8 @@ struct SpriteData
 	const char* fliePath = nullptr;		//ファイルパス
 };
 
+//現在未使用
+//操作説明の画像表示などに使用する。
 class OperationExplanation : public IGameObject
 {
 private:
@@ -38,6 +40,6 @@ public:
 	void Update();
 private:
 	Fade* m_fade = nullptr;		//フェード
-	SpriteData m_spriteData[6];	//スプライトのデータ
-	SpriteRender* m_spriteRender;
+	SpriteData m_spriteData[6] = {nullptr};	//スプライトのデータ
+	SpriteRender* m_spriteRender = nullptr;
 };

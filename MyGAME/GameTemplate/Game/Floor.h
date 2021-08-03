@@ -8,7 +8,7 @@ private:
 	Vector3 m_position = Vector3::Zero;				//床の位置
 	Vector3 m_scale = Vector3::One;					//床の拡大率
 
-	bool isRed = false;								//赤い床にするかどうか
+	bool m_isRed = false;								//赤い床にするかどうか
 
 public:
 	~Floor();
@@ -28,7 +28,7 @@ public:
 	 * @brief 新しい位置を設定する。
 	 * @param pos 新しい位置
 	*/
-	void SetPosition(Vector3 pos) { m_position = pos; }
+	void SetPosition(const Vector3 pos) { m_position = pos; }
 
 	/**
 	 * @brief 赤い床にするか青い床にするか
@@ -40,11 +40,11 @@ public:
 	 * @brief 赤い床かどうか設定する
 	 * @param red TRUE＝赤　FALSE＝青
 	*/
-	void SetRed(bool red) { isRed = red; }
+	void SetRed(const bool red) { m_isRed = red; }
 
-	void SetScale(Vector3 scale) { m_scale = scale; }
+	void SetScale(const Vector3 scale) { m_scale = scale; }
 
 private:
-	SkinModelRender* m_skinModelRender = nullptr;
+	SkinModelRender* m_skinModelRender = nullptr;		//床用モデル
 };
 

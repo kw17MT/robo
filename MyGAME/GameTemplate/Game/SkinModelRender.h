@@ -18,18 +18,20 @@ private:
 	bool m_isCastShadow = false;										//具材のシャドウ用モデルのファイルパス変更に使用する。
 	bool m_isApplyBlur = false;											//ブラーを適応するかどうか
 
-	struct wannaCopyToVRAM
+	struct copyToVRAMDatas
 	{
+		//光の位置を示すカメラの取得
 		Matrix s_lightCameraMatrix = GameObjectManager::GetInstance()->GetLightCamera().GetViewProjectionMatrix();
+		//ディレクション、スポット、アンビエントライトすべてのライトを取得
 		AllLight s_lig = LightManager::GetInstance().GetLightData();
 	}s_dataCopyToVRAM;
 
 	enum EnRenderTaypes
 	{
-		enRenderNormal,
-		enRenderShade,
-		enRenderLuminance,
-		enRenderDepthInView
+		enRenderNormal,					//通常描画タイプ
+		enRenderShade,					//影描画タイプ
+		enRenderLuminance,				//輝度描画タイプ
+		enRenderDepthInView				//被写界深度描画タイプ
 	};
 
 public:
@@ -65,13 +67,13 @@ public:
 	 * @brief モデルの座標を設定する。
 	 * @return 新しい座標
 	*/
-	Vector3 GetPosition() { return m_position; }
+	Vector3 GetPosition() const { return m_position; }
 
 	/**
 	 * @brief モデルの拡大率を設定する。
 	 * @return 新しい拡大率
 	*/
-	Vector3 GetScale() { return m_scale; }
+	Vector3 GetScale() const { return m_scale; }
 
 	/**
 	 * @brief モデルの初期化を行う。ライトを独自のものにしたいときはこっちをつかう
@@ -79,34 +81,46 @@ public:
 	 * @param skeletonPath スケルトンのファイルパス
 	 * @param UpAxis どの軸を上にするか
 	 * @param pos モデルを出現させる最初の位置
-	 * @param pLig 設定した独自のライト
 	*/
 	void Init(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
 	//モデルのファイルパスのみを変更するときに使用する。
 
 	/**
 	 * @brief 影を生成する人のモデル初期化関数
-	 * @param filePath 　
-	 * @param skeletonPath 
-	 * @param UpAxis 
-	 * @param pos 
-	 * @param pLig 
+	 * @param filePath 使用するモデルのファイルパス
+	 * @param skeletonPath スケルトンのファイルパス
+	 * @param UpAxis どの軸を上にするか
+	 * @param pos 初期位置
 	*/
 	void InitForCastShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
 
 	/**
 	 * @brief 影が映るもののモデル初期化関数
-	 * @param filePath 
-	 * @param skeletonPath 
-	 * @param UpAxis 
-	 * @param pos 
+	 * @param filePath モデルのファイルパス
+	 * @param skeletonPath スケルトンのファイルパス
+	 * @param UpAxis どの軸を上にするか
+	 * @param pos 初期位置
 	*/
 	void InitForRecieveShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
 
 	/**
 	 * @brief 床専用シャドウレシーバ―としての初期化
+	 * @param modelFilePath モデルのファイルパス
+	 * @param skeletonPath スケルトンのファイルパス
+	 * @param UpAxis どの軸を上にするか
+	 * @param pos 初期位置
 	*/
 	void InitAsFloor(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
+	
+	/**
+	 * @brief ゲージ専用初期化
+	 * @param filePath モデルのファイルパス
+	 * @param skeletonPath スケルトンのファイルパス
+	 * @param UpAxis どの軸を上にするか
+	 * @param pos 初期位置
+	 * @param gaugeNumber どっちにあるゲージか０が左、１が右、２は調理用ゲージ
+	*/
+	void InitAsGauge(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, int gaugeNumber);
 
 	/**
 	 * @brief モデルのファイルパスを変えたいときに使用
@@ -123,21 +137,6 @@ public:
 			m_shadow.Init(m_shadowData);
 		}
 	}
-
-	/**
-	 * @brief シェーダーのファイルパスと使うピクセルシェーダ―を変えたいときに使用する。
-	 * @param filePath 新しいシェーダーのファイルパス
-	 * @param entryPointPath 頂点シェーダー
-	 * @param skinEntryPointPath ピクセルシェーダ―
-	 * @param colorBuffer カラーのフォーマット　DXGI_FORMAT_R?G?B?A?_???等
-	*/
-	void InitShader(const char* filePath, const char* entryPointPath, const char* skinEntryPointPath, DXGI_FORMAT colorBuffer);
-
-	/**
-	 * @brief 主にフロントカリングに変えるときに使用する
-	 * @param psEntryPoint ピクセルシェーダ―
-	*/
-	void SetFrontCulling(const char* psEntryPoint) { m_modelInitData.m_psEntryPointFunc = psEntryPoint; }
 
 	/**
 	 * @brief アニメーションを設定する。

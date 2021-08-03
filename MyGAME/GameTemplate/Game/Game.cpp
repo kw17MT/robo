@@ -241,11 +241,11 @@ bool Game::Start()
 
 	//デプスシャドウ確認用の床作成
 	//消すこと　DeleteGO書いてない
-	m_depthTest = NewGO<Floor>(0);
+	/*m_depthTest = NewGO<Floor>(0);
 	Vector3 depthPos = { -700.0f,200.0f,-500.0f };
 	m_depthTest->SetPosition(depthPos);
 	Vector3 depthScale = { 0.2f,1.0f,0.1f };
-	m_depthTest->SetScale(depthScale);
+	m_depthTest->SetScale(depthScale);*/
 
 	
 	return true;
@@ -260,10 +260,10 @@ void DishSpeedUp()
 		std::mt19937 mt(rnd());
 		std::uniform_int_distribution<int> rand(9, 15);
 		////10~20までの整数を取得する。
-		int TimeTillSpeedUp = rand(mt);
+		float TimeTillSpeedUp = static_cast<float>(rand(mt));
 		//スピードアップまでの時間を設定してやる。
 		DishManager::GetInstance().SetTimeTillSpeedUp(TimeTillSpeedUp);
-		int TimeForSpeedUp = TimeTillSpeedUp / 3;
+		float TimeForSpeedUp = TimeTillSpeedUp / 3.0f;
 		//スピードアップまでの時間を設定してやる。
 		DishManager::GetInstance().SetActiveTimeForSpeedUp(TimeForSpeedUp);
 	}

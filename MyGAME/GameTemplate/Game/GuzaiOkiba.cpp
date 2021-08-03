@@ -54,6 +54,7 @@ float GuzaiOkiba::TargetDistance(Vector3 v1, Vector3 v2)
 
 bool GuzaiOkiba::Start()
 {
+
 	m_player00 = FindGO<Player>("player00");
 	m_player01 = FindGO<Player>("player01");
 
@@ -114,7 +115,7 @@ bool GuzaiOkiba::Start()
 				break;
 			}
 		}
-	
+		return true;
 	});
 
 	//‹ïŞ’u‚«ê‚É‹ß‚Ã‚¢‚½‚Æ‚«‚ÉoŒ»‚·‚é–îˆó

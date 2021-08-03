@@ -42,8 +42,6 @@ bool CycleDirection::Start()
 	case FixedReverse:
 		m_sprite->Init("Assets/Image/reverse.dds", WIDTH, HEIGHT);
 		break;
-	defalt:
-		break;
 	}
 
 	//•\¦êŠ‚ğŒˆ’è

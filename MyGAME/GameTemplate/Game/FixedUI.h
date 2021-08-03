@@ -8,7 +8,7 @@ class PathMove;
 class FixedUI : public IGameObject
 {
 private:
-	int m_remainingTime = 30;							//表示する残り時間
+	float m_remainingTime = 130.0f;							//表示する残り時間
 	int m_timer = 0;									//フレームカウント用、60になったらLastTimeを１減らす。
 	bool m_isTimeUp = false;							//タイムアップフラグ
 public:
@@ -29,13 +29,13 @@ public:
 	 * @brief タイムアップ状態を取得
 	 * @return TRUE＝タイムアップしている　FALSE＝してない
 	*/
-	bool GetIsTimeUp() { return m_isTimeUp; }
+	bool GetIsTimeUp() const { return m_isTimeUp; }
 
 	/**
 	 * @brief 残り時間を変えす
 	 * @return 残り時間
 	*/
-	int GetTime() { return m_remainingTime; }
+	int GetTime() const { return m_remainingTime; }
 
 	/**
 	 * @brief 残時間が少ないときの色の変化

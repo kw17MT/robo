@@ -35,7 +35,7 @@ public:
 	 * @brief プレイヤー生成器電源状態
 	 * @return true = 動いてる, false = 止まってる。
 	*/
-	bool GetPlayerGeneState() { return m_isWorking; }
+	bool GetPlayerGeneState() const { return m_isWorking; }
 
 private:
 	std::array<Player*, 2> m_player = { nullptr };				//出現させるプレイヤーモデル

@@ -19,6 +19,8 @@ namespace
 	const int SHRINK_RATE_HEIGHT = 60;
 }
 
+//現在未使用
+//操作説明の画像表示などに使用する。
 OperationExplanation::OperationExplanation()
 {
 	//初期ステート
