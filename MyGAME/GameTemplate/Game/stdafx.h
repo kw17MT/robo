@@ -5,3 +5,4 @@
 #include "ExEngine.h"
 #include "SoundEngine.h"
 #include "GameTime.h"
+#include "LightManager.h"

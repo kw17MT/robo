@@ -100,7 +100,7 @@ GameObjectManager::GameObjectManager()
 	lightCamera.Update();
 
 	//被写界深度用レンダーターゲット
-	depthInViewMap.Create(
+	/*depthInViewMap.Create(
 		1280,
 		720,
 		1,
@@ -109,19 +109,33 @@ GameObjectManager::GameObjectManager()
 		DXGI_FORMAT_UNKNOWN
 	);
 
-	depthGaussian.Init(&mainRenderTarget.GetRenderTargetTexture());
+	depthGaussian.Init(&mainRenderTarget.GetRenderTargetTexture());*/
 
 	//被写界深度込みの合成画像
-	combineDepthSpriteData.m_textures[0] = &depthGaussian.GetBokeTexture();//&gaussianBlur[0].GetBokeTexture();
-	combineDepthSpriteData.m_textures[1] = &depthInViewMap.GetRenderTargetTexture();
-	combineDepthSpriteData.m_width = 1280;
-	combineDepthSpriteData.m_height = 720;
-	combineDepthSpriteData.m_fxFilePath = "Assets/shader/depthInView.fx";
-	combineDepthSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	combineDepthSpriteData.m_alphaBlendMode = AlphaBlendMode_Trans;
-	depthInViewSprite.Init(combineDepthSpriteData);
+	//combineDepthSpriteData.m_textures[0] = &depthGaussian.GetBokeTexture();//&gaussianBlur[0].GetBokeTexture();
+	//combineDepthSpriteData.m_textures[1] = &depthInViewMap.GetRenderTargetTexture();
+	//combineDepthSpriteData.m_width = 1280;
+	//combineDepthSpriteData.m_height = 720;
+	//combineDepthSpriteData.m_fxFilePath = "Assets/shader/depthInView.fx";
+	//combineDepthSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	//combineDepthSpriteData.m_alphaBlendMode = AlphaBlendMode_Trans;
+	//depthInViewSprite.Init(combineDepthSpriteData);
 
 	//depthTargets[] = { &mainRenderTarget, &depthInViewMap };
+
+	albedoMap.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_D32_FLOAT);
+	normalMap.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
+	worldPosMap.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_UNKNOWN);
+
+	defferedSpriteData.m_width = 1280;
+	defferedSpriteData.m_height = 720;
+	defferedSpriteData.m_textures[0] = &albedoMap.GetRenderTargetTexture();
+	defferedSpriteData.m_textures[1] = &normalMap.GetRenderTargetTexture();
+	defferedSpriteData.m_textures[2] = &worldPosMap.GetRenderTargetTexture();
+	defferedSpriteData.m_fxFilePath = "Assets/shader/defferedSprite.fx";
+	defferedSpriteData.m_expandConstantBuffer = (void*)&LightManager::GetInstance().GetLightData();
+	defferedSpriteData.m_expandConstantBufferSize = sizeof(LightManager::GetInstance().GetLightData());
+	defferedSprite.Init(defferedSpriteData);
 }
 GameObjectManager::~GameObjectManager()
 {
@@ -191,7 +205,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 
 
 	/*川瀬式ガウシアンブラー*********************************************************************/
-	rc.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
+	/*rc.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
 	rc.SetRenderTargetAndViewport(luminanceRenderTarget);
 	rc.ClearRenderTargetView(luminanceRenderTarget);
 	m_renderTypes = enRenderLuminance;
@@ -205,29 +219,42 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	gaussianBlur[0].ExecuteOnGPU(rc, 5);
 	gaussianBlur[1].ExecuteOnGPU(rc, 5);
 	gaussianBlur[2].ExecuteOnGPU(rc, 5);
-	gaussianBlur[3].ExecuteOnGPU(rc, 5);
+	gaussianBlur[3].ExecuteOnGPU(rc, 5);*/
 	/********************************************************************************************/
 
 	/*通常マップ作成*****************************************************************************/
-	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
-	rc.SetRenderTargetAndViewport(mainRenderTarget);
-	rc.ClearRenderTargetView(mainRenderTarget);
+	//rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
+	//rc.SetRenderTargetAndViewport(mainRenderTarget);
+	//rc.ClearRenderTargetView(mainRenderTarget);
+	//m_renderTypes = enRenderNormal;
+	//for (auto& goList : m_gameObjectListArray) {
+	//	for (auto& go : goList) {
+	//		go->RenderWrapper(rc);
+	//	}
+	//}
+
+	//rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
+	/********************************************************************************************/
+
+	/*ディファード作成*****************************************************************************/
+	rc.WaitUntilToPossibleSetRenderTargets(ARRAYSIZE(defferedTargets), defferedTargets);
+	rc.SetRenderTargetsAndViewport(ARRAYSIZE(defferedTargets), defferedTargets);
+	rc.ClearRenderTargetViews(ARRAYSIZE(defferedTargets), defferedTargets);
 	m_renderTypes = enRenderNormal;
 	for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
 			go->RenderWrapper(rc);
 		}
 	}
-
-	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
+	rc.WaitUntilFinishDrawingToRenderTargets(ARRAYSIZE(defferedTargets), defferedTargets);
 	/********************************************************************************************/
 
 	/*ここから最終的に表示する画面（画像）を作成*************************************************/
-	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
-	rc.SetRenderTargetAndViewport(mainRenderTarget);
-	//depthInViewSprite.Draw(rc);
-	finalSprite.Draw(rc);
-	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
+	//rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
+	//rc.SetRenderTargetAndViewport(mainRenderTarget);
+	////depthInViewSprite.Draw(rc);
+	//finalSprite.Draw(rc);
+	//rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 	/********************************************************************************************/
 	
 	/*現在のレンダーターゲットをフレームバッファにコピー*****************************************/
@@ -241,5 +268,6 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	/********************************************************************************************/
 
 	//最終結果表示
-	copyToBufferSprite.Draw(rc);
+	//copyToBufferSprite.Draw(rc);
+	defferedSprite.Draw(rc);
 }

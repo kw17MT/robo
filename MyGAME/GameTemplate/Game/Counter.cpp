@@ -292,9 +292,7 @@ void Counter::JudgeAndDelete()
 
 void Counter::HamBurgerCompare()
 {
-	//警告（C26451）の回避のため、変数を用意した。
 	const int one = 1;
-	static_cast<int>(one);
 
 	CLevel2D* l2 = FindGO<CLevel2D>("clevel2d");
 	//1P側の処理

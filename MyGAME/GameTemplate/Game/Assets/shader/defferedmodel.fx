@@ -25,6 +25,7 @@ struct SpotLight
 };
 
 cbuffer LightCb : register (b1) {
+    float4x4 mLVP;
 	
 	DirectionalLight directionalLight;
 
@@ -59,6 +60,7 @@ struct SPSIn{
 	float3 biNormal     : BINORMAL;
 	float2 uv 			: TEXCOORD0;	//uv座標。
 	float4 worldPos		: TEXCOORD1;
+    float4 posInLVP : TEXCOORD2;
 };
 
 struct SPSOut
@@ -121,6 +123,8 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 	psIn.tangent = normalize(mul(m, vsIn.tangent));
 	psIn.biNormal = normalize(mul(m, vsIn.biNormal));
 	psIn.uv = vsIn.uv;
+	
+    psIn.posInLVP = mul(mLVP, psIn.worldPos);
 
 	return psIn;
 }

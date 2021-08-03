@@ -191,6 +191,14 @@ private:
 	SpriteInitData combineDepthSpriteData;
 	Sprite depthInViewSprite;
 	RenderTarget* depthTargets[2] = { &mainRenderTarget, &depthInViewMap };
+
+	RenderTarget albedoMap;
+	RenderTarget normalMap;
+	RenderTarget worldPosMap;
+	RenderTarget* defferedTargets[3] = { &albedoMap, &normalMap, &worldPosMap };
+
+	SpriteInitData defferedSpriteData;
+	Sprite defferedSprite;
 };
 
 

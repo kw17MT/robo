@@ -162,18 +162,23 @@ float4 PSMain( PSInput In ) : SV_Target0
 {
      //色をとってくる
     float4 albedoColor = albedoTexture.Sample(Sampler, In.uv);
-
+    
     //法線を取得
     float3 normal = normalTexture.Sample(Sampler, In.uv);
     
     normal = (normal * 2.0f) - 1.0f;
+    
+     //float4 a = { 1.0, 1.0f, 1.0f, 1.0f };
+    //a.xyz = normal;
+    //return a;
 
     //ワールド座標を取得
     float3 worldPos = worldPosTexture.Sample(Sampler, In.uv).xyz;
 
     //float4 a = { 1.0, 1.0f, 1.0f, 1.0f };
-    //a.xyz = normal;
+    //a.xyz = worldPos;
     //return a;
+   
     
     //return albedoColor;
     
