@@ -148,10 +148,13 @@ public:
 	*/
 	void ChangeModel(const int guzaiType);
 	/**
-	 * @brief 具材を持ったり置いたりする処理
+	 * @brief 具材を持つ処理
 	*/
 	void Grab();
 
+	/**
+	 * @brief 置く処理
+	*/
 	void Put();
 	
 	/**
@@ -178,11 +181,6 @@ public:
 	 * @brief 具材の回転処理。
 	*/
 	void Rotation();
-
-	/**
-	 * @brief 具材のターゲット状態により、拡大率を変更させる。
-	*/
-	void ChangeScaleDependOnJudgedState();
 
 	/**
 	 * @brief キッチンから具材が取られた時の具材の位置を更新

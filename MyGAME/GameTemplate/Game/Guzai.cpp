@@ -16,6 +16,9 @@
 #include <ctime>
 #include <cstdlib>
 
+#include "GuzaiGrab.h"
+#include "GuzaiScale.h"
+
 namespace
 {
 	const Vector3 EGG_SCALE = { 0.7f,1.0f,0.7f };
@@ -100,6 +103,8 @@ bool Guzai::Start()
 	std::uniform_int_distribution<int> rand(GUZAI_TYPE_MIN_NUM, GUZAI_TYPE_MAX_NUM);
 
 	m_typeNo = rand(mt);
+	m_isTargeted = false;
+	m_scale = Vector3::One;
 
 	//ヘッダに定義してあるファイルパス集を使用して具材のモデルを変更
 	m_skinModelRender->ChangeModel(m_normalFilePaths[m_typeNo]);
@@ -406,44 +411,6 @@ void Guzai::AwayFromGuzaiOkiba()
 		m_setKitchenNum = NONE;
 		//取った瞬間に置くことを防ぐため。次のフレームからとれるような処理にしている。
 		m_canPutOnGuzaiOkiba = false;
-	}
-}
-
-void Guzai::ChangeScaleDependOnJudgedState()
-{
-	//プレイヤーにターゲットされていたら拡大表示
-	if (m_isTargeted == true) {
-		if (m_typeNo == enEgg) {
-			m_scale += TARGETED_SCALE_AMOUNT;
-			if (m_scale.x >= MAX_COOKED_EGG_SCALE.x) {
-				m_scale = MAX_COOKED_EGG_SCALE;
-			}
-			m_skinModelRender->SetScale(m_scale);
-		}
-		else {
-			m_scale += TARGETED_SCALE_AMOUNT;
-			if (m_scale.x >= MAX_TARGETED_SCALE.x) {
-				m_scale = MAX_TARGETED_SCALE;
-			}
-			m_skinModelRender->SetScale(m_scale);
-		}
-	}
-	//されていなければ普通のサイズに
-	else {
-		if (m_typeNo == enEgg) {
-			m_scale -= TARGETED_SCALE_AMOUNT;
-			if (m_scale.x <= EGG_SCALE.x) {
-				m_scale = EGG_SCALE;
-			}
-			m_skinModelRender->SetScale(m_scale);
-		}
-		else {
-			m_scale -= TARGETED_SCALE_AMOUNT;
-			if (m_scale.x <= MIN_TARGETED_SCALE.x) {
-				m_scale = MIN_TARGETED_SCALE;
-			}
-			m_skinModelRender->SetScale(m_scale);
-		}
 	}
 }
 
@@ -768,5 +735,6 @@ void Guzai::Update()
 	}
 
 	//ターゲットされているかどうかの状況に応じた拡大率の更新
-	ChangeScaleDependOnJudgedState();
+	m_scale = GuzaiScale::ChangeScaleDependOnTargetedState(m_isTargeted, m_typeNo, m_scale);
+	m_skinModelRender->SetScale(m_scale);
 }
