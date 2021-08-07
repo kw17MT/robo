@@ -74,7 +74,7 @@ public:
 	*/
 	void Render(RenderContext& rc) 
 	{ 
-		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderNormal) {
+		if (GameObjectManager::GetInstance()->GetRenderTypes() == GameObjectManager::GetInstance()->enRenderUI) {
 			m_sprite.Draw(rc);
 		}
 		else {

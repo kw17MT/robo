@@ -21,7 +21,7 @@ private:
 	struct copyToVRAMDatas
 	{
 		//光の位置を示すカメラの取得
-		Matrix s_lightCameraMatrix = GameObjectManager::GetInstance()->GetLightCamera().GetViewProjectionMatrix();
+		//Matrix s_lightCameraMatrix = GameObjectManager::GetInstance()->GetLightCamera().GetViewProjectionMatrix();
 		//ディレクション、スポット、アンビエントライトすべてのライトを取得
 		AllLight s_lig = LightManager::GetInstance().GetLightData();
 	}s_dataCopyToVRAM;

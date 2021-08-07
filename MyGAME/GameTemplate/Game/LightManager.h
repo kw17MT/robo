@@ -2,12 +2,13 @@
 
 struct DirectionalLight
 {
+
 	//ディレクションライト
-	Vector3 directionalDirection = { 0.0f,1.0f,0.0f };				//ディレクションライトの方向
+	Vector3 directionalDirection = { 0.0f,-1.0f,0.0f };				//ディレクションライトの方向
 	float pad0 = 0;
 	Vector3 directionalColor = { 10.0f, 10.0f, 10.0f };				//ディレクションライトの色
 	float pad1 = 0;
-	Vector3 eyePos = Vector3::Zero;									//目の位置（カメラの位置）
+	Vector3 eyePos = g_camera3D->GetPosition();						//目の位置（カメラの位置）
 	float specPow = 0.5f;											//反射の度合い
 };
 
@@ -17,13 +18,15 @@ struct SpotLight
 	Vector3 spotPosition = Vector3::Zero;
 	float pad3 = 0;
 	Vector3 spotColor = Vector3::One;								//ライトの色
-	float spotRange = 1500.0f;
+	float spotRange = 2000.0f;
 	Vector3 spotDirection = Vector3::Zero;					//ライトの向き
 	float spotAngle = Math::DegToRad(20.0f);
 };
 
 struct AllLight
 {
+	Matrix s_lightCameraMatrix = GameObjectManager::GetInstance()->GetLightCamera().GetViewProjectionMatrix();
+	Matrix ViewProjInverseMatrix = g_camera3D->GetViewProjectionMatrix();
 	//ディレクションライト
 	DirectionalLight directionalLight;
 
@@ -116,6 +119,9 @@ public:
 	void UpdateEyePos()
 	{
 		s_allLight.directionalLight.eyePos = g_camera3D->GetPosition();
+
+		s_allLight.ViewProjInverseMatrix = g_camera3D->GetViewProjectionMatrix();
+		s_allLight.ViewProjInverseMatrix.Inverse();
 	}
 
 	/**

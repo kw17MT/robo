@@ -11,33 +11,6 @@ cbuffer ModelCb : register(b0){
 	float4x4 mProj;
 };
 
-struct DirectionalLight {
-	float3 direction;
-	float3 color;
-};
-
-struct SpotLight
-{
-	float3 spotPosition;
-	float3 spotColor;
-	float3 spotDirection;
-	float spotRange;
-};
-
-cbuffer LightCb : register (b1) {
-    float4x4 mLVP;
-	
-	DirectionalLight directionalLight;
-
-	float3 eyePos;
-	float specPow;
-	float3 ambientLight;
-	
-	SpotLight spotLight0;
-	SpotLight spotLight1;
-};
-	
-
 //スキニング用の頂点データをひとまとめ。
 struct SSkinVSIn{
 	int4  Indices  	: BLENDINDICES0;
@@ -68,15 +41,15 @@ struct SPSOut
     float4 albedo : SV_Target0; // アルベド
     float4 normal : SV_Target1; // 法線
 
-    // step-6 ピクセルシェーダーからの出力にワールド座標を追加
-    float4 worldPos : SV_Target2;
-    float4 depth : SV_TARGET3;
+    //float4 worldPos : SV_Target2;
+    float4 SpecAndDepth : SV_TARGET2;
 };
 
 // グローバル変数。
 Texture2D<float4> g_albedo : register(t0);				//アルベドマップ
 Texture2D<float4> g_normalMap : register(t1);
 Texture2D<float4> g_specMap : register(t2);
+
 Texture2D<float4> g_shadowMap : register(t10);
 
 StructuredBuffer<float4x4> g_boneMatrix : register(t3);	//ボーン行列。
@@ -124,7 +97,7 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 	psIn.biNormal = normalize(mul(m, vsIn.biNormal));
 	psIn.uv = vsIn.uv;
 	
-    psIn.posInLVP = mul(mLVP, psIn.worldPos);
+   // psIn.posInLVP = mul(mLVP, psIn.worldPos);
 
 	return psIn;
 }
@@ -141,96 +114,8 @@ SPSIn VSSkinMain( SVSIn vsIn )
 	return VSMainCore(vsIn, true);
 }
 
-float3 GetNormal(float3 normal, float3 tangent, float3 biNormal, float2 uv)
-{
-	float3 binSpaceNormal = g_normalMap.SampleLevel(g_sampler, uv, 0.0f).xyz;
-	binSpaceNormal = (binSpaceNormal * 2.0f) - 1.0f;
-
-	float3 newNormal = tangent * binSpaceNormal.x + biNormal * binSpaceNormal.y + normal * binSpaceNormal.z;
-
-	return newNormal;
-}
-
-//ベックマン分布を計算する
-//表面の微小な傾き下限の値。
-float Beckmann(float m, float t)
-{
-	float t2 = t * t;
-	float t4 = t * t * t * t;
-	float m2 = m * m;
-	float D = 1.0f / (4.0f * m2 * t4);
-	D *= exp((-1.0f / m2) * (1.0f - t2) / t2);
-	return D;
-}
-
-//フレネルを計算。Schlick近似を使用
-//光の波長と入射角によって金属反射波きまるらしい。それの計算
-float SpcFresnel(float f0, float u)
-{
-	// from Schlick
-	return f0 + (1 - f0) * pow(1 - u, 5);
-}
-
-float CalcDiffuseFromFresnel(float3 N, float3 L, float3 V)
-{
-	float3 H = normalize(L + V);
-
-	float roughness = 0.5f;
-	float energyBias = lerp(0.0f, 0.5f, roughness);
-
-	float dotLH = saturate(dot(L, H));
-
-	float Fd90 = energyBias + 2.0 * dotLH * dotLH * roughness;
-
-	float dotNL = saturate(dot(N, L));
-
-	float FL = Fd90 + (dotNL - Fd90);
-
-	float dotNV = saturate(dot(N, V));
-
-	float FV = Fd90 + (dotNV - Fd90);
-
-	return (FL * FV) / PI;
-}
-
-float CookTrranceSpecular(float3 L, float3 V, float3 N, float metaric)
-{
-	float microfacet = 0.76f;
-
-	// 金属度を垂直入射の時のフレネル反射率として扱う
-	// 金属度が高いほどフレネル反射は大きくなる
-	float f0 = metaric;
-
-	// ライトに向かうベクトルと視線に向かうベクトルのハーフベクトルを求める
-	float3 H = normalize(L + V);
-
-	// 各種ベクトルがどれくらい似ているかを内積を利用して求める
-	float NdotH = saturate(dot(N, H));
-	float VdotH = saturate(dot(V, H));
-	float NdotL = saturate(dot(N, L));
-	float NdotV = saturate(dot(N, V));
-
-	// D項をベックマン分布を用いて計算する
-	float D = Beckmann(microfacet, NdotH);
-
-	// F項をSchlick近似を用いて計算する
-	float F = SpcFresnel(f0, VdotH);
-
-	// G項を求める
-	float G = min(1.0f, min(2 * NdotH * NdotV / VdotH , 2 * NdotH * NdotL / VdotH));
-
-	// m項を求める
-	float m = PI * NdotV * NdotH;
-
-	// ここまで求めた、値を利用して、クックトランスモデルの鏡面反射を求める
-	return max(F * D * G / m, 0.0);
-}
-
-
-
 SPSOut PSMain(SPSIn psIn)
 {
-    // G-Bufferに出力
     SPSOut psOut;
 
     // アルベドカラーを出力
@@ -245,41 +130,39 @@ SPSOut PSMain(SPSIn psIn)
     // (-1 ～ 1) ÷ 2.0       = (-0.5 ～ 0.5)
     // (-0.5 ～ 0.5) + 0.5  = ( 0.0 ～ 1.0)
     psOut.normal.xyz = (normal / 2.0f) + 0.5f;
+	//鏡面反射の強さを取得
     psOut.normal.w = g_specMap.Sample(g_sampler, psIn.uv).r;
 	
+    psOut.SpecAndDepth.xyz = g_specMap.SampleLevel(g_sampler, psIn.uv, 0).rgb;
 	//深度値を記録
-    psOut.depth.x = psIn.pos.z;
+    psOut.SpecAndDepth.w = psIn.pos.z;
 	
 	//ワールド座標を記録
-    psOut.worldPos.xyz = psIn.worldPos;
-    psOut.worldPos.w = 1.0f;
+    //psOut.worldPos.xyz = psIn.worldPos.xyz;
+    //psOut.worldPos.w = 1.0f;
 	
 	/**シャドウマップ**********************************************************/
-    float4 color = g_albedo.Sample(g_sampler, psIn.uv);
 
 	//ライトビュースクリーン空間からUV空間に座標変換。
-    float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
-    shadowMapUV *= float2(0.5f, -0.5f);
-    shadowMapUV += 0.5f;
+ //   float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
+ //   shadowMapUV *= float2(0.5f, -0.5f);
+ //   shadowMapUV += 0.5f;
 
-	//ライトビュースクリーン空間でのZ値を計算する
-    float zInLVP = psIn.posInLVP.z / psIn.posInLVP.w;
+	////ライトビュースクリーン空間でのZ値を計算する
+ //   float zInLVP = psIn.posInLVP.z / psIn.posInLVP.w;
 
-    if (shadowMapUV.x > 0.0f
-		&& shadowMapUV.x < 1.0f
-		&& shadowMapUV.y > 0.0f
-		&& shadowMapUV.y < 1.0f)
-    {
-		//シャドウマップに描き込まれているZ値と比較する
-        float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
-		//シャドウアクネ解決のため実数値で補正、調整
-        if (zInLVP > zInShadowMap + 0.00001f)
-        {
-			//color.xyz *= 0.5f;
-            color.xyz *= 0.5f;
-        }
-    }
-    
-    psOut.albedo += color;
+ //   if (shadowMapUV.x > 0.0f
+	//	&& shadowMapUV.x < 1.0f
+	//	&& shadowMapUV.y > 0.0f
+	//	&& shadowMapUV.y < 1.0f)
+ //   {
+	//	//シャドウマップに描き込まれているZ値と比較する
+ //       float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
+	//	//シャドウアクネ解決のため実数値で補正、調整
+ //       if (zInLVP > zInShadowMap + 0.00007f)
+ //       {
+ //           psOut.albedo *= 0.5f;
+ //       }
+ //   }
     return psOut;
 }

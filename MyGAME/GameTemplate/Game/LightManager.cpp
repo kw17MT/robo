@@ -11,12 +11,12 @@ LightManager::LightManager()
 	s_allLight.spotLight[0].spotPosition = { 1000.0f, 1200.0f, 100.0f };
 	s_allLight.spotLight[0].spotDirection = { 1.0f, -1.0f, 0.0 };
 	s_allLight.spotLight[0].spotDirection.Normalize();
-	s_allLight.spotLight[0].spotColor = { 0.5f,0.0f,0.0f };
+	s_allLight.spotLight[0].spotColor = { 1.0f,0.0f,0.0f };
 	//スポットライト2個目の初期化（青色）
 	s_allLight.spotLight[1].spotPosition = { -1000.0f,1200.0f,100.0f };
 	s_allLight.spotLight[1].spotDirection = { -1.0f, -1.0f, 0.0 };
 	s_allLight.spotLight[1].spotDirection.Normalize();
-	s_allLight.spotLight[1].spotColor = { 0.0f,0.0f,0.5f };
+	s_allLight.spotLight[1].spotColor = { 0.0f,0.0f, 1.0f };
 }
 
 void LightManager::MakeGaugeLightYellow(int lightNumber)

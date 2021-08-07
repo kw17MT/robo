@@ -136,7 +136,8 @@ void SkinModelRender::InitAsFloor(const char* modelFilePath, const char* skeleto
 {
 	m_modelInitData.m_tkmFilePath = modelFilePath;
 
-	m_modelInitData.m_fxFilePath = "Assets/shader/shadow/shadowRecieverForFloor.fx";
+	//m_modelInitData.m_fxFilePath = "Assets/shader/shadow/shadowRecieverForFloor.fx";
+	m_modelInitData.m_fxFilePath = "Assets/shader/defferedmodel.fx";
 
 	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 

@@ -349,9 +349,6 @@ SPSOut PSMain(SPSIn psIn) : SV_Target0
 	/*　PBR計算終わり　**********************************************************************************************/
 
 	//ここからデプスシャドウの作成///////////////////////////////////////////////////////////////////////////
-
-	float4 color = g_albedo.Sample(g_sampler, psIn.uv);
-
 	//ライトビュースクリーン空間からUV空間に座標変換。
 	float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
 	shadowMapUV *= float2(0.5f, -0.5f);
@@ -369,7 +366,6 @@ SPSOut PSMain(SPSIn psIn) : SV_Target0
 		//シャドウアクネ解決のため実数値で補正、調整
 		if (zInLVP > zInShadowMap + 0.00001f)
 		{
-			//color.xyz *= 0.5f;
 			finalColor.xyz *= 0.5f;
 		}
 	}
