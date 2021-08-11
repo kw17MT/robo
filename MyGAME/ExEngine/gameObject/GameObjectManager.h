@@ -7,6 +7,7 @@
 #include "gameObject/IGameObject.h"
 #include <functional>
 #include <vector>
+#include "postEffect.h"
 
 /// <summary>
 /// GameObjectManagerクラス
@@ -165,20 +166,12 @@ private:
 	RenderTarget mainRenderTarget;
 
 	//フレームバッファにコピーしてきた画像の貼り付け
-	SpriteInitData copyToBufferSpriteData;
-	Sprite copyToBufferSprite;
+	SpriteInitData finalSpriteWithFXAAData;
+	Sprite finalSpriteWithFXAA;
 
-	//輝度画像用
-	RenderTarget luminanceRenderTarget;
-	SpriteInitData luminanceSpriteData;
-	Sprite luminanceSprite;
 
-	//ガウシアンブラー
-	GaussianBlur gaussianBlur[4];
 
-	//輝度を合算した画像。
-	SpriteInitData finalSpriteData;
-	Sprite finalSprite;
+
 
 	//シャドウ関連
 	float clearColor[4] = { 1.0f,1.0f,1.0f,1.0f };
@@ -187,11 +180,11 @@ private:
 	Camera lightCamera;
 
 	//被写界深度関連
-	GaussianBlur depthGaussian;
+	/*GaussianBlur depthGaussian;
 	RenderTarget depthInViewMap;
 	SpriteInitData combineDepthSpriteData;
 	Sprite depthInViewSprite;
-	RenderTarget* depthTargets[2] = { &mainRenderTarget, &depthInViewMap };
+	RenderTarget* depthTargets[2] = { &mainRenderTarget, &depthInViewMap };*/
 
 	RenderTarget albedoMap;
 	RenderTarget normalMap;
@@ -200,6 +193,16 @@ private:
 
 	SpriteInitData defferedSpriteData;
 	Sprite defferedSprite;
+
+	struct fxaaData
+	{
+		float width;
+		float height;
+	};
+
+	fxaaData data;
+
+	PostEffect m_postEffect;
 };
 
 

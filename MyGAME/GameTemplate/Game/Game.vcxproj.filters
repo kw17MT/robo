@@ -322,6 +322,18 @@
     <ClCompile Include="GuzaiScale.cpp">
       <Filter>Food</Filter>
     </ClCompile>
+    <ClCompile Include="Bloom.cpp">
+      <Filter>PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="DepthInView.cpp">
+      <Filter>PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="FXAA.cpp">
+      <Filter>PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect.cpp">
+      <Filter>PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -671,6 +683,18 @@
     <ClInclude Include="GuzaiScale.h">
       <Filter>Food</Filter>
     </ClInclude>
+    <ClInclude Include="Bloom.h">
+      <Filter>PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="DepthInView.h">
+      <Filter>PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="FXAA.h">
+      <Filter>PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect.h">
+      <Filter>PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Food">
@@ -690,6 +714,9 @@
     </Filter>
     <Filter Include="Manager">
       <UniqueIdentifier>{10cd0a43-0175-4296-855a-17e545543c53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PostEffect">
+      <UniqueIdentifier>{480137df-009c-4758-86d9-89b969cbe51a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

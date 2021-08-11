@@ -17,6 +17,7 @@ GameObjectManager::GameObjectManager()
 	m_instance = this;
 
 	//メインのレンダーターゲットの初期化
+	//最終のレンダリングターゲットにする
 	mainRenderTarget.Create(
 		1280,
 		720,
@@ -27,53 +28,12 @@ GameObjectManager::GameObjectManager()
 	);
 
 	//最終表示用の画像データ
-	copyToBufferSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
-	copyToBufferSpriteData.m_width = 1280;
-	copyToBufferSpriteData.m_height = 720;
-	copyToBufferSpriteData.m_fxFilePath = "Assets/shader/spriteHalfAlpha.fx";
+	finalSpriteWithFXAAData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
+	finalSpriteWithFXAAData.m_width = 1280;
+	finalSpriteWithFXAAData.m_height = 720;
+	finalSpriteWithFXAAData.m_fxFilePath = "Assets/shader/spriteHalfAlpha.fx";
 
-	copyToBufferSprite.Init(copyToBufferSpriteData);
-
-	//輝度用のレンダーターゲットの初期化
-	luminanceRenderTarget.Create(
-		1280,
-		720,
-		1,
-		1,
-		DXGI_FORMAT_R32G32B32A32_FLOAT,
-		DXGI_FORMAT_D32_FLOAT
-	);
-	//輝度用のスプライトデータとスプライトの初期化
-	luminanceSpriteData.m_fxFilePath = "Assets/shader/postEffect.fx";
-	luminanceSpriteData.m_vsEntryPointFunc = "VSMain";
-	luminanceSpriteData.m_psEntryPoinFunc = "PSLuminance";
-	luminanceSpriteData.m_width = 1280;
-	luminanceSpriteData.m_height = 720;
-
-	luminanceSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
-	luminanceSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
-
-	luminanceSprite.Init(luminanceSpriteData);
-
-	//ガウシアンブラーの初期化
-	gaussianBlur[0].Init(&luminanceRenderTarget.GetRenderTargetTexture());
-	gaussianBlur[1].Init(&gaussianBlur[0].GetBokeTexture());
-	gaussianBlur[2].Init(&gaussianBlur[1].GetBokeTexture());
-	gaussianBlur[3].Init(&gaussianBlur[2].GetBokeTexture());
-
-	//最終表示用の画像の初期化
-	finalSpriteData.m_textures[0] = &gaussianBlur[0].GetBokeTexture();
-	finalSpriteData.m_textures[1] = &gaussianBlur[1].GetBokeTexture();
-	finalSpriteData.m_textures[2] = &gaussianBlur[2].GetBokeTexture();
-	finalSpriteData.m_textures[3] = &gaussianBlur[3].GetBokeTexture();
-	finalSpriteData.m_width = 1280;
-	finalSpriteData.m_height = 720;
-
-	finalSpriteData.m_fxFilePath = "Assets/shader/spriteHalfAlpha.fx";
-	//finalSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
-	finalSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
-
-	finalSprite.Init(finalSpriteData);
+	finalSpriteWithFXAA.Init(finalSpriteWithFXAAData);
 
 	//シャドウのオフスクリーンレンダリング作成
 	shadowMap.Create(
@@ -99,6 +59,8 @@ GameObjectManager::GameObjectManager()
 	*/
 	lightCamera.Update();
 
+
+
 	//被写界深度用レンダーターゲット
 	/*depthInViewMap.Create(
 		1280,
@@ -123,6 +85,7 @@ GameObjectManager::GameObjectManager()
 
 	//depthTargets[] = { &mainRenderTarget, &depthInViewMap };
 
+
 	albedoMap.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_D32_FLOAT);
 	normalMap.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
 	worldPosMap.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_UNKNOWN);
@@ -134,10 +97,12 @@ GameObjectManager::GameObjectManager()
 	defferedSpriteData.m_textures[2] = &worldPosMap.GetRenderTargetTexture();
 	defferedSpriteData.m_textures[3] = &shadowMap.GetRenderTargetTexture();
 	defferedSpriteData.m_fxFilePath = "Assets/shader/defferedSprite.fx";
-	//defferedSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
+	defferedSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
 	defferedSpriteData.m_expandConstantBuffer = (void*)&LightManager::GetInstance().GetLightData();
 	defferedSpriteData.m_expandConstantBufferSize = sizeof(LightManager::GetInstance().GetLightData());
 	defferedSprite.Init(defferedSpriteData);
+
+	m_postEffect.Init(mainRenderTarget);
 }
 GameObjectManager::~GameObjectManager()
 {
@@ -190,54 +155,6 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.WaitUntilFinishDrawingToRenderTarget(shadowMap);
 	/********************************************************************************************/
 
-	/*被写界深度マップ作成***********************************************************************/
-	/*rc.WaitUntilToPossibleSetRenderTargets(2, depthTargets);
-	rc.SetRenderTargetsAndViewport(2, depthTargets);
-	rc.ClearRenderTargetViews(2, depthTargets);
-	m_renderTypes = enRenderDepthinView;
-	for (auto& goList : m_gameObjectListArray) {
-		for (auto& go : goList) {
-			go->RenderWrapper(rc);
-		}
-	}
-
-	rc.WaitUntilFinishDrawingToRenderTargets(2, depthTargets);
-	depthGaussian.ExecuteOnGPU(rc, 120);*/
-	/********************************************************************************************/
-
-
-	/*川瀬式ガウシアンブラー*********************************************************************/
-	rc.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
-	rc.SetRenderTargetAndViewport(luminanceRenderTarget);
-	rc.ClearRenderTargetView(luminanceRenderTarget);
-	m_renderTypes = enRenderLuminance;
-	for (auto& goList : m_gameObjectListArray) {
-		for (auto& go : goList) {
-			go->RenderWrapper(rc);
-		}
-	}
-	rc.WaitUntilFinishDrawingToRenderTarget(luminanceRenderTarget);
-
-	gaussianBlur[0].ExecuteOnGPU(rc, 5);
-	gaussianBlur[1].ExecuteOnGPU(rc, 5);
-	gaussianBlur[2].ExecuteOnGPU(rc, 5);
-	gaussianBlur[3].ExecuteOnGPU(rc, 5);
-	/********************************************************************************************/
-
-	/*通常マップ作成*****************************************************************************/
-	//rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
-	//rc.SetRenderTargetAndViewport(mainRenderTarget);
-	//rc.ClearRenderTargetView(mainRenderTarget);
-	//m_renderTypes = enRenderNormal;
-	//for (auto& goList : m_gameObjectListArray) {
-	//	for (auto& go : goList) {
-	//		go->RenderWrapper(rc);
-	//	}
-	//}
-
-	//rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
-	/********************************************************************************************/
-
 	/*ディファード作成*****************************************************************************/
 	rc.WaitUntilToPossibleSetRenderTargets(ARRAYSIZE(defferedTargets), defferedTargets);
 	rc.SetRenderTargetsAndViewport(ARRAYSIZE(defferedTargets), defferedTargets);
@@ -255,21 +172,22 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
 	rc.SetRenderTargetAndViewport(mainRenderTarget);
 	rc.ClearRenderTargetView(mainRenderTarget);
-	//depthInViewSprite.Draw(rc);
-	finalSprite.Draw(rc);
 	defferedSprite.Draw(rc);
 
 	//UIやポストエフェクトの掛けたくない画像を最前面にドロー
-	m_renderTypes = enRenderUI;
+	/*m_renderTypes = enRenderUI;
 	for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
 			go->RenderWrapper(rc);
 		}
-	}
+	}*/
 
 	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 	/********************************************************************************************/
 	
+	//ブルームとAAを行う
+	m_postEffect.Render(rc, mainRenderTarget);
+
 	/*現在のレンダーターゲットをフレームバッファにコピー*****************************************/
 	rc.SetRenderTarget(
 		g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
@@ -280,6 +198,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.SetViewportAndScissor(g_graphicsEngine->GetFrameBufferViewport());
 	/********************************************************************************************/
 
+	finalSpriteWithFXAA.Draw(rc);
 	//最終の画面を表示
-	copyToBufferSprite.Draw(rc);
+	//fxaaSprite.Draw(rc);
 }

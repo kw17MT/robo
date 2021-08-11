@@ -292,6 +292,7 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="Arrow.cpp" />
+    <ClCompile Include="Bloom.cpp" />
     <ClCompile Include="Burger.cpp" />
     <ClCompile Include="CaslFile.cpp" />
     <ClCompile Include="CLevel2D.cpp" />
@@ -299,6 +300,7 @@
     <ClCompile Include="CountDown.cpp" />
     <ClCompile Include="Counter.cpp" />
     <ClCompile Include="CycleDirection.cpp" />
+    <ClCompile Include="DepthInView.cpp" />
     <ClCompile Include="Dish.cpp" />
     <ClCompile Include="DishGene.cpp" />
     <ClCompile Include="DishManager.cpp" />
@@ -306,6 +308,7 @@
     <ClCompile Include="FixedUI.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="FontRender.cpp" />
+    <ClCompile Include="FXAA.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameDirector.cpp" />
     <ClCompile Include="GameTime.cpp" />
@@ -333,6 +336,7 @@
     <ClCompile Include="PathMove.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerGene.cpp" />
+    <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
@@ -419,6 +423,7 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="Arrow.h" />
+    <ClInclude Include="Bloom.h" />
     <ClInclude Include="Burger.h" />
     <ClInclude Include="CaslFile.h" />
     <ClInclude Include="CLevel2D.h" />
@@ -426,6 +431,7 @@
     <ClInclude Include="CountDown.h" />
     <ClInclude Include="Counter.h" />
     <ClInclude Include="CycleDirection.h" />
+    <ClInclude Include="DepthInView.h" />
     <ClInclude Include="Dish.h" />
     <ClInclude Include="DishGene.h" />
     <ClInclude Include="DishManager.h" />
@@ -433,6 +439,7 @@
     <ClInclude Include="FixedUI.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="FontRender.h" />
+    <ClInclude Include="FXAA.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameDirector.h" />
     <ClInclude Include="GameTime.h" />
@@ -459,6 +466,7 @@
     <ClInclude Include="PathMove.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerGene.h" />
+    <ClInclude Include="PostEffect.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="SkinModelRender.h" />
