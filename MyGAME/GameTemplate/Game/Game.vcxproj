@@ -308,6 +308,7 @@
     <ClCompile Include="FixedUI.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="FontRender.cpp" />
+    <ClCompile Include="ForwardBloom.cpp" />
     <ClCompile Include="FXAA.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameDirector.cpp" />
@@ -439,6 +440,7 @@
     <ClInclude Include="FixedUI.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="FontRender.h" />
+    <ClInclude Include="ForwardBloom.h" />
     <ClInclude Include="FXAA.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameDirector.h" />

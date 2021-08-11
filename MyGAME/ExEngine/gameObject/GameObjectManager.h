@@ -8,6 +8,7 @@
 #include <functional>
 #include <vector>
 #include "postEffect.h"
+#include "ForwardBloom.h"
 
 /// <summary>
 /// GameObjectManagerクラス
@@ -150,6 +151,23 @@ public:
 	{
 		return m_renderTypes;
 	}
+
+	void SetRenderTypes(EnRenderTypes TypeNumber)
+	{
+		m_renderTypes = TypeNumber;
+	}
+
+	/**
+	 * @brief NewGOしてきたオブジェクトの描画を一気に行う
+	 * @param rc レンダーコンテキスト
+	*/
+	void CallRenderWrapper(RenderContext& rc) {
+		for (auto& goList : m_gameObjectListArray) {
+			for (auto& go : goList) {
+				go->RenderWrapper(rc);
+			}
+		}
+	}
 	
 private:
 	enum { GAME_OBJECT_PRIO_MAX = 255 };		//!<ゲームオブジェクトの優先度の最大値。
@@ -161,17 +179,11 @@ private:
 	//0 普通　1 影 2 輝度
 	EnRenderTypes m_renderTypes = enRenderNormal;
 
-
 	//メインレンダーターゲット
 	RenderTarget mainRenderTarget;
-
 	//フレームバッファにコピーしてきた画像の貼り付け
-	SpriteInitData finalSpriteWithFXAAData;
-	Sprite finalSpriteWithFXAA;
-
-
-
-
+	SpriteInitData finalSpriteData;
+	Sprite finalSprite;
 
 	//シャドウ関連
 	float clearColor[4] = { 1.0f,1.0f,1.0f,1.0f };
@@ -179,13 +191,7 @@ private:
 	//ライト座標から見た影を作るためのもの
 	Camera lightCamera;
 
-	//被写界深度関連
-	/*GaussianBlur depthGaussian;
-	RenderTarget depthInViewMap;
-	SpriteInitData combineDepthSpriteData;
-	Sprite depthInViewSprite;
-	RenderTarget* depthTargets[2] = { &mainRenderTarget, &depthInViewMap };*/
-
+	//ディファードレンダリング関連
 	RenderTarget albedoMap;
 	RenderTarget normalMap;
 	RenderTarget worldPosMap;
@@ -194,14 +200,11 @@ private:
 	SpriteInitData defferedSpriteData;
 	Sprite defferedSprite;
 
-	struct fxaaData
-	{
-		float width;
-		float height;
-	};
+	RenderTarget forwardBloomTarget;
 
-	fxaaData data;
-
+	//特別にフォワードレンダリングでブルームをかけたいものがあるため
+	ForwardBloom m_forwardBloom;
+	//ポストエフェクトをまとめたもの
 	PostEffect m_postEffect;
 };
 

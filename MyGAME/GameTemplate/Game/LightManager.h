@@ -18,7 +18,7 @@ struct SpotLight
 	Vector3 spotPosition = Vector3::Zero;
 	float pad3 = 0;
 	Vector3 spotColor = Vector3::One;								//ライトの色
-	float spotRange = 2000.0f;
+	float spotRange = 1800.0f;
 	Vector3 spotDirection = Vector3::Zero;					//ライトの向き
 	float spotAngle = Math::DegToRad(20.0f);
 };

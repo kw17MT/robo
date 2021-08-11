@@ -14,7 +14,7 @@ void DepthInView::Init(RenderTarget& rt)
 
 	//ƒuƒ‹[ƒ€‰æ‘œ‚Ì‰Šú‰»—p
 	SpriteInitData bloomSpriteData;
-	bloomSpriteData.m_fxFilePath = "Assets/shader/postEffect.fx";
+	bloomSpriteData.m_fxFilePath = "Assets/shader/blur/bloom.fx";
 	bloomSpriteData.m_vsEntryPointFunc = "VSMain";
 	bloomSpriteData.m_psEntryPoinFunc = "PSLuminance";
 	bloomSpriteData.m_width = rt.GetWidth();
@@ -31,7 +31,7 @@ void DepthInView::Init(RenderTarget& rt)
 	finalSpriteData.m_textures[1] = &m_depthInViewMap.GetRenderTargetTexture();
 	finalSpriteData.m_width = 1280;
 	finalSpriteData.m_height = 720;
-	finalSpriteData.m_fxFilePath = "Assets/shader/depthInView.fx";
+	finalSpriteData.m_fxFilePath = "Assets/shader/blur/depthInView.fx";
 	finalSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	finalSpriteData.m_alphaBlendMode = AlphaBlendMode_Trans;
 	m_finalSprite.Init(finalSpriteData);

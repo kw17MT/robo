@@ -144,6 +144,8 @@ float4 PSMain( PSInput In ) : SV_Target0
         0.0833f,								// FxaaFloat fxaaConsoleEdgeThresholdMin,
         texSize
 	);
-    color.xyz =  pow(max( color.xyz, 0.0001f ), 1.0f/2.2f);
+    //ここの最後の変数の調整によって変な線が出るか出んかが変わる
+    //1.5～出始めた
+    color.xyz =  pow(max( color.xyz, 0.0001f ), 1.0f/1.4f/*2.2f*/);
     return color;
 }

@@ -75,7 +75,7 @@ void GaussianBlur::InitSprites()
 	//横ブラー用のスプライトを初期化する。
 	{
 		SpriteInitData xBlurSpriteInitData;
-		xBlurSpriteInitData.m_fxFilePath = "Assets/shader/gaussianBlur.fx";
+		xBlurSpriteInitData.m_fxFilePath = "Assets/shader/blur/gaussianBlur.fx";
 		xBlurSpriteInitData.m_vsEntryPointFunc = "VSXBlur";
 		xBlurSpriteInitData.m_psEntryPoinFunc = "PSBlur";
 		//スプライトの解像度はm_xBlurRenderTargetと同じ。
@@ -95,7 +95,7 @@ void GaussianBlur::InitSprites()
 	//縦ブラー用のスプライトを初期化する。
 	{
 		SpriteInitData yBlurSpriteInitData;
-		yBlurSpriteInitData.m_fxFilePath = "Assets/shader/gaussianBlur.fx";
+		yBlurSpriteInitData.m_fxFilePath = "Assets/shader/blur/gaussianBlur.fx";
 		yBlurSpriteInitData.m_vsEntryPointFunc = "VSYBlur";
 		yBlurSpriteInitData.m_psEntryPoinFunc = "PSBlur";
 		//スプライトの解像度はm_yBlurRenderTargetと同じ。

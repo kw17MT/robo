@@ -109,7 +109,7 @@ void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char
 	/*	デプスシャドウを適用							*/
 	/****************************************************/
 	//m_modelInitData.m_fxFilePath = "Assets/shader/shadow/depthShadowReciever.fx";
-	m_modelInitData.m_fxFilePath = "Assets/shader/defferedmodel.fx";
+	m_modelInitData.m_fxFilePath = "Assets/shader/deffered/defferedmodel.fx";
 
 	//カラーバッファーのフォーマットは共通
 	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -137,7 +137,7 @@ void SkinModelRender::InitAsFloor(const char* modelFilePath, const char* skeleto
 	m_modelInitData.m_tkmFilePath = modelFilePath;
 
 	//m_modelInitData.m_fxFilePath = "Assets/shader/shadow/shadowRecieverForFloor.fx";
-	m_modelInitData.m_fxFilePath = "Assets/shader/defferedmodel.fx";
+	m_modelInitData.m_fxFilePath = "Assets/shader/deffered/defferedmodel.fx";
 
 	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 

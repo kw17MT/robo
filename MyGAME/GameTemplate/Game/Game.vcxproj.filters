@@ -323,16 +323,19 @@
       <Filter>Food</Filter>
     </ClCompile>
     <ClCompile Include="Bloom.cpp">
-      <Filter>PostEffect</Filter>
+      <Filter>AboutRendering\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="DepthInView.cpp">
-      <Filter>PostEffect</Filter>
+      <Filter>AboutRendering\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="FXAA.cpp">
-      <Filter>PostEffect</Filter>
+      <Filter>AboutRendering\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect.cpp">
-      <Filter>PostEffect</Filter>
+      <Filter>AboutRendering\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="ForwardBloom.cpp">
+      <Filter>AboutRendering\ForwardRendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -684,16 +687,19 @@
       <Filter>Food</Filter>
     </ClInclude>
     <ClInclude Include="Bloom.h">
-      <Filter>PostEffect</Filter>
+      <Filter>AboutRendering\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="DepthInView.h">
-      <Filter>PostEffect</Filter>
+      <Filter>AboutRendering\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="FXAA.h">
-      <Filter>PostEffect</Filter>
+      <Filter>AboutRendering\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="PostEffect.h">
-      <Filter>PostEffect</Filter>
+      <Filter>AboutRendering\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="ForwardBloom.h">
+      <Filter>AboutRendering\ForwardRendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -715,8 +721,14 @@
     <Filter Include="Manager">
       <UniqueIdentifier>{10cd0a43-0175-4296-855a-17e545543c53}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PostEffect">
+    <Filter Include="AboutRendering">
+      <UniqueIdentifier>{99169e38-d557-460d-a059-4811a40f1db6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AboutRendering\PostEffect">
       <UniqueIdentifier>{480137df-009c-4758-86d9-89b969cbe51a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AboutRendering\ForwardRendering">
+      <UniqueIdentifier>{10e06494-3d58-4106-af20-99c7e9eb0130}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -28,12 +28,12 @@ GameObjectManager::GameObjectManager()
 	);
 
 	//最終表示用の画像データ
-	finalSpriteWithFXAAData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
-	finalSpriteWithFXAAData.m_width = 1280;
-	finalSpriteWithFXAAData.m_height = 720;
-	finalSpriteWithFXAAData.m_fxFilePath = "Assets/shader/spriteHalfAlpha.fx";
+	finalSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
+	finalSpriteData.m_width = 1280;
+	finalSpriteData.m_height = 720;
+	finalSpriteData.m_fxFilePath = "Assets/shader/sprite.fx"/*HalfAlpha.fx*/;
 
-	finalSpriteWithFXAA.Init(finalSpriteWithFXAAData);
+	finalSprite.Init(finalSpriteData);
 
 	//シャドウのオフスクリーンレンダリング作成
 	shadowMap.Create(
@@ -60,32 +60,6 @@ GameObjectManager::GameObjectManager()
 	lightCamera.Update();
 
 
-
-	//被写界深度用レンダーターゲット
-	/*depthInViewMap.Create(
-		1280,
-		720,
-		1,
-		1,
-		DXGI_FORMAT_R32_FLOAT,
-		DXGI_FORMAT_UNKNOWN
-	);
-
-	depthGaussian.Init(&mainRenderTarget.GetRenderTargetTexture());*/
-
-	//被写界深度込みの合成画像
-	//combineDepthSpriteData.m_textures[0] = &depthGaussian.GetBokeTexture();//&gaussianBlur[0].GetBokeTexture();
-	//combineDepthSpriteData.m_textures[1] = &depthInViewMap.GetRenderTargetTexture();
-	//combineDepthSpriteData.m_width = 1280;
-	//combineDepthSpriteData.m_height = 720;
-	//combineDepthSpriteData.m_fxFilePath = "Assets/shader/depthInView.fx";
-	//combineDepthSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	//combineDepthSpriteData.m_alphaBlendMode = AlphaBlendMode_Trans;
-	//depthInViewSprite.Init(combineDepthSpriteData);
-
-	//depthTargets[] = { &mainRenderTarget, &depthInViewMap };
-
-
 	albedoMap.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_D32_FLOAT);
 	normalMap.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
 	worldPosMap.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_UNKNOWN);
@@ -96,12 +70,22 @@ GameObjectManager::GameObjectManager()
 	defferedSpriteData.m_textures[1] = &normalMap.GetRenderTargetTexture();
 	defferedSpriteData.m_textures[2] = &worldPosMap.GetRenderTargetTexture();
 	defferedSpriteData.m_textures[3] = &shadowMap.GetRenderTargetTexture();
-	defferedSpriteData.m_fxFilePath = "Assets/shader/defferedSprite.fx";
+	defferedSpriteData.m_fxFilePath = "Assets/shader//deffered/defferedSprite.fx";
 	defferedSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
 	defferedSpriteData.m_expandConstantBuffer = (void*)&LightManager::GetInstance().GetLightData();
 	defferedSpriteData.m_expandConstantBufferSize = sizeof(LightManager::GetInstance().GetLightData());
 	defferedSprite.Init(defferedSpriteData);
 
+	forwardBloomTarget.Create(
+		1280,   // 解像度はメインレンダリングターゲットと同じ
+		720,  // 解像度はメインレンダリングターゲットと同じ
+		1,
+		1,
+		DXGI_FORMAT_R32G32B32A32_FLOAT,
+		DXGI_FORMAT_D32_FLOAT
+	);
+
+	m_forwardBloom.Init(forwardBloomTarget);
 	m_postEffect.Init(mainRenderTarget);
 }
 GameObjectManager::~GameObjectManager()
@@ -147,24 +131,28 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.SetRenderTargetAndViewport(shadowMap);
 	rc.ClearRenderTargetView(shadowMap);
 	m_renderTypes = enRenderShade;									//影するよ
-	for (auto& goList : m_gameObjectListArray) {
+	/*for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
 			go->RenderWrapper(rc);
 		}
-	}
+	}*/
+	CallRenderWrapper(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(shadowMap);
 	/********************************************************************************************/
+
+	
 
 	/*ディファード作成*****************************************************************************/
 	rc.WaitUntilToPossibleSetRenderTargets(ARRAYSIZE(defferedTargets), defferedTargets);
 	rc.SetRenderTargetsAndViewport(ARRAYSIZE(defferedTargets), defferedTargets);
 	rc.ClearRenderTargetViews(ARRAYSIZE(defferedTargets), defferedTargets);
 	m_renderTypes = enRenderNormal;
-	for (auto& goList : m_gameObjectListArray) {
+	/*for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
 			go->RenderWrapper(rc);
 		}
-	}
+	}*/
+	CallRenderWrapper(rc);
 	rc.WaitUntilFinishDrawingToRenderTargets(ARRAYSIZE(defferedTargets), defferedTargets);
 	/********************************************************************************************/
 
@@ -174,8 +162,18 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.ClearRenderTargetView(mainRenderTarget);
 	//ディファードライティングをした画像の描画
 	defferedSprite.Draw(rc);
-
+	//m_forwardBloom.Render(rc, mainRenderTarget);
 	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
+	/********************************************************************************************/
+
+	/*フォワードレンダリングでのブルーム*/
+	rc.WaitUntilToPossibleSetRenderTarget(forwardBloomTarget);
+	rc.SetRenderTargetAndViewport(forwardBloomTarget);
+	rc.ClearRenderTargetView(forwardBloomTarget);
+	m_renderTypes = enRenderLuminance;									//ブラー
+	CallRenderWrapper(rc);
+	rc.WaitUntilFinishDrawingToRenderTarget(forwardBloomTarget);
+	m_forwardBloom.Render(rc, mainRenderTarget);
 	/********************************************************************************************/
 	
 	/*ポストエフェクトを行う*********************************************************************/
@@ -183,15 +181,18 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	m_postEffect.Render(rc, mainRenderTarget);
 	/********************************************************************************************/
 
+	//m_forwardBloom.Render(rc, mainRenderTarget);
+
 	/*UIやポストエフェクトの掛けたくない画像を最前面にドロー*************************************/
 	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
 	rc.SetRenderTargetAndViewport(mainRenderTarget);
 	m_renderTypes = enRenderUI;
-	for (auto& goList : m_gameObjectListArray) {
+	/*for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
 			go->RenderWrapper(rc);
 		}
-	}
+	}*/
+	CallRenderWrapper(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 	/********************************************************************************************/
 
@@ -205,6 +206,6 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.SetViewportAndScissor(g_graphicsEngine->GetFrameBufferViewport());
 	/********************************************************************************************/
 
-	finalSpriteWithFXAA.Draw(rc);
+	finalSprite.Draw(rc);
 	//最終の画面を表示
 }

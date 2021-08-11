@@ -178,6 +178,7 @@ public:
 		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderLuminance) {
 			if (m_isApplyBlur) {
 				m_model.Draw(rc);
+				return;
 			}
 		}
 	}
