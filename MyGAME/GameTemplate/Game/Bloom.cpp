@@ -14,7 +14,7 @@ void Bloom::Init(RenderTarget& rt)
 
 	//ƒuƒ‹[ƒ€‰æ‘œ‚Ì‰Šú‰»—p
 	SpriteInitData bloomSpriteData;	
-	bloomSpriteData.m_fxFilePath = "Assets/shader/postEffect.fx";
+	bloomSpriteData.m_fxFilePath = "Assets/shader/bloom.fx";
 	bloomSpriteData.m_vsEntryPointFunc = "VSMain";
 	bloomSpriteData.m_psEntryPoinFunc = "PSLuminance";
 	bloomSpriteData.m_width = rt.GetWidth();
@@ -41,7 +41,9 @@ void Bloom::Init(RenderTarget& rt)
 	finalSpriteData.m_width = rt.GetWidth();
 	finalSpriteData.m_height = rt.GetHeight();
 
-	finalSpriteData.m_fxFilePath = "Assets/shader/spriteHalfAlpha.fx";
+	finalSpriteData.m_fxFilePath = "Assets/shader/bloom.fx";
+	finalSpriteData.m_vsEntryPointFunc = "VSMain";
+	finalSpriteData.m_psEntryPoinFunc = "PSCalcBloom";
 	finalSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
 	finalSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 

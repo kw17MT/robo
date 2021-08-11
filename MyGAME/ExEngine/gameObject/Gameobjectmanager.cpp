@@ -172,21 +172,28 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
 	rc.SetRenderTargetAndViewport(mainRenderTarget);
 	rc.ClearRenderTargetView(mainRenderTarget);
+	//ディファードライティングをした画像の描画
 	defferedSprite.Draw(rc);
-
-	//UIやポストエフェクトの掛けたくない画像を最前面にドロー
-	/*m_renderTypes = enRenderUI;
-	for (auto& goList : m_gameObjectListArray) {
-		for (auto& go : goList) {
-			go->RenderWrapper(rc);
-		}
-	}*/
 
 	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 	/********************************************************************************************/
 	
+	/*ポストエフェクトを行う*********************************************************************/
 	//ブルームとAAを行う
 	m_postEffect.Render(rc, mainRenderTarget);
+	/********************************************************************************************/
+
+	/*UIやポストエフェクトの掛けたくない画像を最前面にドロー*************************************/
+	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
+	rc.SetRenderTargetAndViewport(mainRenderTarget);
+	m_renderTypes = enRenderUI;
+	for (auto& goList : m_gameObjectListArray) {
+		for (auto& go : goList) {
+			go->RenderWrapper(rc);
+		}
+	}
+	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
+	/********************************************************************************************/
 
 	/*現在のレンダーターゲットをフレームバッファにコピー*****************************************/
 	rc.SetRenderTarget(
@@ -200,5 +207,4 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 
 	finalSpriteWithFXAA.Draw(rc);
 	//最終の画面を表示
-	//fxaaSprite.Draw(rc);
 }
