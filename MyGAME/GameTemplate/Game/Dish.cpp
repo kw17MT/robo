@@ -45,7 +45,7 @@ bool Dish::Start()
 	//皿のモデル初期化
 	m_skinModelRender = NewGO<SkinModelRender>(0,"dish");
 	//シャドウレシーバーのオブジェクトを初期化
-	m_skinModelRender->InitForRecieveShadow("Assets/modelData/dish/dish.tkm", nullptr, enModelUpAxisZ, m_position);
+	m_skinModelRender->Init/*ForRecieveShadow*/("Assets/modelData/dish/dish.tkm", nullptr, enModelUpAxisZ, m_position);
 	//シャドウキャスターのオブジェクトを初期化
 	m_skinModelRender->InitForCastShadow("Assets/modelData/dish/dish.tkm", nullptr, enModelUpAxisZ, m_position);
 	//プレイヤー生成器のオブジェクトを取得

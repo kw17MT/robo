@@ -275,7 +275,7 @@ SPSOut PSMain(SPSIn psIn) : SV_Target0
 	
     SPSOut psOut;
     // アルベドカラーを出力
-    psOut.albedo = g_albedo.Sample(g_sampler, psIn.uv);
+    psOut.albedo = finalColor; //g_albedo.Sample(g_sampler, psIn.uv);
     // 法線を出力
     psOut.normal.xyz = normal;
 	//鏡面反射の強さを取得

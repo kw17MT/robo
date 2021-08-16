@@ -225,7 +225,7 @@ float4 PSMain( PSInput In ) : SV_Target0
         float3 pointRef = reflect(pointLightToSurface, normal);
         t = dot(toEye, pointRef);
         t = max(0.0f, t);
-        t = pow(t, 5.0f);
+        t = pow(t, 2.0f);
         float3 pointSpec = spotLight[i].spotColor * t;
 
 	//スポットライトにする

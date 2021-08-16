@@ -200,6 +200,9 @@ private:
 	SpriteInitData defferedSpriteData;
 	Sprite defferedSprite;
 
+	RenderTarget metaricSmoothTarget;
+	RenderTarget zPrepassTarget;
+
 	RenderTarget forwardBloomTarget;
 
 	//特別にフォワードレンダリングでブルームをかけたいものがあるため

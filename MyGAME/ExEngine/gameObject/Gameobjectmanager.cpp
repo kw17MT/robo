@@ -70,7 +70,7 @@ GameObjectManager::GameObjectManager()
 	defferedSpriteData.m_textures[1] = &normalMap.GetRenderTargetTexture();
 	defferedSpriteData.m_textures[2] = &worldPosMap.GetRenderTargetTexture();
 	defferedSpriteData.m_textures[3] = &shadowMap.GetRenderTargetTexture();
-	defferedSpriteData.m_fxFilePath = "Assets/shader//deffered/defferedSprite.fx";
+	defferedSpriteData.m_fxFilePath = "Assets/shader/deffered/defferedSprite.fx";
 	defferedSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
 	defferedSpriteData.m_expandConstantBuffer = (void*)&LightManager::GetInstance().GetLightData();
 	defferedSpriteData.m_expandConstantBufferSize = sizeof(LightManager::GetInstance().GetLightData());
@@ -85,8 +85,27 @@ GameObjectManager::GameObjectManager()
 		DXGI_FORMAT_D32_FLOAT
 	);
 
+	metaricSmoothTarget.Create(
+		1280,
+		720,
+		1,
+		1,
+		DXGI_FORMAT_R8G8B8A8_UNORM,
+		DXGI_FORMAT_UNKNOWN
+	);
+
+	zPrepassTarget.Create(
+		g_graphicsEngine->GetFrameBufferWidth(),
+		g_graphicsEngine->GetFrameBufferHeight(),
+		1,
+		1,
+		DXGI_FORMAT_R32G32B32A32_FLOAT,
+		DXGI_FORMAT_D32_FLOAT,
+		clearColor
+	);
+
 	m_forwardBloom.Init(forwardBloomTarget);
-	m_postEffect.Init(mainRenderTarget);
+	m_postEffect.Init(mainRenderTarget, zPrepassTarget, normalMap, metaricSmoothTarget, albedoMap);
 }
 GameObjectManager::~GameObjectManager()
 {
@@ -180,8 +199,6 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	//ブルームとAAを行う
 	m_postEffect.Render(rc, mainRenderTarget);
 	/********************************************************************************************/
-
-	//m_forwardBloom.Render(rc, mainRenderTarget);
 
 	/*UIやポストエフェクトの掛けたくない画像を最前面にドロー*************************************/
 	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);

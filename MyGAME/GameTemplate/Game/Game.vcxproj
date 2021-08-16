@@ -345,6 +345,7 @@
     <ClCompile Include="SoundPreCompile.cpp" />
     <ClCompile Include="SoundSource.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
+    <ClCompile Include="SSR.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -476,6 +477,7 @@
     <ClInclude Include="SoundPreCompile.h" />
     <ClInclude Include="SoundSource.h" />
     <ClInclude Include="SpriteRender.h" />
+    <ClInclude Include="SSR.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Stopwatch.h" />
     <ClInclude Include="system\system.h" />

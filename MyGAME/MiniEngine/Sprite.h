@@ -38,6 +38,7 @@ struct SpriteInitData {
 	AlphaBlendMode m_alphaBlendMode = AlphaBlendMode_None;	//アルファブレンディングモード。
 	DXGI_FORMAT m_colorBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
 	//DXGI_FORMAT m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	D3D12_TEXTURE_ADDRESS_MODE textureAddressMode = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;	// テクスチャアドレッシングモード。
 };
 /// <summary>
 /// スプライトクラス。
