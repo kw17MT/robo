@@ -31,7 +31,7 @@ GameObjectManager::GameObjectManager()
 	finalSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
 	finalSpriteData.m_width = 1280;
 	finalSpriteData.m_height = 720;
-	finalSpriteData.m_fxFilePath = "Assets/shader/sprite.fx"/*HalfAlpha.fx*/;
+	finalSpriteData.m_fxFilePath = "Assets/shader/sprite.fx";
 
 	finalSprite.Init(finalSpriteData);
 
@@ -85,27 +85,8 @@ GameObjectManager::GameObjectManager()
 		DXGI_FORMAT_D32_FLOAT
 	);
 
-	metaricSmoothTarget.Create(
-		1280,
-		720,
-		1,
-		1,
-		DXGI_FORMAT_R8G8B8A8_UNORM,
-		DXGI_FORMAT_UNKNOWN
-	);
-
-	zPrepassTarget.Create(
-		g_graphicsEngine->GetFrameBufferWidth(),
-		g_graphicsEngine->GetFrameBufferHeight(),
-		1,
-		1,
-		DXGI_FORMAT_R32G32B32A32_FLOAT,
-		DXGI_FORMAT_D32_FLOAT,
-		clearColor
-	);
-
 	m_forwardBloom.Init(forwardBloomTarget);
-	m_postEffect.Init(mainRenderTarget, zPrepassTarget, normalMap, metaricSmoothTarget, albedoMap);
+	m_postEffect.Init(mainRenderTarget);
 }
 GameObjectManager::~GameObjectManager()
 {
@@ -150,27 +131,16 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.SetRenderTargetAndViewport(shadowMap);
 	rc.ClearRenderTargetView(shadowMap);
 	m_renderTypes = enRenderShade;									//影するよ
-	/*for (auto& goList : m_gameObjectListArray) {
-		for (auto& go : goList) {
-			go->RenderWrapper(rc);
-		}
-	}*/
+	//シャドウの作成を行うモデルのドロー
 	CallRenderWrapper(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(shadowMap);
 	/********************************************************************************************/
-
-	
 
 	/*ディファード作成*****************************************************************************/
 	rc.WaitUntilToPossibleSetRenderTargets(ARRAYSIZE(defferedTargets), defferedTargets);
 	rc.SetRenderTargetsAndViewport(ARRAYSIZE(defferedTargets), defferedTargets);
 	rc.ClearRenderTargetViews(ARRAYSIZE(defferedTargets), defferedTargets);
 	m_renderTypes = enRenderNormal;
-	/*for (auto& goList : m_gameObjectListArray) {
-		for (auto& go : goList) {
-			go->RenderWrapper(rc);
-		}
-	}*/
 	CallRenderWrapper(rc);
 	rc.WaitUntilFinishDrawingToRenderTargets(ARRAYSIZE(defferedTargets), defferedTargets);
 	/********************************************************************************************/
@@ -204,11 +174,6 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
 	rc.SetRenderTargetAndViewport(mainRenderTarget);
 	m_renderTypes = enRenderUI;
-	/*for (auto& goList : m_gameObjectListArray) {
-		for (auto& go : goList) {
-			go->RenderWrapper(rc);
-		}
-	}*/
 	CallRenderWrapper(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 	/********************************************************************************************/
@@ -223,6 +188,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.SetViewportAndScissor(g_graphicsEngine->GetFrameBufferViewport());
 	/********************************************************************************************/
 
-	finalSprite.Draw(rc);
 	//最終の画面を表示
+	finalSprite.Draw(rc);
+
 }

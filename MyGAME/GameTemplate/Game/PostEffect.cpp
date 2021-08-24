@@ -9,12 +9,18 @@ void PostEffect::Init(RenderTarget& mainRenderTarget,
 {
 	m_bloom.Init(mainRenderTarget);
 	m_fxaa.Init(mainRenderTarget);
-	m_depthInView.Init(mainRenderTarget);
-	m_ssr.Init(mainRenderTarget,
+	//m_depthInView.Init(mainRenderTarget);
+	/*m_ssr.Init(mainRenderTarget,
 		 depthRenderTarget,
 		 normalRenderTarget,
 		 metallicSmoothRenderTarget,
-		 albedoRenderTarget);
+		 albedoRenderTarget);*/
+}
+
+void PostEffect::Init(RenderTarget& mainRenderTarget)
+{
+	m_bloom.Init(mainRenderTarget);
+	m_fxaa.Init(mainRenderTarget);
 }
 
 void PostEffect::Render(RenderContext& rc, RenderTarget& TargetToApply)
@@ -22,5 +28,5 @@ void PostEffect::Render(RenderContext& rc, RenderTarget& TargetToApply)
 	m_bloom.Render(rc, TargetToApply);
 	//m_depthInView.Render(rc, TargetToApply);
 	m_fxaa.Render(rc, TargetToApply);
-	m_ssr.Render(rc, TargetToApply);
+	//m_ssr.Render(rc, TargetToApply);
 }

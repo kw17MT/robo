@@ -7,6 +7,8 @@
 class PostEffect
 {
 public:
+	void Init(RenderTarget& mainRenderTarget);
+
 	void Init(RenderTarget& mainRenderTarget, RenderTarget& depthRenderTarget,
 		RenderTarget& normalRenderTarget,
 		RenderTarget& metallicSmoothRenderTarget,

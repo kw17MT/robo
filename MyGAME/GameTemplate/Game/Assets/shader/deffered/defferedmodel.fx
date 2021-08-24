@@ -40,8 +40,6 @@ struct SPSOut
 {
     float4 albedo : SV_Target0; // アルベド
     float4 normal : SV_Target1; // 法線
-
-    //float4 worldPos : SV_Target2;
     float4 SpecAndDepth : SV_TARGET2;
 };
 
@@ -137,32 +135,5 @@ SPSOut PSMain(SPSIn psIn)
 	//深度値を記録
     psOut.SpecAndDepth.w = psIn.pos.z;
 	
-	//ワールド座標を記録
-    //psOut.worldPos.xyz = psIn.worldPos.xyz;
-    //psOut.worldPos.w = 1.0f;
-	
-	/**シャドウマップ**********************************************************/
-
-	//ライトビュースクリーン空間からUV空間に座標変換。
- //   float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
- //   shadowMapUV *= float2(0.5f, -0.5f);
- //   shadowMapUV += 0.5f;
-
-	////ライトビュースクリーン空間でのZ値を計算する
- //   float zInLVP = psIn.posInLVP.z / psIn.posInLVP.w;
-
- //   if (shadowMapUV.x > 0.0f
-	//	&& shadowMapUV.x < 1.0f
-	//	&& shadowMapUV.y > 0.0f
-	//	&& shadowMapUV.y < 1.0f)
- //   {
-	//	//シャドウマップに描き込まれているZ値と比較する
- //       float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
-	//	//シャドウアクネ解決のため実数値で補正、調整
- //       if (zInLVP > zInShadowMap + 0.00007f)
- //       {
- //           psOut.albedo *= 0.5f;
- //       }
- //   }
     return psOut;
 }

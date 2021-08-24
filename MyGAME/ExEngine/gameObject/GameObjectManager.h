@@ -175,36 +175,31 @@ private:
 	std::array<GameObjectList, GAME_OBJECT_PRIO_MAX>	m_gameObjectListArray;							//!<ゲームオブジェクトの優先度付きリスト。
 	static GameObjectManager* m_instance;		//唯一のインスタンスのアドレスを記録する変数。
 
-	//TODO 変数名およびマジックナンバーを直す
 	//0 普通　1 影 2 輝度
 	EnRenderTypes m_renderTypes = enRenderNormal;
-
 	//メインレンダーターゲット
 	RenderTarget mainRenderTarget;
 	//フレームバッファにコピーしてきた画像の貼り付け
 	SpriteInitData finalSpriteData;
 	Sprite finalSprite;
-
 	//シャドウ関連
 	float clearColor[4] = { 1.0f,1.0f,1.0f,1.0f };
 	RenderTarget shadowMap;
 	//ライト座標から見た影を作るためのもの
 	Camera lightCamera;
-
 	//ディファードレンダリング関連
+	//アルベドマップ
 	RenderTarget albedoMap;
+	//法線マップ
 	RenderTarget normalMap;
+	//ワールド座標マップ
 	RenderTarget worldPosMap;
 	RenderTarget* defferedTargets[3] = { &albedoMap, &normalMap, &worldPosMap };
-
+	//ディファードライティング作成の画像
 	SpriteInitData defferedSpriteData;
 	Sprite defferedSprite;
-
-	RenderTarget metaricSmoothTarget;
-	RenderTarget zPrepassTarget;
-
+	//フォワードレンダリング用のブルーム作成ターゲット
 	RenderTarget forwardBloomTarget;
-
 	//特別にフォワードレンダリングでブルームをかけたいものがあるため
 	ForwardBloom m_forwardBloom;
 	//ポストエフェクトをまとめたもの

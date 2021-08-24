@@ -57,8 +57,7 @@ struct PSInput{
 Texture2D<float4> albedoTexture : register(t0);
 Texture2D<float4> normalTexture : register(t1);
 Texture2D<float4> specDepthTexture : register(t2);
-
-Texture2D<float4> shadowMap : register(t10);
+Texture2D<float4> shadowMap : register(t3);
 
 sampler Sampler : register(s0);
 
@@ -168,7 +167,6 @@ float4 PSMain( PSInput In ) : SV_Target0
 {   
      //色をとってくる
     float4 albedoColor = albedoTexture.Sample(Sampler, In.uv);
-    //return albedoColor;
     
     //法線を取得
     float3 normal = normalTexture.Sample(Sampler, In.uv).xyz;
@@ -180,12 +178,14 @@ float4 PSMain( PSInput In ) : SV_Target0
     // z座標は深度テクスチャから引っ張ってくる。
     worldPos.z = specDepthTexture.Sample(Sampler, In.uv).a;
     // xy座標はUV座標から計算する。
-    worldPos.xy = In.uv * float2(2.0f, -2.0f) - 1.0f;
+    worldPos.xy = In.uv * float2(2.0f, -2.0f) + float2(-1.0f, 1.0f);
     worldPos.w = 1.0f;
+   
     // ビュープロジェクション行列の逆行列を乗算して、ワールド座標に戻す。
     worldPos = mul(viewProjInverseMatrix, worldPos);
     worldPos.xyz /= worldPos.w;
-   
+    worldPos.w = 1.0f;
+    
     //物体から目へのベクトル
     float3 toEye = eyePos - worldPos.xyz;
     toEye = normalize(toEye);
@@ -239,7 +239,6 @@ float4 PSMain( PSInput In ) : SV_Target0
     }
     	/*スポットライト計算終わり-------------------------------------------------------------------------------*/
     finalSpotLight.w = 1.0f;
-    //return finalSpotLight;
     
     /*　PBR計算開始　**********************************************************************************************/
     
@@ -288,32 +287,30 @@ float4 PSMain( PSInput In ) : SV_Target0
     //ここからデプスシャドウの作成///////////////////////////////////////////////////////////////////////////
 	//ライトビュースクリーン空間からUV空間に座標変換。
     
- //   float4 lvp = mul(LVP, worldPos);
+    float4 lvp = mul(LVP, worldPos);
     
- //   float2 shadowMapUV = lvp.xy / lvp.w;
- //   shadowMapUV *= float2(0.5f, -0.5f);
- //   shadowMapUV += 0.5f;
+    float2 shadowMapUV = lvp.xy / lvp.w;
+    shadowMapUV *= float2(0.5f, -0.5f);
+    shadowMapUV += 0.5f;
+   
+	//ライトビュースクリーン空間でのZ値を計算する
+    float zInLVP = lvp.z / lvp.w;
 
-	////ライトビュースクリーン空間でのZ値を計算する
- //   float zInLVP = lvp.z / lvp.w;
+    if (shadowMapUV.x > 0.0f
+		&& shadowMapUV.x < 1.0f
+		&& shadowMapUV.y > 0.0f
+		&& shadowMapUV.y < 1.0f)
+    {
+		//シャドウマップに描き込まれているZ値と比較する
+        float zInShadowMap = shadowMap.Sample(Sampler, shadowMapUV).r;
+		//シャドウアクネ解決のため実数値で補正、調整
+        if (zInLVP > zInShadowMap + 0.00007f)
+        {
+            finalColor.xyz *= 0.5f;
+        }
+    }
 
- //   if (shadowMapUV.x > 0.0f
-	//	&& shadowMapUV.x < 1.0f
-	//	&& shadowMapUV.y > 0.0f
-	//	&& shadowMapUV.y < 1.0f)
- //   {
-	//	//シャドウマップに描き込まれているZ値と比較する
- //       float zInShadowMap = shadowMap.Sample(Sampler, shadowMapUV).r;
-	//	//シャドウアクネ解決のため実数値で補正、調整
- //       if (zInLVP > zInShadowMap + 0.00001f)
- //       {
- //           finalColor.xyz *= 0.5f;
- //       }
- //   }
-
-    float4 a = finalColor + finalSpotLight;
-    a.a = 1.0f;
-    return a;
-    //return finalColor + finalSpotLight;
+    float4 returnColor = finalColor + finalSpotLight;
+    return returnColor;
 	//ここまでデプスシャドウマップ///////////////////////////////////////////////////////////////////////////
 }
