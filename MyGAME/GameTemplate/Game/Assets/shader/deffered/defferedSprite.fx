@@ -167,7 +167,7 @@ float4 PSMain( PSInput In ) : SV_Target0
 {   
      //色をとってくる
     float4 albedoColor = albedoTexture.Sample(Sampler, In.uv);
-    
+
     //法線を取得
     float3 normal = normalTexture.Sample(Sampler, In.uv).xyz;
     normal = (normal * 2.0f) - 1.0f;
@@ -187,7 +187,7 @@ float4 PSMain( PSInput In ) : SV_Target0
     worldPos.w = 1.0f;
     
     //物体から目へのベクトル
-    float3 toEye = eyePos - worldPos.xyz;
+    float3 toEye = abs(eyePos - worldPos.xyz);
     toEye = normalize(toEye);
     
 	///*スポットライト計算開始-------------------------------------------------------------------------------*/
@@ -235,10 +235,11 @@ float4 PSMain( PSInput In ) : SV_Target0
         float3 spotDiff = pointDiff * angleAffect;
         float3 spotSpec = pointSpec * angleAffect;
 		
-        finalSpotLight.xyz += pointDiff + pointSpec;
+        finalSpotLight.xyz += spotDiff + spotSpec;
     }
     	/*スポットライト計算終わり-------------------------------------------------------------------------------*/
     finalSpotLight.w = 1.0f;
+    //return finalSpotLight;
     
     /*　PBR計算開始　**********************************************************************************************/
     
@@ -251,6 +252,10 @@ float4 PSMain( PSInput In ) : SV_Target0
     float3 lambertDiffuse = (directionalLight.color * NdotL) / PI;
 	//最終的に適用する拡散反射光を計算
     float3 diffuse = albedoColor.xyz * diffuseFromFresnel * lambertDiffuse;
+    
+    //float4 a = 1.0f;
+    //a.xyz = diffuseFromFresnel;
+    //return a;
     
     //反射の具合を取得
     float specPower = normalTexture.Sample(Sampler, In.uv).w;
@@ -274,7 +279,7 @@ float4 PSMain( PSInput In ) : SV_Target0
     //ディレクションライトと法線の内積
     float ambientPower = dot(-directionalLight.direction, normal);
     //最低でも少しは環境光適用のため
-    ambientPower = min(0.45f, ambientPower);
+    ambientPower = max(0.3f, ambientPower);
     lig += ambient * ambientPower;
     
     float4 finalColor = albedoColor;

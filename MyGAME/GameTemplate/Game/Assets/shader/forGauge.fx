@@ -108,6 +108,7 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 {
     float4 color = 1.0f;
     color.xyz = ambientLight;
+    color.w = 1.0f;
     
     return color;
 }
