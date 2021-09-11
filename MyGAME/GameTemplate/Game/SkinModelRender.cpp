@@ -15,7 +15,7 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 	m_modelInitData.m_fxFilePath = "Assets/shader/model.fx";
 	//頂点シェーダー設定
 	m_modelInitData.m_vsEntryPointFunc = "VSMain";
-	m_modelInitData.m_vsSkinEntryPointFunc = "VSMain";
+	m_modelInitData.m_vsSkinEntryPointFunc = "VSSkinMain";
 	//使う色の範囲設定
 	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	//どの軸を上にするか

@@ -97,6 +97,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			Vector3 a = g_camera3D->GetPosition();
 			a.z += 20.0f;
 			g_camera3D->SetPosition(a);
+			test[1]->PlayAnimation(1, 1);
 		}
 
 		//スピンロックを行う。
