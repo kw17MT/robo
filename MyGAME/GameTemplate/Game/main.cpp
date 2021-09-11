@@ -34,10 +34,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	test[0]->SetPosition({ 0.0f,0.0f,-1000.0f });
 	test[1]->Init("Assets/modelData/testFish.tkm", "Assets/modelData/testFish.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f });
 
-	AnimationClip anim[1];
-	anim[0].Load("Assets/modelData/testFish.tka");
+	AnimationClip anim[2];
+	anim[0].Load("Assets/modelData/robo.tka");
 	anim[0].SetLoopFlag(true);
-	test[1]->InitAnimation(&anim[0], 1);
+	anim[1].Load("Assets/modelData/testFish.tka");
+	anim[1].SetLoopFlag(true);
+	test[0]->InitAnimation(&anim[0], 1);
+	test[0]->PlayAnimation(1, 1);
+	test[1]->InitAnimation(&anim[1], 1);
 	test[1]->PlayAnimation(1, 1);
 	
 
