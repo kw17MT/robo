@@ -131,7 +131,7 @@ SPSOut PSMain(SPSIn psIn)
 	//鏡面反射の強さを取得
     psOut.normal.w = g_specMap.Sample(g_sampler, psIn.uv).r;
 	
-    psOut.SpecAndDepth.xyz = g_specMap.SampleLevel(g_sampler, psIn.uv, 0).rgb;
+    psOut.SpecAndDepth.xyz = g_specMap.Sample(g_sampler, psIn.uv).rgb;
 	//深度値を記録
     psOut.SpecAndDepth.w = psIn.pos.z;
 	

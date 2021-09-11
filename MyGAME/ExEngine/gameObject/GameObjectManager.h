@@ -193,8 +193,8 @@ private:
 	//法線マップ
 	RenderTarget normalMap;
 	//ワールド座標マップ
-	RenderTarget worldPosMap;
-	RenderTarget* defferedTargets[3] = { &albedoMap, &normalMap, &worldPosMap };
+	RenderTarget specAndDepthMap;
+	RenderTarget* defferedTargets[3] = { &albedoMap, &normalMap, &specAndDepthMap };
 	//ディファードライティング作成の画像
 	SpriteInitData defferedSpriteData;
 	Sprite defferedSprite;

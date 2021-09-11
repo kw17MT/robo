@@ -245,7 +245,7 @@ float4 PSMain( PSInput In ) : SV_Target0
     
     float3 lig = 0.0f;
 	////拡散光の影響度を計算
-    float diffuseFromFresnel = CalcDiffuseFromFresnel(normal, -directionalLight.direction, toEye);    
+    float diffuseFromFresnel = CalcDiffuseFromFresnel(normal, -directionalLight.direction, toEye);
 	//物体の法線向きとディレクションライトの向きがどれだけ似ているか計算
     float NdotL = saturate(dot(normal, -directionalLight.direction));
 	//正規化ランバート拡散反射光
@@ -279,7 +279,7 @@ float4 PSMain( PSInput In ) : SV_Target0
     //ディレクションライトと法線の内積
     float ambientPower = dot(-directionalLight.direction, normal);
     //最低でも少しは環境光適用のため
-    ambientPower = max(0.3f, ambientPower);
+    ambientPower = max(0.6f, ambientPower);
     lig += ambient * ambientPower;
     
     float4 finalColor = albedoColor;
@@ -287,7 +287,51 @@ float4 PSMain( PSInput In ) : SV_Target0
     //モデルに適用したテクスチャの透過率が適用
     finalColor.a = albedoColor.a;
    
-	///* PBR完成 **********************************************************************************************/
+	/////* PBR完成 **********************************************************************************************/
+    
+    /*NoPBR*************************************************************************************************/
+    //ピクセルの法線とライトの方向の内積を計算する。
+ //   float t = dot(normal, -directionalLight.direction);
+	////内積の結果が0以下なら0にする。
+ //   t = max(0.0f, t);
+	////拡散反射光を求める。
+ //   float3 diffuseLig = directionalLight.color * t;
+	
+ //   //diffuseLig /= 3.14f;
+ //   //float4 a;
+ //   //a.xyz = diffuseLig * albedoColor.xyz;
+ //   //return a;
+    
+	////step-4 反射ベクトルを求める。
+ //   float3 refVec = reflect(directionalLight.direction, normal);
+	////step-5 光が当たったサーフェイスから視点に伸びるベクトルを求める。
+ //   //float3 toEye = eyePos - worldPos;
+ //  //toEye = normalize(toEye);
+	////step-6 鏡面反射の強さを求める。
+ //   t = dot(refVec, toEye);
+ //   if (t < 0.0f)
+ //   {
+ //       t = 0.0f;
+ //   }
+	////step-7 鏡面反射の強さを絞る。
+ //   t = pow(t, 1.0f);
+
+	////step-8 鏡面反射光を求める。
+ //   float3 specularLig = directionalLight.color * t;
+
+	////step-9 拡散反射光と鏡面反射光を足し算して、最終的な光を求める。
+ //   float3 lig = diffuseLig + specularLig;
+
+ //   float4 finalColor = albedoTexture.Sample(Sampler, In.uv);
+	////step-10 テクスチャカラーに求めた光を乗算して最終出力カラーを求める。
+ //   finalColor.xyz *= lig;
+   // finalColor.xyz += ambientLight;
+    //return finalColor;
+    
+    
+    
+    
+    
     
     //ここからデプスシャドウの作成///////////////////////////////////////////////////////////////////////////
 	//ライトビュースクリーン空間からUV空間に座標変換。

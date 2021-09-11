@@ -62,13 +62,13 @@ GameObjectManager::GameObjectManager()
 
 	albedoMap.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_D32_FLOAT);
 	normalMap.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
-	worldPosMap.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_UNKNOWN);
+	specAndDepthMap.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_UNKNOWN);
 
 	defferedSpriteData.m_width = 1280;
 	defferedSpriteData.m_height = 720;
 	defferedSpriteData.m_textures[0] = &albedoMap.GetRenderTargetTexture();
 	defferedSpriteData.m_textures[1] = &normalMap.GetRenderTargetTexture();
-	defferedSpriteData.m_textures[2] = &worldPosMap.GetRenderTargetTexture();
+	defferedSpriteData.m_textures[2] = &specAndDepthMap.GetRenderTargetTexture();
 	defferedSpriteData.m_textures[3] = &shadowMap.GetRenderTargetTexture();
 	defferedSpriteData.m_fxFilePath = "Assets/shader/deffered/defferedSprite.fx";
 	defferedSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;

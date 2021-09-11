@@ -3,77 +3,14 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="Burger.cpp">
-      <Filter>Food</Filter>
-    </ClCompile>
-    <ClCompile Include="DishGene.cpp">
-      <Filter>FunctionalObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Dish.cpp">
-      <Filter>FunctionalObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Counter.cpp">
-      <Filter>FunctionalObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Floor.cpp">
-      <Filter>FunctionalObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GuzaiOkiba.cpp">
-      <Filter>FunctionalObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Arrow.cpp">
-      <Filter>FunctionalObject</Filter>
-    </ClCompile>
-    <ClCompile Include="TrashCan.cpp">
-      <Filter>FunctionalObject</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerGene.cpp">
-      <Filter>FunctionalObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>FunctionalObject</Filter>
-    </ClCompile>
-    <ClCompile Include="MissCounter.cpp">
-      <Filter>FunctionalObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Meter.cpp">
-      <Filter>FunctionalObject</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuTimer.cpp">
-      <Filter>FunctionalObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Kitchen.cpp">
-      <Filter>FunctionalObject</Filter>
-    </ClCompile>
-    <ClCompile Include="CLevel2D.cpp">
-      <Filter>UI,Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="CycleDirection.cpp">
-      <Filter>UI,Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Fade.cpp">
-      <Filter>UI,Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="FixedUI.cpp">
-      <Filter>UI,Sprite</Filter>
-    </ClCompile>
     <ClCompile Include="FontRender.cpp">
       <Filter>UI,Sprite</Filter>
     </ClCompile>
     <ClCompile Include="Level2D.cpp">
       <Filter>UI,Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="Result.cpp">
-      <Filter>UI,Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Score.cpp">
-      <Filter>UI,Sprite</Filter>
-    </ClCompile>
     <ClCompile Include="SpriteRender.cpp">
       <Filter>UI,Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Guzai.cpp">
-      <Filter>Food</Filter>
     </ClCompile>
     <ClCompile Include="..\..\MiniEngine\Animation.cpp">
       <Filter>EngineRelated</Filter>
@@ -270,15 +207,6 @@
     <ClCompile Include="WaveFileBank.cpp">
       <Filter>EngineRelated</Filter>
     </ClCompile>
-    <ClCompile Include="HamBurgerFactory.cpp">
-      <Filter>Food</Filter>
-    </ClCompile>
-    <ClCompile Include="OperationExplanation.cpp">
-      <Filter>UI,Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Title.cpp">
-      <Filter>UI,Sprite</Filter>
-    </ClCompile>
     <ClCompile Include="Level.cpp">
       <Filter>EngineRelated</Filter>
     </ClCompile>
@@ -288,39 +216,8 @@
     <ClCompile Include="SkinModelRender.cpp">
       <Filter>FunctionalObject</Filter>
     </ClCompile>
-    <ClCompile Include="PathMove.cpp">
-      <Filter>ObjectMovement</Filter>
-    </ClCompile>
-    <ClCompile Include="PathFactory.cpp">
-      <Filter>ObjectMovement</Filter>
-    </ClCompile>
-    <ClCompile Include="Path.cpp">
-      <Filter>ObjectMovement</Filter>
-    </ClCompile>
-    <ClCompile Include="CountDown.cpp">
-      <Filter>UI,Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Conveyor.cpp">
-      <Filter>FunctionalObject</Filter>
-    </ClCompile>
-    <ClCompile Include="DishManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="GameDirector.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="GuzaiManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
     <ClCompile Include="LightManager.cpp">
       <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="GuzaiGrab.cpp" />
-    <ClCompile Include="GuzaiScale.cpp">
-      <Filter>Food</Filter>
     </ClCompile>
     <ClCompile Include="Bloom.cpp">
       <Filter>AboutRendering\PostEffect</Filter>
@@ -343,77 +240,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Burger.h">
-      <Filter>Food</Filter>
-    </ClInclude>
-    <ClInclude Include="DishGene.h">
-      <Filter>FunctionalObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Dish.h">
-      <Filter>FunctionalObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Counter.h">
-      <Filter>FunctionalObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Floor.h">
-      <Filter>FunctionalObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GuzaiOkiba.h">
-      <Filter>FunctionalObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Arrow.h">
-      <Filter>FunctionalObject</Filter>
-    </ClInclude>
-    <ClInclude Include="TrashCan.h">
-      <Filter>FunctionalObject</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerGene.h">
-      <Filter>FunctionalObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>FunctionalObject</Filter>
-    </ClInclude>
-    <ClInclude Include="MissCounter.h">
-      <Filter>FunctionalObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Meter.h">
-      <Filter>FunctionalObject</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuTimer.h">
-      <Filter>FunctionalObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Kitchen.h">
-      <Filter>FunctionalObject</Filter>
-    </ClInclude>
-    <ClInclude Include="CLevel2D.h">
-      <Filter>UI,Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="CycleDirection.h">
-      <Filter>UI,Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Fade.h">
-      <Filter>UI,Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="FixedUI.h">
-      <Filter>UI,Sprite</Filter>
-    </ClInclude>
     <ClInclude Include="FontRender.h">
       <Filter>UI,Sprite</Filter>
     </ClInclude>
     <ClInclude Include="Level2D.h">
       <Filter>UI,Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="Result.h">
-      <Filter>UI,Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Score.h">
-      <Filter>UI,Sprite</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteRender.h">
       <Filter>UI,Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Guzai.h">
-      <Filter>Food</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MiniEngine\Animation.h">
       <Filter>EngineRelated</Filter>
@@ -637,15 +471,6 @@
     <ClInclude Include="WaveFileBank.h">
       <Filter>EngineRelated</Filter>
     </ClInclude>
-    <ClInclude Include="HamBurgerFactory.h">
-      <Filter>Food</Filter>
-    </ClInclude>
-    <ClInclude Include="OperationExplanation.h">
-      <Filter>UI,Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Title.h">
-      <Filter>UI,Sprite</Filter>
-    </ClInclude>
     <ClInclude Include="Level.h">
       <Filter>EngineRelated</Filter>
     </ClInclude>
@@ -655,39 +480,8 @@
     <ClInclude Include="SkinModelRender.h">
       <Filter>FunctionalObject</Filter>
     </ClInclude>
-    <ClInclude Include="PathMove.h">
-      <Filter>ObjectMovement</Filter>
-    </ClInclude>
-    <ClInclude Include="PathFactory.h">
-      <Filter>ObjectMovement</Filter>
-    </ClInclude>
-    <ClInclude Include="Path.h">
-      <Filter>ObjectMovement</Filter>
-    </ClInclude>
-    <ClInclude Include="CountDown.h">
-      <Filter>UI,Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Conveyor.h">
-      <Filter>FunctionalObject</Filter>
-    </ClInclude>
-    <ClInclude Include="DishManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="GameDirector.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="GuzaiManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
     <ClInclude Include="LightManager.h">
       <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="GuzaiGrab.h" />
-    <ClInclude Include="GuzaiScale.h">
-      <Filter>Food</Filter>
     </ClInclude>
     <ClInclude Include="Bloom.h">
       <Filter>AboutRendering\PostEffect</Filter>

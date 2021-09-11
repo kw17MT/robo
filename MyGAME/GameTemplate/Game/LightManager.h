@@ -7,6 +7,7 @@ struct DirectionalLight
 	Vector3 directionalDirection = { 0.0f,-1.0f,0.0f };				//ディレクションライトの方向
 	float pad0 = 0;
 	Vector3 directionalColor = { 10.0f, 10.0f, 10.0f };				//ディレクションライトの色
+	//Vector3 directionalColor = { 1.0f, 1.0f, 1.0f };
 	float pad1 = 0;
 	Vector3 eyePos = g_camera3D->GetPosition();						//目の位置（カメラの位置）
 	float specPow = 0.5f;											//反射の度合い
