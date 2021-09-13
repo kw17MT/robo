@@ -12,10 +12,11 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 	//モデルのファイルパス設定
 	m_modelInitData.m_tkmFilePath = modelFilePath;
 	//モデルが使用するシェーダー（下はPBRのみ）
-	m_modelInitData.m_fxFilePath = "Assets/shader/model.fx";
+	m_modelInitData.m_fxFilePath = "Assets/shader/deffered/defferedmodel.fx";
+	//m_modelInitData.m_fxFilePath = "Assets/shader/shadow/drawDepthShadowMap.fx";
 	//頂点シェーダー設定
 	m_modelInitData.m_vsEntryPointFunc = "VSMain";
-	m_modelInitData.m_vsSkinEntryPointFunc = "VSSkinMain";
+	m_modelInitData.m_vsSkinEntryPointFunc = "VSMain";
 	//使う色の範囲設定
 	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	//どの軸を上にするか
@@ -117,7 +118,7 @@ void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
 	//シャドウマップのテクスチャ、ライトカメラのビュープロ行列の取得
-	m_modelInitData.m_expandShaderResoruceView = &GameObjectManager::GetInstance()->GetShadowMap().GetRenderTargetTexture();
+	//m_modelInitData.m_expandShaderResoruceView = &RenderingEngine::GetInstance()->GetShadowMap().GetRenderTargetTexture();
 
 	m_modelInitData.m_expandConstantBuffer = (void*)&s_dataCopyToVRAM;
 	m_modelInitData.m_expandConstantBufferSize = sizeof(s_dataCopyToVRAM);
@@ -143,7 +144,7 @@ void SkinModelRender::InitAsFloor(const char* modelFilePath, const char* skeleto
 
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
-	m_modelInitData.m_expandShaderResoruceView = &GameObjectManager::GetInstance()->GetShadowMap().GetRenderTargetTexture();
+	//m_modelInitData.m_expandShaderResoruceView = &GameObjectManager::GetInstance()->GetShadowMap().GetRenderTargetTexture();
 
 	m_modelInitData.m_expandConstantBuffer = (void*)&s_dataCopyToVRAM;
 	m_modelInitData.m_expandConstantBufferSize = sizeof(s_dataCopyToVRAM);

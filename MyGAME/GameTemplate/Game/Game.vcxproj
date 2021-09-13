@@ -293,6 +293,7 @@
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="Bloom.cpp" />
     <ClCompile Include="CaslFile.cpp" />
+    <ClCompile Include="DefferedLighting.cpp" />
     <ClCompile Include="DepthInView.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="ForwardBloom.cpp" />
@@ -307,6 +308,8 @@
     <ClCompile Include="MapChip2D.cpp" />
     <ClCompile Include="NameKey.cpp" />
     <ClCompile Include="PostEffect.cpp" />
+    <ClCompile Include="RenderingEngine.cpp" />
+    <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="SoundPreCompile.cpp" />
@@ -391,6 +394,7 @@
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="Bloom.h" />
     <ClInclude Include="CaslFile.h" />
+    <ClInclude Include="DefferedLighting.h" />
     <ClInclude Include="DepthInView.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="ForwardBloom.h" />
@@ -404,6 +408,8 @@
     <ClInclude Include="MapChip2D.h" />
     <ClInclude Include="NameKey.h" />
     <ClInclude Include="PostEffect.h" />
+    <ClInclude Include="RenderingEngine.h" />
+    <ClInclude Include="Shadow.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="SoundPreCompile.h" />

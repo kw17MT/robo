@@ -1,4 +1,5 @@
 #pragma once
+#include "RenderingEngine.h"
 
 struct DirectionalLight
 {
@@ -26,7 +27,7 @@ struct SpotLight
 
 struct AllLight
 {
-	Matrix s_lightCameraMatrix = GameObjectManager::GetInstance()->GetLightCamera().GetViewProjectionMatrix();
+	Matrix s_lightCameraMatrix = RenderingEngine::GetInstance()->GetLightCamera().GetViewProjectionMatrix();
 	Matrix ViewProjInverseMatrix = g_camera3D->GetViewProjectionMatrix();
 	//ディレクションライト
 	DirectionalLight directionalLight;
@@ -55,7 +56,7 @@ public:
 	/**
 	 * @brief インスタンスを作る
 	*/
-	static LightManager CreateInstance()
+	static void CreateInstance()
 	{
 		instance = new LightManager;
 	}

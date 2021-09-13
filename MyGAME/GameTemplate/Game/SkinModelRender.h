@@ -172,7 +172,7 @@ public:
 		}
 		//‰eì‚é
 		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderShade) {
-			m_shadow.Draw(rc, GameObjectManager::GetInstance()->GetLightCamera());
+			m_shadow.Draw(rc, RenderingEngine::GetInstance()->GetLightCamera());
 			return;
 		}
 		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderLuminance) {

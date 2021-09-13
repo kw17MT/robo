@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "LightManager.h"
 
+LightManager* LightManager::instance = nullptr;
+
 LightManager::LightManager()
 {
 	//ディレクションライトの正規化

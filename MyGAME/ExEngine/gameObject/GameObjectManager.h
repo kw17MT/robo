@@ -7,8 +7,6 @@
 #include "gameObject/IGameObject.h"
 #include <functional>
 #include <vector>
-#include "postEffect.h"
-#include "ForwardBloom.h"
 
 /// <summary>
 /// GameObjectManagerクラス
@@ -128,16 +126,6 @@ public:
 		}
 	}
 
-	RenderTarget& GetShadowMap() 
-	{
-		return shadowMap;
-	}
-
-	Camera& GetLightCamera()
-	{
-		return lightCamera;
-	}
-
 	enum EnRenderTypes
 	{
 		enRenderNormal,							//通常描画
@@ -177,35 +165,7 @@ private:
 
 	//0 普通　1 影 2 輝度
 	EnRenderTypes m_renderTypes = enRenderNormal;
-	//メインレンダーターゲット
-	RenderTarget mainRenderTarget;
-	//フレームバッファにコピーしてきた画像の貼り付け
-	SpriteInitData finalSpriteData;
-	Sprite finalSprite;
-	//シャドウ関連
-	float clearColor[4] = { 1.0f,1.0f,1.0f,1.0f };
-	RenderTarget shadowMap;
-	//ライト座標から見た影を作るためのもの
-	Camera lightCamera;
-	//ディファードレンダリング関連
-	//アルベドマップ
-	RenderTarget albedoMap;
-	//法線マップ
-	RenderTarget normalMap;
-	//ワールド座標マップ
-	RenderTarget specAndDepthMap;
-	RenderTarget* defferedTargets[3] = { &albedoMap, &normalMap, &specAndDepthMap };
-	//ディファードライティング作成の画像
-	SpriteInitData defferedSpriteData;
-	Sprite defferedSprite;
-	//フォワードレンダリング用のブルーム作成ターゲット
-	RenderTarget forwardBloomTarget;
-	//特別にフォワードレンダリングでブルームをかけたいものがあるため
-	ForwardBloom m_forwardBloom;
-	//ポストエフェクトをまとめたもの
-	PostEffect m_postEffect;
 };
-
 
 /*!
 *@brief	ゲームオブジェクトの検索のヘルパー関数。

@@ -3,6 +3,7 @@
 #include "effect/Effect.h"
 
 #include "SkinModelRender.h"
+#include "RenderingEngine.h"
 
 // ウィンドウプログラムのメイン関数。
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
@@ -17,6 +18,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ゲームオブジェクトマネージャーのインスタンスを作成する。
 	GameObjectManager::CreateInstance();
 	PhysicsWorld::CreateInstance();
+	
+	RenderingEngine::CreateInstance();
+	RenderingEngine::GetInstance()->PrepareRendering();// InitRenderTargets();
+	//RenderingEngine::GetInstance()->InitSprites();
+	LightManager::CreateInstance();
 	//サウンドを鳴らす用のインスタンス
 	CSoundEngine::CreateInstance();
 	CSoundEngine::GetInstance()->Init();
@@ -39,8 +45,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	anim[0].SetLoopFlag(true);
 	anim[1].Load("Assets/modelData/testFish.tka");
 	anim[1].SetLoopFlag(true);
-	test[0]->InitAnimation(&anim[0], 1);
-	test[0]->PlayAnimation(1, 1);
+	/*test[0]->InitAnimation(&anim[0], 1);
+	test[0]->PlayAnimation(1, 1);*/
 	test[1]->InitAnimation(&anim[1], 1);
 	test[1]->PlayAnimation(1, 1);
 	
@@ -63,8 +69,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//オブジェクトのアップデート関数を一気に行う
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 		//オブジェクトのドローを行う
-		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
-
+		//GameObjectManager::GetInstance()->ExecuteRender(renderContext);
+		RenderingEngine::GetInstance()->Render(renderContext);
 		//カメラの移動
 		if (g_pad[0]->IsPress(enButtonLeft)) {
 			Vector3 a = g_camera3D->GetPosition();

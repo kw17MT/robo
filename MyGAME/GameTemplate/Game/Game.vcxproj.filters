@@ -237,6 +237,9 @@
     <ClCompile Include="SSR.cpp">
       <Filter>AboutRendering\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="RenderingEngine.cpp" />
+    <ClCompile Include="DefferedLighting.cpp" />
+    <ClCompile Include="Shadow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -501,6 +504,9 @@
     <ClInclude Include="SSR.h">
       <Filter>AboutRendering\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="RenderingEngine.h" />
+    <ClInclude Include="DefferedLighting.h" />
+    <ClInclude Include="Shadow.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Food">

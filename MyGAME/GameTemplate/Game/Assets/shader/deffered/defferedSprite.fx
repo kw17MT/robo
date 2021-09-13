@@ -167,7 +167,6 @@ float4 PSMain( PSInput In ) : SV_Target0
 {   
      //色をとってくる
     float4 albedoColor = albedoTexture.Sample(Sampler, In.uv);
-
     //法線を取得
     float3 normal = normalTexture.Sample(Sampler, In.uv).xyz;
     normal = (normal * 2.0f) - 1.0f;
