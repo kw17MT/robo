@@ -1,18 +1,20 @@
 #pragma once
 class DefferedLighting
 {
-private:
 public:
 	/**
-	 * @brief ディファードレンダリングに必要なレンダーターゲットの初期化
+	 * @brief ディファードライティング適用の画像初期化関数
+	 * @param albedoMap アルベドマップ
+	 * @param normalMap 法線マップ
+	 * @param specAndDepthMap 鏡面反射、深度値マップ
+	 * @param shadowMap シャドウマップ
+	 * @param speedMap スピードマップ
 	*/
-	void InitTargets();
-
-	/**
-	 * @brief 使用する画像の初期化
-	 * @param shadowTarget 使用するシャドウマップ
-	*/
-	void InitSprite(RenderTarget& shadowTarget);
+	void InitSprite(RenderTarget& albedoMap, 
+		RenderTarget& normalMap, 
+		RenderTarget& specAndDepthMap, 
+		RenderTarget& shadowMap, 
+		RenderTarget& speedMap);
 
 	/**
 	 * @brief ディファードレンダリングを開始する
@@ -20,11 +22,14 @@ public:
 	*/
 	void Render(RenderContext& rc);
 
+	/**
+	 * @brief 作成したディファードライティング済み画像を描画する。
+	 * @param rc レンダーコンテキスト
+	*/
 	void Draw(RenderContext& rc);
-private:
-	RenderTarget m_albedoTarget, m_normalTarget, m_specAndDepthTarget;										//作成するオフスクリーン
-	RenderTarget* m_defferedTargets[3] = { &m_albedoTarget, &m_normalTarget, &m_specAndDepthTarget };		//MRT用	
-	SpriteInitData m_defferedSpriteData;																	//ディファードレンダリング画像のパラメータ
-	Sprite m_defferedSprite;																				//最終の画像
+private:									
+	RenderTarget* m_defferedTargets[4];		//MRT用	
+	SpriteInitData m_defferedSpriteData;	//ディファードレンダリング画像のパラメータ
+	Sprite m_defferedSprite;				//最終の画像
 };
 

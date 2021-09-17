@@ -8,7 +8,7 @@ void RenderingEngine::PrepareRendering()
 	InitRenderTargets();
 	InitSprites();
 	InitLightCamera();
-	m_postEffect.Init(m_mainRenderTarget);
+	m_postEffect.Init(m_mainRenderTarget, m_albedoTarget, m_normalTarget, m_specAndDepthTarget, m_speedTarget);
 }
 
 void RenderingEngine::InitRenderTargets()
@@ -23,8 +23,12 @@ void RenderingEngine::InitRenderTargets()
 		DXGI_FORMAT_D32_FLOAT
 	);
 
+	m_albedoTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_D32_FLOAT);
+	m_normalTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
+	m_specAndDepthTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_UNKNOWN);
+	m_speedTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
+
 	m_shadow.InitShadowTarget();
-	m_defferedLighting.InitTargets();
 };
 
 void RenderingEngine::InitSprites()
@@ -35,7 +39,7 @@ void RenderingEngine::InitSprites()
 	m_mainSpriteData.m_fxFilePath = "Assets/shader/sprite.fx";
 	m_mainSprite.Init(m_mainSpriteData);
 
-	m_defferedLighting.InitSprite(m_shadow.GetShadowTarget());
+	m_defferedLighting.InitSprite(m_albedoTarget, m_normalTarget, m_specAndDepthTarget, m_shadow.GetShadowTarget(), m_speedTarget);
 }
 
 void RenderingEngine::InitLightCamera()
@@ -81,4 +85,6 @@ void RenderingEngine::Render(RenderContext& rc)
 
 	//o—ˆ‚½‰æ‘œ‚Ì•\Ž¦
 	m_mainSprite.Draw(rc);
+
+	m_prevViewProjMatrix = g_camera3D->GetViewProjectionMatrix();
 }

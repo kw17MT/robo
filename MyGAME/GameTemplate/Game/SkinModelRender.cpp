@@ -16,41 +16,14 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 	//m_modelInitData.m_fxFilePath = "Assets/shader/shadow/drawDepthShadowMap.fx";
 	//頂点シェーダー設定
 	m_modelInitData.m_vsEntryPointFunc = "VSMain";
-	m_modelInitData.m_vsSkinEntryPointFunc = "VSMain";
+	m_modelInitData.m_vsSkinEntryPointFunc = "VSSkinMain";
 	//使う色の範囲設定
 	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	//どの軸を上にするか
 	m_modelInitData.m_modelUpAxis = UpAxis;
 	
-	m_modelInitData.m_expandConstantBuffer = &s_dataCopyToVRAM.s_lig;
-	m_modelInitData.m_expandConstantBufferSize = sizeof(s_dataCopyToVRAM.s_lig);
-
-	//モデルのスケルトンがあるなら
-	if (skeletonPath != nullptr) {
-		m_skeleton.Init(skeletonPath);
-		m_modelInitData.m_skeleton = &m_skeleton;
-	}
-
-	m_model.Init(m_modelInitData);
-}
-
-//ゲージのモデルの初期化
-void SkinModelRender::InitAsGauge(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, int gaugeNumber)
-{
-	//モデルのファイルパス設定
-	m_modelInitData.m_tkmFilePath = modelFilePath;
-	//モデルが使用するシェーダー（下はPBRのみ）
-	m_modelInitData.m_fxFilePath = "Assets/shader/forGauge.fx";
-	//頂点シェーダー設定
-	m_modelInitData.m_vsEntryPointFunc = "VSMain";
-	m_modelInitData.m_vsSkinEntryPointFunc = "VSMain";
-	//使う色の範囲設定
-	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
-	//どの軸を上にするか
-	m_modelInitData.m_modelUpAxis = UpAxis;
-	//ゲージ専用の光を取得
-	m_modelInitData.m_expandConstantBuffer = &LightManager::GetInstance().GetGaugeLight(gaugeNumber);
-	m_modelInitData.m_expandConstantBufferSize = sizeof(LightManager::GetInstance().GetGaugeLight(gaugeNumber));
+	m_modelInitData.m_expandConstantBuffer = (void*)&RenderingEngine::GetInstance()->GetPrevViewProjMatrix();
+	m_modelInitData.m_expandConstantBufferSize = sizeof(RenderingEngine::GetInstance()->GetPrevViewProjMatrix());
 
 	//モデルのスケルトンがあるなら
 	if (skeletonPath != nullptr) {
@@ -117,39 +90,9 @@ void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char
 
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
-	//シャドウマップのテクスチャ、ライトカメラのビュープロ行列の取得
-	//m_modelInitData.m_expandShaderResoruceView = &RenderingEngine::GetInstance()->GetShadowMap().GetRenderTargetTexture();
-
 	m_modelInitData.m_expandConstantBuffer = (void*)&s_dataCopyToVRAM;
 	m_modelInitData.m_expandConstantBufferSize = sizeof(s_dataCopyToVRAM);
 	
-
-	if (skeletonPath != nullptr) {
-		m_skeleton.Init(skeletonPath);
-		m_modelInitData.m_skeleton = &m_skeleton;
-	}
-
-
-	m_model.Init(m_modelInitData);
-}
-
-void SkinModelRender::InitAsFloor(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)
-{
-	m_modelInitData.m_tkmFilePath = modelFilePath;
-
-	//m_modelInitData.m_fxFilePath = "Assets/shader/shadow/shadowRecieverForFloor.fx";
-	m_modelInitData.m_fxFilePath = "Assets/shader/deffered/defferedmodel.fx";
-
-	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
-
-	m_modelInitData.m_modelUpAxis = UpAxis;
-
-	//m_modelInitData.m_expandShaderResoruceView = &GameObjectManager::GetInstance()->GetShadowMap().GetRenderTargetTexture();
-
-	m_modelInitData.m_expandConstantBuffer = (void*)&s_dataCopyToVRAM;
-	m_modelInitData.m_expandConstantBufferSize = sizeof(s_dataCopyToVRAM);
-
-
 	if (skeletonPath != nullptr) {
 		m_skeleton.Init(skeletonPath);
 		m_modelInitData.m_skeleton = &m_skeleton;

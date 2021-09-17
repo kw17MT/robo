@@ -74,7 +74,7 @@ public:
 	/**
 	 * @brief インスタンスを削除する。
 	*/
-	static LightManager DeleteInstance()
+	static void DeleteInstance()
 	{
 		delete instance;
 	}

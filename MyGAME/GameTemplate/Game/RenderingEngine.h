@@ -2,6 +2,7 @@
 #include "PostEffect.h"
 #include "DefferedLighting.h"
 #include "Shadow.h"
+#include "MotionBlur.h"
 
 class RenderingEngine
 {
@@ -71,6 +72,11 @@ public:
 	*/
 	void Render(RenderContext& rc);
 
+	Matrix& GetPrevViewProjMatrix()
+	{
+		return m_prevViewProjMatrix;
+	}
+
 private:
 	RenderTarget m_mainRenderTarget;
 	SpriteInitData m_mainSpriteData;
@@ -81,8 +87,17 @@ private:
 	//ƒ‰ƒCƒgÀ•W‚©‚çŒ©‚½‰e‚ðì‚é‚½‚ß‚Ì‚à‚Ì
 	Camera m_lightCamera;
 
+	RenderTarget m_albedoTarget;
+	RenderTarget m_normalTarget;
+	RenderTarget m_specAndDepthTarget;
+	RenderTarget m_speedTarget;
+
+
 	Shadow m_shadow;
 	PostEffect m_postEffect;
 	DefferedLighting m_defferedLighting;
+	MotionBlur m_motionBlur;
+
+	Matrix m_prevViewProjMatrix = g_camera3D->GetViewProjectionMatrix();
 };
 

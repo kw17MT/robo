@@ -1,26 +1,29 @@
 #include "stdafx.h"
 #include "DefferedLighting.h"
 
-void DefferedLighting::InitTargets()
-{
-	m_albedoTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_D32_FLOAT);
-	m_normalTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
-	m_specAndDepthTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_UNKNOWN);
-}
-
-void DefferedLighting::InitSprite(RenderTarget& shadowTarget)
+void DefferedLighting::InitSprite(RenderTarget& albedoMap,
+	RenderTarget& normalMap,
+	RenderTarget& specAndDepthMap,
+	RenderTarget& shadowMap,
+	RenderTarget& speedMap)
 {
 	m_defferedSpriteData.m_width = 1280;
 	m_defferedSpriteData.m_height = 720;
-	m_defferedSpriteData.m_textures[0] = &m_albedoTarget.GetRenderTargetTexture();
-	m_defferedSpriteData.m_textures[1] = &m_normalTarget.GetRenderTargetTexture();
-	m_defferedSpriteData.m_textures[2] = &m_specAndDepthTarget.GetRenderTargetTexture();
-	m_defferedSpriteData.m_textures[3] = &shadowTarget.GetRenderTargetTexture();
+	m_defferedSpriteData.m_textures[0] = &albedoMap.GetRenderTargetTexture();
+	m_defferedSpriteData.m_textures[1] = &normalMap.GetRenderTargetTexture();
+	m_defferedSpriteData.m_textures[2] = &specAndDepthMap.GetRenderTargetTexture();
+	m_defferedSpriteData.m_textures[3] = &shadowMap.GetRenderTargetTexture();
+	m_defferedSpriteData.m_textures[4] = &speedMap.GetRenderTargetTexture();
 	m_defferedSpriteData.m_fxFilePath = "Assets/shader/deffered/defferedSprite.fx";
 	m_defferedSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
 	m_defferedSpriteData.m_expandConstantBuffer = (void*)&LightManager::GetInstance().GetLightData();
 	m_defferedSpriteData.m_expandConstantBufferSize = sizeof(LightManager::GetInstance().GetLightData());
 	m_defferedSprite.Init(m_defferedSpriteData);
+
+	m_defferedTargets[0] = &albedoMap;
+	m_defferedTargets[1] = &normalMap;
+	m_defferedTargets[2] = &specAndDepthMap;
+	m_defferedTargets[3] = &speedMap;
 }
 
 void DefferedLighting::Render(RenderContext& rc)
@@ -31,8 +34,6 @@ void DefferedLighting::Render(RenderContext& rc)
 	//m_renderTypes = enRenderNormal;
 	GameObjectManager::GetInstance()->CallRenderWrapper(rc);
 	rc.WaitUntilFinishDrawingToRenderTargets(ARRAYSIZE(m_defferedTargets), m_defferedTargets);
-
-	//m_defferedSprite.Draw(rc);
 }
 
 void DefferedLighting::Draw(RenderContext& rc)

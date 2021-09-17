@@ -237,9 +237,16 @@
     <ClCompile Include="SSR.cpp">
       <Filter>AboutRendering\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingEngine.cpp" />
-    <ClCompile Include="DefferedLighting.cpp" />
-    <ClCompile Include="Shadow.cpp" />
+    <ClCompile Include="Shadow.cpp">
+      <Filter>AboutRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingEngine.cpp">
+      <Filter>AboutRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="DefferedLighting.cpp">
+      <Filter>AboutRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="MotionBlur.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -504,14 +511,18 @@
     <ClInclude Include="SSR.h">
       <Filter>AboutRendering\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingEngine.h" />
-    <ClInclude Include="DefferedLighting.h" />
-    <ClInclude Include="Shadow.h" />
+    <ClInclude Include="Shadow.h">
+      <Filter>AboutRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingEngine.h">
+      <Filter>AboutRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="DefferedLighting.h">
+      <Filter>AboutRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MotionBlur.h" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Food">
-      <UniqueIdentifier>{804f7be1-732e-4766-b53d-b00bcf2c1684}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FunctionalObject">
       <UniqueIdentifier>{c96edd8f-9482-4a90-b885-5096a41e9f3c}</UniqueIdentifier>
     </Filter>
@@ -520,9 +531,6 @@
     </Filter>
     <Filter Include="EngineRelated">
       <UniqueIdentifier>{89142214-a7a4-4cf5-ad27-7ace63a98bbd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ObjectMovement">
-      <UniqueIdentifier>{d89f68bb-7b52-4d0e-ae76-1ab3e1a45b5f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Manager">
       <UniqueIdentifier>{10cd0a43-0175-4296-855a-17e545543c53}</UniqueIdentifier>

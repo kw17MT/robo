@@ -52,26 +52,4 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	//①メインレンダリングターゲットに切り替える
 	//　レンダリングターゲットはメンバ変数にある
 	//　コンストラクタで初期化。				→フォーマットの違いでERRORがでるかもしれない。それぞれのクラスで同じフォーマットで初期化する。
-
-	/*UIやポストエフェクトの掛けたくない画像を最前面にドロー*************************************/
-	/*rc.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
-	rc.SetRenderTargetAndViewport(mainRenderTarget);
-	m_renderTypes = enRenderUI;
-	CallRenderWrapper(rc);
-	rc.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);*/
-	/********************************************************************************************/
-
-	/*現在のレンダーターゲットをフレームバッファにコピー*****************************************/
-	//rc.SetRenderTarget(
-	//	g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
-	//	g_graphicsEngine->GetCurrentFrameBuffuerDSV()
-	//);
-	////描画するサイズを設定
-	//rc.SetViewport(g_graphicsEngine->GetFrameBufferViewport());
-	//rc.SetViewportAndScissor(g_graphicsEngine->GetFrameBufferViewport());
-	/********************************************************************************************/
-
-	//最終の画面を表示
-	//finalSprite.Draw(rc);
-
 }

@@ -306,6 +306,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="MapChip2D.cpp" />
+    <ClCompile Include="MotionBlur.cpp" />
     <ClCompile Include="NameKey.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
@@ -406,6 +407,7 @@
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MapChip2D.h" />
+    <ClInclude Include="MotionBlur.h" />
     <ClInclude Include="NameKey.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="RenderingEngine.h" />

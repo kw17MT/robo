@@ -17,19 +17,18 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//ゲームオブジェクトマネージャーのインスタンスを作成する。
 	GameObjectManager::CreateInstance();
-	PhysicsWorld::CreateInstance();
-	
+	//PhysicsWorld::CreateInstance();
+	//レンダリングを統括するインスタンス。
 	RenderingEngine::CreateInstance();
-	RenderingEngine::GetInstance()->PrepareRendering();// InitRenderTargets();
-	//RenderingEngine::GetInstance()->InitSprites();
+	//レンダリングにかかわるものの初期化。
+	RenderingEngine::GetInstance()->PrepareRendering();
+	//ワールド上のライティング関連のインスタンス。
 	LightManager::CreateInstance();
 	//サウンドを鳴らす用のインスタンス
 	CSoundEngine::CreateInstance();
 	CSoundEngine::GetInstance()->Init();
-
 	//エフェクトを出すインスタンス
 	EffectEngine::CreateInstance();
-
 	//ゲームタイムを測るもの
 	CStopwatch stopWatch;
 
@@ -49,8 +48,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	test[0]->PlayAnimation(1, 1);*/
 	test[1]->InitAnimation(&anim[1], 1);
 	test[1]->PlayAnimation(1, 1);
-	
-
 		
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -69,8 +66,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//オブジェクトのアップデート関数を一気に行う
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 		//オブジェクトのドローを行う
-		//GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 		RenderingEngine::GetInstance()->Render(renderContext);
+
 		//カメラの移動
 		if (g_pad[0]->IsPress(enButtonLeft)) {
 			Vector3 a = g_camera3D->GetPosition();
@@ -135,5 +132,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	GameObjectManager::DeleteInstance();
 	//サウンドエンジンの消去
 	CSoundEngine::DeleteInstance();
+	//PhysicsWorld::DeleteInstance();
+	//RenderingEngine::DeleteInstance();
+	LightManager::DeleteInstance();
 	return 0;
 }

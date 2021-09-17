@@ -11,6 +11,11 @@ cbuffer ModelCb : register(b0){
 	float4x4 mProj;
 };
 
+cbuffer CalcSpeedMapMatrix : register(b1)
+{
+    float4x4 currentViewProjMatrix;
+}
+
 //スキニング用の頂点データをひとまとめ。
 struct SSkinVSIn{
 	int4  Indices  	: BLENDINDICES0;
@@ -34,6 +39,7 @@ struct SPSIn{
 	float2 uv 			: TEXCOORD0;	//uv座標。
 	float4 worldPos		: TEXCOORD1;
     float4 posInLVP : TEXCOORD2;
+    float4 velocity : TEXCOORD3;
 };
 
 struct SPSOut
@@ -41,14 +47,14 @@ struct SPSOut
     float4 albedo : SV_Target0; // アルベド
     float4 normal : SV_Target1; // 法線
     float4 SpecAndDepth : SV_TARGET2;
+    float4 velocity : SV_TARGET3;				//4枚目のレンダーターゲットに速度マップを書き込みする
 };
 
 // グローバル変数。
 Texture2D<float4> g_albedo : register(t0);				//アルベドマップ
 Texture2D<float4> g_normalMap : register(t1);
 Texture2D<float4> g_specMap : register(t2);
-
-Texture2D<float4> g_shadowMap : register(t10);
+Texture2D<float4> g_speedMap : register(t4);
 
 StructuredBuffer<float4x4> g_boneMatrix : register(t3);	//ボーン行列。
 sampler g_sampler : register(s0);	//サンプラステート。
@@ -135,5 +141,8 @@ SPSOut PSMain(SPSIn psIn)
 	//深度値を記録
     psOut.SpecAndDepth.w = psIn.pos.z;
 	
+    float4 prevVelocity = mul(float4(psIn.pos.xyz, 1.0f), currentViewProjMatrix);
+    psOut.velocity.xy = psIn.pos.xy / psIn.pos.w - prevVelocity.xy / prevVelocity.w;
+    psOut.velocity.zw = 0.0f;
     return psOut;
 }

@@ -3,16 +3,17 @@
 #include "FXAA.h"
 #include "DepthInView.h"
 #include "SSR.h"
+#include "MotionBlur.h"
 
 class PostEffect
 {
 public:
-	void Init(RenderTarget& mainRenderTarget);
-
-	void Init(RenderTarget& mainRenderTarget, RenderTarget& depthRenderTarget,
-		RenderTarget& normalRenderTarget,
-		RenderTarget& metallicSmoothRenderTarget,
-		RenderTarget& albedoRenderTarget );
+	void Init(RenderTarget& mainRenderTarget, 
+		RenderTarget& albedoMap,
+		RenderTarget& normalMap,
+		RenderTarget& specDepthMap,
+		RenderTarget& speedMap
+		 );
 
 	void Render(RenderContext& rc, RenderTarget& TargetToApply);
 private:
@@ -20,4 +21,5 @@ private:
 	FXAA m_fxaa;
 	DepthInView m_depthInView;
 	SSR m_ssr;
+	MotionBlur m_motionBlur;
 };
