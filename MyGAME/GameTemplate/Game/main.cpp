@@ -36,7 +36,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	test[0] = NewGO<SkinModelRender>(0);
 	test[1] = NewGO<SkinModelRender>(0);
 	test[0]->Init("Assets/modelData/robo.tkm", "Assets/modelData/robo.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f });
-	test[0]->SetPosition({ 0.0f,0.0f,-1000.0f });
+	test[0]->SetPosition({ 1000.0f,0.0f,0.0f });
 	test[1]->Init("Assets/modelData/testFish.tkm", "Assets/modelData/testFish.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f });
 
 	AnimationClip anim[2];

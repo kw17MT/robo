@@ -8,7 +8,7 @@ void RenderingEngine::PrepareRendering()
 	InitRenderTargets();
 	InitSprites();
 	InitLightCamera();
-	m_postEffect.Init(m_mainRenderTarget, m_albedoTarget, m_normalTarget, m_specAndDepthTarget, m_speedTarget);
+	m_postEffect.Init(m_mainRenderTarget, m_albedoTarget, m_normalTarget, m_specAndDepthTarget, m_velocityTarget);
 }
 
 void RenderingEngine::InitRenderTargets()
@@ -26,7 +26,7 @@ void RenderingEngine::InitRenderTargets()
 	m_albedoTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_D32_FLOAT);
 	m_normalTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
 	m_specAndDepthTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_UNKNOWN);
-	m_speedTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
+	m_velocityTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_UNKNOWN);
 
 	m_shadow.InitShadowTarget();
 };
@@ -39,7 +39,7 @@ void RenderingEngine::InitSprites()
 	m_mainSpriteData.m_fxFilePath = "Assets/shader/sprite.fx";
 	m_mainSprite.Init(m_mainSpriteData);
 
-	m_defferedLighting.InitSprite(m_albedoTarget, m_normalTarget, m_specAndDepthTarget, m_shadow.GetShadowTarget(), m_speedTarget);
+	m_defferedLighting.InitSprite(m_albedoTarget, m_normalTarget, m_specAndDepthTarget, m_shadow.GetShadowTarget(), m_velocityTarget);
 }
 
 void RenderingEngine::InitLightCamera()
@@ -64,6 +64,9 @@ void RenderingEngine::DrawInMainRenderTarget(RenderContext& rc)
 
 void RenderingEngine::Render(RenderContext& rc)
 {
+
+	m_mat.currentVPMatrix = g_camera3D->GetViewProjectionMatrix();
+
 	//影を作成する
 	m_shadow.Render(rc);
 	//ディファードライティングを行う。
@@ -86,5 +89,6 @@ void RenderingEngine::Render(RenderContext& rc)
 	//出来た画像の表示
 	m_mainSprite.Draw(rc);
 
-	m_prevViewProjMatrix = g_camera3D->GetViewProjectionMatrix();
+	m_mat.prevVPMatrix = g_camera3D->GetViewProjectionMatrix(); 
+	//m_prevViewProjMatrix = g_camera3D->GetViewProjectionMatrix();
 }

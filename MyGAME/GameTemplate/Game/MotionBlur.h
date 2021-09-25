@@ -2,12 +2,10 @@
 class MotionBlur
 {
 public:
-	void InitSprite(RenderTarget& albedoMap, RenderTarget& normalMap, RenderTarget& specAndDepthMap, RenderTarget& speedMap);
+	void InitSprite(RenderTarget& albedoMap, RenderTarget& normalMap, RenderTarget& specAndDepthMap, RenderTarget& velocityMap);
 
-	void Draw(RenderContext& rc)
-	{
-		m_motionBlurSprite.Draw(rc);
-	}
+	void Render(RenderContext& rc, RenderTarget& targetToApply);
+
 private:
 	SpriteInitData m_motionBlurData;
 	Sprite m_motionBlurSprite;

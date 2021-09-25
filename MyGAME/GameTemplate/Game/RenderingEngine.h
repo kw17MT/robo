@@ -72,10 +72,18 @@ public:
 	*/
 	void Render(RenderContext& rc);
 
-	Matrix& GetPrevViewProjMatrix()
+	struct Matrixes {
+		Matrix prevVPMatrix = g_camera3D->GetViewProjectionMatrix();
+		Matrix currentVPMatrix = g_camera3D->GetViewProjectionMatrix();
+	};
+
+	Matrixes& GetPrevViewProjMatrix()
 	{
-		return m_prevViewProjMatrix;
+		return m_mat;
+		//return m_prevViewProjMatrix;
 	}
+
+	
 
 private:
 	RenderTarget m_mainRenderTarget;
@@ -90,14 +98,14 @@ private:
 	RenderTarget m_albedoTarget;
 	RenderTarget m_normalTarget;
 	RenderTarget m_specAndDepthTarget;
-	RenderTarget m_speedTarget;
+	RenderTarget m_velocityTarget;
 
 
 	Shadow m_shadow;
 	PostEffect m_postEffect;
 	DefferedLighting m_defferedLighting;
-	MotionBlur m_motionBlur;
-
-	Matrix m_prevViewProjMatrix = g_camera3D->GetViewProjectionMatrix();
+	
+	Matrixes m_mat;
+	//Matrix m_prevViewProjMatrix = g_camera3D->GetViewProjectionMatrix();
 };
 

@@ -11,8 +11,9 @@ cbuffer ModelCb : register(b0){
 	float4x4 mProj;
 };
 
-cbuffer CalcSpeedMapMatrix : register(b1)
+cbuffer CalcVelocityMapMatrix : register(b1)
 {
+    float4x4 prevViewProjMatrix;
     float4x4 currentViewProjMatrix;
 }
 
@@ -141,8 +142,33 @@ SPSOut PSMain(SPSIn psIn)
 	//深度値を記録
     psOut.SpecAndDepth.w = psIn.pos.z;
 	
-    float4 prevVelocity = mul(float4(psIn.pos.xyz, 1.0f), currentViewProjMatrix);
-    psOut.velocity.xy = psIn.pos.xy / psIn.pos.w - prevVelocity.xy / prevVelocity.w;
+	/* ベロシティマップ */
+    //float4 prevVelocity = mul(float4(psIn.worldPos.xyz, 1.0f), prevViewProjMatrix);
+    //float4 currentVelocity = mul(float4(psIn.worldPos.xyz, 1.0f), currentViewProjMatrix);
+    
+    //prevVelocity *= 6;
+    //currentVelocity *= 6;
+    
+    //float a = 1.0f;
+    //psOut.velocity.xy = currentVelocity.xy / a - prevVelocity.xy / a;
+    ////psOut.velocity *= 0.5f;
+    ////psOut.velocity += 0.5f;
+    //psOut.velocity.zw = 0.0f;
+    //return psOut;
+	
+	/* ベロシティマップ zをx座標として利用 */
+    float4 prevVelocity = mul(psIn.worldPos.xyzx, prevViewProjMatrix);
+    float4 currentVelocity = mul(psIn.worldPos.xyzx, currentViewProjMatrix);
+    
+   // prevVelocity *= 6;
+    //currentVelocity *= 6;
+    
+    float a = 1.0f;
+    psOut.velocity.xy = currentVelocity.wy / a - prevVelocity.wy / a;
+    //psOut.velocity *= 0.5f;
+    //psOut.velocity += 0.5f;
     psOut.velocity.zw = 0.0f;
     return psOut;
+	
+	
 }

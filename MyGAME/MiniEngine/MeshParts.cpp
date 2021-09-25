@@ -80,7 +80,7 @@ void MeshParts::CreateDescriptorHeaps()
 			descriptorHeap.RegistShaderResource(2, mesh->m_materials[matNo]->GetSpecularMap());		//スペキュラマップ。
 			descriptorHeap.RegistShaderResource(3, m_boneMatricesStructureBuffer);					//ボーンのストラクチャードバッファ。
 			/**勝手に改造************************/
-			descriptorHeap.RegistShaderResource(4, mesh->m_materials[matNo]->GetNormalMap());		//AOマップで使用（法線マップを取得で良いのか分からないがちょうどいい）。
+			//descriptorHeap.RegistShaderResource(4, mesh->m_materials[matNo]->GetNormalMap());		//AOマップで使用（法線マップを取得で良いのか分からないがちょうどいい）。
 			/************************************/
 			if (m_expandShaderResourceView){
 				descriptorHeap.RegistShaderResource(EXPAND_SRV_REG__START_NO, *m_expandShaderResourceView);
