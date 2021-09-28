@@ -121,7 +121,7 @@ public:
 	void UpdateEyePos()
 	{
 		s_allLight.directionalLight.eyePos = g_camera3D->GetPosition();
-
+		s_allLight.s_lightCameraMatrix = RenderingEngine::GetInstance()->GetLightCamera().GetViewProjectionMatrix();
 		s_allLight.ViewProjInverseMatrix = g_camera3D->GetViewProjectionMatrix();
 		s_allLight.ViewProjInverseMatrix.Inverse();
 	}

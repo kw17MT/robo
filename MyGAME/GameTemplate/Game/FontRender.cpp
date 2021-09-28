@@ -64,7 +64,7 @@ void  FontRender::AddFontScale(float scale)
 void FontRender::Render(RenderContext& rc)
 {
 	//全てのオブジェクトが出現して、ポストエフェクトもかけ終わったら、UIや画像を出現させる
-	if (GameObjectManager::GetInstance()->GetRenderTypes() == GameObjectManager::GetInstance()->enRenderUI) {
+	if (RenderingEngine::GetInstance()->GetRenderTypes() == RenderingEngine::GetInstance()->ui) {
 		m_font.Begin(rc);
 		const wchar_t* text = nullptr;
 

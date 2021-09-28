@@ -72,18 +72,33 @@ public:
 	*/
 	void Render(RenderContext& rc);
 
-	struct Matrixes {
+	struct EnMatrixes {
 		Matrix prevVPMatrix = g_camera3D->GetViewProjectionMatrix();
 		Matrix currentVPMatrix = g_camera3D->GetViewProjectionMatrix();
 	};
 
-	Matrixes& GetPrevViewProjMatrix()
+	EnMatrixes& GetPrevViewProjMatrix()
 	{
 		return m_mat;
 		//return m_prevViewProjMatrix;
 	}
 
-	
+	enum EnRenderTypes
+	{
+		normal = 0,
+		shadow,
+		ui
+	};
+
+	void SetRenderTypes(EnRenderTypes type)
+	{
+		m_renderTypes = type;
+	}
+
+	EnRenderTypes GetRenderTypes()
+	{
+		return m_renderTypes;
+	}
 
 private:
 	RenderTarget m_mainRenderTarget;
@@ -91,21 +106,22 @@ private:
 	Sprite m_mainSprite;
 
 	float clearColor[4] = { 1.0f,1.0f,1.0f,1.0f };
-	RenderTarget m_shadowTarget;
 	//ƒ‰ƒCƒgÀ•W‚©‚çŒ©‚½‰e‚ðì‚é‚½‚ß‚Ì‚à‚Ì
 	Camera m_lightCamera;
 
 	RenderTarget m_albedoTarget;
 	RenderTarget m_normalTarget;
-	RenderTarget m_specAndDepthTarget;
+	RenderTarget m_specAndDepthTarget; 
 	RenderTarget m_velocityTarget;
+	RenderTarget m_shadowTarget;
 
 
 	Shadow m_shadow;
 	PostEffect m_postEffect;
 	DefferedLighting m_defferedLighting;
 	
-	Matrixes m_mat;
-	//Matrix m_prevViewProjMatrix = g_camera3D->GetViewProjectionMatrix();
+	EnMatrixes m_mat;
+	
+	EnRenderTypes m_renderTypes = normal;
 };
 

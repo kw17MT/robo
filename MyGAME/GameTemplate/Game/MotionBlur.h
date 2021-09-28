@@ -2,7 +2,7 @@
 class MotionBlur
 {
 public:
-	void InitSprite(RenderTarget& albedoMap, RenderTarget& normalMap, RenderTarget& specAndDepthMap, RenderTarget& velocityMap);
+	void InitSprite(RenderTarget& sceneMap, RenderTarget& normalMap, RenderTarget& specAndDepthMap, RenderTarget& velocityMap);
 
 	void Render(RenderContext& rc, RenderTarget& targetToApply);
 

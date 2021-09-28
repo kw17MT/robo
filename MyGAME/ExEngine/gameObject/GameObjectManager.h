@@ -126,25 +126,6 @@ public:
 		}
 	}
 
-	enum EnRenderTypes
-	{
-		enRenderNormal,							//通常描画
-		enRenderShade,							//影の描画
-		enRenderLuminance,						//輝度の描画
-		enRenderDepthinView,					//被写界深度の描画
-		enRenderUI								//UIの描画
-	};
-
-	const EnRenderTypes& GetRenderTypes() const
-	{
-		return m_renderTypes;
-	}
-
-	void SetRenderTypes(EnRenderTypes TypeNumber)
-	{
-		m_renderTypes = TypeNumber;
-	}
-
 	/**
 	 * @brief NewGOしてきたオブジェクトの描画を一気に行う
 	 * @param rc レンダーコンテキスト
@@ -162,9 +143,6 @@ private:
 	typedef std::list<IGameObject*>	 GameObjectList;
 	std::array<GameObjectList, GAME_OBJECT_PRIO_MAX>	m_gameObjectListArray;							//!<ゲームオブジェクトの優先度付きリスト。
 	static GameObjectManager* m_instance;		//唯一のインスタンスのアドレスを記録する変数。
-
-	//0 普通　1 影 2 輝度
-	EnRenderTypes m_renderTypes = enRenderNormal;
 };
 
 /*!

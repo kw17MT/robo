@@ -7,13 +7,12 @@ SkinModelRender::~SkinModelRender()
 }
 
 //モデルを通常描画するための初期化
-void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)
+void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, bool isCastShadow)
 {
 	//モデルのファイルパス設定
 	m_modelInitData.m_tkmFilePath = modelFilePath;
 	//モデルが使用するシェーダー（下はPBRのみ）
 	m_modelInitData.m_fxFilePath = "Assets/shader/deffered/defferedmodel.fx";
-	//m_modelInitData.m_fxFilePath = "Assets/shader/shadow/drawDepthShadowMap.fx";
 	//頂点シェーダー設定
 	m_modelInitData.m_vsEntryPointFunc = "VSMain";
 	m_modelInitData.m_vsSkinEntryPointFunc = "VSSkinMain";
@@ -31,43 +30,40 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 		m_modelInitData.m_skeleton = &m_skeleton;
 	}
 
-	m_model.Init(m_modelInitData);
-}
+	//シャドウキャスターならば
+	if (isCastShadow)
+	{
+		m_shadowData.m_tkmFilePath = modelFilePath;
 
-//影を出すための初期化
-void SkinModelRender::InitForCastShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)
-{
-	m_shadowData.m_tkmFilePath = modelFilePath;
-
-	/****************************************************/
-	/*	デプスシャドウを適用							*/
-	/*	シャドウマップのカラーバッファーも変更すること　*/
-	/****************************************************/
-	m_shadowData.m_fxFilePath = "Assets/shader/shadow/drawDepthShadowMap.fx";
-	m_shadowData.m_colorBufferFormat = DXGI_FORMAT_R32_FLOAT;
+		/****************************************************/
+		/*	デプスシャドウを適用							*/
+		/*	シャドウマップのカラーバッファーも変更すること　*/
+		/****************************************************/
+		m_shadowData.m_fxFilePath = "Assets/shader/shadow/drawDepthShadowMap.fx";
+		m_shadowData.m_colorBufferFormat = DXGI_FORMAT_R32_FLOAT;
 
 
-	/****************************************************/
-	/*	投影シャドウを適用								*/
-	/*	シャドウマップのカラーバッファーも変更すること　*/
-	/****************************************************/
-	//m_shadowData.m_fxFilePath = "Assets/shader/shadow/drawProjectionShadowMap.fx";
-	//m_shadowData.m_colorBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+		/****************************************************/
+		/*	投影シャドウを適用								*/
+		/*	シャドウマップのカラーバッファーも変更すること　*/
+		/****************************************************/
+		//m_shadowData.m_fxFilePath = "Assets/shader/shadow/drawProjectionShadowMap.fx";
+		//m_shadowData.m_colorBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
 
-	m_shadowData.m_vsEntryPointFunc = "VSMain";
-	m_shadowData.m_vsSkinEntryPointFunc = "VSMain";
+		m_shadowData.m_vsEntryPointFunc = "VSMain";
+		m_shadowData.m_vsSkinEntryPointFunc = "VSSkinMain";
 
 
-	m_shadowData.m_modelUpAxis = UpAxis;	
+		m_shadowData.m_modelUpAxis = UpAxis;
 
-	if (skeletonPath != nullptr) {
-		m_skeleton.Init(skeletonPath);
-		m_shadowData.m_skeleton = &m_skeleton;
+		if (skeletonPath != nullptr) {
+			m_shadowData.m_skeleton = &m_skeleton;
+		}
+
+		m_shadow.Init(m_shadowData);
 	}
 
-	m_shadow.Init(m_shadowData);
-
-	m_isCastShadow = true;
+	m_model.Init(m_modelInitData);
 }
 
 void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)
@@ -104,9 +100,7 @@ void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char
 void SkinModelRender::ChangeModel(const char* newModelFilePath)
 {
 	m_modelInitData.m_tkmFilePath = newModelFilePath;
-	if (m_isCastShadow) {
-		m_shadowData.m_tkmFilePath = newModelFilePath;
-	}
+
 }
 
 

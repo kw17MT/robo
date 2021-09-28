@@ -2,8 +2,6 @@
  * @brief	シンプルなモデルシェーダー。
  */
 
-static const float PI = 3.1415926f;
-
 //モデル用の定数バッファ
 cbuffer ModelCb : register(b0){
 	float4x4 mWorld;
@@ -55,7 +53,7 @@ struct SPSOut
 Texture2D<float4> g_albedo : register(t0);				//アルベドマップ
 Texture2D<float4> g_normalMap : register(t1);
 Texture2D<float4> g_specMap : register(t2);
-Texture2D<float4> g_speedMap : register(t4);
+Texture2D<float4> g_velocityMap : register(t4);
 
 StructuredBuffer<float4x4> g_boneMatrix : register(t3);	//ボーン行列。
 sampler g_sampler : register(s0);	//サンプラステート。
@@ -163,8 +161,9 @@ SPSOut PSMain(SPSIn psIn)
    // prevVelocity *= 6;
     //currentVelocity *= 6;
     
-    float a = 1.0f;
-    psOut.velocity.xy = currentVelocity.wy / a - prevVelocity.wy / a;
+    float t = 1.0f;
+    //psOut.velocity.xy = currentVelocity.wy / a - prevVelocity.wy / a;
+    psOut.velocity.xy = currentVelocity.xy / t - prevVelocity.xy / t;
     //psOut.velocity *= 0.5f;
     //psOut.velocity += 0.5f;
     psOut.velocity.zw = 0.0f;

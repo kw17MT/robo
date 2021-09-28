@@ -15,7 +15,7 @@ void PostEffect::Init(RenderTarget& mainRenderTarget,
 		 normalRenderTarget,
 		 metallicSmoothRenderTarget,
 		 albedoRenderTarget);*/
-	m_motionBlur.InitSprite(albedoMap, normalMap, specDepthMap, velocityMap);
+	m_motionBlur.InitSprite(mainRenderTarget, normalMap, specDepthMap, velocityMap);
 }
 
 void PostEffect::Render(RenderContext& rc, RenderTarget& TargetToApply)

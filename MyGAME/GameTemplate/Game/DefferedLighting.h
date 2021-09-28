@@ -14,7 +14,7 @@ public:
 		RenderTarget& normalMap, 
 		RenderTarget& specAndDepthMap, 
 		RenderTarget& shadowMap, 
-		RenderTarget& speedMap);
+		RenderTarget& velocityMap);
 
 	/**
 	 * @brief ディファードレンダリングを開始する

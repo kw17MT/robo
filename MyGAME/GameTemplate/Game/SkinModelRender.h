@@ -15,24 +15,12 @@ private:
 	Vector3 m_scale = Vector3::One;										//モデルの拡大率
 	Quaternion m_rot = Quaternion::Identity;							//モデルの回転
 
-	bool m_isCastShadow = false;										//具材のシャドウ用モデルのファイルパス変更に使用する。
 	bool m_isApplyBlur = false;											//ブラーを適応するかどうか
 
 	struct copyToVRAMDatas
 	{
-		//光の位置を示すカメラの取得
-		//Matrix s_lightCameraMatrix = GameObjectManager::GetInstance()->GetLightCamera().GetViewProjectionMatrix();
-		//ディレクション、スポット、アンビエントライトすべてのライトを取得
 		AllLight s_lig = LightManager::GetInstance().GetLightData();
 	}s_dataCopyToVRAM;
-
-	enum EnRenderTaypes
-	{
-		enRenderNormal,					//通常描画タイプ
-		enRenderShade,					//影描画タイプ
-		enRenderLuminance,				//輝度描画タイプ
-		enRenderDepthInView				//被写界深度描画タイプ
-	};
 
 public:
 	SkinModelRender() {};
@@ -82,17 +70,8 @@ public:
 	 * @param UpAxis どの軸を上にするか
 	 * @param pos モデルを出現させる最初の位置
 	*/
-	void Init(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
+	void Init(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, bool isCastShadow);
 	//モデルのファイルパスのみを変更するときに使用する。
-
-	/**
-	 * @brief 影を生成する人のモデル初期化関数
-	 * @param filePath 使用するモデルのファイルパス
-	 * @param skeletonPath スケルトンのファイルパス
-	 * @param UpAxis どの軸を上にするか
-	 * @param pos 初期位置
-	*/
-	void InitForCastShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
 
 	/**
 	 * @brief 影が映るもののモデル初期化関数
@@ -104,39 +83,10 @@ public:
 	void InitForRecieveShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
 
 	/**
-	 * @brief 床専用シャドウレシーバ―としての初期化
-	 * @param modelFilePath モデルのファイルパス
-	 * @param skeletonPath スケルトンのファイルパス
-	 * @param UpAxis どの軸を上にするか
-	 * @param pos 初期位置
-	*/
-	void InitAsFloor(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
-	
-	/**
-	 * @brief ゲージ専用初期化
-	 * @param filePath モデルのファイルパス
-	 * @param skeletonPath スケルトンのファイルパス
-	 * @param UpAxis どの軸を上にするか
-	 * @param pos 初期位置
-	 * @param gaugeNumber どっちにあるゲージか０が左、１が右、２は調理用ゲージ
-	*/
-	void InitAsGauge(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, int gaugeNumber);
-
-	/**
 	 * @brief モデルのファイルパスを変えたいときに使用
 	 * @param newModelFilePath 新しいファイルパス
 	*/
 	void ChangeModel(const char* newModelFilePath);
-
-	/**
-	 * @brief 新しいファイルパスを適応する。
-	*/
-	void SetNewModel() {
-		m_model.Init(m_modelInitData); 
-		if (m_isCastShadow) {
-			m_shadow.Init(m_shadowData);
-		}
-	}
 
 	/**
 	 * @brief アニメーションを設定する。
@@ -165,26 +115,19 @@ public:
 	void Render(RenderContext& rc) 
 	{
 		//普通描画
-		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderNormal
-			|| GameObjectManager::GetInstance()->GetRenderTypes() == enRenderDepthInView) {
+		if (RenderingEngine::GetInstance()->GetRenderTypes() == RenderingEngine::EnRenderTypes::normal) {
 			m_model.Draw(rc);
 			return;
 		}
 		//影作る
-		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderShade) {
+		if (RenderingEngine::GetInstance()->GetRenderTypes() == RenderingEngine::EnRenderTypes::shadow) {
 			m_shadow.Draw(rc, RenderingEngine::GetInstance()->GetLightCamera());
 			return;
-		}
-		if (GameObjectManager::GetInstance()->GetRenderTypes() == enRenderLuminance) {
-			if (m_isApplyBlur) {
-				m_model.Draw(rc);
-				return;
-			}
 		}
 	}
 
 private:
-	//アニメーションを付ける際に使う
+	//アニメーション
 	Animation m_animation;
 	AnimationClip* m_animationClip = nullptr;
 };
