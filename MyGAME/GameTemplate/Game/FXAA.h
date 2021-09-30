@@ -25,6 +25,5 @@ private:
 	RenderTarget m_fxaaTarget;		//AAを行うターゲット
 	Sprite m_finalSprite;				//適用した画像
 	fxaa_data s_data;
-	
 };
 

@@ -7,6 +7,7 @@ public:
 	void Render(RenderContext& rc, RenderTarget& targetToApply);
 
 private:
+	RenderTarget m_motionBlurTarget;
 	SpriteInitData m_motionBlurData;
 	Sprite m_motionBlurSprite;
 };

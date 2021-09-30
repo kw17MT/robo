@@ -16,13 +16,13 @@ void PostEffect::Init(RenderTarget& mainRenderTarget,
 		 metallicSmoothRenderTarget,
 		 albedoRenderTarget);*/
 	m_motionBlur.InitSprite(mainRenderTarget, normalMap, specDepthMap, velocityMap);
+	m_lensGhost.Init();
 }
 
 void PostEffect::Render(RenderContext& rc, RenderTarget& TargetToApply)
 {
 	m_motionBlur.Render(rc, TargetToApply);
 	//m_bloom.Render(rc, TargetToApply);
-	//m_depthInView.Render(rc, TargetToApply);
-	m_fxaa.Render(rc, TargetToApply);
-	//m_ssr.Render(rc, TargetToApply);
+	//m_fxaa.Render(rc, TargetToApply);
+	//m_lensGhost.Render(rc, TargetToApply);
 }

@@ -27,7 +27,7 @@ void RenderingEngine::InitRenderTargets()
 	m_normalTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
 	m_specAndDepthTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_UNKNOWN);
 	m_velocityTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_UNKNOWN);
-	m_shadowTarget.Create(	2048,	2048,	1,	1,	DXGI_FORMAT_R32_FLOAT,	DXGI_FORMAT_D32_FLOAT,	clearColor);
+	m_shadow.InitShadowTarget();
 };
 
 void RenderingEngine::InitSprites()
@@ -38,7 +38,7 @@ void RenderingEngine::InitSprites()
 	m_mainSpriteData.m_fxFilePath = "Assets/shader/sprite.fx";
 	m_mainSprite.Init(m_mainSpriteData);
 
-	m_defferedLighting.InitSprite(m_albedoTarget, m_normalTarget, m_specAndDepthTarget, m_shadowTarget, m_velocityTarget);
+	m_defferedLighting.InitSprite(m_albedoTarget, m_normalTarget, m_specAndDepthTarget, m_shadow.GetShadowMap(), m_velocityTarget);
 }
 
 void RenderingEngine::InitLightCamera()
@@ -66,19 +66,7 @@ void RenderingEngine::Render(RenderContext& rc)
 	m_mat.currentVPMatrix = g_camera3D->GetViewProjectionMatrix();
 
 	//影を作成する
-	//m_shadow.Render(rc, m_shadowTarget);
-
-	RenderingEngine::GetInstance()->SetRenderTypes(RenderingEngine::EnRenderTypes::shadow);
-	rc.WaitUntilToPossibleSetRenderTarget(m_shadowTarget);
-	rc.SetRenderTargetAndViewport(m_shadowTarget);
-	rc.ClearRenderTargetView(m_shadowTarget);
-
-	//シャドウの作成を行うモデルのドロー
-	//ライトカメラはRendeingEngineで定義し、SkinModelRender内で使用している。
-	GameObjectManager::GetInstance()->CallRenderWrapper(rc);
-	rc.WaitUntilFinishDrawingToRenderTarget(m_shadowTarget);
-	RenderingEngine::GetInstance()->SetRenderTypes(RenderingEngine::EnRenderTypes::normal);
-
+	m_shadow.Render(rc);
 	//ディファードライティングを行う。
 	m_defferedLighting.Render(rc);
 	//メイン画像を作成する。

@@ -15,7 +15,7 @@ private:
 	Vector3 m_scale = Vector3::One;										//ƒ‚ƒfƒ‹‚ÌŠg‘å—¦
 	Quaternion m_rot = Quaternion::Identity;							//ƒ‚ƒfƒ‹‚Ì‰ñ“]
 
-	bool m_isApplyBlur = false;											//ƒuƒ‰[‚ð“K‰ž‚·‚é‚©‚Ç‚¤‚©
+	bool m_isSun = false;												//‘¾—z‚©‚Ç‚¤‚©
 
 	struct copyToVRAMDatas
 	{
@@ -102,11 +102,7 @@ public:
 	*/
 	void PlayAnimation(int animNo, float interpolateTime = 0.0f);
 
-	/**
-	 * @brief ƒuƒ‰[‚ð“K‰ž‚·‚é‚©
-	 * @param state TRUE“K‰ž‚·‚é
-	*/
-	void SetApplyBlur(bool state) { m_isApplyBlur = state; }
+	void SetIsSun() { m_isSun = true; }
 
 	/**
 	 * @brief ƒ‚ƒfƒ‹‚ð•`‚­
@@ -122,6 +118,14 @@ public:
 		//‰eì‚é
 		if (RenderingEngine::GetInstance()->GetRenderTypes() == RenderingEngine::EnRenderTypes::shadow) {
 			m_shadow.Draw(rc, RenderingEngine::GetInstance()->GetLightCamera());
+			return;
+		}
+		//‘¾—z‚¾‚¯•`‰æƒŒƒ“ƒYƒS[ƒXƒgì¬
+		if (RenderingEngine::GetInstance()->GetRenderTypes() == RenderingEngine::EnRenderTypes::lensGhost) {
+			if (m_isSun)
+			{
+				m_model.Draw(rc);
+			}
 			return;
 		}
 	}

@@ -4,6 +4,7 @@
 #include "DepthInView.h"
 #include "SSR.h"
 #include "MotionBlur.h"
+#include "LensGhost.h"
 
 class PostEffect
 {
@@ -19,7 +20,6 @@ public:
 private:
 	Bloom m_bloom;
 	FXAA m_fxaa;
-	DepthInView m_depthInView;
-	SSR m_ssr;
 	MotionBlur m_motionBlur;
+	LensGhost m_lensGhost;
 };

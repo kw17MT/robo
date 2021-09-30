@@ -36,63 +36,26 @@ PSInput VSMain(VSInput In)
 	return psIn;
 }
 
+static const float offSetX = 1.0f / 1280.0f;
+static const float offSetY = 1.0f / 720.0f;
+
 float4 PSMain( PSInput In ) : SV_Target0
 {       
     float4 finalColor = sceneMap.Sample(Sampler, In.uv);
     float4 localVelocityMap = velocityMap.Sample(Sampler, In.uv);
     float depth = specMap.Sample(Sampler, In.uv).w;
 
-    //float4 finalColor = { 0.0f, 0.0f, 0.0f, 1.0f };
+    //ピクセルの速度を取得
+    float4 velocity =  velocityMap.Sample(Sampler,In.uv);
+    int loopCnt = 16;
+    for (int i = 0; i < loopCnt; i++)
+    {
     
-    //もともとのオブジェクトにブラーを掛けないようにするため
-    //float blurPowerX = length(localVelocityMap.x);
-    //float blurPowerY = length(localVelocityMap.y);
-    //blurPowerX = lerp(0.0f, 1.0f, blurPowerX);
-    //blurPowerY = lerp(0.0f, 1.0f, blurPowerY);
-    
-    //if (blurPowerX > 0.0f || blurPowerY > 0.0f)
-    //{
-    //    return finalColor;
-    //}
-    //ここまで
-    
+        finalColor += sceneMap.Sample(Sampler, In.uv + float2(offSetX, offSetY) * velocity.xy * (i + 1));
+    }
+    finalColor /= (float)loopCnt;
 
-    
-    //ここからはスピードを持っているであろうピクセルのブラー
-    //X方向に移動している時、X方向のみにブラー
-    //if (length(localVelocityMap.x) != 0.0f)
-    //{
-    //    for (int i = 0; i < 10; i++)
-    //    {
-      
-    //        finalColor += albedoMap.Sample(Sampler, In.uv + (blurPowerX * float2(i, 0)));
-    //    }
-    //    finalColor /= 10.0f;
-    //}
-    
-    ////Y方向のみにブラー
-    //if (length(localVelocityMap.y) != 0.0f)
-    //{
-    //    for (int i = 0; i < 10; i++)
-    //    {
-      
-    //        finalColor += albedoMap.Sample(Sampler, In.uv + (blurPowerY * float2(0, i)));
-    //    }
-    //    finalColor /= 10.0f;
-    //}
-    //ここまで
-    
-    //速度がないピクセルの時
-    //if (length(localVelocityMap.x) <= 0.1f)
-    //{
-    
-    float offSetX = 6.0f / 1280.0f;
-    float offSetY = 6.0f / 720.0f;
-
-    
-    
-    float4 NearVelocityPower = velocityMap.Sample(Sampler, In.uv);
-        NearVelocityPower += velocityMap.Sample(Sampler, In.uv + float2(-offSetX, offSetY)); //左上
+  /*      NearVelocityPower += velocityMap.Sample(Sampler, In.uv + float2(-offSetX, offSetY)); //左上
         NearVelocityPower += velocityMap.Sample(Sampler, In.uv + float2(-offSetX, 0)); //左
         NearVelocityPower += velocityMap.Sample(Sampler, In.uv + float2(-offSetX, -offSetY)); //左下
         NearVelocityPower += velocityMap.Sample(Sampler, In.uv + float2(0, offSetY)); //上
@@ -100,40 +63,11 @@ float4 PSMain( PSInput In ) : SV_Target0
         NearVelocityPower += velocityMap.Sample(Sampler, In.uv + float2(offSetX, offSetY)); //右上
         NearVelocityPower += velocityMap.Sample(Sampler, In.uv + float2(offSetX, 0)); //右
         NearVelocityPower += velocityMap.Sample(Sampler, In.uv + float2(offSetX, -offSetY)); //右下
-        //八方の速度の平均
-        NearVelocityPower /= 9.0f;
-    
-    //XorY方向にだけブラーを掛ける/////////////////////////////////////////////////////////////////////////////
-
-    ////X座標に関する速度を求める
-
-    //if (NearVelocityPower.x < 0.0f)
-    //{
-    //    NearVelocityPower.x = -length(NearVelocityPower.x);
-    //}
-    //else
-    //{
-    //    NearVelocityPower.x = length(NearVelocityPower.x);
-    //}
-        
-    ////Y座標に関する速度を求める
-    //if (NearVelocityPower.y < 0.0f)
-    //{
-    //    NearVelocityPower.y = -length(NearVelocityPower.y);
-    //}
-    //else
-    //{
-    //    NearVelocityPower.y = length(NearVelocityPower.y);
-    //}
-    
-
-   
+        NearVelocityPower /= 9.0f;*/
     
     ////X方向及びY方向にだけブラーを掛ける////////////////////////////////////////////////////////////////////////
     //NearVelocityPower = normalize(NearVelocityPower); //lerp(-1, 1, NearVelocityPower.x);
-    ////NearVelocityPower.y = lerp(-1, 1, NearVelocityPower.y);
-    
-
+    //NearVelocityPower.y = lerp(-1, 1, NearVelocityPower.y);
     
     //if (NearVelocityPower.x > 0.0f)
     //{
@@ -172,34 +106,29 @@ float4 PSMain( PSInput In ) : SV_Target0
     //}
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-  
-        
-    if (NearVelocityPower.x != 0.0f)
-    {
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(-offSetX, offSetY)); //左上
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(-offSetX, 0)); //左
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(-offSetX, -offSetY)); //左下
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(0, offSetY)); //上
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(0, -offSetY)); //下
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(offSetX, offSetY)); //右上
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(offSetX, 0)); //右
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(offSetX, -offSetY)); //右下
-        finalColor /= 9.0f;
-    }
-    else if (NearVelocityPower.y != 0.0f)
-    {
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(-offSetX, offSetY)); //左上
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(-offSetX, 0)); //左
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(-offSetX, -offSetY)); //左下
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(0, offSetY)); //上
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(0, -offSetY)); //下
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(offSetX, offSetY)); //右上
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(offSetX, 0)); //右
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(offSetX, -offSetY)); //右下
-        finalColor /= 9.0f;
-    }
+
+  /*  float blurPowerX = length(NearVelocityPower.x);
+    blurPowerX = clamp(blurPowerX, 0.0f, 1.5f);
+    float blurPowerY = length(NearVelocityPower.y);
+    blurPowerY = clamp(blurPowerY, 0.0f, 1.5f);
+  */   
     
-    //finalColor.xyz = pow(max(finalColor.xyz, 0.001f), 1.0f / 1.4f /*2.2f*/);
+    
+    //if (NearVelocityPower.x != 0.0f || NearVelocityPower.y != 0.0f)
+    //{
+   /*     finalColor += sceneMap.Sample(Sampler, In.uv + float2(-offSetX * blurPowerX, offSetY * blurPowerY)); //左上
+        finalColor += sceneMap.Sample(Sampler, In.uv + float2(-offSetX * blurPowerX, 0)); //左
+        finalColor += sceneMap.Sample(Sampler, In.uv + float2(-offSetX * blurPowerX, -offSetY * blurPowerY)); //左下
+        finalColor += sceneMap.Sample(Sampler, In.uv + float2(0, offSetY * blurPowerY)); //上
+        finalColor += sceneMap.Sample(Sampler, In.uv + float2(0, -offSetY * blurPowerY)); //下
+        finalColor += sceneMap.Sample(Sampler, In.uv + float2(offSetX * blurPowerX, offSetY * blurPowerY)); //右上
+        finalColor += sceneMap.Sample(Sampler, In.uv + float2(offSetX * blurPowerX, 0)); //右
+        finalColor += sceneMap.Sample(Sampler, In.uv + float2(offSetX * blurPowerX, -offSetY * blurPowerY)); //右下
+        finalColor /= 9.0f;*/
+    //}
+    
+    //finalColor.xyz = pow(max(finalColor.xyz, 0.001f), 2.2f);
+   // finalColor.xyz = pow(max(finalColor.xyz, 0.001f), 1.8f /*2.2f*/);
     
     finalColor.w = 1.0f;
     return finalColor;

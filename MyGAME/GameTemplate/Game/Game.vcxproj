@@ -300,6 +300,7 @@
     <ClCompile Include="FXAA.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="GaussianBlur.cpp" />
+    <ClCompile Include="LensGhost.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Level2D.cpp" />
     <ClCompile Include="LightManager.cpp" />
@@ -308,6 +309,7 @@
     <ClCompile Include="MapChip2D.cpp" />
     <ClCompile Include="MotionBlur.cpp" />
     <ClCompile Include="NameKey.cpp" />
+    <ClCompile Include="PlanarReflection.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="Shadow.cpp" />
@@ -402,6 +404,7 @@
     <ClInclude Include="FXAA.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="GaussianBlur.h" />
+    <ClInclude Include="LensGhost.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Level2D.h" />
     <ClInclude Include="LightManager.h" />
@@ -409,6 +412,7 @@
     <ClInclude Include="MapChip2D.h" />
     <ClInclude Include="MotionBlur.h" />
     <ClInclude Include="NameKey.h" />
+    <ClInclude Include="PlanarReflection.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Shadow.h" />

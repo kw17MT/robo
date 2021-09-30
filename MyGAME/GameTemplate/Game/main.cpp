@@ -57,8 +57,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	AnimationClip unityAnim[1];
 	unityAnim[0].Load("Assets/modelData/unity/jump.tka");
 	unityAnim[0].SetLoopFlag(true);
-	unity->InitAnimation(&unityAnim[0], 1);
-	unity->PlayAnimation(1, 1);
+	//unity->InitAnimation(&unityAnim[0], 1);
+	//unity->PlayAnimation(1, 1);
 	unity->SetPosition({ 0.0f, 1000.0f,1000.0f });
 
 	AnimationClip anim[2];
@@ -68,8 +68,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	anim[1].SetLoopFlag(true);
 	/*test[0]->InitAnimation(&anim[0], 1);
 	test[0]->PlayAnimation(1, 1);*/
-	test[1]->InitAnimation(&anim[1], 1);
-	test[1]->PlayAnimation(1, 1);
+	//test[1]->InitAnimation(&anim[1], 1);
+	//test[1]->PlayAnimation(1, 1);
 
 	//建物
 	SkinModelRender* building[3] = { nullptr };
@@ -96,6 +96,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	sky[1]->Init("Assets/modelData/testBox/sky.tkm", nullptr, enModelUpAxisY, { 0.0f,0.0f,0.0f }, false);
 	sky[1]->SetPosition({ 0.0f,-400.0f,-1000.0f });
 	sky[1]->SetScale({ 10.0f,10.0f,10.0f });
+
+	SkinModelRender* sun;
+	sun = NewGO<SkinModelRender>(0);
+	sun->Init("Assets/modelData/sun/sun.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, false);
+	sun->SetPosition({ 0.0f,10000.0f,0.0f });
+	sun->SetScale({ 6.0f,6.0f,6.0f });
+	sun->SetIsSun();
 
 	int time = 0;
 	Vector3 pos = { 0.0f,400.0f,0.0f };
@@ -176,37 +183,37 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		if (g_pad[0]->IsPress(enButtonLeft)) {
 			Vector3 a = g_camera3D->GetPosition();
 			Vector3 b = g_camera3D->GetTarget();
-			a.x += 120.0f;
-			b.x += 120.0f;
+			a.x += 80.0f;
+			b.x += 80.0f;
 			//g_camera3D->SetPosition(a);	
 			g_camera3D->SetTarget(b);
 		}
 		if (g_pad[0]->IsPress(enButtonRight)) {
 			Vector3 a = g_camera3D->GetPosition();
 			Vector3 b = g_camera3D->GetTarget();
-			a.x -= 120.0f;
-			b.x -= 120.0f;
+			a.x -= 80.0f;
+			b.x -= 80.0f;
 			//g_camera3D->SetPosition(a);
 			g_camera3D->SetTarget(b);
 		}
 		if (g_pad[0]->IsPress(enButtonUp)) {
 			Vector3 a = g_camera3D->GetPosition();
 			Vector3 b = g_camera3D->GetTarget();
-			a.y += 120.0f;
-			b.y += 120.0f;
+			a.y += 80.0f;
+			b.y += 80.0f;
 			//g_camera3D->SetPosition(a);
 			g_camera3D->SetTarget(b);
 		}
 		if (g_pad[0]->IsPress(enButtonDown)) {
 			Vector3 a = g_camera3D->GetPosition();
 			Vector3 b = g_camera3D->GetTarget();
-			a.y -= 120.0f;
-			b.y -= 120.0f;
+			a.y -= 80.0f;
+			b.y -= 80.0f;
 			//g_camera3D->SetPosition(a);
 			g_camera3D->SetTarget(b);
 		}
 
-		time++;
+		/*time++;
 		if (time < 200) {
 			pos.x += 10;
 			test[0]->SetPosition(pos);
@@ -233,7 +240,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 				comeFlag = true;
 			}
 		}
-		test[2]->SetPosition(pos1);
+		test[2]->SetPosition(pos1);*/
 
 
 		//スピンロックを行う。

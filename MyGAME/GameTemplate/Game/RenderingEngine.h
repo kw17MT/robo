@@ -2,7 +2,6 @@
 #include "PostEffect.h"
 #include "DefferedLighting.h"
 #include "Shadow.h"
-#include "MotionBlur.h"
 
 class RenderingEngine
 {
@@ -80,13 +79,13 @@ public:
 	EnMatrixes& GetPrevViewProjMatrix()
 	{
 		return m_mat;
-		//return m_prevViewProjMatrix;
 	}
 
 	enum EnRenderTypes
 	{
 		normal = 0,
 		shadow,
+		lensGhost,
 		ui
 	};
 
@@ -98,6 +97,12 @@ public:
 	EnRenderTypes GetRenderTypes()
 	{
 		return m_renderTypes;
+	}
+
+	//モーションブラー作成しに使用する
+	void GetDefferedSprite(RenderContext& rc)
+	{
+		m_defferedLighting.Draw(rc);
 	}
 
 private:
@@ -113,12 +118,11 @@ private:
 	RenderTarget m_normalTarget;
 	RenderTarget m_specAndDepthTarget; 
 	RenderTarget m_velocityTarget;
-	RenderTarget m_shadowTarget;
-
 
 	Shadow m_shadow;
 	PostEffect m_postEffect;
 	DefferedLighting m_defferedLighting;
+	LensGhost m_lensGhost;
 	
 	EnMatrixes m_mat;
 	

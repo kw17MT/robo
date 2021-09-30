@@ -45,8 +45,8 @@ struct SPSOut
 {
     float4 albedo : SV_Target0; // アルベド
     float4 normal : SV_Target1; // 法線
-    float4 SpecAndDepth : SV_TARGET2;
-    float4 velocity : SV_TARGET3;				//4枚目のレンダーターゲットに速度マップを書き込みする
+    float4 SpecAndDepth : SV_Target2;
+    float4 velocity : SV_Target3;				//4枚目のレンダーターゲットに速度マップを書き込みする
 };
 
 // グローバル変数。
@@ -79,7 +79,7 @@ float4x4 CalcSkinMatrix(SSkinVSIn skinVert)
 //頂点シェーダーのコア関数。
 SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 {
-	SPSIn psIn;
+    SPSIn psIn = (SPSIn)0;
 	float4x4 m;
 	if( hasSkin ){
 		m = CalcSkinMatrix(vsIn.skinVert);
@@ -119,11 +119,11 @@ SPSIn VSSkinMain( SVSIn vsIn )
 
 SPSOut PSMain(SPSIn psIn)
 {
-    SPSOut psOut;
+    SPSOut psOut = (SPSOut)0;
 
     // アルベドカラーを出力
     psOut.albedo = g_albedo.Sample(g_sampler, psIn.uv);
-	
+
     float3 localNormal = g_normalMap.Sample(g_sampler, psIn.uv).xyz;
     localNormal = (localNormal - 0.5f) * 2.0f;
     float3 normal = psIn.tangent * localNormal.x + psIn.biNormal * localNormal.y + psIn.normal * localNormal.z;
@@ -139,35 +139,27 @@ SPSOut PSMain(SPSIn psIn)
     psOut.SpecAndDepth.xyz = g_specMap.Sample(g_sampler, psIn.uv).rgb;
 	//深度値を記録
     psOut.SpecAndDepth.w = psIn.pos.z;
-	
+		
 	/* ベロシティマップ */
-    //float4 prevVelocity = mul(float4(psIn.worldPos.xyz, 1.0f), prevViewProjMatrix);
-    //float4 currentVelocity = mul(float4(psIn.worldPos.xyz, 1.0f), currentViewProjMatrix);
+    float4 prevVelocity = mul(float4(psIn.worldPos.xyz, 1.0f), prevViewProjMatrix);
+    float4 currentVelocity = mul(float4(psIn.worldPos.xyz, 1.0f), currentViewProjMatrix);
     
-    //prevVelocity *= 6;
-    //currentVelocity *= 6;
-    
-    //float a = 1.0f;
-    //psOut.velocity.xy = currentVelocity.xy / a - prevVelocity.xy / a;
-    ////psOut.velocity *= 0.5f;
-    ////psOut.velocity += 0.5f;
-    //psOut.velocity.zw = 0.0f;
-    //return psOut;
+	// prevVelocityとcurrentVelocityを正規化座標系に変換する
+    prevVelocity.xy /= prevVelocity.w;
+    currentVelocity.xy /= currentVelocity.w;
+
+    prevVelocity.xy *= 0.5f;
+    prevVelocity.xy += 0.5f;
+    prevVelocity.xy *= float2(1280, 720);
 	
-	/* ベロシティマップ zをx座標として利用 */
-    float4 prevVelocity = mul(psIn.worldPos.xyzx, prevViewProjMatrix);
-    float4 currentVelocity = mul(psIn.worldPos.xyzx, currentViewProjMatrix);
-    
-   // prevVelocity *= 6;
-    //currentVelocity *= 6;
-    
-    float t = 1.0f;
-    //psOut.velocity.xy = currentVelocity.wy / a - prevVelocity.wy / a;
-    psOut.velocity.xy = currentVelocity.xy / t - prevVelocity.xy / t;
-    //psOut.velocity *= 0.5f;
-    //psOut.velocity += 0.5f;
+    currentVelocity.xy *= 0.5f;
+    currentVelocity.xy += 0.5f;
+    currentVelocity.xy *= float2(1280, 720);
+	
+	
+    psOut.velocity.xy = (prevVelocity.xy - currentVelocity.xy);
+	//ビューポート座標系に変換
     psOut.velocity.zw = 0.0f;
+
     return psOut;
-	
-	
 }

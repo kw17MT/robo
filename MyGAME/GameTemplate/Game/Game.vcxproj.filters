@@ -247,6 +247,8 @@
       <Filter>AboutRendering</Filter>
     </ClCompile>
     <ClCompile Include="MotionBlur.cpp" />
+    <ClCompile Include="LensGhost.cpp" />
+    <ClCompile Include="PlanarReflection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -521,6 +523,8 @@
       <Filter>AboutRendering</Filter>
     </ClInclude>
     <ClInclude Include="MotionBlur.h" />
+    <ClInclude Include="LensGhost.h" />
+    <ClInclude Include="PlanarReflection.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FunctionalObject">
