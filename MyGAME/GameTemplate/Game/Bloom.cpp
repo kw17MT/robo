@@ -1,14 +1,14 @@
 #include "stdafx.h"
 #include "Bloom.h"
 
-void Bloom::Init(RenderTarget& rt)
+void Bloom::Init(RenderTarget& defferedTarget)
 {
 	m_luminanceTarget.Create(
-		rt.GetWidth(),   // 解像度はメインレンダリングターゲットと同じ
-		rt.GetHeight(),  // 解像度はメインレンダリングターゲットと同じ
+		defferedTarget.GetWidth(),   // 解像度はメインレンダリングターゲットと同じ
+		defferedTarget.GetHeight(),  // 解像度はメインレンダリングターゲットと同じ
 		1,
 		1,
-		rt.GetColorBufferFormat(),
+		defferedTarget.GetColorBufferFormat(),
 		DXGI_FORMAT_D32_FLOAT
 	);
 
@@ -17,10 +17,10 @@ void Bloom::Init(RenderTarget& rt)
 	bloomSpriteData.m_fxFilePath = "Assets/shader/blur/bloom.fx";
 	bloomSpriteData.m_vsEntryPointFunc = "VSMain";
 	bloomSpriteData.m_psEntryPoinFunc = "PSLuminance";
-	bloomSpriteData.m_width = rt.GetWidth();
-	bloomSpriteData.m_height = rt.GetHeight();
+	bloomSpriteData.m_width = defferedTarget.GetWidth();
+	bloomSpriteData.m_height = defferedTarget.GetHeight();
 	//輝度を抽出したい場面を取得
-	bloomSpriteData.m_textures[0] = &rt.GetRenderTargetTexture();
+	bloomSpriteData.m_textures[0] = &defferedTarget.GetRenderTargetTexture();
 	bloomSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
 	m_bloomSprite.Init(bloomSpriteData);
@@ -38,8 +38,8 @@ void Bloom::Init(RenderTarget& rt)
 	finalSpriteData.m_textures[1] = &m_gaussianBlur[1].GetBokeTexture();
 	finalSpriteData.m_textures[2] = &m_gaussianBlur[2].GetBokeTexture();
 	finalSpriteData.m_textures[3] = &m_gaussianBlur[3].GetBokeTexture();
-	finalSpriteData.m_width = rt.GetWidth();
-	finalSpriteData.m_height = rt.GetHeight();
+	finalSpriteData.m_width = defferedTarget.GetWidth();
+	finalSpriteData.m_height = defferedTarget.GetHeight();
 
 	finalSpriteData.m_fxFilePath = "Assets/shader/blur/bloom.fx";
 	finalSpriteData.m_vsEntryPointFunc = "VSMain";
@@ -50,7 +50,7 @@ void Bloom::Init(RenderTarget& rt)
 	m_finalSprite.Init(finalSpriteData);
 }
 
-void Bloom::Render(RenderContext& rc, RenderTarget& TargetToApply)
+void Bloom::Render(RenderContext& rc, RenderTarget& defferedTarget)
 {
 	//輝度抽出用に画像を描画する。
 	rc.WaitUntilToPossibleSetRenderTarget(m_luminanceTarget);
@@ -66,8 +66,8 @@ void Bloom::Render(RenderContext& rc, RenderTarget& TargetToApply)
 	m_gaussianBlur[3].ExecuteOnGPU(rc, 15);
 
 	//もとの画像は消さずに、ブルームを適用する。
-	rc.WaitUntilToPossibleSetRenderTarget(TargetToApply);
-	rc.SetRenderTargetAndViewport(TargetToApply);
+	rc.WaitUntilToPossibleSetRenderTarget(defferedTarget);
+	rc.SetRenderTargetAndViewport(defferedTarget);
 	m_finalSprite.Draw(rc);
-	rc.WaitUntilFinishDrawingToRenderTarget(TargetToApply);
+	rc.WaitUntilFinishDrawingToRenderTarget(defferedTarget);
 }

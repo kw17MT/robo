@@ -53,10 +53,7 @@ public:
 	*/
 	void InitLightCamera();
 
-	/**
-	 * @brief メインレンダーターゲットに画像の合成を行う。
-	*/
-	void DrawInDefferedRenderTarget(RenderContext& rc);
+
 
 	/**
 	 * @brief シャドウ作成に必要なライトカメラを取得する。
@@ -105,6 +102,11 @@ public:
 		m_defferedLighting.Draw(rc);
 		//m_effectedDeffered.Draw(rc);
 	}
+
+	/**
+	* @brief ディファードライティング画像の保存を行う。
+	*/
+	void DrawInDefferedRenderTarget(RenderContext& rc);
 
 	void DrawInMainRenderTarget(RenderContext& rc);
 

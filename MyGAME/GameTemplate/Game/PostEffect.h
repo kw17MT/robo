@@ -9,14 +9,14 @@
 class PostEffect
 {
 public:
-	void Init(RenderTarget& mainRenderTarget, 
+	void Init(RenderTarget& defferedTarget, 
 		RenderTarget& albedoMap,
 		RenderTarget& normalMap,
 		RenderTarget& specDepthMap,
 		RenderTarget& speedMap
 		 );
 
-	void Render(RenderContext& rc, RenderTarget& TargetToApply);
+	void Render(RenderContext& rc, RenderTarget& mainTarget, RenderTarget& defferedTarget);
 private:
 	Bloom m_bloom;
 	FXAA m_fxaa;

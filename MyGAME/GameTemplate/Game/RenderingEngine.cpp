@@ -8,7 +8,7 @@ void RenderingEngine::PrepareRendering()
 	InitRenderTargets();
 	InitSprites();
 	InitLightCamera();
-	m_postEffect.Init(m_mainRenderTarget, m_albedoTarget, m_normalTarget, m_specAndDepthTarget, m_velocityTarget);
+	m_postEffect.Init(m_captureDeffered, m_albedoTarget, m_normalTarget, m_specAndDepthTarget, m_velocityTarget);
 }
 
 void RenderingEngine::InitRenderTargets()
@@ -30,6 +30,12 @@ void RenderingEngine::InitSprites()
 	m_mainSpriteData.m_fxFilePath = "Assets/shader/sprite.fx";
 	m_mainSprite.Init(m_mainSpriteData);
 
+	m_effectedDefferedData.m_textures[0] = &m_captureDeffered.GetRenderTargetTexture();
+	m_effectedDefferedData.m_width = 1280;
+	m_effectedDefferedData.m_height = 720;
+	m_effectedDefferedData.m_fxFilePath = "Assets/shader/sprite.fx";
+	m_effectedDeffered.Init(m_effectedDefferedData);
+
 	m_defferedLighting.InitSprite(m_albedoTarget, m_normalTarget, m_specAndDepthTarget, m_shadow.GetShadowMap(), m_velocityTarget);
 	m_shadow.InitCascade(m_mainRenderTarget, m_normalTarget, m_specAndDepthTarget);
 }
@@ -43,6 +49,17 @@ void RenderingEngine::InitLightCamera()
 	m_lightCamera.Update();
 }
 
+void RenderingEngine::DrawInDefferedRenderTarget(RenderContext& rc)
+{
+	//最終出力のメインレンダーターゲットに書き込み開始
+	rc.WaitUntilToPossibleSetRenderTarget(m_captureDeffered);
+	rc.SetRenderTargetAndViewport(m_captureDeffered);
+	rc.ClearRenderTargetView(m_captureDeffered);
+	//ディファードライティングされたメインの画像を合成。
+	m_defferedLighting.Draw(rc);
+	rc.WaitUntilFinishDrawingToRenderTarget(m_captureDeffered);
+}
+
 void RenderingEngine::DrawInMainRenderTarget(RenderContext& rc)
 {
 	//最終出力のメインレンダーターゲットに書き込み開始
@@ -51,7 +68,6 @@ void RenderingEngine::DrawInMainRenderTarget(RenderContext& rc)
 	rc.ClearRenderTargetView(m_mainRenderTarget);
 	//ディファードライティングされたメインの画像を合成。
 	m_defferedLighting.Draw(rc);
-	//m_shadow.Draw(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(m_mainRenderTarget);
 }
 
@@ -72,7 +88,7 @@ void RenderingEngine::Render(RenderContext& rc)
 	//メイン画像を作成する。
 	DrawInMainRenderTarget(rc);
 
-	
+	DrawInDefferedRenderTarget(rc);
 	//rc.WaitUntilToPossibleSetRenderTarget(m_mainRenderTarget);
 	//rc.SetRenderTargetAndViewport(m_mainRenderTarget);
 	//rc.ClearRenderTargetView(m_mainRenderTarget);
@@ -85,7 +101,7 @@ void RenderingEngine::Render(RenderContext& rc)
 
 
 	//ポストエフェクトをメイン画像に施す。
-	m_postEffect.Render(rc, m_mainRenderTarget);
+	m_postEffect.Render(rc, m_mainRenderTarget, m_captureDeffered);
 
 	/*現在のレンダーターゲットをフレームバッファにコピー*****************************************/
 	rc.SetRenderTarget(
@@ -99,6 +115,7 @@ void RenderingEngine::Render(RenderContext& rc)
 
 	//出来た画像の表示
 	m_mainSprite.Draw(rc);
+	//m_effectedDeffered.Draw(rc);
 
 	m_mat.prevVPMatrix = g_camera3D->GetViewProjectionMatrix(); 
 	//m_prevViewProjMatrix = g_camera3D->GetViewProjectionMatrix();
