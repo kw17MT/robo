@@ -57,8 +57,8 @@ public:
 			vert.normal.Normalize();
 		}
 		//ステップ２　座標と向きが同じ頂点の法線を平均化していく。
-		if(mesh.isFlatShading == 0)
-		{
+		/*if (mesh.isFlatShading == 0)
+		 {
 			//重複している頂点の法線を平均化
 			std::vector<SSmoothVertex> smoothVertex;
 			smoothVertex.reserve(mesh.vertexBuffer.size());
@@ -85,7 +85,7 @@ public:
 			for (auto& va : smoothVertex) {
 				va.vertex->normal = va.newNormal;
 			}
-		}
+		}*/
 	}
 };
 /// <summary>

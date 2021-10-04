@@ -36,7 +36,7 @@ void Shader::Load(const char* filePath, const char* entryFuncName, const char* s
 		}
 		if (errorBlob) {
 			static char errorMessage[10 * 1024];
-			sprintf_s(errorMessage, "filePath : %ws, %s", filePath, (char*)errorBlob->GetBufferPointer());
+			sprintf_s(errorMessage, "filePath : %s,  %s", filePath, (char*)errorBlob->GetBufferPointer());
 			MessageBoxA(NULL, errorMessage, "シェーダーコンパイルエラー", MB_OK);
 			return;
 		}

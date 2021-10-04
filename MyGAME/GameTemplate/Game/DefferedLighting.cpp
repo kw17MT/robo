@@ -13,6 +13,8 @@ void DefferedLighting::InitSprite(RenderTarget& albedoMap,
 	m_defferedSpriteData.m_textures[1] = &normalMap.GetRenderTargetTexture();
 	m_defferedSpriteData.m_textures[2] = &specAndDepthMap.GetRenderTargetTexture();
 	m_defferedSpriteData.m_textures[3] = &shadowMap.GetRenderTargetTexture();
+	m_defferedSpriteData.m_textures[4] = &shadowMap.GetRenderTargetTexture();
+	m_defferedSpriteData.m_textures[5] = &shadowMap.GetRenderTargetTexture();
 	m_defferedSpriteData.m_fxFilePath = "Assets/shader/deffered/defferedSprite.fx";
 	m_defferedSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
 	m_defferedSpriteData.m_expandConstantBuffer = (void*)&LightManager::GetInstance().GetLightData();

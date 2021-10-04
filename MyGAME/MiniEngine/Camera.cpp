@@ -66,3 +66,13 @@ void Camera::RotateOriginTarget(const Quaternion& qRot)
 	m_position = m_target + toPos;
 	m_isDirty = true;
 }
+
+void Camera::RotateOriginCurrentPos(const Quaternion& qRot)
+{
+	Vector3 cameraPos = m_position;
+	Vector3 cameraTarget = m_target;
+	Vector3 toPos = cameraTarget - cameraPos ;
+	qRot.Apply(toPos);
+	m_target = m_position + toPos;
+	m_isDirty = true;
+}

@@ -26,9 +26,7 @@ void MeshParts::InitFromTkmFile(
 	const char* psEntryPointFunc,
 	void* expandData,
 	int expandDataSize,
-	//void* expandLightData,
-	//int expandLightDataSize,
-	IShaderResource* expandShaderResourceView,
+	const std::array<IShaderResource*, MAX_MODEL_EXPAND_SRV>& expandShaderResourceView,
 	D3D12_CULL_MODE cullingMode,
 	DXGI_FORMAT m_colorBufferFormat
 )
@@ -47,13 +45,9 @@ void MeshParts::InitFromTkmFile(
 		m_expandConstantBuffer.Init(expandDataSize, nullptr);
 		m_expandData = expandData;
 	}
-	/*ライト用の拡張データ**********************************/
-	//if (expandLightData) {
-	//	m_expandConstantBufferForLight.Init(expandLightDataSize, nullptr);
-	//	m_expandLightData = expandLightData;
-	//}
-	/********************************************************/
-	m_expandShaderResourceView = expandShaderResourceView;
+	for (int i = 0; i < MAX_MODEL_EXPAND_SRV; i++) {
+		m_expandShaderResourceView[i] = expandShaderResourceView[i];
+	}
 	//ディスクリプタヒープを作成。
 	CreateDescriptorHeaps();
 }
@@ -79,11 +73,10 @@ void MeshParts::CreateDescriptorHeaps()
 			descriptorHeap.RegistShaderResource(1, mesh->m_materials[matNo]->GetNormalMap());		//法線マップ。
 			descriptorHeap.RegistShaderResource(2, mesh->m_materials[matNo]->GetSpecularMap());		//スペキュラマップ。
 			descriptorHeap.RegistShaderResource(3, m_boneMatricesStructureBuffer);					//ボーンのストラクチャードバッファ。
-			/**勝手に改造************************/
-			//descriptorHeap.RegistShaderResource(4, mesh->m_materials[matNo]->GetNormalMap());		//AOマップで使用（法線マップを取得で良いのか分からないがちょうどいい）。
-			/************************************/
-			if (m_expandShaderResourceView){
-				descriptorHeap.RegistShaderResource(EXPAND_SRV_REG__START_NO, *m_expandShaderResourceView);
+			for (int i = 0; i < MAX_MODEL_EXPAND_SRV; i++) {
+				if (m_expandShaderResourceView[i]) {
+					descriptorHeap.RegistShaderResource(EXPAND_SRV_REG__START_NO+i, *m_expandShaderResourceView[i]);
+				}
 			}
 			descriptorHeap.RegistConstantBuffer(0, m_commonConstantBuffer);
 			if (m_expandConstantBuffer.IsValid()) {

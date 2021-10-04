@@ -246,9 +246,22 @@
     <ClCompile Include="DefferedLighting.cpp">
       <Filter>AboutRendering</Filter>
     </ClCompile>
-    <ClCompile Include="MotionBlur.cpp" />
-    <ClCompile Include="LensGhost.cpp" />
-    <ClCompile Include="PlanarReflection.cpp" />
+    <ClCompile Include="LensGhost.cpp">
+      <Filter>AboutRendering\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="MotionBlur.cpp">
+      <Filter>AboutRendering\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PlanarReflection.cpp">
+      <Filter>AboutRendering\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>FunctionalObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="RoboMove.cpp">
+      <Filter>FunctionalObject\Robo</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraMove.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -522,9 +535,22 @@
     <ClInclude Include="DefferedLighting.h">
       <Filter>AboutRendering</Filter>
     </ClInclude>
-    <ClInclude Include="MotionBlur.h" />
-    <ClInclude Include="LensGhost.h" />
-    <ClInclude Include="PlanarReflection.h" />
+    <ClInclude Include="LensGhost.h">
+      <Filter>AboutRendering\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="MotionBlur.h">
+      <Filter>AboutRendering\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PlanarReflection.h">
+      <Filter>AboutRendering\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>FunctionalObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="RoboMove.h">
+      <Filter>FunctionalObject\Robo</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraMove.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FunctionalObject">
@@ -547,6 +573,12 @@
     </Filter>
     <Filter Include="AboutRendering\ForwardRendering">
       <UniqueIdentifier>{10e06494-3d58-4106-af20-99c7e9eb0130}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FunctionalObject\Robo">
+      <UniqueIdentifier>{c08c343b-22d7-4629-9c21-f0eaf4bfb764}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FunctionalObject\Player">
+      <UniqueIdentifier>{8f5a582b-168f-466e-960c-3e97f74b3031}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

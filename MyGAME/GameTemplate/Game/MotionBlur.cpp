@@ -23,8 +23,6 @@ void MotionBlur::Render(RenderContext& rc, RenderTarget& targetToApply)
 	rc.WaitUntilToPossibleSetRenderTarget(m_motionBlurTarget);
 	rc.SetRenderTargetAndViewport(m_motionBlurTarget);
 	rc.ClearRenderTargetView(m_motionBlurTarget);
-	//ディファードライティングした画像を取得したい
-	//GameObjectManager::GetInstance()->CallRenderWrapper(rc);
 
 	RenderingEngine::GetInstance()->GetDefferedSprite(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(m_motionBlurTarget);

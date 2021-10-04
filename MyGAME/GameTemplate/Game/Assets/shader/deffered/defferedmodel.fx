@@ -38,7 +38,7 @@ struct SPSIn{
 	float2 uv 			: TEXCOORD0;	//uv座標。
 	float4 worldPos		: TEXCOORD1;
     float4 posInLVP : TEXCOORD2;
-    float4 velocity : TEXCOORD3;
+    float4 hoge : TEXCOORD3;
 };
 
 struct SPSOut
@@ -92,7 +92,8 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 	psIn.worldPos = psIn.pos;
 	psIn.pos = mul(mView, psIn.pos);
 	psIn.pos = mul(mProj, psIn.pos);
-
+    psIn.hoge = psIn.pos;
+	
 	psIn.normal = mul(m, vsIn.normal);
 	psIn.normal = normalize(psIn.normal);
 	
@@ -141,8 +142,8 @@ SPSOut PSMain(SPSIn psIn)
     psOut.SpecAndDepth.w = psIn.pos.z;
 		
 	/* ベロシティマップ */
-    float4 prevVelocity = mul(float4(psIn.worldPos.xyz, 1.0f), prevViewProjMatrix);
-    float4 currentVelocity = mul(float4(psIn.worldPos.xyz, 1.0f), currentViewProjMatrix);
+    float4 prevVelocity = mul(prevViewProjMatrix,float4(psIn.worldPos.xyz, 1.0f));
+    float4 currentVelocity = mul(currentViewProjMatrix,float4(psIn.worldPos.xyz, 1.0f));
     
 	// prevVelocityとcurrentVelocityを正規化座標系に変換する
     prevVelocity.xy /= prevVelocity.w;

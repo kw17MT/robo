@@ -13,7 +13,7 @@ public:
 	void InitSprite(RenderTarget& albedoMap, 
 		RenderTarget& normalMap, 
 		RenderTarget& specAndDepthMap, 
-		RenderTarget& shadowMap, 
+		RenderTarget& shadowMap,
 		RenderTarget& velocityMap);
 
 	/**

@@ -56,7 +56,7 @@ public:
 	/**
 	 * @brief メインレンダーターゲットに画像の合成を行う。
 	*/
-	void DrawInMainRenderTarget(RenderContext& rc);
+	void DrawInDefferedRenderTarget(RenderContext& rc);
 
 	/**
 	 * @brief シャドウ作成に必要なライトカメラを取得する。
@@ -99,33 +99,41 @@ public:
 		return m_renderTypes;
 	}
 
-	//モーションブラー作成しに使用する
+	//モーションブラー作成に使用する
 	void GetDefferedSprite(RenderContext& rc)
 	{
 		m_defferedLighting.Draw(rc);
+		//m_effectedDeffered.Draw(rc);
 	}
 
+	void DrawInMainRenderTarget(RenderContext& rc);
+
 private:
+	//最終表示するオフスクリーン画像
 	RenderTarget m_mainRenderTarget;
 	SpriteInitData m_mainSpriteData;
 	Sprite m_mainSprite;
 
-	float clearColor[4] = { 1.0f,1.0f,1.0f,1.0f };
-	//ライト座標から見た影を作るためのもの
-	Camera m_lightCamera;
-
-	RenderTarget m_albedoTarget;
-	RenderTarget m_normalTarget;
-	RenderTarget m_specAndDepthTarget; 
-	RenderTarget m_velocityTarget;
-
+	//ディファードライティング済みの画像にポストエフェクトを掛けるためのもの
+	RenderTarget m_captureDeffered;
+	SpriteInitData m_effectedDefferedData;
+	Sprite m_effectedDeffered;
+	
+	//シャドウ関連
 	Shadow m_shadow;
-	PostEffect m_postEffect;
-	DefferedLighting m_defferedLighting;
-	LensGhost m_lensGhost;
+	float clearColor[4] = { 1.0f,1.0f,1.0f,1.0f };		//画面消去用の色
+	Camera m_lightCamera;								//ライトカメラ
+
+	RenderTarget m_albedoTarget;						//アルベドマップ
+	RenderTarget m_normalTarget;						//法線マップ
+	RenderTarget m_specAndDepthTarget;					//スペキュラ反射と深度値
+	RenderTarget m_velocityTarget;						//速度マップ
+
+	DefferedLighting m_defferedLighting;				//ディファード画像
+	PostEffect m_postEffect;							//ポストエフェクト統括
 	
-	EnMatrixes m_mat;
+	EnMatrixes m_mat;									//VelocityMap作成のためのマトリックス
 	
-	EnRenderTypes m_renderTypes = normal;
+	EnRenderTypes m_renderTypes = normal;				//レンダリングモード
 };
 

@@ -36,8 +36,8 @@ PSInput VSMain(VSInput In)
 	return psIn;
 }
 
-static const float offSetX = 1.0f / 1280.0f;
-static const float offSetY = 1.0f / 720.0f;
+static const float offSetX = 0.2f / 1280.0f;
+static const float offSetY = 0.2f / 720.0f;
 
 float4 PSMain( PSInput In ) : SV_Target0
 {       

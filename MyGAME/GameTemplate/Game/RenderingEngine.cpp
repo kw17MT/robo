@@ -13,16 +13,8 @@ void RenderingEngine::PrepareRendering()
 
 void RenderingEngine::InitRenderTargets()
 {
-	m_mainRenderTarget.Create
-	(
-		1280,
-		720,
-		1,
-		1,
-		DXGI_FORMAT_R32G32B32A32_FLOAT,
-		DXGI_FORMAT_D32_FLOAT
-	);
-
+	m_mainRenderTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D32_FLOAT);
+	m_captureDeffered.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D32_FLOAT);
 	m_albedoTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_D32_FLOAT);
 	m_normalTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
 	m_specAndDepthTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_UNKNOWN);
@@ -39,6 +31,7 @@ void RenderingEngine::InitSprites()
 	m_mainSprite.Init(m_mainSpriteData);
 
 	m_defferedLighting.InitSprite(m_albedoTarget, m_normalTarget, m_specAndDepthTarget, m_shadow.GetShadowMap(), m_velocityTarget);
+	m_shadow.InitCascade(m_mainRenderTarget, m_normalTarget, m_specAndDepthTarget);
 }
 
 void RenderingEngine::InitLightCamera()
@@ -58,6 +51,7 @@ void RenderingEngine::DrawInMainRenderTarget(RenderContext& rc)
 	rc.ClearRenderTargetView(m_mainRenderTarget);
 	//ディファードライティングされたメインの画像を合成。
 	m_defferedLighting.Draw(rc);
+	//m_shadow.Draw(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(m_mainRenderTarget);
 }
 
@@ -67,10 +61,29 @@ void RenderingEngine::Render(RenderContext& rc)
 
 	//影を作成する
 	m_shadow.Render(rc);
+
+
+
+
+	//m_shadow.RenderCascade(rc);
+
 	//ディファードライティングを行う。
 	m_defferedLighting.Render(rc);
 	//メイン画像を作成する。
 	DrawInMainRenderTarget(rc);
+
+	
+	//rc.WaitUntilToPossibleSetRenderTarget(m_mainRenderTarget);
+	//rc.SetRenderTargetAndViewport(m_mainRenderTarget);
+	//rc.ClearRenderTargetView(m_mainRenderTarget);
+	////ディファードライティングされたメインの画像を合成。
+	//m_shadow.Draw(rc);
+	//rc.WaitUntilFinishDrawingToRenderTarget(m_mainRenderTarget);
+
+
+
+
+
 	//ポストエフェクトをメイン画像に施す。
 	m_postEffect.Render(rc, m_mainRenderTarget);
 

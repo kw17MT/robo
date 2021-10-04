@@ -10,6 +10,7 @@ void FXAA::Init(RenderTarget& mainRenderTarget)
 	fxaaSpriteData.m_width = 1280;
 	fxaaSpriteData.m_height = 720;
 	fxaaSpriteData.m_textures[0] = &m_fxaaTarget.GetRenderTargetTexture();
+	//fxaaSpriteData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
 	fxaaSpriteData.m_fxFilePath = "Assets/shader/fxaa.fx";
 	fxaaSpriteData.m_vsEntryPointFunc = "VSMain";
 	fxaaSpriteData.m_psEntryPoinFunc = "PSMain";
@@ -31,7 +32,7 @@ void FXAA::Render(RenderContext& rc, RenderTarget& TargetToApply)
 	rc.ClearRenderTargetView(m_fxaaTarget);
 	s_data.s_width = static_cast<float>(g_graphicsEngine->GetFrameBufferWidth());
 	s_data.s_height = static_cast<float>(g_graphicsEngine->GetFrameBufferHeight());
-	GameObjectManager::GetInstance()->CallRenderWrapper(rc);
+	RenderingEngine::GetInstance()->GetDefferedSprite(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(m_fxaaTarget);
 
 	//メインレンダリングターゲットに書き込む

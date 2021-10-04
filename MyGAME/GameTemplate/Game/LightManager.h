@@ -7,7 +7,7 @@ struct DirectionalLight
 	//ディレクションライト
 	Vector3 directionalDirection = { 0.0f,-1.0f,0.0f };				//ディレクションライトの方向
 	float pad0 = 0;
-	Vector3 directionalColor = { 1.0f, 1.0f, 1.0f };				//ディレクションライトの色
+	Vector3 directionalColor = { 5.0f, 5.0f, 5.0f };				//ディレクションライトの色
 	//Vector3 directionalColor = { 1.0f, 1.0f, 1.0f };
 	float pad1 = 0;
 	Vector3 eyePos = g_camera3D->GetPosition();						//目の位置（カメラの位置）
@@ -31,18 +31,11 @@ struct AllLight
 	Matrix ViewProjInverseMatrix = g_camera3D->GetViewProjectionMatrix();
 	//ディレクションライト
 	DirectionalLight directionalLight;
-
 	//環境光
 	Vector3 ambientLight = { 0.4f, 0.4f, 0.4f };
 	float pad2 = 0;
-
 	//スポットライト
 	SpotLight spotLight[2];
-};
-
-struct LightForGauge
-{
-	Vector3 ambient = { 0.0f,1.0f, 0.0f };
 };
 
 class LightManager : public IGameObject
@@ -50,7 +43,6 @@ class LightManager : public IGameObject
 private:
 	static LightManager* instance;
 	AllLight s_allLight;
-	LightForGauge s_gaugeLight[3];
 public:
 	LightManager();
 	/**
@@ -89,33 +81,6 @@ public:
 	}
 
 	/**
-	 * @brief ゲージ専用のライトを取得する
-	 * @return 
-	*/
-	const LightForGauge& GetGaugeLight(int lightNumber) const
-	{
-		return s_gaugeLight[lightNumber];
-	}
-
-	/**
-	 * @brief 引数で指定したゲージの色を黄色にする
-	 * @param lightNumber 　ゲージの番号　０左、１右、２料理用
-	*/
-	void MakeGaugeLightYellow(int lightNumber);
-
-	/**
-	 * @brief 引数で指定したゲージの色を赤色にする
-	 * @param lightNumber 　ゲージの番号　０左、１右、２料理用
-	*/
-	void MakeGaugeLightRed(int lightNumber);
-
-	/**
-	 * @brief 引数で指定したゲージの色を緑色にする
-	 * @param lightNumber 　ゲージの番号　０左、１右、２料理用
-	*/
-	void MakeGaugeLightGreen(int lightNumber);
-
-	/**
 	 * @brief 毎フレームライトの位置を更新する
 	*/
 	void UpdateEyePos()
@@ -126,14 +91,9 @@ public:
 		s_allLight.ViewProjInverseMatrix.Inverse();
 	}
 
-	/**
-	 * @brief 引数で指定した番号のゲージ用ライトを取得する
-	 * @param gaugeNumber ゲージの番号　０左、１右、２料理用
-	 * @return 引数で指定した番号のゲージ用ライト
-	*/
-	 LightForGauge& GetGaugeLight(int gaugeNumber) 
+	/*void UpdateLVPMatrix(Matrix* lvpcMatrix)
 	{
-		return s_gaugeLight[gaugeNumber];
-	}
+		s_allLight.s_lightCameraMatrix[0] = *lvpcMatrix;
+	}*/
 };
 
