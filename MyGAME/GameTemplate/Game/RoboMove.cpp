@@ -3,7 +3,7 @@
 
 namespace 
 {
-const float MOVE_SPEED = 25.0f;
+const float MOVE_SPEED = 100.0f;
 }
 
 const Vector3 RoboMove::Move(const Vector3 currentPos)

@@ -262,6 +262,7 @@
       <Filter>FunctionalObject\Robo</Filter>
     </ClCompile>
     <ClCompile Include="CameraMove.cpp" />
+    <ClCompile Include="Ground.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -551,6 +552,7 @@
       <Filter>FunctionalObject\Robo</Filter>
     </ClInclude>
     <ClInclude Include="CameraMove.h" />
+    <ClInclude Include="Ground.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FunctionalObject">

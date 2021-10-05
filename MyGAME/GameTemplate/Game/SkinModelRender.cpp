@@ -66,6 +66,36 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 	m_model.Init(m_modelInitData);
 }
 
+void SkinModelRender::InitGround(const char* modelFilePath, EnModelUpAxis UpAxis, Vector3 pos, bool isCastShadow)
+{
+	//モデルのファイルパス設定
+	m_modelInitData.m_tkmFilePath = modelFilePath;
+	//モデルが使用するシェーダー（下はPBRのみ）
+	m_modelInitData.m_fxFilePath = "Assets/shader/forward/ground.fx";
+	//頂点シェーダー設定
+	m_modelInitData.m_vsEntryPointFunc = "VSMain";
+	m_modelInitData.m_vsSkinEntryPointFunc = "VSMain";
+	//使う色の範囲設定
+	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	//どの軸を上にするか
+	m_modelInitData.m_modelUpAxis = UpAxis;
+
+	m_groundTexture[0].InitFromDDSFile(L"Assets/Image/ground/noise1.dds");
+	m_groundTexture[1].InitFromDDSFile(L"Assets/Image/ground/Sand_Albedo.dds");
+	m_groundTexture[2].InitFromDDSFile(L"Assets/Image/ground/snow.dds");
+
+	m_modelInitData.m_expandShaderResoruceView[0] = &RenderingEngine::GetInstance()->GetShadowMap().GetRenderTargetTexture();
+	m_modelInitData.m_expandShaderResoruceView[1] = &m_groundTexture[0];
+	m_modelInitData.m_expandShaderResoruceView[2] = &m_groundTexture[1];
+	m_modelInitData.m_expandShaderResoruceView[3] = &m_groundTexture[2];
+
+	m_modelInitData.m_expandConstantBuffer = (void*)&RenderingEngine::GetInstance()->GetPrevViewProjMatrix();
+	m_modelInitData.m_expandConstantBufferSize = sizeof(RenderingEngine::GetInstance()->GetPrevViewProjMatrix());
+
+	
+	m_model.Init(m_modelInitData);
+}
+
 void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)
 {
 	m_modelInitData.m_tkmFilePath = modelFilePath;

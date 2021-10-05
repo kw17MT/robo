@@ -83,7 +83,8 @@ public:
 		normal = 0,
 		shadow,
 		lensGhost,
-		ui
+		ui,
+		forward
 	};
 
 	void SetRenderTypes(EnRenderTypes type)
@@ -103,6 +104,12 @@ public:
 		//m_effectedDeffered.Draw(rc);
 	}
 
+	RenderTarget& GetShadowMap() {
+		return m_shadow.GetShadowMap();
+	}
+
+	void DrawForwardRendering(RenderContext& rc, RenderTarget& target);
+	void DrawForwardRendering(RenderContext& rc);
 	/**
 	* @brief ディファードライティング画像の保存を行う。
 	*/
@@ -137,5 +144,10 @@ private:
 	EnMatrixes m_mat;									//VelocityMap作成のためのマトリックス
 	
 	EnRenderTypes m_renderTypes = normal;				//レンダリングモード
+
+	RenderTarget m_forwardTarget;
+
+	SpriteInitData m_forwardData;
+	Sprite m_forward;
 };
 

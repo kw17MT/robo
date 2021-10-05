@@ -7,6 +7,11 @@ void DefferedLighting::InitSprite(RenderTarget& albedoMap,
 	RenderTarget& shadowMap,
 	RenderTarget& velocityMap)
 {
+	m_groundTextures[0].InitFromDDSFile(L"Assets/Image/ground/noise1.dds");
+	m_groundTextures[1].InitFromDDSFile(L"Assets/Image/ground/Grass.dds");
+	m_groundTextures[2].InitFromDDSFile(L"Assets/Image/ground/Sand_Albedo.dds");
+	m_groundTextures[3].InitFromDDSFile(L"Assets/Image/ground/snow.dds");
+
 	m_defferedSpriteData.m_width = 1280;
 	m_defferedSpriteData.m_height = 720;
 	m_defferedSpriteData.m_textures[0] = &albedoMap.GetRenderTargetTexture();
@@ -19,6 +24,10 @@ void DefferedLighting::InitSprite(RenderTarget& albedoMap,
 	m_defferedSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
 	m_defferedSpriteData.m_expandConstantBuffer = (void*)&LightManager::GetInstance().GetLightData();
 	m_defferedSpriteData.m_expandConstantBufferSize = sizeof(LightManager::GetInstance().GetLightData());
+	m_defferedSpriteData.m_textures[6] = &m_groundTextures[0];
+	m_defferedSpriteData.m_textures[7] = &m_groundTextures[1];
+	m_defferedSpriteData.m_textures[8] = &m_groundTextures[2];
+	m_defferedSpriteData.m_textures[9] = &m_groundTextures[3];
 	m_defferedSprite.Init(m_defferedSpriteData);
 
 	m_defferedTargets[0] = &albedoMap;

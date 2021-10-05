@@ -7,7 +7,7 @@ namespace
 	const float AJUST_CAMERA_Y = 2000.0f;
 }
 
-void CameraMove::UpdateCameraTarget(Vector3 currentCameraPos)
+void CameraMove::UpdateCameraTarget()
 {
 	//右スティックの入力具合に応じて現在のカメラの位置を基点に回転させる。
 	Quaternion rotX;
@@ -45,10 +45,11 @@ void CameraMove::Translation(Vector3 prevPlayerPos, Vector3 currentPlayerPos)
 
 void CameraMove::UpdatePlayerCamera(Vector3 prevPlayerPos, Vector3 currentPlayerPos)
 {
+	//新しいカメラのターゲットを計算
+	UpdateCameraTarget();
 	//新しいカメラの位置を取得
 	Vector3 cameraPos = UpdateCameraPos(currentPlayerPos);
-	//新しいカメラのターゲットを計算
-	UpdateCameraTarget(cameraPos);
+	
 	//カメラの平行移動を行う。
 	Translation(prevPlayerPos, currentPlayerPos);
 }

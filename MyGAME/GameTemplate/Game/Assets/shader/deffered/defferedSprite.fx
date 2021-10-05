@@ -58,6 +58,13 @@ Texture2D<float4> albedoTexture : register(t0);
 Texture2D<float4> normalTexture : register(t1);
 Texture2D<float4> specDepthTexture : register(t2);
 Texture2D<float4> shadowMap : register(t3);
+Texture2D<float4> shadowMap2 : register(t4);
+Texture2D<float4> shadowMap3 : register(t5);
+
+Texture2D<float4> noise : register(t6);
+Texture2D<float4> grass : register(t7);
+Texture2D<float4> sand : register(t8);
+Texture2D<float4> snow : register(t9);
 
 sampler Sampler : register(s0);
 
@@ -358,6 +365,14 @@ float4 PSMain( PSInput In ) : SV_Target0
     }
 
     float4 returnColor = finalColor + finalSpotLight;
+    
+    //float4 a = noise.Sample(Sampler, In.uv);
+    //float4 sandTexture = sand.Sample(Sampler, In.uv);
+    //float4 snowTexture = snow.Sample(Sampler, In.uv);
+    
+    //returnColor += sandTexture * a.r;
+    //returnColor += snowTexture * a.g;
+    //returnColor /= 3.0f;
    
     return returnColor;
 	//ここまでデプスシャドウマップ///////////////////////////////////////////////////////////////////////////

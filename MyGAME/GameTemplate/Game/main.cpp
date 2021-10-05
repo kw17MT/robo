@@ -5,6 +5,7 @@
 #include "SkinModelRender.h"
 #include "RenderingEngine.h"
 #include "Player.h"
+#include "Ground.h"
 
 // ウィンドウプログラムのメイン関数。
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
@@ -36,12 +37,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	Player* player;
 	player = NewGO<Player>(0);
 
-	SkinModelRender* ground = nullptr;
-	//床
-	ground = NewGO<SkinModelRender>(0);
-	ground->Init("Assets/modelData/ground/ground.tkm", nullptr, enModelUpAxisZ, { 0.0f,-2000.0f,0.0f }, false);
-	ground->SetPosition({ 0.0f,-50000.0f,0.0f });
-	ground->SetScale({ 1.0f,1.0f,1.0f });
+	Ground* ground = nullptr;
+	ground = NewGO<Ground>(0);
 
 	SkinModelRender* sun;
 	sun = NewGO<SkinModelRender>(0);

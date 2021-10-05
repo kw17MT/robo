@@ -15,7 +15,10 @@ private:
 	Vector3 m_scale = Vector3::One;										//モデルの拡大率
 	Quaternion m_rot = Quaternion::Identity;							//モデルの回転
 
+	Texture m_groundTexture[3];
+
 	bool m_isSun = false;												//太陽かどうか
+	bool m_isGround = false;											//地面かどうか
 
 	struct copyToVRAMDatas
 	{
@@ -73,6 +76,8 @@ public:
 	void Init(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, bool isCastShadow);
 	//モデルのファイルパスのみを変更するときに使用する。
 
+	void InitGround(const char* modelFilePath, EnModelUpAxis UpAxis, Vector3 pos, bool isCastShadow);
+
 	/**
 	 * @brief 影が映るもののモデル初期化関数
 	 * @param filePath モデルのファイルパス
@@ -103,6 +108,7 @@ public:
 	void PlayAnimation(int animNo, float interpolateTime = 0.0f);
 
 	void SetIsSun() { m_isSun = true; }
+	void SetIsGround() { m_isGround = true; }
 
 	/**
 	 * @brief モデルを描く
@@ -112,6 +118,9 @@ public:
 	{
 		//普通描画
 		if (RenderingEngine::GetInstance()->GetRenderTypes() == RenderingEngine::EnRenderTypes::normal) {
+			/*if (m_isGround || m_isSun) {
+				return;
+			}*/
 			m_model.Draw(rc);
 			return;
 		}
@@ -128,6 +137,12 @@ public:
 			}
 			return;
 		}
+		/*if (RenderingEngine::GetInstance()->GetRenderTypes() == RenderingEngine::EnRenderTypes::forward)
+		{
+			if (m_isGround) {
+				m_model.Draw(rc);
+			}
+		}*/
 	}
 
 private:

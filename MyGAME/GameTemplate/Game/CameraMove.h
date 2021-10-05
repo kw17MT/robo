@@ -4,9 +4,8 @@ class CameraMove
 public:
 	/**
 	 * @brief カメラのターゲットを更新する
-	 * @param currentCameraPos 現在のカメラの位置
 	*/
-	static void UpdateCameraTarget(Vector3 currentCameraPos);
+	static void UpdateCameraTarget();
 
 	/**
 	 * @brief カメラの位置を更新する。
