@@ -7,18 +7,35 @@ namespace
 	const float AJUST_CAMERA_Y = 2000.0f;
 }
 
-void CameraMove::UpdateCameraTarget()
+void CameraMove::UpdateCameraTarget(Vector3 currentPlayerPos)
 {
-	//右スティックの入力具合に応じて現在のカメラの位置を基点に回転させる。
-	Quaternion rotX;
-	rotX.SetRotationDegX(g_pad[0]->GetRStickXF());
 	Quaternion rotY;
-	rotY.SetRotationDegY(g_pad[0]->GetRStickYF());
-	g_camera3D->RotateOriginCurrentPos(rotX);
+	rotY.SetRotationDegY(g_pad[0]->GetRStickXF());
 	g_camera3D->RotateOriginCurrentPos(rotY);
+
+	//プレイヤーからカメラへのベクトルを求める
+	Vector3 playerPosToCamera = currentPlayerPos - g_camera3D->GetPosition();
+
+	//Y軸周りの回転
+	Quaternion qRot;
+	qRot.SetRotationDeg(Vector3::AxisY, 2.0f * g_pad[0]->GetRStickXF());
+	//ベクトルにY軸における回転を与える。
+	qRot.Apply(playerPosToCamera);
+
+	//X軸
+	Vector3 axisX;
+	//外積を用いてX軸として利用するベクトルを求める
+	axisX.Cross(Vector3::AxisY, playerPosToCamera);
+	axisX.Normalize();
+	//X軸周りに回転させる。
+	qRot.SetRotationDeg(axisX, 2.0f * g_pad[0]->GetRStickYF());
+	//ベクトルに適用する。
+	qRot.Apply(playerPosToCamera);
+
+	g_camera3D->RotateOriginCurrentPos(qRot);
 }
 
-Vector3 CameraMove::UpdateCameraPos(Vector3 currentPlayerPos)
+void CameraMove::UpdateCameraPos(Vector3 currentPlayerPos)
 {
 	//現在のカメラターゲットからプレイヤーへのベクトル
 	Vector3 targetToPlayerVec = currentPlayerPos - g_camera3D->GetTarget();
@@ -29,8 +46,6 @@ Vector3 CameraMove::UpdateCameraPos(Vector3 currentPlayerPos)
 	//カメラの位置を上に調節する。
 	newCameraPos.y += AJUST_CAMERA_Y;
 	g_camera3D->SetPosition(newCameraPos);
-
-	return newCameraPos;
 }
 
 void CameraMove::Translation(Vector3 prevPlayerPos, Vector3 currentPlayerPos)
@@ -46,10 +61,9 @@ void CameraMove::Translation(Vector3 prevPlayerPos, Vector3 currentPlayerPos)
 void CameraMove::UpdatePlayerCamera(Vector3 prevPlayerPos, Vector3 currentPlayerPos)
 {
 	//新しいカメラのターゲットを計算
-	UpdateCameraTarget();
+	UpdateCameraTarget(currentPlayerPos);
 	//新しいカメラの位置を取得
-	Vector3 cameraPos = UpdateCameraPos(currentPlayerPos);
-	
+	UpdateCameraPos(currentPlayerPos);
 	//カメラの平行移動を行う。
 	Translation(prevPlayerPos, currentPlayerPos);
 }

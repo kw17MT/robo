@@ -5,14 +5,14 @@ public:
 	/**
 	 * @brief カメラのターゲットを更新する
 	*/
-	static void UpdateCameraTarget();
+	static void UpdateCameraTarget(Vector3 currentPlayerPos);
 
 	/**
 	 * @brief カメラの位置を更新する。
 	 * @param playerPos 現在のプレイヤーの位置
 	 * @return 
 	*/
-	static Vector3 UpdateCameraPos(Vector3 currentPlayerPos);
+	static void UpdateCameraPos(Vector3 currentPlayerPos);
 
 	/**
 	 * @brief プレイヤーの移動に伴うカメラターゲットの平行移動
