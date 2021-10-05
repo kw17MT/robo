@@ -22,12 +22,12 @@ const Vector3 RoboMove::Move(const Vector3 currentPos)
 
 	if (g_pad[0]->IsPress(enButtonY))
 	{
-		nextPos.y += MOVE_SPEED * 0.5f;
+		nextPos.y += MOVE_SPEED * 5.0f;
 	}
 
 	if (g_pad[0]->IsPress(enButtonA))
 	{
-		nextPos.y -= MOVE_SPEED * 0.5f;
+		nextPos.y -= MOVE_SPEED * 5.0f;
 	}
 
 	return nextPos;

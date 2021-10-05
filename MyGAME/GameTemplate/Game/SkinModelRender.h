@@ -15,7 +15,7 @@ private:
 	Vector3 m_scale = Vector3::One;										//ƒ‚ƒfƒ‹‚ÌŠg‘å—¦
 	Quaternion m_rot = Quaternion::Identity;							//ƒ‚ƒfƒ‹‚Ì‰ñ“]
 
-	Texture m_groundTexture[3];
+	Texture m_groundTexture[4];
 
 	bool m_isSun = false;												//‘¾—z‚©‚Ç‚¤‚©
 	bool m_isGround = false;											//’n–Ê‚©‚Ç‚¤‚©
