@@ -224,7 +224,7 @@ float CookTrranceSpecular(float3 L, float3 V, float3 N, float metaric)
 }
 
 //ピクセルシェーダーのエントリー関数。
-SPSOut PSMain(SPSIn psIn) : SV_Target0
+float4 PSMain(SPSIn psIn) : SV_Target0
 {
 
 	//PBR実装しようとしている。↓
@@ -286,5 +286,9 @@ SPSOut PSMain(SPSIn psIn) : SV_Target0
 	//鏡面反射の強さを取得
     psOut.normal.w = g_specMap.Sample(g_sampler, psIn.uv).r;
     psOut.albedo = albedoColor;
-    return psOut;
+	
+    psOut.albedo = snow.Sample(g_sampler, psIn.uv);
+	
+    return psOut.albedo;
+    //return psOut;
 }

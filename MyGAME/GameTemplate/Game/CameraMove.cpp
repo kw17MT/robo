@@ -18,7 +18,7 @@ void CameraMove::UpdateCameraTarget(Vector3 currentPlayerPos)
 
 	//Y軸周りの回転
 	Quaternion qRot;
-	qRot.SetRotationDeg(Vector3::AxisY, 2.0f * g_pad[0]->GetRStickXF());
+	qRot.SetRotationDeg(Vector3::AxisY, g_pad[0]->GetRStickXF());
 	//ベクトルにY軸における回転を与える。
 	qRot.Apply(playerPosToCamera);
 
@@ -28,9 +28,18 @@ void CameraMove::UpdateCameraTarget(Vector3 currentPlayerPos)
 	axisX.Cross(Vector3::AxisY, playerPosToCamera);
 	axisX.Normalize();
 	//X軸周りに回転させる。
-	qRot.SetRotationDeg(axisX, 2.0f * g_pad[0]->GetRStickYF());
+	qRot.SetRotationDeg(axisX, g_pad[0]->GetRStickYF());
 	//ベクトルに適用する。
 	qRot.Apply(playerPosToCamera);
+
+	Vector3 toPosDir = playerPosToCamera;
+	toPosDir.Normalize();
+	if (toPosDir.y < -0.99f) {
+		return;
+	}
+	else if (toPosDir.y > 0.9f) {
+		return;
+	}
 
 	g_camera3D->RotateOriginCurrentPos(qRot);
 }

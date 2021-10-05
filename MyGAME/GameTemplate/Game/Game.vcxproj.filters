@@ -263,6 +263,7 @@
     </ClCompile>
     <ClCompile Include="CameraMove.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="RoboRotation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -553,6 +554,7 @@
     </ClInclude>
     <ClInclude Include="CameraMove.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="RoboRotation.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FunctionalObject">

@@ -104,7 +104,7 @@ void RenderingEngine::DrawInMainRenderTarget(RenderContext& rc)
 	//最終出力のメインレンダーターゲットに書き込み開始
 	rc.WaitUntilToPossibleSetRenderTarget(m_mainRenderTarget);
 	rc.SetRenderTargetAndViewport(m_mainRenderTarget);
-	rc.ClearRenderTargetView(m_mainRenderTarget);
+	//rc.ClearRenderTargetView(m_mainRenderTarget);
 	//ディファードライティングされたメインの画像を合成。
 	m_defferedLighting.Draw(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(m_mainRenderTarget);
@@ -122,7 +122,7 @@ void RenderingEngine::Render(RenderContext& rc)
 
 	//m_shadow.RenderCascade(rc);
 
-	//DrawForwardRendering(rc);
+	//DrawForwardRendering(rc,m_mainRenderTarget);
 
 	
 
