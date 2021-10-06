@@ -264,6 +264,9 @@
     <ClCompile Include="CameraMove.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="RoboRotation.cpp" />
+    <ClCompile Include="RoboLean.cpp">
+      <Filter>FunctionalObject\Robo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -555,6 +558,9 @@
     <ClInclude Include="CameraMove.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="RoboRotation.h" />
+    <ClInclude Include="RoboLean.h">
+      <Filter>FunctionalObject\Robo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FunctionalObject">

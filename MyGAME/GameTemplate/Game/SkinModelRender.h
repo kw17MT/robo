@@ -55,16 +55,21 @@ public:
 	void SetRotation(Quaternion rot) { m_rot = rot; }
 
 	/**
-	 * @brief モデルの座標を設定する。
+	 * @brief モデルの座標を取得する。
 	 * @return 新しい座標
 	*/
 	Vector3 GetPosition() const { return m_position; }
 
 	/**
-	 * @brief モデルの拡大率を設定する。
+	 * @brief モデルの拡大率を取得する。
 	 * @return 新しい拡大率
 	*/
 	Vector3 GetScale() const { return m_scale; }
+
+	/**
+	 * @brief モデルの回転を取得する。
+	*/
+	Quaternion GetRotation() const { return m_rot; }
 
 	/**
 	 * @brief モデルの初期化を行う。ライトを独自のものにしたいときはこっちをつかう

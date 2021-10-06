@@ -28,7 +28,7 @@ void CameraMove::UpdateCameraTarget(Vector3 currentPlayerPos)
 	axisX.Cross(Vector3::AxisY, playerPosToCamera);
 	axisX.Normalize();
 	//X軸周りに回転させる。
-	qRot.SetRotationDeg(axisX, g_pad[0]->GetRStickYF());
+	qRot.SetRotationDeg(axisX, -g_pad[0]->GetRStickYF());
 	//ベクトルに適用する。
 	qRot.Apply(playerPosToCamera);
 
