@@ -28,7 +28,7 @@ void Player::Update()
 	//プレイヤーが操作するカメラの動き
 	CameraMove::UpdatePlayerCamera(m_prevPosition, m_currentPosition);
 
-	//RoboRotation::UpdateRotation(m_skinModelRender, m_prevPosition, m_currentPosition, m_front);
+	RoboRotation::UpdateRotation(m_skinModelRender, m_prevPosition, m_currentPosition, m_front);
 	//m_skinModelRender->SetRotation(RoboRotation::RotationX(m_skinModelRender->GetRotation()));
 	//ダッシュ中じゃなければ
 	/*if (!m_dash)
@@ -53,5 +53,5 @@ void Player::Update()
 	a.Apply(m_prevFront);
 	m_skinModelRender->SetRotation(a);*/
 
-	m_roboLean.Lean(m_skinModelRender);
+	//m_roboLean.Lean(m_skinModelRender);
 }

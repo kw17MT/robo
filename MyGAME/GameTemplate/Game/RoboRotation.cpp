@@ -76,7 +76,12 @@ Quaternion RoboRotation::RotationWithCamera(Vector3 prevMoveVec, Vector3 current
 	return qRot;*/
 
 
-	Vector3 roboFront = g_camera3D->GetForward();
+	/*Vector3 roboFront = g_camera3D->GetForward();
+	Vector3 roboRight = g_camera3D->GetRight();
+	qRot.SetRotation(roboFront, roboRight);*/
+
+	qRot.SetRotation(g_camera3D->GetCameraRotation());
+
 	return qRot;
 }
 
