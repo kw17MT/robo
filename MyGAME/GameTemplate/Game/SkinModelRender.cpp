@@ -80,7 +80,7 @@ void SkinModelRender::InitGround(const char* modelFilePath, EnModelUpAxis UpAxis
 	//どの軸を上にするか
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
-	m_texture[0].InitFromDDSFile(L"Assets/Image/ground/noise1.dds");
+	m_texture[0].InitFromDDSFile(L"Assets/Image/ground/noise2.dds");
 	m_texture[1].InitFromDDSFile(L"Assets/Image/ground/Sand_Albedo.dds");
 	m_texture[2].InitFromDDSFile(L"Assets/Image/ground/snow.dds");
 	m_texture[3].InitFromDDSFile(L"Assets/Image/ground/grass.dds");
@@ -91,11 +91,27 @@ void SkinModelRender::InitGround(const char* modelFilePath, EnModelUpAxis UpAxis
 	m_modelInitData.m_expandShaderResoruceView[3] = &m_texture[2];
 	m_modelInitData.m_expandShaderResoruceView[4] = &m_texture[3];
 
-	m_modelInitData.m_expandConstantBuffer = (void*)&RenderingEngine::GetInstance()->GetPrevViewProjMatrix();
-	m_modelInitData.m_expandConstantBufferSize = sizeof(RenderingEngine::GetInstance()->GetPrevViewProjMatrix());
+	m_modelInitData.m_expandConstantBuffer = (void*)&matrixAndvertex;//RenderingEngine::GetInstance()->GetPrevViewProjMatrix();
+	m_modelInitData.m_expandConstantBufferSize = sizeof(matrixAndvertex/*RenderingEngine::GetInstance()->GetPrevViewProjMatrix()*/);
+
+	m_model.Init(m_modelInitData);
+
+	//ここでモデルの全長を調べるコードを作成する。
+	Vector3 vMax = { -FLT_MAX, -FLT_MAX, -FLT_MAX };
+	Vector3 vMin = { FLT_MAX,  FLT_MAX,  FLT_MAX };
+
+	const auto& tkmFile = m_model.GetTkmFile();
+	tkmFile.QueryMeshParts([&](const TkmFile::SMesh& mesh) {
+		for (const auto& vertex : mesh.vertexBuffer) {
+			vMax.Max(vertex.pos);
+			vMin.Min(vertex.pos);
+		}
+		});
 
 	
-	m_model.Init(m_modelInitData);
+
+	matrixAndvertex.width = (vMax.x - vMin.x) / m_texture[0].GetWidth();
+	matrixAndvertex.height = (vMax.y - vMin.y) / m_texture[0].GetHeight();
 }
 
 void SkinModelRender::InitSkyCube(const char* modelFilePath, EnModelUpAxis UpAxis)
@@ -116,37 +132,6 @@ void SkinModelRender::InitSkyCube(const char* modelFilePath, EnModelUpAxis UpAxi
 	m_texture[0].InitFromDDSFile(L"Assets/modelData/preset/skyCubeMap.dds");
 
 	m_modelInitData.m_expandShaderResoruceView[0] = &m_texture[0];
-
-	m_model.Init(m_modelInitData);
-}
-
-void SkinModelRender::InitForRecieveShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos)
-{
-	m_modelInitData.m_tkmFilePath = modelFilePath;
-
-	/****************************************************/
-	/*	投影シャドウを適用								*/
-	/****************************************************/
-	//m_modelInitData.m_fxFilePath = "Assets/shader/shadow/projectionShadowReciever.fx";
-
-	/****************************************************/
-	/*	デプスシャドウを適用							*/
-	/****************************************************/
-	//m_modelInitData.m_fxFilePath = "Assets/shader/shadow/depthShadowReciever.fx";
-	m_modelInitData.m_fxFilePath = "Assets/shader/deffered/defferedmodel.fx";
-
-	//カラーバッファーのフォーマットは共通
-	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
-
-	m_modelInitData.m_modelUpAxis = UpAxis;
-
-	m_modelInitData.m_expandConstantBuffer = (void*)&s_dataCopyToVRAM;
-	m_modelInitData.m_expandConstantBufferSize = sizeof(s_dataCopyToVRAM);
-	
-	if (skeletonPath != nullptr) {
-		m_skeleton.Init(skeletonPath);
-		m_modelInitData.m_skeleton = &m_skeleton;
-	}
 
 	m_model.Init(m_modelInitData);
 }

@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "RoboRotation.h"
+#include "PlayerRotation.h"
 
-Quaternion RoboRotation::RotationX(Quaternion playerRot)
+Quaternion PlayerRotation::RotationX(Quaternion playerRot)
 {
 	Vector3 roboUp = g_camera3D->GetUp();
 	Vector3 roboForward = g_camera3D->GetForward();
@@ -25,7 +25,7 @@ Quaternion RoboRotation::RotationX(Quaternion playerRot)
 	return qRot;
 }
 
-Quaternion RoboRotation::RotationY(Quaternion playerRot)
+Quaternion PlayerRotation::RotationY(Quaternion playerRot)
 {
 	Vector3 roboRight = g_camera3D->GetRight();
 	
@@ -37,10 +37,8 @@ Quaternion RoboRotation::RotationY(Quaternion playerRot)
 	//qRot.Apply(a);
 	return qRot;
 }
-//
 
-
-Quaternion RoboRotation::RotationWithCamera(Vector3 prevMoveVec, Vector3 currentMoveVec, Vector3& front)
+Quaternion PlayerRotation::RotationWithCamera()
 {
 	Quaternion qRot;
 
@@ -48,17 +46,30 @@ Quaternion RoboRotation::RotationWithCamera(Vector3 prevMoveVec, Vector3 current
 
 	if (g_pad[0]->GetLStickXF())
 	{
-
-		qRot.AddRotationY(g_pad[0]->GetLStickXF());
+		m_rotationAngle = g_pad[0]->GetLStickXF();
+		qRot.AddRotationY(m_rotationAngle);
 	}
 
 	return qRot;
 }
 
-void RoboRotation::UpdateRotation(SkinModelRender* skinModel, Vector3 prevMoveVec, Vector3 currentMoveVec, Vector3& front)
+Quaternion PlayerRotation::ResetRotation()
 {
-	
-	//skinModel->SetRotation(RotationY(skinModel->GetRotation()));
-	//skinModel->SetRotation(RotationX(skinModel->GetRotation()));
-	skinModel->SetRotation(RotationWithCamera(prevMoveVec, currentMoveVec, front));
+	Quaternion qRot;
+	qRot.SetRotation(g_camera3D->GetCameraRotation());
+
+	m_rotationAngle /= 1.04f;
+	qRot.AddRotationY(m_rotationAngle);
+	return qRot;
+}
+
+void PlayerRotation::UpdateRotation(SkinModelRender* skinModel, Vector3 prevMoveVec, Vector3 currentMoveVec, Vector3& front)
+{
+	if (g_pad[0]->GetLStickXF()) {
+		skinModel->SetRotation(RotationWithCamera());
+	}
+	else
+	{
+		skinModel->SetRotation(ResetRotation());
+	}
 }

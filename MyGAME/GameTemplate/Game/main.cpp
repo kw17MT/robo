@@ -7,6 +7,8 @@
 #include "Player.h"
 #include "Ground.h"
 #include "SkyCube.h"
+#include "Enemy.h"
+#include "UI.h"
 
 // ウィンドウプログラムのメイン関数。
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
@@ -36,7 +38,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	CStopwatch stopWatch;
 
 	Player* player;
-	player = NewGO<Player>(0);
+	player = NewGO<Player>(0,"player");
 
 	Ground* ground = nullptr;
 	ground = NewGO<Ground>(0);
@@ -44,7 +46,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	SkyCube* skyCube = nullptr;
 	skyCube = NewGO<SkyCube>(0);
 
+	Enemy* enemy = nullptr;
+	enemy = NewGO<Enemy>(0);
 
+	UI* ui = nullptr;
+	ui = NewGO<UI>(0);
 
 	SkinModelRender* sun;
 	sun = NewGO<SkinModelRender>(0);

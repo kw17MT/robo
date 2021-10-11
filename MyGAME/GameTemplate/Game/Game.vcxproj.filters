@@ -3,15 +3,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="FontRender.cpp">
-      <Filter>UI,Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Level2D.cpp">
-      <Filter>UI,Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteRender.cpp">
-      <Filter>UI,Sprite</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\MiniEngine\Animation.cpp">
       <Filter>EngineRelated</Filter>
     </ClCompile>
@@ -213,9 +204,6 @@
     <ClCompile Include="..\..\MiniEngine\Shader.cpp">
       <Filter>EngineRelated</Filter>
     </ClCompile>
-    <ClCompile Include="SkinModelRender.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="LightManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
@@ -258,32 +246,46 @@
     <ClCompile Include="Player.cpp">
       <Filter>Object\Player</Filter>
     </ClCompile>
-    <ClCompile Include="RoboMove.cpp">
-      <Filter>Object\Robo</Filter>
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="PlayerMove.cpp">
+      <Filter>Object\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CameraMove.cpp" />
-    <ClCompile Include="RoboLean.cpp">
-      <Filter>Object\Robo</Filter>
+    <ClCompile Include="PlayerRotation.cpp">
+      <Filter>Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinModelRender.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="FontRender.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Level2D.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRender.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayDistance.cpp">
+      <Filter>UI,Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Reticle.cpp">
+      <Filter>UI,Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>UI,Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraMove.cpp">
+      <Filter>Object\Player\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyCube.cpp">
+      <Filter>Object\Sky</Filter>
     </ClCompile>
     <ClCompile Include="Ground.cpp">
-      <Filter>Object</Filter>
+      <Filter>Object\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="RoboRotation.cpp">
-      <Filter>Object\Robo</Filter>
-    </ClCompile>
-    <ClCompile Include="SkyCube.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="FontRender.h">
-      <Filter>UI,Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Level2D.h">
-      <Filter>UI,Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteRender.h">
-      <Filter>UI,Sprite</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\MiniEngine\Animation.h">
       <Filter>EngineRelated</Filter>
     </ClInclude>
@@ -512,9 +514,6 @@
     <ClInclude Include="..\..\MiniEngine\Shader.h">
       <Filter>EngineRelated</Filter>
     </ClInclude>
-    <ClInclude Include="SkinModelRender.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="LightManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
@@ -557,20 +556,43 @@
     <ClInclude Include="Player.h">
       <Filter>Object\Player</Filter>
     </ClInclude>
-    <ClInclude Include="RoboMove.h">
-      <Filter>Object\Robo</Filter>
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="PlayerMove.h">
+      <Filter>Object\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CameraMove.h" />
-    <ClInclude Include="RoboLean.h">
-      <Filter>Object\Robo</Filter>
+    <ClInclude Include="PlayerRotation.h">
+      <Filter>Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinModelRender.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="FontRender.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Level2D.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRender.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayDistance.h">
+      <Filter>UI,Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Reticle.h">
+      <Filter>UI,Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>UI,Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraMove.h">
+      <Filter>Object\Player\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyCube.h">
+      <Filter>Object\Sky</Filter>
     </ClInclude>
     <ClInclude Include="Ground.h">
-      <Filter>Object</Filter>
+      <Filter>Object\Ground</Filter>
     </ClInclude>
-    <ClInclude Include="RoboRotation.h">
-      <Filter>Object\Robo</Filter>
-    </ClInclude>
-    <ClInclude Include="SkyCube.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">
@@ -594,11 +616,20 @@
     <Filter Include="Object">
       <UniqueIdentifier>{c96edd8f-9482-4a90-b885-5096a41e9f3c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Robo">
-      <UniqueIdentifier>{c08c343b-22d7-4629-9c21-f0eaf4bfb764}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Player">
       <UniqueIdentifier>{8f5a582b-168f-466e-960c-3e97f74b3031}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{8411b4af-a1ba-48f1-af4b-2aaef3ee4c49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Player\Camera">
+      <UniqueIdentifier>{538ef09b-1c00-4360-aa1c-83471d4253a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Sky">
+      <UniqueIdentifier>{7e46cf7c-1f6b-4e5c-b93e-14a2b3a015d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Ground">
+      <UniqueIdentifier>{d0a36191-17ba-45f7-99d6-dec1d0398ebf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

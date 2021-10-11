@@ -13,7 +13,9 @@ cbuffer CalcVelocityMapMatrix : register(b1)
 {
     float4x4 prevViewProjMatrix;
     float4x4 currentViewProjMatrix;
-}
+    float width;
+    float height;
+} 
 
 //スキニング用の頂点データをひとまとめ。
 struct SSkinVSIn{
@@ -107,10 +109,15 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
     //modify here 
     float2 newUV = vsIn.uv;
     
-    //下地面の1/4にほぼきっちり
-    //newUV.xy += -0.5f;
-    //newUV.x *= 0.153f;
-    //newUV.y *= 0.153f;
+    //もともとのuvのMAX、MINで割る　↓まだできてない
+    //newUV.x /= newUV.x;
+    //newUV.y /= newUV.y;
+    
+    //newUV.x /= width;
+    //newUV.y /= height;
+    
+    //newUV.xy -= 0.5f;
+    //newUV.xy *= 2.0f;
     
     newUV.xy += 6.0f;
     newUV.x *= 0.153f / 2.0f;
@@ -180,10 +187,6 @@ SPSOut PSMain(SPSIn psIn)
 	//ビューポート座標系に変換
     psOut.velocity.zw = 0.0f;
     
-    
-    
-    
-    
 	
     float4 splatMap = noise.Sample(g_sampler, psIn.uv);
     
@@ -199,14 +202,14 @@ SPSOut PSMain(SPSIn psIn)
     
 
     float4 finalTexture = psOut.albedo;
-    //finalTexture += sandTexture * textureWeight.x;
-    //finalTexture += snowTexture * textureWeight.z;
-    //finalTexture += grassTexture * textureWeight.y;
-    //finalTexture /= 3.0f;
+    finalTexture += sandTexture * textureWeight.x;
+    finalTexture += snowTexture * textureWeight.z;
+    finalTexture += grassTexture * textureWeight.y;
+    finalTexture /= 3.0f;
     finalTexture.w = 1.0f;
     psOut.albedo = finalTexture;
     
-    psOut.albedo = noise.Sample(g_sampler, psIn.uv);
+    //psOut.albedo = noise.Sample(g_sampler, psIn.uv);
 	
     return psOut;
 }

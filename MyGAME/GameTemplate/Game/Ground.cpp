@@ -10,5 +10,7 @@ bool Ground::Start()
 	m_skinModelRender->SetScale({ 1.0f,1.0f,1.0f });
 	m_skinModelRender->SetIsGround();
 
+	
+
 	return true;
 }

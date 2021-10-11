@@ -296,6 +296,8 @@
     <ClCompile Include="CaslFile.cpp" />
     <ClCompile Include="DefferedLighting.cpp" />
     <ClCompile Include="DepthInView.cpp" />
+    <ClCompile Include="DisplayDistance.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="ForwardBloom.cpp" />
     <ClCompile Include="FXAA.cpp" />
@@ -315,9 +317,9 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
-    <ClCompile Include="RoboLean.cpp" />
-    <ClCompile Include="RoboMove.cpp" />
-    <ClCompile Include="RoboRotation.cpp" />
+    <ClCompile Include="Reticle.cpp" />
+    <ClCompile Include="PlayerMove.cpp" />
+    <ClCompile Include="PlayerRotation.cpp" />
     <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="SkyCube.cpp" />
@@ -338,6 +340,7 @@
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="TklFile.cpp" />
     <ClCompile Include="TResourceBank.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="WaveFile.cpp" />
     <ClCompile Include="WaveFileBank.cpp" />
@@ -407,6 +410,8 @@
     <ClInclude Include="CaslFile.h" />
     <ClInclude Include="DefferedLighting.h" />
     <ClInclude Include="DepthInView.h" />
+    <ClInclude Include="DisplayDistance.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="ForwardBloom.h" />
     <ClInclude Include="FXAA.h" />
@@ -425,9 +430,9 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="RenderingEngine.h" />
-    <ClInclude Include="RoboLean.h" />
-    <ClInclude Include="RoboMove.h" />
-    <ClInclude Include="RoboRotation.h" />
+    <ClInclude Include="Reticle.h" />
+    <ClInclude Include="PlayerMove.h" />
+    <ClInclude Include="PlayerRotation.h" />
     <ClInclude Include="Shadow.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="SkyCube.h" />
@@ -441,6 +446,7 @@
     <ClInclude Include="system\system.h" />
     <ClInclude Include="TklFile.h" />
     <ClInclude Include="TResourceBank.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="WaveFile.h" />
     <ClInclude Include="WaveFileBank.h" />

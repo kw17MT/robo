@@ -1,5 +1,5 @@
 #pragma once
-class RoboMove
+class PlayerMove
 {
 private:	
 	Vector3 m_prevSpeed = Vector3::Zero;

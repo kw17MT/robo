@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "RoboMove.h"
+#include "PlayerMove.h"
 
 namespace 
 {
@@ -7,7 +7,7 @@ const float MOVE_SPEED = 1000.0f;
 const float DECAY_RATE = 1.1f;
 }
 
-const Vector3 RoboMove::Move(const Vector3 currentPos)
+const Vector3 PlayerMove::Move(const Vector3 currentPos)
 {
 	Vector3 nextPos = currentPos;
 	Vector3 moveAmount = Vector3::Zero;
@@ -26,7 +26,7 @@ const Vector3 RoboMove::Move(const Vector3 currentPos)
 	return nextPos;
 }
 
-Vector3 RoboMove::Inertia(Vector3 currentPos)
+Vector3 PlayerMove::Inertia(Vector3 currentPos)
 {
 
 	Vector3 nextPos = currentPos;
@@ -35,7 +35,7 @@ Vector3 RoboMove::Inertia(Vector3 currentPos)
 	return nextPos;
 }
 
-Vector3 RoboMove::Execute(Vector3 currentPos)
+Vector3 PlayerMove::Execute(Vector3 currentPos)
 {
 	if (g_pad[0]->GetLStickXF()
 		|| g_pad[0]->GetLStickYF()

@@ -3,6 +3,11 @@
 #include "DefferedLighting.h"
 #include "Shadow.h"
 
+struct EnMatrixes {
+	Matrix prevVPMatrix = g_camera3D->GetViewProjectionMatrix();
+	Matrix currentVPMatrix = g_camera3D->GetViewProjectionMatrix();
+};
+
 class RenderingEngine
 {
 private:
@@ -67,11 +72,6 @@ public:
 	 * @brief ƒŒƒ“ƒ_ƒŠƒ“ƒO‚ðs‚¤
 	*/
 	void Render(RenderContext& rc);
-
-	struct EnMatrixes {
-		Matrix prevVPMatrix = g_camera3D->GetViewProjectionMatrix();
-		Matrix currentVPMatrix = g_camera3D->GetViewProjectionMatrix();
-	};
 
 	EnMatrixes& GetPrevViewProjMatrix()
 	{

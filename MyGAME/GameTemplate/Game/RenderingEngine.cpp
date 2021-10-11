@@ -118,44 +118,28 @@ void RenderingEngine::Render(RenderContext& rc)
 	//影を作成する
 	m_shadow.Render(rc);
 
-	rc.WaitUntilToPossibleSetRenderTarget(m_sky);
-	rc.SetRenderTargetAndViewport(m_sky);
-	rc.ClearRenderTargetView(m_sky);
-	SetRenderTypes(RenderingEngine::EnRenderTypes::forward);
-	//ディファードライティングされたメインの画像を合成。
-	GameObjectManager::GetInstance()->CallRenderWrapper(rc);
-	rc.WaitUntilFinishDrawingToRenderTarget(m_sky);
-	SetRenderTypes(RenderingEngine::EnRenderTypes::normal);
-
-
 	//m_shadow.RenderCascade(rc);
-
-	//DrawForwardRendering(rc,m_mainRenderTarget);
 
 	//ディファードライティングを行う。
 	m_defferedLighting.Render(rc);
-	//メイン画像を作成する。
-	//DrawInMainRenderTarget(rc);
 
 	DrawInDefferedRenderTarget(rc);
-	//rc.WaitUntilToPossibleSetRenderTarget(m_mainRenderTarget);
-	//rc.SetRenderTargetAndViewport(m_mainRenderTarget);
-	//rc.ClearRenderTargetView(m_mainRenderTarget);
-	////ディファードライティングされたメインの画像を合成。
-	//m_shadow.Draw(rc);
-	//rc.WaitUntilFinishDrawingToRenderTarget(m_mainRenderTarget);
-
 
 	rc.WaitUntilToPossibleSetRenderTarget(m_captureDeffered);
 	rc.SetRenderTarget(
 		m_captureDeffered.GetRTVCpuDescriptorHandle(),
 		m_albedoTarget.GetDSVCpuDescriptorHandle()
 	);
-	
 	SetRenderTypes(RenderingEngine::EnRenderTypes::forward);
 	//ディファードライティングされたメインの画像を合成。
 	GameObjectManager::GetInstance()->CallRenderWrapper(rc);
-	//m_forward.Draw(rc);
+	rc.WaitUntilFinishDrawingToRenderTarget(m_captureDeffered);
+	SetRenderTypes(RenderingEngine::EnRenderTypes::normal);
+
+	rc.WaitUntilToPossibleSetRenderTarget(m_captureDeffered);
+	rc.SetRenderTargetAndViewport(m_captureDeffered);
+	SetRenderTypes(RenderingEngine::EnRenderTypes::ui);
+	GameObjectManager::GetInstance()->CallRenderWrapper(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(m_captureDeffered);
 	SetRenderTypes(RenderingEngine::EnRenderTypes::normal);
 
@@ -172,11 +156,12 @@ void RenderingEngine::Render(RenderContext& rc)
 	rc.SetViewportAndScissor(g_graphicsEngine->GetFrameBufferViewport());
 	/********************************************************************************************/
 
+
+
 	//出来た画像の表示
 	//m_forward.Draw(rc);
 	m_mainSprite.Draw(rc);
 	//m_effectedDeffered.Draw(rc);
 
 	m_mat.prevVPMatrix = g_camera3D->GetViewProjectionMatrix(); 
-	//m_prevViewProjMatrix = g_camera3D->GetViewProjectionMatrix();
 }

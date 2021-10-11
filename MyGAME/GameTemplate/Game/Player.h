@@ -1,9 +1,8 @@
 #pragma once
 class SkinModelRender;
-#include "RoboLean.h"
 #include "CameraMove.h"
-#include "RoboMove.h"
-#include "RoboRotation.h"
+#include "PlayerMove.h"
+#include "PlayerRotation.h"
 
 class Player : public IGameObject
 {
@@ -21,10 +20,15 @@ public:
 	~Player() {};
 	bool Start();
 	void Update();
+
+	Vector3 GetPosition()
+	{
+		return m_currentPosition;
+	}
 private:
 	SkinModelRender* m_skinModelRender;
 	CameraMove m_cameraMove;
-	RoboMove m_roboMove;
-	RoboRotation m_roboRotation;
+	PlayerMove m_roboMove;
+	PlayerRotation m_roboRotation;
 };
 

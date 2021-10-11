@@ -1,5 +1,5 @@
 #pragma once
-#include "LightManager.h"
+#include "RenderingEngine.h"
 class AnimationClip;
 
 class SkinModelRender :public IGameObject
@@ -21,10 +21,12 @@ private:
 	bool m_isGround = false;											//地面かどうか
 	bool m_isSky = false;
 
-	struct copyToVRAMDatas
+	struct MatrixAndVertex
 	{
-		AllLight s_lig = LightManager::GetInstance().GetLightData();
-	}s_dataCopyToVRAM;
+		EnMatrixes s_mat = RenderingEngine::GetInstance()->GetPrevViewProjMatrix();
+		float width = 0.0f;
+		float height = 0.0f;
+	}matrixAndvertex;
 
 public:
 	SkinModelRender() {};
@@ -86,16 +88,6 @@ public:
 
 
 	void InitSkyCube(const char* modelFilePath, EnModelUpAxis UpAxis);
-
-
-	/**
-	 * @brief 影が映るもののモデル初期化関数
-	 * @param filePath モデルのファイルパス
-	 * @param skeletonPath スケルトンのファイルパス
-	 * @param UpAxis どの軸を上にするか
-	 * @param pos 初期位置
-	*/
-	void InitForRecieveShadow(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos);
 
 	/**
 	 * @brief モデルのファイルパスを変えたいときに使用
