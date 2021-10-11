@@ -36,8 +36,8 @@ PSInput VSMain(VSInput In)
 	return psIn;
 }
 
-static const float offSetX = 0.2f / 1280.0f;
-static const float offSetY = 0.2f / 720.0f;
+static const float offSetX = 0.4f / 1280.0f;
+static const float offSetY = 0.4f / 720.0f;
 
 float4 PSMain( PSInput In ) : SV_Target0
 {       
@@ -51,7 +51,7 @@ float4 PSMain( PSInput In ) : SV_Target0
     for (int i = 0; i < loopCnt; i++)
     {
     
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(offSetX, offSetY) * velocity.xy * (i + 1));
+        finalColor += sceneMap.Sample(Sampler, In.uv + float2(offSetX, -offSetY) * velocity.xy * (i + 1));
     }
     finalColor /= (float)loopCnt;
 

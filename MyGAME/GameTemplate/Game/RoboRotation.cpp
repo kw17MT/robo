@@ -42,54 +42,18 @@ Quaternion RoboRotation::RotationY(Quaternion playerRot)
 
 Quaternion RoboRotation::RotationWithCamera(Vector3 prevMoveVec, Vector3 currentMoveVec, Vector3& front)
 {
-	//Vector3 moveDirection = currentMoveVec - prevMoveVec;
-	//moveDirection.Normalize();
-	//Vector3 cameraForward = g_camera3D->GetForward();
-
-
-	////float angle = cosf(Dot(moveDirection, cameraForward) / abs(Dot(moveDirection) * abs(Dot(cameraForward)));
-	//Quaternion qRot;
-	//qRot.SetRotation(moveDirection, cameraForward);
-
-	//return qRot;
-
-
-	////プレイヤーの前方向とプレイヤーからカメラターゲットのベクトルを求め、回転を求める
-	//Vector3 playerToTarget = g_camera3D->GetTarget() - currentMoveVec;
-
-	//Vector3 cameraToPlayer = currentMoveVec - g_camera3D->GetPosition();
-	//cameraToPlayer.Normalize();
-	//Vector3 playerToTarget = g_camera3D->GetPosition() - currentMoveVec;
-	//playerToTarget.Normalize();
-	////
-	////float angle = 
-
 	Quaternion qRot;
-	//qRot.SetRotation(cameraToPlayer, playerToTarget);
-	//return qRot;
-
-	/*Vector3 up = g_camera3D->GetUp();
-	Vector3 right = g_camera3D->GetRight();
-	Vector3 forward = g_camera3D->GetForward();
-	qRot.SetRotation(front, forward);
-	qRot.Apply(front);
-	return qRot;*/
-
-
-	/*Vector3 roboFront = g_camera3D->GetForward();
-	Vector3 roboRight = g_camera3D->GetRight();
-	qRot.SetRotation(roboFront, roboRight);*/
 
 	qRot.SetRotation(g_camera3D->GetCameraRotation());
 
+	if (g_pad[0]->GetLStickXF())
+	{
+
+		qRot.AddRotationY(g_pad[0]->GetLStickXF());
+	}
+
 	return qRot;
 }
-
-//Quaternion RoboRotation::ResetRotation(Quaternion playerRot)
-//{
-//
-//}
-
 
 void RoboRotation::UpdateRotation(SkinModelRender* skinModel, Vector3 prevMoveVec, Vector3 currentMoveVec, Vector3& front)
 {

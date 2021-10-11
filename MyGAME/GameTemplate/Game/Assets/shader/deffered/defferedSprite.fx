@@ -365,7 +365,7 @@ float4 PSMain( PSInput In ) : SV_Target0
     }
 
     float4 returnColor = finalColor + finalSpotLight;
-    
+    returnColor.a = 1.0f;
     //float4 a = noise.Sample(Sampler, In.uv);
     //float4 sandTexture = sand.Sample(Sampler, In.uv);
     //float4 snowTexture = snow.Sample(Sampler, In.uv);

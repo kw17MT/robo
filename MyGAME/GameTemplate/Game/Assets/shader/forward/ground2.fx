@@ -113,7 +113,7 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
     //newUV.y *= 0.153f;
     
     newUV.xy += 6.0f;
-    newUV.x *= 0.153f / 2.0f;;
+    newUV.x *= 0.153f / 2.0f;
     newUV.y *= 0.153f / 2.0f;
     
     psIn.uv = newUV;
@@ -199,14 +199,14 @@ SPSOut PSMain(SPSIn psIn)
     
 
     float4 finalTexture = psOut.albedo;
-    finalTexture += sandTexture * textureWeight.x;
-    finalTexture += snowTexture * textureWeight.z;
-    finalTexture += grassTexture * textureWeight.y;
-    finalTexture /= 3.0f;
+    //finalTexture += sandTexture * textureWeight.x;
+    //finalTexture += snowTexture * textureWeight.z;
+    //finalTexture += grassTexture * textureWeight.y;
+    //finalTexture /= 3.0f;
     finalTexture.w = 1.0f;
     psOut.albedo = finalTexture;
     
-    //psOut.albedo = noise.Sample(g_sampler, psIn.uv);
+    psOut.albedo = noise.Sample(g_sampler, psIn.uv);
 	
     return psOut;
 }

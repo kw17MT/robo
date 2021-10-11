@@ -214,7 +214,7 @@
       <Filter>EngineRelated</Filter>
     </ClCompile>
     <ClCompile Include="SkinModelRender.cpp">
-      <Filter>FunctionalObject</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="LightManager.cpp">
       <Filter>Manager</Filter>
@@ -256,17 +256,22 @@
       <Filter>AboutRendering\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>FunctionalObject\Player</Filter>
+      <Filter>Object\Player</Filter>
     </ClCompile>
     <ClCompile Include="RoboMove.cpp">
-      <Filter>FunctionalObject\Robo</Filter>
+      <Filter>Object\Robo</Filter>
     </ClCompile>
     <ClCompile Include="CameraMove.cpp" />
-    <ClCompile Include="Ground.cpp" />
-    <ClCompile Include="RoboRotation.cpp" />
     <ClCompile Include="RoboLean.cpp">
-      <Filter>FunctionalObject\Robo</Filter>
+      <Filter>Object\Robo</Filter>
     </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="RoboRotation.cpp">
+      <Filter>Object\Robo</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyCube.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -508,7 +513,7 @@
       <Filter>EngineRelated</Filter>
     </ClInclude>
     <ClInclude Include="SkinModelRender.h">
-      <Filter>FunctionalObject</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="LightManager.h">
       <Filter>Manager</Filter>
@@ -550,22 +555,24 @@
       <Filter>AboutRendering\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>FunctionalObject\Player</Filter>
+      <Filter>Object\Player</Filter>
     </ClInclude>
     <ClInclude Include="RoboMove.h">
-      <Filter>FunctionalObject\Robo</Filter>
+      <Filter>Object\Robo</Filter>
     </ClInclude>
     <ClInclude Include="CameraMove.h" />
-    <ClInclude Include="Ground.h" />
-    <ClInclude Include="RoboRotation.h" />
     <ClInclude Include="RoboLean.h">
-      <Filter>FunctionalObject\Robo</Filter>
+      <Filter>Object\Robo</Filter>
     </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="RoboRotation.h">
+      <Filter>Object\Robo</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyCube.h" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="FunctionalObject">
-      <UniqueIdentifier>{c96edd8f-9482-4a90-b885-5096a41e9f3c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI,Sprite">
       <UniqueIdentifier>{2ecebe65-8892-4320-924e-5635e7fe9a19}</UniqueIdentifier>
     </Filter>
@@ -584,10 +591,13 @@
     <Filter Include="AboutRendering\ForwardRendering">
       <UniqueIdentifier>{10e06494-3d58-4106-af20-99c7e9eb0130}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FunctionalObject\Robo">
+    <Filter Include="Object">
+      <UniqueIdentifier>{c96edd8f-9482-4a90-b885-5096a41e9f3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Robo">
       <UniqueIdentifier>{c08c343b-22d7-4629-9c21-f0eaf4bfb764}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FunctionalObject\Player">
+    <Filter Include="Object\Player">
       <UniqueIdentifier>{8f5a582b-168f-466e-960c-3e97f74b3031}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

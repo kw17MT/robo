@@ -11,7 +11,7 @@ void CameraMove::UpdateCameraTarget(Vector3 currentPlayerPos)
 {
 	Quaternion rotY;
 	rotY.SetRotationDegY(g_pad[0]->GetRStickXF());
-	g_camera3D->RotateOriginCurrentPos(rotY);
+	g_camera3D->RotateOriginTarget(rotY);
 
 	//プレイヤーからカメラへのベクトルを求める
 	Vector3 playerPosToCamera = currentPlayerPos - g_camera3D->GetPosition();
@@ -41,21 +41,9 @@ void CameraMove::UpdateCameraTarget(Vector3 currentPlayerPos)
 		return;
 	}
 
-	g_camera3D->RotateOriginCurrentPos(qRot);
+	g_camera3D->RotateOriginTarget(qRot);
 }
 
-void CameraMove::UpdateCameraPos(Vector3 currentPlayerPos)
-{
-	//現在のカメラターゲットからプレイヤーへのベクトル
-	Vector3 targetToPlayerVec = currentPlayerPos - g_camera3D->GetTarget();
-	//正規化して大きさを1にする
-	targetToPlayerVec.Normalize();
-	//プレイヤーとターゲット座標が常に画面に映るように。
-	Vector3 newCameraPos = currentPlayerPos + targetToPlayerVec * CAMERA_TO_PLAYER_SPACE;
-	//カメラの位置を上に調節する。
-	newCameraPos.y += AJUST_CAMERA_Y;
-	g_camera3D->SetPosition(newCameraPos);
-}
 
 void CameraMove::Translation(Vector3 prevPlayerPos, Vector3 currentPlayerPos)
 {
@@ -63,16 +51,18 @@ void CameraMove::Translation(Vector3 prevPlayerPos, Vector3 currentPlayerPos)
 	Vector3 translationVol = currentPlayerPos - prevPlayerPos;
 	//カメラターゲットをプレイヤーの移動分だけ平行移動する。
 	Vector3 newCameraTarget = g_camera3D->GetTarget() + translationVol;
-
+	Vector3 newCameraPos = g_camera3D->GetPosition() + translationVol;
 	g_camera3D->SetTarget(newCameraTarget);
+	g_camera3D->SetPosition(newCameraPos);
+	g_camera3D->Update();
+
 }
 
 void CameraMove::UpdatePlayerCamera(Vector3 prevPlayerPos, Vector3 currentPlayerPos)
 {
 	//新しいカメラのターゲットを計算
 	UpdateCameraTarget(currentPlayerPos);
-	//新しいカメラの位置を取得
-	UpdateCameraPos(currentPlayerPos);
+
 	//カメラの平行移動を行う。
 	Translation(prevPlayerPos, currentPlayerPos);
 }

@@ -20,5 +20,6 @@ public:
 
 	static void UpdateRotation(SkinModelRender* skinModel, Vector3 prevMoveVec, Vector3 currentMoveVec, Vector3& front);
 private:
+	const static int a = 0.0f;
 };
 

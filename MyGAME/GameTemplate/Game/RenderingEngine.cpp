@@ -15,11 +15,12 @@ void RenderingEngine::InitRenderTargets()
 {
 	m_mainRenderTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D32_FLOAT);
 	m_captureDeffered.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D32_FLOAT);
-	m_albedoTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_D32_FLOAT);
+	m_albedoTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D32_FLOAT);
 	m_normalTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
 	m_specAndDepthTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_UNKNOWN);
 	m_velocityTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_UNKNOWN);
 	m_forwardTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D32_FLOAT);
+	m_sky.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D32_FLOAT);
 	m_shadow.InitShadowTarget();
 };
 
@@ -37,7 +38,7 @@ void RenderingEngine::InitSprites()
 	m_effectedDefferedData.m_fxFilePath = "Assets/shader/sprite.fx";
 	m_effectedDeffered.Init(m_effectedDefferedData);
 
-	m_forwardData.m_textures[0] = &m_forwardTarget.GetRenderTargetTexture();
+	m_forwardData.m_textures[0] = &m_sky.GetRenderTargetTexture();
 	m_forwardData.m_width = 1280;
 	m_forwardData.m_height = 720;
 	m_forwardData.m_fxFilePath = "Assets/shader/sprite.fx";
@@ -91,7 +92,7 @@ void RenderingEngine::DrawInDefferedRenderTarget(RenderContext& rc)
 	rc.SetRenderTargetAndViewport(m_captureDeffered);
 	rc.ClearRenderTargetView(m_captureDeffered);
 	//ディファードライティングされたメインの画像を合成。
-	m_forward.Draw(rc);
+	//m_forward.Draw(rc);
 
 	//DrawForwardRendering(rc, m_captureDeffered);
 
@@ -117,14 +118,19 @@ void RenderingEngine::Render(RenderContext& rc)
 	//影を作成する
 	m_shadow.Render(rc);
 
-
+	rc.WaitUntilToPossibleSetRenderTarget(m_sky);
+	rc.SetRenderTargetAndViewport(m_sky);
+	rc.ClearRenderTargetView(m_sky);
+	SetRenderTypes(RenderingEngine::EnRenderTypes::forward);
+	//ディファードライティングされたメインの画像を合成。
+	GameObjectManager::GetInstance()->CallRenderWrapper(rc);
+	rc.WaitUntilFinishDrawingToRenderTarget(m_sky);
+	SetRenderTypes(RenderingEngine::EnRenderTypes::normal);
 
 
 	//m_shadow.RenderCascade(rc);
 
 	//DrawForwardRendering(rc,m_mainRenderTarget);
-
-	
 
 	//ディファードライティングを行う。
 	m_defferedLighting.Render(rc);
@@ -140,8 +146,18 @@ void RenderingEngine::Render(RenderContext& rc)
 	//rc.WaitUntilFinishDrawingToRenderTarget(m_mainRenderTarget);
 
 
-
-
+	rc.WaitUntilToPossibleSetRenderTarget(m_captureDeffered);
+	rc.SetRenderTarget(
+		m_captureDeffered.GetRTVCpuDescriptorHandle(),
+		m_albedoTarget.GetDSVCpuDescriptorHandle()
+	);
+	
+	SetRenderTypes(RenderingEngine::EnRenderTypes::forward);
+	//ディファードライティングされたメインの画像を合成。
+	GameObjectManager::GetInstance()->CallRenderWrapper(rc);
+	//m_forward.Draw(rc);
+	rc.WaitUntilFinishDrawingToRenderTarget(m_captureDeffered);
+	SetRenderTypes(RenderingEngine::EnRenderTypes::normal);
 
 	//ポストエフェクトをメイン画像に施す。
 	m_postEffect.Render(rc, m_mainRenderTarget, m_captureDeffered);
@@ -155,8 +171,9 @@ void RenderingEngine::Render(RenderContext& rc)
 	rc.SetViewport(g_graphicsEngine->GetFrameBufferViewport());
 	rc.SetViewportAndScissor(g_graphicsEngine->GetFrameBufferViewport());
 	/********************************************************************************************/
-	//m_forward.Draw(rc);
+
 	//出来た画像の表示
+	//m_forward.Draw(rc);
 	m_mainSprite.Draw(rc);
 	//m_effectedDeffered.Draw(rc);
 

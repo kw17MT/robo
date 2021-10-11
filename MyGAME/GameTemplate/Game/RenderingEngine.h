@@ -149,5 +149,6 @@ private:
 
 	SpriteInitData m_forwardData;
 	Sprite m_forward;
+	RenderTarget m_sky;
 };
 

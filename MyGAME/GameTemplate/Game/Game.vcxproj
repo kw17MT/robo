@@ -320,6 +320,7 @@
     <ClCompile Include="RoboRotation.cpp" />
     <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
+    <ClCompile Include="SkyCube.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="SoundPreCompile.cpp" />
     <ClCompile Include="SoundSource.cpp" />
@@ -429,6 +430,7 @@
     <ClInclude Include="RoboRotation.h" />
     <ClInclude Include="Shadow.h" />
     <ClInclude Include="SkinModelRender.h" />
+    <ClInclude Include="SkyCube.h" />
     <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="SoundPreCompile.h" />
     <ClInclude Include="SoundSource.h" />

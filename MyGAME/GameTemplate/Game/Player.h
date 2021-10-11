@@ -1,6 +1,9 @@
 #pragma once
 class SkinModelRender;
 #include "RoboLean.h"
+#include "CameraMove.h"
+#include "RoboMove.h"
+#include "RoboRotation.h"
 
 class Player : public IGameObject
 {
@@ -20,7 +23,8 @@ public:
 	void Update();
 private:
 	SkinModelRender* m_skinModelRender;
-	RoboLean m_roboLean;
-	int aaa = 1.0f;
+	CameraMove m_cameraMove;
+	RoboMove m_roboMove;
+	RoboRotation m_roboRotation;
 };
 

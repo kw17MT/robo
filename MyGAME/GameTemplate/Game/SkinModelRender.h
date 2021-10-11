@@ -15,10 +15,11 @@ private:
 	Vector3 m_scale = Vector3::One;										//ƒ‚ƒfƒ‹‚ÌŠg‘å—¦
 	Quaternion m_rot = Quaternion::Identity;							//ƒ‚ƒfƒ‹‚Ì‰ñ“]
 
-	Texture m_groundTexture[4];
+	Texture m_texture[4];
 
 	bool m_isSun = false;												//‘¾—z‚©‚Ç‚¤‚©
 	bool m_isGround = false;											//’n–Ê‚©‚Ç‚¤‚©
+	bool m_isSky = false;
 
 	struct copyToVRAMDatas
 	{
@@ -83,6 +84,10 @@ public:
 
 	void InitGround(const char* modelFilePath, EnModelUpAxis UpAxis, Vector3 pos, bool isCastShadow);
 
+
+	void InitSkyCube(const char* modelFilePath, EnModelUpAxis UpAxis);
+
+
 	/**
 	 * @brief ‰e‚ª‰f‚é‚à‚Ì‚Ìƒ‚ƒfƒ‹‰Šú‰»ŠÖ”
 	 * @param filePath ƒ‚ƒfƒ‹‚Ìƒtƒ@ƒCƒ‹ƒpƒX
@@ -114,6 +119,7 @@ public:
 
 	void SetIsSun() { m_isSun = true; }
 	void SetIsGround() { m_isGround = true; }
+	void SetIsSky() { m_isSky = true; }
 
 	/**
 	 * @brief ƒ‚ƒfƒ‹‚ð•`‚­
@@ -123,9 +129,9 @@ public:
 	{
 		//•’Ê•`‰æ
 		if (RenderingEngine::GetInstance()->GetRenderTypes() == RenderingEngine::EnRenderTypes::normal) {
-			/*if (m_isGround || m_isSun) {
+			if (m_isSky) {
 				return;
-			}*/
+			}
 			m_model.Draw(rc);
 			return;
 		}
@@ -142,12 +148,12 @@ public:
 			}
 			return;
 		}
-		/*if (RenderingEngine::GetInstance()->GetRenderTypes() == RenderingEngine::EnRenderTypes::forward)
+		if (RenderingEngine::GetInstance()->GetRenderTypes() == RenderingEngine::EnRenderTypes::forward)
 		{
-			if (m_isGround) {
+			if (m_isSky) {
 				m_model.Draw(rc);
 			}
-		}*/
+		}
 	}
 
 private:

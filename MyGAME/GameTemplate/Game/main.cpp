@@ -6,6 +6,7 @@
 #include "RenderingEngine.h"
 #include "Player.h"
 #include "Ground.h"
+#include "SkyCube.h"
 
 // ウィンドウプログラムのメイン関数。
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
@@ -40,6 +41,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	Ground* ground = nullptr;
 	ground = NewGO<Ground>(0);
 
+	SkyCube* skyCube = nullptr;
+	skyCube = NewGO<SkyCube>(0);
+
+
+
 	SkinModelRender* sun;
 	sun = NewGO<SkinModelRender>(0);
 	sun->Init("Assets/modelData/sun/sun.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, false);
@@ -64,6 +70,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//////////////////////////////////////
 		//オブジェクトのアップデート関数を一気に行う
 		GameObjectManager::GetInstance()->ExecuteUpdate();
+
 		//オブジェクトのドローを行う
 		RenderingEngine::GetInstance()->Render(renderContext);
 		LightManager::GetInstance().UpdateEyePos();
