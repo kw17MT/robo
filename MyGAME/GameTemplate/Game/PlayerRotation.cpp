@@ -63,7 +63,7 @@ Quaternion PlayerRotation::ResetRotation()
 	return qRot;
 }
 
-void PlayerRotation::UpdateRotation(SkinModelRender* skinModel, Vector3 prevMoveVec, Vector3 currentMoveVec, Vector3& front)
+void PlayerRotation::UpdateRotation(SkinModelRender* skinModel)
 {
 	if (g_pad[0]->GetLStickXF()) {
 		skinModel->SetRotation(RotationWithCamera());

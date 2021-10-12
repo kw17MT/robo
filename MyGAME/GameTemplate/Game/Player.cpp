@@ -11,7 +11,6 @@ bool Player::Start()
 	m_prevPosition = m_currentPosition;
 	m_skinModelRender->SetPosition(m_currentPosition);
 	Vector3 pos = m_currentPosition;
-	m_front = g_camera3D->GetForward();
 
 	pos.y += 2000.0f;
 	g_camera3D->SetTarget(pos);
@@ -24,21 +23,14 @@ void Player::Update()
 {
 	//現在のプレイヤーのポジションを更新
 	m_currentPosition = m_roboMove.Execute(m_currentPosition);
-	m_currentFront = g_camera3D->GetForward();
-	//更新した座標をモデルに適用
-	m_skinModelRender->SetPosition(m_currentPosition);
+	
 	//プレイヤーが操作するカメラの動き
 	m_cameraMove.UpdatePlayerCamera(m_prevPosition, m_currentPosition);
 
-	m_roboRotation.UpdateRotation(m_skinModelRender, m_prevPosition, m_currentPosition, m_front);
-	//m_skinModelRender->SetRotation(RoboRotation::RotationX(m_skinModelRender->GetRotation()));
-	//ダッシュ中じゃなければ
-	/*if (!m_dash)
-	{
-		CameraMove::FollowPlayer(m_position);
-	}*/
+	m_roboRotation.UpdateRotation(m_skinModelRender);
 
+	//更新した座標をモデルに適用
+	m_skinModelRender->SetPosition(m_currentPosition);
 	//1フレーム前の座標として記録
 	m_prevPosition = m_currentPosition;
-	m_prevFront = m_currentFront;
 }

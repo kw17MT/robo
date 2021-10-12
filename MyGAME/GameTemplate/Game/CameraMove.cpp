@@ -34,10 +34,10 @@ void CameraMove::UpdateCameraTarget(Vector3 currentPlayerPos)
 
 	Vector3 toPosDir = playerPosToCamera;
 	toPosDir.Normalize();
-	if (toPosDir.y < -0.9f) {
+	if (toPosDir.y < -0.95f) {
 		return;
 	}
-	else if (toPosDir.y > 0.8f) {
+	else if (toPosDir.y > 0.999f) {
 		return;
 	}
 

@@ -317,7 +317,6 @@
     <ClCompile Include="NameKey.cpp" />
     <ClCompile Include="PlanarReflection.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerDash.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="Reticle.cpp" />
@@ -433,7 +432,6 @@
     <ClInclude Include="NameKey.h" />
     <ClInclude Include="PlanarReflection.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerDash.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Reticle.h" />
