@@ -9,6 +9,7 @@
 #include "SkyCube.h"
 #include "Enemy.h"
 #include "UI.h"
+#include "CaptureStateManager.h"
 
 // ウィンドウプログラムのメイン関数。
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
@@ -37,6 +38,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ゲームタイムを測るもの
 	CStopwatch stopWatch;
 
+
+
+
+	CaptureStateManager::CreateInstance();
 	Player* player;
 	player = NewGO<Player>(0,"player");
 
@@ -46,8 +51,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	SkyCube* skyCube = nullptr;
 	skyCube = NewGO<SkyCube>(0);
 
-	Enemy* enemy = nullptr;
-	enemy = NewGO<Enemy>(0);
+	Enemy* enemy[3] = { nullptr };
+	enemy[0] = NewGO<Enemy>(0);
+	enemy[1] = NewGO<Enemy>(0);
+	enemy[1]->SetPosition({ 1000.0f,1000.0f,10000.0f });
+	enemy[2] = NewGO<Enemy>(0);
+	enemy[2]->SetPosition({ 10000.0f,3000.0f,30000.0f });
 
 	UI* ui = nullptr;
 	ui = NewGO<UI>(0);
@@ -55,8 +64,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	SkinModelRender* sun;
 	sun = NewGO<SkinModelRender>(0);
 	sun->Init("Assets/modelData/sun/sun.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, false);
-	sun->SetPosition({ 0.0f,10000.0f,0.0f });
-	sun->SetScale({ 6.0f,6.0f,6.0f });
+	sun->SetPosition({ 0.0f,100000.0f,0.0f });
+	sun->SetScale({ 60.0f,60.0f,60.0f });
 	sun->SetIsSun();
 
 	g_camera3D->SetFar(1000000.0f);
@@ -70,7 +79,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	{
 		//レンダリング開始。
 		g_engine->BeginFrame();
-		
 		//////////////////////////////////////
 		//ここから絵を描くコードを記述する。
 		//////////////////////////////////////
@@ -80,6 +88,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//オブジェクトのドローを行う
 		RenderingEngine::GetInstance()->Render(renderContext);
 		LightManager::GetInstance().UpdateEyePos();
+
+
+		enemy[1]->SetPosition({ 1000.0f,1000.0f,10000.0f });
+		enemy[2]->SetPosition({ 10000.0f,3000.0f,30000.0f });
+
+
+
+
 
 		//スピンロックを行う。
 		int restTime = 0;

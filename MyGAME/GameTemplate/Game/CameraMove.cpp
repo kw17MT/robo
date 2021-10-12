@@ -34,13 +34,15 @@ void CameraMove::UpdateCameraTarget(Vector3 currentPlayerPos)
 
 	Vector3 toPosDir = playerPosToCamera;
 	toPosDir.Normalize();
-	if (toPosDir.y < -0.99f) {
+	if (toPosDir.y < -0.9f) {
 		return;
 	}
-	else if (toPosDir.y > 0.9f) {
+	else if (toPosDir.y > 0.8f) {
 		return;
 	}
 
+	m_prevPos = g_camera3D->GetPosition();
+	m_prevRot = qRot;
 	g_camera3D->RotateOriginTarget(qRot);
 }
 
@@ -52,10 +54,10 @@ void CameraMove::Translation(Vector3 prevPlayerPos, Vector3 currentPlayerPos)
 	//カメラターゲットをプレイヤーの移動分だけ平行移動する。
 	Vector3 newCameraTarget = g_camera3D->GetTarget() + translationVol;
 	Vector3 newCameraPos = g_camera3D->GetPosition() + translationVol;
+
 	g_camera3D->SetTarget(newCameraTarget);
 	g_camera3D->SetPosition(newCameraPos);
 	g_camera3D->Update();
-
 }
 
 void CameraMove::UpdatePlayerCamera(Vector3 prevPlayerPos, Vector3 currentPlayerPos)
@@ -65,4 +67,5 @@ void CameraMove::UpdatePlayerCamera(Vector3 prevPlayerPos, Vector3 currentPlayer
 
 	//カメラの平行移動を行う。
 	Translation(prevPlayerPos, currentPlayerPos);
+
 }

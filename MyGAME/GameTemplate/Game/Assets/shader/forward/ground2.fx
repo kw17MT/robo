@@ -15,6 +15,7 @@ cbuffer CalcVelocityMapMatrix : register(b1)
     float4x4 currentViewProjMatrix;
     float width;
     float height;
+    float2 pad;
 } 
 
 //スキニング用の頂点データをひとまとめ。

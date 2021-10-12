@@ -136,15 +136,17 @@ void RenderingEngine::Render(RenderContext& rc)
 	rc.WaitUntilFinishDrawingToRenderTarget(m_captureDeffered);
 	SetRenderTypes(RenderingEngine::EnRenderTypes::normal);
 
-	rc.WaitUntilToPossibleSetRenderTarget(m_captureDeffered);
-	rc.SetRenderTargetAndViewport(m_captureDeffered);
-	SetRenderTypes(RenderingEngine::EnRenderTypes::ui);
-	GameObjectManager::GetInstance()->CallRenderWrapper(rc);
-	rc.WaitUntilFinishDrawingToRenderTarget(m_captureDeffered);
-	SetRenderTypes(RenderingEngine::EnRenderTypes::normal);
 
 	//ポストエフェクトをメイン画像に施す。
 	m_postEffect.Render(rc, m_mainRenderTarget, m_captureDeffered);
+
+	rc.WaitUntilToPossibleSetRenderTarget(m_mainRenderTarget);
+	rc.SetRenderTargetAndViewport(m_mainRenderTarget);
+	SetRenderTypes(RenderingEngine::EnRenderTypes::ui);
+	GameObjectManager::GetInstance()->CallRenderWrapper(rc);
+	rc.WaitUntilFinishDrawingToRenderTarget(m_mainRenderTarget);
+	SetRenderTypes(RenderingEngine::EnRenderTypes::normal);
+
 
 	/*現在のレンダーターゲットをフレームバッファにコピー*****************************************/
 	rc.SetRenderTarget(

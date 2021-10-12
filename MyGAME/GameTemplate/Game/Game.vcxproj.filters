@@ -283,6 +283,9 @@
     <ClCompile Include="Ground.cpp">
       <Filter>Object\Ground</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyStateIcon.cpp" />
+    <ClCompile Include="CaptureStateManager.cpp" />
+    <ClCompile Include="PlayerDash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -593,6 +596,9 @@
     <ClInclude Include="Ground.h">
       <Filter>Object\Ground</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyStateIcon.h" />
+    <ClInclude Include="CaptureStateManager.h" />
+    <ClInclude Include="PlayerDash.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">

@@ -293,11 +293,13 @@
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="Bloom.cpp" />
     <ClCompile Include="CameraMove.cpp" />
+    <ClCompile Include="CaptureStateManager.cpp" />
     <ClCompile Include="CaslFile.cpp" />
     <ClCompile Include="DefferedLighting.cpp" />
     <ClCompile Include="DepthInView.cpp" />
     <ClCompile Include="DisplayDistance.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyStateIcon.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="ForwardBloom.cpp" />
     <ClCompile Include="FXAA.cpp" />
@@ -315,6 +317,7 @@
     <ClCompile Include="NameKey.cpp" />
     <ClCompile Include="PlanarReflection.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerDash.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="Reticle.cpp" />
@@ -407,11 +410,13 @@
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="Bloom.h" />
     <ClInclude Include="CameraMove.h" />
+    <ClInclude Include="CaptureStateManager.h" />
     <ClInclude Include="CaslFile.h" />
     <ClInclude Include="DefferedLighting.h" />
     <ClInclude Include="DepthInView.h" />
     <ClInclude Include="DisplayDistance.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyStateIcon.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="ForwardBloom.h" />
     <ClInclude Include="FXAA.h" />
@@ -428,6 +433,7 @@
     <ClInclude Include="NameKey.h" />
     <ClInclude Include="PlanarReflection.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerDash.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Reticle.h" />

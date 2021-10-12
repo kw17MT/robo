@@ -15,6 +15,8 @@ private:
 
 	Vector3 m_front = { 0.0f,0.0f,1.0f };
 
+	bool m_isCapturing = false;
+
 public:
 	Player() {};
 	~Player() {};
@@ -24,6 +26,11 @@ public:
 	Vector3 GetPosition()
 	{
 		return m_currentPosition;
+	}
+
+	const bool GetIsCapturing() const 
+	{
+		return m_isCapturing;
 	}
 private:
 	SkinModelRender* m_skinModelRender;

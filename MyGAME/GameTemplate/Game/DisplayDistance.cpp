@@ -8,11 +8,13 @@ bool DisplayDistance::Start()
 	return true;
 }
 
-void DisplayDistance::CalcDistance(Vector3 enemyPos, Vector3 playerPos)
+const int DisplayDistance::CalcDistance(Vector3 enemyPos, Vector3 playerPos) 
 {
 	m_enemyPos = enemyPos;
 	Vector3 enemyToPlayer = enemyPos - playerPos;
 	m_distance = enemyToPlayer.Length();
+
+	return m_distance;
 }
 
 void DisplayDistance::Update()

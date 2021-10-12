@@ -21,5 +21,11 @@ public:
 	 * @param currentPlayerPos 現在のプレイヤーの位置
 	*/
 	void UpdatePlayerCamera(Vector3 prevPlayerPos, Vector3 currentPlayerPos);
+
+private:
+	Vector3 m_correctTarget = g_camera3D->GetTarget();
+	Vector3 m_correctPos = g_camera3D->GetPosition();
+	Vector3 m_prevPos = Vector3::Zero;
+	Quaternion m_prevRot = Quaternion::Identity;
 };
 

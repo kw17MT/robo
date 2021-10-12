@@ -90,12 +90,6 @@ public:
 	void InitSkyCube(const char* modelFilePath, EnModelUpAxis UpAxis);
 
 	/**
-	 * @brief モデルのファイルパスを変えたいときに使用
-	 * @param newModelFilePath 新しいファイルパス
-	*/
-	void ChangeModel(const char* newModelFilePath);
-
-	/**
 	 * @brief アニメーションを設定する。
 	 * @param animation アニメーション
 	 * @param animationNum アニメーションの数

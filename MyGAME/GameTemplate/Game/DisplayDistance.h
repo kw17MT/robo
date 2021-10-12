@@ -12,7 +12,7 @@ public:
 	bool Start();
 	void Update();
 
-	void CalcDistance(Vector3 enemyPos, Vector3 playerPos);
+	const int CalcDistance(Vector3 enemyPos, Vector3 playerPos);
 
 	void SetEnemyPos(Vector3& pos)
 	{

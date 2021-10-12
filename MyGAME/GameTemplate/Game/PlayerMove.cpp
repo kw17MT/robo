@@ -20,6 +20,12 @@ const Vector3 PlayerMove::Move(const Vector3 currentPos)
 	moveAmount += upDirection * MOVE_SPEED * g_pad[0]->IsPress(enButtonY);
 	moveAmount -= upDirection * MOVE_SPEED * g_pad[0]->IsPress(enButtonA);
 
+	if (g_pad[0]->IsPress(enButtonRB1))
+	{
+		moveAmount *= 3.0f;
+	}
+
+	m_currentSpeed += moveAmount;
 	m_prevSpeed = moveAmount;
 	nextPos += moveAmount;
 

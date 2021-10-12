@@ -13,7 +13,7 @@ bool Player::Start()
 	Vector3 pos = m_currentPosition;
 	m_front = g_camera3D->GetForward();
 
-	pos.y += 1000.0f;
+	pos.y += 2000.0f;
 	g_camera3D->SetTarget(pos);
 	pos.z += 4000.0f;
 	g_camera3D->SetPosition(pos);

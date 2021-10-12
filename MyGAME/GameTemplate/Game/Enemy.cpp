@@ -3,6 +3,7 @@
 #include "SkinModelRender.h"
 #include "DisplayDistance.h"
 #include "Player.h"
+#include "EnemyStateIcon.h"
 
 bool Enemy::Start()
 {
@@ -14,11 +15,22 @@ bool Enemy::Start()
 	m_displayDistance = NewGO<DisplayDistance>(10);
 	m_displayDistance->SetEnemyPos(m_position);
 
+	m_enemyStateIcon = NewGO<EnemyStateIcon>(0);
+	m_enemyStateIcon->SetEnemyPos(m_position);
+	m_enemyStateIcon->JudgeState(m_distance);
+
 	m_skinModelRender->SetPosition(m_position);
 	return true;
 }
 
 void Enemy::Update()
 {
-	m_displayDistance->CalcDistance(m_position, m_player->GetPosition());
+	//プレイヤーと自分（敵）の距離を計測し、自分にもその情報を保存
+	m_distance = m_displayDistance->CalcDistance(m_position, m_player->GetPosition());
+	//自分についてくるレティクルに位置座標を与える
+	m_enemyStateIcon->SetEnemyPos(m_position);
+	//プレイヤーと自分の距離を与えてレティクルの状態を更新する。
+	m_enemyStateIcon->JudgeState(m_distance);
+	//位置を更新
+	m_skinModelRender->SetPosition(m_position);
 }

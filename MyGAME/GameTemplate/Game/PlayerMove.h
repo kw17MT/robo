@@ -2,6 +2,7 @@
 class PlayerMove
 {
 private:	
+	Vector3 m_currentSpeed = Vector3::Zero;
 	Vector3 m_prevSpeed = Vector3::Zero;
 
 public:

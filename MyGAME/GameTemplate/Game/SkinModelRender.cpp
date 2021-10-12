@@ -91,8 +91,10 @@ void SkinModelRender::InitGround(const char* modelFilePath, EnModelUpAxis UpAxis
 	m_modelInitData.m_expandShaderResoruceView[3] = &m_texture[2];
 	m_modelInitData.m_expandShaderResoruceView[4] = &m_texture[3];
 
-	m_modelInitData.m_expandConstantBuffer = (void*)&matrixAndvertex;//RenderingEngine::GetInstance()->GetPrevViewProjMatrix();
-	m_modelInitData.m_expandConstantBufferSize = sizeof(matrixAndvertex/*RenderingEngine::GetInstance()->GetPrevViewProjMatrix()*/);
+	//m_modelInitData.m_expandConstantBuffer = (void*)&matrixAndvertex;
+	//m_modelInitData.m_expandConstantBufferSize = sizeof(matrixAndvertex);
+	m_modelInitData.m_expandConstantBuffer = (void*)&RenderingEngine::GetInstance()->GetPrevViewProjMatrix();
+	m_modelInitData.m_expandConstantBufferSize = sizeof(RenderingEngine::GetInstance()->GetPrevViewProjMatrix());
 
 	m_model.Init(m_modelInitData);
 
@@ -123,7 +125,6 @@ void SkinModelRender::InitSkyCube(const char* modelFilePath, EnModelUpAxis UpAxi
 	//頂点シェーダー設定
 	m_modelInitData.m_vsEntryPointFunc = "VSMain";
 	m_modelInitData.m_psEntryPointFunc = "PSMain";
-	//m_modelInitData.m_vsSkinEntryPointFunc = "VSMain";
 	//使う色の範囲設定
 	m_modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	//どの軸を上にするか
@@ -135,13 +136,6 @@ void SkinModelRender::InitSkyCube(const char* modelFilePath, EnModelUpAxis UpAxi
 
 	m_model.Init(m_modelInitData);
 }
-
-void SkinModelRender::ChangeModel(const char* newModelFilePath)
-{
-	m_modelInitData.m_tkmFilePath = newModelFilePath;
-
-}
-
 
 void SkinModelRender::InitAnimation(AnimationClip* animationClip, int animationNum)
 {
@@ -157,13 +151,11 @@ void SkinModelRender::PlayAnimation(int animNo, float interpolateTime)
 
 void SkinModelRender::Update()
 {
-	
+
 	m_animation.Progress(GameTime().GetFrameDeltaTime());
 	
-
 	m_model.UpdateWorldMatrix(m_position, m_rot, m_scale);
 	
-
 	m_shadow.UpdateWorldMatrix(m_position, m_rot, m_scale);
 	//スケルトンを更新。
 	m_skeleton.Update(m_model.GetWorldMatrix());
