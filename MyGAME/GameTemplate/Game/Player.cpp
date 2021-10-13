@@ -6,31 +6,39 @@
 bool Player::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init("Assets/modelData/robo.tkm", "Assets/modelData/robo.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	m_skinModelRender->Init("Assets/modelData/robo/robo.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
 	m_currentPosition = { 0.0f,400.0f,5000.0f };
-	m_prevPosition = m_currentPosition;
-	m_skinModelRender->SetPosition(m_currentPosition);
-	Vector3 pos = m_currentPosition;
 
-	pos.y += 2000.0f;
+	m_homePosition = m_currentPosition;
+	m_prevPosition = m_homePosition;
+
+	m_skinModelRender->SetPosition(m_homePosition);
+	Vector3 pos = m_homePosition;
+
+	pos.y += 50.0f;
 	g_camera3D->SetTarget(pos);
-	pos.z += 4000.0f;
+	pos.z += 230.0f;
 	g_camera3D->SetPosition(pos);
 	return true;
 }
 
 void Player::Update()
 {
-	//現在のプレイヤーのポジションを更新
-	m_currentPosition = m_roboMove.Execute(m_currentPosition);
+	//プレイヤーのホームポジションを更新
+	m_homePosition = m_roboMove.Execute(m_homePosition);
 	
-	//プレイヤーが操作するカメラの動き
-	m_cameraMove.UpdatePlayerCamera(m_prevPosition, m_currentPosition);
+	//ホームポジションによってカメラを動かす
+	m_cameraMove.UpdatePlayerCamera(m_prevPosition, m_homePosition);
 
+	//右スティックのカメラの回転に従ったプレイヤーの回転
 	m_roboRotation.UpdateRotation(m_skinModelRender);
 
-	//更新した座標をモデルに適用
+	m_currentPosition = m_roboMove.CalcPlayerPos(m_homePosition);
 	m_skinModelRender->SetPosition(m_currentPosition);
+
+	//更新した座標をモデルに適用
+	//m_skinModelRender->SetPosition(m_homePosition);
 	//1フレーム前の座標として記録
-	m_prevPosition = m_currentPosition;
+	//m_prevPosition = m_currentPosition;
+	m_prevPosition = m_homePosition;
 }

@@ -60,6 +60,14 @@ public:
 		x = v0.x + (v1.x - v0.x) * t;
 		y = v0.y + (v1.y - v0.y) * t;
 	}
+
+	void Normalize()
+	{
+		float vecLength = 0.0f;
+		vecLength = sqrt(x * x + y * y);
+		x /= vecLength;
+		y /= vecLength;
+	}
 };
 /// <summary>
 /// 3次元ベクトル。

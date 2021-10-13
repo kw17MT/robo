@@ -7,8 +7,10 @@ class SkinModelRender;
 class Player : public IGameObject
 {
 private:
-	Vector3 m_prevPosition = Vector3::Zero;
-	Vector3 m_currentPosition = Vector3::Zero;
+	Vector3 m_prevPosition = Vector3::Zero;				//1フレーム前のプレイヤーの位置
+	Vector3 m_currentPosition = Vector3::Zero;			//プレイヤーの現在の位置
+
+	Vector3 m_homePosition = Vector3::Zero;				//カメラが追いかける位置座標
 
 	bool m_isCapturing = false;
 
@@ -20,7 +22,8 @@ public:
 
 	Vector3 GetPosition()
 	{
-		return m_currentPosition;
+		//return m_currentPosition;
+		return m_homePosition;
 	}
 
 	const bool GetIsCapturing() const 

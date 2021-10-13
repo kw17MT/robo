@@ -3,9 +3,9 @@
 
 namespace 
 {
-const float MOVE_SPEED = 30.0f;
-const float SPEED_UP_RATE = 100.0f;
-const float SPEED_LIMIT = 5000.0f;
+const float MOVE_SPEED = 3.0f;
+const float SPEED_UP_RATE = 10.0f;
+const float SPEED_LIMIT = 1000.0f;
 }
 
 const void PlayerMove::Dash()
@@ -13,6 +13,10 @@ const void PlayerMove::Dash()
 	//R1を押すとダッシュする
 	if (g_pad[0]->IsPress(enButtonRB1))
 	{
+		//前フレームでダッシュしていなかったら
+
+		m_isDash = true;
+		
 		//以前のダッシュのスピードを消して計算しなおし
 		m_dashSpeed = Vector3::Zero;
 		//Lスティックを触っておらず、ダッシュすると前方に行くようにするためif文必要
@@ -76,5 +80,50 @@ Vector3 PlayerMove::Execute(Vector3 currentPos)
 	Move(currentPos);
 	Dash();
 
+	if (!g_pad[0]->IsPress(enButtonRB1))
+	{
+		m_isDash = false;
+		m_dashSpeedRate -= 0.05f;
+		if (m_dashSpeedRate <= 1.0f)
+		{
+			m_dashSpeedRate = 1.0f;
+		}
+	}
+
 	return m_nextPos;
+}
+
+Vector3 PlayerMove::CalcPlayerPos(Vector3 homePos)
+{
+	Vector3 playerPos = homePos;
+	Vector3 plusSpeed = m_currentSpeed * 1.05f * m_dashSpeedRate;
+	
+	//ダッシュ中ならもっとずらし、だんだん元の位置へ
+	if (m_isDash)
+	{
+		m_dashSpeedRate += 0.2f;
+		playerPos += m_currentSpeed * m_dashSpeedRate;
+		if (m_dashSpeedRate >= 2.5f)
+		{
+			m_dashSpeedRate = 2.5f;
+		}
+	}
+	else
+	{
+		//スピードが出ている分ホームポジションからロボの座標をずらす
+		playerPos += plusSpeed;
+	}
+
+	Vector2 screenPos;
+	//完成したプレイヤーの座標のスクリーン座標をもとめる
+	g_camera3D->CalcScreenPositionFromWorldPosition(screenPos, playerPos);
+	screenPos.Normalize();
+	//
+	if (screenPos.x * m_prevScreenPos.x < 0.0f)
+	{
+		playerPos.x += m_currentSpeed.x * m_dashSpeedRate * 2.0f;
+	}
+
+	m_prevScreenPos = screenPos;
+	return playerPos;
 }

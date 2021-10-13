@@ -9,6 +9,11 @@ private:
 	Vector3 m_sideDirection = g_camera3D->GetRight();				//画面の右方向
 	Vector3 m_upDirection = Vector3::Zero;							//画面の上方向
 
+	Vector2 m_prevScreenPos = Vector2::Zero;
+
+	bool m_isDash = false;
+	float m_dashSpeedRate = 1.0f;
+
 public:
 	/**
 	 * @brief R1ボタン入力によるダッシュスピードの計算関数
@@ -29,4 +34,6 @@ public:
 	 * @return プレイヤーの最終位置
 	*/
 	Vector3 Execute(Vector3 currentPos);
+
+	Vector3 CalcPlayerPos(Vector3 homePos);
 };

@@ -46,7 +46,7 @@ Quaternion PlayerRotation::RotationWithCamera()
 
 	if (g_pad[0]->GetLStickXF())
 	{
-		m_rotationAngle = g_pad[0]->GetLStickXF();
+		m_rotationAngle = g_pad[0]->GetLStickXF() / 2.0f;
 		qRot.AddRotationY(m_rotationAngle);
 	}
 
@@ -58,7 +58,7 @@ Quaternion PlayerRotation::ResetRotation()
 	Quaternion qRot;
 	qRot.SetRotation(g_camera3D->GetCameraRotation());
 
-	m_rotationAngle /= 1.04f;
+	m_rotationAngle /= 1.03f;
 	qRot.AddRotationY(m_rotationAngle);
 	return qRot;
 }
