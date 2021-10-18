@@ -5,7 +5,7 @@ public:
 	/**
 	 * @brief カメラのターゲットを更新する
 	*/
-	void UpdateCameraTarget(Vector3 currentPlayerPos);
+	void UpdateCameraTarget(Vector3 currentHomePos);
 
 
 	/**
@@ -13,14 +13,14 @@ public:
 	 * @param prevPlayerPos 1フレーム前のプレイヤーの位置
 	 * @param currentPlayerPos 現在のプレイヤーの位置
 	*/
-	void Translation(Vector3 prevPlayerPos, Vector3 currentPlayerPos);
+	void Translation(Vector3 prevPlayerPos, Vector3 currentHomePos);
 
 	/**
 	 * @brief カメラの更新処理のすべてを行う
 	 * @param prevPlayerPos 1フレーム前のプレイヤーの位置
 	 * @param currentPlayerPos 現在のプレイヤーの位置
 	*/
-	void UpdatePlayerCamera(Vector3 prevPlayerPos, Vector3 currentPlayerPos);
+	void UpdatePlayerCamera(Vector3 prevPlayerPos, Vector3 currentHomePos);
 
 private:
 	Vector3 m_correctTarget = g_camera3D->GetTarget();

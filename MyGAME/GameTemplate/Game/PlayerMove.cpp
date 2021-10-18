@@ -4,7 +4,7 @@
 namespace 
 {
 const float MOVE_SPEED = 3.0f;
-const float SPEED_UP_RATE = 10.0f;
+const float SPEED_UP_RATE = 100.0f;
 const float SPEED_LIMIT = 1000.0f;
 }
 
@@ -83,7 +83,7 @@ Vector3 PlayerMove::Execute(Vector3 currentPos)
 	if (!g_pad[0]->IsPress(enButtonRB1))
 	{
 		m_isDash = false;
-		m_dashSpeedRate -= 0.05f;
+		m_dashSpeedRate /= 1.05f;
 		if (m_dashSpeedRate <= 1.0f)
 		{
 			m_dashSpeedRate = 1.0f;
@@ -96,7 +96,7 @@ Vector3 PlayerMove::Execute(Vector3 currentPos)
 Vector3 PlayerMove::CalcPlayerPos(Vector3 homePos)
 {
 	Vector3 playerPos = homePos;
-	Vector3 plusSpeed = m_currentSpeed * 1.05f * m_dashSpeedRate;
+	Vector3 plusSpeed = m_currentSpeed * m_dashSpeedRate;
 	
 	//ダッシュ中ならもっとずらし、だんだん元の位置へ
 	if (m_isDash)
@@ -114,16 +114,5 @@ Vector3 PlayerMove::CalcPlayerPos(Vector3 homePos)
 		playerPos += plusSpeed;
 	}
 
-	Vector2 screenPos;
-	//完成したプレイヤーの座標のスクリーン座標をもとめる
-	g_camera3D->CalcScreenPositionFromWorldPosition(screenPos, playerPos);
-	screenPos.Normalize();
-	//
-	if (screenPos.x * m_prevScreenPos.x < 0.0f)
-	{
-		playerPos.x += m_currentSpeed.x * m_dashSpeedRate * 2.0f;
-	}
-
-	m_prevScreenPos = screenPos;
 	return playerPos;
 }

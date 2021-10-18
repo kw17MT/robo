@@ -9,8 +9,6 @@ private:
 	Vector3 m_sideDirection = g_camera3D->GetRight();				//‰æ–Ê‚Ì‰E•ûŒü
 	Vector3 m_upDirection = Vector3::Zero;							//‰æ–Ê‚Ìã•ûŒü
 
-	Vector2 m_prevScreenPos = Vector2::Zero;
-
 	bool m_isDash = false;
 	float m_dashSpeedRate = 1.0f;
 

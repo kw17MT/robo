@@ -338,6 +338,8 @@ public:
 	/// <param name="worldPos">ワールド座標</param>
 	void CalcScreenPositionFromWorldPosition(Vector2& screenPos, const Vector3& worldPos) const;
 
+	void CalcScreenPositionFromWorldPosition(Vector3& screenPos, const Vector3& worldPos) const;
+
 protected:
 	float		m_targetToPositionLen = 1.0f;			//注視点と視点まで距離。
 	Vector3		m_position = {0.0f, 0.0f, 1.0f};		//カメラ位置。

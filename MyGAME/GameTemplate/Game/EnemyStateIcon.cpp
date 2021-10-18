@@ -82,6 +82,23 @@ void EnemyStateIcon::Update()
 	g_camera3D->CalcScreenPositionFromWorldPosition(m_screenPos, m_enemyPos);
 	m_position.x = -m_screenPos.x;
 	m_position.y = m_screenPos.y;
+	//敵の位置とカメラの前方向の内積によってアイコンを映すか決める
+	//敵からカメラへのベクトル作成
+	Vector3 enemyToCamera = g_camera3D->GetPosition() - m_enemyPos;
+	//正規化
+	enemyToCamera.Normalize();
+	//敵の位置とカメラの前方向の内積
+	float dot = g_camera3D->GetForward().Dot(enemyToCamera);
+	//敵がカメラの前方向にあるならば映す
+	if (dot < 0.0f)
+	{
+		m_position.z = 0.0f;
+	}
+	else
+	{
+		m_position.z = -1.0f;
+	}
+	
 	//スクリーン座標が画面の中央付近なら
 	if (m_screenPos.x > -80.0f && m_screenPos.x < 80.0f && m_screenPos.y > -25.0f && m_screenPos.y < 25.0f )
 	{

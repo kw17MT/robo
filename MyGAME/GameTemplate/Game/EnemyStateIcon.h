@@ -4,7 +4,7 @@ class SpriteRender;
 class EnemyStateIcon : public IGameObject
 {
 private:
-	Vector2 m_screenPos = Vector2::Zero;
+	Vector3 m_screenPos = Vector3::Zero;
 	Vector3 m_position = Vector3::Zero;
 	Vector3 m_scale[2] = { Vector3::One, Vector3::Zero };
 	Vector3 m_enemyPos = Vector3::Zero;

@@ -64,8 +64,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	SkinModelRender* sun;
 	sun = NewGO<SkinModelRender>(0);
 	sun->Init("Assets/modelData/sun/sun.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, false);
-	sun->SetPosition({ 0.0f,100000.0f,0.0f });
-	sun->SetScale({ 60.0f,60.0f,60.0f });
+	sun->SetPosition({ 0.0f,1000000.0f,0.0f });
+	sun->SetScale({ 600.0f,600.0f,600.0f });
 	sun->SetIsSun();
 
 	g_camera3D->SetFar(1000000.0f);

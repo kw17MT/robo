@@ -158,6 +158,12 @@ void GamePad::Update()
 			else {
 				m_lStickY = static_cast<float>(m_state.state.Gamepad.sThumbLY) / -SHRT_MIN;
 			}
+
+			float t = sqrtf(m_lStickX * m_lStickX + m_lStickY * m_lStickY);
+			if (t > 0.001f) {
+				m_lStickX /= t;
+				m_lStickY /= t;
+			}
 		}
 
 		if ((m_state.state.Gamepad.sThumbRX < INPUT_DEADZONE &&
@@ -183,6 +189,12 @@ void GamePad::Update()
 			}
 			else {
 				m_rStickY = static_cast<float>(m_state.state.Gamepad.sThumbRY) / -SHRT_MIN;
+			}
+
+			float t = sqrtf(m_rStickX * m_rStickX + m_rStickY * m_rStickY);
+			if (t > 0.001f) {
+				m_rStickX /= t;
+				m_rStickY /= t;
 			}
 		}			
 	}
