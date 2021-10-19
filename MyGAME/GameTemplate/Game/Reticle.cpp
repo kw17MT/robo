@@ -66,6 +66,7 @@ void Reticle::CalcPosition()
 			{
 				//ロックオンの対象が画面外に出たため、ロックオンを切る
 				m_isTarget = false;
+				CaptureStateManager::GetInstance().SetCaptureState(None);
 			}
 		}
 
