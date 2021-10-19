@@ -285,6 +285,7 @@
     </ClCompile>
     <ClCompile Include="EnemyStateIcon.cpp" />
     <ClCompile Include="CaptureStateManager.cpp" />
+    <ClCompile Include="MachinGun.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -597,6 +598,7 @@
     </ClInclude>
     <ClInclude Include="EnemyStateIcon.h" />
     <ClInclude Include="CaptureStateManager.h" />
+    <ClInclude Include="MachinGun.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">

@@ -55,7 +55,6 @@ float4 PSMain( PSInput In ) : SV_Target0
     }
     finalColor /= (float)loopCnt;
 
-    
     finalColor.w = 1.0f;
     return finalColor;
 }

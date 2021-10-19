@@ -21,26 +21,19 @@ private:
 public:
 	bool Start();
 	void Update();
-	void SetPosition(Vector3 pos)
-	{
-		m_position = pos;
-	}
-	void SetEnemyPos(Vector3& pos)
-	{
-		m_enemyPos = pos;
-	}
+	void SetPosition(Vector3 pos) { m_position = pos; }
+	void SetEnemyPos(Vector3& pos) { m_enemyPos = pos; }
 
 	/**
 	 * @brief 敵のインスタンスで距離を引数にいれる
 	*/
 	void JudgeState(int distance);
 
+	void DisplayIcons();
+
 	void IconBehaviour();
 
-	/**
-	 * @brief 敵のインスタンスで設定する。
-	*/
-	void SetIsCaptured(bool isCaptured);
+	void CalcPosition();
 private:
 	SpriteRender* m_spriteRender[2] = { nullptr, nullptr };
 };

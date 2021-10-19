@@ -10,7 +10,7 @@ namespace
 void CameraMove::UpdateCameraTarget(Vector3 currentHomePos)
 {
 	Quaternion rotY;
-	rotY.SetRotationDegY(g_pad[0]->GetRStickXF() * 3.0f);
+	rotY.SetRotationDegY(g_pad[0]->GetRStickXF() * 1.2f);
 	g_camera3D->RotateOriginTarget(rotY);
 
 	//プレイヤーからカメラへのベクトルを求める
@@ -18,7 +18,7 @@ void CameraMove::UpdateCameraTarget(Vector3 currentHomePos)
 
 	//Y軸周りの回転
 	Quaternion qRot;
-	qRot.SetRotationDeg(Vector3::AxisY, g_pad[0]->GetRStickXF() * 3.0f);
+	qRot.SetRotationDeg(Vector3::AxisY, g_pad[0]->GetRStickXF() * 1.2f);
 	//ベクトルにY軸における回転を与える。
 	qRot.Apply(playerPosToCamera);
 
@@ -32,16 +32,16 @@ void CameraMove::UpdateCameraTarget(Vector3 currentHomePos)
 	axisX.Cross(Vector3::AxisY, playerPosToCamera);
 	axisX.Normalize();
 	//X軸周りに回転させる。
-	qRot.SetRotationDeg(axisX, -g_pad[0]->GetRStickYF() * 3.0f);
+	qRot.SetRotationDeg(axisX, -g_pad[0]->GetRStickYF() * 1.2f);
 	//ベクトルに適用する。
 	qRot.Apply(playerPosToCamera);
 
 	Vector3 toPosDir = playerPosToCamera;
 	toPosDir.Normalize();
-	if (toPosDir.y < -0.9f) {
+	if (toPosDir.y < -0.95f) {
 		return;
 	}
-	else if (toPosDir.y > 0.9f) {
+	else if (toPosDir.y > 0.95f) {
 		return;
 	}
 
@@ -55,6 +55,7 @@ void CameraMove::Translation(Vector3 prevPlayerPos, Vector3 currentHomePos)
 {
 	//1フレーム前のプレイヤーの位置と現在の位置を減算して、移動量を計測する。
 	Vector3 translationVol = currentHomePos - prevPlayerPos;
+	
 	//カメラターゲットをプレイヤーの移動分だけ平行移動する。
 	Vector3 newCameraTarget = g_camera3D->GetTarget() + translationVol;
 	Vector3 newCameraPos = g_camera3D->GetPosition() + translationVol;

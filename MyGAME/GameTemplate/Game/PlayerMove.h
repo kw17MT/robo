@@ -11,6 +11,10 @@ private:
 
 	bool m_isDash = false;
 	float m_dashSpeedRate = 1.0f;
+	bool m_isDecayDash = false;
+	float count = 0.0f;
+
+	Vector3 m_prevPlusSpeed = Vector3::Zero;
 
 public:
 	/**

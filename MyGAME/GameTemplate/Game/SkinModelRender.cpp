@@ -66,7 +66,12 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 	m_model.Init(m_modelInitData);
 }
 
-void SkinModelRender::InitGround(const char* modelFilePath, EnModelUpAxis UpAxis, Vector3 pos, bool isCastShadow)
+void SkinModelRender::InitCharaCon(float radius, float height, Vector3& position)
+{
+	//m_charaCon.Init(radius, height, position);
+}
+
+void SkinModelRender::InitGround(const char* modelFilePath, EnModelUpAxis UpAxis, Vector3 pos, bool isPhyisicsStatic)
 {
 	//モデルのファイルパス設定
 	m_modelInitData.m_tkmFilePath = modelFilePath;
@@ -110,10 +115,13 @@ void SkinModelRender::InitGround(const char* modelFilePath, EnModelUpAxis UpAxis
 		}
 		});
 
-	
-
 	matrixAndvertex.width = (vMax.x - vMin.x) / m_texture[0].GetWidth();
 	matrixAndvertex.height = (vMax.y - vMin.y) / m_texture[0].GetHeight();
+
+	if (isPhyisicsStatic)
+	{
+		//m_physicsStatic.CreateFromModel(m_model, m_model.GetWorldMatrix());
+	}
 }
 
 void SkinModelRender::InitSkyCube(const char* modelFilePath, EnModelUpAxis UpAxis)
@@ -153,10 +161,13 @@ void SkinModelRender::Update()
 {
 
 	m_animation.Progress(GameTime().GetFrameDeltaTime());
-	
+
 	m_model.UpdateWorldMatrix(m_position, m_rot, m_scale);
-	
+
 	m_shadow.UpdateWorldMatrix(m_position, m_rot, m_scale);
 	//スケルトンを更新。
 	m_skeleton.Update(m_model.GetWorldMatrix());
+
+	//Vector3 a = { 0.0f, 0.0f, 0.0f };
+	//m_charaCon.Execute(a, GameTime().GetFrameDeltaTime());
 }

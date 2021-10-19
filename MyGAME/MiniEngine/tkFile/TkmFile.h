@@ -9,7 +9,9 @@
 #pragma once
 #include <MiniEngine.h>
 
+#include "geometry/BSP.h"
 	
+
 /// <summary>
 /// tkmファイルクラス。
 /// </summary>

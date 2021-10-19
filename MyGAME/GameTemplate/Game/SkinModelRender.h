@@ -17,6 +17,9 @@ private:
 
 	Texture m_texture[4];
 
+	//CharacterController m_charaCon;
+	//PhysicsStaticObject m_physicsStatic;
+
 	bool m_isSun = false;												//太陽かどうか
 	bool m_isGround = false;											//地面かどうか
 	bool m_isSky = false;
@@ -82,7 +85,8 @@ public:
 	 * @param pos モデルを出現させる最初の位置
 	*/
 	void Init(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, bool isCastShadow);
-	//モデルのファイルパスのみを変更するときに使用する。
+	
+	void InitCharaCon(float radius, float height, Vector3& position);
 
 	void InitGround(const char* modelFilePath, EnModelUpAxis UpAxis, Vector3 pos, bool isCastShadow);
 
@@ -106,6 +110,8 @@ public:
 	void SetIsSun() { m_isSun = true; }
 	void SetIsGround() { m_isGround = true; }
 	void SetIsSky() { m_isSky = true; }
+
+	Model& GetModel() { return m_model; }
 
 	/**
 	 * @brief モデルを描く

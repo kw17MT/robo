@@ -1,4 +1,12 @@
 #pragma once
+
+enum EnEnemyState
+{
+	None = 0,
+	Captured,
+	Targeted
+};
+
 class CaptureStateManager
 {
 private:
@@ -18,22 +26,27 @@ public:
 		delete instance;
 	}
 
-
-	void SetOtherCapturedState(bool capturedState, Vector3 enemyPos)
+	void SetCaptureState(EnEnemyState state)
 	{
-		m_someoneCaptured = capturedState;
+		m_enemyState = state;
+	}
+	void SetCapturedEnemyPos(Vector3 enemyPos)
+	{
 		m_capturedEnemyPos = enemyPos;
 	}
-	bool GetOtherCapturedState()
+
+	EnEnemyState GetCaptureState()
 	{
-		return m_someoneCaptured;
+		return m_enemyState;
 	}
+
 	Vector3 GetCapturedEnemyPos()
 	{
 		return m_capturedEnemyPos;
 	}
+
 private:
-	bool m_someoneCaptured = false;
+	EnEnemyState m_enemyState = None;
 	Vector3 m_capturedEnemyPos = Vector3::Zero;
 };
 

@@ -310,6 +310,7 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Level2D.cpp" />
     <ClCompile Include="LightManager.cpp" />
+    <ClCompile Include="MachinGun.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="MapChip2D.cpp" />
@@ -426,6 +427,7 @@
     <ClInclude Include="Level.h" />
     <ClInclude Include="Level2D.h" />
     <ClInclude Include="LightManager.h" />
+    <ClInclude Include="MachinGun.h" />
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MapChip2D.h" />
     <ClInclude Include="MotionBlur.h" />

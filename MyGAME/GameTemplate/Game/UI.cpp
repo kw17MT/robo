@@ -9,5 +9,4 @@ bool UI::Start()
 
 void UI::Update()
 {
-	m_reticle->Update();
 }
