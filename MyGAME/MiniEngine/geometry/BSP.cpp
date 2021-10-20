@@ -1,6 +1,6 @@
 #include "k2EngineLowPreCompile.h"
-#include "geometry/BSP.h"
-
+#include "BSP.h"
+#include "stdafx.h"
 
     /// <summary>
     /// ヤコビ法を用いてn×n行列の固有値と固有ベクトルを求める。

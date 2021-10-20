@@ -76,7 +76,7 @@ void SkinModelRender::InitGround(const char* modelFilePath, EnModelUpAxis UpAxis
 	//モデルのファイルパス設定
 	m_modelInitData.m_tkmFilePath = modelFilePath;
 	//モデルが使用するシェーダー（下はPBRのみ）
-	m_modelInitData.m_fxFilePath = "Assets/shader/forward/ground2.fx";
+	m_modelInitData.m_fxFilePath = "Assets/shader/forward/ground.fx";
 	//頂点シェーダー設定
 	m_modelInitData.m_vsEntryPointFunc = "VSMain";
 	m_modelInitData.m_vsSkinEntryPointFunc = "VSMain";
@@ -85,7 +85,7 @@ void SkinModelRender::InitGround(const char* modelFilePath, EnModelUpAxis UpAxis
 	//どの軸を上にするか
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
-	m_texture[0].InitFromDDSFile(L"Assets/Image/ground/noise2.dds");
+	m_texture[0].InitFromDDSFile(L"Assets/Image/ground/noise.dds");
 	m_texture[1].InitFromDDSFile(L"Assets/Image/ground/Sand_Albedo.dds");
 	m_texture[2].InitFromDDSFile(L"Assets/Image/ground/snow.dds");
 	m_texture[3].InitFromDDSFile(L"Assets/Image/ground/grass.dds");

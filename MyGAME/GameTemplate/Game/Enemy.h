@@ -22,5 +22,7 @@ private:
 	DisplayDistance* m_displayDistance = nullptr;
 	Player* m_player = nullptr;
 	EnemyStateIcon* m_enemyStateIcon = nullptr;
+
+	//CharacterController m_charaCon;
 };
 

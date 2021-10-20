@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "geometry/AABB.h"
+#include "Geometry/AABB.h"
 
 	/// <summary>
 	/// BSPƒcƒŠ[

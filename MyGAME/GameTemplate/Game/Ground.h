@@ -8,5 +8,6 @@ public:
 	bool Start();
 private:
 	SkinModelRender* m_skinModelRender = nullptr;
+	//PhysicsStaticObject m_physics;
 };
 

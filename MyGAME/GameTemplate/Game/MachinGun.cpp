@@ -2,6 +2,11 @@
 #include "MachinGun.h"
 #include "SkinModelRender.h"
 
+namespace
+{
+	const float BULLET_SPEED = 200.0f;
+}
+
 bool MachinGun::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
@@ -13,12 +18,19 @@ bool MachinGun::Start()
 Vector3 MachinGun::CalcToTargetVec()
 {
 	Vector3 toTargetVec = m_targetPos - m_position;
-	return toTargetVec /= 100.0f;
+	toTargetVec.Normalize();
+	return toTargetVec;
 }
 
 void MachinGun::Update()
 {
-	m_position += CalcToTargetVec();
+	if (m_firstCalc == false)
+	{
+		m_moveSpeed = CalcToTargetVec() * BULLET_SPEED;
+		m_firstCalc = true;
+	}
+
+	m_position += m_moveSpeed;
 	m_skinModelRender->SetPosition(m_position);
 
 	count += GameTime().GetFrameDeltaTime();

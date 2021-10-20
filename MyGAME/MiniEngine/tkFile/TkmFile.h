@@ -5,12 +5,9 @@
 /// tkmファイルは3Dモデルフォーマットです。
 /// このクラスを利用することでtkmファイルを扱うことができます。。
 /// </remarks>
-
 #pragma once
 #include <MiniEngine.h>
-
-#include "geometry/BSP.h"
-	
+#include "Geometry/BSP.h"
 
 /// <summary>
 /// tkmファイルクラス。

@@ -36,8 +36,10 @@ private:
 	PlayerMove m_roboMove;
 	PlayerRotation m_roboRotation;
 
-	CharacterController m_charaCon;
-
+	AnimationClip m_animClip[2];
 	std::vector<MachinGun*> m_machingun = { nullptr };
+
+
+	CharacterController m_charaCon;
 };
 

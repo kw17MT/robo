@@ -286,6 +286,12 @@
     <ClCompile Include="EnemyStateIcon.cpp" />
     <ClCompile Include="CaptureStateManager.cpp" />
     <ClCompile Include="MachinGun.cpp" />
+    <ClCompile Include="..\..\MiniEngine\geometry\BSP.cpp">
+      <Filter>EngineRelated\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\geometry\AABB.cpp">
+      <Filter>EngineRelated\Geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -599,6 +605,12 @@
     <ClInclude Include="EnemyStateIcon.h" />
     <ClInclude Include="CaptureStateManager.h" />
     <ClInclude Include="MachinGun.h" />
+    <ClInclude Include="..\..\MiniEngine\geometry\BSP.h">
+      <Filter>EngineRelated\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\geometry\AABB.h">
+      <Filter>EngineRelated\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">
@@ -636,6 +648,9 @@
     </Filter>
     <Filter Include="Object\Ground">
       <UniqueIdentifier>{d0a36191-17ba-45f7-99d6-dec1d0398ebf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineRelated\Geometry">
+      <UniqueIdentifier>{3525d797-5b5c-4922-817e-92777345b357}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

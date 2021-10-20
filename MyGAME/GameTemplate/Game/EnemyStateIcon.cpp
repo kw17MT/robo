@@ -75,7 +75,6 @@ void EnemyStateIcon::DisplayIcons()
 			m_isCaptured = true;
 			//捕捉された敵がいることと、その位置座標を保存
 			CaptureStateManager::GetInstance().SetCaptureState(Captured);
-			CaptureStateManager::GetInstance().SetCapturedEnemyPos(m_enemyPos);
 		}
 	}
 	//範囲からはずれて
@@ -88,7 +87,10 @@ void EnemyStateIcon::DisplayIcons()
 			m_isCaptured = false;
 			//捕捉されている敵はいない状態にする。
 			CaptureStateManager::GetInstance().SetCaptureState(None);
-			CaptureStateManager::GetInstance().SetCapturedEnemyPos(m_enemyPos);
+
+			Vector3 frontRobo =  g_camera3D->GetTarget() - g_camera3D->GetPosition();
+			frontRobo.Normalize();
+			CaptureStateManager::GetInstance().SetCapturedEnemyPos(frontRobo * 10.0f);
 		}
 
 		//捕捉レティクルの初期の拡大をもう一度したいのでフラグを戻す
@@ -139,6 +141,9 @@ void EnemyStateIcon::IconBehaviour()
 		//敵が遠くなったので捕捉レティクルの拡大率をゼロにして消す
 		m_scale[1] = Vector3::Zero;
 		m_isFirstExpand = false;
+		if (m_isCaptured) {
+			CaptureStateManager::GetInstance().SetCaptureState(None);
+		}
 		m_isCaptured = false;
 		break;
 
@@ -148,6 +153,7 @@ void EnemyStateIcon::IconBehaviour()
 		m_scale[1] = Vector3::Zero;
 		m_isFirstExpand = false;
 		m_isCaptured = false;
+		CaptureStateManager::GetInstance().SetCapturedEnemyPos(m_enemyPos);
 		break;
 	}
 }

@@ -6,7 +6,9 @@ class MachinGun : public IGameObject
 private:
 	Vector3 m_position = Vector3::Zero;
 	Vector3 m_targetPos = Vector3::Zero;
+	Vector3 m_moveSpeed = Vector3::Zero;
 	float count = 0;
+	bool m_firstCalc = false;
 public:
 	bool Start();
 	void Update();

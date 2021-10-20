@@ -10,5 +10,7 @@ bool Ground::Start()
 	m_skinModelRender->SetScale({ 1.0f,1.0f,1.0f });
 	m_skinModelRender->SetIsGround();
 
+	//m_physics.CreateFromModel(m_skinModelRender->GetModel(), m_skinModelRender->GetModel().GetWorldMatrix());
+
 	return true;
 }
