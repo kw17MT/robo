@@ -301,10 +301,12 @@
     <ClCompile Include="DepthInView.cpp" />
     <ClCompile Include="DisplayDistance.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyGenerator.cpp" />
     <ClCompile Include="EnemyStateIcon.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="ForwardBloom.cpp" />
     <ClCompile Include="FXAA.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="GaussianBlur.cpp" />
     <ClCompile Include="Ground.cpp" />
@@ -320,6 +322,7 @@
     <ClCompile Include="NameKey.cpp" />
     <ClCompile Include="PlanarReflection.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerAnimation.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="Reticle.cpp" />
@@ -342,6 +345,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Stopwatch.cpp" />
+    <ClCompile Include="Sun.cpp" />
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="TklFile.cpp" />
     <ClCompile Include="TResourceBank.cpp" />
@@ -420,10 +424,12 @@
     <ClInclude Include="DepthInView.h" />
     <ClInclude Include="DisplayDistance.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyGenerator.h" />
     <ClInclude Include="EnemyStateIcon.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="ForwardBloom.h" />
     <ClInclude Include="FXAA.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="Ground.h" />
@@ -438,6 +444,7 @@
     <ClInclude Include="NameKey.h" />
     <ClInclude Include="PlanarReflection.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerAnimation.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Reticle.h" />
@@ -453,6 +460,7 @@
     <ClInclude Include="SSR.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Stopwatch.h" />
+    <ClInclude Include="Sun.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="TklFile.h" />
     <ClInclude Include="TResourceBank.h" />

@@ -7,6 +7,12 @@ namespace
 	const Vector3 SCALE_CHANGE_AMOUNT = { 0.1f,0.1f,0.1f };
 }
 
+Reticle::~Reticle()
+{
+	DeleteGO(m_spriteRender[0]);
+	DeleteGO(m_spriteRender[1]);
+}
+
 bool Reticle::Start()
 {
 	m_spriteRender[0] = NewGO<SpriteRender>(0);
@@ -30,6 +36,7 @@ void Reticle::CalcPosition()
 			m_isTarget = true;
 			CaptureStateManager::GetInstance().SetCaptureState(Targeted);
 		}
+		//誰かしらをターゲットしている時
 		else if (CaptureStateManager::GetInstance().GetCaptureState() == Targeted)
 		{
 			m_isTarget = false;

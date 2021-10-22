@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "DisplayDistance.h"
 
+DisplayDistance::~DisplayDistance()
+{
+	DeleteGO(m_fontRender);
+}
+
 bool DisplayDistance::Start()
 {
 	m_fontRender = NewGO<FontRender>(0);

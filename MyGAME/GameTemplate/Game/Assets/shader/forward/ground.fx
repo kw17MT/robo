@@ -211,6 +211,5 @@ SPSOut PSMain(SPSIn psIn)
     psOut.albedo = finalTexture;
     
     //psOut.albedo = noise.Sample(g_sampler, psIn.uv);
-	
     return psOut;
 }

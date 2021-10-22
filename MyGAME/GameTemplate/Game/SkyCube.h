@@ -5,6 +5,8 @@ class SkyCube : public IGameObject
 {
 private:
 public:
+	SkyCube() {}
+	~SkyCube();
 	bool Start();
 	void Update();
 private:

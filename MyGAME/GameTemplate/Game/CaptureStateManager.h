@@ -21,7 +21,7 @@ public:
 		static CaptureStateManager instance;
 		return instance;
 	}
-	static CaptureStateManager DeleteInstance()
+	static void DeleteInstance()
 	{
 		delete instance;
 	}

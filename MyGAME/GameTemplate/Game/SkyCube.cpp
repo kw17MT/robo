@@ -2,6 +2,11 @@
 #include "SkyCube.h"
 #include "SkinModelRender.h"
 
+SkyCube::~SkyCube()
+{
+	DeleteGO(m_skinModelRender);
+}
+
 bool SkyCube::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);

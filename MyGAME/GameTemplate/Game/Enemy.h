@@ -11,6 +11,8 @@ private:
 	Quaternion m_rot = Quaternion::Identity;
 	int m_distance = 0;
 public:
+	Enemy() {};
+	~Enemy();
 	bool Start();
 	void Update();
 	void SetPosition(Vector3 pos)
@@ -22,7 +24,5 @@ private:
 	DisplayDistance* m_displayDistance = nullptr;
 	Player* m_player = nullptr;
 	EnemyStateIcon* m_enemyStateIcon = nullptr;
-
-	//CharacterController m_charaCon;
 };
 

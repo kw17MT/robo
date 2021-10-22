@@ -10,6 +10,12 @@ namespace
 	const Vector3 APPEAR_RATE = { 2.0f,2.0f,2.0f };			//捕捉レティクルの初期拡大率
 }
 
+EnemyStateIcon::~EnemyStateIcon()
+{
+	DeleteGO(m_spriteRender[0]); m_spriteRender[0] = nullptr;
+	DeleteGO(m_spriteRender[1]); m_spriteRender[1] = nullptr;
+}
+
 bool EnemyStateIcon::Start()
 {
 	m_spriteRender[0] = NewGO<SpriteRender>(0);
@@ -73,6 +79,7 @@ void EnemyStateIcon::DisplayIcons()
 		if (CaptureStateManager::GetInstance().GetCaptureState() == None) {
 			//捕捉レティクル（四角）をだす。
 			m_isCaptured = true;
+			m_isFirstExpand = false;
 			//捕捉された敵がいることと、その位置座標を保存
 			CaptureStateManager::GetInstance().SetCaptureState(Captured);
 		}
@@ -160,7 +167,6 @@ void EnemyStateIcon::IconBehaviour()
 
 void EnemyStateIcon::Update()
 {
-	//OK
 	CalcPosition();
 	
 	DisplayIcons();

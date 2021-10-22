@@ -5,6 +5,8 @@
 class UI : public IGameObject
 {
 public:
+	UI() {};
+	~UI();
 	bool Start();
 	void Update();
 private:

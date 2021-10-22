@@ -30,6 +30,11 @@ public:
 	*/
 	const void Move(const Vector3 currentPos);
 
+	Vector3& GetMoveSpeed()
+	{
+		return m_prevPlusSpeed;
+	}
+
 	/**
 	 * @brief 各種速度を考慮後のプレイヤーの最終位置の計算関数
 	 * @param currentPos プレイヤーの現在位置

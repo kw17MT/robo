@@ -7,6 +7,11 @@ namespace
 	const float BULLET_SPEED = 200.0f;
 }
 
+MachinGun::~MachinGun()
+{
+	DeleteGO(m_skinModelRender);
+}
+
 bool MachinGun::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);

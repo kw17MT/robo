@@ -246,7 +246,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>Object\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="PlayerMove.cpp">
       <Filter>Object\Player</Filter>
     </ClCompile>
@@ -265,12 +264,6 @@
     <ClCompile Include="SpriteRender.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="DisplayDistance.cpp">
-      <Filter>UI,Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Reticle.cpp">
-      <Filter>UI,Sprite</Filter>
-    </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>UI,Sprite</Filter>
     </ClCompile>
@@ -283,14 +276,41 @@
     <ClCompile Include="Ground.cpp">
       <Filter>Object\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyStateIcon.cpp" />
-    <ClCompile Include="CaptureStateManager.cpp" />
-    <ClCompile Include="MachinGun.cpp" />
     <ClCompile Include="..\..\MiniEngine\geometry\BSP.cpp">
       <Filter>EngineRelated\Geometry</Filter>
     </ClCompile>
     <ClCompile Include="..\..\MiniEngine\geometry\AABB.cpp">
       <Filter>EngineRelated\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="CaptureStateManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGenerator.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="MachinGun.cpp">
+      <Filter>Object\Player\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Sun.cpp">
+      <Filter>Object\Sun</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAnimation.cpp">
+      <Filter>Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Reticle.cpp">
+      <Filter>Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyStateIcon.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayDistance.cpp">
+      <Filter>Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -565,7 +585,6 @@
     <ClInclude Include="Player.h">
       <Filter>Object\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="PlayerMove.h">
       <Filter>Object\Player</Filter>
     </ClInclude>
@@ -584,12 +603,6 @@
     <ClInclude Include="SpriteRender.h">
       <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="DisplayDistance.h">
-      <Filter>UI,Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Reticle.h">
-      <Filter>UI,Sprite</Filter>
-    </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>UI,Sprite</Filter>
     </ClInclude>
@@ -602,14 +615,41 @@
     <ClInclude Include="Ground.h">
       <Filter>Object\Ground</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyStateIcon.h" />
-    <ClInclude Include="CaptureStateManager.h" />
-    <ClInclude Include="MachinGun.h" />
     <ClInclude Include="..\..\MiniEngine\geometry\BSP.h">
       <Filter>EngineRelated\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MiniEngine\geometry\AABB.h">
       <Filter>EngineRelated\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="CaptureStateManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGenerator.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="MachinGun.h">
+      <Filter>Object\Player\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Sun.h">
+      <Filter>Object\Sun</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAnimation.h">
+      <Filter>Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Reticle.h">
+      <Filter>Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyStateIcon.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayDistance.h">
+      <Filter>Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -651,6 +691,15 @@
     </Filter>
     <Filter Include="EngineRelated\Geometry">
       <UniqueIdentifier>{3525d797-5b5c-4922-817e-92777345b357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Enemy">
+      <UniqueIdentifier>{ae40313f-e607-48f9-a938-1acc16d0dd17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Player\Weapon">
+      <UniqueIdentifier>{30b80ae9-8777-4b47-a25f-ca677b4e5e62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Sun">
+      <UniqueIdentifier>{47e25019-1216-4a89-b1c4-e6e2664fcd3e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

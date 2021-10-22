@@ -19,6 +19,8 @@ private:
 	}m_enemyState;
 
 public:
+	EnemyStateIcon() {}
+	~EnemyStateIcon();
 	bool Start();
 	void Update();
 	void SetPosition(Vector3 pos) { m_position = pos; }
@@ -35,6 +37,6 @@ public:
 
 	void CalcPosition();
 private:
-	SpriteRender* m_spriteRender[2] = { nullptr, nullptr };
+	std::array<SpriteRender*, 2> m_spriteRender = { nullptr, nullptr };
 };
 

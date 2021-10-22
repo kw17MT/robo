@@ -11,6 +11,8 @@
 #include "UI.h"
 #include "CaptureStateManager.h"
 
+#include "Game.h"
+
 // ウィンドウプログラムのメイン関数。
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
@@ -38,36 +40,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ゲームタイムを測るもの
 	CStopwatch stopWatch;
 
+	//ゲーム開始
+	Game* game;
+	game = NewGO<Game>(0);
 
-
-
-	CaptureStateManager::CreateInstance();
-	Player* player;
-	player = NewGO<Player>(0,"player");
-
-	Ground* ground = nullptr;
-	ground = NewGO<Ground>(0);
-
-	SkyCube* skyCube = nullptr;
-	skyCube = NewGO<SkyCube>(0);
-
-	Enemy* enemy[3] = { nullptr };
-	enemy[0] = NewGO<Enemy>(0);
-	enemy[1] = NewGO<Enemy>(0);
-	enemy[1]->SetPosition({ 1000.0f,1000.0f,10000.0f });
-	enemy[2] = NewGO<Enemy>(0);
-	enemy[2]->SetPosition({ 10000.0f,3000.0f,30000.0f });
-
-	UI* ui = nullptr;
-	ui = NewGO<UI>(0);
-
-	SkinModelRender* sun;
-	sun = NewGO<SkinModelRender>(0);
-	sun->Init("Assets/modelData/sun/sun.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, false);
-	sun->SetPosition({ 0.0f,1000000.0f,0.0f });
-	sun->SetScale({ 600.0f,600.0f,600.0f });
-	sun->SetIsSun();
-
+	//プレイヤーのアニメーションテスト
 	SkinModelRender* test = nullptr;
 	test = NewGO<SkinModelRender>(0);
 	test->Init("Assets/modelData/testBox/a12.tkm", "Assets/modelData/testBox/a12.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
@@ -80,14 +57,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	anim[1].Load("Assets/modelData/testBox/a12_1.tka");
 	anim[1].SetLoopFlag(true);
 	anim[2].Load("Assets/modelData/testBox/a12_2_transform.tka");
-	anim[2].SetLoopFlag(true);
+	anim[2].SetLoopFlag(false);
 	anim[3].Load("Assets/modelData/testBox/a12_3_fly.tka");
 	anim[3].SetLoopFlag(true);
 	test->InitAnimation(anim, animNum);
 	test->PlayAnimation(3, 1);
 
 
-	g_camera3D->SetFar(1000000.0f);
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
 	//////////////////////////////////////
@@ -108,14 +84,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		RenderingEngine::GetInstance()->Render(renderContext);
 		LightManager::GetInstance().UpdateEyePos();
 
-
-		enemy[1]->SetPosition({ 1000.0f,1000.0f,10000.0f });
-		enemy[2]->SetPosition({ 10000.0f,3000.0f,30000.0f });
-
-
-
-
-
 		//スピンロックを行う。
 		int restTime = 0;
 		do {
@@ -132,6 +100,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//エフェクトの描画
 		EffectEngine::GetInstance()->Draw();
 
+		if (g_pad[0]->IsTrigger(enButtonStart))
+		{
+			DeleteGO(game);
+		}
+
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！
 		//////////////////////////////////////
@@ -141,7 +114,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	GameObjectManager::DeleteInstance();
 	//サウンドエンジンの消去
 	CSoundEngine::DeleteInstance();
-	//PhysicsWorld::DeleteInstance();
+	PhysicsWorld::DeleteInstance();
 	//RenderingEngine::DeleteInstance();
 	LightManager::DeleteInstance();
 	return 0;

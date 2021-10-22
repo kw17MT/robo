@@ -4,6 +4,12 @@ class MachinGun;
 #include "CameraMove.h"
 #include "PlayerMove.h"
 #include "PlayerRotation.h"
+#include "PlayerAnimation.h"
+
+namespace
+{
+	const int animNum = 7;
+}
 
 class Player : public IGameObject
 {
@@ -15,9 +21,10 @@ private:
 
 	bool m_isCapturing = false;
 
+
 public:
 	Player() {};
-	~Player() {};
+	~Player();
 	bool Start();
 	void Update();
 
@@ -36,10 +43,9 @@ private:
 	PlayerMove m_roboMove;
 	PlayerRotation m_roboRotation;
 
-	AnimationClip m_animClip[2];
+	PlayerAnimation m_playerAnim;
+	AnimationClip m_animClip[animNum];
+	
 	std::vector<MachinGun*> m_machingun = { nullptr };
-
-
-	CharacterController m_charaCon;
 };
 

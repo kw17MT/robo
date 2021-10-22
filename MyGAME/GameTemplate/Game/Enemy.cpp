@@ -5,14 +5,22 @@
 #include "Player.h"
 #include "EnemyStateIcon.h"
 
+Enemy::~Enemy()
+{
+	DeleteGO(m_skinModelRender);
+	DeleteGO(m_displayDistance);
+	DeleteGO(m_enemyStateIcon);
+	if (m_player != nullptr) {
+		DeleteGO(m_player);
+	}
+}
+
 bool Enemy::Start()
 {
 	m_player = FindGO<Player>("player");
 	m_skinModelRender = NewGO<SkinModelRender>(0, "enemy");
 	m_skinModelRender->Init("Assets/modelData/enemy/drone.tkm", nullptr/*"Assets/modelData/enemy/enemy.tks"*/, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
 	m_skinModelRender->SetScale({ 15.0f, 15.0f, 15.0f});
-	m_position = { 0.0f,400.0f,-5000.0f };
-	//m_skinModelRender->InitCharaCon(100.0f, 100.0f, m_position);
 
 	m_displayDistance = NewGO<DisplayDistance>(0);
 	m_displayDistance->SetEnemyPos(m_position);

@@ -16,8 +16,10 @@ private:
 	bool m_isTarget = false;
 
 public:
+	Reticle() {};
+	~Reticle();
 	bool Start();
 	void Update();
 private:
-	SpriteRender* m_spriteRender[2] = { nullptr, nullptr };
+	std::array< SpriteRender*, 2> m_spriteRender = { nullptr, nullptr };
 };

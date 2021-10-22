@@ -2,6 +2,11 @@
 #include "Ground.h"
 #include "SkinModelRender.h"
 
+Ground::~Ground()
+{
+	DeleteGO(m_skinModelRender);
+}
+
 bool Ground::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);

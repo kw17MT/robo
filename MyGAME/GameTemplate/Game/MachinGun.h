@@ -10,6 +10,8 @@ private:
 	float count = 0;
 	bool m_firstCalc = false;
 public:
+	MachinGun() {};
+	~MachinGun();
 	bool Start();
 	void Update();
 	void SetPosition(Vector3 pos) { m_position = pos; }

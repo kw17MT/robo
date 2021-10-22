@@ -9,6 +9,8 @@ private:
 	Vector3 m_enemyPos = Vector3::Zero;
 	int m_distance = 0;
 public:
+	DisplayDistance() {};
+	~DisplayDistance();
 	bool Start();
 	void Update();
 
