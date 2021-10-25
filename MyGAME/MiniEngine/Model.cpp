@@ -112,3 +112,14 @@ void Model::Draw(RenderContext& renderContext, Camera camera)
 		camera.GetProjectionMatrix()
 	);
 }
+
+void Model::DrawInstancing(RenderContext& rc, int numInstance)
+{
+	// インスタンスの数が0以上なら描画。
+	m_meshParts.DrawInstancing(
+		rc,
+		numInstance,
+		g_camera3D->GetViewMatrix(),
+		g_camera3D->GetProjectionMatrix()
+	);
+}

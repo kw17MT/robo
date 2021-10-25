@@ -64,6 +64,9 @@ public:
 	{
 		return m_world;
 	}
+
+	void DrawInstancing(RenderContext& rc, int numInstance);
+
 	/// <summary>
 	/// メッシュに対して問い合わせを行う。
 	/// </summary>

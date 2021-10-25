@@ -80,13 +80,15 @@ public:
 	void QueryMeshAndDescriptorHeap(std::function<void(const SMesh& mesh, const DescriptorHeap& ds)> queryFunc)
 	{
 		for( int i = 0; i < m_meshs.size(); i++ ){
-			queryFunc(*m_meshs[i], m_descriptorHeap[i]);
+			queryFunc(*m_meshs[i], m_descriptorHeap/*[i]*/);
 		}
 	}
 	/// <summary>
 	/// ディスクリプタヒープを作成。
 	/// </summary>
 	void CreateDescriptorHeaps();
+	
+	void DrawInstancing(RenderContext& rc, int numInstance, const Matrix& mView, const Matrix& mProj);
 private:
 	/// <summary>
 	/// tkmメッシュからメッシュを作成。
@@ -108,10 +110,20 @@ private:
 		DXGI_FORMAT colorBufferFormat
 	);
 
+	void DrawCommon(RenderContext& rc, const Matrix& mWorld, const Matrix& mView, const Matrix& mProj);
+
+
+	
+
+
 	
 private:
 	//拡張SRVが設定されるレジスタの開始番号。
 	const int EXPAND_SRV_REG__START_NO = 10;
+	//１つのマテリアルで使用されるSRVの数。
+	const int NUM_SRV_ONE_MATERIAL = EXPAND_SRV_REG__START_NO + MAX_MODEL_EXPAND_SRV;
+	//１つのマテリアルで使用されるCBVの数。
+	const int NUM_CBV_ONE_MATERIAL = 2;
 	/// <summary>
 	/// 定数バッファ。
 	/// </summary>
@@ -128,7 +140,8 @@ private:
 	std::array<IShaderResource*, MAX_MODEL_EXPAND_SRV> m_expandShaderResourceView = { nullptr };	//ユーザー拡張シェーダーリソースビュー。
 	StructuredBuffer m_boneMatricesStructureBuffer;	//ボーン行列の構造化バッファ。
 	std::vector< SMesh* > m_meshs;							//メッシュ。
-	std::vector< DescriptorHeap > m_descriptorHeap;		//ディスクリプタヒープ。
+	//std::vector< DescriptorHeap > m_descriptorHeap;		//ディスクリプタヒープ。
+	DescriptorHeap m_descriptorHeap;
 	Skeleton* m_skeleton = nullptr;								//スケルトン。
 	void* m_expandData = nullptr;						//ユーザー拡張データ。
 };

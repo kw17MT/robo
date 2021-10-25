@@ -315,6 +315,12 @@ public:
 	{
 		m_commandList->DrawIndexedInstanced(indexCount, 1, 0, 0, 0);
 	}
+
+	void DrawIndexedInstanced(UINT indexCount, UINT numInstance)
+	{
+		m_commandList->DrawIndexedInstanced(indexCount, numInstance, 0, 0, 0);
+	}
+
 	/// <summary>
 	/// コンピュートシェーダーをディスパッチ。
 	/// </summary>
