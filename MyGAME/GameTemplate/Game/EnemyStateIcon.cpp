@@ -85,7 +85,7 @@ void EnemyStateIcon::DisplayIcons()
 		}
 	}
 	//範囲からはずれて
-	else
+	else if(m_screenPos.x > -200.0f && m_screenPos.x < 200.0f && m_screenPos.y > -100.0f && m_screenPos.y < 100.0f)
 	{
 		//それが捕捉中の敵ならば
 		if (m_isCaptured)
@@ -95,15 +95,41 @@ void EnemyStateIcon::DisplayIcons()
 			//捕捉されている敵はいない状態にする。
 			CaptureStateManager::GetInstance().SetCaptureState(None);
 
-			Vector3 frontRobo =  g_camera3D->GetTarget() - g_camera3D->GetPosition();
-			frontRobo.Normalize();
-			CaptureStateManager::GetInstance().SetCapturedEnemyPos(frontRobo * 10.0f);
+			//ロックオンしていた敵の座標を書き換える
+			//Vector3 frontRobo =  g_camera3D->GetTarget() - g_camera3D->GetPosition();
+			//frontRobo.Normalize();
+			//CaptureStateManager::GetInstance().SetCapturedEnemyPos(frontRobo * 10.0f);
+		}
+		//プレイヤーは誰かしらをロックオンしているなら、次のロックオン先を予約しておく
+		if (CaptureStateManager::GetInstance().GetCaptureState() == Targeted
+			&& CaptureStateManager::GetInstance().IsNextEnemyCaptured() == false) {
+			//自分自身を再び次のロックオン対象にしないようにする。
+			if (m_enemyState != enemyTargeted) {
+				//次の予約はこの敵にする
+				m_nextTarget = true;
+				//予約完了
+				CaptureStateManager::GetInstance().SetNextEnemy(true);
+				//予約先の位置座標を保存
+				CaptureStateManager::GetInstance().SetNextEnemyPos(m_enemyPos);
+			}
 		}
 
 		//捕捉レティクルの初期の拡大をもう一度したいのでフラグを戻す
 		m_isFirstExpand = false;
 		//捕捉レティクル縮小
 		m_scale[1] = Vector3::Zero;
+	}
+	//画面端付近のエリア
+	else
+	{
+		if (m_nextTarget)
+		{
+			m_nextTarget = false;
+			CaptureStateManager::GetInstance().SetNextEnemy(false);
+			//予約先の位置座標を保存
+			Vector3 homePos = { 0.0f,0.0f,-1.0f };
+			CaptureStateManager::GetInstance().SetNextEnemyPos(homePos);
+		}
 	}
 }
 
@@ -167,6 +193,22 @@ void EnemyStateIcon::IconBehaviour()
 
 void EnemyStateIcon::Update()
 {
+	//予約していた敵に照準を当てるように命令が来ていたら
+	if (CaptureStateManager::GetInstance().GetCaptureState() == ChangeMainTarget)
+	{
+		//自身は予約されていたか
+		if (m_nextTarget)
+		{
+			//予約を消し、
+			m_nextTarget = false;
+			//捕捉されている
+			m_isCaptured = false;
+			m_enemyState = enemyTargeted;
+			//プレイヤーはターゲットしている
+			CaptureStateManager::GetInstance().SetCaptureState(Targeted);
+		}
+	}
+
 	CalcPosition();
 	
 	DisplayIcons();

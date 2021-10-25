@@ -302,6 +302,8 @@
     <ClCompile Include="DisplayDistance.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyGenerator.cpp" />
+    <ClCompile Include="EnemyHP.cpp" />
+    <ClCompile Include="EnemyMove.cpp" />
     <ClCompile Include="EnemyStateIcon.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="ForwardBloom.cpp" />
@@ -425,6 +427,8 @@
     <ClInclude Include="DisplayDistance.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyGenerator.h" />
+    <ClInclude Include="EnemyHP.h" />
+    <ClInclude Include="EnemyMove.h" />
     <ClInclude Include="EnemyStateIcon.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="ForwardBloom.h" />

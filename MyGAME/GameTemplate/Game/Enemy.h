@@ -4,6 +4,9 @@ class DisplayDistance;
 class Player;
 class EnemyStateIcon;
 
+#include "EnemyHP.h"
+#include "EnemyMove.h"
+
 class Enemy : public IGameObject
 {
 private:
@@ -15,14 +18,17 @@ public:
 	~Enemy();
 	bool Start();
 	void Update();
-	void SetPosition(Vector3 pos)
-	{
-		m_position = pos;
-	}
+	void SetPosition(Vector3 pos) { m_position = pos; }
+
+	Vector3 GetPosition() { return m_position; }
+	void TakenDamage(EnDamageTypes damageType);
 private:
 	SkinModelRender* m_skinModelRender = nullptr;
 	DisplayDistance* m_displayDistance = nullptr;
 	Player* m_player = nullptr;
 	EnemyStateIcon* m_enemyStateIcon = nullptr;
+
+	EnemyMove m_enemyMove;
+	EnemyHP* m_enemyHP;
 };
 

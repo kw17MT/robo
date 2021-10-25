@@ -58,7 +58,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	anim[1].SetLoopFlag(true);
 	anim[2].Load("Assets/modelData/testBox/a12_2_transform.tka");
 	anim[2].SetLoopFlag(false);
-	anim[3].Load("Assets/modelData/testBox/a12_3_fly.tka");
+	anim[3].Load("Assets/modelData/testBox/a12_4_shootw.tka");
 	anim[3].SetLoopFlag(true);
 	test->InitAnimation(anim, animNum);
 	test->PlayAnimation(3, 1);

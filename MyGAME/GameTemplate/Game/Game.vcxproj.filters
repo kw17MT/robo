@@ -312,6 +312,10 @@
     <ClCompile Include="DisplayDistance.cpp">
       <Filter>Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyMove.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyHP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -651,6 +655,10 @@
     <ClInclude Include="DisplayDistance.h">
       <Filter>Object\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyMove.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyHP.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">

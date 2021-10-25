@@ -10,12 +10,13 @@ private:
 	Vector3 m_enemyPos = Vector3::Zero;
 	bool m_isFirstExpand = false;
 	bool m_isCaptured = false;			//自分が捕捉されたか
+	bool m_nextTarget = false;			//プレイヤーが現在ターゲットしている敵が倒されたら次に自動的にターゲットされる敵であるかどうか
 
 	enum EnemyState
 	{
 		enemyTooFar,					//バツの画像だけ出す
 		enemyNear,						//四角の画像も出す
-		enemyTargeted					//ターゲットされているからすべての拡大率をゼロに
+		enemyTargeted,					//ターゲットされているからすべての拡大率をゼロに
 	}m_enemyState;
 
 public:
@@ -25,6 +26,10 @@ public:
 	void Update();
 	void SetPosition(Vector3 pos) { m_position = pos; }
 	void SetEnemyPos(Vector3& pos) { m_enemyPos = pos; }
+	bool IsTargeted() {
+		if (m_enemyState == enemyTargeted) { return true; }
+		else { return false; }
+	}
 
 	/**
 	 * @brief 敵のインスタンスで距離を引数にいれる

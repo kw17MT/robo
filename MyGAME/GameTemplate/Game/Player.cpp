@@ -7,13 +7,13 @@
 
 Player::~Player()
 {
-	DeleteGO(m_skinModelRender);
 	for (int i = 0; i < m_machingun.size(); i++)
 	{
 		DeleteGO(m_machingun.back());
 		m_machingun.pop_back();
 	}
 	m_machingun.clear();
+	DeleteGO(m_skinModelRender);
 }
 
 bool Player::Start()

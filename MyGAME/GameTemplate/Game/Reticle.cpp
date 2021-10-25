@@ -93,6 +93,7 @@ void Reticle::CalcPosition()
 			m_reticleScale[0] = Vector3::Zero;
 		}
 	}
+	//ターゲットしていなければ
 	else
 	{
 		m_reticleScale[1] -= SCALE_CHANGE_AMOUNT;
@@ -111,6 +112,11 @@ void Reticle::CalcPosition()
 
 void Reticle::Update()
 {
+	if (CaptureStateManager::GetInstance().GetCaptureState() == None)
+	{
+		m_isTarget = false;
+	}
+
 	//ロックオンレティクルの位置、拡大率設定。通常レティクルの拡大率設定
 	CalcPosition();
 

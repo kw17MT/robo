@@ -22,7 +22,7 @@ bool EnemyGenerator::Start()
 {
 	for (int i = 0; i < MAX_ENEMY_NUM; i++)
 	{
-		m_enemys.push_back(NewGO<Enemy>(0));
+		m_enemys.push_back(NewGO<Enemy>(0, "enemy"));
 		Vector3 enemyPos = m_firstEnemyPos;
 		enemyPos.x += ENEMY_SPACE * i;
 		m_enemys.back()->SetPosition(enemyPos);
