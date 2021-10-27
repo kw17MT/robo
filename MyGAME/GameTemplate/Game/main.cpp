@@ -52,16 +52,61 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	const int animNum = 4;
 	AnimationClip anim[animNum];
-	anim[0].Load("Assets/modelData/testBox/a12.tka");
+	anim[0].Load("Assets/modelData/testBox/anim_idle.tka");
 	anim[0].SetLoopFlag(true);
-	anim[1].Load("Assets/modelData/testBox/a12_1.tka");
+	anim[1].Load("Assets/modelData/testBox/anim_fly_only.tka");
 	anim[1].SetLoopFlag(true);
-	anim[2].Load("Assets/modelData/testBox/a12_2_transform.tka");
+	anim[2].Load("Assets/modelData/testBox/anim_transform.tka");
 	anim[2].SetLoopFlag(false);
-	anim[3].Load("Assets/modelData/testBox/a12_4_shootw.tka");
+	anim[3].Load("Assets/modelData/testBox/anim_shoot.tka");
 	anim[3].SetLoopFlag(true);
 	test->InitAnimation(anim, animNum);
 	test->PlayAnimation(3, 1);
+
+
+	g_camera3D->SetPosition({ 0.0f, 0.0f, 3000.0f });
+	g_camera3D->SetTarget({ 0.0f, 0.0f, 0.0f });
+
+	//////////////////////////////////////
+	// インスタンシングテスト
+	//////////////////////////////////////
+
+
+	//const int width = 50;
+	//const int height = 10;
+	//const int numHumanModel = width * height;
+	//Vector3* humanPos = new Vector3[numHumanModel];
+
+	//int humanNo = 0;
+	//for (int x = 0; x < width; x++)
+	//{
+	//	for (int y = 0; y < height; y++)
+	//	{
+	//		humanPos[humanNo].x = -2400.0f + 1000.0f * x;
+	//		humanPos[humanNo].y = -1250.0f + 2500.0f * y;
+	//		humanPos[humanNo].z = 0.0f;
+
+	//		humanNo++;
+	//	}
+	//}
+
+	//// step-2 500体分のワールド行列関係の各種バッファを確保。
+	//Matrix* worldMatrixArray = new Matrix[numHumanModel];
+
+	//StructuredBuffer worldMatrixSB;
+	//worldMatrixSB.Init(
+	//	sizeof(Matrix),
+	//	numHumanModel,
+	//	nullptr
+	//);
+
+	//ModelInitData modelData;
+	//modelData.m_tkmFilePath = "Assets/modelData/testBox/a12.tkm";
+	//modelData.m_fxFilePath = "Assets/shader/sample3DInstancing.fx";
+
+	//modelData.m_expandShaderResoruceView[0] = &worldMatrixSB;
+	//Model model;
+	//model.Init(modelData);
 
 
 	//////////////////////////////////////
@@ -79,6 +124,21 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//////////////////////////////////////
 		//オブジェクトのアップデート関数を一気に行う
 		GameObjectManager::GetInstance()->ExecuteUpdate();
+
+
+		// インスタンシングテスト
+		//Quaternion qRot = Quaternion::Identity;
+
+		//for (int i = 0; i < numHumanModel; i++)
+		//{
+		//	worldMatrixArray[i] = model.CalcWorldMatrix(humanPos[i], qRot, g_vec3One);
+		//}
+		//// step-5 ワールド行列の内容をグラフィックメモリにコピー。
+		//worldMatrixSB.Update(worldMatrixArray);
+
+		//// step-6 人物ののモデルをインスタンシグ描画。
+		//model.DrawInstancing(renderContext, numHumanModel);
+		////////////////////////////////////////////////////////////////////////////////////////////
 
 		//オブジェクトのドローを行う
 		RenderingEngine::GetInstance()->Render(renderContext);

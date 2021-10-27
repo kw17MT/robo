@@ -31,7 +31,5 @@ private:
 	RenderTarget* m_defferedTargets[4];		//MRT用	
 	SpriteInitData m_defferedSpriteData;	//ディファードレンダリング画像のパラメータ
 	Sprite m_defferedSprite;				//最終の画像
-
-	Texture m_groundTextures[4];
 };
 

@@ -185,6 +185,10 @@ SPSOut PSMain(SPSIn psIn)
 	
 	
     psOut.velocity.xy = (prevVelocity.xy - currentVelocity.xy);
+    //
+    psOut.velocity.xy = float2(0.0f, 0.0f);
+    //
+    
 	//ビューポート座標系に変換
     psOut.velocity.zw = 0.0f;
     

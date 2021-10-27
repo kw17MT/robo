@@ -10,7 +10,7 @@ void LensGhost::Init()
 	lensGhostData.m_fxFilePath = "Assets/shader/LensGhost.fx";
 	lensGhostData.m_textures[0] = &m_ghostTarget.GetRenderTargetTexture();
 	lensGhostData.m_alphaBlendMode = AlphaBlendMode_Add;
-	lensGhostData.m_colorBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+	lensGhostData.m_colorBufferFormat[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
 
 	m_lensGhost.Init(lensGhostData);
 }

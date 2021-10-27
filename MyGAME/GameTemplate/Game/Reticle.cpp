@@ -41,6 +41,7 @@ void Reticle::CalcPosition()
 		{
 			m_isTarget = false;
 			CaptureStateManager::GetInstance().SetCaptureState(None);
+			CaptureStateManager::GetInstance().ResetNextEnemyParam();
 		}
 	}
 
@@ -115,6 +116,8 @@ void Reticle::Update()
 	if (CaptureStateManager::GetInstance().GetCaptureState() == None)
 	{
 		m_isTarget = false;
+		Vector3 homePos = { 0.0f,0.0f,-1.0f };
+		CaptureStateManager::GetInstance().SetCapturedEnemyPos(homePos);
 	}
 
 	//ロックオンレティクルの位置、拡大率設定。通常レティクルの拡大率設定

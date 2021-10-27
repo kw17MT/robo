@@ -154,11 +154,23 @@
 		psoDesc.DepthStencilState.StencilEnable = FALSE;
 		psoDesc.SampleMask = UINT_MAX;
 		psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-		psoDesc.NumRenderTargets = 1;
+		/*psoDesc.NumRenderTargets = 1;
 		psoDesc.RTVFormats[0] = initData.m_colorBufferFormat;
 		psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 		psoDesc.SampleDesc.Count = 1;
-		psoDesc.RTVFormats[0] = initData.m_colorBufferFormat;
+		psoDesc.RTVFormats[0] = initData.m_colorBufferFormat;*/
+
+		for (auto& format : initData.m_colorBufferFormat) {
+			if (format == DXGI_FORMAT_UNKNOWN) {
+				break;
+			}
+			psoDesc.RTVFormats[psoDesc.NumRenderTargets] = format;
+			psoDesc.NumRenderTargets++;
+		}
+
+		psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
+		psoDesc.SampleDesc.Count = 1;
+
 		m_pipelineState.Init(psoDesc);
 	}
 	void Sprite::InitConstantBuffer(const SpriteInitData& initData)

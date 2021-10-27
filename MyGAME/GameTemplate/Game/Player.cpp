@@ -7,12 +7,7 @@
 
 Player::~Player()
 {
-	for (int i = 0; i < m_machingun.size(); i++)
-	{
-		DeleteGO(m_machingun.back());
-		m_machingun.pop_back();
-	}
-	m_machingun.clear();
+	DeleteGO(m_machingun);
 	DeleteGO(m_skinModelRender);
 }
 
@@ -21,17 +16,17 @@ bool Player::Start()
 	//スキンを作成
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//スキンの情報を初期化
-	m_skinModelRender->Init("Assets/modelData/testBox/a12.tkm", "Assets/modelData/testBox/a12.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	m_skinModelRender->Init("Assets/modelData/testBox/test.tkm", "Assets/modelData/testBox/test.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
 
-	m_animClip[enIdle].Load("Assets/modelData/testBox/a12.tka");
+	m_animClip[enIdle].Load("Assets/modelData/testBox/anim_idle.tka");
 	m_animClip[enIdle].SetLoopFlag(true);
-	m_animClip[enForwardLeaning].Load("Assets/modelData/testBox/a12_2_transform.tka");
+	m_animClip[enForwardLeaning].Load("Assets/modelData/testBox/anim_transform.tka");
 	m_animClip[enForwardLeaning].SetLoopFlag(false);
 	m_animClip[enFlying].Load("Assets/modelData/testBox/anim_fly_only.tka");
 	m_animClip[enFlying].SetLoopFlag(true);
-	m_animClip[enShooting].Load("Assets/modelData/testBox/a12_4_shootw.tka");
+	m_animClip[enShooting].Load("Assets/modelData/testBox/anim_shoot.tka");
 	m_animClip[enShooting].SetLoopFlag(true);
-	m_animClip[enBackLeaning].Load("Assets/modelData/testBox/a12_5_backLean.tka");
+	m_animClip[enBackLeaning].Load("Assets/modelData/testBox/anim_backLean.tka");
 	m_animClip[enBackLeaning].SetLoopFlag(false);
 	m_animClip[enBacking].Load("Assets/modelData/testBox/anim_back_keep.tka");
 	m_animClip[enBacking].SetLoopFlag(true);
@@ -40,7 +35,7 @@ bool Player::Start()
 	m_skinModelRender->InitAnimation(m_animClip, animNum);
 
 
-
+	m_machingun = NewGO<MachinGun>(0);
 
 	//最初のホームポジションを初期化
 	m_currentHomePosition = m_currentPosition;
@@ -61,17 +56,16 @@ bool Player::Start()
 
 void Player::Update()
 {
+	//プレイヤーのアニメーションを行う
 	m_playerAnim.UpdateAnimState();
 	m_skinModelRender->PlayAnimation(m_playerAnim.GetPlayerState(), 1.0f);
+
 	//プレイヤーのホームポジションを更新
 	m_currentHomePosition = m_roboMove.Execute(m_currentHomePosition);
-	
 	//ホームポジションによってカメラを動かす
 	m_cameraMove.UpdatePlayerCamera(m_prevHomePosition, m_currentHomePosition);
-
 	//右スティックのカメラの回転に従ったプレイヤーの回転
 	m_roboRotation.UpdateRotation(m_skinModelRender);
-
 	//計算し終わったホームポジションをもとにずらしたプレイヤーの位置を作成する。
 	m_currentPosition = m_roboMove.CalcPlayerPos(m_currentHomePosition);
 	//モデルを新しい位置に設定する。
@@ -79,12 +73,6 @@ void Player::Update()
 	//1フレーム前の座標として記録
 	m_prevHomePosition = m_currentHomePosition;
 
-
-	if (g_pad[0]->IsPress(enButtonRB2))
-	{
-		m_skinModelRender->PlayAnimation(1, 1);
-		m_machingun.push_back(NewGO<MachinGun>(0));
-		m_machingun.back()->SetPosition(m_currentPosition);
-		m_machingun.back()->SetTargetPosition(CaptureStateManager::GetInstance().GetCapturedEnemyPos());
-	}
+	//マシンガンにターゲット位置とプレイヤーの現在の位置を与える
+	m_machingun->SetTargetAndCurrentPos(CaptureStateManager::GetInstance().GetCapturedEnemyPos(), m_currentPosition);
 }

@@ -11,13 +11,20 @@
 
 Game::~Game()
 {
+	//プレイヤーインスタンス削除
 	DeleteGO(m_player); m_player = nullptr;
+	//敵生成器インスタンス削除
 	DeleteGO(m_enemyGenerator); m_enemyGenerator = nullptr;
+	//スカイキューブマップインスタンス削除
 	DeleteGO(m_sky); m_sky = nullptr;
+	//地面インスタンス削除
 	DeleteGO(m_ground); m_ground = nullptr;
+	//UIインスタンス削除
 	DeleteGO(m_ui); m_ui = nullptr;
+	//太陽インスタンス削除
 	DeleteGO(m_sun); m_sun = nullptr;
 
+	//フラグ管理インスタンス削除
 	CaptureStateManager::DeleteInstance();
 }
 

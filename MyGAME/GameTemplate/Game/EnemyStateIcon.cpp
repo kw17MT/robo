@@ -81,11 +81,12 @@ void EnemyStateIcon::DisplayIcons()
 			m_isCaptured = true;
 			m_isFirstExpand = false;
 			//•ß‘¨‚³‚ê‚½“G‚ª‚¢‚é‚±‚Æ‚ÆA‚»‚ÌˆÊ’uÀ•W‚ð•Û‘¶
+			m_enemyState = enemyNear;
 			CaptureStateManager::GetInstance().SetCaptureState(Captured);
 		}
 	}
 	//”ÍˆÍ‚©‚ç‚Í‚¸‚ê‚Ä
-	else if(m_screenPos.x > -200.0f && m_screenPos.x < 200.0f && m_screenPos.y > -100.0f && m_screenPos.y < 100.0f)
+	else if(m_screenPos.x > -200.0f && m_screenPos.x < 200.0f && m_screenPos.y > -150.0f && m_screenPos.y < 150.0f)
 	{
 		//‚»‚ê‚ª•ß‘¨’†‚Ì“G‚È‚ç‚Î
 		if (m_isCaptured)
@@ -193,6 +194,15 @@ void EnemyStateIcon::IconBehaviour()
 
 void EnemyStateIcon::Update()
 {
+	
+
+	CalcPosition();
+	
+	DisplayIcons();
+
+	//“G‚ÆƒvƒŒƒCƒ„[‚Ì‹——£‚É‚æ‚Á‚ÄU‚é•‘‚¢‚ð•Ï‚¦‚éB
+	IconBehaviour();
+
 	//—\–ñ‚µ‚Ä‚¢‚½“G‚ÉÆ€‚ð“–‚Ä‚é‚æ‚¤‚É–½—ß‚ª—ˆ‚Ä‚¢‚½‚ç
 	if (CaptureStateManager::GetInstance().GetCaptureState() == ChangeMainTarget)
 	{
@@ -209,12 +219,11 @@ void EnemyStateIcon::Update()
 		}
 	}
 
-	CalcPosition();
-	
-	DisplayIcons();
+	if (CaptureStateManager::GetInstance().GetCaptureState() == None)
+	{
+		m_nextTarget = false;
+	}
 
-	//“G‚ÆƒvƒŒƒCƒ„[‚Ì‹——£‚É‚æ‚Á‚ÄU‚é•‘‚¢‚ð•Ï‚¦‚éB
-	IconBehaviour();
 
 	//ƒoƒc‚ÌƒŒƒeƒBƒNƒ‹‚ÌŠg‘å—¦XV
 	m_spriteRender[0]->SetScale(m_scale[0]);

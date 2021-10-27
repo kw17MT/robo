@@ -1,66 +1,46 @@
 #include "stdafx.h"
 #include "MachinGun.h"
 #include "SkinModelRender.h"
-#include "Enemy.h"
+#include "Bullet.h"
 
 namespace
 {
-	const float BULLET_SPEED = 1000.0f;
+	const Vector3 MACHINGUN_SCALE = { 0.2f,0.2f,0.2f };
 }
 
 MachinGun::~MachinGun()
 {
+	//現在生きている弾の削除
+	for (int i = 0; i < m_bullets.size(); i++)
+	{
+		DeleteGO(m_bullets.back());
+		m_bullets.pop_back();
+	}
+	m_bullets.clear();
+	//モデルの削除
 	DeleteGO(m_skinModelRender);
-	m_skinModelRender = nullptr;
 }
 
 bool MachinGun::Start()
 {
+	//マシンガンのモデル生成
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/bullet/bullet.tkm", nullptr, enModelUpAxisY, { 0.0f,0.0f,0.0f }, true);
+	m_skinModelRender->SetScale(MACHINGUN_SCALE);
 
 	return true;
 }
 
-Vector3 MachinGun::CalcToTargetVec()
-{
-	Vector3 toTargetVec = m_targetPos - m_position;
-	toTargetVec.Normalize();
-	return toTargetVec;
-}
-
 void MachinGun::Update()
 {
-	//敵のまでの距離から移動方向と速度を計算する。
-	if (m_firstCalc == false)
+	//to do ステートメントで管理する事
+	if (g_pad[0]->IsPress(enButtonRB2))
 	{
-		m_moveSpeed = CalcToTargetVec() * BULLET_SPEED;
-		m_firstCalc = true;
+		//弾を生成
+		m_bullets.push_back(NewGO<Bullet>(0));
+		//弾の初期座標系を設定
+		m_bullets.back()->SetTargetAndCurrentPos(m_targetPos, m_position);
 	}
-
-	m_position += m_moveSpeed;
+	//モデルの位置を更新する
 	m_skinModelRender->SetPosition(m_position);
-
-	//更新した位置座標とすべての敵との距離を求める
-	QueryGOs<Enemy>("enemy", [&](Enemy* enemy) {
-		//敵と弾の距離を計算する。
-		Vector3 diff = enemy->GetPosition() - m_position;
-		if (diff.Length() < 200.0f) { 
-			//マシンガンの弾からダメージを受けたことを知らせる
-			enemy->TakenDamage(enBullet);
-			//死亡。
-			DeleteGO(this);
-			//終了。
-			return false;
-		}
-		//クエリは継続。
-		return true;
-		});
-
-	//弾の寿命
-	count += GameTime().GetFrameDeltaTime();
-	if (count >= 3.0f)
-	{
-		DeleteGO(this);
-	}
 }

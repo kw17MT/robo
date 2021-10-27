@@ -23,7 +23,6 @@ void Shadow::Render(RenderContext& rc)
 	//ライトカメラはRendeingEngineで定義し、LightManagerで統括し、SkinModelRender内で使用している。
 	GameObjectManager::GetInstance()->CallRenderWrapper(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(m_shadow);
-
 	//全てのオブジェクトを描くモードに戻す
 	RenderingEngine::GetInstance()->SetRenderTypes(RenderingEngine::EnRenderTypes::normal);
 }
@@ -38,7 +37,12 @@ void Shadow::InitCascade(RenderTarget& mainTarget, RenderTarget& normalTexture, 
 	m_cascadeShadowData.m_textures[4] = &m_cascadeShadowMap[1].GetRenderTargetTexture();
 	m_cascadeShadowData.m_textures[5] = &m_cascadeShadowMap[2].GetRenderTargetTexture();
 	m_cascadeShadowData.m_alphaBlendMode = AlphaBlendMode_Add;
-	m_cascadeShadowData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	m_cascadeShadowData.m_colorBufferFormat[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	m_cascadeShadowData.m_colorBufferFormat[1] = DXGI_FORMAT_R8G8B8A8_UNORM;
+	m_cascadeShadowData.m_colorBufferFormat[2] = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	m_cascadeShadowData.m_colorBufferFormat[3] = DXGI_FORMAT_R32_FLOAT;
+	m_cascadeShadowData.m_colorBufferFormat[4] = DXGI_FORMAT_R32_FLOAT;
+	m_cascadeShadowData.m_colorBufferFormat[5] = DXGI_FORMAT_R32_FLOAT;
 	m_cascadeShadowData.m_width = 1280;
 	m_cascadeShadowData.m_height = 720;
 	m_cascadeShadowData.m_expandConstantBuffer = (void*)&mat;

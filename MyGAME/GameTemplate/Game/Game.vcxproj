@@ -294,6 +294,7 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="Bloom.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CameraMove.cpp" />
     <ClCompile Include="CaptureStateManager.cpp" />
     <ClCompile Include="CaslFile.cpp" />
@@ -301,6 +302,8 @@
     <ClCompile Include="DepthInView.cpp" />
     <ClCompile Include="DisplayDistance.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyAtack.cpp" />
+    <ClCompile Include="EnemyBrain.cpp" />
     <ClCompile Include="EnemyGenerator.cpp" />
     <ClCompile Include="EnemyHP.cpp" />
     <ClCompile Include="EnemyMove.cpp" />
@@ -325,6 +328,7 @@
     <ClCompile Include="PlanarReflection.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAnimation.cpp" />
+    <ClCompile Include="PlayerMachinGun.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="Reticle.cpp" />
@@ -419,6 +423,7 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="Bloom.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraMove.h" />
     <ClInclude Include="CaptureStateManager.h" />
     <ClInclude Include="CaslFile.h" />
@@ -426,6 +431,8 @@
     <ClInclude Include="DepthInView.h" />
     <ClInclude Include="DisplayDistance.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyAtack.h" />
+    <ClInclude Include="EnemyBrain.h" />
     <ClInclude Include="EnemyGenerator.h" />
     <ClInclude Include="EnemyHP.h" />
     <ClInclude Include="EnemyMove.h" />
@@ -449,6 +456,7 @@
     <ClInclude Include="PlanarReflection.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAnimation.h" />
+    <ClInclude Include="PlayerMachinGun.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Reticle.h" />

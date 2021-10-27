@@ -70,6 +70,11 @@ public:
 	{
 		m_capturedNextEnemyPos = enemyPos;
 	}
+	void ResetNextEnemyParam()
+	{
+		m_captureNextEnemy = false;
+		m_capturedNextEnemyPos = Vector3::Zero;
+	}
 
 	EnEnemyState GetCaptureState()
 	{

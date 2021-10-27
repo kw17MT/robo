@@ -148,7 +148,8 @@ SPSOut PSMain(SPSIn psIn)
 	// prevVelocityとcurrentVelocityを正規化座標系に変換する
     prevVelocity.xy /= prevVelocity.w;
     currentVelocity.xy /= currentVelocity.w;
-
+    //prevVelocity.xy = currentVelocity.xy;
+	
     prevVelocity.xy *= 0.5f;
     prevVelocity.xy += 0.5f;
     prevVelocity.xy *= float2(1280, 720);
@@ -158,9 +159,10 @@ SPSOut PSMain(SPSIn psIn)
     currentVelocity.xy *= float2(1280, 720);
 	
 	
-    psOut.velocity.xy = (prevVelocity.xy - currentVelocity.xy);
+    psOut.velocity.xy = float2( 0.0f, 0.0f);//    (prevVelocity.xy - currentVelocity.xy);
 	//ビューポート座標系に変換
-    psOut.velocity.zw = 0.0f;
+    psOut.velocity.zw = float2(0.0f, 1.0f);
+	
 
     return psOut;
 }

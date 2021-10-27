@@ -14,7 +14,6 @@ private:
 	void CalcPosition();
 
 	bool m_isTarget = false;
-
 public:
 	Reticle() {};
 	~Reticle();

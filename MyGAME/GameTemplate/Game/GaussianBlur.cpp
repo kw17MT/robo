@@ -84,7 +84,7 @@ void GaussianBlur::InitSprites()
 		//テクスチャは輝度テクスチャ。
 		xBlurSpriteInitData.m_textures[0] = m_originalTexture;
 		//描き込むレンダリングターゲットのフォーマットを指定する。
-		xBlurSpriteInitData.m_colorBufferFormat = m_xBlurRenderTarget.GetColorBufferFormat();
+		xBlurSpriteInitData.m_colorBufferFormat[0] = m_xBlurRenderTarget.GetColorBufferFormat();
 		//ユーザー拡張の定数バッファにブラー用のパラメーターを設定する。
 		xBlurSpriteInitData.m_expandConstantBuffer = &m_weights;
 		xBlurSpriteInitData.m_expandConstantBufferSize = sizeof(m_weights);
@@ -104,7 +104,7 @@ void GaussianBlur::InitSprites()
 		//テクスチャは横ブラーをかけたもの。
 		yBlurSpriteInitData.m_textures[0] = &m_xBlurRenderTarget.GetRenderTargetTexture();
 		//描き込むレンダリングターゲットのフォーマットを指定する。
-		yBlurSpriteInitData.m_colorBufferFormat = m_yBlurRenderTarget.GetColorBufferFormat();
+		yBlurSpriteInitData.m_colorBufferFormat[0] = m_yBlurRenderTarget.GetColorBufferFormat();
 		//ユーザー拡張の定数バッファにブラー用のパラメーターを設定する。
 		yBlurSpriteInitData.m_expandConstantBuffer = &m_weights;
 		yBlurSpriteInitData.m_expandConstantBufferSize = sizeof(m_weights);

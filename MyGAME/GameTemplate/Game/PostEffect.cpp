@@ -13,10 +13,10 @@ void PostEffect::Init(RenderTarget& defferedTarget,
 	m_lensGhost.Init();
 }
 
-void PostEffect::Render(RenderContext& rc, RenderTarget& mainTarget, RenderTarget& defferedTarget)
+void PostEffect::Render(RenderContext& rc, Sprite& mainSprite, RenderTarget& mainTarget)
 {
-	m_motionBlur.Render(rc, defferedTarget);
-	m_bloom.Render(rc, defferedTarget);
+	m_motionBlur.Render(rc, mainSprite, mainTarget);
+	m_bloom.Render(rc, mainTarget);
 	m_fxaa.Render(rc, mainTarget);
 	m_lensGhost.Render(rc, mainTarget);
 }

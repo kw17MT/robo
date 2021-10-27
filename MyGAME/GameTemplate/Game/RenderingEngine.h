@@ -108,14 +108,11 @@ public:
 		return m_shadow.GetShadowMap();
 	}
 
-	void DrawForwardRendering(RenderContext& rc, RenderTarget& target);
-	void DrawForwardRendering(RenderContext& rc);
-	/**
-	* @brief ディファードライティング画像の保存を行う。
-	*/
-	void DrawInDefferedRenderTarget(RenderContext& rc);
+	void StartForwardRendering(RenderContext& rc);
 
 	void DrawInMainRenderTarget(RenderContext& rc);
+
+	void DrawUI(RenderContext& rc);
 
 private:
 	//最終表示するオフスクリーン画像

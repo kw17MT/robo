@@ -16,7 +16,7 @@ public:
 		RenderTarget& speedMap
 		 );
 
-	void Render(RenderContext& rc, RenderTarget& mainTarget, RenderTarget& defferedTarget);
+	void Render(RenderContext& rc, Sprite& mainSprite, RenderTarget& mainTarget);
 private:
 	Bloom m_bloom;
 	FXAA m_fxaa;

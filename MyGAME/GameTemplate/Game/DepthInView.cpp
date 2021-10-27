@@ -21,7 +21,7 @@ void DepthInView::Init(RenderTarget& rt)
 	bloomSpriteData.m_height = rt.GetHeight();
 	//ãPìxÇíäèoÇµÇΩÇ¢èÍñ ÇéÊìæ
 	bloomSpriteData.m_textures[0] = &rt.GetRenderTargetTexture();
-	bloomSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	bloomSpriteData.m_colorBufferFormat[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
 	m_main.Init(bloomSpriteData);
 
@@ -32,7 +32,7 @@ void DepthInView::Init(RenderTarget& rt)
 	finalSpriteData.m_width = 1280;
 	finalSpriteData.m_height = 720;
 	finalSpriteData.m_fxFilePath = "Assets/shader/blur/depthInView.fx";
-	finalSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	finalSpriteData.m_colorBufferFormat[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	finalSpriteData.m_alphaBlendMode = AlphaBlendMode_Trans;
 	m_finalSprite.Init(finalSpriteData);
 

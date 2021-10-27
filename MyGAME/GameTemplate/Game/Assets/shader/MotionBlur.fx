@@ -42,7 +42,7 @@ static const float offSetY = 0.4f / 720.0f;
 float4 PSMain( PSInput In ) : SV_Target0
 {       
     float4 finalColor = sceneMap.Sample(Sampler, In.uv);
-    float4 localVelocityMap = velocityMap.Sample(Sampler, In.uv);
+    
     float depth = specMap.Sample(Sampler, In.uv).w;
 
     //ピクセルの速度を取得
@@ -53,7 +53,7 @@ float4 PSMain( PSInput In ) : SV_Target0
     
         finalColor += sceneMap.Sample(Sampler, In.uv + float2(offSetX, -offSetY) * velocity.xy * (i + 1));
     }
-    finalColor /= (float)loopCnt;
+    finalColor /= (float) (loopCnt + 1);
 
     finalColor.w = 1.0f;
     return finalColor;

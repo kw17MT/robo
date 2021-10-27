@@ -316,6 +316,10 @@
       <Filter>Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyHP.cpp" />
+    <ClCompile Include="EnemyBrain.cpp" />
+    <ClCompile Include="EnemyAtack.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="PlayerMachinGun.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -659,6 +663,10 @@
       <Filter>Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnemyHP.h" />
+    <ClInclude Include="EnemyBrain.h" />
+    <ClInclude Include="EnemyAtack.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="PlayerMachinGun.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">

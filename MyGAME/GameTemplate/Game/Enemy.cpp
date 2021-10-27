@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "EnemyStateIcon.h"
 #include "CaptureStateManager.h"
+#include "EnemyBrain.h"
+#include "MachinGun.h"
 
 Enemy::~Enemy()
 {
@@ -40,6 +42,12 @@ bool Enemy::Start()
 	m_enemyHP->SetEnemyPos(m_position);
 	m_enemyHP->IsEnemyTargeted(false);
 
+	m_enemyBrain = NewGO<EnemyBrain>(0);
+	m_enemyBrain->MemoryPlayerPos(m_player->GetPosition());
+	m_enemyBrain->MemoryEnemyPos(m_position);
+
+	//m_machinGun = NewGO<MachinGun>(0);
+
 	m_skinModelRender->SetPosition(m_position);
 	return true;
 }
@@ -59,6 +67,13 @@ void Enemy::Update()
 	m_enemyHP->IsEnemyTargeted(m_enemyStateIcon->IsTargeted());
 	//HPバーの位置を更新
 	m_enemyHP->SetEnemyPos(m_position);
+
+	m_enemyBrain->MemoryPlayerPos(m_player->GetPosition());
+	m_enemyBrain->MemoryEnemyPos(m_position);
+
+
+	//m_machinGun->SetTargetAndCurrentPos(m_player->GetPosition(), m_position);
+
 
 	//HPがなくなったら
 	if (m_enemyHP->IsDead())

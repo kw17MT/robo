@@ -9,7 +9,7 @@ void SpriteRender::Init(const char* name, int width, int height)
 	//シェーダーを設定
 	spdata.m_fxFilePath = "Assets/shader/sprite.fx";
 	//カラーフォーマットを設定
-	spdata.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	spdata.m_colorBufferFormat[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	//横幅を設定
 	spdata.m_width = width;
 	//高さを設定

@@ -26,7 +26,7 @@ void SSR::Init(
 	ssrSpriteData.m_expandConstantBufferSize = sizeof(Ssr_Cb/*m_ssrData*/);
 
 	ssrSpriteData.m_alphaBlendMode = AlphaBlendMode_None;
-	ssrSpriteData.m_colorBufferFormat = mainRenderTarget.GetColorBufferFormat();
+	ssrSpriteData.m_colorBufferFormat[0] = mainRenderTarget.GetColorBufferFormat();
 	ssrSpriteData.textureAddressMode = D3D12_TEXTURE_ADDRESS_MODE_BORDER;
 
 	m_reflectionSprite.Init(ssrSpriteData);
@@ -62,7 +62,7 @@ void SSR::Init(
 		initData.m_psEntryPoinFunc = "PSFinal";
 
 		initData.m_alphaBlendMode = AlphaBlendMode_None;
-		initData.m_colorBufferFormat = mainRenderTarget.GetColorBufferFormat();
+		initData.m_colorBufferFormat[0] = mainRenderTarget.GetColorBufferFormat();
 
 		m_finalSprite.Init(initData);
 

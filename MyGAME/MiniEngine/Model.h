@@ -104,6 +104,22 @@ public:
 	//	return m_tkmFile;
 	//}
 
+	Matrix CalcWorldMatrix(Vector3 pos, Quaternion rot, Vector3 scale)
+	{
+		Matrix mWorld;
+		Matrix mBias;
+		if (m_modelUpAxis == enModelUpAxisZ) {
+			//Z-up
+			mBias.MakeRotationX(Math::PI * -0.5f);
+		}
+		Matrix mTrans, mRot, mScale;
+		mTrans.MakeTranslation(pos);
+		mRot.MakeRotationFromQuaternion(rot);
+		mScale.MakeScaling(scale);
+
+		mWorld = mBias * mScale * mRot * mTrans;
+		return mWorld;
+	}
 private:
 	Matrix m_world;														//ワールド行列。
 	TkmFile* m_tkmFile;													//tkmファイル。

@@ -4,7 +4,7 @@ class MotionBlur
 public:
 	void InitSprite(RenderTarget& defferedTarget, RenderTarget& normalTarget, RenderTarget& specAndDepthTarget, RenderTarget& velocityTarget);
 
-	void Render(RenderContext& rc, RenderTarget& targetToApply);
+	void Render(RenderContext& rc, Sprite& mainSprite , RenderTarget& targetToApply);
 
 private:
 	RenderTarget m_motionBlurTarget;

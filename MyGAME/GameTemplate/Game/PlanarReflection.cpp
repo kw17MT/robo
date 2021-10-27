@@ -9,7 +9,7 @@ void PlanarReflection::InitSprite(RenderTarget& sceneTarget)
 	spriteData.m_textures[0] = &sceneTarget.GetRenderTargetTexture();
 	spriteData.m_fxFilePath = "Assets/shader/PlanarReflection.fx";
 	spriteData.m_alphaBlendMode = AlphaBlendMode_Add;
-	spriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	spriteData.m_colorBufferFormat[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	m_sprite.Init(spriteData);
 }
 

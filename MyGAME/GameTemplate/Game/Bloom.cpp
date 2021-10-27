@@ -21,7 +21,7 @@ void Bloom::Init(RenderTarget& defferedTarget)
 	bloomSpriteData.m_height = defferedTarget.GetHeight();
 	//ãPìxÇíäèoÇµÇΩÇ¢èÍñ ÇéÊìæ
 	bloomSpriteData.m_textures[0] = &defferedTarget.GetRenderTargetTexture();
-	bloomSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	bloomSpriteData.m_colorBufferFormat[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
 	m_bloomSprite.Init(bloomSpriteData);
 
@@ -45,7 +45,10 @@ void Bloom::Init(RenderTarget& defferedTarget)
 	finalSpriteData.m_vsEntryPointFunc = "VSMain";
 	finalSpriteData.m_psEntryPoinFunc = "PSCalcBloom";
 	finalSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
-	finalSpriteData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	finalSpriteData.m_colorBufferFormat[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	finalSpriteData.m_colorBufferFormat[1] = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	finalSpriteData.m_colorBufferFormat[2] = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	finalSpriteData.m_colorBufferFormat[3] = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
 	m_finalSprite.Init(finalSpriteData);
 }

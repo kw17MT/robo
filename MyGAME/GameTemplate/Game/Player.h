@@ -15,37 +15,45 @@ class Player : public IGameObject
 {
 private:
 	Vector3 m_currentPosition = { 0.0f,400.0f,5000.0f };			//プレイヤーの現在の位置
-
 	Vector3 m_prevHomePosition = Vector3::Zero;			//1フレーム前のホームポジションの位置
 	Vector3 m_currentHomePosition = Vector3::Zero;				//カメラが追いかける位置座標
 
-	bool m_isCapturing = false;
-
-
 public:
+	/**
+	 * @brief コンストラクタ
+	*/
 	Player() {};
+
+	/**
+	 * @brief デストラクタ
+	*/
 	~Player();
+
+	/**
+	 * @brief インスタンス生成時に一度だけ呼ばれる関数
+	 * @return 
+	*/
 	bool Start();
+
+	/**
+	 * @brief 毎フレーム呼ばれる関数
+	*/
 	void Update();
 
-	Vector3 GetPosition()
-	{
-		return m_currentHomePosition;
-	}
-
-	const bool GetIsCapturing() const 
-	{
-		return m_isCapturing;
-	}
+	/**
+	 * @brief プレイヤーの現在位置を取得する
+	 * @return プレイヤーの現在位置
+	*/
+	Vector3 GetPosition() { return m_currentHomePosition; }
 private:
-	SkinModelRender* m_skinModelRender = nullptr;
-	CameraMove m_cameraMove;
-	PlayerMove m_roboMove;
-	PlayerRotation m_roboRotation;
+	SkinModelRender* m_skinModelRender = nullptr;		//プレイヤーのモデルインスタンス
+	MachinGun* m_machingun = nullptr;					//プレイヤーが持つマシンガンインスタンス
 
-	PlayerAnimation m_playerAnim;
-	AnimationClip m_animClip[animNum];
-	
-	std::vector<MachinGun*> m_machingun = { nullptr };
+	CameraMove m_cameraMove;							//プレイヤーを追従するカメラの位置座標計算オブジェクト
+	PlayerMove m_roboMove;								//プレイヤーの座標を計算する
+	PlayerRotation m_roboRotation;						//プレイヤーの回転を計算する
+
+	PlayerAnimation m_playerAnim;						//プレイヤーのアニメーション初期化オブジェクト
+	AnimationClip m_animClip[animNum];					//プレイヤーのアニメーション
 };
 
