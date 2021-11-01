@@ -1,5 +1,7 @@
 #pragma once
 class SpriteRender;
+class RocketTargetStateIcon;
+class Enemy;
 
 class EnemyStateIcon : public IGameObject
 {
@@ -40,8 +42,12 @@ public:
 
 	void IconBehaviour();
 
-	void CalcPosition();
+	const void SetEnemyObject(Enemy* enemy) { m_enemy = enemy; }
 private:
 	std::array<SpriteRender*, 2> m_spriteRender = { nullptr, nullptr };
+	std::array<RocketTargetStateIcon*, 10> m_rocketTargetIcon = { nullptr };
+	std::vector<int> m_rocketTargetPosNumber;
+
+	Enemy* m_enemy;
 };
 

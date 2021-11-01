@@ -295,6 +295,7 @@
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="Bloom.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Calculation.cpp" />
     <ClCompile Include="CameraMove.cpp" />
     <ClCompile Include="CaptureStateManager.cpp" />
     <ClCompile Include="CaslFile.cpp" />
@@ -323,6 +324,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="MapChip2D.cpp" />
+    <ClCompile Include="Missile.cpp" />
+    <ClCompile Include="MissileGenerator.cpp" />
     <ClCompile Include="MotionBlur.cpp" />
     <ClCompile Include="NameKey.cpp" />
     <ClCompile Include="PlanarReflection.cpp" />
@@ -334,6 +337,7 @@
     <ClCompile Include="Reticle.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerRotation.cpp" />
+    <ClCompile Include="RocketTargetStateIcon.cpp" />
     <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="SkyCube.cpp" />
@@ -359,6 +363,7 @@
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="WaveFile.cpp" />
     <ClCompile Include="WaveFileBank.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\effect\Effect.h" />
@@ -424,6 +429,7 @@
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="Bloom.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Calculation.h" />
     <ClInclude Include="CameraMove.h" />
     <ClInclude Include="CaptureStateManager.h" />
     <ClInclude Include="CaslFile.h" />
@@ -451,6 +457,8 @@
     <ClInclude Include="MachinGun.h" />
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MapChip2D.h" />
+    <ClInclude Include="Missile.h" />
+    <ClInclude Include="MissileGenerator.h" />
     <ClInclude Include="MotionBlur.h" />
     <ClInclude Include="NameKey.h" />
     <ClInclude Include="PlanarReflection.h" />
@@ -462,6 +470,7 @@
     <ClInclude Include="Reticle.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="PlayerRotation.h" />
+    <ClInclude Include="RocketTargetStateIcon.h" />
     <ClInclude Include="Shadow.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="SkyCube.h" />
@@ -480,6 +489,7 @@
     <ClInclude Include="Util.h" />
     <ClInclude Include="WaveFile.h" />
     <ClInclude Include="WaveFileBank.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

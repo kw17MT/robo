@@ -13,6 +13,7 @@ cbuffer CalcVelocityMapMatrix : register(b1)
 {
     float4x4 prevViewProjMatrix;
     float4x4 currentViewProjMatrix;
+    float4x4 prevWorldMatrix;
 }
 
 //スキニング用の頂点データをひとまとめ。
@@ -37,8 +38,8 @@ struct SPSIn{
 	float3 biNormal     : BINORMAL;
 	float2 uv 			: TEXCOORD0;	//uv座標。
 	float4 worldPos		: TEXCOORD1;
-    float4 posInLVP : TEXCOORD2;
-    float4 hoge : TEXCOORD3;
+    float4 posInLVP		: TEXCOORD2;
+    float3 prevWorldPos : TEXCOORD3;
 };
 
 struct SPSOut
@@ -81,19 +82,21 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 {
     SPSIn psIn = (SPSIn)0;
 	float4x4 m;
-	if( hasSkin ){
+	/*if( hasSkin ){
 		m = CalcSkinMatrix(vsIn.skinVert);
 	}
-	else{
+	else*/{
 		m = mWorld;
 	}
 
 	psIn.pos = mul(m, vsIn.pos);
 	psIn.worldPos = psIn.pos;
+	//1フレーム前のワールド行列
+
+    psIn.prevWorldPos = mul( prevWorldMatrix, vsIn.pos);
 	psIn.pos = mul(mView, psIn.pos);
 	psIn.pos = mul(mProj, psIn.pos);
-    psIn.hoge = psIn.pos;
-	
+
 	psIn.normal = mul(m, vsIn.normal);
 	psIn.normal = normalize(psIn.normal);
 	
@@ -142,26 +145,19 @@ SPSOut PSMain(SPSIn psIn)
     psOut.SpecAndDepth.w = psIn.pos.z;
 		
 	/* ベロシティマップ */
-    float4 prevVelocity = mul(prevViewProjMatrix,float4(psIn.worldPos.xyz, 1.0f));
+    float4 prevVelocity = mul(prevViewProjMatrix, float4(psIn.prevWorldPos /*psIn.worldPos.xyz*/, 1.0f));
     float4 currentVelocity = mul(currentViewProjMatrix,float4(psIn.worldPos.xyz, 1.0f));
     
 	// prevVelocityとcurrentVelocityを正規化座標系に変換する
-    prevVelocity.xy /= prevVelocity.w;
-    currentVelocity.xy /= currentVelocity.w;
+    prevVelocity.xyz /= prevVelocity.w;
+    currentVelocity.xyz /= currentVelocity.w;
     //prevVelocity.xy = currentVelocity.xy;
 	
-    prevVelocity.xy *= 0.5f;
-    prevVelocity.xy += 0.5f;
-    prevVelocity.xy *= float2(1280, 720);
+    prevVelocity.x *= 16.0f / 9.0f;
+    currentVelocity.x *= 16.0f / 9.0f;
 	
-    currentVelocity.xy *= 0.5f;
-    currentVelocity.xy += 0.5f;
-    currentVelocity.xy *= float2(1280, 720);
-	
-	
-    psOut.velocity.xy = float2( 0.0f, 0.0f);//    (prevVelocity.xy - currentVelocity.xy);
-	//ビューポート座標系に変換
-    psOut.velocity.zw = float2(0.0f, 1.0f);
+    psOut.velocity.xyz =  (prevVelocity.xyz - currentVelocity.xyz);
+    psOut.velocity.w = 1.0f;
 	
 
     return psOut;

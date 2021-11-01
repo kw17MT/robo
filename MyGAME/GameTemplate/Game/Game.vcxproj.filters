@@ -303,23 +303,46 @@
     <ClCompile Include="Game.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Reticle.cpp">
-      <Filter>Object\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyStateIcon.cpp">
-      <Filter>Object\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="DisplayDistance.cpp">
-      <Filter>Object\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyMove.cpp">
       <Filter>Object\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyHP.cpp" />
-    <ClCompile Include="EnemyBrain.cpp" />
-    <ClCompile Include="EnemyAtack.cpp" />
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="PlayerMachinGun.cpp" />
+    <ClCompile Include="Calculation.cpp" />
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Object\Player\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Missile.cpp">
+      <Filter>Object\Player\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="MissileGenerator.cpp">
+      <Filter>Object\Player\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Object\Player\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMachinGun.cpp">
+      <Filter>Object\Player\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayDistance.cpp">
+      <Filter>UI,Sprite\NearEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyStateIcon.cpp">
+      <Filter>UI,Sprite\NearEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Reticle.cpp">
+      <Filter>UI,Sprite\NearPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAtack.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBrain.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyHP.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="RocketTargetStateIcon.cpp">
+      <Filter>UI,Sprite\NearEnemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -650,23 +673,46 @@
     <ClInclude Include="Game.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Reticle.h">
-      <Filter>Object\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyStateIcon.h">
-      <Filter>Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="DisplayDistance.h">
-      <Filter>Object\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyMove.h">
       <Filter>Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyHP.h" />
-    <ClInclude Include="EnemyBrain.h" />
-    <ClInclude Include="EnemyAtack.h" />
-    <ClInclude Include="Bullet.h" />
-    <ClInclude Include="PlayerMachinGun.h" />
+    <ClInclude Include="Calculation.h" />
+    <ClInclude Include="Weapon.h">
+      <Filter>Object\Player\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileGenerator.h">
+      <Filter>Object\Player\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Missile.h">
+      <Filter>Object\Player\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Object\Player\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMachinGun.h">
+      <Filter>Object\Player\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayDistance.h">
+      <Filter>UI,Sprite\NearEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyStateIcon.h">
+      <Filter>UI,Sprite\NearEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Reticle.h">
+      <Filter>UI,Sprite\NearPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAtack.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBrain.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyHP.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="RocketTargetStateIcon.h">
+      <Filter>UI,Sprite\NearEnemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">
@@ -716,6 +762,12 @@
     </Filter>
     <Filter Include="Object\Sun">
       <UniqueIdentifier>{47e25019-1216-4a89-b1c4-e6e2664fcd3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI,Sprite\NearEnemy">
+      <UniqueIdentifier>{d70e2014-7fe9-4d90-8ffe-bef521b07531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI,Sprite\NearPlayer">
+      <UniqueIdentifier>{d88133c8-5a66-4cc6-901a-6bdc61a5ac90}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

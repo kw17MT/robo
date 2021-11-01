@@ -67,6 +67,9 @@ void Model::Init(const ModelInitData& initData)
 
 void Model::UpdateWorldMatrix(Vector3 pos, Quaternion rot, Vector3 scale)
 {
+	//1フレーム前で使用したワールド行列を保存
+	m_prevWorld = m_world;
+
 	Matrix mBias;
 	if (m_modelUpAxis == enModelUpAxisZ) {
 		//Z-up
@@ -77,6 +80,10 @@ void Model::UpdateWorldMatrix(Vector3 pos, Quaternion rot, Vector3 scale)
 	mRot.MakeRotationFromQuaternion(rot);
 	mScale.MakeScaling(scale);
 	m_world = mBias * mScale * mRot * mTrans;
+
+	/*Matrix invWorld;
+	invWorld.Inverse(m_world);
+	m_prevWorld = invWorld * m_prevWorld;*/
 }
 
 void Model::ChangeAlbedoMap(const char* materialName, Texture& albedoMap)

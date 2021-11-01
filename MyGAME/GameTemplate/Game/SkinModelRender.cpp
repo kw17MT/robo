@@ -21,8 +21,8 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 	//どの軸を上にするか
 	m_modelInitData.m_modelUpAxis = UpAxis;
 	
-	m_modelInitData.m_expandConstantBuffer = (void*)&RenderingEngine::GetInstance()->GetPrevViewProjMatrix();
-	m_modelInitData.m_expandConstantBufferSize = sizeof(RenderingEngine::GetInstance()->GetPrevViewProjMatrix());
+	m_modelInitData.m_expandConstantBuffer = (void*)&s_matrix;//RenderingEngine::GetInstance()->GetPrevViewProjMatrix();
+	m_modelInitData.m_expandConstantBufferSize = sizeof(s_matrix/*RenderingEngine::GetInstance()->GetPrevViewProjMatrix()*/);
 
 	//モデルのスケルトンがあるなら
 	if (skeletonPath != nullptr) {
@@ -98,8 +98,8 @@ void SkinModelRender::InitGround(const char* modelFilePath, EnModelUpAxis UpAxis
 
 	//m_modelInitData.m_expandConstantBuffer = (void*)&matrixAndvertex;
 	//m_modelInitData.m_expandConstantBufferSize = sizeof(matrixAndvertex);
-	m_modelInitData.m_expandConstantBuffer = (void*)&RenderingEngine::GetInstance()->GetPrevViewProjMatrix();
-	m_modelInitData.m_expandConstantBufferSize = sizeof(RenderingEngine::GetInstance()->GetPrevViewProjMatrix());
+	m_modelInitData.m_expandConstantBuffer = (void*)&s_matrix;/*RenderingEngine::GetInstance()->GetPrevViewProjMatrix();*/
+	m_modelInitData.m_expandConstantBufferSize = sizeof(s_matrix/*RenderingEngine::GetInstance()->GetPrevViewProjMatrix()*/);
 
 	m_model.Init(m_modelInitData);
 
@@ -115,8 +115,8 @@ void SkinModelRender::InitGround(const char* modelFilePath, EnModelUpAxis UpAxis
 		}
 		});
 
-	matrixAndvertex.width = (vMax.x - vMin.x) / m_texture[0].GetWidth();
-	matrixAndvertex.height = (vMax.y - vMin.y) / m_texture[0].GetHeight();
+	//s_matrix.width = (vMax.x - vMin.x) / m_texture[0].GetWidth();
+	//s_matrix.height = (vMax.y - vMin.y) / m_texture[0].GetHeight();
 
 	if (isPhyisicsStatic)
 	{
@@ -170,4 +170,6 @@ void SkinModelRender::Update()
 
 	//Vector3 a = { 0.0f, 0.0f, 0.0f };
 	//m_charaCon.Execute(a, GameTime().GetFrameDeltaTime());
+
+	s_matrix.s_prevWorldMatrix = m_model.GetPrevWorldMatrix();
 }

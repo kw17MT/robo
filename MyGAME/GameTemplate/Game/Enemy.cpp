@@ -71,7 +71,8 @@ void Enemy::Update()
 	m_enemyBrain->MemoryPlayerPos(m_player->GetPosition());
 	m_enemyBrain->MemoryEnemyPos(m_position);
 
-
+	//自分のインスタンスをアイコンに渡してやる
+	m_enemyStateIcon->SetEnemyObject(this);
 	//m_machinGun->SetTargetAndCurrentPos(m_player->GetPosition(), m_position);
 
 

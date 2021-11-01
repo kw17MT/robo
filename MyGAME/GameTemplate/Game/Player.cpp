@@ -4,6 +4,7 @@
 #include "CameraMove.h"
 #include "MachinGun.h"
 #include "CaptureStateManager.h"
+#include "MissileGenerator.h"
 
 Player::~Player()
 {
@@ -16,26 +17,28 @@ bool Player::Start()
 	//スキンを作成
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//スキンの情報を初期化
-	m_skinModelRender->Init("Assets/modelData/testBox/test.tkm", "Assets/modelData/testBox/test.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	//m_skinModelRender->Init("Assets/modelData/testBox/test.tkm", "Assets/modelData/testBox/test.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	m_skinModelRender->Init("Assets/modelData/robo/robo.tkm", "Assets/modelData/robo/robo.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
 
-	m_animClip[enIdle].Load("Assets/modelData/testBox/anim_idle.tka");
+	m_animClip[enIdle].Load("Assets/animData/robo/anim_idle.tka");
 	m_animClip[enIdle].SetLoopFlag(true);
-	m_animClip[enForwardLeaning].Load("Assets/modelData/testBox/anim_transform.tka");
+	m_animClip[enForwardLeaning].Load("Assets/animData/robo/anim_transform.tka");
 	m_animClip[enForwardLeaning].SetLoopFlag(false);
-	m_animClip[enFlying].Load("Assets/modelData/testBox/anim_fly_only.tka");
+	m_animClip[enFlying].Load("Assets/animData/robo/anim_fly_only.tka");
 	m_animClip[enFlying].SetLoopFlag(true);
-	m_animClip[enShooting].Load("Assets/modelData/testBox/anim_shoot.tka");
+	m_animClip[enShooting].Load("Assets/animData/robo/anim_shoot.tka");
 	m_animClip[enShooting].SetLoopFlag(true);
-	m_animClip[enBackLeaning].Load("Assets/modelData/testBox/anim_backLean.tka");
+	m_animClip[enBackLeaning].Load("Assets/animData/robo/anim_backLean.tka");
 	m_animClip[enBackLeaning].SetLoopFlag(false);
-	m_animClip[enBacking].Load("Assets/modelData/testBox/anim_back_keep.tka");
+	m_animClip[enBacking].Load("Assets/animData/robo/anim_back_keep.tka");
 	m_animClip[enBacking].SetLoopFlag(true);
-	m_animClip[enUp].Load("Assets/modelData/testBox/anim_up.tka");
+	m_animClip[enUp].Load("Assets/animData/robo/anim_up.tka");
 	m_animClip[enUp].SetLoopFlag(true);
 	m_skinModelRender->InitAnimation(m_animClip, animNum);
 
 
 	m_machingun = NewGO<MachinGun>(0);
+	m_missileGene = NewGO<MissileGenerator>(0);
 
 	//最初のホームポジションを初期化
 	m_currentHomePosition = m_currentPosition;
@@ -75,4 +78,5 @@ void Player::Update()
 
 	//マシンガンにターゲット位置とプレイヤーの現在の位置を与える
 	m_machingun->SetTargetAndCurrentPos(CaptureStateManager::GetInstance().GetCapturedEnemyPos(), m_currentPosition);
+	m_missileGene->SetLaunchPos(m_currentPosition);
 }

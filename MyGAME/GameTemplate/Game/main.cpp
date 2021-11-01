@@ -47,22 +47,21 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//プレイヤーのアニメーションテスト
 	SkinModelRender* test = nullptr;
 	test = NewGO<SkinModelRender>(0);
-	test->Init("Assets/modelData/testBox/a12.tkm", "Assets/modelData/testBox/a12.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	test->Init("Assets/modelData/robo/robo.tkm", "Assets/modelData/robo/robo.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
 	test->SetScale({ 5.0f,5.0f,5.0f });
 
 	const int animNum = 4;
 	AnimationClip anim[animNum];
-	anim[0].Load("Assets/modelData/testBox/anim_idle.tka");
+	anim[0].Load("Assets/animData/robo/anim_idle.tka");
 	anim[0].SetLoopFlag(true);
-	anim[1].Load("Assets/modelData/testBox/anim_fly_only.tka");
+	anim[1].Load("Assets/animData/robo/anim_fly_only.tka");
 	anim[1].SetLoopFlag(true);
-	anim[2].Load("Assets/modelData/testBox/anim_transform.tka");
+	anim[2].Load("Assets/animData/robo/anim_transform.tka");
 	anim[2].SetLoopFlag(false);
-	anim[3].Load("Assets/modelData/testBox/anim_shoot.tka");
+	anim[3].Load("Assets/animData/robo/anim_shoot.tka");
 	anim[3].SetLoopFlag(true);
 	test->InitAnimation(anim, animNum);
 	test->PlayAnimation(3, 1);
-
 
 	g_camera3D->SetPosition({ 0.0f, 0.0f, 3000.0f });
 	g_camera3D->SetTarget({ 0.0f, 0.0f, 0.0f });

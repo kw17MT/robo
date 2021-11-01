@@ -22,9 +22,7 @@ struct PSInput{
 };
 
 Texture2D<float4> sceneMap : register(t0);
-Texture2D<float4> normalMap : register(t1);
-Texture2D<float4> specMap : register(t2);
-Texture2D<float4> velocityMap : register(t3);
+Texture2D<float4> velocityMap : register(t1);
 
 sampler Sampler : register(s0);
 
@@ -39,22 +37,26 @@ PSInput VSMain(VSInput In)
 static const float offSetX = 0.4f / 1280.0f;
 static const float offSetY = 0.4f / 720.0f;
 
+
+
 float4 PSMain( PSInput In ) : SV_Target0
-{       
-    float4 finalColor = sceneMap.Sample(Sampler, In.uv);
-    
-    float depth = specMap.Sample(Sampler, In.uv).w;
+{ 
+ 
+    float4 sceneColor = sceneMap.Sample(Sampler, In.uv);
 
     //ピクセルの速度を取得
     float4 velocity =  velocityMap.Sample(Sampler,In.uv);
+    float4 blurColor = 0.0f;
     int loopCnt = 16;
+    float t = 0.01f;
     for (int i = 0; i < loopCnt; i++)
     {
     
-        finalColor += sceneMap.Sample(Sampler, In.uv + float2(offSetX, -offSetY) * velocity.xy * (i + 1));
+        sceneColor += sceneMap.Sample(Sampler, In.uv + velocity.xy * t * i);
     }
-    finalColor /= (float) (loopCnt + 1);
+    sceneColor /= loopCnt + 1;
+   // finalColor /= (float) (loopCnt + 1);
 
-    finalColor.w = 1.0f;
-    return finalColor;
+    sceneColor.w = 1.0f;
+    return sceneColor;
 }

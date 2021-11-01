@@ -1,4 +1,5 @@
 #pragma once
+#include "Enemy.h"
 
 enum EnEnemyState
 {
@@ -58,22 +59,105 @@ public:
 			}
 		}
 	}
+
+	//捕捉された敵の座標保存
 	void SetCapturedEnemyPos(Vector3 enemyPos)
 	{
 		m_capturedEnemyPos = enemyPos;
 	}
+	//次の敵に自動的にロックオンを移すかどうか
 	void SetNextEnemy(bool state)
 	{
 		m_captureNextEnemy = state;
 	}
+	//次にロックオンを移す敵の座標を設定
 	void SetNextEnemyPos(Vector3 enemyPos)
 	{
 		m_capturedNextEnemyPos = enemyPos;
 	}
+	//次のロックオン対象先の座標とフラグをリセットする
 	void ResetNextEnemyParam()
 	{
 		m_captureNextEnemy = false;
 		m_capturedNextEnemyPos = Vector3::Zero;
+	}
+
+	//ロケットのターゲットをするかどうかを設定する
+	void SetRocketTargetState(bool state)
+	{
+		//何もターゲットしてなく、新しくターゲットする場合
+		if (m_rocketTargetedNum == 0)
+		{
+			//保存するターゲット座標のリセットを終える
+			m_isResetPosNumber = false;
+		}
+
+		//ターゲットしたい
+		if (state)
+		{
+			//けど、最大数に達していたなら
+			if (m_rocketTargetedNum >= 9) 
+			{
+				//ターゲットしない
+				m_isRocketTargetState = false;
+			}
+			else
+			{
+				m_isRocketTargetState = state;
+			}
+		}
+		else
+		{
+			m_isRocketTargetState = state;
+		}
+	}
+
+	void PlusRockeTargetNum()
+	{
+		//ターゲットする数をインクリメント
+		m_rocketTargetedNum++; 
+		m_isGetRocketTarget = true;
+		//最大数以上に変数をインクリメントしたくないため
+		if (m_rocketTargetedNum == 10)
+		{
+			m_isGetRocketTarget = false;
+			m_rocketTargetedNum = 9;
+		}
+	}
+	void MinusRockeTargetNum()
+	{
+		//ターゲットする数をインクリメント
+		m_rocketTargetedNum--;
+		//最大数以上に変数をインクリメントしたくないため
+		if (m_rocketTargetedNum  <= 0)
+		{
+			m_rocketTargetedNum = 0;
+		}
+	}
+
+	void SetRocketTargetPos(Vector3 pos , int num)
+	{
+		m_rocketTargets[num] = pos;		
+	}
+
+	void SetRocketTargetedEnemy(Enemy* enemy)
+	{
+		m_rocketTargetedEnemy[m_rocketTargetedNum] = enemy;
+	}
+
+	void ResetRocketTargetParam()
+	{
+		for (int i = 1; i < m_rocketTargetedNum; i++)
+		{
+			Vector3 resetPos = { 0.0f,0.0f,0.0f };
+			m_rocketTargets[m_rocketTargetedNum - 1] = resetPos;
+		}
+		m_rocketTargetedNum = 0;
+		m_isResetPosNumber = true;
+	}
+	void SetIsRocketTargeted(bool state)
+	{
+		m_isGetRocketTarget = state;
 	}
 
 	EnEnemyState GetCaptureState()
@@ -92,6 +176,31 @@ public:
 	{
 		return m_capturedNextEnemyPos;
 	}
+	bool GetRocketTargetState()
+	{
+		return m_isRocketTargetState;
+	}
+	int GetRocketTargetNum()
+	{
+		return m_rocketTargetedNum;
+	}
+	bool GetResetPosNumber()
+	{
+		return m_isResetPosNumber;
+	}
+	bool GetIsRocketTargeted()
+	{
+		return m_isGetRocketTarget;
+	}
+	Vector3 GetRocketTargetEnemyPos(int number)
+	{
+		return m_rocketTargets[number];
+	}
+
+	Enemy* GetRocketTargetEnemy(int number)
+	{
+		return m_rocketTargetedEnemy[number];
+	}
 
 private:
 	EnEnemyState m_enemyState = None;
@@ -99,5 +208,13 @@ private:
 
 	bool m_captureNextEnemy = false;
 	Vector3 m_capturedNextEnemyPos = Vector3::Zero;
+
+	bool m_isRocketTargetState = false;
+	int m_rocketTargetedNum = 0;
+	std::array<Vector3, 10> m_rocketTargets;
+	std::array<Enemy*, 10> m_rocketTargetedEnemy;
+
+	bool m_isResetPosNumber = false;
+	bool m_isGetRocketTarget = false;
 };
 

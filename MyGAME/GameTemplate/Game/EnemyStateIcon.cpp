@@ -2,6 +2,9 @@
 #include "EnemyStateIcon.h"
 #include "SpriteRender.h"
 #include "CaptureStateManager.h"
+#include "RocketTargetStateIcon.h"
+
+extern Vector3 CalcScreenPos(Vector3& screenPos, Vector3 pos);
 
 namespace
 {
@@ -14,6 +17,11 @@ EnemyStateIcon::~EnemyStateIcon()
 {
 	DeleteGO(m_spriteRender[0]); m_spriteRender[0] = nullptr;
 	DeleteGO(m_spriteRender[1]); m_spriteRender[1] = nullptr;
+
+	for (int i = 0; i < 10; i++)
+	{
+		DeleteGO(m_rocketTargetIcon[i]);
+	}
 }
 
 bool EnemyStateIcon::Start()
@@ -22,6 +30,11 @@ bool EnemyStateIcon::Start()
 	m_spriteRender[1] = NewGO<SpriteRender>(0);
 	m_spriteRender[0]->Init("Assets/Image/reticle/reticle_toofar.dds",48,48);
 	m_spriteRender[1]->Init("Assets/Image/reticle/reticle_near2.dds",48,48);
+
+	for (int i = 0; i < 10; i++)
+	{
+		m_rocketTargetIcon[i] = NewGO<RocketTargetStateIcon>(0);
+	}
 
 	return true;
 }
@@ -45,31 +58,6 @@ void EnemyStateIcon::JudgeState(int distance)
 	}
 }
 
-void EnemyStateIcon::CalcPosition()
-{
-	//対応する敵のポジションからスクリーン座標を求める
-	g_camera3D->CalcScreenPositionFromWorldPosition(m_screenPos, m_enemyPos);
-	m_position.x = -m_screenPos.x;
-	m_position.y = m_screenPos.y;
-	//敵の位置とカメラの前方向の内積によってアイコンを映すか決める
-	//敵からカメラへのベクトル作成
-	Vector3 enemyToCamera = g_camera3D->GetPosition() - m_enemyPos;
-	//正規化
-	enemyToCamera.Normalize();
-	//敵の位置とカメラの前方向の内積
-	float dot = g_camera3D->GetForward().Dot(enemyToCamera);
-	//敵がカメラの前方向にあるならば映す
-	if (dot < 0.0f)
-	{
-		m_position.z = 0.0f;
-	}
-	//後ろ側にある
-	else
-	{
-		m_position.z = -1.0f;
-	}
-}
-
 void EnemyStateIcon::DisplayIcons()
 {
 	//スクリーン座標が画面の中央付近なら
@@ -83,6 +71,17 @@ void EnemyStateIcon::DisplayIcons()
 			//捕捉された敵がいることと、その位置座標を保存
 			m_enemyState = enemyNear;
 			CaptureStateManager::GetInstance().SetCaptureState(Captured);
+		}
+
+		//ロケットのターゲットをする命令が来ていたら
+		if (CaptureStateManager::GetInstance().GetRocketTargetState()) {
+			//現在、この敵の位置座標はマネージャーが持つ配列の何番目に保存しているか把握しておく
+			m_rocketTargetPosNumber.push_back(CaptureStateManager::GetInstance().GetRocketTargetNum());
+			//ロケットにターゲットされた敵の数を配列の要素数に利用する
+			m_rocketTargetIcon[m_rocketTargetPosNumber.back()]->SetFirstExpandScale(true);
+			CaptureStateManager::GetInstance().SetRocketTargetedEnemy(m_enemy);
+			CaptureStateManager::GetInstance().PlusRockeTargetNum();
+			CaptureStateManager::GetInstance().SetRocketTargetState(false);
 		}
 	}
 	//範囲からはずれて
@@ -194,9 +193,8 @@ void EnemyStateIcon::IconBehaviour()
 
 void EnemyStateIcon::Update()
 {
-	
-
-	CalcPosition();
+	//最初に敵のスクリーン座標を更新する。
+	m_position = CalcScreenPos(m_screenPos, m_enemyPos);
 	
 	DisplayIcons();
 
@@ -224,6 +222,12 @@ void EnemyStateIcon::Update()
 		m_nextTarget = false;
 	}
 
+	//マネージャー側に保存しているであろう対応した位置座標を更新する。
+	for (int i = 0; i < m_rocketTargetPosNumber.size(); i++)
+	{
+		//第二引数を要素数に指定して、そこを現在の敵の位置で更新する。
+		CaptureStateManager::GetInstance().SetRocketTargetPos(m_enemyPos, m_rocketTargetPosNumber[i]);
+	}
 
 	//バツのレティクルの拡大率更新
 	m_spriteRender[0]->SetScale(m_scale[0]);

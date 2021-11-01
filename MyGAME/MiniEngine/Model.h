@@ -65,6 +65,11 @@ public:
 		return m_world;
 	}
 
+	const Matrix& GetPrevWorldMatrix() const
+	{
+		return m_prevWorld;
+	}
+
 	void DrawInstancing(RenderContext& rc, int numInstance);
 
 	/// <summary>
@@ -122,6 +127,7 @@ public:
 	}
 private:
 	Matrix m_world;														//ワールド行列。
+	Matrix m_prevWorld;													//1フレーム前のワールド行列
 	TkmFile* m_tkmFile;													//tkmファイル。
 	Skeleton m_skeleton;												//スケルトン。
 	MeshParts m_meshParts;											//メッシュパーツ。

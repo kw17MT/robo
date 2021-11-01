@@ -10,5 +10,10 @@ private:
 	RenderTarget m_motionBlurTarget;
 	SpriteInitData m_motionBlurData;
 	Sprite m_motionBlurSprite;
+
+	SpriteInitData m_gaussianData;
+	Sprite m_gaussianSprite;
+	GaussianBlur m_gaussian[4];
+	Sprite m_finalGaussian;
 };
 

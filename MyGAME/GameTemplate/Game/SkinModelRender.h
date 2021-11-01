@@ -27,9 +27,8 @@ private:
 	struct MatrixAndVertex
 	{
 		EnMatrixes s_mat = RenderingEngine::GetInstance()->GetPrevViewProjMatrix();
-		float width = 0.0f;
-		float height = 0.0f;
-	}matrixAndvertex;
+		Matrix s_prevWorldMatrix;
+	}s_matrix;
 
 public:
 	SkinModelRender() {};

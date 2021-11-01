@@ -2,7 +2,9 @@
 class Bullet;
 class SkinModelRender;
 
-class MachinGun : public IGameObject
+#include "Weapon.h"
+
+class MachinGun : public Weapon
 {
 private:
 	Vector3 m_position = Vector3::Zero;			//マシンガンの位置
@@ -22,7 +24,7 @@ public:
 	 * @brief オブジェクト生成時に一度だけ呼ばれる関数
 	 * @return true
 	*/
-	virtual bool Start();
+	bool Start();
 
 	/**
 	 * @brief 毎フレーム呼ばれる関数
@@ -34,11 +36,12 @@ public:
 	 * @param targetPos 
 	 * @param pos 
 	*/
-	void SetTargetAndCurrentPos(Vector3 targetPos, Vector3 pos)
+	void SetTargetAndCurrentPos(Vector3 targetPos, Vector3 pos) /*override;*/
 	{
 		m_position = pos;
 		m_targetPos = targetPos;
 	}
+
 private:
 	SkinModelRender* m_skinModelRender = nullptr;	//マシンガンのモデル
 	std::vector<Bullet*> m_bullets = { nullptr };	//発射される弾のインスタンス

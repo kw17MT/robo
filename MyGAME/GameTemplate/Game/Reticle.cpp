@@ -2,6 +2,8 @@
 #include "Reticle.h"
 #include "CaptureStateManager.h"
 
+extern Vector3 CalcScreenPos(Vector3& screenPos, Vector3 pos);
+
 namespace
 {
 	const Vector3 SCALE_CHANGE_AMOUNT = { 0.1f,0.1f,0.1f };
@@ -26,56 +28,75 @@ bool Reticle::Start()
 	return true;
 }
 
-void Reticle::CalcPosition()
+void Reticle::ChangeTargetStateDependOnButtonLB2()
 {
-	if (g_pad[0]->IsTrigger(enButtonLB1))
+	//LB2ボタンを押している時間を計測する。
+	if (g_pad[0]->IsPress(enButtonLB2))
 	{
-		//誰かしらを捕捉していないとロックオンできないように
-		if (CaptureStateManager::GetInstance().GetCaptureState() == Captured)
-		{
-			m_isTarget = true;
-			CaptureStateManager::GetInstance().SetCaptureState(Targeted);
-		}
-		//誰かしらをターゲットしている時
-		else if (CaptureStateManager::GetInstance().GetCaptureState() == Targeted)
-		{
-			m_isTarget = false;
-			CaptureStateManager::GetInstance().SetCaptureState(None);
-			CaptureStateManager::GetInstance().ResetNextEnemyParam();
-		}
+		m_PressButtonTime -= GameTime().GetFrameDeltaTime();
 	}
-
-	if (m_isTarget)
+	//LB2ボタンが押されていなければ
+	if (!g_pad[0]->IsPress(enButtonLB2))
 	{
-		//レティクルの座標をターゲットされた敵の位置によって決定する。
-		g_camera3D->CalcScreenPositionFromWorldPosition(
-			m_lockOnPosition,
-			CaptureStateManager::GetInstance().GetCapturedEnemyPos());
-
-		Vector3 targetPos = Vector3::Zero;
-		targetPos.x = -m_lockOnPosition.x;
-		targetPos.y = m_lockOnPosition.y;
-
-		Vector3 toCamera = g_camera3D->GetPosition() - m_lockOnPosition;
-		//正規化
-		toCamera.Normalize();
-		//敵の位置とカメラの前方向の内積
-		float dot = g_camera3D->GetForward().Dot(toCamera);
-		//敵がカメラの前方向にあるならば映す
-		if (dot < 0.0f)
+		//ちょい押しぐらいならば通常ロックオン状態を変化させる。
+		if (m_PressButtonTime <= 0.99f && m_PressButtonTime >= 0.5f)
 		{
-			targetPos.z = 0.0f;
-		}
-		//後ろ側にある
-		else
-		{
-			targetPos.z = -1.0f;
-			if (m_isTarget)
+			//誰かしらを捕捉していないとロックオンできないように
+			if (CaptureStateManager::GetInstance().GetCaptureState() == Captured)
 			{
-				//ロックオンの対象が画面外に出たため、ロックオンを切る
+				m_isTarget = true;
+				CaptureStateManager::GetInstance().SetCaptureState(Targeted);
+			}
+			//誰かしらをターゲットしている時
+			else if (CaptureStateManager::GetInstance().GetCaptureState() == Targeted)
+			{
 				m_isTarget = false;
 				CaptureStateManager::GetInstance().SetCaptureState(None);
+				CaptureStateManager::GetInstance().ResetNextEnemyParam();
 			}
+		}
+		//LB2ボタンが離されたら押下時間をリセットする。
+		m_PressButtonTime = 1.0f;
+	}
+
+	//長くLB2ボタンを押しているなら、ロケットのターゲティング開始
+	if (m_PressButtonTime < 0.5f)
+	{
+		//押下時間が一定以上になればロケットのターゲット開始
+		if (m_PressButtonTime <= 0.0f) {
+			//ターゲットの最大数でなければ
+			if (CaptureStateManager::GetInstance().GetRocketTargetNum() != 9) {
+				CaptureStateManager::GetInstance().SetRocketTargetState(true);
+
+				//何かをロックオンしたなら
+				if(CaptureStateManager::GetInstance().GetIsRocketTargeted()){
+				//ロケットターゲットを開始する時間に戻す
+				m_PressButtonTime = 0.499f;
+				CaptureStateManager::GetInstance().SetIsRocketTargeted(false);
+				}
+			}
+		}
+		else
+		{
+			//1フレームだけロケットのターゲットしたいのでターゲット状態を無しの状態に
+			CaptureStateManager::GetInstance().SetRocketTargetState(false);
+		}
+	}
+}
+
+void Reticle::CalcPosition()
+{
+	if (m_isTarget)
+	{
+		//ターゲットする敵の位置をスクリーン座標に変換する。
+		Vector3 targetPos = CalcScreenPos(m_lockOnPosition, CaptureStateManager::GetInstance().GetCapturedEnemyPos());
+		//その位置がカメラの後ろ側に来るなら
+		if (targetPos.z == -1.0f)
+		{
+			//ターゲットを解除
+			m_isTarget = false;
+			//プレイヤーのターゲット状態を解除する。
+			CaptureStateManager::GetInstance().SetCaptureState(None);
 		}
 
 		//ロックオン用の画像位置を設定
@@ -113,12 +134,18 @@ void Reticle::CalcPosition()
 
 void Reticle::Update()
 {
+	//プレイヤーのターゲット状態が何もなしならば
 	if (CaptureStateManager::GetInstance().GetCaptureState() == None)
 	{
+		//レティクルはターゲットしていない
 		m_isTarget = false;
+		//それまでターゲットしていた敵の位置をリセットする。
 		Vector3 homePos = { 0.0f,0.0f,-1.0f };
 		CaptureStateManager::GetInstance().SetCapturedEnemyPos(homePos);
 	}
+
+	//LB2ボタンを押しているかでターゲット状態を設定する。
+	ChangeTargetStateDependOnButtonLB2();
 
 	//ロックオンレティクルの位置、拡大率設定。通常レティクルの拡大率設定
 	CalcPosition();

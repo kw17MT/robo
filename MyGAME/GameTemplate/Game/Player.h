@@ -1,6 +1,7 @@
 #pragma once
 class SkinModelRender;
 class MachinGun;
+class MissileGenerator;
 #include "CameraMove.h"
 #include "PlayerMove.h"
 #include "PlayerRotation.h"
@@ -48,6 +49,7 @@ public:
 private:
 	SkinModelRender* m_skinModelRender = nullptr;		//プレイヤーのモデルインスタンス
 	MachinGun* m_machingun = nullptr;					//プレイヤーが持つマシンガンインスタンス
+	MissileGenerator* m_missileGene = nullptr;
 
 	CameraMove m_cameraMove;							//プレイヤーを追従するカメラの位置座標計算オブジェクト
 	PlayerMove m_roboMove;								//プレイヤーの座標を計算する

@@ -11,7 +11,7 @@ namespace
 MachinGun::~MachinGun()
 {
 	//Œ»İ¶‚«‚Ä‚¢‚é’e‚Ìíœ
-	for (int i = 0; i < m_bullets.size(); i++)
+	for (auto i : m_bullets)
 	{
 		DeleteGO(m_bullets.back());
 		m_bullets.pop_back();
