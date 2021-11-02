@@ -3,13 +3,13 @@
 
 namespace
 {
-	const float MOVE_SPEED = 10.0f;
+	const float MOVE_SPEED = 125.0f;
 }
 
 Vector3 EnemyMove::CalcNextPos(Vector3 position)
 {
 	Vector3 nextPos = position;
-	if (nextPos.y >= 1000.0f)
+	if (nextPos.y >= 3000.0f)
 	{
 		m_isTop = true;
 	}

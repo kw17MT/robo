@@ -242,6 +242,18 @@ public:
 		return DirectX::XMVector3Dot(xmv0, xmv1).m128_f32[0];
 	}
 
+	//自作、怪しかったら確認すること
+	Vector3 CalcCross(Vector3 v2)
+	{
+		Vector3 crossedVec;
+
+		crossedVec.x = this->y * v2.z - v2.y * this->z;
+		crossedVec.y = this->z * v2.x - v2.z * this->x;
+		crossedVec.z = this->x * v2.y - v2.x * this->y;
+
+		return crossedVec;
+	}
+
 	/// <summary>
 	/// 外積。
 	/// </summary>

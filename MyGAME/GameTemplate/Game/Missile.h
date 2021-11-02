@@ -8,7 +8,7 @@ private:
 	Vector3 m_targetPos = Vector3::Zero;
 	Vector3 m_position = Vector3::Zero;
 	Vector3 m_moveSpeed = Vector3::Zero;
-	Vector3 m_moveDirection = Vector3::Zero;
+	Vector3 m_moveDirection = g_camera3D->GetForward();
 	Quaternion m_rot = Quaternion::Identity;
 	Vector3 m_prevMoveDirection = Vector3::Zero;
 	float count = 0;						//Žõ–½
