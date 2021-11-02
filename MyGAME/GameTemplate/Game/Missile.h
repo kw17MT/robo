@@ -10,7 +10,7 @@ private:
 	Vector3 m_moveSpeed = Vector3::Zero;
 	Vector3 m_moveDirection = Vector3::Zero;
 	Quaternion m_rot = Quaternion::Identity;
-	Vector3 m_prevMoveSpeed = Vector3::Zero;
+	Vector3 m_prevMoveDirection = Vector3::Zero;
 	float count = 0;						//õ–½
 	bool m_firstCalc = false;				//Å‰‚Ì‘¬“xŒvZ‚ª‚Å‚«‚½‚©
 	int m_number = 0;

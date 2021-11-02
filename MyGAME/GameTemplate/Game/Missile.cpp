@@ -40,18 +40,19 @@ void Missile::Update()
 	m_targetPos = CaptureStateManager::GetInstance().GetRocketTargetEnemyPos(m_number);
 	//敵までの距離から移動方向と速度を計算する。
 	m_moveDirection = CalcToTargetVec();
-	m_moveSpeed = m_moveDirection * MISSILE_SPEED;
 
 	//ロックオンしていた敵が倒されたら
-	if (m_enemy == nullptr)
+	if (m_enemy->IsDead())
 	{
-		//倒される前の
-		m_moveSpeed = m_prevMoveSpeed;
+		//倒される前の敵への方向を使う
+		m_moveDirection = m_prevMoveDirection;
 	}
 	else
 	{
-		m_prevMoveSpeed = m_moveSpeed;
+		m_prevMoveDirection = m_moveDirection;
 	}
+
+	m_moveSpeed = m_moveDirection * MISSILE_SPEED;
 	
 	//速度を考慮した位置座標を設定する。
 	m_position += m_moveSpeed;
