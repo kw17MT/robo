@@ -42,9 +42,17 @@ void Missile::Update()
 	m_moveDirection = CalcToTargetVec();
 	m_moveSpeed = m_moveDirection * MISSILE_SPEED;
 
+	//ƒƒbƒNƒIƒ“‚µ‚Ä‚¢‚½“G‚ª“|‚³‚ê‚½‚ç
+	if (m_enemy == nullptr)
+	{
+		//“|‚³‚ê‚é‘O‚Ì
+		m_moveSpeed = m_prevMoveSpeed;
+	}
+	else
+	{
+		m_prevMoveSpeed = m_moveSpeed;
+	}
 	
-	
-
 	//‘¬“x‚ðl—¶‚µ‚½ˆÊ’uÀ•W‚ðÝ’è‚·‚éB
 	m_position += m_moveSpeed;
 	m_skinModelRender->SetPosition(m_position);
@@ -72,20 +80,8 @@ void Missile::Update()
 		DeleteGO(this);
 	}
 
-	//ƒƒbƒNƒIƒ“‚µ‚Ä‚¢‚½“G‚ª“|‚³‚ê‚½‚ç
-	if (m_enemy == nullptr)
-	{
-		//“|‚³‚ê‚é‘O‚Ì
-		m_moveSpeed = m_prevMoveSpeed;
-	}
-	else
-	{
-		m_prevMoveSpeed = m_moveSpeed;
-	}
+
 
 	m_rot.SetRotation({ 0.0f,0.0f,-1.0f }, m_moveDirection);
 	m_skinModelRender->SetRotation(m_rot);
-
-
-
 }

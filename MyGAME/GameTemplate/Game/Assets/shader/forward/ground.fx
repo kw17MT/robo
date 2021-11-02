@@ -7,6 +7,7 @@ cbuffer ModelCb : register(b0){
 	float4x4 mWorld;
 	float4x4 mView;
 	float4x4 mProj;
+    float4x4 mWorldInv;
 };
 
 cbuffer CalcVelocityMapMatrix : register(b1)
@@ -87,18 +88,21 @@ float4x4 CalcSkinMatrix(SSkinVSIn skinVert)
 SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 {
     SPSIn psIn = (SPSIn)0;
-	float4x4 m;
+	float4x4 m, mPrevWorld;
 	if( hasSkin ){
 		m = CalcSkinMatrix(vsIn.skinVert);
-	}
+        mPrevWorld = mul(mWorldInv, m);
+        mPrevWorld = mul(prevWorldMatrix, mPrevWorld);
+    }
 	else{
 		m = mWorld;
-	}
+        mPrevWorld = prevWorldMatrix;
+    }
 
 	psIn.pos = mul(m, vsIn.pos);
 	psIn.worldPos = psIn.pos;
     //1フレーム前のワールド行列
-    psIn.prevWorldPos = mul(prevWorldMatrix, vsIn.pos);
+    psIn.prevWorldPos = mul(mPrevWorld, vsIn.pos);
 	psIn.pos = mul(mView, psIn.pos);
 	psIn.pos = mul(mProj, psIn.pos);
 	
@@ -175,6 +179,11 @@ SPSOut PSMain(SPSIn psIn)
 	// prevVelocityとcurrentVelocityを正規化座標系に変換する
     prevVelocity.xyz /= prevVelocity.w;
     currentVelocity.xyz /= currentVelocity.w;
+    
+    prevVelocity.x *= 16.0f / 9.0f;
+    currentVelocity.x *= 16.0f / 9.0f;
+    prevVelocity.y *= -1.0f;
+    currentVelocity.y *= -1.0f;
 
     //prevVelocity.xy *= 0.5f;
     //prevVelocity.xy += 0.5f;

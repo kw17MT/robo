@@ -37,26 +37,35 @@ PSInput VSMain(VSInput In)
 static const float offSetX = 0.4f / 1280.0f;
 static const float offSetY = 0.4f / 720.0f;
 
-
-
 float4 PSMain( PSInput In ) : SV_Target0
-{ 
- 
-    float4 sceneColor = sceneMap.Sample(Sampler, In.uv);
-
-    //ピクセルの速度を取得
-    float4 velocity =  velocityMap.Sample(Sampler,In.uv);
-    float4 blurColor = 0.0f;
-    int loopCnt = 16;
-    float t = 0.01f;
-    for (int i = 0; i < loopCnt; i++)
+{  
+    //定数バッファに載せる
+    const int NUM_WEIGHT = 16;
+    float weights[NUM_WEIGHT];
+    float total = 0;
+    for (int i = 0; i < NUM_WEIGHT; i++)
     {
-    
-        sceneColor += sceneMap.Sample(Sampler, In.uv + velocity.xy * t * i);
-    }
-    sceneColor /= loopCnt + 1;
-   // finalColor /= (float) (loopCnt + 1);
+        weights[i] = exp(-0.5f * (float) (i * i) / 30.0f);
+        total += weights[i];
 
-    sceneColor.w = 1.0f;
-    return sceneColor;
+    }
+	// 規格化
+    for (int i = 0; i < NUM_WEIGHT; i++)
+    {
+        weights[i] /= total;
+    }
+
+    
+    //ピクセルの速度を取得
+    float4 velocity = velocityMap.Sample(Sampler, In.uv);
+    float4 finalColor = 0.0f;
+    
+    float t = 0.1f;
+
+    for (int i = 0; i < NUM_WEIGHT; i++)
+    {
+        finalColor += sceneMap.Sample(Sampler, In.uv + (velocity.xy) * t * i) * weights[i];
+    }
+    finalColor.w = 1.0f;
+    return finalColor;
 }

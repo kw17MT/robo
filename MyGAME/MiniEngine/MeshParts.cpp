@@ -212,6 +212,7 @@ void MeshParts::Draw(
 	cb.mWorld = mWorld;
 	cb.mView = mView;
 	cb.mProj = mProj;
+	cb.mWorldInv.Inverse(mWorld);
 
 	m_commonConstantBuffer.CopyToVRAM(&cb);
 
@@ -256,6 +257,7 @@ void MeshParts::DrawCommon(RenderContext& rc, const Matrix& mWorld, const Matrix
 	cb.mWorld = mWorld;
 	cb.mView = mView;
 	cb.mProj = mProj;
+	cb.mWorldInv.Inverse(mWorld);
 	m_commonConstantBuffer.CopyToVRAM(cb);
 
 	if (m_expandData) {

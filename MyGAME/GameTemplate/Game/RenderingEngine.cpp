@@ -27,7 +27,7 @@ void RenderingEngine::InitSprites()
 	m_mainSpriteData.m_width = 1280;
 	m_mainSpriteData.m_height = 720;
 	m_mainSpriteData.m_fxFilePath = "Assets/shader/sprite.fx";
-	m_mainSpriteData.m_colorBufferFormat[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	m_mainSpriteData.m_colorBufferFormat[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
 	m_mainSprite.Init(m_mainSpriteData);
 
 	m_defferedLighting.InitSprite(m_albedoTarget, m_normalTarget, m_specAndDepthTarget, m_shadow.GetShadowMap(), m_velocityTarget);

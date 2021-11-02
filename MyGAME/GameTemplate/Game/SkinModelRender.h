@@ -24,11 +24,11 @@ private:
 	bool m_isGround = false;											//地面かどうか
 	bool m_isSky = false;
 
-	struct MatrixAndVertex
+	struct Matrixes
 	{
-		EnMatrixes s_mat = RenderingEngine::GetInstance()->GetPrevViewProjMatrix();
-		Matrix s_prevWorldMatrix;
-	}s_matrix;
+		EnMatrixes s_mat;					//現在と1フレーム前のプロジェクションビュー行列
+		Matrix s_prevWorldMatrix;			//1フレーム前のワールド行列
+	}s_matrix;	
 
 public:
 	SkinModelRender() {};
@@ -118,6 +118,11 @@ public:
 	*/
 	void Render(RenderContext& rc) 
 	{
+		//描画前に現在と1フレーム前のプロジェクションビュー行列を更新
+		s_matrix.s_mat = RenderingEngine::GetInstance()->GetPrevViewProjMatrix();
+		//1フレーム前のワールド行列を更新
+		s_matrix.s_prevWorldMatrix = m_model.GetPrevWorldMatrix();
+
 		//普通描画
 		if (RenderingEngine::GetInstance()->GetRenderTypes() == RenderingEngine::EnRenderTypes::normal) {
 			if (m_isSky) {

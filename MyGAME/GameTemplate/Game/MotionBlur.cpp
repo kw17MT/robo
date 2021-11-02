@@ -14,8 +14,8 @@ void MotionBlur::InitSprite(RenderTarget& mainRenderTarget, RenderTarget& normal
 
 	m_motionBlurData.m_width = 1280;
 	m_motionBlurData.m_height = 720;
-	m_motionBlurData.m_textures[0] = &mainRenderTarget/*m_motionBlurTarget*/.GetRenderTargetTexture();
-	m_motionBlurData.m_textures[1] = &m_gaussian[2].GetBokeTexture();
+	m_motionBlurData.m_textures[0] = &m_motionBlurTarget.GetRenderTargetTexture();
+	m_motionBlurData.m_textures[1] = &velocityTarget.GetRenderTargetTexture();
 
 	m_motionBlurData.m_fxFilePath = "Assets/shader/MotionBlur.fx";
 	//m_motionBlurData.m_alphaBlendMode = AlphaBlendMode_Add;
@@ -64,14 +64,14 @@ void MotionBlur::InitSprite(RenderTarget& mainRenderTarget, RenderTarget& normal
 void MotionBlur::Render(RenderContext& rc, Sprite& mainSprite, RenderTarget& targetToApply)
 {
 	//モーションブラー適用後のレンダーターゲットを作成。
-	/*rc.WaitUntilToPossibleSetRenderTarget(m_motionBlurTarget);
+	rc.WaitUntilToPossibleSetRenderTarget(m_motionBlurTarget);
 	rc.SetRenderTargetAndViewport(m_motionBlurTarget);
 	rc.ClearRenderTargetView(m_motionBlurTarget);
 	// メインレンダリングターゲットのテクスチャを使って
 	// 2Dを全画面に書くだけに変更する。
 	mainSprite.Draw(rc);
 	//RenderingEngine::GetInstance()->GetDefferedSprite(rc);
-	rc.WaitUntilFinishDrawingToRenderTarget(m_motionBlurTarget);*/
+	rc.WaitUntilFinishDrawingToRenderTarget(m_motionBlurTarget);
 
 	//メインレンダーターゲットの画面にガウシアンブラーを掛ける
 	m_gaussian[0].ExecuteOnGPU(rc, 15);

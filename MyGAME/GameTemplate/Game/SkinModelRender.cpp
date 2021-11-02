@@ -167,9 +167,4 @@ void SkinModelRender::Update()
 	m_shadow.UpdateWorldMatrix(m_position, m_rot, m_scale);
 	//スケルトンを更新。
 	m_skeleton.Update(m_model.GetWorldMatrix());
-
-	//Vector3 a = { 0.0f, 0.0f, 0.0f };
-	//m_charaCon.Execute(a, GameTime().GetFrameDeltaTime());
-
-	s_matrix.s_prevWorldMatrix = m_model.GetPrevWorldMatrix();
 }

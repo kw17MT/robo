@@ -80,10 +80,6 @@ void Model::UpdateWorldMatrix(Vector3 pos, Quaternion rot, Vector3 scale)
 	mRot.MakeRotationFromQuaternion(rot);
 	mScale.MakeScaling(scale);
 	m_world = mBias * mScale * mRot * mTrans;
-
-	/*Matrix invWorld;
-	invWorld.Inverse(m_world);
-	m_prevWorld = invWorld * m_prevWorld;*/
 }
 
 void Model::ChangeAlbedoMap(const char* materialName, Texture& albedoMap)

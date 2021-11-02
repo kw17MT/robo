@@ -69,7 +69,8 @@ void Reticle::ChangeTargetStateDependOnButtonLB2()
 				CaptureStateManager::GetInstance().SetRocketTargetState(true);
 
 				//何かをロックオンしたなら
-				if(CaptureStateManager::GetInstance().GetIsRocketTargeted()){
+				if(CaptureStateManager::GetInstance().GetIsRocketTargeted())
+				{
 				//ロケットターゲットを開始する時間に戻す
 				m_PressButtonTime = 0.499f;
 				CaptureStateManager::GetInstance().SetIsRocketTargeted(false);

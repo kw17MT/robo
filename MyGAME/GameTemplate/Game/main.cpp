@@ -143,6 +143,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		RenderingEngine::GetInstance()->Render(renderContext);
 		LightManager::GetInstance().UpdateEyePos();
 
+		//ゲームタイムを用いてエフェクトの再生進行度の更新
+		EffectEngine::GetInstance()->Update(GameTime().GetFrameDeltaTime());
+		//エフェクトの描画
+		EffectEngine::GetInstance()->Draw();
+
 		//スピンロックを行う。
 		int restTime = 0;
 		do {
@@ -154,10 +159,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//デルタタイムをストップウォッチの計測時間から、計算する
 		GameTime().PushFrameDeltaTime((float)stopWatch.GetElapsed());
 
-		//ゲームタイムを用いてエフェクトの再生進行度の更新
-		EffectEngine::GetInstance()->Update(GameTime().GetFrameDeltaTime());
-		//エフェクトの描画
-		EffectEngine::GetInstance()->Draw();
+
 
 		if (g_pad[0]->IsTrigger(enButtonStart))
 		{
