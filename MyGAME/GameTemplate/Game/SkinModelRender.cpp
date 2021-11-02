@@ -96,8 +96,6 @@ void SkinModelRender::InitGround(const char* modelFilePath, EnModelUpAxis UpAxis
 	m_modelInitData.m_expandShaderResoruceView[3] = &m_texture[2];
 	m_modelInitData.m_expandShaderResoruceView[4] = &m_texture[3];
 
-	//m_modelInitData.m_expandConstantBuffer = (void*)&matrixAndvertex;
-	//m_modelInitData.m_expandConstantBufferSize = sizeof(matrixAndvertex);
 	m_modelInitData.m_expandConstantBuffer = (void*)&s_matrix;/*RenderingEngine::GetInstance()->GetPrevViewProjMatrix();*/
 	m_modelInitData.m_expandConstantBufferSize = sizeof(s_matrix/*RenderingEngine::GetInstance()->GetPrevViewProjMatrix()*/);
 
@@ -139,6 +137,9 @@ void SkinModelRender::InitSkyCube(const char* modelFilePath, EnModelUpAxis UpAxi
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
 	m_texture[0].InitFromDDSFile(L"Assets/modelData/preset/skyCubeMap.dds");
+
+	m_modelInitData.m_expandConstantBuffer = (void*)&s_matrix;
+	m_modelInitData.m_expandConstantBufferSize = sizeof(s_matrix);
 
 	m_modelInitData.m_expandShaderResoruceView[0] = &m_texture[0];
 

@@ -16,7 +16,7 @@ void PostEffect::Init(RenderTarget& mainRenderTarget,
 void PostEffect::Render(RenderContext& rc, Sprite& mainSprite, RenderTarget& mainTarget)
 {
 	m_motionBlur.Render(rc, mainSprite, mainTarget);
-	//m_bloom.Render(rc, mainTarget);
-	//m_fxaa.Render(rc, mainTarget);
-	//m_lensGhost.Render(rc, mainTarget);
+	m_bloom.Render(rc, mainTarget);
+	m_fxaa.Render(rc, mainTarget);
+	m_lensGhost.Render(rc, mainTarget);
 }

@@ -17,9 +17,6 @@ private:
 
 	Texture m_texture[4];
 
-	//CharacterController m_charaCon;
-	//PhysicsStaticObject m_physicsStatic;
-
 	bool m_isSun = false;												//‘¾—z‚©‚Ç‚¤‚©
 	bool m_isGround = false;											//’n–Ê‚©‚Ç‚¤‚©
 	bool m_isSky = false;
@@ -125,9 +122,9 @@ public:
 
 		//•’Ê•`‰æ
 		if (RenderingEngine::GetInstance()->GetRenderTypes() == RenderingEngine::EnRenderTypes::normal) {
-			if (m_isSky) {
+			/*if (m_isSky) {
 				return;
-			}
+			}*/
 			m_model.Draw(rc);
 			return;
 		}
@@ -146,9 +143,9 @@ public:
 		}
 		if (RenderingEngine::GetInstance()->GetRenderTypes() == RenderingEngine::EnRenderTypes::forward)
 		{
-			if (m_isSky) {
+			/*if (m_isSky) {
 				m_model.Draw(rc);
-			}
+			}*/
 		}
 	}
 

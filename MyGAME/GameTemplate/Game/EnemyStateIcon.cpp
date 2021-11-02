@@ -64,12 +64,12 @@ void EnemyStateIcon::DisplayIcons()
 	if (m_screenPos.x > -80.0f && m_screenPos.x < 80.0f && m_screenPos.y > -25.0f && m_screenPos.y < 25.0f)
 	{
 		//プレイヤーが何も捕捉していなければ
-		if (CaptureStateManager::GetInstance().GetCaptureState() == None) {
+		if (CaptureStateManager::GetInstance().GetCaptureState() == None
+			&& m_enemyState == enemyNear) {
 			//捕捉レティクル（四角）をだす。
 			m_isCaptured = true;
 			m_isFirstExpand = false;
 			//捕捉された敵がいることと、その位置座標を保存
-			m_enemyState = enemyNear;
 			CaptureStateManager::GetInstance().SetCaptureState(Captured);
 		}
 
