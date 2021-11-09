@@ -1,13 +1,17 @@
 #pragma once
 class SpriteRender;
-class RocketTargetStateIcon;
+class MissileTargetIcon;
 class Enemy;
+class CrossIcon;
+class CapturedSquareIcon;
+
+class Reticle;
 
 class EnemyStateIcon : public IGameObject
 {
 private:
 	Vector3 m_screenPos = Vector3::Zero;
-	Vector3 m_position = Vector3::Zero;
+	//Vector3 m_position = Vector3::Zero;
 	Vector3 m_scale[2] = { Vector3::One, Vector3::Zero };
 	Vector3 m_enemyPos = Vector3::Zero;
 	bool m_isFirstExpand = false;
@@ -26,7 +30,7 @@ public:
 	~EnemyStateIcon();
 	bool Start();
 	void Update();
-	void SetPosition(Vector3 pos) { m_position = pos; }
+	//void SetPosition(Vector3 pos) { m_position = pos; }
 	void SetEnemyPos(Vector3& pos) { m_enemyPos = pos; }
 	bool IsTargeted() {
 		if (m_enemyState == enemyTargeted) { return true; }
@@ -43,10 +47,16 @@ public:
 	void IconBehaviour();
 
 	const void SetEnemyObject(Enemy* enemy) { m_enemy = enemy; }
+
+	void SetReticleInstance(Reticle* reticle) { m_reticle = reticle; }
 private:
-	std::array<SpriteRender*, 2> m_spriteRender = { nullptr, nullptr };
-	std::array<RocketTargetStateIcon*, 10> m_rocketTargetIcon = { nullptr };
+	std::array<MissileTargetIcon*, 10> m_missileTargetIcon = { nullptr };
 	std::vector<int> m_rocketTargetPosNumber;
+
+	CrossIcon* m_crossIcon = nullptr;
+	CapturedSquareIcon* m_squareIcon = nullptr;
+
+	Reticle* m_reticle = nullptr;					//レティクルのインスタンス保存用
 
 	Enemy* m_enemy;
 };

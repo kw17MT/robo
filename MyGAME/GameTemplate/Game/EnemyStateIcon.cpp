@@ -2,9 +2,14 @@
 #include "EnemyStateIcon.h"
 #include "SpriteRender.h"
 #include "CaptureStateManager.h"
-#include "RocketTargetStateIcon.h"
+#include "MissileTargetIcon.h"
+#include "CrossIcon.h"
+#include "CapturedSquareIcon.h"
 
-extern Vector3 CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);
+//したからFindGO対象　エネミーの数分スタートでFind
+#include "Reticle.h"
+
+extern void CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);
 
 namespace
 {
@@ -15,25 +20,25 @@ namespace
 
 EnemyStateIcon::~EnemyStateIcon()
 {
-	DeleteGO(m_spriteRender[0]); m_spriteRender[0] = nullptr;
-	DeleteGO(m_spriteRender[1]); m_spriteRender[1] = nullptr;
+	DeleteGO(m_crossIcon); m_crossIcon = nullptr;
+	DeleteGO(m_squareIcon); m_squareIcon = nullptr;
 
 	for (int i = 0; i < 10; i++)
 	{
-		DeleteGO(m_rocketTargetIcon[i]);
+		DeleteGO(m_missileTargetIcon[i]);
 	}
 }
 
 bool EnemyStateIcon::Start()
 {
-	m_spriteRender[0] = NewGO<SpriteRender>(0);
-	m_spriteRender[1] = NewGO<SpriteRender>(0);
-	m_spriteRender[0]->Init("Assets/Image/reticle/reticle_toofar.dds",48,48);
-	m_spriteRender[1]->Init("Assets/Image/reticle/reticle_near2.dds",48,48);
+	m_crossIcon = NewGO<CrossIcon>(0);
+	m_squareIcon = NewGO<CapturedSquareIcon>(0);
+
+	//m_reticle = FindGO<Reticle>("reticle");
 
 	for (int i = 0; i < 10; i++)
 	{
-		m_rocketTargetIcon[i] = NewGO<RocketTargetStateIcon>(0);
+		m_missileTargetIcon[i] = NewGO<MissileTargetIcon>(0);
 	}
 
 	return true;
@@ -69,7 +74,7 @@ void EnemyStateIcon::DisplayIcons()
 			//捕捉レティクル（四角）をだす。
 			m_isCaptured = true;
 			m_isFirstExpand = false;
-			//捕捉された敵がいることと、その位置座標を保存
+			//捕捉された敵がいることを保存
 			CaptureStateManager::GetInstance().SetCaptureState(Captured);
 		}
 
@@ -78,7 +83,8 @@ void EnemyStateIcon::DisplayIcons()
 			//現在、この敵の位置座標はマネージャーが持つ配列の何番目に保存しているか把握しておく
 			m_rocketTargetPosNumber.push_back(CaptureStateManager::GetInstance().GetRocketTargetNum());
 			//ロケットにターゲットされた敵の数を配列の要素数に利用する
-			m_rocketTargetIcon[m_rocketTargetPosNumber.back()]->SetFirstExpandScale(true);
+			m_missileTargetIcon[m_rocketTargetPosNumber.back()]->SetFirstExpandScale(true);
+			m_missileTargetIcon[m_rocketTargetPosNumber.back()]->SetTargetedEnemy(m_enemy);
 			CaptureStateManager::GetInstance().SetRocketTargetedEnemy(m_enemy);
 			CaptureStateManager::GetInstance().PlusRockeTargetNum();
 			CaptureStateManager::GetInstance().SetRocketTargetState(false);
@@ -150,7 +156,7 @@ void EnemyStateIcon::IconBehaviour()
 				//大きめの拡大率に更新
 				m_scale[1] = APPEAR_RATE;
 				//距離が近くなったら最初だけ少し大きめにする。
-				m_spriteRender[1]->SetScale(m_scale[1]);
+				m_squareIcon->SetScale(m_scale[1]);
 				//最初の拡大が終わった
 				m_isFirstExpand = true;
 				return;
@@ -194,7 +200,7 @@ void EnemyStateIcon::IconBehaviour()
 void EnemyStateIcon::Update()
 {
 	//最初に敵のスクリーン座標を更新する。
-	m_position = CalcMethods::CalcScreenPos(m_screenPos, m_enemyPos);
+	CalcMethods::CalcScreenPos(m_screenPos, m_enemyPos);
 	
 	DisplayIcons();
 
@@ -230,10 +236,10 @@ void EnemyStateIcon::Update()
 	}
 
 	//バツのレティクルの拡大率更新
-	m_spriteRender[0]->SetScale(m_scale[0]);
+	m_crossIcon->SetScale(m_scale[0]);
 	//捕捉レティクルの拡大率更新
-	m_spriteRender[1]->SetScale(m_scale[1]);
+	m_squareIcon->SetScale(m_scale[1]);
 	//レティクルを敵のスクリーン座標に置く。
-	m_spriteRender[0]->SetPosition(m_position);
-	m_spriteRender[1]->SetPosition(m_position);
+	m_crossIcon->SetPosition(m_screenPos);
+	m_squareIcon->SetPosition(m_screenPos);
 }

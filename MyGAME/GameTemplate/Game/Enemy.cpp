@@ -21,29 +21,46 @@ Enemy::~Enemy()
 
 void Enemy::TakenDamage(EnDamageTypes damageType)
 {
+	//HPにダメージを反映する。
 	m_enemyHP->ApplyDamage(damageType);
 }
 
 bool Enemy::Start()
 {
+	//プレイヤーインスタンスの情報取得
 	m_player = FindGO<Player>("player");
+
+	//敵のモデルをインスタンス化
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/enemy/drone.tkm", nullptr/*"Assets/modelData/enemy/enemy.tks"*/, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
 	m_skinModelRender->SetScale({ 15.0f, 15.0f, 15.0f});
 
+	//距離（文字）を表示
 	m_displayDistance = NewGO<DisplayDistance>(0);
+	//位置を敵に設定
 	m_displayDistance->SetEnemyPos(m_position);
 
+	//敵にかかるアイコンを表示
 	m_enemyStateIcon = NewGO<EnemyStateIcon>(0);
+	//位置を敵に設定
 	m_enemyStateIcon->SetEnemyPos(m_position);
+	//プレイヤーと敵の距離を渡す
 	m_enemyStateIcon->JudgeState(m_distance);
 
+	m_enemyStateIcon->SetReticleInstance(m_player->GetReticleInstance());
+
+	//HPバーを表示
 	m_enemyHP = NewGO<EnemyHP>(0);
+	//位置を敵に設定
 	m_enemyHP->SetEnemyPos(m_position);
-	m_enemyHP->IsEnemyTargeted(false);
+
+	//20～30のランダムな数値を作成。
+	const float moveSpeed = rand() % 10 + 20.0f;
+	m_enemyBrain.SetMoveSpeed(moveSpeed);
 
 	//m_machinGun = NewGO<MachinGun>(0);
 
+	//モデルの位置を設定
 	m_skinModelRender->SetPosition(m_position);
 	return true;
 }

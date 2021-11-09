@@ -14,6 +14,8 @@ private:
 	//CaptureStateManager* m_stateManager = &CaptureStateManager::GetInstance();
 
 	bool m_isTarget = false;
+	bool m_isNextTarget = false;			//次に自動的にターゲットしている敵はいるか（また、その座標は保存してあるか）
+	Vector3 m_nextTargetEnemyPos = Vector3::Zero;
 	float m_PressButtonTime = 0.5f;
 public:
 	Reticle() {};
@@ -22,6 +24,9 @@ public:
 	void Update();
 	void CalcPosition();
 	void ChangeTargetStateDependOnButtonLB2();
+
+	bool IsTargeted() { return m_isTarget; }
+	bool IsTargetedNext() { return m_isNextTarget; }
 private:
 	std::array< SpriteRender*, 2> m_spriteRender = { nullptr, nullptr };
 };

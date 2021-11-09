@@ -2,7 +2,7 @@
 #include "Reticle.h"
 #include "CaptureStateManager.h"
 
-extern Vector3 CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);
+extern void CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);
 
 namespace
 {
@@ -90,9 +90,9 @@ void Reticle::CalcPosition()
 	if (m_isTarget)
 	{
 		//ターゲットする敵の位置をスクリーン座標に変換する。
-		Vector3 targetPos = CalcMethods::CalcScreenPos(m_lockOnPosition, CaptureStateManager::GetInstance().GetCapturedEnemyPos());
+		CalcMethods::CalcScreenPos(m_lockOnPosition, CaptureStateManager::GetInstance().GetCapturedEnemyPos());
 		//その位置がカメラの後ろ側に来るなら
-		if (targetPos.z == -1.0f)
+		if (m_lockOnPosition.z == -1.0f)
 		{
 			//ターゲットを解除
 			m_isTarget = false;
@@ -101,7 +101,7 @@ void Reticle::CalcPosition()
 		}
 
 		//ロックオン用の画像位置を設定
-		m_spriteRender[1]->SetPosition(targetPos);
+		m_spriteRender[1]->SetPosition(m_lockOnPosition);
 
 		//ロックオンしていたらスケールを1に戻していく
 		m_reticleScale[1] += SCALE_CHANGE_AMOUNT;

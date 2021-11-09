@@ -11,6 +11,11 @@ private:
 	bool m_canShoot = false;
 public:
 	/**
+	 * @brief エネミーの生成時に作成した移動速度を設定する。
+	 * @param moveSpeed ランダムな移動速度
+	*/
+	void SetMoveSpeed(const float moveSpeed) { m_enemyMove.SetMoveSpeed(moveSpeed); }
+	/**
 	 * @brief プレイヤーの位置座標を記憶する
 	 * @param playerPos プレイヤーの位置座標
 	*/

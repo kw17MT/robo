@@ -90,10 +90,5 @@ public:
 		s_allLight.ViewProjInverseMatrix = g_camera3D->GetViewProjectionMatrix();
 		s_allLight.ViewProjInverseMatrix.Inverse();
 	}
-
-	/*void UpdateLVPMatrix(Matrix* lvpcMatrix)
-	{
-		s_allLight.s_lightCameraMatrix[0] = *lvpcMatrix;
-	}*/
 };
 

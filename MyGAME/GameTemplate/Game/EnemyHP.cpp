@@ -11,6 +11,8 @@ namespace
 	const float MAX_ENEMY_HP = 100.0f;
 }
 
+extern void CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);
+
 EnemyHP::~EnemyHP()
 {
 	//HPバーのインスタンス破棄
@@ -54,32 +56,13 @@ void EnemyHP::ApplyDamage(EnDamageTypes damageType)
 void EnemyHP::Update()
 {
 	//ワールド座標から、カメラの行列をつかってスクリーン座標に変換する
-	Vector2 position;
-	g_camera3D->CalcScreenPositionFromWorldPosition(position, m_enemyPos);
-	m_screenPos.x = -position.x;
-	m_screenPos.y = position.y;
-
-	Vector3 enemyToCamera = g_camera3D->GetPosition() - m_enemyPos;
-	//正規化
-	enemyToCamera.Normalize();
-	//敵の位置とカメラの前方向の内積
-	float dot = g_camera3D->GetForward().Dot(enemyToCamera);
-	//敵がカメラの前方向にあるならば映す
-	if (dot < 0.0f)
-	{
-		m_screenPos.z = 0.0f;
-	}
-	//後ろ側にある
-	else
-	{
-		m_screenPos.z = -1.0f;
-	}
+	CalcMethods::CalcScreenPos(m_screenPos, m_enemyPos);
 	m_spriteRender->SetPosition(m_screenPos);
 
 	//残りHP量によってHPバーを短くする
 	m_scale.x = (float)m_enemyHP / MAX_ENEMY_HP;
 
-	//この敵がたーげとされているなら
+	//この敵がターゲットされているなら
 	if (m_isTargeted) {
 		//残りHP量にそったHPバーの長さに
 		m_spriteRender->SetScale(m_scale);

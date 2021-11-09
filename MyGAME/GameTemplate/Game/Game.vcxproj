@@ -299,6 +299,7 @@
     <ClCompile Include="CameraMove.cpp" />
     <ClCompile Include="CaptureStateManager.cpp" />
     <ClCompile Include="CaslFile.cpp" />
+    <ClCompile Include="CrossIcon.cpp" />
     <ClCompile Include="DefferedLighting.cpp" />
     <ClCompile Include="DepthInView.cpp" />
     <ClCompile Include="DisplayDistance.cpp" />
@@ -337,7 +338,7 @@
     <ClCompile Include="Reticle.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerRotation.cpp" />
-    <ClCompile Include="RocketTargetStateIcon.cpp" />
+    <ClCompile Include="MissileTargetIcon.cpp" />
     <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="SkyCube.cpp" />
@@ -345,6 +346,7 @@
     <ClCompile Include="SoundPreCompile.cpp" />
     <ClCompile Include="SoundSource.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
+    <ClCompile Include="CapturedSquareIcon.cpp" />
     <ClCompile Include="SSR.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -433,6 +435,7 @@
     <ClInclude Include="CameraMove.h" />
     <ClInclude Include="CaptureStateManager.h" />
     <ClInclude Include="CaslFile.h" />
+    <ClInclude Include="CrossIcon.h" />
     <ClInclude Include="DefferedLighting.h" />
     <ClInclude Include="DepthInView.h" />
     <ClInclude Include="DisplayDistance.h" />
@@ -470,7 +473,7 @@
     <ClInclude Include="Reticle.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="PlayerRotation.h" />
-    <ClInclude Include="RocketTargetStateIcon.h" />
+    <ClInclude Include="MissileTargetIcon.h" />
     <ClInclude Include="Shadow.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="SkyCube.h" />
@@ -478,6 +481,7 @@
     <ClInclude Include="SoundPreCompile.h" />
     <ClInclude Include="SoundSource.h" />
     <ClInclude Include="SpriteRender.h" />
+    <ClInclude Include="CapturedSquareIcon.h" />
     <ClInclude Include="SSR.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Stopwatch.h" />

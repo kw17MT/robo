@@ -340,9 +340,11 @@
     <ClCompile Include="EnemyHP.cpp">
       <Filter>Object\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="RocketTargetStateIcon.cpp">
+    <ClCompile Include="MissileTargetIcon.cpp">
       <Filter>UI,Sprite\NearEnemy</Filter>
     </ClCompile>
+    <ClCompile Include="CrossIcon.cpp" />
+    <ClCompile Include="CapturedSquareIcon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -710,9 +712,11 @@
     <ClInclude Include="EnemyHP.h">
       <Filter>Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="RocketTargetStateIcon.h">
+    <ClInclude Include="MissileTargetIcon.h">
       <Filter>UI,Sprite\NearEnemy</Filter>
     </ClInclude>
+    <ClInclude Include="CrossIcon.h" />
+    <ClInclude Include="CapturedSquareIcon.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">

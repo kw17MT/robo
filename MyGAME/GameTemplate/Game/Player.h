@@ -2,6 +2,7 @@
 class SkinModelRender;
 class MachinGun;
 class MissileGenerator;
+class Reticle;
 #include "CameraMove.h"
 #include "PlayerMove.h"
 #include "PlayerRotation.h"
@@ -46,10 +47,13 @@ public:
 	 * @return プレイヤーの現在位置
 	*/
 	Vector3 GetPosition() { return m_currentHomePosition; }
+
+	Reticle* GetReticleInstance() { return m_reticle; }
 private:
 	SkinModelRender* m_skinModelRender = nullptr;		//プレイヤーのモデルインスタンス
 	MachinGun* m_machingun = nullptr;					//プレイヤーが持つマシンガンインスタンス
 	MissileGenerator* m_missileGene = nullptr;
+	Reticle* m_reticle = nullptr;
 
 	CameraMove m_cameraMove;							//プレイヤーを追従するカメラの位置座標計算オブジェクト
 	PlayerMove m_roboMove;								//プレイヤーの座標を計算する

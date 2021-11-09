@@ -40,7 +40,7 @@ Vector3 Missile::CalcDeployDirection()
 	Vector3 right = g_camera3D->GetRight();
 	Vector3 up = front.CalcCross(right);
 
-	srand((unsigned int)time(NULL));
+	//srand((unsigned int)time(NULL));				//ミサイル自体は同じフレームで一気に出しているため、時間で初期化しないこと
 	float degreeX = rand() % 90 + 1;
 	float degreeY = rand() % 90 + 1;
 	degreeX -= 45.0f; degreeY -= 45.0f;
@@ -77,15 +77,16 @@ void Missile::RestrictRotation()
 	else
 	{
 		//進行していた方向＝現在のミサイルの前方向とターゲットへのベクトル内積を求める。
-		if (float a = m_moveDirection.Dot(m_prevMoveDirection) > 0.8f)
+		if (float a = m_moveDirection.Dot(m_prevMoveDirection) > 0.999f)
 		{
+			a;
 		}
 		else
 		{
 			//ターゲットへのベクトルとミサイルの前方向の上方向を計算
 			Vector3 up = m_moveDirection.CalcCross(m_prevMoveDirection);
 			Quaternion rot;
-			rot.SetRotationDeg(up, 80.0f);
+			rot.SetRotationDeg(up, 0.010f);
 			rot.Apply(m_moveDirection);
 		}
 		m_prevMoveDirection = m_moveDirection;
@@ -104,7 +105,7 @@ void Missile::Update()
 		if (count >= 1.0f)
 		{
 			//直進モードに切り替え
-			m_moveStage = enChaseTarget;//enStraightTarget;
+			m_moveStage = /*enChaseTarget;*/ enStraightTarget;
 		}
 		//1フレーム前の移動方向として保存
 		m_prevMoveDirection = m_deployDirection;
@@ -125,7 +126,7 @@ void Missile::Update()
 		//敵までの距離から移動方向と速度を計算する。
 		m_moveDirection = CalcToTargetVec();
 		//回転の抑制
-		m_prevMoveDirection = m_moveDirection;
+		// m_prevMoveDirection = m_moveDirection;					下関数を使うならこの行をけすこと
 		//RestrictRotation();
 		//抑制済みの移動方向を用いて速度を計算
 		m_moveSpeed = m_moveDirection * MISSILE_SPEED;
