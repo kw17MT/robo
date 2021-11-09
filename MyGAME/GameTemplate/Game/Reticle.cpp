@@ -2,7 +2,7 @@
 #include "Reticle.h"
 #include "CaptureStateManager.h"
 
-extern Vector3 CalcScreenPos(Vector3& screenPos, Vector3 pos);
+extern Vector3 CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);
 
 namespace
 {
@@ -90,7 +90,7 @@ void Reticle::CalcPosition()
 	if (m_isTarget)
 	{
 		//ターゲットする敵の位置をスクリーン座標に変換する。
-		Vector3 targetPos = CalcScreenPos(m_lockOnPosition, CaptureStateManager::GetInstance().GetCapturedEnemyPos());
+		Vector3 targetPos = CalcMethods::CalcScreenPos(m_lockOnPosition, CaptureStateManager::GetInstance().GetCapturedEnemyPos());
 		//その位置がカメラの後ろ側に来るなら
 		if (targetPos.z == -1.0f)
 		{

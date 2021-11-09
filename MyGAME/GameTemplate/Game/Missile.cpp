@@ -4,9 +4,14 @@
 #include "Enemy.h"
 #include "CaptureStateManager.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
 namespace
 {
-	const int MISSILE_SPEED = 150.0f;
+	const float MISSILE_SPEED = 150.0f;
+	const float DEPLOY_SPEED = 40.0f;
 }
 
 Missile::~Missile()
@@ -21,9 +26,35 @@ bool Missile::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/missile/missile.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
-	m_skinModelRender->SetScale({ 10.0f,10.0f,10.0f });
+	m_skinModelRender->SetScale({ 20.0f,20.0f,20.0f });
 
+	m_deployDirection = CalcDeployDirection();
+	m_prevMoveDirection = m_deployDirection;
 	return true;
+}
+
+Vector3 Missile::CalcDeployDirection()
+{
+	//画面の前方向を取得
+	Vector3 front = g_camera3D->GetForward();
+	Vector3 right = g_camera3D->GetRight();
+	Vector3 up = front.CalcCross(right);
+
+	srand((unsigned int)time(NULL));
+	float degreeX = rand() % 90 + 1;
+	float degreeY = rand() % 90 + 1;
+	degreeX -= 45.0f; degreeY -= 45.0f;
+	/*if ((int)degree % 2)
+	{
+		degree *= -1.0f;
+	}*/
+	Quaternion qRot;
+	qRot.SetRotationDeg(right, degreeY);
+	qRot.Apply(front);
+	qRot.SetRotationDeg(up, degreeX);
+	qRot.Apply(front);
+
+	return front;
 }
 
 Vector3 Missile::CalcToTargetVec()
@@ -35,15 +66,10 @@ Vector3 Missile::CalcToTargetVec()
 	return toTargetVec;
 }
 
-void Missile::Update()
+void Missile::RestrictRotation()
 {
-	//m_targetPos = CaptureStateManager::GetInstance().GetRocketTargetEnemyPos(m_number);
-	//敵までの距離から移動方向と速度を計算する。
-	float a;
-	m_moveDirection = CalcToTargetVec();
-
 	//ロックオンしていた敵が倒されたら
-	if(m_enemy->IsDead())
+	if (m_enemy->IsDead())
 	{
 		//倒される前の敵への方向を使う
 		m_moveDirection = m_prevMoveDirection;
@@ -51,9 +77,8 @@ void Missile::Update()
 	else
 	{
 		//進行していた方向＝現在のミサイルの前方向とターゲットへのベクトル内積を求める。
-		if (a = m_moveDirection.Dot(m_prevMoveDirection) > 0.8f)
+		if (float a = m_moveDirection.Dot(m_prevMoveDirection) > 0.8f)
 		{
-
 		}
 		else
 		{
@@ -63,12 +88,50 @@ void Missile::Update()
 			rot.SetRotationDeg(up, 80.0f);
 			rot.Apply(m_moveDirection);
 		}
-
 		m_prevMoveDirection = m_moveDirection;
 	}
+}
 
-	m_moveSpeed = m_moveDirection * MISSILE_SPEED;
-	
+void Missile::Update()
+{
+	switch (m_moveStage)
+	{
+	//ロケット発射直後のランダム方向への展開
+	case enDeploying:
+		//最初に計算した展開方向を使用してミサイルを展開
+		m_moveSpeed = m_deployDirection * DEPLOY_SPEED;
+		//1秒くらいたったら
+		if (count >= 1.0f)
+		{
+			//直進モードに切り替え
+			m_moveStage = enChaseTarget;//enStraightTarget;
+		}
+		//1フレーム前の移動方向として保存
+		m_prevMoveDirection = m_deployDirection;
+		break;
+	//展開後は少しの間敵に直進するように
+	case enStraightTarget:
+		//敵への直進方向を計算
+		m_moveDirection = CalcToTargetVec();
+		//1フレーム前の移動方向として保存
+		m_prevMoveDirection = m_moveDirection;
+		//直進する移動速度を計算
+		m_moveSpeed = m_moveDirection * MISSILE_SPEED;
+		//追跡モードに切り替え
+		m_moveStage = enChaseTarget;
+		break;
+	//敵を寿命が尽きるまで追跡する
+	case enChaseTarget:
+		//敵までの距離から移動方向と速度を計算する。
+		m_moveDirection = CalcToTargetVec();
+		//回転の抑制
+		m_prevMoveDirection = m_moveDirection;
+		//RestrictRotation();
+		//抑制済みの移動方向を用いて速度を計算
+		m_moveSpeed = m_moveDirection * MISSILE_SPEED;
+		break;
+	}
+
 	//速度を考慮した位置座標を設定する。
 	m_position += m_moveSpeed;
 	m_skinModelRender->SetPosition(m_position);
@@ -96,8 +159,7 @@ void Missile::Update()
 		DeleteGO(this);
 	}
 
-
-
+	//現在の移動方向を用いてミサイルモデルの回転を行う
 	m_rot.SetRotation({ 0.0f,0.0f,-1.0f }, m_moveDirection);
 	m_skinModelRender->SetRotation(m_rot);
 }

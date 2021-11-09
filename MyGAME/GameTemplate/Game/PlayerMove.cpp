@@ -144,21 +144,6 @@ Vector3 PlayerMove::CalcPlayerPos(Vector3 homePos)
 	//ホームポジションからずらしたい移動量
 	Vector3 plusSpeed = m_currentSpeed * m_dashSpeedRate;
 
-
-
-	//ここから関数に直してもいいかも不完全
-	/*Vector3 kariPlusSpeed = plusSpeed;
-	kariPlusSpeed.Normalize();
-	m_prevPlusSpeed.Normalize();
-
-	if (m_prevPlusSpeed.Dot(kariPlusSpeed) < 0.0f)
-	{
-		plusSpeed = m_currentSpeed * m_dashSpeedRate * 20000.0f;
-	};*/
-
-
-
-
 	//Y座標の移動量を調整
 	plusSpeed.y /= 1.3f;
 	//前フレームの加速速度を保存

@@ -42,10 +42,6 @@ bool Enemy::Start()
 	m_enemyHP->SetEnemyPos(m_position);
 	m_enemyHP->IsEnemyTargeted(false);
 
-	m_enemyBrain = NewGO<EnemyBrain>(0);
-	m_enemyBrain->MemoryPlayerPos(m_player->GetPosition());
-	m_enemyBrain->MemoryEnemyPos(m_position);
-
 	//m_machinGun = NewGO<MachinGun>(0);
 
 	m_skinModelRender->SetPosition(m_position);
@@ -54,27 +50,32 @@ bool Enemy::Start()
 
 void Enemy::Update()
 {
-	m_position = m_enemyMove.CalcNextPos(m_position);
+	// 座標関係 //////////////////////////////////////////////////////////////////////////////////////
+	m_enemyBrain.MemoryPlayerPos(m_player->GetPosition());
+	m_enemyBrain.MemoryEnemyPos(m_position);
+	m_enemyBrain.Work();
+	//計算した次の位置座標を取得
+	m_position = m_enemyBrain.GetNextEnemyPos();
+	//位置を更新
+	m_skinModelRender->SetPosition(m_position);
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// UI関係 ////////////////////////////////////////////////////////////////////////////////////////
 	//プレイヤーと自分（敵）の距離を計測し、自分にもその情報を保存
 	m_distance = m_displayDistance->CalcDistance(m_position, m_player->GetPosition());
 	//自分についてくるレティクルに位置座標を与える
 	m_enemyStateIcon->SetEnemyPos(m_position);
 	//プレイヤーと自分の距離を与えてレティクルの状態を更新する。
 	m_enemyStateIcon->JudgeState(m_distance);
-	//位置を更新
-	m_skinModelRender->SetPosition(m_position);
-
+	//自分がターゲットされていたらHPバーを出現させる。
 	m_enemyHP->IsEnemyTargeted(m_enemyStateIcon->IsTargeted());
 	//HPバーの位置を更新
 	m_enemyHP->SetEnemyPos(m_position);
-
-	m_enemyBrain->MemoryPlayerPos(m_player->GetPosition());
-	m_enemyBrain->MemoryEnemyPos(m_position);
-
 	//自分のインスタンスをアイコンに渡してやる
 	m_enemyStateIcon->SetEnemyObject(this);
-	//m_machinGun->SetTargetAndCurrentPos(m_player->GetPosition(), m_position);
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 
+	//m_machinGun->SetTargetAndCurrentPos(m_player->GetPosition(), m_position);
 
 	//HPがなくなったら
 	if (m_enemyHP->IsDead())

@@ -8,6 +8,7 @@ class MachinGun;
 
 #include "EnemyHP.h"
 #include "EnemyMove.h"
+#include "EnemyBrain.h"
 
 class Enemy : public IGameObject
 {
@@ -30,8 +31,7 @@ private:
 	Player* m_player = nullptr;
 	EnemyStateIcon* m_enemyStateIcon = nullptr;
 
-	EnemyBrain* m_enemyBrain = nullptr;
-	EnemyMove m_enemyMove;
+	EnemyBrain m_enemyBrain;
 	EnemyHP* m_enemyHP = nullptr;
 	//MachinGun* m_machinGun = nullptr;
 };

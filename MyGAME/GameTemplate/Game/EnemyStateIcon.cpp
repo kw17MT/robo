@@ -4,7 +4,7 @@
 #include "CaptureStateManager.h"
 #include "RocketTargetStateIcon.h"
 
-extern Vector3 CalcScreenPos(Vector3& screenPos, Vector3 pos);
+extern Vector3 CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);
 
 namespace
 {
@@ -194,7 +194,7 @@ void EnemyStateIcon::IconBehaviour()
 void EnemyStateIcon::Update()
 {
 	//最初に敵のスクリーン座標を更新する。
-	m_position = CalcScreenPos(m_screenPos, m_enemyPos);
+	m_position = CalcMethods::CalcScreenPos(m_screenPos, m_enemyPos);
 	
 	DisplayIcons();
 

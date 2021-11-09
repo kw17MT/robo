@@ -2,11 +2,19 @@
 class SkinModelRender;
 class Enemy;
 
+enum EnMoveStage
+{
+	enDeploying,
+	enStraightTarget,
+	enChaseTarget
+};
+
 class Missile : public IGameObject
 {
 private:
 	Vector3 m_targetPos = Vector3::Zero;
 	Vector3 m_position = Vector3::Zero;
+	Vector3 m_deployDirection = Vector3::Zero;
 	Vector3 m_moveSpeed = Vector3::Zero;
 	Vector3 m_moveDirection = g_camera3D->GetForward();
 	Quaternion m_rot = Quaternion::Identity;
@@ -35,8 +43,16 @@ public:
 	void SetNumber(int number) { m_number = number; }
 
 	void SetEnemy(Enemy* enemy) { m_enemy = enemy; }
+
+	void RestrictRotation();
+
+	//ミサイルの発射時のみランダムな方向に展開
+	Vector3 CalcDeployDirection();
 private:
 	SkinModelRender* m_skinModelRender = nullptr;
 	Enemy* m_enemy = nullptr;
+	EnMoveStage m_moveStage = enDeploying;
+
+	float a[5];
 };
 

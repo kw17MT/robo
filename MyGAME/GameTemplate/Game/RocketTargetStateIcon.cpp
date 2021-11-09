@@ -2,7 +2,7 @@
 #include "RocketTargetStateIcon.h"
 #include "SpriteRender.h"
 
-extern Vector3 CalcScreenPos(Vector3& screenPos, Vector3 pos);
+extern Vector3 CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);
 
 RocketTargetStateIcon::~RocketTargetStateIcon()
 {
@@ -20,7 +20,7 @@ bool RocketTargetStateIcon::Start()
 void RocketTargetStateIcon::Update()
 {
 	//敵のスクリーン座標を計算する
-	m_screenPos = CalcScreenPos(m_screenPos, m_targetedEnemyPos);
+	m_screenPos = CalcMethods::CalcScreenPos(m_screenPos, m_targetedEnemyPos);
 
 	m_spriteRender->SetPosition(m_screenPos);
 	m_spriteRender->SetScale(m_scale);

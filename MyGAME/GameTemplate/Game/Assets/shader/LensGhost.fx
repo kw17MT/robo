@@ -1,5 +1,5 @@
 /*!
- * @brief	�X�v���C�g�p�̃V�F�[�_�[�B
+ * @brief フォワードでのレンズゴースト用シェーダー
  */
 
 cbuffer cb : register(b0){

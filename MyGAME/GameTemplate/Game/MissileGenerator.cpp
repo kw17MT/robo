@@ -7,6 +7,7 @@ namespace
 {
 	const int WAIT_SECOND = 1.0f;
 	const int MAX_LAUNCH_NUM = 10;
+	const float PI = 3.14f;
 }
 
 MissileGenerator::~MissileGenerator()
@@ -28,29 +29,6 @@ void MissileGenerator::Update()
 {
 	if (g_pad[0]->IsPress(enButtonLB2))
 	{
-		////ロックオンの間隔を計測する
-		//m_lockOnInterval += GameTime().GetFrameDeltaTime();
-
-		////計測時間が一定以上になったら
-		//if (m_lockOnInterval >= WAIT_SECOND)
-		//{
-		//	//発射するロケットの数を増やす
-		//	m_launchNum++;
-
-		//	//ここでロックオンした位置を設定していきたい
-
-		//	//発射間隔時間をリセット
-		//	m_lockOnInterval = 0.0f;
-		//	//発射するミサイルの最大数になれば
-		//	if (m_launchNum >= MAX_LAUNCH_NUM)
-		//	{
-		//		//最大数を維持
-		//		m_launchNum = MAX_LAUNCH_NUM;
-		//	}
-		//}
-
-
-
 		//発射の準備しているよ
 		m_isPrepareLaunch = true;
 	}
@@ -70,12 +48,17 @@ void MissileGenerator::Update()
 			m_missiles.push_back(NewGO<Missile>(0));
 			//1発1発出現させる場所を変える
 			Vector3 individualPos = m_launchPos;
-			individualPos.x += i * 100.0f;
+
+			//individualPos.x += sin(2 * PI * (-2 + i / 10.0f)) * 100.0f;
+			//individualPos.y += cos(2 * PI * ( 0.25f * (i + 1) / 10.0f)) * 300.0f;
+
+			//float a = sin(PI / (i + 1));
+			//float b = cos(PI / (i + 1));
+
 			m_missiles.back()->SetTargetAndCurrentPos(CaptureStateManager::GetInstance().GetRocketTargetEnemyPos(i), individualPos);
 			m_missiles.back()->SetEnemy(CaptureStateManager::GetInstance().GetRocketTargetEnemy(i));
 			m_missiles.back()->SetNumber(i);
 		}
-
 		//ロケットを発射したため、ロックオンしていた敵の数と場所をリセット
 		CaptureStateManager::GetInstance().ResetRocketTargetParam();
 
