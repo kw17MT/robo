@@ -345,6 +345,8 @@
     </ClCompile>
     <ClCompile Include="CrossIcon.cpp" />
     <ClCompile Include="CapturedSquareIcon.cpp" />
+    <ClCompile Include="EnemyMachinGun.cpp" />
+    <ClCompile Include="AmmoGauge.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -717,6 +719,8 @@
     </ClInclude>
     <ClInclude Include="CrossIcon.h" />
     <ClInclude Include="CapturedSquareIcon.h" />
+    <ClInclude Include="EnemyMachinGun.h" />
+    <ClInclude Include="AmmoGauge.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">

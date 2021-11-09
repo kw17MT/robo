@@ -2,6 +2,8 @@
 class SkinModelRender;
 class Enemy;
 
+#include "Weapon.h"
+
 enum EnMoveStage
 {
 	enDeploying,

@@ -293,6 +293,7 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TkmFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
+    <ClCompile Include="AmmoGauge.cpp" />
     <ClCompile Include="Bloom.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Calculation.cpp" />
@@ -308,6 +309,7 @@
     <ClCompile Include="EnemyBrain.cpp" />
     <ClCompile Include="EnemyGenerator.cpp" />
     <ClCompile Include="EnemyHP.cpp" />
+    <ClCompile Include="EnemyMachinGun.cpp" />
     <ClCompile Include="EnemyMove.cpp" />
     <ClCompile Include="EnemyStateIcon.cpp" />
     <ClCompile Include="FontRender.cpp" />
@@ -429,6 +431,7 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TkmFile.h" />
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
+    <ClInclude Include="AmmoGauge.h" />
     <ClInclude Include="Bloom.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Calculation.h" />
@@ -444,6 +447,7 @@
     <ClInclude Include="EnemyBrain.h" />
     <ClInclude Include="EnemyGenerator.h" />
     <ClInclude Include="EnemyHP.h" />
+    <ClInclude Include="EnemyMachinGun.h" />
     <ClInclude Include="EnemyMove.h" />
     <ClInclude Include="EnemyStateIcon.h" />
     <ClInclude Include="FontRender.h" />

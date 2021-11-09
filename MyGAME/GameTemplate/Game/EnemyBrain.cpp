@@ -24,7 +24,8 @@ void EnemyBrain::JudgeMoveType()
 	}
 	//敵の移動モードが逃げるモードかプレイヤーを囲むモードで距離が一定以上ならば
 	else if((m_enemyMove.GetEnemyMoveTypes() == enSurroundPlayer 
-		|| m_enemyMove.GetEnemyMoveTypes() == enRun)
+		|| m_enemyMove.GetEnemyMoveTypes() == enRun
+		|| m_enemyMove.GetEnemyMoveTypes() == enApproach)
 		&& distance > RECOGNITION_DISTANCE)
 	{
 		//プレイヤーの周りをぐるぐる回るモードにする。
@@ -49,6 +50,17 @@ void EnemyBrain::JudgeMoveType()
 		//高度調整モードに入る
 		m_enemyMove.SetEnemyAltitudeState(enTooHigh);
 	}
+}
+
+bool EnemyBrain::JudgeCanShoot()
+{
+	if ((m_enemyMove.GetEnemyMoveTypes() == enApproach
+		|| m_enemyMove.GetEnemyMoveTypes() == enSurroundPlayer)
+		&& m_canShoot)
+	{
+		return true;
+	}
+	return false;
 }
 
 void EnemyBrain::Work()

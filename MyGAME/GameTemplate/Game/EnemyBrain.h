@@ -38,6 +38,8 @@ public:
 	*/
 	void JudgeMoveType();
 
+	bool JudgeCanShoot();
+
 	/**
 	 * @brief “ª‚ğ“­‚©‚·B‚·‚×‚Ä‚Ì”»’f‚ğˆê‹C‚És‚¤
 	*/

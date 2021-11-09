@@ -6,7 +6,7 @@
 #include "EnemyStateIcon.h"
 #include "CaptureStateManager.h"
 #include "EnemyBrain.h"
-#include "MachinGun.h"
+#include "EnemyMachinGun.h"
 
 Enemy::~Enemy()
 {
@@ -58,7 +58,7 @@ bool Enemy::Start()
 	const float moveSpeed = rand() % 10 + 20.0f;
 	m_enemyBrain.SetMoveSpeed(moveSpeed);
 
-	//m_machinGun = NewGO<MachinGun>(0);
+	m_machinGun = NewGO<EnemyMachinGun>(0);
 
 	//ƒ‚ƒfƒ‹‚ÌˆÊ’u‚ðÝ’è
 	m_skinModelRender->SetPosition(m_position);
@@ -92,7 +92,11 @@ void Enemy::Update()
 	m_enemyStateIcon->SetEnemyObject(this);
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
-	//m_machinGun->SetTargetAndCurrentPos(m_player->GetPosition(), m_position);
+	if (m_enemyBrain.JudgeCanShoot())
+	{
+		m_machinGun->SetTargetAndCurrentPos(m_player->GetPosition(), m_position);
+		m_machinGun->SetCanShoot(true);
+	}
 
 	//HP‚ª‚È‚­‚È‚Á‚½‚ç
 	if (m_enemyHP->IsDead())

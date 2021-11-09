@@ -4,7 +4,7 @@ class DisplayDistance;
 class Player;
 class EnemyStateIcon;
 class EnemyBrain;
-class MachinGun;
+class EnemyMachinGun;
 
 #include "EnemyHP.h"
 #include "EnemyMove.h"
@@ -63,6 +63,6 @@ private:
 
 	EnemyBrain m_enemyBrain;								//敵の行動をまとめて管理する
 	EnemyHP* m_enemyHP = nullptr;							//敵のHPとHPバーを表示する
-	//MachinGun* m_machinGun = nullptr;
+	EnemyMachinGun* m_machinGun = nullptr;
 };
 
