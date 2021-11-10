@@ -268,7 +268,7 @@
       <Filter>UI,Sprite</Filter>
     </ClCompile>
     <ClCompile Include="CameraMove.cpp">
-      <Filter>Object\Player\Camera</Filter>
+      <Filter>Object\Player\PlayerCamera</Filter>
     </ClCompile>
     <ClCompile Include="SkyCube.cpp">
       <Filter>Object\Sky</Filter>
@@ -650,7 +650,7 @@
       <Filter>UI,Sprite</Filter>
     </ClInclude>
     <ClInclude Include="CameraMove.h">
-      <Filter>Object\Player\Camera</Filter>
+      <Filter>Object\Player\PlayerCamera</Filter>
     </ClInclude>
     <ClInclude Include="SkyCube.h">
       <Filter>Object\Sky</Filter>
@@ -766,9 +766,6 @@
     <Filter Include="Renderer">
       <UniqueIdentifier>{8411b4af-a1ba-48f1-af4b-2aaef3ee4c49}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Player\Camera">
-      <UniqueIdentifier>{538ef09b-1c00-4360-aa1c-83471d4253a9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Sky">
       <UniqueIdentifier>{7e46cf7c-1f6b-4e5c-b93e-14a2b3a015d4}</UniqueIdentifier>
     </Filter>
@@ -792,6 +789,9 @@
     </Filter>
     <Filter Include="Object\Weapon">
       <UniqueIdentifier>{30b80ae9-8777-4b47-a25f-ca677b4e5e62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Player\PlayerCamera">
+      <UniqueIdentifier>{538ef09b-1c00-4360-aa1c-83471d4253a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

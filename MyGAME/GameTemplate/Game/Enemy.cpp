@@ -16,7 +16,7 @@ Enemy::~Enemy()
 	DeleteGO(m_enemyHP);
 
 	//敵が倒れたため、ロックオン状態を何もなしにするか、次の敵をロックオンするか決定する。
-	CaptureStateManager::GetInstance().SetCaptureState(None, false);
+	CaptureStateManager::GetInstance().SetCaptureState(ChangeMainTarget);
 }
 
 void Enemy::TakenDamage(EnDamageTypes damageType)

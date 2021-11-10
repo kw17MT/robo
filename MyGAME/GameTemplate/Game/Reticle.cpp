@@ -52,7 +52,6 @@ void Reticle::ChangeTargetStateDependOnButtonLB2()
 			{
 				m_isTarget = false;
 				CaptureStateManager::GetInstance().SetCaptureState(None);
-				CaptureStateManager::GetInstance().ResetNextEnemyParam();
 			}
 		}
 		//LB2ボタンが離されたら押下時間をリセットする。
@@ -93,7 +92,7 @@ void Reticle::CalcPosition()
 	if (m_isTarget)
 	{
 		//ターゲットする敵の位置をスクリーン座標に変換する。
-		CalcMethods::CalcScreenPos(m_lockOnPosition, CaptureStateManager::GetInstance().GetCapturedEnemyPos());
+		CalcMethods::CalcScreenPos(m_lockOnPosition, m_targetingEnemyPos);
 		//その位置がカメラの後ろ側に来るなら
 		if (m_lockOnPosition.z == -1.0f)
 		{
@@ -143,9 +142,15 @@ void Reticle::Update()
 	{
 		//レティクルはターゲットしていない
 		m_isTarget = false;
-		//それまでターゲットしていた敵の位置をリセットする。
-		Vector3 homePos = { 0.0f,0.0f,-1.0f };
-		CaptureStateManager::GetInstance().SetCapturedEnemyPos(homePos);
+	}
+
+	m_isDecidedNextTarget;
+
+
+	if (CaptureStateManager::GetInstance().GetCaptureState() == ChangeMainTarget
+		&& m_isDecidedNextTarget == false)
+	{
+		CaptureStateManager::GetInstance().SetCaptureState(None);
 	}
 
 	//LB2ボタンを押しているかでターゲット状態を設定する。

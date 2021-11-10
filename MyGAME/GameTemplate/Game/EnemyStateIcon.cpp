@@ -6,7 +6,7 @@
 #include "CrossIcon.h"
 #include "CapturedSquareIcon.h"
 
-//したからFindGO対象　エネミーの数分スタートでFind
+//FindGO対象
 #include "Reticle.h"
 #include "MissileGenerator.h"
 
@@ -29,6 +29,7 @@ EnemyStateIcon::~EnemyStateIcon()
 		DeleteGO(m_missileTargetIcon.back());
 		m_missileTargetIcon.pop_back();
 	}
+	m_missileTargetIcon.clear();
 }
 
 bool EnemyStateIcon::Start()
@@ -36,7 +37,6 @@ bool EnemyStateIcon::Start()
 	m_crossIcon = NewGO<CrossIcon>(0);
 	m_squareIcon = NewGO<CapturedSquareIcon>(0);
 
-	//m_reticle = FindGO<Reticle>("reticle");
 	m_missileGenerator = FindGO<MissileGenerator>("missileGene");
 
 	for (auto i : m_missileTargetIcon)
@@ -85,12 +85,6 @@ void EnemyStateIcon::DisplayIcons()
 
 		//ロケットのターゲットをする命令が来ていたら
 		if (CaptureStateManager::GetInstance().GetMissileTargetState()) {
-			//現在、この敵の位置座標はマネージャーが持つ配列の何番目に保存しているか把握しておく
-			//m_rocketTargetPosNumber.push_back(CaptureStateManager::GetInstance().GetRocketTargetNum());
-			//CaptureStateManager::GetInstance().SetRocketTargetedEnemy(m_enemy);
-			//CaptureStateManager::GetInstance().PlusRockeTargetNum();
-			//CaptureStateManager::GetInstance().SetRocketTargetState(false);
-
 			if (m_missileGenerator->CanTargetMore())
 			{
 				m_missileGenerator->SaveTargetedEnemy(m_enemy);
@@ -99,7 +93,6 @@ void EnemyStateIcon::DisplayIcons()
 				m_missileTargetIcon.push_back(NewGO<MissileTargetIcon>(0));
 				m_missileTargetIcon.back()->SetFirstExpandScale(true);
 				m_missileTargetIcon.back()->SetTargetedEnemy(m_enemy);
-				//CaptureStateManager::GetInstance().SetRocketTargetState(enNoTarget);
 				CaptureStateManager::GetInstance().SetMissileTargetState(enMissileTargeted);
 			}
 			else
@@ -126,15 +119,12 @@ void EnemyStateIcon::DisplayIcons()
 		}
 		//プレイヤーは誰かしらをロックオンしているなら、次のロックオン先を予約しておく
 		if (CaptureStateManager::GetInstance().GetCaptureState() == Targeted
-			&& CaptureStateManager::GetInstance().IsNextEnemyCaptured() == false) {
+			&& m_reticle->GetIsDecidedNextTarget() == false) {
 			//自分自身を再び次のロックオン対象にしないようにする。
 			if (m_enemyState != enemyTargeted) {
 				//次の予約はこの敵にする
 				m_nextTarget = true;
-				//予約完了
-				CaptureStateManager::GetInstance().SetNextEnemy(true);
-				//予約先の位置座標を保存
-				CaptureStateManager::GetInstance().SetNextEnemyPos(m_enemyPos);
+				m_reticle->SetIsDecidedNextTarget(true);
 			}
 		}
 
@@ -149,10 +139,8 @@ void EnemyStateIcon::DisplayIcons()
 		if (m_nextTarget)
 		{
 			m_nextTarget = false;
-			CaptureStateManager::GetInstance().SetNextEnemy(false);
-			//予約先の位置座標を保存
-			Vector3 homePos = { 0.0f,0.0f,-1.0f };
-			CaptureStateManager::GetInstance().SetNextEnemyPos(homePos);
+			
+			m_reticle->SetIsDecidedNextTarget(false);
 		}
 	}
 }
@@ -210,7 +198,9 @@ void EnemyStateIcon::IconBehaviour()
 		m_scale[1] = Vector3::Zero;
 		m_isFirstExpand = false;
 		m_isCaptured = false;
-		CaptureStateManager::GetInstance().SetCapturedEnemyPos(m_enemyPos);
+
+		m_reticle->SetIsTargeting(true);
+
 		break;
 	}
 }
@@ -236,15 +226,17 @@ void EnemyStateIcon::Update()
 			//捕捉されている
 			m_isCaptured = false;
 			m_enemyState = enemyTargeted;
+
+
+			m_reticle->SetIsTargeting(true);
+			m_reticle->SetIsDecidedNextTarget(false);
 			//プレイヤーはターゲットしている
 			CaptureStateManager::GetInstance().SetCaptureState(Targeted);
 		}
+
 	}
 
-	if (CaptureStateManager::GetInstance().GetCaptureState() == None)
-	{
-		m_nextTarget = false;
-	}
+
 
 	if (m_missileGenerator->GetDeleteMissileIcon())
 	{
@@ -254,6 +246,16 @@ void EnemyStateIcon::Update()
 			m_missileTargetIcon.pop_back();
 		}
 		m_missileTargetIcon.clear();
+	}
+
+	if (CaptureStateManager::GetInstance().GetCaptureState() == None)
+	{
+		m_nextTarget = false;
+	}
+
+	if (m_enemyState == enemyTargeted)
+	{
+		m_reticle->SetTargetedEnemyPos(m_enemy->GetPosition());
 	}
 
 	//バツのレティクルの拡大率更新

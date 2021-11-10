@@ -80,6 +80,8 @@ void Player::Update()
 	m_prevHomePosition = m_currentHomePosition;
 
 	//マシンガンにターゲット位置とプレイヤーの現在の位置を与える
-	m_machingun->SetTargetAndCurrentPos(CaptureStateManager::GetInstance().GetCapturedEnemyPos(), m_currentPosition);
+	if (m_reticle->GetIsTargeted()) {
+		m_machingun->SetTargetAndCurrentPos(m_reticle->GetTargetingEnemyPos()/*CaptureStateManager::GetInstance().GetCapturedEnemyPos()*/, m_currentPosition);
+	}
 	m_missileGene->SetLaunchPos(m_currentPosition);
 }

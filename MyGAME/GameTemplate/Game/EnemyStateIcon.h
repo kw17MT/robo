@@ -48,9 +48,10 @@ public:
 	const void SetEnemyObject(Enemy* enemy) { m_enemy = enemy; }
 
 	void SetReticleInstance(Reticle* reticle) { m_reticle = reticle; }
+
+
 private:
 	std::vector<MissileTargetIcon*> m_missileTargetIcon;
-	std::vector<int> m_rocketTargetPosNumber;
 
 	CrossIcon* m_crossIcon = nullptr;
 	CapturedSquareIcon* m_squareIcon = nullptr;
