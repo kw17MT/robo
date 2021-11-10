@@ -39,7 +39,7 @@ bool Player::Start()
 
 
 	m_machingun = NewGO<MachinGun>(0);
-	m_missileGene = NewGO<MissileGenerator>(0);
+	m_missileGene = NewGO<MissileGenerator>(0,"missileGene");
 
 	m_reticle = NewGO<Reticle>(0);
 

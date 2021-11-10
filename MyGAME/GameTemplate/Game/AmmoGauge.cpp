@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "AmmoGauge.h"
 #include "SpriteRender.h"
+#include "FontRender.h"
 
 namespace
 {
-	const int BULLET_RELOAD_COMPLETE_TIME = 3.0f;
-	const int MISSILE_RELOAD_COMPLETE_TIME = 5.0f;
-	const int RASER_RELOAD_COMPLETE_TIME = 10.0f;
+	const float BULLET_RELOAD_COMPLETE_TIME = 3.0f;
+	const float MISSILE_RELOAD_COMPLETE_TIME = 5.0f;
+	const float RASER_RELOAD_COMPLETE_TIME = 10.0f;
 }
 
 AmmoGauge::~AmmoGauge()
@@ -20,11 +21,31 @@ bool AmmoGauge::Start()
 	m_spriteRender->Init("Assets/Image/HPBar/HPBar.dds", 128, 32);
 	m_spriteRender->SetPivot(m_pivot);
 
+	m_fontRender = NewGO<FontRender>(0);
+	m_fontRender->SetText(L"0");
+
 	return true;
+}
+
+void AmmoGauge::Reloading(const float reloadTime)
+{
+	m_scale.x = m_reloadTimer / reloadTime;
+	if (m_reloadTimer >= reloadTime)
+	{
+		m_remaining_ammo = m_max_ammo;
+		m_reloadTimer = 0.0f;
+		m_isReloaded = true;
+		m_finishReloading = true;
+		return;
+	}
+	m_remaining_ammo = m_max_ammo * m_scale.x;
 }
 
 void AmmoGauge::Update()
 {
+	std::wstring distanceStr = std::to_wstring(m_remaining_ammo);
+	m_fontRender->SetText(distanceStr.c_str());
+
 	if (m_remaining_ammo == 0)
 	{
 		m_isReloaded = false;
@@ -32,50 +53,28 @@ void AmmoGauge::Update()
 
 	if (!m_isReloaded)
 	{
-		m_ReloadTimer += GameTime().GetFrameDeltaTime();
+		m_reloadTimer += GameTime().GetFrameDeltaTime();
 
 		switch (m_ammoType)
 		{
-		case enBullet:
-			m_scale.x = m_ReloadTimer / BULLET_RELOAD_COMPLETE_TIME;
-			if (m_ReloadTimer >= BULLET_RELOAD_COMPLETE_TIME)
-			{
-				m_remaining_ammo = m_max_ammo;
-				m_ReloadTimer = 0.0f;
-				m_isReloaded = true;
-				m_finisReloading = true;
-				return;
-			}
+		case enAmmoBullet:
+			Reloading(BULLET_RELOAD_COMPLETE_TIME);
 			break;
-		case enMissile:
-			m_scale.x = m_ReloadTimer / MISSILE_RELOAD_COMPLETE_TIME;
-			if (m_ReloadTimer >= MISSILE_RELOAD_COMPLETE_TIME)
-			{
-				m_remaining_ammo = m_max_ammo;
-				m_ReloadTimer = 0.0f;
-				m_isReloaded = true;
-				m_finisReloading = true;
-				return;
-			}
+		case enAmmoMissile:
+			Reloading(MISSILE_RELOAD_COMPLETE_TIME);
 			break;
-		case enRaser:
-			m_scale.x = m_ReloadTimer / RASER_RELOAD_COMPLETE_TIME;
-			if (m_ReloadTimer >= RASER_RELOAD_COMPLETE_TIME)
-			{
-				m_remaining_ammo = m_max_ammo;
-				m_ReloadTimer = 0.0f;
-				m_isReloaded = true;
-				m_finisReloading = true;
-				return;
-			}
+		case enAmmoRaser:
+			Reloading(RASER_RELOAD_COMPLETE_TIME);
 			break;
 		}
 	}
 	else
 	{
-		m_finisReloading = false;
+		m_finishReloading = false;
 		m_scale.x = (float)m_remaining_ammo / (float)m_max_ammo;
 	}
 
+	m_fontRender->SetPosition({ -m_screenPos.x + 10.0f, m_screenPos.y });
 	m_spriteRender->SetScale(m_scale);
+	m_spriteRender->SetPosition(m_screenPos);
 }

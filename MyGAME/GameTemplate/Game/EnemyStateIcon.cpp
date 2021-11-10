@@ -8,6 +8,7 @@
 
 //したからFindGO対象　エネミーの数分スタートでFind
 #include "Reticle.h"
+#include "MissileGenerator.h"
 
 extern void CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);
 
@@ -23,10 +24,10 @@ EnemyStateIcon::~EnemyStateIcon()
 	DeleteGO(m_crossIcon); m_crossIcon = nullptr;
 	DeleteGO(m_squareIcon); m_squareIcon = nullptr;
 
-	for (int i = 0; i < 10; i++)
+	/*for (int i = 0; i < 10; i++)
 	{
 		DeleteGO(m_missileTargetIcon[i]);
-	}
+	}*/
 }
 
 bool EnemyStateIcon::Start()
@@ -35,11 +36,19 @@ bool EnemyStateIcon::Start()
 	m_squareIcon = NewGO<CapturedSquareIcon>(0);
 
 	//m_reticle = FindGO<Reticle>("reticle");
+	m_missileGenerator = FindGO<MissileGenerator>("missileGene");
 
-	for (int i = 0; i < 10; i++)
+	//for (int i = 0; i < 10; i++)
+	//{
+	//	m_missileTargetIcon[i] = NewGO<MissileTargetIcon>(0);
+	//}
+
+	for (auto i : m_missileTargetIcon2)
 	{
-		m_missileTargetIcon[i] = NewGO<MissileTargetIcon>(0);
+		DeleteGO(m_missileTargetIcon2.back());
+		m_missileTargetIcon2.pop_back();
 	}
+	m_missileTargetIcon2.clear();
 
 	return true;
 }
@@ -83,8 +92,12 @@ void EnemyStateIcon::DisplayIcons()
 			//現在、この敵の位置座標はマネージャーが持つ配列の何番目に保存しているか把握しておく
 			m_rocketTargetPosNumber.push_back(CaptureStateManager::GetInstance().GetRocketTargetNum());
 			//ロケットにターゲットされた敵の数を配列の要素数に利用する
-			m_missileTargetIcon[m_rocketTargetPosNumber.back()]->SetFirstExpandScale(true);
-			m_missileTargetIcon[m_rocketTargetPosNumber.back()]->SetTargetedEnemy(m_enemy);
+			m_missileTargetIcon2.push_back(NewGO<MissileTargetIcon>(0));
+			m_missileTargetIcon2.back()->SetFirstExpandScale(true);
+			m_missileTargetIcon2.back()->SetTargetedEnemy(m_enemy);
+
+			//m_missileTargetIcon[m_rocketTargetPosNumber.back()]->SetFirstExpandScale(true);
+			//m_missileTargetIcon[m_rocketTargetPosNumber.back()]->SetTargetedEnemy(m_enemy);
 			CaptureStateManager::GetInstance().SetRocketTargetedEnemy(m_enemy);
 			CaptureStateManager::GetInstance().PlusRockeTargetNum();
 			CaptureStateManager::GetInstance().SetRocketTargetState(false);
@@ -233,6 +246,16 @@ void EnemyStateIcon::Update()
 	{
 		//第二引数を要素数に指定して、そこを現在の敵の位置で更新する。
 		CaptureStateManager::GetInstance().SetRocketTargetPos(m_enemyPos, m_rocketTargetPosNumber[i]);
+	}
+
+	if (m_missileGenerator->GetDeleteMissileIcon())
+	{
+		for (auto i : m_missileTargetIcon2)
+		{
+			DeleteGO(m_missileTargetIcon2.back());
+			m_missileTargetIcon2.pop_back();
+		}
+		m_missileTargetIcon2.clear();
 	}
 
 	//バツのレティクルの拡大率更新

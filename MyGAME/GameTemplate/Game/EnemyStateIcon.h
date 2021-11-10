@@ -6,6 +6,7 @@ class CrossIcon;
 class CapturedSquareIcon;
 
 class Reticle;
+class MissileGenerator;
 
 class EnemyStateIcon : public IGameObject
 {
@@ -50,13 +51,15 @@ public:
 
 	void SetReticleInstance(Reticle* reticle) { m_reticle = reticle; }
 private:
-	std::array<MissileTargetIcon*, 10> m_missileTargetIcon = { nullptr };
+	//std::array<MissileTargetIcon*, 10> m_missileTargetIcon = { nullptr };
+	std::vector<MissileTargetIcon*> m_missileTargetIcon2;
 	std::vector<int> m_rocketTargetPosNumber;
 
 	CrossIcon* m_crossIcon = nullptr;
 	CapturedSquareIcon* m_squareIcon = nullptr;
 
 	Reticle* m_reticle = nullptr;					//レティクルのインスタンス保存用
+	MissileGenerator* m_missileGenerator = nullptr;	//ミサイル生成器のインスタンス保存用
 
 	Enemy* m_enemy;
 };

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MissileTargetIcon.h"
 #include "SpriteRender.h"
+#include "Enemy.h"
 
 extern void CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);
 
@@ -20,11 +21,12 @@ bool MissileTargetIcon::Start()
 void MissileTargetIcon::Update()
 {
 	//敵のスクリーン座標を計算する
-	CalcMethods::CalcScreenPos(m_screenPos, m_targetedEnemyPos);
+	CalcMethods::CalcScreenPos(m_screenPos, m_enemy->GetPosition());
 
 	if (m_isFirstExpand)
 	{
 		m_scale = { 2.0f, 2.0f, 1.0f };
+		m_isFirstExpand = false;
 	}
 	m_scale -= {0.1f, 0.1f, 0.0f};
 	if (m_scale.x <= 1.0f)

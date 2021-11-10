@@ -2,12 +2,12 @@
 #include "MissileGenerator.h"
 #include "Missile.h"
 #include "CaptureStateManager.h"
+#include "AmmoGauge.h"
 
 namespace
 {
 	const int WAIT_SECOND = 1.0f;
-	const int MAX_LAUNCH_NUM = 10;
-	const float PI = 3.14f;
+	const int MAX_AMMO = 10;
 }
 
 MissileGenerator::~MissileGenerator()
@@ -22,11 +22,18 @@ MissileGenerator::~MissileGenerator()
 
 bool MissileGenerator::Start()
 {
+	m_ammoGauge = NewGO<AmmoGauge>(0);
+	m_ammoGauge->SetRemainingAmmo(m_remaining_missile);
+	m_ammoGauge->SetMaxAmmo(MAX_AMMO);
+	m_ammoGauge->SetAmmoType(enAmmoMissile);
+	m_ammoGauge->SetPosition({ -400.0f, -200.0f, 0.0f });
+
 	return true;
 }
 
 void MissileGenerator::Update()
 {
+	m_deleteMissileIcon = false;
 	if (g_pad[0]->IsPress(enButtonLB2))
 	{
 		//”­ŽË‚Ì€”õ‚µ‚Ä‚¢‚é‚æ
@@ -49,12 +56,6 @@ void MissileGenerator::Update()
 			//1”­1”­oŒ»‚³‚¹‚éêŠ‚ð•Ï‚¦‚é
 			Vector3 individualPos = m_launchPos;
 
-			//individualPos.x += sin(2 * PI * (-2 + i / 10.0f)) * 100.0f;
-			//individualPos.y += cos(2 * PI * ( 0.25f * (i + 1) / 10.0f)) * 300.0f;
-
-			//float a = sin(PI / (i + 1));
-			//float b = cos(PI / (i + 1));
-
 			m_missiles.back()->SetTargetAndCurrentPos(CaptureStateManager::GetInstance().GetRocketTargetEnemyPos(i), individualPos);
 			m_missiles.back()->SetEnemy(CaptureStateManager::GetInstance().GetRocketTargetEnemy(i));
 			m_missiles.back()->SetNumber(i);
@@ -64,5 +65,7 @@ void MissileGenerator::Update()
 
 		m_isPrepareLaunch = false;
 		m_isLaunch = false;
+		m_deleteMissileIcon = true;
 	}
+	
 }

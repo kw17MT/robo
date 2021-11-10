@@ -9,6 +9,13 @@ enum EnEnemyState
 	ChangeMainTarget
 };
 
+//enum EnMissileTargetState
+//{
+//	enNoTarget,
+//	enMissileTarget,
+//	enDeleteIcon
+//};
+
 class CaptureStateManager
 {
 private:
