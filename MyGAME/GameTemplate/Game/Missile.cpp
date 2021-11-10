@@ -16,9 +16,6 @@ namespace
 
 Missile::~Missile()
 {
-	//出現しているロケットの総数をデクリメント
-	CaptureStateManager::GetInstance().MinusRockeTargetNum();
-
 	DeleteGO(m_skinModelRender);
 }
 
@@ -44,10 +41,6 @@ Vector3 Missile::CalcDeployDirection()
 	float degreeX = rand() % 90 + 1;
 	float degreeY = rand() % 90 + 1;
 	degreeX -= 45.0f; degreeY -= 45.0f;
-	/*if ((int)degree % 2)
-	{
-		degree *= -1.0f;
-	}*/
 	Quaternion qRot;
 	qRot.SetRotationDeg(right, degreeY);
 	qRot.Apply(front);
@@ -61,7 +54,6 @@ Vector3 Missile::CalcToTargetVec()
 {
 	//正規化されたターゲット地点へのベクトルを計算する
 	Vector3 toTargetVec = m_enemy->GetPosition() - m_position;
-	//Vector3 toTargetVec = m_targetPos - m_position;
 	toTargetVec.Normalize();
 	return toTargetVec;
 }

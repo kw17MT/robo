@@ -12,7 +12,6 @@ class EnemyStateIcon : public IGameObject
 {
 private:
 	Vector3 m_screenPos = Vector3::Zero;
-	//Vector3 m_position = Vector3::Zero;
 	Vector3 m_scale[2] = { Vector3::One, Vector3::Zero };
 	Vector3 m_enemyPos = Vector3::Zero;
 	bool m_isFirstExpand = false;
@@ -31,7 +30,6 @@ public:
 	~EnemyStateIcon();
 	bool Start();
 	void Update();
-	//void SetPosition(Vector3 pos) { m_position = pos; }
 	void SetEnemyPos(Vector3& pos) { m_enemyPos = pos; }
 	bool IsTargeted() {
 		if (m_enemyState == enemyTargeted) { return true; }
@@ -51,8 +49,7 @@ public:
 
 	void SetReticleInstance(Reticle* reticle) { m_reticle = reticle; }
 private:
-	//std::array<MissileTargetIcon*, 10> m_missileTargetIcon = { nullptr };
-	std::vector<MissileTargetIcon*> m_missileTargetIcon2;
+	std::vector<MissileTargetIcon*> m_missileTargetIcon;
 	std::vector<int> m_rocketTargetPosNumber;
 
 	CrossIcon* m_crossIcon = nullptr;

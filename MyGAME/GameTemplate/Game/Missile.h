@@ -14,7 +14,6 @@ enum EnMoveStage
 class Missile : public IGameObject
 {
 private:
-	Vector3 m_targetPos = Vector3::Zero;
 	Vector3 m_position = Vector3::Zero;
 	Vector3 m_deployDirection = Vector3::Zero;
 	Vector3 m_moveSpeed = Vector3::Zero;
@@ -23,7 +22,6 @@ private:
 	Vector3 m_prevMoveDirection = Vector3::Zero;
 	float count = 0;						//éıñΩ
 	bool m_firstCalc = false;				//ç≈èâÇÃë¨ìxåvéZÇ™Ç≈Ç´ÇΩÇ©
-	int m_number = 0;
 public:
 	Missile() {}
 	~Missile();
@@ -36,13 +34,7 @@ public:
 	*/
 	Vector3 CalcToTargetVec();
 
-	void SetTargetAndCurrentPos(Vector3 targetPos, Vector3 pos) /*override;*/
-	{
-		m_position = pos;
-		m_targetPos = targetPos;
-	}
-
-	void SetNumber(int number) { m_number = number; }
+	void SetLaunchedPos(Vector3 pos) { m_position = pos; }
 
 	void SetEnemy(Enemy* enemy) { m_enemy = enemy; }
 
@@ -54,7 +46,5 @@ private:
 	SkinModelRender* m_skinModelRender = nullptr;
 	Enemy* m_enemy = nullptr;
 	EnMoveStage m_moveStage = enDeploying;
-
-	float a[5];
 };
 

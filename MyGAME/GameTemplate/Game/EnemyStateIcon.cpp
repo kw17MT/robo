@@ -24,10 +24,11 @@ EnemyStateIcon::~EnemyStateIcon()
 	DeleteGO(m_crossIcon); m_crossIcon = nullptr;
 	DeleteGO(m_squareIcon); m_squareIcon = nullptr;
 
-	/*for (int i = 0; i < 10; i++)
+	for (auto i : m_missileTargetIcon)
 	{
-		DeleteGO(m_missileTargetIcon[i]);
-	}*/
+		DeleteGO(m_missileTargetIcon.back());
+		m_missileTargetIcon.pop_back();
+	}
 }
 
 bool EnemyStateIcon::Start()
@@ -38,17 +39,12 @@ bool EnemyStateIcon::Start()
 	//m_reticle = FindGO<Reticle>("reticle");
 	m_missileGenerator = FindGO<MissileGenerator>("missileGene");
 
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	m_missileTargetIcon[i] = NewGO<MissileTargetIcon>(0);
-	//}
-
-	for (auto i : m_missileTargetIcon2)
+	for (auto i : m_missileTargetIcon)
 	{
-		DeleteGO(m_missileTargetIcon2.back());
-		m_missileTargetIcon2.pop_back();
+		DeleteGO(m_missileTargetIcon.back());
+		m_missileTargetIcon.pop_back();
 	}
-	m_missileTargetIcon2.clear();
+	m_missileTargetIcon.clear();
 
 	return true;
 }
@@ -88,19 +84,28 @@ void EnemyStateIcon::DisplayIcons()
 		}
 
 		//ロケットのターゲットをする命令が来ていたら
-		if (CaptureStateManager::GetInstance().GetRocketTargetState()) {
+		if (CaptureStateManager::GetInstance().GetMissileTargetState()) {
 			//現在、この敵の位置座標はマネージャーが持つ配列の何番目に保存しているか把握しておく
-			m_rocketTargetPosNumber.push_back(CaptureStateManager::GetInstance().GetRocketTargetNum());
-			//ロケットにターゲットされた敵の数を配列の要素数に利用する
-			m_missileTargetIcon2.push_back(NewGO<MissileTargetIcon>(0));
-			m_missileTargetIcon2.back()->SetFirstExpandScale(true);
-			m_missileTargetIcon2.back()->SetTargetedEnemy(m_enemy);
+			//m_rocketTargetPosNumber.push_back(CaptureStateManager::GetInstance().GetRocketTargetNum());
+			//CaptureStateManager::GetInstance().SetRocketTargetedEnemy(m_enemy);
+			//CaptureStateManager::GetInstance().PlusRockeTargetNum();
+			//CaptureStateManager::GetInstance().SetRocketTargetState(false);
 
-			//m_missileTargetIcon[m_rocketTargetPosNumber.back()]->SetFirstExpandScale(true);
-			//m_missileTargetIcon[m_rocketTargetPosNumber.back()]->SetTargetedEnemy(m_enemy);
-			CaptureStateManager::GetInstance().SetRocketTargetedEnemy(m_enemy);
-			CaptureStateManager::GetInstance().PlusRockeTargetNum();
-			CaptureStateManager::GetInstance().SetRocketTargetState(false);
+			if (m_missileGenerator->CanTargetMore())
+			{
+				m_missileGenerator->SaveTargetedEnemy(m_enemy);
+				
+				//ロケットにターゲットされた敵の数を配列の要素数に利用する
+				m_missileTargetIcon.push_back(NewGO<MissileTargetIcon>(0));
+				m_missileTargetIcon.back()->SetFirstExpandScale(true);
+				m_missileTargetIcon.back()->SetTargetedEnemy(m_enemy);
+				//CaptureStateManager::GetInstance().SetRocketTargetState(enNoTarget);
+				CaptureStateManager::GetInstance().SetMissileTargetState(enMissileTargeted);
+			}
+			else
+			{
+				CaptureStateManager::GetInstance().SetMissileTargetState(enFull);
+			}
 		}
 	}
 	//範囲からはずれて
@@ -241,21 +246,14 @@ void EnemyStateIcon::Update()
 		m_nextTarget = false;
 	}
 
-	//マネージャー側に保存しているであろう対応した位置座標を更新する。
-	for (int i = 0; i < m_rocketTargetPosNumber.size(); i++)
-	{
-		//第二引数を要素数に指定して、そこを現在の敵の位置で更新する。
-		CaptureStateManager::GetInstance().SetRocketTargetPos(m_enemyPos, m_rocketTargetPosNumber[i]);
-	}
-
 	if (m_missileGenerator->GetDeleteMissileIcon())
 	{
-		for (auto i : m_missileTargetIcon2)
+		for (auto i : m_missileTargetIcon)
 		{
-			DeleteGO(m_missileTargetIcon2.back());
-			m_missileTargetIcon2.pop_back();
+			DeleteGO(m_missileTargetIcon.back());
+			m_missileTargetIcon.pop_back();
 		}
-		m_missileTargetIcon2.clear();
+		m_missileTargetIcon.clear();
 	}
 
 	//バツのレティクルの拡大率更新

@@ -65,22 +65,25 @@ void Reticle::ChangeTargetStateDependOnButtonLB2()
 		//押下時間が一定以上になればロケットのターゲット開始
 		if (m_PressButtonTime <= 0.0f) {
 			//ターゲットの最大数でなければ
-			if (CaptureStateManager::GetInstance().GetRocketTargetNum() != 9) {
-				CaptureStateManager::GetInstance().SetRocketTargetState(true);
+			if (CaptureStateManager::GetInstance().GetMissileTargetState() != enFull) {
 
 				//何かをロックオンしたなら
-				if(CaptureStateManager::GetInstance().GetIsRocketTargeted())
+				if(CaptureStateManager::GetInstance().GetMissileTargetState() == enMissileTargeted)
 				{
 				//ロケットターゲットを開始する時間に戻す
 				m_PressButtonTime = 0.499f;
-				CaptureStateManager::GetInstance().SetIsRocketTargeted(false);
+				CaptureStateManager::GetInstance().SetMissileTargetState(enNoTarget);
+				}
+				else
+				{
+					CaptureStateManager::GetInstance().SetMissileTargetState(enMissileTarget);
 				}
 			}
 		}
 		else
 		{
 			//1フレームだけロケットのターゲットしたいのでターゲット状態を無しの状態に
-			CaptureStateManager::GetInstance().SetRocketTargetState(false);
+			CaptureStateManager::GetInstance().SetMissileTargetState(enNoTarget);
 		}
 	}
 }

@@ -1,18 +1,19 @@
 #pragma once
 class Missile;
 class AmmoGauge;
+class Enemy;
 
 class MissileGenerator : public IGameObject
 {
 private:
 	Vector3 m_launchPos = Vector3::Zero;
 	bool m_isPrepareLaunch = false;
-	bool m_isLaunch = false;
 	int m_launchNum = 0;
-	float m_lockOnInterval = 0.0f;
 
 	int m_remaining_missile = 20;
 	bool m_deleteMissileIcon = false;
+	int m_lockOnTargetNum = 0;
+	bool m_canTargetMore = true;
 public:
 	MissileGenerator() {}
 	~MissileGenerator();
@@ -20,8 +21,11 @@ public:
 	void Update();
 	void SetLaunchPos(Vector3 pos) { m_launchPos = pos; }
 	bool GetDeleteMissileIcon() { return m_deleteMissileIcon; }
+
+	void SaveTargetedEnemy(Enemy* enemy);
+	bool CanTargetMore() { return m_canTargetMore; }
 private:
 	std::vector<Missile*> m_missiles = { nullptr };
-	std::array<Vector3, 10> m_targets;
+	std::vector<Enemy*> m_enemy = { nullptr };
 	AmmoGauge* m_ammoGauge = nullptr;
 };

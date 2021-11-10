@@ -3,6 +3,7 @@
 #include "Missile.h"
 #include "CaptureStateManager.h"
 #include "AmmoGauge.h"
+#include "Enemy.h"
 
 namespace
 {
@@ -18,6 +19,19 @@ MissileGenerator::~MissileGenerator()
 		m_missiles.pop_back();
 	}
 	m_missiles.clear();
+}
+
+void MissileGenerator::SaveTargetedEnemy(Enemy* enemy)
+{
+	if (m_canTargetMore) {
+		m_lockOnTargetNum++;
+		if (m_lockOnTargetNum >= 10)
+		{
+			m_canTargetMore = false;
+		}
+
+		m_enemy.push_back(enemy);
+	}
 }
 
 bool MissileGenerator::Start()
@@ -42,30 +56,21 @@ void MissileGenerator::Update()
 	//発射の準備ができていて、ボタンを離したら
 	if (m_isPrepareLaunch && !g_pad[0]->IsPress(enButtonLB2))
 	{
-		//発射開始
-		m_isLaunch = true;
-	}
-	//発射
-	if (m_isLaunch)
-	{
 		//発射数分ロケットをだす
-		m_launchNum = CaptureStateManager::GetInstance().GetRocketTargetNum();
-		for (int i = 0; i < m_launchNum; i++)
+		for (int i = 0; i < m_lockOnTargetNum; i++)
 		{
 			m_missiles.push_back(NewGO<Missile>(0));
-			//1発1発出現させる場所を変える
-			Vector3 individualPos = m_launchPos;
+			m_missiles.back()->SetEnemy(m_enemy.back());
+			m_missiles.back()->SetLaunchedPos(m_launchPos);
 
-			m_missiles.back()->SetTargetAndCurrentPos(CaptureStateManager::GetInstance().GetRocketTargetEnemyPos(i), individualPos);
-			m_missiles.back()->SetEnemy(CaptureStateManager::GetInstance().GetRocketTargetEnemy(i));
-			m_missiles.back()->SetNumber(i);
+			m_enemy.pop_back();
 		}
-		//ロケットを発射したため、ロックオンしていた敵の数と場所をリセット
-		CaptureStateManager::GetInstance().ResetRocketTargetParam();
 
+		m_enemy.clear();
 		m_isPrepareLaunch = false;
-		m_isLaunch = false;
 		m_deleteMissileIcon = true;
+		m_canTargetMore = true;
+		m_lockOnTargetNum = 0;
+		CaptureStateManager::GetInstance().SetMissileTargetState(enNoTarget);
 	}
-	
 }

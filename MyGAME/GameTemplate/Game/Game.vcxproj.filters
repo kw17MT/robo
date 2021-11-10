@@ -292,7 +292,7 @@
       <Filter>Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="MachinGun.cpp">
-      <Filter>Object\Player\Weapon</Filter>
+      <Filter>Object\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Sun.cpp">
       <Filter>Object\Sun</Filter>
@@ -308,19 +308,19 @@
     </ClCompile>
     <ClCompile Include="Calculation.cpp" />
     <ClCompile Include="Weapon.cpp">
-      <Filter>Object\Player\Weapon</Filter>
+      <Filter>Object\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Missile.cpp">
-      <Filter>Object\Player\Weapon</Filter>
+      <Filter>Object\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="MissileGenerator.cpp">
-      <Filter>Object\Player\Weapon</Filter>
+      <Filter>Object\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>Object\Player\Weapon</Filter>
+      <Filter>Object\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="PlayerMachinGun.cpp">
-      <Filter>Object\Player\Weapon</Filter>
+      <Filter>Object\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="DisplayDistance.cpp">
       <Filter>UI,Sprite\NearEnemy</Filter>
@@ -343,10 +343,18 @@
     <ClCompile Include="MissileTargetIcon.cpp">
       <Filter>UI,Sprite\NearEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="CrossIcon.cpp" />
-    <ClCompile Include="CapturedSquareIcon.cpp" />
-    <ClCompile Include="EnemyMachinGun.cpp" />
-    <ClCompile Include="AmmoGauge.cpp" />
+    <ClCompile Include="AmmoGauge.cpp">
+      <Filter>UI,Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="CapturedSquareIcon.cpp">
+      <Filter>UI,Sprite\NearEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="CrossIcon.cpp">
+      <Filter>UI,Sprite\NearEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMachinGun.cpp">
+      <Filter>Object\Weapon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -666,7 +674,7 @@
       <Filter>Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="MachinGun.h">
-      <Filter>Object\Player\Weapon</Filter>
+      <Filter>Object\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Sun.h">
       <Filter>Object\Sun</Filter>
@@ -682,19 +690,19 @@
     </ClInclude>
     <ClInclude Include="Calculation.h" />
     <ClInclude Include="Weapon.h">
-      <Filter>Object\Player\Weapon</Filter>
+      <Filter>Object\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="MissileGenerator.h">
-      <Filter>Object\Player\Weapon</Filter>
+      <Filter>Object\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Missile.h">
-      <Filter>Object\Player\Weapon</Filter>
+      <Filter>Object\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
-      <Filter>Object\Player\Weapon</Filter>
+      <Filter>Object\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="PlayerMachinGun.h">
-      <Filter>Object\Player\Weapon</Filter>
+      <Filter>Object\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="DisplayDistance.h">
       <Filter>UI,Sprite\NearEnemy</Filter>
@@ -717,10 +725,18 @@
     <ClInclude Include="MissileTargetIcon.h">
       <Filter>UI,Sprite\NearEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="CrossIcon.h" />
-    <ClInclude Include="CapturedSquareIcon.h" />
-    <ClInclude Include="EnemyMachinGun.h" />
-    <ClInclude Include="AmmoGauge.h" />
+    <ClInclude Include="AmmoGauge.h">
+      <Filter>UI,Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="CapturedSquareIcon.h">
+      <Filter>UI,Sprite\NearEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="CrossIcon.h">
+      <Filter>UI,Sprite\NearEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMachinGun.h">
+      <Filter>Object\Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">
@@ -765,9 +781,6 @@
     <Filter Include="Object\Enemy">
       <UniqueIdentifier>{ae40313f-e607-48f9-a938-1acc16d0dd17}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Player\Weapon">
-      <UniqueIdentifier>{30b80ae9-8777-4b47-a25f-ca677b4e5e62}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Sun">
       <UniqueIdentifier>{47e25019-1216-4a89-b1c4-e6e2664fcd3e}</UniqueIdentifier>
     </Filter>
@@ -776,6 +789,9 @@
     </Filter>
     <Filter Include="UI,Sprite\NearPlayer">
       <UniqueIdentifier>{d88133c8-5a66-4cc6-901a-6bdc61a5ac90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Weapon">
+      <UniqueIdentifier>{30b80ae9-8777-4b47-a25f-ca677b4e5e62}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
