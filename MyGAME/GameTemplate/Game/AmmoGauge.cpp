@@ -74,7 +74,8 @@ void AmmoGauge::Update()
 		m_scale.x = (float)m_remaining_ammo / (float)m_max_ammo;
 	}
 
-	m_fontRender->SetPosition({ -m_screenPos.x + 10.0f, m_screenPos.y });
+	m_fontRender->SetPosition({ -m_screenPos.x - 50.0f, m_screenPos.y + 20.0f });
+	m_fontRender->SetScale(m_fontScale);
 	m_spriteRender->SetScale(m_scale);
 	m_spriteRender->SetPosition(m_screenPos);
 }

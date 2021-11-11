@@ -84,7 +84,7 @@ void EnemyStateIcon::DisplayIcons()
 		}
 
 		//ロケットのターゲットをする命令が来ていたら
-		if (CaptureStateManager::GetInstance().GetMissileTargetState()) {
+		if (CaptureStateManager::GetInstance().GetMissileTargetState() == enMissileTarget) {
 			if (m_missileGenerator->CanTargetMore())
 			{
 				m_missileGenerator->SaveTargetedEnemy(m_enemy);

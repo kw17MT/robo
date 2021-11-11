@@ -38,10 +38,14 @@ public:
 	 * @param targetPos 
 	 * @param pos 
 	*/
-	void SetTargetAndCurrentPos(Vector3 targetPos, Vector3 pos) /*override;*/
+	void SetTargetPos(Vector3 targetPos) /*override;*/
+	{
+		m_targetPos = targetPos;
+	}
+
+	void SetPosition(Vector3 pos)
 	{
 		m_position = pos;
-		m_targetPos = targetPos;
 	}
 
 private:

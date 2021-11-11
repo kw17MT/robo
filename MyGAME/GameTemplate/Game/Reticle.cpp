@@ -65,13 +65,12 @@ void Reticle::ChangeTargetStateDependOnButtonLB2()
 		if (m_PressButtonTime <= 0.0f) {
 			//ターゲットの最大数でなければ
 			if (CaptureStateManager::GetInstance().GetMissileTargetState() != enFull) {
-
 				//何かをロックオンしたなら
-				if(CaptureStateManager::GetInstance().GetMissileTargetState() == enMissileTargeted)
+				if (CaptureStateManager::GetInstance().GetMissileTargetState() == enMissileTargeted)
 				{
-				//ロケットターゲットを開始する時間に戻す
-				m_PressButtonTime = 0.499f;
-				CaptureStateManager::GetInstance().SetMissileTargetState(enNoTarget);
+					//ロケットターゲットを開始する時間に戻す
+					m_PressButtonTime = 0.499f;
+					CaptureStateManager::GetInstance().SetMissileTargetState(enNoTarget);
 				}
 				else
 				{

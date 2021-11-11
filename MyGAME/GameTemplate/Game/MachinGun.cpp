@@ -36,7 +36,7 @@ bool MachinGun::Start()
 	m_ammoGauge->SetAmmoType(enAmmoBullet);
 	m_ammoGauge->SetRemainingAmmo(m_remaining_bullet);
 	m_ammoGauge->SetMaxAmmo(MAX_AMMO);
-	m_ammoGauge->SetPosition({ -400.0f, -300.0f, 0.0f });
+	m_ammoGauge->SetPosition({ -500.0f, -350.0f, 0.0f });
 
 	return true;
 }

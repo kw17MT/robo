@@ -12,9 +12,10 @@ enum EnAmmoTypes
 class AmmoGauge : public IGameObject
 {
 private:
-	Vector3 m_scale = { 3.0f,1.0f,1.0f };
+	Vector3 m_scale = { 2.0f,1.0f,1.0f };
 	Vector3 m_screenPos = Vector3::Zero;
-	Vector2 m_pivot = { 1.0f,1.5f };
+	Vector2 m_pivot = { 1.0f,0.0f };
+	float m_fontScale = 0.5f;
 
 	int m_remaining_ammo = 0;
 	int m_max_ammo = 0;
@@ -33,6 +34,7 @@ public:
 
 	void Reloading(const float reloadTime);
 
+	bool GetIsReloaded() { return m_isReloaded; }
 	bool IsReloaded() { return m_finishReloading; }
 
 	void SetAmmoType(EnAmmoTypes ammoType) { m_ammoType = ammoType; }
