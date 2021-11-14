@@ -14,8 +14,11 @@ private:
 	bool m_isDecayDash = false;
 	float count = 0.0f;
 
+	bool m_canDash = true;
+
 	Vector3 m_prevPlusSpeed = Vector3::Zero;
 
+	float m_afterDeathTime = 0.0f;
 public:
 	/**
 	 * @brief R1ボタン入力によるダッシュスピードの計算関数
@@ -43,4 +46,8 @@ public:
 	Vector3 Execute(Vector3 currentPos);
 
 	Vector3 CalcPlayerPos(Vector3 homePos);
+
+	void SetCanDash(bool canDash) { m_canDash = canDash; }
+
+	Vector3 DeadMove(Vector3 currentPos);
 };

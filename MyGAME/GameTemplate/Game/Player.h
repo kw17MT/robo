@@ -3,15 +3,26 @@ class SkinModelRender;
 class MachinGun;
 class MissileGenerator;
 class Reticle;
+class PlayerEN;
+class RestrictArea;
+
 #include "CameraMove.h"
 #include "PlayerMove.h"
 #include "PlayerRotation.h"
 #include "PlayerAnimation.h"
+#include "PlayerHP.h"
 
 namespace
 {
 	const int animNum = 7;
 }
+
+enum EnDeathTypes
+{
+	enStillAlive,
+	enByEnemy,
+	enAwayFromArea
+};
 
 class Player : public IGameObject
 {
@@ -20,6 +31,7 @@ private:
 	Vector3 m_prevHomePosition = Vector3::Zero;			//1フレーム前のホームポジションの位置
 	Vector3 m_currentHomePosition = Vector3::Zero;				//カメラが追いかける位置座標
 
+	EnDeathTypes m_deathType = enStillAlive;
 public:
 	/**
 	 * @brief コンストラクタ
@@ -48,12 +60,17 @@ public:
 	*/
 	Vector3 GetPosition() { return m_currentHomePosition; }
 
+	void TakenDamage(EnPlayerDamageTypes damageType);
+
 	Reticle* GetReticleInstance() { return m_reticle; }
 private:
 	SkinModelRender* m_skinModelRender = nullptr;		//プレイヤーのモデルインスタンス
 	MachinGun* m_machingun = nullptr;					//プレイヤーが持つマシンガンインスタンス
 	MissileGenerator* m_missileGene = nullptr;
 	Reticle* m_reticle = nullptr;
+	PlayerHP* m_playerHp = nullptr;
+	PlayerEN* m_playerEN = nullptr;
+	RestrictArea* m_area = nullptr;
 
 	CameraMove m_cameraMove;							//プレイヤーを追従するカメラの位置座標計算オブジェクト
 	PlayerMove m_roboMove;								//プレイヤーの座標を計算する

@@ -33,14 +33,13 @@ bool EnemyMachinGun::Start()
 
 void EnemyMachinGun::Update()
 {
-	//to do ステートメントで管理する事
 	if (m_canShoot)
 	{
 		//弾を生成
 		m_bullets.push_back(NewGO<Bullet>(0));
 		//弾の初期座標系を設定
 		m_bullets.back()->SetTargetAndCurrentPos(m_targetPos, m_position);
-
+		m_bullets.back()->SetOwner(enEnemy);
 		m_canShoot = false;
 	}
 	//モデルの位置を更新する

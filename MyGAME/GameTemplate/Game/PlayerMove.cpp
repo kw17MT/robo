@@ -13,33 +13,34 @@ const void PlayerMove::Dash()
 	//R1を押すとダッシュする
 	if (g_pad[0]->IsPress(enButtonRB1))
 	{
-		//ダッシュしている状態にする
-		m_isDash = true;
-		
-		//以前のダッシュのスピードを消して計算しなおし
-		m_dashSpeed = Vector3::Zero;
-		//Lスティックを触っておらず、ダッシュすると前方に行くようにするためif文必要
-		//倒してる方向にダッシュ
-		if (abs(g_pad[0]->GetLStickXF()) || abs(g_pad[0]->GetLStickYF()))
-		{
-			//横に倒している分だけカメラから見て再度に加速
-			m_dashSpeed += m_sideDirection * g_pad[0]->GetLStickXF() * MOVE_SPEED * SPEED_UP_RATE;
-			//縦に倒している分だけカメラから見て奥、手前に加速
-			m_dashSpeed += m_forwardDirection * g_pad[0]->GetLStickYF() * MOVE_SPEED * SPEED_UP_RATE;;
-		}
-		//スティック入力なければ前方だけにダッシュ
-		else
-		{
-			m_dashSpeed += m_forwardDirection * MOVE_SPEED * SPEED_UP_RATE;
-		}
-		//Lスティックに加えY押してれば急上昇、Aは急下降
-		m_dashSpeed += m_upDirection * g_pad[0]->IsPress(enButtonY) * MOVE_SPEED * SPEED_UP_RATE;
-		m_dashSpeed -= m_upDirection * g_pad[0]->IsPress(enButtonA) * MOVE_SPEED * SPEED_UP_RATE;
+		if (m_canDash) {
+			//ダッシュしている状態にする
+			m_isDash = true;
 
-		//通常の移動スピードは加算しない
-		m_nextPos -= m_currentSpeed;
+			//以前のダッシュのスピードを消して計算しなおし
+			m_dashSpeed = Vector3::Zero;
+			//Lスティックを触っておらず、ダッシュすると前方に行くようにするためif文必要
+			//倒してる方向にダッシュ
+			if (abs(g_pad[0]->GetLStickXF()) || abs(g_pad[0]->GetLStickYF()))
+			{
+				//横に倒している分だけカメラから見て再度に加速
+				m_dashSpeed += m_sideDirection * g_pad[0]->GetLStickXF() * MOVE_SPEED * SPEED_UP_RATE;
+				//縦に倒している分だけカメラから見て奥、手前に加速
+				m_dashSpeed += m_forwardDirection * g_pad[0]->GetLStickYF() * MOVE_SPEED * SPEED_UP_RATE;;
+			}
+			//スティック入力なければ前方だけにダッシュ
+			else
+			{
+				m_dashSpeed += m_forwardDirection * MOVE_SPEED * SPEED_UP_RATE;
+			}
+			//Lスティックに加えY押してれば急上昇、Aは急下降
+			m_dashSpeed += m_upDirection * g_pad[0]->IsPress(enButtonY) * MOVE_SPEED * SPEED_UP_RATE;
+			m_dashSpeed -= m_upDirection * g_pad[0]->IsPress(enButtonA) * MOVE_SPEED * SPEED_UP_RATE;
+
+			//通常の移動スピードは加算しない
+			m_nextPos -= m_currentSpeed;
+		}
 	}
-
 	//ダッシュスピードを加算
 	m_nextPos += m_dashSpeed;
 	//次フレームにダッシュボタンを押していなくても減速したダッシュ速度を加算したいため、除算
@@ -83,6 +84,7 @@ Vector3 PlayerMove::Execute(Vector3 currentPos)
 	Move(currentPos);
 	//ダッシュ使用時の移動
 	Dash();
+
 
 	//ダッシュをやめたら徐々に減速
 	if (!g_pad[0]->IsPress(enButtonRB1))
@@ -152,4 +154,16 @@ Vector3 PlayerMove::CalcPlayerPos(Vector3 homePos)
 	playerPos += plusSpeed;
 
 	return playerPos;
+}
+
+Vector3 PlayerMove::DeadMove(Vector3 currentPos)
+{
+	currentPos += m_prevPlusSpeed * 0.01f;
+
+	m_afterDeathTime += GameTime().GetFrameDeltaTime();
+	float dropAmount = 0.5f * m_afterDeathTime * m_afterDeathTime;
+
+
+	currentPos.y -= dropAmount;
+	return currentPos;
 }

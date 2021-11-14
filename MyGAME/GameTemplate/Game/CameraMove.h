@@ -1,6 +1,8 @@
 #pragma once
 class CameraMove
 {
+private:
+	bool m_isSetDeadCamera = false;
 public:
 	/**
 	 * @brief カメラのターゲットを更新する
@@ -21,6 +23,10 @@ public:
 	 * @param currentPlayerPos 現在のプレイヤーの位置
 	*/
 	void UpdatePlayerCamera(Vector3 prevPlayerPos, Vector3 currentHomePos);
+
+	void SetDeadCamera(Vector3 prevMoveDirection);
+
+	void SetSetDeadCamera(bool state) { m_isSetDeadCamera = state; }
 
 private:
 	Vector3 m_correctTarget = g_camera3D->GetTarget();

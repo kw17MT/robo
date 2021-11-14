@@ -73,3 +73,25 @@ void CameraMove::UpdatePlayerCamera(Vector3 prevPlayerPos, Vector3 currentHomePo
 	//新しいカメラのターゲットを計算
 	UpdateCameraTarget(currentHomePos);
 }
+
+void CameraMove::SetDeadCamera(Vector3 prevMoveDirection)
+{
+	if (m_isSetDeadCamera)
+	{
+		Vector3 direction = prevMoveDirection;
+		direction.Normalize();
+		direction.y = 0.0f;
+
+		Quaternion qRot;
+		qRot.SetRotationDegY(160.0f);
+		qRot.Apply(direction);
+		direction.y += 0.5f;
+
+		direction *= 500.0f;
+
+		Vector3 pos = m_prevPos + direction;
+		g_camera3D->SetPosition(pos);
+
+		m_isSetDeadCamera = false;
+	}
+}

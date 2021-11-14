@@ -1,6 +1,12 @@
 #pragma once
 class SkinModelRender;
 
+enum EnOwner
+{
+	enPlayer,
+	enEnemy
+};
+
 class Bullet : public IGameObject
 {
 private:
@@ -9,6 +15,7 @@ private:
 	Vector3 m_moveSpeed = Vector3::Zero;	//移動速度
 	float count = 0;						//寿命
 	bool m_firstCalc = false;				//最初の速度計算ができたか
+	EnOwner m_owner = enPlayer;
 public:
 	/**
 	 * @brief コンストラクタ
@@ -47,6 +54,11 @@ public:
 		m_targetPos = target;
 		m_position = pos;
 	}
+
+	void SetOwner(EnOwner owner) { m_owner = owner; }
+
+	void BehaveChangedByOwner();
+
 private:
 	SkinModelRender* m_skinModelRender = nullptr;	//弾モデルのオブジェクト
 };

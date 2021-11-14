@@ -92,9 +92,10 @@ void Enemy::Update()
 	m_enemyStateIcon->SetEnemyObject(this);
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
+	m_machinGun->SetPosition(m_position);
 	if (m_enemyBrain.JudgeCanShoot())
 	{
-		m_machinGun->SetTargetAndCurrentPos(m_player->GetPosition(), m_position);
+		m_machinGun->SetTargetPos(m_player->GetPosition());
 		m_machinGun->SetCanShoot(true);
 	}
 

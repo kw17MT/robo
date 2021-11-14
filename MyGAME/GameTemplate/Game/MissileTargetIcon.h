@@ -8,6 +8,9 @@ private:
 	Vector3 m_screenPos = Vector3::Zero;
 	Vector3 m_targetedEnemyPos = Vector3::Zero;
 	Vector3 m_scale = Vector3::Zero;
+	Quaternion qRot = Quaternion::Identity;
+
+	float m_angle = 0.0f;
 	bool m_isFirstExpand = false;
 public:
 	MissileTargetIcon() {}

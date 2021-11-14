@@ -31,15 +31,12 @@ public:
 	void Update();
 
 	/**
-	 * @brief 着弾地点と発射地点を設定する。
+	 * @brief 着弾地点を設定する。
 	 * @param targetPos
-	 * @param pos
 	*/
-	void SetTargetAndCurrentPos(Vector3 targetPos, Vector3 pos) /*override;*/
-	{
-		m_position = pos;
-		m_targetPos = targetPos;
-	}
+	void SetTargetPos(Vector3 targetPos) { m_targetPos = targetPos; }
+
+	void SetPosition(Vector3 pos) { m_position = pos; }
 
 	void SetCanShoot(bool canShoot) { m_canShoot = canShoot; }
 

@@ -334,9 +334,12 @@
     <ClCompile Include="PlanarReflection.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAnimation.cpp" />
+    <ClCompile Include="PlayerEN.cpp" />
+    <ClCompile Include="PlayerHP.cpp" />
     <ClCompile Include="PlayerMachinGun.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
+    <ClCompile Include="RestrictArea.cpp" />
     <ClCompile Include="Reticle.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerRotation.cpp" />
@@ -471,9 +474,12 @@
     <ClInclude Include="PlanarReflection.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAnimation.h" />
+    <ClInclude Include="PlayerEN.h" />
+    <ClInclude Include="PlayerHP.h" />
     <ClInclude Include="PlayerMachinGun.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="RenderingEngine.h" />
+    <ClInclude Include="RestrictArea.h" />
     <ClInclude Include="Reticle.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="PlayerRotation.h" />

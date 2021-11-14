@@ -50,6 +50,7 @@ void MachinGun::Update()
 		m_bullets.push_back(NewGO<Bullet>(0));
 		//’e‚Ì‰ŠúÀ•WŒn‚ðÝ’è
 		m_bullets.back()->SetTargetAndCurrentPos(m_targetPos, m_position);
+		m_bullets.back()->SetOwner(enPlayer);
 		//Žc‚è’e”‚ð1‚Âƒ}ƒCƒiƒX
 		m_remaining_bullet--;
 		m_ammoGauge->SetRemainingAmmo(m_remaining_bullet);

@@ -26,13 +26,25 @@ void MissileTargetIcon::Update()
 	if (m_isFirstExpand)
 	{
 		m_scale = { 2.0f, 2.0f, 1.0f };
+		m_angle = 90.0f;
 		m_isFirstExpand = false;
 	}
+
+
 	m_scale -= {0.1f, 0.1f, 0.0f};
+	m_angle -= 9.0f;
+
 	if (m_scale.x <= 1.0f)
 	{
 		m_scale = { 1.0f,1.0f,1.0f };
 	}
+	if (m_angle <= 0.0f)
+	{
+		m_angle = 0.0f;
+	}
+
+	qRot.SetRotationDegZ(m_angle);
+	m_spriteRender->SetRotation(qRot);
 	m_spriteRender->SetPosition(m_screenPos);
 	m_spriteRender->SetScale(m_scale);
 }

@@ -7,6 +7,9 @@
 #include "MissileGenerator.h"
 #include "Reticle.h"
 
+#include "PlayerEN.h"
+#include "RestrictArea.h"
+
 Player::~Player()
 {
 	DeleteGO(m_machingun);
@@ -43,6 +46,10 @@ bool Player::Start()
 
 	m_reticle = NewGO<Reticle>(0);
 
+	m_playerHp = NewGO<PlayerHP>(0);
+	m_playerEN = NewGO<PlayerEN>(0);
+	m_area = NewGO<RestrictArea>(0);
+
 	//最初のホームポジションを初期化
 	m_currentHomePosition = m_currentPosition;
 	//1フレーム前のホームポジションを初期化
@@ -60,11 +67,39 @@ bool Player::Start()
 	return true;
 }
 
+void Player::TakenDamage(EnPlayerDamageTypes damageType)
+{
+	m_playerHp->ApplyDamage(damageType);
+}
+
 void Player::Update()
 {
 	//プレイヤーのアニメーションを行う
 	m_playerAnim.UpdateAnimState();
 	m_skinModelRender->PlayAnimation(m_playerAnim.GetPlayerState(), 1.0f);
+
+	//プレイヤーのHPがなく、倒されていたら
+	if (m_playerHp->GetIsPlayerAlive() == false)
+	{
+		if (m_deathType == enByEnemy)
+		{
+			//倒された時、俯瞰気味でロボを見る
+			m_cameraMove.SetDeadCamera(m_roboMove.GetMoveSpeed());
+			return;
+		}
+		else if (m_deathType == enAwayFromArea)
+		{
+			//一度だけ、エリア外に出た場所の斜め上にセットする
+			m_cameraMove.SetDeadCamera(m_roboMove.GetMoveSpeed());
+			//倒れた瞬間の1フレーム前の移動速度を用いて、そのまま移動させながら落ちる
+			m_currentPosition = m_roboMove.DeadMove(m_currentPosition);
+			m_skinModelRender->SetPosition(m_currentPosition);
+			return;
+		}
+		m_skinModelRender->SetPosition(m_currentPosition);
+	}
+
+	m_roboMove.SetCanDash(m_playerEN->GetIsPlayerENRemain());
 
 	//プレイヤーのホームポジションを更新
 	m_currentHomePosition = m_roboMove.Execute(m_currentHomePosition);
@@ -85,4 +120,14 @@ void Player::Update()
 		m_machingun->SetTargetPos(m_reticle->GetTargetingEnemyPos());
 	}
 	m_missileGene->SetLaunchPos(m_currentPosition);
+
+
+	m_area->JudgeInArea(m_currentPosition);
+	if (m_deathType == enStillAlive
+		&& m_area->GetAreaType() == enDanger)
+	{
+		m_playerHp->SetHPZero();
+		m_deathType = enAwayFromArea;
+		m_cameraMove.SetSetDeadCamera(true);
+	}
 }

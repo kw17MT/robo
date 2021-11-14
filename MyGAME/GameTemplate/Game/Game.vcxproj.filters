@@ -355,6 +355,9 @@
     <ClCompile Include="EnemyMachinGun.cpp">
       <Filter>Object\Weapon</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerHP.cpp" />
+    <ClCompile Include="PlayerEN.cpp" />
+    <ClCompile Include="RestrictArea.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -737,6 +740,9 @@
     <ClInclude Include="EnemyMachinGun.h">
       <Filter>Object\Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerHP.h" />
+    <ClInclude Include="PlayerEN.h" />
+    <ClInclude Include="RestrictArea.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">
