@@ -5,6 +5,7 @@ class SkyCube;
 class Ground;
 class UI;
 class Sun;
+class Rader;
 
 class Game : public IGameObject
 {
@@ -36,5 +37,6 @@ private:
 	Ground* m_ground = nullptr;						//地面インスタンス
 	UI* m_ui = nullptr;								//UIインスタンス
 	Sun* m_sun = nullptr;							//太陽インスタンス
+	Rader* m_rader = nullptr;						//レーダーインスタンス
 };
 

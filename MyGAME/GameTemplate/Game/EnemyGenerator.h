@@ -11,6 +11,9 @@ public:
 	~EnemyGenerator();
 	bool Start();
 	void Update();
+
+	int GetEnemyNum() { return m_enemys.size(); }
+	Vector3 GetEnemyPos(int no);
 private:
 	std::vector<Enemy*> m_enemys = { nullptr };
 };

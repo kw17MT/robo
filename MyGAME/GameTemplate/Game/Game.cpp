@@ -6,6 +6,7 @@
 #include "Ground.h"
 #include "UI.h";
 #include "Sun.h"
+#include "Rader.h"
 
 #include "CaptureStateManager.h"
 
@@ -23,6 +24,8 @@ Game::~Game()
 	DeleteGO(m_ui); m_ui = nullptr;
 	//太陽インスタンス削除
 	DeleteGO(m_sun); m_sun = nullptr;
+	//レーダーインスタンス削除
+	DeleteGO(m_rader); m_rader = nullptr;
 
 	//フラグ管理インスタンス削除
 	CaptureStateManager::DeleteInstance();
@@ -36,7 +39,7 @@ bool Game::Start()
 	m_ground = NewGO<Ground>(0);
 	m_ui = NewGO<UI>(0);
 	m_sun = NewGO<Sun>(0);
-
+	m_rader = NewGO<Rader>(0, "rader");
 
 	CaptureStateManager::CreateInstance();
 
@@ -45,5 +48,10 @@ bool Game::Start()
 
 void Game::Update()
 {
-
+	m_rader->SetPlayerPos(m_player->GetPosition());
+	m_rader->SetEnemyNum(m_enemyGenerator->GetEnemyNum());
+	for (int i = 1; i < m_enemyGenerator->GetEnemyNum(); i++)
+	{
+		m_rader->SaveEnemyPos(i - 1, m_enemyGenerator->GetEnemyPos(i));
+	}
 }

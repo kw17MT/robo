@@ -338,6 +338,7 @@
     <ClCompile Include="PlayerHP.cpp" />
     <ClCompile Include="PlayerMachinGun.cpp" />
     <ClCompile Include="PostEffect.cpp" />
+    <ClCompile Include="Rader.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="RestrictArea.cpp" />
     <ClCompile Include="Reticle.cpp" />
@@ -478,6 +479,7 @@
     <ClInclude Include="PlayerHP.h" />
     <ClInclude Include="PlayerMachinGun.h" />
     <ClInclude Include="PostEffect.h" />
+    <ClInclude Include="Rader.h" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="RestrictArea.h" />
     <ClInclude Include="Reticle.h" />

@@ -18,6 +18,7 @@ EnemyGenerator::~EnemyGenerator()
 	m_enemys.clear();
 }
 
+
 bool EnemyGenerator::Start()
 {
 	for (int i = 0; i < MAX_ENEMY_NUM; i++)
@@ -30,6 +31,11 @@ bool EnemyGenerator::Start()
 	}
 
 	return true;
+}
+
+Vector3 EnemyGenerator::GetEnemyPos(int no)
+{
+	return  m_enemys[no]->GetPosition(); 
 }
 
 void EnemyGenerator::Update()
