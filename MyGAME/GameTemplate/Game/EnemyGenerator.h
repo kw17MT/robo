@@ -4,17 +4,42 @@ class Enemy;
 class EnemyGenerator : public IGameObject
 {
 private:
-	Vector3 m_firstEnemyPos = Vector3::Zero;
-	int m_aliveEnemyNum = 0;
+	Vector3 m_firstEnemyPos = Vector3::Zero;			//一番最初に出す敵の位置
 public:
+	/**
+	 * @brief コンストラクタ
+	*/
 	EnemyGenerator() {};
+
+	/**
+	 * @brief デストラクタ
+	*/
 	~EnemyGenerator();
+
+	/**
+	 * @brief インスタンス生成時に一度だけ呼ばれる関数
+	 * @return true
+	*/
 	bool Start();
+
+	/**
+	 * @brief 毎フレーム呼ばれる関数
+	*/
 	void Update();
 
+	/**
+	 * @brief 生成した敵の数を取得する
+	 * @return 敵の数
+	*/
 	int GetEnemyNum() { return m_enemys.size(); }
+
+	/**
+	 * @brief 敵の位置を取得
+	 * @param no 配列の番号
+	 * @return 敵の位置
+	*/
 	Vector3 GetEnemyPos(int no);
 private:
-	std::vector<Enemy*> m_enemys = { nullptr };
+	std::vector<Enemy*> m_enemys = { nullptr };				//敵インスタンス
 };
 

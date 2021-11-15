@@ -33,14 +33,21 @@ Game::~Game()
 
 bool Game::Start()
 {
+	//プレイヤー生成
 	m_player = NewGO<Player>(0,"player");
+	//敵生成器作成
 	m_enemyGenerator = NewGO<EnemyGenerator>(0);
+	//スカイキューブマップ作成
 	m_sky = NewGO<SkyCube>(0);
+	//地面作成
 	m_ground = NewGO<Ground>(0);
-	m_ui = NewGO<UI>(0);
+	//m_ui = NewGO<UI>(0);
+	//太陽の作成
 	m_sun = NewGO<Sun>(0);
+	//レーダーの作成
 	m_rader = NewGO<Rader>(0, "rader");
 
+	//ステートマネージャーの作成
 	CaptureStateManager::CreateInstance();
 
 	return true;
@@ -48,8 +55,11 @@ bool Game::Start()
 
 void Game::Update()
 {
+	//レーダーにプレイヤーの位置を与える
 	m_rader->SetPlayerPos(m_player->GetPosition());
+	//レーダーに生成した敵の数
 	m_rader->SetEnemyNum(m_enemyGenerator->GetEnemyNum());
+	//敵の数分その位置座標を保存、更新
 	for (int i = 1; i < m_enemyGenerator->GetEnemyNum(); i++)
 	{
 		m_rader->SaveEnemyPos(i - 1, m_enemyGenerator->GetEnemyPos(i));

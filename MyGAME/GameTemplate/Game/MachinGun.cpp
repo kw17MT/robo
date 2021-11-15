@@ -56,7 +56,7 @@ void MachinGun::Update()
 		m_ammoGauge->SetRemainingAmmo(m_remaining_bullet);
 	}
 
-	if(m_ammoGauge->IsReloaded())
+	if(m_ammoGauge->GetIsFinishedReloaded())
 	{
 		m_remaining_bullet = MAX_AMMO;
 	}

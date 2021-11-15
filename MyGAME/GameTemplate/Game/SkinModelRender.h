@@ -109,6 +109,16 @@ public:
 
 	Model& GetModel() { return m_model; }
 
+	Vector3 GetBonePosition()
+	{
+		Vector3 pos;
+		Vector4 bonePos;
+		bonePos = m_skeleton.GetBone(m_skeleton.FindBoneID(L"Bone022"))->GetWorldPosition(m_position, m_rot, m_scale);
+
+		pos.x = bonePos.x; pos.y = bonePos.y; pos.z = bonePos.z;
+		return pos;
+	}
+
 	/**
 	 * @brief モデルを描く
 	 * @param rc レンダーコンテキスト

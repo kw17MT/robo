@@ -2,13 +2,13 @@
 class CameraMove
 {
 private:
-	bool m_isSetDeadCamera = false;
+	bool m_isSetDeadCamera = false;						//プレイヤーが倒された時のカメラの位置を計算するかどうか
+	Vector3 m_prevCameraPos = Vector3::Zero;			//1フレーム前のカメラの位置
 public:
 	/**
 	 * @brief カメラのターゲットを更新する
 	*/
 	void UpdateCameraTarget(Vector3 currentHomePos);
-
 
 	/**
 	 * @brief プレイヤーの移動に伴うカメラターゲットの平行移動
@@ -24,14 +24,16 @@ public:
 	*/
 	void UpdatePlayerCamera(Vector3 prevPlayerPos, Vector3 currentHomePos);
 
+	/**
+	 * @brief プレイヤーが倒された時のカメラの位置計算関数
+	 * @param prevMoveDirection 1フレーム前のプレイヤーの移動方向
+	*/
 	void SetDeadCamera(Vector3 prevMoveDirection);
 
-	void SetSetDeadCamera(bool state) { m_isSetDeadCamera = state; }
-
-private:
-	Vector3 m_correctTarget = g_camera3D->GetTarget();
-	Vector3 m_correctPos = g_camera3D->GetPosition();
-	Vector3 m_prevPos = Vector3::Zero;
-	Quaternion m_prevRot = Quaternion::Identity;
+	/**
+	 * @brief プレイヤーが倒された時のカメラの位置を計算するかどうか設定する
+	 * @param state TRUE　計算する　FALSE　計算しない
+	*/
+	void SetIsDeadCamera(bool state) { m_isSetDeadCamera = state; }
 };
 

@@ -85,6 +85,7 @@ void Player::Update()
 		{
 			//倒された時、俯瞰気味でロボを見る
 			m_cameraMove.SetDeadCamera(m_roboMove.GetMoveSpeed());
+			m_machingun->SetPosition(m_skinModelRender->GetBonePosition());
 			return;
 		}
 		else if (m_deathType == enAwayFromArea)
@@ -94,6 +95,7 @@ void Player::Update()
 			//倒れた瞬間の1フレーム前の移動速度を用いて、そのまま移動させながら落ちる
 			m_currentPosition = m_roboMove.DeadMove(m_currentPosition);
 			m_skinModelRender->SetPosition(m_currentPosition);
+			m_machingun->SetPosition(m_skinModelRender->GetBonePosition());
 			return;
 		}
 		m_skinModelRender->SetPosition(m_currentPosition);
@@ -114,7 +116,9 @@ void Player::Update()
 	//1フレーム前の座標として記録
 	m_prevHomePosition = m_currentHomePosition;
 
-	m_machingun->SetPosition(m_currentPosition);
+	//
+	Vector3 a = m_skinModelRender->GetBonePosition();
+	m_machingun->SetPosition(m_skinModelRender->GetBonePosition() + m_roboMove.GetMoveSpeed());
 	//マシンガンにターゲット位置とプレイヤーの現在の位置を与える
 	if (m_reticle->GetIsTargeted()) {
 		m_machingun->SetTargetPos(m_reticle->GetTargetingEnemyPos());
@@ -128,6 +132,6 @@ void Player::Update()
 	{
 		m_playerHp->SetHPZero();
 		m_deathType = enAwayFromArea;
-		m_cameraMove.SetSetDeadCamera(true);
+		m_cameraMove.SetIsDeadCamera(true);
 	}
 }

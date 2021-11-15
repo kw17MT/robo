@@ -8,6 +8,7 @@
 namespace
 {
 	const int MAX_AMMO = 20;				//最大数
+	const Vector3 GAUGA_POSITION = { -500.0f, -300.0f, 0.0f };
 }
 
 MissileGenerator::~MissileGenerator()
@@ -49,7 +50,7 @@ bool MissileGenerator::Start()
 	//所持上限数を教える
 	m_ammoGauge->SetMaxAmmo(MAX_AMMO);
 	//位置固定
-	m_ammoGauge->SetPosition({ -500.0f, -300.0f, 0.0f });
+	m_ammoGauge->SetPosition(GAUGA_POSITION);
 
 	//todo 要変更→実装方法や数値
 	//ミサイルインスタンス格納配列のメモリを確保
@@ -117,7 +118,7 @@ void MissileGenerator::Update()
 		CaptureStateManager::GetInstance().SetMissileTargetState(enFull);
 	}
 	//ゲージでリロードが終わったら
-	if (m_ammoGauge->IsReloaded())
+	if (m_ammoGauge->GetIsFinishedReloaded())
 	{
 		//残弾数を最大値で初期化
 		m_remaining_missile = MAX_AMMO;

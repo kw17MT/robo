@@ -5,9 +5,9 @@
 #include "MissileTargetIcon.h"
 #include "CrossIcon.h"
 #include "CapturedSquareIcon.h"
+#include "Reticle.h"
 
 //FindGO対象
-#include "Reticle.h"
 #include "MissileGenerator.h"
 
 extern void CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);
@@ -17,13 +17,20 @@ namespace
 	const float FAR_DISTANCE = 80000.0f;					//ロックオン可能な距離。四角の画像を出すタイミングの距離
 	const Vector3 SHRINK_RATE = { 0.1f,0.1f,0.1f };			//捕捉レティクルの収縮率
 	const Vector3 APPEAR_RATE = { 2.0f,2.0f,2.0f };			//捕捉レティクルの初期拡大率
+	const float CAPTURE_HEIGHT = 80.0f;						//捕捉できる画面上の高さ
+	const float CAPTURE_WIDTH = 45.0f;						//捕捉できる画面上の横幅
+	const float NEXT_TARGET_AREA_HEIGHT = 200.0f;			//次自動ターゲットする判定を行うエリアの高さ
+	const float NEXT_TARGET_AREA_WIDTH = 150.0f;			//次自動ターゲットする判定を行うエリアの横幅
 }
 
 EnemyStateIcon::~EnemyStateIcon()
 {
+	//バツ画像を削除
 	DeleteGO(m_crossIcon); m_crossIcon = nullptr;
+	//捕捉の画像を削除
 	DeleteGO(m_squareIcon); m_squareIcon = nullptr;
 
+	//ミサイルのターゲットアイコンを全削除
 	for (auto i : m_missileTargetIcon)
 	{
 		DeleteGO(m_missileTargetIcon.back());
@@ -34,17 +41,12 @@ EnemyStateIcon::~EnemyStateIcon()
 
 bool EnemyStateIcon::Start()
 {
+	//バツ画像を生成
 	m_crossIcon = NewGO<CrossIcon>(0);
+	//捕捉画像を生成
 	m_squareIcon = NewGO<CapturedSquareIcon>(0);
-
+	//ミサイル生成器を作成
 	m_missileGenerator = FindGO<MissileGenerator>("missileGene");
-
-	for (auto i : m_missileTargetIcon)
-	{
-		DeleteGO(m_missileTargetIcon.back());
-		m_missileTargetIcon.pop_back();
-	}
-	m_missileTargetIcon.clear();
 
 	return true;
 }
@@ -71,7 +73,8 @@ void EnemyStateIcon::JudgeState(int distance)
 void EnemyStateIcon::DisplayIcons()
 {
 	//スクリーン座標が画面の中央付近なら
-	if (m_screenPos.x > -80.0f && m_screenPos.x < 80.0f && m_screenPos.y > -25.0f && m_screenPos.y < 25.0f)
+	if (m_screenPos.x > -CAPTURE_HEIGHT && m_screenPos.x < CAPTURE_HEIGHT 
+		&& m_screenPos.y > -CAPTURE_WIDTH && m_screenPos.y < CAPTURE_WIDTH)
 	{
 		//プレイヤーが何も捕捉していなければ
 		if (CaptureStateManager::GetInstance().GetCaptureState() == None
@@ -85,24 +88,32 @@ void EnemyStateIcon::DisplayIcons()
 
 		//ロケットのターゲットをする命令が来ていたら
 		if (CaptureStateManager::GetInstance().GetMissileTargetState() == enMissileTarget) {
+			//ミサイルがもっと出せる状態ならば
 			if (m_missileGenerator->CanTargetMore())
 			{
+				//ターゲットする敵のインスタンスを保存
 				m_missileGenerator->SaveTargetedEnemy(m_enemy);
 				
 				//ロケットにターゲットされた敵の数を配列の要素数に利用する
 				m_missileTargetIcon.push_back(NewGO<MissileTargetIcon>(0));
+				//最初の拡大を行う
 				m_missileTargetIcon.back()->SetFirstExpandScale(true);
+				//アイコンを出す対象の敵のインスタンスを保存
 				m_missileTargetIcon.back()->SetTargetedEnemy(m_enemy);
+				//ミサイルのターゲットを行った
 				CaptureStateManager::GetInstance().SetMissileTargetState(enMissileTargeted);
 			}
+			//ミサイルはもう出せない場合
 			else
 			{
+				//最大限ミサイルロックオンした状態にする。
 				CaptureStateManager::GetInstance().SetMissileTargetState(enFull);
 			}
 		}
 	}
 	//範囲からはずれて
-	else if(m_screenPos.x > -200.0f && m_screenPos.x < 200.0f && m_screenPos.y > -150.0f && m_screenPos.y < 150.0f)
+	else if(m_screenPos.x > -NEXT_TARGET_AREA_HEIGHT && m_screenPos.x < NEXT_TARGET_AREA_HEIGHT 
+		&& m_screenPos.y > -NEXT_TARGET_AREA_WIDTH && m_screenPos.y < NEXT_TARGET_AREA_WIDTH)
 	{
 		//それが捕捉中の敵ならば
 		if (m_isCaptured)
@@ -111,11 +122,6 @@ void EnemyStateIcon::DisplayIcons()
 			m_isCaptured = false;
 			//捕捉されている敵はいない状態にする。
 			CaptureStateManager::GetInstance().SetCaptureState(None);
-
-			//ロックオンしていた敵の座標を書き換える
-			//Vector3 frontRobo =  g_camera3D->GetTarget() - g_camera3D->GetPosition();
-			//frontRobo.Normalize();
-			//CaptureStateManager::GetInstance().SetCapturedEnemyPos(frontRobo * 10.0f);
 		}
 		//プレイヤーは誰かしらをロックオンしているなら、次のロックオン先を予約しておく
 		if (CaptureStateManager::GetInstance().GetCaptureState() == Targeted
@@ -210,6 +216,7 @@ void EnemyStateIcon::Update()
 	//最初に敵のスクリーン座標を更新する。
 	CalcMethods::CalcScreenPos(m_screenPos, m_enemyPos);
 	
+	//アイコンを表示する
 	DisplayIcons();
 
 	//敵とプレイヤーの距離によって振る舞いを変える。
@@ -225,21 +232,19 @@ void EnemyStateIcon::Update()
 			m_nextTarget = false;
 			//捕捉されている
 			m_isCaptured = false;
+			//ターゲットされている
 			m_enemyState = enemyTargeted;
-
-
+			//レティクルはターゲット中
 			m_reticle->SetIsTargeting(true);
 			m_reticle->SetIsDecidedNextTarget(false);
 			//プレイヤーはターゲットしている
 			CaptureStateManager::GetInstance().SetCaptureState(Targeted);
 		}
-
 	}
-
-
-
+	//ミサイルのアイコンを消去するべきならば
 	if (m_missileGenerator->GetDeleteMissileIcon())
 	{
+		//アイコンを全消去
 		for (auto i : m_missileTargetIcon)
 		{
 			DeleteGO(m_missileTargetIcon.back());
@@ -247,14 +252,16 @@ void EnemyStateIcon::Update()
 		}
 		m_missileTargetIcon.clear();
 	}
-
+	//プレイヤーは何もターゲットや捕捉していなければ
 	if (CaptureStateManager::GetInstance().GetCaptureState() == None)
 	{
+		//次にターゲットする対象にはしない
 		m_nextTarget = false;
 	}
 
 	if (m_enemyState == enemyTargeted)
 	{
+		//この敵がターゲットされているならば、現在位置を送る
 		m_reticle->SetTargetedEnemyPos(m_enemy->GetPosition());
 	}
 

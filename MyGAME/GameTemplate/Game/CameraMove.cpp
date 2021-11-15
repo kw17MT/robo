@@ -3,8 +3,7 @@
 
 namespace
 {
-	const float CAMERA_TO_PLAYER_SPACE = 3000.0f;
-	const float AJUST_CAMERA_Y = 2000.0f;
+	const float CAMERA_TO_PLAYER_SPACE = 3000.0f;			//カメラとプレイヤーとの間の長さ
 }
 
 void CameraMove::UpdateCameraTarget(Vector3 currentHomePos)
@@ -36,17 +35,20 @@ void CameraMove::UpdateCameraTarget(Vector3 currentHomePos)
 	//ベクトルに適用する。
 	qRot.Apply(playerPosToCamera);
 
+	//回転の抑制
 	Vector3 toPosDir = playerPosToCamera;
 	toPosDir.Normalize();
+	//下回転の抑制
 	if (toPosDir.y < -0.95f) {
 		return;
 	}
+	//上回転の抑制
 	else if (toPosDir.y > 0.95f) {
 		return;
 	}
 
-	m_prevPos = g_camera3D->GetPosition();
-	m_prevRot = qRot;
+	//1フレーム前のカメラの位置として保存
+	m_prevCameraPos = g_camera3D->GetPosition();
 	g_camera3D->RotateOriginTarget(qRot);
 }
 
@@ -76,22 +78,28 @@ void CameraMove::UpdatePlayerCamera(Vector3 prevPlayerPos, Vector3 currentHomePo
 
 void CameraMove::SetDeadCamera(Vector3 prevMoveDirection)
 {
+	//プレイヤー死亡時のカメラを設定するなら
 	if (m_isSetDeadCamera)
 	{
+		//プレイヤーの1フレーム前の移動方向を取得
 		Vector3 direction = prevMoveDirection;
+		//正規化
 		direction.Normalize();
+		//y方向は不要
 		direction.y = 0.0f;
-
 		Quaternion qRot;
+		//Y軸基準で160度回転を作成
 		qRot.SetRotationDegY(160.0f);
+		//プレイヤーの進行方向に適用
 		qRot.Apply(direction);
+		//y方向を修正
 		direction.y += 0.5f;
-
 		direction *= 500.0f;
-
-		Vector3 pos = m_prevPos + direction;
+		//最終的に適用する位置を設定
+		Vector3 pos = m_prevCameraPos + direction;
 		g_camera3D->SetPosition(pos);
 
+		//一度だけ設定する
 		m_isSetDeadCamera = false;
 	}
 }

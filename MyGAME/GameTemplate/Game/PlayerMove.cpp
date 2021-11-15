@@ -23,7 +23,7 @@ const void PlayerMove::Dash()
 			//倒してる方向にダッシュ
 			if (abs(g_pad[0]->GetLStickXF()) || abs(g_pad[0]->GetLStickYF()))
 			{
-				//横に倒している分だけカメラから見て再度に加速
+				//横に倒している分だけカメラから見てサイドに加速
 				m_dashSpeed += m_sideDirection * g_pad[0]->GetLStickXF() * MOVE_SPEED * SPEED_UP_RATE;
 				//縦に倒している分だけカメラから見て奥、手前に加速
 				m_dashSpeed += m_forwardDirection * g_pad[0]->GetLStickYF() * MOVE_SPEED * SPEED_UP_RATE;;
@@ -40,11 +40,18 @@ const void PlayerMove::Dash()
 			//通常の移動スピードは加算しない
 			m_nextPos -= m_currentSpeed;
 		}
+		else
+		{
+			m_isDash = false;			
+			m_isDecayDash = false;
+		}
 	}
-	//ダッシュスピードを加算
-	m_nextPos += m_dashSpeed;
+	
 	//次フレームにダッシュボタンを押していなくても減速したダッシュ速度を加算したいため、除算
 	m_dashSpeed /= 1.05f;
+
+	//ダッシュスピードを加算
+	m_nextPos += m_dashSpeed;
 }
 
 const void PlayerMove::Move(const Vector3 currentPos)
@@ -72,10 +79,12 @@ const void PlayerMove::Move(const Vector3 currentPos)
 	if (m_currentSpeed.y > SPEED_LIMIT) { m_currentSpeed.y = SPEED_LIMIT; }
 	if (m_currentSpeed.z > SPEED_LIMIT) { m_currentSpeed.z = SPEED_LIMIT; }
 
-	//通常速度を加算する
-	m_nextPos += m_currentSpeed;
+	
 	//移動に関する入力がなくても次のフレームも慣性を効かせたいため除算
 	m_currentSpeed /= 1.05f;
+
+	//通常速度を加算する
+	m_nextPos += m_currentSpeed;
 }
 
 Vector3 PlayerMove::Execute(Vector3 currentPos)
@@ -85,14 +94,13 @@ Vector3 PlayerMove::Execute(Vector3 currentPos)
 	//ダッシュ使用時の移動
 	Dash();
 
-
 	//ダッシュをやめたら徐々に減速
 	if (!g_pad[0]->IsPress(enButtonRB1))
 	{
 		m_isDash = false;
 		//ダッシュの影響度を減らしていく
 		m_dashSpeedRate /= 1.04f;
-		//ダッシュの影響がなくなれば、原則に関するパラメータを最初の状態に戻す。
+		//ダッシュの影響がなくなれば、減速に関するパラメータを最初の状態に戻す。
 		if (m_dashSpeedRate <= 1.0f)
 		{
 			m_isDecayDash = false;
@@ -142,16 +150,36 @@ Vector3 PlayerMove::CalcPlayerPos(Vector3 homePos)
 				m_dashSpeedRate = 1.0f;
 			}
 		}
-	}
-	//ホームポジションからずらしたい移動量
-	Vector3 plusSpeed = m_currentSpeed * m_dashSpeedRate;
 
-	//Y座標の移動量を調整
-	plusSpeed.y /= 1.3f;
-	//前フレームの加速速度を保存
-	m_prevPlusSpeed = plusSpeed;
-	//プレイヤーの位置座標に加算
-	playerPos += plusSpeed;
+		//ホームポジションからずらしたい移動量
+		Vector3 plusSpeed = m_currentSpeed * m_dashSpeedRate;
+
+		//Y座標の移動量を調整
+		plusSpeed.y /= 1.3f;
+		//前フレームの加速速度を保存
+		m_prevPlusSpeed = m_dashSpeed;
+		//プレイヤーの位置座標に加算
+		playerPos += plusSpeed;
+	}
+	else
+	{
+		//減速させていく
+		m_dashSpeedRate -= 0.005f;
+		if (m_dashSpeedRate <= 1.0f)
+		{
+
+			m_dashSpeedRate = 1.0f;
+		}
+
+		//ホームポジションからずらしたい移動量
+		Vector3 plusSpeed = m_currentSpeed * m_dashSpeedRate;
+		//Y座標の移動量を調整
+		plusSpeed.y /= 1.3f;
+		//前フレームの加速速度を保存
+		m_prevPlusSpeed = m_currentSpeed + m_dashSpeed;
+		//プレイヤーの位置座標に加算
+		playerPos += plusSpeed;
+	}
 
 	return playerPos;
 }
