@@ -6,7 +6,7 @@ void Shadow::InitShadowTarget()
 	//レンダーターゲットを初期化する。解像度は2048x2048
 	m_shadow.Create(2048, 2048, 1, 1, DXGI_FORMAT_R32_FLOAT, DXGI_FORMAT_D32_FLOAT, m_clearColor);
 
-	m_cascadeShadowMap[0].Create(2048, 2048, 1, 1, DXGI_FORMAT_R32_FLOAT, DXGI_FORMAT_D32_FLOAT, m_clearColor);
+	m_cascadeShadowMap[0].Create(4096, 4096, 1, 1, DXGI_FORMAT_R32_FLOAT, DXGI_FORMAT_D32_FLOAT, m_clearColor);
 	m_cascadeShadowMap[1].Create(1024, 1024, 1, 1, DXGI_FORMAT_R32_FLOAT, DXGI_FORMAT_D32_FLOAT, m_clearColor);
 	m_cascadeShadowMap[2].Create(512, 512, 1, 1, DXGI_FORMAT_R32_FLOAT, DXGI_FORMAT_D32_FLOAT, m_clearColor);
 }

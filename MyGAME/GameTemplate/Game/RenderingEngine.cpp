@@ -40,7 +40,16 @@ void RenderingEngine::InitLightCamera()
 	m_lightCamera.SetFar(100000.0f);
 	m_lightCamera.SetTarget(0.0f, 0.0f, 0.0f);
 	m_lightCamera.SetUp({ 1, 0, 0 });							//ƒJƒƒ‰‚Ìã‚ğXÀ•W‚É‚µ‚Ä‚¨‚­
-	m_lightCamera.SetViewAngle(Math::DegToRad(120.0f));
+	m_lightCamera.SetViewAngle(Math::DegToRad(180.0f));
+
+	//•½s“Š‰e‚É‚·‚éê‡
+	
+	m_lightCamera.SetUpdateProjMatrixFunc(Camera::enUpdateProjMatrixFunc_Ortho);
+	m_lightCamera.SetWidth(500000);
+	m_lightCamera.SetHeight(40000);
+	
+
+
 	m_lightCamera.Update();
 }
 

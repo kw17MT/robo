@@ -10,6 +10,7 @@ class EnemyMachinGun;
 #include "EnemyMove.h"
 #include "EnemyBrain.h"
 
+
 class Enemy : public IGameObject
 {
 private:

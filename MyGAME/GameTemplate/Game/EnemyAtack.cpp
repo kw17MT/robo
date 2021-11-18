@@ -5,7 +5,7 @@
 bool EnemyAtack::Execute()
 {
 	counter++;
-	if (counter >= 300)
+	if (counter >= 100)
 	{
 		counter = 0;
 		return true;

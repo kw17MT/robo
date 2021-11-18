@@ -311,6 +311,7 @@
     <ClCompile Include="EnemyHP.cpp" />
     <ClCompile Include="EnemyMachinGun.cpp" />
     <ClCompile Include="EnemyMove.cpp" />
+    <ClCompile Include="EnemyRotation.cpp" />
     <ClCompile Include="EnemyStateIcon.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="ForwardBloom.cpp" />
@@ -453,6 +454,7 @@
     <ClInclude Include="EnemyHP.h" />
     <ClInclude Include="EnemyMachinGun.h" />
     <ClInclude Include="EnemyMove.h" />
+    <ClInclude Include="EnemyRotation.h" />
     <ClInclude Include="EnemyStateIcon.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="ForwardBloom.h" />

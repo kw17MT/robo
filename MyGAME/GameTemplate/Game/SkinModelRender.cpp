@@ -136,7 +136,7 @@ void SkinModelRender::InitSkyCube(const char* modelFilePath, EnModelUpAxis UpAxi
 	//Ç«ÇÃé≤Çè„Ç…Ç∑ÇÈÇ©
 	m_modelInitData.m_modelUpAxis = UpAxis;
 
-	m_texture[0].InitFromDDSFile(L"Assets/modelData/preset/skyCubeMap.dds");
+	m_texture[0].InitFromDDSFile(L"Assets/modelData/preset/skyCubeMapSunrise_Toon.dds");
 
 	m_modelInitData.m_expandConstantBuffer = (void*)&s_matrix;
 	m_modelInitData.m_expandConstantBufferSize = sizeof(s_matrix);

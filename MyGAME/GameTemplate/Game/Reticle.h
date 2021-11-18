@@ -9,7 +9,7 @@ private:
 	//敵をロックオンした時のポジション
 	Vector3 m_lockOnPosition = Vector3::Zero;
 	//レティクルの拡大率（1が通常レティクル、2がターゲット
-	Vector3 m_reticleScale[2] = { Vector3::One, Vector3::One };
+	Vector3 m_reticleScale[2] = { Vector3::Zero, Vector3::Zero };
 	//ターゲットしている敵の位置
 	Vector3 m_targetingEnemyPos = Vector3::Zero;
 

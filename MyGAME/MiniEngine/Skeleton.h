@@ -121,6 +121,15 @@ public:
 	*@param[out]	scale		拡大率の格納先。
 	*/
 	void CalcWorldTRS(Vector3& trans, Quaternion& rot, Vector3& scale);
+
+	Vector4 GetWorldPosition(Vector3& trans, Quaternion& rot, Vector3& scale)
+	{
+		//CalcWorldTRS(trans, rot, scale);
+
+		//return m_position;
+
+		return m_worldMatrix.v[3];
+	}
 		
 private:
 	
@@ -132,7 +141,7 @@ private:
 	Matrix			m_localMatrix;			//ローカル行列。
 	Matrix			m_worldMatrix;			//ワールド行列。
 	Matrix			m_offsetLocalMatrix;
-	Vector3			m_positoin;				//このボーンのワールド空間での位置。最後にCalcWorldTRSを実行したときの結果が格納されている。
+	Vector3			m_position;				//このボーンのワールド空間での位置。最後にCalcWorldTRSを実行したときの結果が格納されている。
 	Vector3			m_scale;				//このボーンの拡大率。最後にCalcWorldTRSを実行したときの結果が格納されている。
 	Quaternion		m_rotation;				//このボーンの回転。最後にCalcWorldTRSを実行したときの結果が格納されている。
 	std::list<Bone*>	m_children;			//子供のリスト。

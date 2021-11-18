@@ -5,7 +5,7 @@
 
 namespace
 {
-	const float BULLET_DAMAGE = 10.0f;
+	const float BULLET_DAMAGE = 0.0f;
 	const float MISSILE_DAMAGE = 10.0f;
 	const float RASER_DAMAGE = 20.0f;
 	const float MAX_HP = 100.0f;

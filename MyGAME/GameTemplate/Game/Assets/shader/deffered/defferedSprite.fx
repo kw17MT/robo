@@ -358,7 +358,7 @@ float4 PSMain( PSInput In ) : SV_Target0
 		//シャドウマップに描き込まれているZ値と比較する
         float zInShadowMap = shadowMap.Sample(Sampler, shadowMapUV).r;
 		//シャドウアクネ解決のため実数値で補正、調整
-        if (zInLVP > zInShadowMap + 0.00007f)
+        if (zInLVP > zInShadowMap + 0.0001f)
         {
             finalColor.xyz *= 0.5f;
         }

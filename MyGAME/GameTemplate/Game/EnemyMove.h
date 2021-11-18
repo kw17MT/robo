@@ -2,11 +2,13 @@
 
 enum EnEnemyMoveTypes
 {
-	enNormalMove,
-	enApproach,
-	enRun,
-	enAroundPlayer,
-	enSurroundPlayer
+	enApproach,					//プレイヤーにじわじわ接近する
+	enFrontAndBehind,			//接近後、前後に移動する
+	enPlayerBehind,				//プレイヤーの後ろを取るように通過と前後を繰り返す
+	enAround,					//プレイヤーの周りを接近後ダッシュでいったん遠くに
+	enApproachAndDash,			//接近後、プレイヤーを避けるように前方にダッシュ
+	enStay,						//接近後、その場で滞留し、一定期間後ダッシュで他の方向に
+	enDash
 };
 
 enum EnEnemyAltitudeState
@@ -21,11 +23,24 @@ class EnemyMove
 private:
 	float m_moveSpeed = 0.0f;
 	bool m_isTop = false;
-	EnEnemyMoveTypes m_moveType = enNormalMove;
+	EnEnemyMoveTypes m_moveType = enApproach;
+	EnEnemyMoveTypes m_prevMoveType = enApproach;
 	EnEnemyAltitudeState m_altitudeState = enSafe;
 	float m_adjustingAltitudeElapsedTime = 0.0f;
 	float m_adjustedAltitudeHeight = 0.0f;				//高度調整用
 	Vector3 m_prevMoveDirection = Vector3::Zero;
+
+
+	bool m_moveForward = true;							//前後の動きの中で前進するかどうか
+	bool m_isCalcEnemyDashDirection = false;							//敵はダッシュしたいるか
+	float m_dashTimer = 0.0f;
+	float m_aroundTimer = 0.0f;
+	float m_waitTimer = 0.0f;
+
+	float m_acceralation = 1.0f;
+
+	Vector3 m_currentMoveDirection = Vector3::Zero;
+
 public:
 
 	void SetMoveSpeed(const float moveSpeed) { m_moveSpeed = moveSpeed; }
@@ -54,32 +69,19 @@ public:
 	*/
 	EnEnemyAltitudeState GetEnemyAltitudeState() { return m_altitudeState; }
 
-	/**
-	 * @brief ターゲットの位置を中心に回る移動モードの時の次の位置座標を計算する
-	 * @param enemyPos 現在の位置座標
-	 * @param targetPos 回る中心にする座標（何も指定しないときは原点を中心に回す）
-	 * @return 次の位置座標
-	*/
-	Vector3 CalcNextPos(Vector3 enemyPos, Vector3 targetPos = { 0.0f,0.0f,0.0f });
+	Vector3 GetEnemyMoveDireciton() { return m_currentMoveDirection; }
 
 	/**
 	 * @brief プレイヤーに接近モードの敵の次の位置座標を計算する。
 	 * @param pos 現在の位置座標
 	 * @return 次にの位置座標
 	*/
-	Vector3 CalcApproachedPos(Vector3 enemyPos, Vector3 targetPos);
-
-	/**
-	 * @brief プレイヤーから逃げるモードの敵の次の位置座標を計算する。
-	 * @param pos 現在の位置座標
-	 * @return 次の位置座標
-	*/
-	Vector3 CalcRunPos(Vector3 enemyPos, Vector3 targetPos);
+	void CalcApproachSpeed(Vector3 enemyPos, Vector3 targetPos);
 
 	/**
 	 * @brief 敵の標高に応じて正常な高さに戻す
 	*/
-	Vector3 AdjustedAltitudePos(Vector3 calcedPos);
+	Vector3 AdjustedAltitudeSpeed(Vector3 calcedPos);
 
 	/**
 	 * @brief 移動モードによって次の座標を計算する。
@@ -87,6 +89,18 @@ public:
 	 * @return 次の位置座標
 	*/
 	Vector3 Execute(Vector3 enemyPos, Vector3 targetPos);
+
+	void CalcFrontAndBehindSpeed(Vector3 enemyPos, Vector3 targetPos);
+
+	void CalcAroundSpeed(Vector3 enemyPos, Vector3 targetPos);
+
+	void CalcApproachAndDashSpeed(Vector3 enemyPos, Vector3 targetPos);
+
+	void EnemyDashSpeed(Vector3 enemyPos, Vector3 targetPos, float dashTime = 5.0f);
+
+	void EnemyStaySpeed(Vector3 enemyPos, Vector3 targetPos);
+
+	void JudgeMoveType(Vector3 enemyPos, Vector3 targetPos);
 private:
 };
 

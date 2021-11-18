@@ -1,12 +1,14 @@
 #pragma once
 #include "EnemyAtack.h"
 #include "EnemyMove.h"
+#include "EnemyRotation.h"
 
 class EnemyBrain
 {
 private:
 	Vector3 m_playerPos = Vector3::Zero;		//プレイヤーの位置
 	Vector3 m_enemyPos = Vector3::Zero;			//敵（自分）の位置
+	Quaternion m_rot = Quaternion::Identity;
 
 	bool m_canShoot = false;
 public:
@@ -33,10 +35,12 @@ public:
 	*/
 	Vector3 GetNextEnemyPos() { return m_enemyPos; }
 
+	Quaternion GetEnemyRotation() { return m_rot; }
+
 	/**
 	 * @brief 移動モードを判断する。
 	*/
-	void JudgeMoveType();
+	//void JudgeMoveType();
 
 	bool JudgeCanShoot();
 
@@ -47,5 +51,6 @@ public:
 private:
 	EnemyAtack m_enemyAtack;			//攻撃するかどうかの判断
 	EnemyMove m_enemyMove;				//移動先を考える
+	EnemyRotation m_enemyRotation;
 };
 

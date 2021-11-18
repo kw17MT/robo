@@ -14,6 +14,7 @@ Enemy::~Enemy()
 	DeleteGO(m_displayDistance);
 	DeleteGO(m_enemyStateIcon);
 	DeleteGO(m_enemyHP);
+	DeleteGO(m_machinGun);
 
 	//敵が倒れたため、ロックオン状態を何もなしにするか、次の敵をロックオンするか決定する。
 	CaptureStateManager::GetInstance().SetCaptureState(ChangeMainTarget);
@@ -55,7 +56,7 @@ bool Enemy::Start()
 	m_enemyHP->SetEnemyPos(m_position);
 
 	//20～30のランダムな数値を作成。
-	const float moveSpeed = rand() % 10 + 20.0f;
+	const float moveSpeed = rand() % 20 + 10.0f;
 	m_enemyBrain.SetMoveSpeed(moveSpeed);
 
 	m_machinGun = NewGO<EnemyMachinGun>(0);
@@ -105,4 +106,6 @@ void Enemy::Update()
 		//消す
 		DeleteGO(this);
 	}
+
+	m_skinModelRender->SetRotation(m_enemyBrain.GetEnemyRotation());
 }

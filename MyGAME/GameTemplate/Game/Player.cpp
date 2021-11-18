@@ -81,14 +81,7 @@ void Player::Update()
 	//プレイヤーのHPがなく、倒されていたら
 	if (m_playerHp->GetIsPlayerAlive() == false)
 	{
-		if (m_deathType == enByEnemy)
-		{
-			//倒された時、俯瞰気味でロボを見る
-			m_cameraMove.SetDeadCamera(m_roboMove.GetMoveSpeed());
-			m_machingun->SetPosition(m_skinModelRender->GetBonePosition());
-			return;
-		}
-		else if (m_deathType == enAwayFromArea)
+		if (m_deathType == enAwayFromArea)
 		{
 			//一度だけ、エリア外に出た場所の斜め上にセットする
 			m_cameraMove.SetDeadCamera(m_roboMove.GetMoveSpeed());
@@ -98,7 +91,17 @@ void Player::Update()
 			m_machingun->SetPosition(m_skinModelRender->GetBonePosition());
 			return;
 		}
-		m_skinModelRender->SetPosition(m_currentPosition);
+		else
+		{
+			m_deathType = enByEnemy;
+			m_cameraMove.SetIsDeadCamera(true);
+			//倒された時、俯瞰気味でロボを見る
+			m_cameraMove.SetDeadCamera(m_roboMove.GetMoveSpeed());
+			m_machingun->SetPosition(m_skinModelRender->GetBonePosition());
+			return;
+		}
+		
+		//m_skinModelRender->SetPosition(m_currentPosition);
 	}
 
 	m_roboMove.SetCanDash(m_playerEN->GetIsPlayerENRemain());

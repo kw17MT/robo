@@ -359,6 +359,7 @@
     <ClCompile Include="PlayerEN.cpp" />
     <ClCompile Include="RestrictArea.cpp" />
     <ClCompile Include="Rader.cpp" />
+    <ClCompile Include="EnemyRotation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -745,6 +746,7 @@
     <ClInclude Include="PlayerEN.h" />
     <ClInclude Include="RestrictArea.h" />
     <ClInclude Include="Rader.h" />
+    <ClInclude Include="EnemyRotation.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">
