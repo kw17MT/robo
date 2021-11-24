@@ -1,12 +1,14 @@
 #include "stdafx.h"
 #include "Rader.h"
 #include "SpriteRender.h"
+#include "EnemyIconOnRader.h"
 
 namespace
 {
-	const float ICON_SIZE = 12;
-	const Vector2 PIVOT = { -39.5f, 17.0f };
-	const Vector3 DIRECTION_Z = { 0.0f,0.0f,1.0f };
+	const float ICON_SIZE = 12;													//レーダー上のアイコンのおおきさ
+	const Vector3 DIRECTION_Z = { 0.0f,0.0f,1.0f };								//Z方向
+	const Vector3 SPRITE_DIRECTION_UP = { 0.0f,-1.0f,0.0f };					//画像の上方向
+	const Vector3 BASE_SPRITE_POSITION = { 520.0f, -240.0f, 0.0f };				//画像の中心を置く基準位置
 }
 
 extern void CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);
@@ -17,27 +19,24 @@ Rader::~Rader()
 	//レーダー上の敵のアイコンをすべて削除
 	for (int i = 0; i < 10; i++)
 	{
-		DeleteGO(m_spriteRender[i]);
+		DeleteGO(m_enemyIcon[i]);
 	}
 	//レーダー上のプレイヤーのアイコンを削除
 	DeleteGO(m_playerIcon);
+	DeleteGO(m_rader);
 }
 
 bool Rader::Start()
 {
+	//レーダー作成
 	m_rader = NewGO<SpriteRender>(0);
-	m_rader->Init("Assets/Image/rader/rader2.dds", 256, 256);
-	//m_rader->SetPivot(PIVOT);
-	m_rader->SetPosition({ 480.0f, -200.0f, 0.0f });
+	m_rader->Init("Assets/Image/rader/rader2.dds", 200, 200);
+	m_rader->SetPosition(BASE_SPRITE_POSITION);
 
 	//レーダー上の敵のアイコンを最大数作成
 	for (int i = 0; i < 10; i++)
 	{
-		m_spriteRender[i] = NewGO<SpriteRender>(0);
-		m_spriteRender[i]->Init("Assets/Image/rader/enemyIcon.dds", ICON_SIZE, ICON_SIZE);
-		//画像が画面の左下くらいに来るように設定
-		//m_spriteRender[i]->SetPivot(PIVOT);
-		m_spriteRender[i]->SetScale(m_scale);
+		m_enemyIcon[i] = NewGO<EnemyIconOnRader>(0);
 	}
 
 	//レーダー上のプレイヤーのアイコンを生成
@@ -45,25 +44,29 @@ bool Rader::Start()
 	m_playerIcon->Init("Assets/Image/rader/playerIcon.dds", ICON_SIZE, ICON_SIZE);
 	//画像が画面の左下くらいに来るように設定
 	m_playerIcon->SetScale(Vector3::One);
-	m_playerIcon->SetPivot(PIVOT);
-	//座標は以降固定
+	m_playerIcon->SetPosition(BASE_SPRITE_POSITION);
 
 	return true;
 }
 
 void Rader::SaveEnemyPos(int no, Vector3 enemyPos)
 {
+	//no番目の配列に敵の座標を代入
 	m_enemyPos[no] = enemyPos;
 }
 
 void Rader::Update()
 {
-	Quaternion qRot;
-	//現在のプレイヤーの向きからワールドのZ方向への回転を作成
-	qRot.SetRotation(g_camera3D->GetForward(), DIRECTION_Z);
 
-	for (int i = 0; i < m_enemyNum - 1; i++)
+
+	for (int i = 0; i < m_enemyNum; i++)
 	{
+		Quaternion qRot;
+		//現在のプレイヤーの向きからワールドのZ方向への回転を作成
+		Vector3 ForwardWithoutY = g_camera3D->GetForward();
+		ForwardWithoutY.y = 0.0f;
+		qRot.SetRotation(ForwardWithoutY, DIRECTION_Z);
+
 		//プレイヤーから敵に向かうベクトル
 		Vector3 playerToEnemyVec = m_enemyPos[i] - m_playerPos;
 		//正規化
@@ -84,61 +87,44 @@ void Rader::Update()
 		//レーダーにちょうどいい具合に調整
 		distance /= 100.0f;
 		//値を制限
-		if (distance >= 100.0f)distance = 100.0f;
+		if (distance >= 70.0f)distance = 70.0f;
 		//位置関係と距離からアイコンを置きたい場所を計算
 		m_screenPos = playerToEnemyVec * distance;
 
-		//画像の位置を設定
-		//m_spriteRender[i]->SetPosition(m_screenPos);
-		////拡大率を1にして画面上で見れるようにする
-		//m_scale = Vector3::One;
-		////画像の拡大率を更新
-		//m_spriteRender[i]->SetScale(m_scale);
-
-
-
-		//こっちうまくいきかける
-		/*Vector3 speed = m_screenPos - m_prevScreenPos[i];
-		speed.Normalize();
-		Quaternion a;
-		a.SetRotation({ 0.0f,1.0f,0.0f }, speed);
-		m_spriteRender[i]->SetRotation(a);*/
-		////////////////////////////////////////////////////////////
-
-
-		//だめ プレイヤーに向いて回転できているがカメラの回転に対応していない
-		//カメラの回転を計算しなおしてMutiplyする
+		//1フレーム前の位置と現在の位置から移動速度を求める
 		Vector3 speed = m_enemyPos[i] - m_prevEnemyPos[i];
-		float y = speed.y;
-		speed.y = speed.z;
-		speed.z = y;
+		////画像座標に変換したいため、値を入れかえ
+		std::swap(speed.y, speed.z);
 		speed.Normalize();
+		//z座標は不要
 		speed.z = 0.0f;
+		//xについて画像座標に調整
 		speed.x *= -1.0f;
-		Quaternion a;
-		a.SetRotation({ 0.0f,-1.0f,0.0f }, speed);
+		//移動方向への回転
+		Quaternion moveDirectionRot;
+		moveDirectionRot.SetRotation(SPRITE_DIRECTION_UP, speed);
 
+		//カメラの上方向を取得
 		Vector3 cameraFront = g_camera3D->GetForward();
-		float cameraY = cameraFront.y;
-		cameraFront.y = cameraFront.z;
-		cameraFront.z = cameraY;
+		std::swap(cameraFront.y, cameraFront.z);
 		cameraFront.Normalize();
 		cameraFront.z = 0.0f;
 		cameraFront.x *= -1.0f;
-		qRot.SetRotation(cameraFront, { 0.0f,-1.0f,0.0f });
-		a.Multiply(qRot);
-		m_spriteRender[i]->SetRotation(a);
-		
-		////////////////////////////////////////////////////////////
+		//カメラの回転を計算
+		qRot.SetRotation(cameraFront, SPRITE_DIRECTION_UP);
+		//カメラの回転に画像自体の回転を掛け合わせ、最終的な回転を計算
+		moveDirectionRot.Multiply(qRot);
+		m_enemyIcon[i]->SetRotation(moveDirectionRot);
+
+		//1フレーム前の座標として設定
 		m_prevEnemyPos[i] = m_enemyPos[i];
 
-		m_prevScreenPos[i] = m_screenPos;
 		//画像の位置を設定
-		m_screenPos += { 480.0f, -200.0f, 0.0f };
-		m_spriteRender[i]->SetPosition(m_screenPos);
+		m_screenPos += BASE_SPRITE_POSITION;
+		m_enemyIcon[i]->SetPosition(m_screenPos);
 		//拡大率を1にして画面上で見れるようにする
 		m_scale = Vector3::One;
 		//画像の拡大率を更新
-		m_spriteRender[i]->SetScale(m_scale);
+		m_enemyIcon[i]->SetScale(m_scale);
 	}
 }

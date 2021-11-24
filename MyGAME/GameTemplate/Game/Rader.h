@@ -1,6 +1,6 @@
 #pragma once
 class SpriteRender;
-
+class EnemyIconOnRader;
 
 class Rader : public IGameObject
 {
@@ -53,9 +53,8 @@ public:
 	void SetPlayerPos(Vector3 pos) { m_playerPos = pos; }
 private:
 	Vector3 m_enemyPos[10];										//敵の位置
-	Vector3 m_prevScreenPos[10];
 	Vector3 m_prevEnemyPos[10];
-	SpriteRender* m_spriteRender[10] = { nullptr };				//レーダーの敵
+	EnemyIconOnRader* m_enemyIcon[10] = { nullptr };				//レーダーの敵
 	SpriteRender* m_playerIcon = nullptr;						//プレイヤー
 	SpriteRender* m_rader = nullptr;
 };

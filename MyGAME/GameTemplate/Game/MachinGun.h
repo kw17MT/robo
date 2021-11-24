@@ -11,6 +11,7 @@ private:
 	Vector3 m_position = Vector3::Zero;			//マシンガンの位置
 	Vector3 m_targetPos = Vector3::Zero;		//着弾させるターゲット座標
 	int m_remaining_bullet = 100;
+	float m_shootDelay = 0.15f;
 public:
 	/**
 	 * @brief コンストラクタ

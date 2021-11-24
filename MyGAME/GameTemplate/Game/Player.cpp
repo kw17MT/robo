@@ -10,6 +10,8 @@
 #include "PlayerEN.h"
 #include "RestrictArea.h"
 
+
+
 Player::~Player()
 {
 	DeleteGO(m_machingun);
@@ -21,8 +23,8 @@ bool Player::Start()
 	//スキンを作成
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//スキンの情報を初期化
-	//m_skinModelRender->Init("Assets/modelData/testBox/test.tkm", "Assets/modelData/testBox/test.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
-	m_skinModelRender->Init("Assets/modelData/robo/robo.tkm", "Assets/modelData/robo/robo.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	m_skinModelRender->Init("Assets/modelData/noWing/roboNoWing.tkm", "Assets/modelData/noWing/roboNoWing.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	//m_skinModelRender->Init("Assets/modelData/robo/robo.tkm", "Assets/modelData/robo/robo.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
 
 	m_animClip[enIdle].Load("Assets/animData/robo/anim_idle.tka");
 	m_animClip[enIdle].SetLoopFlag(true);
@@ -63,6 +65,9 @@ bool Player::Start()
 	g_camera3D->SetTarget(cameraPos);
 	cameraPos.z += 230.0f;
 	g_camera3D->SetPosition(cameraPos);
+
+	m_effect = NewGO<Effect>(0);
+	m_effect->Init(u"Assets/effect/kirakira.efk");
 
 	return true;
 }
@@ -119,14 +124,19 @@ void Player::Update()
 	//1フレーム前の座標として記録
 	m_prevHomePosition = m_currentHomePosition;
 
-	//
-	Vector3 a = m_skinModelRender->GetBonePosition();
+	//プレイヤーの手の位置にマシンガンをセット
 	m_machingun->SetPosition(m_skinModelRender->GetBonePosition() + m_roboMove.GetMoveSpeed());
 	//マシンガンにターゲット位置とプレイヤーの現在の位置を与える
 	if (m_reticle->GetIsTargeted()) {
 		m_machingun->SetTargetPos(m_reticle->GetTargetingEnemyPos());
 	}
 	m_missileGene->SetLaunchPos(m_currentPosition);
+
+	//エフェクトテスト
+	m_effect->SetPosition({ 0.0f,1000.0f,0.0f });
+	m_effect->SetScale({ 10.0f,10.0f,10.0f });
+	m_effect->Play();
+	m_effect->Update();
 
 
 	m_area->JudgeInArea(m_currentPosition);

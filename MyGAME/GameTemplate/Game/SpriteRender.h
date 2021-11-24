@@ -1,4 +1,11 @@
 #pragma once
+
+struct BarParam
+{
+	float barDeleteRate = 0.0f;							//主にゲージの画像に使用。画像をどのくらい消すかのレート（右端から消す）
+	float scrollAmount = 0.0f;
+};
+
 class SpriteRender : public IGameObject
 {
 private:
@@ -8,6 +15,10 @@ private:
 	Vector3 m_scale = { 1.0f, 1.0f, 1.0f };				//画像の初期拡大率
 	Quaternion m_rot = Quaternion::Identity;			//画像の回転
 	Vector2 m_pivot = { 0.5f,0.5f };					//画像の中心
+
+	Texture m_texture;
+	BarParam s_param;
+	SpriteInitData spdata;
 
 	enum {
 		enRenderNormal
@@ -28,6 +39,10 @@ public:
 	 * @param height 縦幅
 	*/
 	void Init(const char* name, int width, int height);
+
+	void InitGauge(const char* name, int width, int height);
+
+	void SetSpriteSizeRate(float rate) { s_param.barDeleteRate = rate; }
 
 	/**
 	 * @brief 新しい位置の設定

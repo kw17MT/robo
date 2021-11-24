@@ -18,7 +18,7 @@ Reticle::~Reticle()
 bool Reticle::Start()
 {
 	m_spriteRender[0] = NewGO<SpriteRender>(0);
-	m_spriteRender[0]->Init("Assets/Image/reticle/reticle_idle.dds", 48, 48);
+	m_spriteRender[0]->Init("Assets/Image/reticle/reticle_idle.dds", 20, 20);
 	m_spriteRender[0]->SetPosition(m_homePosition);
 
 	m_spriteRender[1] = NewGO<SpriteRender>(0);

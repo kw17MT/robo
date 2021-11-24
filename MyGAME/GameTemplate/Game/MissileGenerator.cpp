@@ -8,7 +8,7 @@
 namespace
 {
 	const int MAX_AMMO = 20;				//最大数
-	const Vector3 GAUGA_POSITION = { -500.0f, -300.0f, 0.0f };
+	const Vector3 GAUGE_POSITION = { -440.0f, -250.0f, 0.0f };
 }
 
 MissileGenerator::~MissileGenerator()
@@ -50,7 +50,7 @@ bool MissileGenerator::Start()
 	//所持上限数を教える
 	m_ammoGauge->SetMaxAmmo(MAX_AMMO);
 	//位置固定
-	m_ammoGauge->SetPosition(GAUGA_POSITION);
+	m_ammoGauge->SetPosition(GAUGE_POSITION);
 
 	//todo 要変更→実装方法や数値
 	//ミサイルインスタンス格納配列のメモリを確保

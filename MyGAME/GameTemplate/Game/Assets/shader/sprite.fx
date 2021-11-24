@@ -6,6 +6,7 @@ cbuffer cb : register(b0){
 	float4x4 mvp;		//���[���h�r���[�v���W�F�N�V�����s��B
 	float4 mulColor;	//��Z�J���[�B
 };
+
 struct VSInput{
 	float4 pos : POSITION;
 	float2 uv  : TEXCOORD0;
@@ -26,6 +27,7 @@ PSInput VSMain(VSInput In)
 	psIn.uv = In.uv;
 	return psIn;
 }
+
 float4 PSMain( PSInput In ) : SV_Target0
 {
 	return colorTexture.Sample(Sampler, In.uv) * mulColor;

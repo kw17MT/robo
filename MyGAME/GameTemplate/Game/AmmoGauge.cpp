@@ -8,10 +8,10 @@ namespace
 	const float BULLET_RELOAD_COMPLETE_TIME = 3.0f;				//弾のリロード時間
 	const float MISSILE_RELOAD_COMPLETE_TIME = 5.0f;			//ミサイルのリロード時間
 	const float RASER_RELOAD_COMPLETE_TIME = 10.0f;				//レールガンのリロード時間
-	const int GAUGE_SCALE_X = 128;								//ゲージのX拡大率
-	const int GAUGE_SCALE_Y = 32;								//ゲージのY拡大率
-	const float FONT_ADJUST_AMOUNT_X = 50.0f;					//文字の位置の調整変数
-	const float FONT_ADJUST_AMOUNT_Y = 20.0f;					//文字の位置の調整変数
+	const int GAUGE_SCALE_X = 160;								//ゲージのX拡大率
+	const int GAUGE_SCALE_Y = 12;								//ゲージのY拡大率
+	const float FONT_ADJUST_AMOUNT_X = 90.0f;					//文字の位置の調整変数
+	const float FONT_ADJUST_AMOUNT_Y = 15.0f;					//文字の位置の調整変数
 }
 
 AmmoGauge::~AmmoGauge()
@@ -24,12 +24,13 @@ bool AmmoGauge::Start()
 {
 	//ゲージの生成
 	m_spriteRender = NewGO<SpriteRender>(0);
-	m_spriteRender->Init("Assets/Image/HPBar/HPBar.dds", GAUGE_SCALE_X, GAUGE_SCALE_Y);
+	m_spriteRender->InitGauge("Assets/Image/gaugeTexture/ammoGauge.dds", GAUGE_SCALE_X, GAUGE_SCALE_Y);
 	m_spriteRender->SetPivot(m_pivot);
 
 	//残弾数を表示
 	m_fontRender = NewGO<FontRender>(0);
 	m_fontRender->SetText(L"0");
+	m_fontRender->SetPivot({ 0.0f,0.0f });
 
 	return true;
 }
@@ -97,15 +98,15 @@ void AmmoGauge::Update()
 		//リロードがそのフレームに終わったか
 		m_finishReloading = false;
 		//残弾数に応じたゲージの長さにする
-		m_scale.x = (float)m_remaining_ammo / (float)m_max_ammo;
+		m_gaugeScaleX = (float)m_remaining_ammo / (float)m_max_ammo;
 	}
 
 	//文字の位置を更新
 	m_fontRender->SetPosition({ -m_screenPos.x - FONT_ADJUST_AMOUNT_X, m_screenPos.y + FONT_ADJUST_AMOUNT_Y });
 	//文字の拡大率を更新
 	m_fontRender->SetScale(m_fontScale);
-	//ゲージ画像の拡大率更新
-	m_spriteRender->SetScale(m_scale);
+	//ゲージ画像の減少率更新
+	m_spriteRender->SetSpriteSizeRate(1.0f - m_gaugeScaleX);
 	//画像の位置更新
 	m_spriteRender->SetPosition(m_screenPos);
 }

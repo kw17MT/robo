@@ -18,8 +18,8 @@ bool Bullet::Start()
 {
 	//弾モデルの生成
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init("Assets/modelData/bullet/bullet.tkm", nullptr, enModelUpAxisY, { 0.0f,0.0f,0.0f }, true);
-
+	//m_skinModelRender->Init("Assets/modelData/bullet/bullet.tkm", nullptr, enModelUpAxisY, { 0.0f,0.0f,0.0f }, true);
+	m_skinModelRender->Init("Assets/modelData/bullet/a.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
 	return true;
 }
 
@@ -41,8 +41,10 @@ void Bullet::BehaveChangedByOwner()
 			//敵と弾の距離を計算する。
 			Vector3 diff = enemy->GetPosition() - m_position;
 			if (diff.Length() < 200.0f) {
-				//マシンガンの弾からダメージを受けたことを知らせる
-				enemy->TakenDamage(enBullet);
+				if (!enemy->IsDead()) {
+					//マシンガンの弾からダメージを受けたことを知らせる
+					enemy->TakenDamage(enBullet);
+				}
 				//死亡。
 				DeleteGO(this);
 				//終了。
@@ -74,6 +76,11 @@ void Bullet::BehaveChangedByOwner()
 	
 }
 
+void Bullet::SetRotation(Quaternion rot)
+{ 
+	m_rot = rot;
+}
+
 void Bullet::Update()
 {
 	//敵のまでの距離から移動方向と速度を計算する。
@@ -86,6 +93,7 @@ void Bullet::Update()
 	//速度を考慮した位置座標を設定する。
 	m_position += m_moveSpeed;
 	m_skinModelRender->SetPosition(m_position);
+	m_skinModelRender->SetRotation(m_rot);
 
 	BehaveChangedByOwner();
 

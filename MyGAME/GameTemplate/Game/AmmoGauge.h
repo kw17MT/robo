@@ -16,7 +16,7 @@ private:
 	Vector3 m_scale = { 2.0f,1.0f,1.0f };		//ゲージの拡大率
 	Vector3 m_screenPos = Vector3::Zero;		//スクリーン上での位置
 	Vector2 m_pivot = { 1.0f,0.0f };			//画像の中心
-	float m_fontScale = 0.5f;					//文字の拡大率
+	const float m_fontScale = 0.5f;					//文字の拡大率
 
 	int m_remaining_ammo = 0;					//残弾数
 	int m_max_ammo = 0;							//種類に応じた最大弾数
@@ -24,6 +24,8 @@ private:
 	float m_reloadTimer = 0.0f;					//リロードタイマー
 	bool m_isReloaded = true;					//リロードされているか（残弾はあるか）
 	bool m_finishReloading = false;				//そのフレームにリロードが終わったか
+
+	float m_gaugeScaleX = 1.0f;
 
 	EnAmmoTypes m_ammoType = enAmmoBullet;		//どの種類の弾を管理するか
 public:

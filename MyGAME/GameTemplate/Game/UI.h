@@ -1,7 +1,9 @@
 #pragma once
 #include "SpriteRender.h"
-#include "Reticle.h"
 
+/**
+ * @brief ‘å‚«‚È–ðŠ„‚Ì‚È‚¢UI‚ð•\Ž¦‚·‚é
+*/
 class UI : public IGameObject
 {
 public:
@@ -10,6 +12,6 @@ public:
 	bool Start();
 	void Update();
 private:
-	Reticle* m_reticle = nullptr;
+	SpriteRender* m_sprite[4] = { nullptr };
 };
 

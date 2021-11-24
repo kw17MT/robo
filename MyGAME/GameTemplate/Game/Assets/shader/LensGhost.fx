@@ -27,7 +27,9 @@ PSInput VSMain(VSInput In)
 	return psIn;
 }
 
-static const float ghostNum = 9.0f;
+static const float ghostNum = 8.0f;
+static const float maxUV = 1.0f;
+static const float minUV = -1.0f;
 
 float4 PSMain( PSInput In ) : SV_Target0
 {
@@ -40,22 +42,43 @@ float4 PSMain( PSInput In ) : SV_Target0
     float2 fetchNearLight = toCenter / 3.0f;
     //センターと点対照のピクセルの座標
     float2 texturePos = In.uv + toCenter * 2.0f;
+    
+    if(texturePos.x >= 1.0f || texturePos.x <= -1.0f
+        || texturePos.y >= 1.0f || texturePos.y <= -1.0f)
+    {
+        clip(-1.0f);
+    }
+    
     float4 finalColor = sceneTexture.Sample(Sampler, texturePos);
     //N回分もどるor進んで太陽の色を取得しに行く
     for (int i = 0; i < ghostNum; i++)
     {
-        finalColor += sceneTexture.Sample(Sampler, In.uv - (fetchNearLight * i));
-        finalColor += sceneTexture.Sample(Sampler, In.uv + (fetchNearLight * i));
+        //float2 AddedUV = In.uv - (fetchNearLight * i);
+        //if (AddedUV.x >= maxUV || AddedUV.x <= minUV
+        //|| AddedUV.y >= maxUV || AddedUV.y <= minUV)
+        //{
+        //    continue;
+        //}
+        
+        //float2 SubtractedUV = In.uv + (fetchNearLight * i);
+        //if (SubtractedUV.x >= maxUV || SubtractedUV.x <= minUV
+        //|| SubtractedUV.y >= maxUV || SubtractedUV.y <= minUV)
+        //{
+        //    continue;
+        //}
+        
+        finalColor += sceneTexture.Sample(Sampler, /*AddedUV*/ In.uv - (fetchNearLight * i));
+        finalColor += sceneTexture.Sample(Sampler, /*SubtractedUV*/ In.uv + (fetchNearLight * i));
     }
     //ゴーストの色を調整
-    finalColor /= ghostNum * 2.0f;
+    //finalColor /= ghostNum * 2.0f;
     
     //ゴーストがあるピクセルにセンターからの位置で色合いを変える
-    if (length(finalColor.xyz))
-    {
-        finalColor.xy += toCenter / 4.0f;
-        finalColor.xy /= 2.0f;
-    }
+    //if (length(finalColor.xyz))
+    //{
+    //    finalColor.xy += toCenter / 4.0f;
+    //    finalColor.xy /= 3.0f;
+    //}
     //透明度を与える。
     finalColor.w = 0.6f;
     return finalColor;

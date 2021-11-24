@@ -5,7 +5,7 @@
 namespace
 {
 	const int BULLET_DAMAGE_AMOUNT = 10;			//マシンガンの弾のダメージ量
-	const int MISSILE_DAMAGE_AMOUNT = 1;			//ミサイルのダメージ量
+	const int MISSILE_DAMAGE_AMOUNT = 100;			//ミサイルのダメージ量
 	const int RASER_DAMAGE_AMOUNT = 33;				//レールガンのダメージ量
 
 	const float MAX_ENEMY_HP = 100.0f;

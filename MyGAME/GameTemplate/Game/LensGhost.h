@@ -1,4 +1,6 @@
 #pragma once
+class GaussianBlur;
+
 class LensGhost
 {
 public:
@@ -9,6 +11,7 @@ public:
 private:
 	RenderTarget m_ghostTarget;
 	Sprite m_lensGhost;
-	SpriteInitData lensGhostData;
+	SpriteInitData m_lensGhostData;
+	GaussianBlur m_gaussianBlur;
 };
 

@@ -12,6 +12,8 @@ class RestrictArea;
 #include "PlayerAnimation.h"
 #include "PlayerHP.h"
 
+#include "effect/Effect.h"
+
 namespace
 {
 	const int animNum = 7;
@@ -78,5 +80,7 @@ private:
 
 	PlayerAnimation m_playerAnim;						//プレイヤーのアニメーション初期化オブジェクト
 	AnimationClip m_animClip[animNum];					//プレイヤーのアニメーション
+
+	Effect* m_effect = nullptr;
 };
 

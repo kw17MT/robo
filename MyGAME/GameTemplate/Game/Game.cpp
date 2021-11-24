@@ -41,7 +41,7 @@ bool Game::Start()
 	m_sky = NewGO<SkyCube>(0);
 	//地面作成
 	m_ground = NewGO<Ground>(0);
-	//m_ui = NewGO<UI>(0);
+	m_ui = NewGO<UI>(0);
 	//太陽の作成
 	m_sun = NewGO<Sun>(0);
 	//レーダーの作成
@@ -60,8 +60,8 @@ void Game::Update()
 	//レーダーに生成した敵の数
 	m_rader->SetEnemyNum(m_enemyGenerator->GetEnemyNum());
 	//敵の数分その位置座標を保存、更新
-	for (int i = 1; i < m_enemyGenerator->GetEnemyNum(); i++)
+	for (int i = 0; i < m_enemyGenerator->GetEnemyNum(); i++)
 	{
-		m_rader->SaveEnemyPos(i - 1, m_enemyGenerator->GetEnemyPos(i));
+		m_rader->SaveEnemyPos(i, m_enemyGenerator->GetEnemyPos(i));
 	}
 }
