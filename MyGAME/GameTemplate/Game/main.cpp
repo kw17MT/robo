@@ -44,10 +44,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	Game* game;
 	game = NewGO<Game>(0);
 
+	/*
 	//プレイヤーのアニメーションテスト
 	SkinModelRender* test = nullptr;
 	test = NewGO<SkinModelRender>(0);
-	test->Init("Assets/modelData/robo/robo.tkm", "Assets/modelData/robo/robo.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	test->Init("Assets/modelData/noWing/roboNoWing.tkm", "Assets/modelData/noWing/roboNoWing.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
 	test->SetScale({ 5.0f,5.0f,5.0f });
 
 	const int animNum = 4;
@@ -62,6 +63,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	anim[3].SetLoopFlag(true);
 	test->InitAnimation(anim, animNum);
 	test->PlayAnimation(3, 1);
+	*/
 
 	g_camera3D->SetPosition({ 0.0f, 0.0f, 3000.0f });
 	g_camera3D->SetTarget({ 0.0f, 0.0f, 0.0f });
@@ -143,10 +145,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		RenderingEngine::GetInstance()->Render(renderContext);
 		LightManager::GetInstance().UpdateEyePos();
 
-		//ゲームタイムを用いてエフェクトの再生進行度の更新
-		EffectEngine::GetInstance()->Update(GameTime().GetFrameDeltaTime());
-		//エフェクトの描画
-		EffectEngine::GetInstance()->Draw();
+		////ゲームタイムを用いてエフェクトの再生進行度の更新
+		//EffectEngine::GetInstance()->Update(GameTime().GetFrameDeltaTime());
+		////エフェクトの描画
+		//EffectEngine::GetInstance()->Draw();
 
 		//スピンロックを行う。
 		int restTime = 0;

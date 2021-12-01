@@ -39,6 +39,12 @@ void DefferedLighting::Render(RenderContext& rc)
 	rc.SetRenderTargetsAndViewport(ARRAYSIZE(m_defferedTargets), m_defferedTargets);
 	rc.ClearRenderTargetViews(ARRAYSIZE(m_defferedTargets), m_defferedTargets);
 	GameObjectManager::GetInstance()->CallRenderWrapper(rc);
+
+	//ゲームタイムを用いてエフェクトの再生進行度の更新
+	EffectEngine::GetInstance()->Update(GameTime().GetFrameDeltaTime());
+	//エフェクトの描画
+	EffectEngine::GetInstance()->Draw();
+
 	rc.WaitUntilFinishDrawingToRenderTargets(ARRAYSIZE(m_defferedTargets), m_defferedTargets);
 }
 

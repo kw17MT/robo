@@ -1,6 +1,12 @@
 #pragma once
 #include "SpriteRender.h"
 
+enum EnReticleType
+{
+	enNormalReticle,
+	enTargetReticle
+};
+
 class Reticle : public IGameObject
 {
 private:
@@ -14,8 +20,9 @@ private:
 	Vector3 m_targetingEnemyPos = Vector3::Zero;
 
 	bool m_isTarget = false;				//現在ターゲットしているか
-	bool m_isDecidedNextTarget = false;		//次にターゲットする敵は決まっているか（敵側が知っている）
+	//bool m_isDecidedNextTarget = false;		//次にターゲットする敵は決まっているか（敵側が知っている）
 	float m_PressButtonTime = 0.5f;			//LB2ボタンを押している秒数
+	float m_targetReticleRotateRate = 0.0f;
 public:
 	/**
 	 * @brief コンストラクタ
@@ -52,7 +59,7 @@ public:
 	*/
 	void SetIsTargeting(bool state) { m_isTarget = state; }
 
-	void SetIsDecidedNextTarget(bool isDecided) { m_isDecidedNextTarget = isDecided; }
+	//void SetIsDecidedNextTarget(bool isDecided) { m_isDecidedNextTarget = isDecided; }
 
 	void SetTargetedEnemyPos(Vector3 pos) { m_targetingEnemyPos = pos; }
 
@@ -62,7 +69,7 @@ public:
 	*/
 	bool GetIsTargeted() { return m_isTarget; }
 
-	bool GetIsDecidedNextTarget() { return m_isDecidedNextTarget; }
+	//bool GetIsDecidedNextTarget() { return m_isDecidedNextTarget; }
 
 	Vector3 GetTargetingEnemyPos() { return m_targetingEnemyPos; }
 

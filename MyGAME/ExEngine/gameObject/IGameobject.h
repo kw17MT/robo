@@ -112,7 +112,6 @@ public:
 	void UpdateWrapper()
 	{
 		if (m_isActive && m_isStart && !m_isDead ) {
-			//SayYourName();
 			Update();
 		}
 	}

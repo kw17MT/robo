@@ -343,9 +343,6 @@
     <ClCompile Include="MissileTargetIcon.cpp">
       <Filter>UI,Sprite\NearEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="AmmoGauge.cpp">
-      <Filter>UI,Sprite</Filter>
-    </ClCompile>
     <ClCompile Include="CapturedSquareIcon.cpp">
       <Filter>UI,Sprite\NearEnemy</Filter>
     </ClCompile>
@@ -355,12 +352,26 @@
     <ClCompile Include="EnemyMachinGun.cpp">
       <Filter>Object\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerHP.cpp" />
-    <ClCompile Include="PlayerEN.cpp" />
     <ClCompile Include="RestrictArea.cpp" />
-    <ClCompile Include="Rader.cpp" />
-    <ClCompile Include="EnemyRotation.cpp" />
-    <ClCompile Include="EnemyIconOnRader.cpp" />
+    <ClCompile Include="AmmoGauge.cpp">
+      <Filter>UI,Sprite\NearPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyIconOnRader.cpp">
+      <Filter>UI,Sprite\Rader</Filter>
+    </ClCompile>
+    <ClCompile Include="Rader.cpp">
+      <Filter>UI,Sprite\Rader</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerEN.cpp">
+      <Filter>UI,Sprite\NearPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHP.cpp">
+      <Filter>UI,Sprite\NearPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyRotation.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -731,9 +742,6 @@
     <ClInclude Include="MissileTargetIcon.h">
       <Filter>UI,Sprite\NearEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="AmmoGauge.h">
-      <Filter>UI,Sprite</Filter>
-    </ClInclude>
     <ClInclude Include="CapturedSquareIcon.h">
       <Filter>UI,Sprite\NearEnemy</Filter>
     </ClInclude>
@@ -743,12 +751,26 @@
     <ClInclude Include="EnemyMachinGun.h">
       <Filter>Object\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerHP.h" />
-    <ClInclude Include="PlayerEN.h" />
     <ClInclude Include="RestrictArea.h" />
-    <ClInclude Include="Rader.h" />
-    <ClInclude Include="EnemyRotation.h" />
-    <ClInclude Include="EnemyIconOnRader.h" />
+    <ClInclude Include="AmmoGauge.h">
+      <Filter>UI,Sprite\NearPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyIconOnRader.h">
+      <Filter>UI,Sprite\Rader</Filter>
+    </ClInclude>
+    <ClInclude Include="Rader.h">
+      <Filter>UI,Sprite\Rader</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerEN.h">
+      <Filter>UI,Sprite\NearPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHP.h">
+      <Filter>UI,Sprite\NearPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyRotation.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">
@@ -804,6 +826,9 @@
     </Filter>
     <Filter Include="Object\Player\PlayerCamera">
       <UniqueIdentifier>{538ef09b-1c00-4360-aa1c-83471d4253a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI,Sprite\Rader">
+      <UniqueIdentifier>{62e51023-fd33-43ae-b41f-0bf86c5bc824}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

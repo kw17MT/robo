@@ -5,324 +5,277 @@ extern float CalcMethods::CalcDistance(Vector3 v1, Vector3 v2);
 
 namespace
 {
-	const float ADJUST_SLOPE_UP_AMOUNT = 0.8f;
-	const float  ADJUST_SLOPE_DOWN_AMOUNT = -ADJUST_SLOPE_UP_AMOUNT;
+	const float DOT_ENEMY_RECOGNIZE_PLAYER_FRONT = -0.85f;				//敵がプレイヤーのどのくらい正面にいるか（内積結果）
+	const float MAX_WAIT_TIME = 10.0f;									//Stayモードでの待機する最大時間
+	const float MAX_AROUND_TIME = 6.0f;									//旋回する最大時間
+	const float MAX_DASH_TIME = 5.0f;									//ダッシュする最大時間
+	const float ADJUST_ACCERALATION_RATE = 5.0f;						//加速度の増加調整用
+	const float LIMIT_ENEMY_CAN_APPROACH = 2000.0f;						//敵が近づこうとする限度
+	const float LIMIT_ENEMY_RECOGNIZE_PLAYER = 7000.0f;					//敵がプレイヤーを認識できる限界距離
+	const int MAX_ROTATION_DEGREE = 60;
 }
 
-void EnemyMove::JudgeMoveType(Vector3 enemyPos, Vector3 targetPos)
+void EnemyMove::JudgeMoveType(float distanceBetweenEnemyToPlayer)
 {
-	float distance = CalcMethods::CalcDistance(enemyPos, targetPos);
 	//プレイヤーに近づきすぎたら
-	if (distance < 2000.0f)
+	if (distanceBetweenEnemyToPlayer < LIMIT_ENEMY_CAN_APPROACH)
 	{
-		//逃げる処理にするかどうか
+		//移動タイプをランダムに選択
 		srand((unsigned int)time(NULL));
-		int nextMoveState = rand() % 6;
+		int nextMoveState = rand() % 5;
 
-		//nextMoveState = 9;
+		//nextMoveState = enAround;
 
-		// OK
-		if (nextMoveState == 0) {
+		//敵を向いて前後に動く
+		if (nextMoveState == enFrontAndBehind) {
 			m_isCalcEnemyDashDirection = false;
 			m_moveType = enFrontAndBehind;
 		}
-		// OK
-		else if (nextMoveState == 1)
+		//プレイヤーの後ろをとった後前後に動く
+		else if (nextMoveState == enPlayerBehind)
 		{
 			m_isCalcEnemyDashDirection = false;
 			m_moveType = enPlayerBehind;
 		}
-		// NG
-		else if (nextMoveState == 3)
+		//プレイヤー中心に旋回する
+		else if (nextMoveState == enAround)
 		{
 			m_moveType = enAround;
 		}
-		// OK
-		else if (nextMoveState == 4)
+		//近づいてダッシュで通り抜ける
+		else if (nextMoveState == enApproachAndDash)
 		{
 			m_isCalcEnemyDashDirection = false;
 			m_moveType = enApproachAndDash;
 		}
-		else // nextMoveState == 5
+		//プレイヤーの近くを漂う
+		else // nextMoveState == 4
 		{
-			m_isCalcEnemyDashDirection = false;
 			m_moveType = enStay;
 		}
 	}
 }
 
-void EnemyMove::CalcApproachSpeed(Vector3 enemyPos, Vector3 targetPos)
+void EnemyMove::CalcApproachSpeed(Vector3 toTargetVec, float distanceBetweenEnemyToPlayer)
 {
-	Vector3 toTargetVec = targetPos - enemyPos;
-
-	toTargetVec.Normalize();
-	m_currentMoveDirection = toTargetVec;
-	Vector3 speed = toTargetVec * m_moveSpeed;
-
-	JudgeMoveType(enemyPos, targetPos);
+	//前フレームの移動方向を加味したプレイヤーに向かう移動方向
+	m_currentMoveDirection = toTargetVec * m_acceralation + m_currentMoveDirection * (1.0f - m_acceralation);
+	//近づいた結果、移動タイプを変えるべきかどうかの判断
+	JudgeMoveType(distanceBetweenEnemyToPlayer);
 }
 
-Vector3 EnemyMove::AdjustedAltitudeSpeed(Vector3 speed)
+void EnemyMove::CalcFrontAndBehindDirection(Vector3 toTargetVec, float distanceBetweenEnemyToPlayer)
 {
-	switch (m_altitudeState)
-	{
-	//ワールドに対して高度が高すぎているならば
-	case enTooHigh:
-		m_adjustingAltitudeElapsedTime += GameTime().GetFrameDeltaTime();
-		m_adjustedAltitudeHeight = ADJUST_SLOPE_DOWN_AMOUNT * (m_adjustingAltitudeElapsedTime * m_adjustingAltitudeElapsedTime);
-		speed.y += m_adjustedAltitudeHeight;
-		if (speed.y <= 9000.0f)
-		{
-			m_altitudeState = enSafe;
-			m_prevMoveDirection.y = 0.0f;
-		}
-		return speed;
-		break;
-	//ワールドに対して高度が低すぎている場合
-	case enTooLow:
-		m_adjustingAltitudeElapsedTime += GameTime().GetFrameDeltaTime();
-		m_adjustedAltitudeHeight = ADJUST_SLOPE_UP_AMOUNT * (m_adjustingAltitudeElapsedTime * m_adjustingAltitudeElapsedTime);
-		speed.y += m_adjustedAltitudeHeight;
-		if (speed.y >= 9000.0f)
-		{
-			m_altitudeState = enSafe;
-			m_prevMoveDirection.y = 0.0f;
-		}
-		return speed;
-		break;
-	//正常な場合
-	default:
-		m_adjustingAltitudeElapsedTime = 0.0f;
-		m_adjustedAltitudeHeight /= 1.1f;
-		if (abs(m_adjustedAltitudeHeight) < 10.0f)
-		{
-			m_adjustedAltitudeHeight = 0.0f;
-		}
-		speed.y += m_adjustedAltitudeHeight;
-		return speed;
-		break;
-	}
-}
-
-void EnemyMove::CalcFrontAndBehindSpeed(Vector3 enemyPos, Vector3 targetPos)
-{
-	Vector3 enemyToTargetVec = targetPos - enemyPos;
-	enemyToTargetVec.Normalize();
 	//自分はプレイヤーの後ろにいるのか前にいるのか
-	float dot = enemyToTargetVec.Dot(g_camera3D->GetForward());
-	if (dot < 0.2f && m_moveType == enPlayerBehind)
+	float dot = toTargetVec.Dot(g_camera3D->GetForward());
+	//プレイヤーの背後をとるモードなのに、プレイヤーの正面付近に来ていたら
+	if (dot < DOT_ENEMY_RECOGNIZE_PLAYER_FRONT && m_moveType == enPlayerBehind)
 	{
+		//ダッシュで方向転換する
 		m_moveType = enDash;
 	}
 	else
 	{
-		float distance = CalcMethods::CalcDistance(enemyPos, targetPos);
-		if (distance > 7000.0f)
+		//規定以上なら
+		if (distanceBetweenEnemyToPlayer > LIMIT_ENEMY_RECOGNIZE_PLAYER)
 		{
+			//前フレームまでは後退モードなら
+			if (!m_moveForward)
+			{
+				//加速度をリセットする。
+				m_acceralation = 0.0f;
+			}
+			//前進モードにする
 			m_moveForward = true;
 
+			//半分の確率でプレイヤー中心に回るモードにする
 			bool isRound = rand() % 2;
 			if (isRound)
 			{
 				m_moveType = enAround;
 			}
 		}
-		if (distance < 2000.0f)
+		//規定の距離未満になれば
+		else if (distanceBetweenEnemyToPlayer < LIMIT_ENEMY_CAN_APPROACH)
 		{
+			//前フレームまでは前進モードだった場合
+			if (m_moveForward)
+			{
+				//加速度をリセット
+				m_acceralation = 0.0f;
+			}
+			//後退モードにする
 			m_moveForward = false;
 		}
 
+		//前進モードだった場合の速度計算
 		if (m_moveForward)
 		{
-			m_currentMoveDirection = enemyToTargetVec;
+			m_currentMoveDirection = (toTargetVec * m_acceralation) + ((toTargetVec * -1.0f) * (1.0f - m_acceralation));
 		}
+		//後退モードだった場合の速度計算
 		else
 		{
-			m_currentMoveDirection = enemyToTargetVec * -1.0f;
+			m_currentMoveDirection = (toTargetVec * -1.0f) * m_acceralation + (toTargetVec * (1.0f - m_acceralation));
 		}
 	}
 }
 
-void EnemyMove::CalcAroundSpeed(Vector3 enemyPos, Vector3 targetPos)
+void EnemyMove::CalcAroundDirection(Vector3 toTargetVec)
 {
 	m_aroundTimer += GameTime().GetFrameDeltaTime();
-	if (m_aroundTimer >= 3.0f)
+	if (m_aroundTimer >= MAX_AROUND_TIME)
 	{
 		m_aroundTimer = 0.0f;
 		m_moveType = enApproach;
 	}
 
-	//中心とするターゲットまでのベクトルを求める
-	Vector3 toTargetVec = targetPos - enemyPos;
-	//移動速度に利用するため正規化を行う
-	toTargetVec.Normalize();
-
-	Vector3 sideVec = toTargetVec.CalcCross({ 0.0f,1.0f,0.0f });
-	sideVec.y += toTargetVec.y * 5.0f;
+	Vector3 sideVec = toTargetVec.CalcCross(g_vec3AxisY);
 
 	toTargetVec += sideVec;
 	toTargetVec *= -1.0f;
-
-	//今のフレームの移動方向を記録
-	m_currentMoveDirection = toTargetVec;
-}
-
-void EnemyMove::CalcApproachAndDashSpeed(Vector3 enemyPos, Vector3 targetPos)
-{
-	//中心とするターゲットまでのベクトルを求める
-	Vector3 toTargetVec = targetPos - enemyPos;
-	//移動速度に利用するため正規化を行う
 	toTargetVec.Normalize();
 
-	float distance = CalcMethods::CalcDistance(enemyPos, targetPos);
-	if (distance < 2000.0f)
+	//今のフレームの移動方向を記録
+	m_currentMoveDirection = toTargetVec * m_acceralation + m_currentMoveDirection * (1.0f - m_acceralation);;
+}
+
+void EnemyMove::CalcApproachAndDashDirection(Vector3 toTargetVec, float distanceBetweenEnemyToPlayer)
+{
+	if (distanceBetweenEnemyToPlayer < LIMIT_ENEMY_CAN_APPROACH)
 	{
 		//ダッシュでプレイヤーを避けるようにどこかへ
-		EnemyDashSpeed(enemyPos, targetPos, 5.0f);
+		m_moveType = enDash;
 	}
 	else
 	{
 		m_currentMoveDirection = toTargetVec;
 	}
 
-	if (distance >= 7000.0f)
+	if (distanceBetweenEnemyToPlayer >= LIMIT_ENEMY_RECOGNIZE_PLAYER)
 	{
 		m_moveType = enApproach;
 	}
 }
 
-void EnemyMove::EnemyDashSpeed(Vector3 enemyPos, Vector3 targetPos, float dashTime)
+void EnemyMove::EnemyDashDirection(Vector3 toTargetVec)
 {
+	//最初のダッシュ方向の計算が終わっていなければ
 	if (!m_isCalcEnemyDashDirection)
 	{
-		//中心とするターゲットまでのベクトルを求める
-		Vector3 toTargetVec = targetPos - enemyPos;
-		//移動速度に利用するため正規化を行う
-		toTargetVec.Normalize();
-
-		Vector3 axisSide = toTargetVec.CalcCross({ 0.0f,1.0f,0.0f });
+		//横方向ベクトルの計算
+		Vector3 axisSide = toTargetVec.CalcCross(g_vec3AxisY);
+		//上方向ベクトルの計算
 		Vector3 axisUp = toTargetVec.CalcCross(axisSide);
 
-		float degreeX = rand() % 90 + 1;
-		float degreeY = rand() % 90 + 1;
-		degreeX -= 45.0f; degreeY -= 45.0f;
-		if (degreeX > -30.0f && degreeX < 0.0f)
-		{
-			degreeX = -30.0f;
-		}
-		else if(degreeX > 0.0f && degreeX < 30.0f)
-		{
-			degreeX = 30.0f;
-		}
+		//1~90の数値を得る
+		float degreeZ = rand() % MAX_ROTATION_DEGREE + 1;
+		float degreeY = rand() % MAX_ROTATION_DEGREE + 1;
+		//数値を-29~30に調節する
+		degreeZ -= MAX_ROTATION_DEGREE / 2.0f;
+		degreeY -= MAX_ROTATION_DEGREE / 2.0f;
 
-		if (degreeY > -30.0f && degreeY < 0.0f)
-		{
-			degreeY = -30.0f;
-		}
-		else if (degreeY > 0.0f && degreeY < 30.0f)
-		{
-			degreeY = 30.0f;
-		}
 		Quaternion qRot;
+		//Y方向への回転を計算、移動ベクトルに適用する。
 		qRot.SetRotationDeg(axisSide, degreeY);
 		qRot.Apply(toTargetVec);
-		qRot.SetRotationDeg(axisUp, degreeX);
+		//方向への回転を計算、移動ベクトルに適用する。
+		qRot.SetRotationDeg(axisUp, degreeZ);
 		qRot.Apply(toTargetVec);
 
-		m_currentMoveDirection = toTargetVec;
+		m_dashDirection = toTargetVec;
 		m_isCalcEnemyDashDirection = true;
 	}
+	//前の移動速度を加味したダッシュ方向を計算
+	m_currentMoveDirection = m_dashDirection * m_acceralation + m_currentMoveDirection * (1.0f - m_acceralation);
 
+	//ダッシュしている時間を計測する
 	m_dashTimer += GameTime().GetFrameDeltaTime();
-
-	if (m_dashTimer >= 5.0f)
+	if (m_dashTimer >= MAX_DASH_TIME)
 	{
 		m_moveType = enApproach;
-
-		m_isCalcEnemyDashDirection = false;
 		m_dashTimer = 0.0f;
 		m_waitTimer = 0.0f;
 	}
 }
 
-void EnemyMove::EnemyStaySpeed(Vector3 enemyPos, Vector3 targetPos)
+void EnemyMove::EnemyStayDirection(Vector3 toTargetVec)
 {
+	//漂っている時間を計測
 	m_waitTimer += GameTime().GetFrameDeltaTime();
-
-	if (m_waitTimer >= 10.0f)
+	//規定以上漂っていたら
+	if (m_waitTimer >= MAX_WAIT_TIME)
 	{
-		return EnemyDashSpeed(enemyPos, targetPos);
+		//ダッシュして移動方向を変える
+		m_moveType = enDash;
 	}
 
-	//中心とするターゲットまでのベクトルを求める
-	Vector3 toTargetVec = targetPos - enemyPos;
-	//移動速度に利用するため正規化を行う
-	toTargetVec.Normalize();
-
-	Vector3 sideVec = toTargetVec.CalcCross({ 0.0f,1.0f,0.0f });
-
-	m_currentMoveDirection = sideVec/*m_prevMoveDirection*/ / 10.0f;
+	//敵の横方向を計算する。
+	Vector3 sideVec = toTargetVec.CalcCross(g_vec3AxisY);
+	//前の移動方向を加味した漂う方向を計算する。
+	m_currentMoveDirection = m_currentMoveDirection * (1.0f - m_acceralation) + sideVec * m_acceralation / 10.0f;
 }
 
 Vector3 EnemyMove::Execute(Vector3 enemyPos, Vector3 targetPos)
 {
+	//プレイヤーと敵との距離を計算する。
 	float distance = CalcMethods::CalcDistance(enemyPos, targetPos);
-	if (distance > 7100.0f)
+	//敵からプレイヤーへの方向を計算する。
+	Vector3 toTargetVec = targetPos - enemyPos;
+	toTargetVec.Normalize();
+
+	//敵がプレイヤーより離れすぎたら
+	if (distance > LIMIT_ENEMY_RECOGNIZE_PLAYER 
+		&& (m_moveType != enFrontAndBehind && m_moveType != enAround))
 	{
+		//接近するようにする。
 		m_moveType = enApproach;
 	}
 
-	if (distance < 500.0f)
-	{
-		m_moveForward = false;
-		m_moveType = enFrontAndBehind;
-	}
-
+	//移動タイプによって計算する移動方向を変える
 	switch (m_moveType)
 	{
 	case enApproach:
-		CalcApproachSpeed(enemyPos, targetPos);
+		CalcApproachSpeed(toTargetVec, distance);
 		break;
 	case enFrontAndBehind:
-		CalcFrontAndBehindSpeed(enemyPos, targetPos);
+	case enPlayerBehind:
+		CalcFrontAndBehindDirection(toTargetVec, distance);
 		break;
 	case enAround:
-		CalcAroundSpeed(enemyPos, targetPos);
+		CalcAroundDirection(toTargetVec);
 		break;
 	case enApproachAndDash:
-		CalcApproachAndDashSpeed(enemyPos, targetPos);
-		break;
-	case enPlayerBehind:
-		CalcFrontAndBehindSpeed(enemyPos, targetPos);
+		CalcApproachAndDashDirection(toTargetVec, distance);
 		break;
 	case enStay:
-		EnemyStaySpeed(enemyPos, targetPos);
+		EnemyStayDirection(toTargetVec);
 		break;
 	case enDash:
-		EnemyDashSpeed(enemyPos, targetPos);
+		EnemyDashDirection(toTargetVec);
 		break;
 	default:
-		CalcApproachSpeed(enemyPos, targetPos);
+		CalcApproachSpeed(toTargetVec, distance);
 		break;
 	}
 
+	//移動モードが変われば
 	if (m_prevMoveType != m_moveType)
 	{
-		m_prevMoveDirection = m_currentMoveDirection;
+		//現在の移動モードを更新する。
 		m_prevMoveType = m_moveType;
-		m_acceralation = 0.7f;
-	}
-
-	m_acceralation -= (GameTime().GetFrameDeltaTime() / 10.0f);
-	if (m_acceralation <= 0.0f)
-	{
+		//加速度をリセット
 		m_acceralation = 0.0f;
 	}
 
-	Vector3 finalSpeed;
-	finalSpeed = 
-		(m_prevMoveDirection * m_acceralation + m_currentMoveDirection * (1.0f - m_acceralation))
-		* m_moveSpeed;
+	//時間で加速度を上げていく
+	m_acceralation += (GameTime().GetFrameDeltaTime() / ADJUST_ACCERALATION_RATE);
+	//1以上にはならないように
+	if (m_acceralation >= 1.0f)
+	{
+		m_acceralation = 1.0f;
+	}
 
-	return enemyPos + finalSpeed;
+	//移動方向と自分のスピードを現在の位置に加算し、新しい位置座標を返す。
+	return enemyPos + m_currentMoveDirection * m_moveSpeed;
 }

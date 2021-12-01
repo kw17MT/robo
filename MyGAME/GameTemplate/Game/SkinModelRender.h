@@ -109,11 +109,11 @@ public:
 
 	Model& GetModel() { return m_model; }
 
-	Vector3 GetBonePosition()
+	Vector3& GetBonePosition(const wchar_t* boneName)
 	{
 		Vector3 pos;
 		Vector4 bonePos;
-		bonePos = m_skeleton.GetBone(m_skeleton.FindBoneID(L"Bone022"))->GetWorldPosition(m_position, m_rot, m_scale);
+		bonePos = m_skeleton.GetBone(m_skeleton.FindBoneID(boneName))->GetWorldPosition(m_position, m_rot, m_scale);
 
 		pos.x = bonePos.x; pos.y = bonePos.y; pos.z = bonePos.z;
 		return pos;
@@ -132,9 +132,6 @@ public:
 
 		//•’Ê•`‰æ
 		if (RenderingEngine::GetInstance()->GetRenderTypes() == RenderingEngine::EnRenderTypes::normal) {
-			/*if (m_isSky) {
-				return;
-			}*/
 			m_model.Draw(rc);
 			return;
 		}
@@ -150,12 +147,6 @@ public:
 				m_model.Draw(rc);
 			}
 			return;
-		}
-		if (RenderingEngine::GetInstance()->GetRenderTypes() == RenderingEngine::EnRenderTypes::forward)
-		{
-			/*if (m_isSky) {
-				m_model.Draw(rc);
-			}*/
 		}
 	}
 

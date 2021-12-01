@@ -83,8 +83,7 @@ public:
 		normal = 0,
 		shadow,
 		lensGhost,
-		ui,
-		forward
+		ui
 	};
 
 	void SetRenderTypes(EnRenderTypes type)
@@ -108,7 +107,7 @@ public:
 		return m_shadow.GetShadowMap();
 	}
 
-	void StartForwardRendering(RenderContext& rc);
+	//void StartForwardRendering(RenderContext& rc);
 
 	void DrawInMainRenderTarget(RenderContext& rc);
 

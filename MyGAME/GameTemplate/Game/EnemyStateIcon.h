@@ -14,7 +14,7 @@ private:
 	Vector3 m_screenPos = Vector3::Zero;
 	Vector3 m_scale[2] = { Vector3::One, Vector3::Zero };
 	Vector3 m_enemyPos = Vector3::Zero;
-	bool m_isFirstExpand = false;
+	bool m_isFinishedFirstExpand = false;
 	bool m_isCaptured = false;			//自分が捕捉されたか
 	bool m_nextTarget = false;			//プレイヤーが現在ターゲットしている敵が倒されたら次に自動的にターゲットされる敵であるかどうか
 

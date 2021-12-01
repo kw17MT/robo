@@ -11,19 +11,19 @@ namespace
 
 Reticle::~Reticle()
 {
-	DeleteGO(m_spriteRender[0]);
-	DeleteGO(m_spriteRender[1]);
+	DeleteGO(m_spriteRender[enNormalReticle]);
+	DeleteGO(m_spriteRender[enTargetReticle]);
 }
 
 bool Reticle::Start()
 {
-	m_spriteRender[0] = NewGO<SpriteRender>(0);
-	m_spriteRender[0]->Init("Assets/Image/reticle/reticle_idle.dds", 20, 20);
-	m_spriteRender[0]->SetPosition(m_homePosition);
+	m_spriteRender[enNormalReticle] = NewGO<SpriteRender>(0);
+	m_spriteRender[enNormalReticle]->Init("Assets/Image/reticle/reticle_idle.dds", 20, 20);
+	m_spriteRender[enNormalReticle]->SetPosition(m_homePosition);
 
-	m_spriteRender[1] = NewGO<SpriteRender>(0);
-	m_spriteRender[1]->Init("Assets/Image/reticle/reticle_target.dds", 96, 96);
-	m_spriteRender[1]->SetPosition(m_homePosition);
+	m_spriteRender[enTargetReticle] = NewGO<SpriteRender>(0);
+	m_spriteRender[enTargetReticle]->Init("Assets/Image/reticle/reticle_target1.dds", 96, 96);
+	m_spriteRender[enTargetReticle]->SetPosition(m_homePosition);
 
 	return true;
 }
@@ -102,34 +102,34 @@ void Reticle::CalcPosition()
 		}
 
 		//ロックオン用の画像位置を設定
-		m_spriteRender[1]->SetPosition(m_lockOnPosition);
+		m_spriteRender[enTargetReticle]->SetPosition(m_lockOnPosition);
 
 		//ロックオンしていたらスケールを1に戻していく
-		m_reticleScale[1] += SCALE_CHANGE_AMOUNT;
-		if (m_reticleScale[1].x >= 1.0f)
+		m_reticleScale[enTargetReticle] += SCALE_CHANGE_AMOUNT;
+		if (m_reticleScale[enTargetReticle].x >= 1.0f)
 		{
-			m_reticleScale[1] = Vector3::One;
+			m_reticleScale[enTargetReticle] = Vector3::One;
 		}
 		//通常のレティクルは小さくしていく
-		m_reticleScale[0] -= SCALE_CHANGE_AMOUNT;
-		if (m_reticleScale[0].x <= 0.0f)
+		m_reticleScale[enNormalReticle] -= SCALE_CHANGE_AMOUNT;
+		if (m_reticleScale[enNormalReticle].x <= 0.0f)
 		{
-			m_reticleScale[0] = Vector3::Zero;
+			m_reticleScale[enNormalReticle] = Vector3::Zero;
 		}
 	}
 	//ターゲットしていなければ
 	else
 	{
-		m_reticleScale[1] -= SCALE_CHANGE_AMOUNT;
-		if (m_reticleScale[1].x <= 0)
+		m_reticleScale[enTargetReticle] -= SCALE_CHANGE_AMOUNT;
+		if (m_reticleScale[enTargetReticle].x <= 0)
 		{
-			m_reticleScale[1] = Vector3::Zero;
+			m_reticleScale[enTargetReticle] = Vector3::Zero;
 		}
 
-		m_reticleScale[0] += SCALE_CHANGE_AMOUNT;
-		if (m_reticleScale[0].x >= 1)
+		m_reticleScale[enNormalReticle] += SCALE_CHANGE_AMOUNT;
+		if (m_reticleScale[enNormalReticle].x >= 1)
 		{
-			m_reticleScale[0] = Vector3::One;
+			m_reticleScale[enNormalReticle] = Vector3::One;
 		}
 	}
 }
@@ -137,17 +137,14 @@ void Reticle::CalcPosition()
 void Reticle::Update()
 {
 	//プレイヤーのターゲット状態が何もなしならば
-	if (CaptureStateManager::GetInstance().GetCaptureState() == None)
+	if (CaptureStateManager::GetInstance().GetCaptureState() != Targeted)
 	{
 		//レティクルはターゲットしていない
 		m_isTarget = false;
 	}
 
-	m_isDecidedNextTarget;
-
-
 	if (CaptureStateManager::GetInstance().GetCaptureState() == ChangeMainTarget
-		&& m_isDecidedNextTarget == false)
+		&& !CaptureStateManager::GetInstance().GetIsDecidedNextTarget())
 	{
 		CaptureStateManager::GetInstance().SetCaptureState(None);
 	}
@@ -158,7 +155,12 @@ void Reticle::Update()
 	//ロックオンレティクルの位置、拡大率設定。通常レティクルの拡大率設定
 	CalcPosition();
 
-	m_spriteRender[0]->SetScale(m_reticleScale[0]);
-	m_spriteRender[1]->SetScale(m_reticleScale[1]);
-	m_spriteRender[0]->SetPosition(m_homePosition);
+	m_spriteRender[enNormalReticle]->SetScale(m_reticleScale[enNormalReticle]);
+	m_spriteRender[enTargetReticle]->SetScale(m_reticleScale[enTargetReticle]);
+	m_spriteRender[enNormalReticle]->SetPosition(m_homePosition);
+
+	m_targetReticleRotateRate += 1.0f;
+	Quaternion targetReticleRot;
+	targetReticleRot.SetRotationDegZ(m_targetReticleRotateRate);
+	m_spriteRender[enTargetReticle]->SetRotation(targetReticleRot);
 }

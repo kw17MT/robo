@@ -5,6 +5,7 @@ class MissileGenerator;
 class Reticle;
 class PlayerEN;
 class RestrictArea;
+class PlayerEffect;
 
 #include "CameraMove.h"
 #include "PlayerMove.h"
@@ -34,6 +35,10 @@ private:
 	Vector3 m_currentHomePosition = Vector3::Zero;				//カメラが追いかける位置座標
 
 	EnDeathTypes m_deathType = enStillAlive;
+
+	Quaternion m_effectRot = Quaternion::Identity;
+
+	int a = 0;
 public:
 	/**
 	 * @brief コンストラクタ
@@ -71,8 +76,9 @@ private:
 	MissileGenerator* m_missileGene = nullptr;
 	Reticle* m_reticle = nullptr;
 	PlayerHP* m_playerHp = nullptr;
-	PlayerEN* m_playerEN = nullptr;
+	PlayerEN* m_playerEn = nullptr;
 	RestrictArea* m_area = nullptr;
+	PlayerEffect* m_playerEffect = nullptr;
 
 	CameraMove m_cameraMove;							//プレイヤーを追従するカメラの位置座標計算オブジェクト
 	PlayerMove m_roboMove;								//プレイヤーの座標を計算する
@@ -80,7 +86,5 @@ private:
 
 	PlayerAnimation m_playerAnim;						//プレイヤーのアニメーション初期化オブジェクト
 	AnimationClip m_animClip[animNum];					//プレイヤーのアニメーション
-
-	Effect* m_effect = nullptr;
 };
 

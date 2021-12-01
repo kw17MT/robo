@@ -64,20 +64,6 @@ void RenderingEngine::DrawInMainRenderTarget(RenderContext& rc)
 	rc.WaitUntilFinishDrawingToRenderTarget(m_mainRenderTarget);
 }
 
-void RenderingEngine::StartForwardRendering(RenderContext& rc)
-{
-	rc.WaitUntilToPossibleSetRenderTarget(m_mainRenderTarget);
-	rc.SetRenderTarget(
-		m_mainRenderTarget.GetRTVCpuDescriptorHandle(),
-		m_albedoTarget.GetDSVCpuDescriptorHandle()
-	);
-	SetRenderTypes(RenderingEngine::EnRenderTypes::forward);
-	//ディファードライティングされたメインの画像を合成。
-	GameObjectManager::GetInstance()->CallRenderWrapper(rc);
-	rc.WaitUntilFinishDrawingToRenderTarget(m_mainRenderTarget);
-	SetRenderTypes(RenderingEngine::EnRenderTypes::normal);
-}
-
 void RenderingEngine::DrawUI(RenderContext& rc)
 {
 	rc.WaitUntilToPossibleSetRenderTarget(m_mainRenderTarget);
@@ -103,9 +89,6 @@ void RenderingEngine::Render(RenderContext& rc)
 
 	//メインの最終表示となる画像レンダリングターゲットにディファードライティング画像を描画
 	DrawInMainRenderTarget(rc);
-
-	//ディファードライティング画像に空、太陽をフォワード的に描画
-	StartForwardRendering(rc);
 
 	//ポストエフェクトをメイン画像に施す。
 	m_postEffect.Render(rc, m_mainSprite, m_mainRenderTarget);

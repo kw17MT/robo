@@ -18,7 +18,7 @@ private:
 
 	int m_enemyHP = 100;					//敵のHP
 	bool m_isTargeted = false;				//ターゲットされている時だけHPバーをだす
-	bool m_isDead = false;					//この敵は倒されたか
+	bool m_isEnemyDead = false;					//この敵は倒されたか
 public:
 	/**
 	 * @brief コンストラクタ
@@ -63,7 +63,7 @@ public:
 	 * @brief 倒されたか
 	 * @return TRUE＝倒された、FALSE＝生きている
 	*/
-	bool IsDead() {return m_isDead;}
+	bool IsEnemyDead() {return m_isEnemyDead;}
 private:
 	SpriteRender* m_spriteRender = nullptr;			//HPバーのインスタンス
 };

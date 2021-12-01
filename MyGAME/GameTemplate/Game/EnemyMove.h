@@ -2,60 +2,38 @@
 
 enum EnEnemyMoveTypes
 {
-	enApproach,					//プレイヤーにじわじわ接近する
+	enApproach = -1,					//プレイヤーにじわじわ接近する
 	enFrontAndBehind,			//接近後、前後に移動する
 	enPlayerBehind,				//プレイヤーの後ろを取るように通過と前後を繰り返す
 	enAround,					//プレイヤーの周りを接近後ダッシュでいったん遠くに
 	enApproachAndDash,			//接近後、プレイヤーを避けるように前方にダッシュ
 	enStay,						//接近後、その場で滞留し、一定期間後ダッシュで他の方向に
-	enDash
-};
-
-enum EnEnemyAltitudeState
-{
-	enTooHigh,
-	enTooLow,
-	enSafe
+	enDash						//プレイヤーとすれ違うようにダッシュする。
 };
 
 class EnemyMove
 {
 private:
-	float m_moveSpeed = 0.0f;
-	bool m_isTop = false;
-	EnEnemyMoveTypes m_moveType = enApproach;
-	EnEnemyMoveTypes m_prevMoveType = enApproach;
-	EnEnemyAltitudeState m_altitudeState = enSafe;
-	float m_adjustingAltitudeElapsedTime = 0.0f;
-	float m_adjustedAltitudeHeight = 0.0f;				//高度調整用
-	Vector3 m_prevMoveDirection = Vector3::Zero;
-
+	EnEnemyMoveTypes m_moveType = enApproach;			//現在の移動タイプ
+	EnEnemyMoveTypes m_prevMoveType = enApproach;		//前までの移動タイプ
 
 	bool m_moveForward = true;							//前後の動きの中で前進するかどうか
-	bool m_isCalcEnemyDashDirection = false;							//敵はダッシュしたいるか
-	float m_dashTimer = 0.0f;
-	float m_aroundTimer = 0.0f;
-	float m_waitTimer = 0.0f;
+	bool m_isCalcEnemyDashDirection = false;			//敵はダッシュしたいるか
 
-	float m_acceralation = 1.0f;
+	float m_dashTimer = 0.0f;							//ダッシュしている時間
+	float m_aroundTimer = 0.0f;							//プレイヤー中心に旋回している時間
+	float m_waitTimer = 0.0f;							//その場でプレイヤーを注視している時間
+	float m_moveSpeed = 0.0f;							//その敵の移動速度
+	float m_acceralation = 1.0f;						//加速度
 
-	Vector3 m_currentMoveDirection = Vector3::Zero;
-
+	Vector3 m_currentMoveDirection = Vector3::Zero;		//現在の移動方向
+	Vector3 m_dashDirection = Vector3::Zero;			//ダッシュの方向
 public:
-
+	/**
+	 * @brief 敵の移動速度を設定
+	 * @param moveSpeed	ユニークな移動速度
+	*/
 	void SetMoveSpeed(const float moveSpeed) { m_moveSpeed = moveSpeed; }
-
-	/**
-	 * @brief 現在の敵の移動方法を設定する
-	 * @param type 移動方法
-	*/
-	void SetEnemyMoveTypes(EnEnemyMoveTypes type) { m_moveType = type; }
-
-	/**
-	 * @brief 現在の敵の高度の状態を設定する
-	 * @param state 高度の程度
-	*/
-	void SetEnemyAltitudeState(EnEnemyAltitudeState state) { m_altitudeState = state; }
 
 	/**
 	* @brief 現在の敵の移動方法を取得する
@@ -64,11 +42,9 @@ public:
 	EnEnemyMoveTypes GetEnemyMoveTypes() { return m_moveType; }
 
 	/**
-	 * @brief 現在の敵の高度の状態を取得する
-	 * @return 高度の程度
+	 * @brief 敵の現在の移動方向を取得する
+	 * @return 敵の移動方向
 	*/
-	EnEnemyAltitudeState GetEnemyAltitudeState() { return m_altitudeState; }
-
 	Vector3 GetEnemyMoveDireciton() { return m_currentMoveDirection; }
 
 	/**
@@ -76,12 +52,7 @@ public:
 	 * @param pos 現在の位置座標
 	 * @return 次にの位置座標
 	*/
-	void CalcApproachSpeed(Vector3 enemyPos, Vector3 targetPos);
-
-	/**
-	 * @brief 敵の標高に応じて正常な高さに戻す
-	*/
-	Vector3 AdjustedAltitudeSpeed(Vector3 calcedPos);
+	void CalcApproachSpeed(Vector3 toTargetVec, float distanceBetweenEnemyToPlayer);
 
 	/**
 	 * @brief 移動モードによって次の座標を計算する。
@@ -90,17 +61,42 @@ public:
 	*/
 	Vector3 Execute(Vector3 enemyPos, Vector3 targetPos);
 
-	void CalcFrontAndBehindSpeed(Vector3 enemyPos, Vector3 targetPos);
+	/**
+	 * @brief プレイヤーに向かって前後運動するときの移動方向を計算する。
+	 * @param toTargetVec プレイヤーへの方向ベクトル
+	 * @param distanceBetweenEnemyToPlayer 敵とプレイヤーの距離
+	*/
+	void CalcFrontAndBehindDirection(Vector3 toTargetVec, float distanceBetweenEnemyToPlayer);
 
-	void CalcAroundSpeed(Vector3 enemyPos, Vector3 targetPos);
+	/**
+	 * @brief 旋回するときの移動方向を計算する。
+	 * @param toTargetVec プレイヤーへの方向ベクトル
+	*/
+	void CalcAroundDirection(Vector3 toTargetVec);
 
-	void CalcApproachAndDashSpeed(Vector3 enemyPos, Vector3 targetPos);
+	/**
+	 * @brief 接近してダッシュでプレイヤーを通り過ぎる移動方向を計算する。
+	 * @param toTargetVec プレイヤーへの方向ベクトル
+	 * @param distanceBetweenEnemyToPlayer 敵とプレイヤーの距離
+	*/
+	void CalcApproachAndDashDirection(Vector3 toTargetVec, float distanceBetweenEnemyToPlayer);
 
-	void EnemyDashSpeed(Vector3 enemyPos, Vector3 targetPos, float dashTime = 5.0f);
+	/**
+	 * @brief ダッシュ方向を計算する。
+	 * @param toTargetVec プレイヤーへの方向ベクトル
+	*/
+	void EnemyDashDirection(Vector3 toTargetVec);
 
-	void EnemyStaySpeed(Vector3 enemyPos, Vector3 targetPos);
+	/**
+	 * @brief 敵がプレイヤーの周りを漂うときの位置座標の更新
+	 * @param toTargetVec プレイヤーへの方向ベクトル
+	*/
+	void EnemyStayDirection(Vector3 toTargetVec);
 
-	void JudgeMoveType(Vector3 enemyPos, Vector3 targetPos);
-private:
+	/**
+	 * @brief 敵とプレイヤーの位置関係によってどのように移動するか決める
+	 * @param distanceBetweenEnemyToPlayer 敵とプレイヤーの距離
+	*/
+	void JudgeMoveType(float distanceBetweenEnemyToPlayer);
 };
 

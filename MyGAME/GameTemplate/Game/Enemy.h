@@ -56,6 +56,8 @@ public:
 	 * @param damageType ダメージの種類
 	*/
 	void TakenDamage(EnDamageTypes damageType);
+
+	//bool GetEnemyDead() { return m_enemyHP->IsEnemyDead(); }
 private:
 	SkinModelRender* m_skinModelRender = nullptr;			//敵のモデル
 	DisplayDistance* m_displayDistance = nullptr;			//プレイヤーと敵の距離を表示

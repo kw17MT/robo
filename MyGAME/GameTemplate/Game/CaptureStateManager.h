@@ -62,7 +62,18 @@ public:
 		return m_isMissileTargetState;
 	}
 
+	void SetIsDecidedNextTarget(bool isDecided)
+	{
+		m_isDecidedNextTarget = isDecided;
+	}
+
+	bool GetIsDecidedNextTarget()
+	{
+		return m_isDecidedNextTarget;
+	}
+
 private:
 	EnEnemyState m_enemyState = None;
 	EnMissileTargetState m_isMissileTargetState = enNoTarget;
+	bool m_isDecidedNextTarget = false;
 };

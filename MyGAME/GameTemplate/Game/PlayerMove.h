@@ -50,4 +50,6 @@ public:
 	void SetCanDash(bool canDash) { m_canDash = canDash; }
 
 	Vector3 DeadMove(Vector3 currentPos);
+
+	bool GetIsDash() { return m_isDash; }
 };

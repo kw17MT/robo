@@ -49,7 +49,7 @@ void EnemyHP::ApplyDamage(EnDamageTypes damageType)
 	if (m_enemyHP <= 0.0f)
 	{
 		//“|‚³‚ê‚½‚±‚Æ‚ð‹L˜^
-		m_isDead = true;
+		m_isEnemyDead = true;
 	}
 }
 

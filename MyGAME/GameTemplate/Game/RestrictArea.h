@@ -13,6 +13,8 @@ class RestrictArea : public IGameObject
 private:
 	Vector3 m_scale = { 0.0f,0.0f,0.0f };
 	EnAreaTypes m_areaType = enSafeArea;
+	float alpha = 0.0f;
+	bool m_addAlpha = true;
 public:
 	RestrictArea() {}
 	~RestrictArea();

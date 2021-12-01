@@ -1,13 +1,18 @@
 #include "stdafx.h"
 #include "SpriteRender.h"
 
-void SpriteRender::Init(const char* name, int width, int height)
+void SpriteRender::Init(const char* name, int width, int height, const char* PixelShader)
 {
 	SpriteInitData spdata;
 	//画像のファイルパス名を設定
 	spdata.m_ddsFilePath[0] = name;
 	//シェーダーを設定
 	spdata.m_fxFilePath = "Assets/shader/sprite.fx";
+	//使用するピクセルシェーダ―を選択する。
+	spdata.m_psEntryPoinFunc = PixelShader;
+
+	spdata.m_expandConstantBuffer = (void*)&s_signParam;
+	spdata.m_expandConstantBufferSize = sizeof(s_signParam);
 	//カラーフォーマットを設定
 	spdata.m_colorBufferFormat[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	//横幅を設定
@@ -37,7 +42,7 @@ void SpriteRender::InitGauge(const char* name, int width, int height)
 	spdata.m_expandConstantBuffer = (void*)&s_param;
 	spdata.m_expandConstantBufferSize = sizeof(s_param);
 
-	m_texture.InitFromDDSFile(L"Assets/Image/bluetec.dds");
+	m_texture.InitFromDDSFile(L"Assets/Image/gaugeTexture/bluetec.dds");
 	spdata.m_expandShaderResoruceView = &m_texture;
 
 	//アルファブレンディングモードを有効化

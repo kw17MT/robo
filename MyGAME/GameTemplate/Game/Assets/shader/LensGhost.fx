@@ -29,7 +29,7 @@ PSInput VSMain(VSInput In)
 
 static const float ghostNum = 8.0f;
 static const float maxUV = 1.0f;
-static const float minUV = -1.0f;
+static const float minUV = 0.0f;
 
 float4 PSMain( PSInput In ) : SV_Target0
 {
@@ -40,35 +40,33 @@ float4 PSMain( PSInput In ) : SV_Target0
     float2 toCenter = center - In.uv.xy;
     //太陽の方向に戻る線分の長さ
     float2 fetchNearLight = toCenter / 3.0f;
-    //センターと点対照のピクセルの座標
-    float2 texturePos = In.uv + toCenter * 2.0f;
     
-    if(texturePos.x >= 1.0f || texturePos.x <= -1.0f
-        || texturePos.y >= 1.0f || texturePos.y <= -1.0f)
-    {
-        clip(-1.0f);
-    }
+    //if (texturePos.x >= maxUV || texturePos.x <= minUV
+    //    || texturePos.y >= maxUV || texturePos.y <= minUV)
+    //{
+    //    clip(-1.0f);
+    //}
     
-    float4 finalColor = sceneTexture.Sample(Sampler, texturePos);
+    float4 finalColor = sceneTexture.Sample(Sampler, In.uv);
     //N回分もどるor進んで太陽の色を取得しに行く
     for (int i = 0; i < ghostNum; i++)
     {
-        //float2 AddedUV = In.uv - (fetchNearLight * i);
+        float2 AddedUV = In.uv + (fetchNearLight * i);
         //if (AddedUV.x >= maxUV || AddedUV.x <= minUV
         //|| AddedUV.y >= maxUV || AddedUV.y <= minUV)
         //{
         //    continue;
         //}
         
-        //float2 SubtractedUV = In.uv + (fetchNearLight * i);
+        float2 SubtractedUV = In.uv - (fetchNearLight * i);
         //if (SubtractedUV.x >= maxUV || SubtractedUV.x <= minUV
         //|| SubtractedUV.y >= maxUV || SubtractedUV.y <= minUV)
         //{
         //    continue;
         //}
         
-        finalColor += sceneTexture.Sample(Sampler, /*AddedUV*/ In.uv - (fetchNearLight * i));
-        finalColor += sceneTexture.Sample(Sampler, /*SubtractedUV*/ In.uv + (fetchNearLight * i));
+        finalColor += sceneTexture.Sample(Sampler, AddedUV );
+        finalColor += sceneTexture.Sample(Sampler, SubtractedUV);
     }
     //ゴーストの色を調整
     //finalColor /= ghostNum * 2.0f;

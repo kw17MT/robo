@@ -33,8 +33,6 @@ Quaternion PlayerRotation::RotationY(Quaternion playerRot)
 
 	qRot.SetRotation(roboRight, -g_pad[0]->GetRStickYF() / 2.0f);
 
-	Vector3 a = { 0.0f,1.0f,0.0f };
-	//qRot.Apply(a);
 	return qRot;
 }
 

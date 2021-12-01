@@ -12,6 +12,7 @@ namespace
 Bullet::~Bullet()
 {
 	DeleteGO(m_skinModelRender);
+	DeleteGO(m_effect);
 }
 
 bool Bullet::Start()
@@ -20,6 +21,13 @@ bool Bullet::Start()
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//m_skinModelRender->Init("Assets/modelData/bullet/bullet.tkm", nullptr, enModelUpAxisY, { 0.0f,0.0f,0.0f }, true);
 	m_skinModelRender->Init("Assets/modelData/bullet/a.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+
+
+	m_effect = NewGO<Effect>(0);
+	m_effect->Init(u"Assets/effect/bulletTail2.efk");
+	m_effect->SetScale({ 5.0f,5.0f,10.0f });
+
+	m_effect->Update();
 	return true;
 }
 
@@ -97,6 +105,9 @@ void Bullet::Update()
 
 	BehaveChangedByOwner();
 
+	m_effect->SetPosition(m_position);
+	m_effect->SetRotation(m_rot);
+	m_effect->Play();
 	//’e‚ÌŽõ–½
 	count += GameTime().GetFrameDeltaTime();
 	if (count >= 3.0f)

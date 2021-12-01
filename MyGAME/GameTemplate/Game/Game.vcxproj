@@ -336,6 +336,7 @@
     <ClCompile Include="PlanarReflection.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAnimation.cpp" />
+    <ClCompile Include="PlayerEffect.cpp" />
     <ClCompile Include="PlayerEN.cpp" />
     <ClCompile Include="PlayerHP.cpp" />
     <ClCompile Include="PlayerMachinGun.cpp" />
@@ -479,6 +480,7 @@
     <ClInclude Include="PlanarReflection.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAnimation.h" />
+    <ClInclude Include="PlayerEffect.h" />
     <ClInclude Include="PlayerEN.h" />
     <ClInclude Include="PlayerHP.h" />
     <ClInclude Include="PlayerMachinGun.h" />

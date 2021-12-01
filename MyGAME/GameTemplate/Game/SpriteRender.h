@@ -6,6 +6,11 @@ struct BarParam
 	float scrollAmount = 0.0f;
 };
 
+struct WarningSignParam
+{
+	float alpha = 1.0f;									//ìßâﬂó¶
+};
+
 class SpriteRender : public IGameObject
 {
 private:
@@ -18,6 +23,7 @@ private:
 
 	Texture m_texture;
 	BarParam s_param;
+	WarningSignParam s_signParam;
 	SpriteInitData spdata;
 
 	enum {
@@ -38,11 +44,13 @@ public:
 	 * @param width â°ïù
 	 * @param height ècïù
 	*/
-	void Init(const char* name, int width, int height);
+	void Init(const char* name, int width, int height, const char* PixelShader = "PSMain");
 
 	void InitGauge(const char* name, int width, int height);
 
 	void SetSpriteSizeRate(float rate) { s_param.barDeleteRate = rate; }
+
+	void SetSpriteAlpha(float addColorRate) { s_signParam.alpha = addColorRate; }
 
 	/**
 	 * @brief êVÇµÇ¢à íuÇÃê›íË

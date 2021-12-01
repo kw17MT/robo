@@ -1,5 +1,6 @@
 #pragma once
 class SkinModelRender;
+class Effect;
 
 enum EnOwner
 {
@@ -64,5 +65,6 @@ public:
 
 private:
 	SkinModelRender* m_skinModelRender = nullptr;	//弾モデルのオブジェクト
+	Effect* m_effect = nullptr;
 };
 

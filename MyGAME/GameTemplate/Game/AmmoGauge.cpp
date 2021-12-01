@@ -97,9 +97,9 @@ void AmmoGauge::Update()
 	{
 		//リロードがそのフレームに終わったか
 		m_finishReloading = false;
-		//残弾数に応じたゲージの長さにする
-		m_gaugeScaleX = (float)m_remaining_ammo / (float)m_max_ammo;
 	}
+	//残弾数に応じたゲージの長さにする
+	m_gaugeScaleX = (float)m_remaining_ammo / (float)m_max_ammo;
 
 	//文字の位置を更新
 	m_fontRender->SetPosition({ -m_screenPos.x - FONT_ADJUST_AMOUNT_X, m_screenPos.y + FONT_ADJUST_AMOUNT_Y });

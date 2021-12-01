@@ -40,6 +40,9 @@ void EnemyMachinGun::Update()
 		//弾の初期座標系を設定
 		m_bullets.back()->SetTargetAndCurrentPos(m_targetPos, m_position);
 		m_bullets.back()->SetOwner(enEnemy);
+		Quaternion rot;
+		rot.SetRotation({ 0.0f,0.0f,-1.0f }, m_targetPos - m_position);
+		m_bullets.back()->SetRotation(rot);
 		m_canShoot = false;
 	}
 	//モデルの位置を更新する

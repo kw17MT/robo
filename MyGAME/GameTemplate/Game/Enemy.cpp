@@ -10,14 +10,18 @@
 
 Enemy::~Enemy()
 {
+	Effect effect;
+	effect.Init(u"Assets/effect/explosion2.efk");
+	effect.SetScale({ 100.0f,100.0f,100.0f });
+	effect.SetPosition(m_position);
+	effect.Play();
+	effect.Update();
+
 	DeleteGO(m_skinModelRender);
 	DeleteGO(m_displayDistance);
 	DeleteGO(m_enemyStateIcon);
 	DeleteGO(m_enemyHP);
 	DeleteGO(m_machinGun);
-
-	//敵が倒れたため、ロックオン状態を何もなしにするか、次の敵をロックオンするか決定する。
-	CaptureStateManager::GetInstance().SetCaptureState(ChangeMainTarget);
 }
 
 void Enemy::TakenDamage(EnDamageTypes damageType)
@@ -33,7 +37,7 @@ bool Enemy::Start()
 
 	//敵のモデルをインスタンス化
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init("Assets/modelData/enemy/drone.tkm", nullptr/*"Assets/modelData/enemy/enemy.tks"*/, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	m_skinModelRender->Init("Assets/modelData/enemy/drone.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
 	m_skinModelRender->SetScale({ 15.0f, 15.0f, 15.0f});
 
 	//距離（文字）を表示
@@ -101,7 +105,7 @@ void Enemy::Update()
 	}
 
 	//HPがなくなったら
-	if (m_enemyHP->IsDead())
+	if (m_enemyHP->IsEnemyDead())
 	{
 		//消す
 		DeleteGO(this);

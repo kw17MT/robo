@@ -37,6 +37,21 @@ EnemyStateIcon::~EnemyStateIcon()
 		m_missileTargetIcon.pop_back();
 	}
 	m_missileTargetIcon.clear();
+
+	if (m_nextTarget)
+	{
+		//m_reticle->SetIsDecidedNextTarget(false);
+		CaptureStateManager::GetInstance().SetIsDecidedNextTarget(false);
+	}
+	if (m_isCaptured)
+	{
+		//m_reticle->SetIsDecidedNextTarget(false);
+		CaptureStateManager::GetInstance().SetCaptureState(None);
+	}
+	if (m_enemyState == enemyTargeted)
+	{
+		CaptureStateManager::GetInstance().SetCaptureState(ChangeMainTarget);
+	}
 }
 
 bool EnemyStateIcon::Start()
@@ -81,7 +96,7 @@ void EnemyStateIcon::DisplayIcons()
 			&& m_enemyState == enemyNear) {
 			//捕捉レティクル（四角）をだす。
 			m_isCaptured = true;
-			m_isFirstExpand = false;
+			m_isFinishedFirstExpand = false;
 			//捕捉された敵がいることを保存
 			CaptureStateManager::GetInstance().SetCaptureState(Captured);
 		}
@@ -125,17 +140,18 @@ void EnemyStateIcon::DisplayIcons()
 		}
 		//プレイヤーは誰かしらをロックオンしているなら、次のロックオン先を予約しておく
 		if (CaptureStateManager::GetInstance().GetCaptureState() == Targeted
-			&& m_reticle->GetIsDecidedNextTarget() == false) {
+			&& !CaptureStateManager::GetInstance().GetIsDecidedNextTarget()/*m_reticle->GetIsDecidedNextTarget() == false*/) {
 			//自分自身を再び次のロックオン対象にしないようにする。
 			if (m_enemyState != enemyTargeted) {
 				//次の予約はこの敵にする
 				m_nextTarget = true;
-				m_reticle->SetIsDecidedNextTarget(true);
+				//m_reticle->SetIsDecidedNextTarget(true);
+				CaptureStateManager::GetInstance().SetIsDecidedNextTarget(true);
 			}
 		}
 
 		//捕捉レティクルの初期の拡大をもう一度したいのでフラグを戻す
-		m_isFirstExpand = false;
+		m_isFinishedFirstExpand = false;
 		//捕捉レティクル縮小
 		m_scale[1] = Vector3::Zero;
 	}
@@ -146,7 +162,8 @@ void EnemyStateIcon::DisplayIcons()
 		{
 			m_nextTarget = false;
 			
-			m_reticle->SetIsDecidedNextTarget(false);
+			//m_reticle->SetIsDecidedNextTarget(false);
+			CaptureStateManager::GetInstance().SetIsDecidedNextTarget(false);
 		}
 	}
 }
@@ -163,14 +180,14 @@ void EnemyStateIcon::IconBehaviour()
 		if (m_isCaptured)
 		{
 			//始めの拡大率を大きくしておく
-			if (m_isFirstExpand == false)
+			if (m_isFinishedFirstExpand == false)
 			{
 				//大きめの拡大率に更新
 				m_scale[1] = APPEAR_RATE;
 				//距離が近くなったら最初だけ少し大きめにする。
 				m_squareIcon->SetScale(m_scale[1]);
 				//最初の拡大が終わった
-				m_isFirstExpand = true;
+				m_isFinishedFirstExpand = true;
 				return;
 			}
 			//大きくしていたものをだんだん小さくしていく。
@@ -191,7 +208,7 @@ void EnemyStateIcon::IconBehaviour()
 	case enemyTooFar:
 		//敵が遠くなったので捕捉レティクルの拡大率をゼロにして消す
 		m_scale[1] = Vector3::Zero;
-		m_isFirstExpand = false;
+		m_isFinishedFirstExpand = false;
 		if (m_isCaptured) {
 			CaptureStateManager::GetInstance().SetCaptureState(None);
 		}
@@ -202,7 +219,7 @@ void EnemyStateIcon::IconBehaviour()
 		//このアイコンが追随している敵がロックオンされたので2種類のアイコンをけす。
 		m_scale[0] = Vector3::Zero;
 		m_scale[1] = Vector3::Zero;
-		m_isFirstExpand = false;
+		m_isFinishedFirstExpand = false;
 		m_isCaptured = false;
 
 		m_reticle->SetIsTargeting(true);
@@ -236,7 +253,8 @@ void EnemyStateIcon::Update()
 			m_enemyState = enemyTargeted;
 			//レティクルはターゲット中
 			m_reticle->SetIsTargeting(true);
-			m_reticle->SetIsDecidedNextTarget(false);
+			//m_reticle->SetIsDecidedNextTarget(false);
+			CaptureStateManager::GetInstance().SetIsDecidedNextTarget(false);
 			//プレイヤーはターゲットしている
 			CaptureStateManager::GetInstance().SetCaptureState(Targeted);
 		}
@@ -257,6 +275,7 @@ void EnemyStateIcon::Update()
 	{
 		//次にターゲットする対象にはしない
 		m_nextTarget = false;
+		CaptureStateManager::GetInstance().SetIsDecidedNextTarget(false);
 	}
 
 	if (m_enemyState == enemyTargeted)

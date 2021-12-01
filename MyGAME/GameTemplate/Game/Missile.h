@@ -1,14 +1,15 @@
 #pragma once
 class SkinModelRender;
 class Enemy;
+class Effect;
 
 #include "Weapon.h"
 
 enum EnMoveStage
 {
 	enDeploying,
-	enStraightTarget,
-	enChaseTarget
+	enChaseTarget,
+	enPassingBy
 };
 
 class Missile : public IGameObject
@@ -22,6 +23,10 @@ private:
 	Vector3 m_prevMoveDirection = Vector3::Zero;
 	float count = 0;						//õ–½
 	bool m_firstCalc = false;				//Å‰‚Ì‘¬“xŒvZ‚ª‚Å‚«‚½‚©
+
+	float m_currentMoveSpeedRate = 0.0f;
+
+	bool m_isTargetEnemyDead = false;
 public:
 	Missile() {}
 	~Missile();
@@ -46,5 +51,6 @@ private:
 	SkinModelRender* m_skinModelRender = nullptr;
 	Enemy* m_enemy = nullptr;
 	EnMoveStage m_moveStage = enDeploying;
+	//Effect* m_effect = nullptr;
 };
 

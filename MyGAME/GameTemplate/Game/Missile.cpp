@@ -3,6 +3,7 @@
 #include "SkinModelRender.h"
 #include "Enemy.h"
 #include "CaptureStateManager.h"
+#include "effect/Effect.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,23 +11,34 @@
 
 namespace
 {
-	const float MISSILE_SPEED = 150.0f;
+	const float MAX_MISSILE_SPEED = 150.0f;
 	const float DEPLOY_SPEED = 40.0f;
 }
 
 Missile::~Missile()
 {
 	DeleteGO(m_skinModelRender);
+	Effect effect;
+	effect.Init(u"Assets/effect/aa.efk");
+	m_rot.SetRotation({ 0.0f,0.0f,1.0f }, m_moveDirection);
+	effect.SetPosition(m_position);
+	effect.SetRotation(m_rot);
+	effect.SetScale({ 400.0f,400.0f,400.0f });
+	effect.Play();
+	effect.Update();
 }
 
 bool Missile::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/missile/missile.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
-	m_skinModelRender->SetScale({ 20.0f,20.0f,20.0f });
+	m_skinModelRender->SetScale({ 15.0f,15.0f,15.0f });
 
 	m_deployDirection = CalcDeployDirection();
 	m_prevMoveDirection = m_deployDirection;
+
+	m_currentMoveSpeedRate = DEPLOY_SPEED / MAX_MISSILE_SPEED;
+
 	return true;
 }
 
@@ -37,7 +49,7 @@ Vector3 Missile::CalcDeployDirection()
 	Vector3 right = g_camera3D->GetRight();
 	Vector3 up = front.CalcCross(right);
 
-	//srand((unsigned int)time(NULL));				//ミサイル自体は同じフレームで一気に出しているため、時間で初期化しないこと
+	//srand((unsigned int)time(NULL));				//ミサイル自体は同じフレームで一気に出しているため、現在時刻で初期化しないこと
 	float degreeX = rand() % 90 + 1;
 	float degreeY = rand() % 90 + 1;
 	degreeX -= 45.0f; degreeY -= 45.0f;
@@ -63,13 +75,13 @@ void Missile::RestrictRotation()
 	//ロックオンしていた敵が倒されたら
 	if (m_enemy->IsDead())
 	{
-		//倒される前の敵への方向を使う
-		m_moveDirection = m_prevMoveDirection;
+		////倒される前の敵への方向を使う
+		//m_moveDirection = m_prevMoveDirection;
 	}
 	else
 	{
 		//進行していた方向＝現在のミサイルの前方向とターゲットへのベクトル内積を求める。
-		if (float a = m_moveDirection.Dot(m_prevMoveDirection) > 0.999f)
+		if (float a = m_moveDirection.Dot(m_prevMoveDirection) > 0.8f)
 		{
 			a;
 		}
@@ -78,7 +90,7 @@ void Missile::RestrictRotation()
 			//ターゲットへのベクトルとミサイルの前方向の上方向を計算
 			Vector3 up = m_moveDirection.CalcCross(m_prevMoveDirection);
 			Quaternion rot;
-			rot.SetRotationDeg(up, 0.010f);
+			rot.SetRotationDeg(up, 10.0f);
 			rot.Apply(m_moveDirection);
 		}
 		m_prevMoveDirection = m_moveDirection;
@@ -87,6 +99,11 @@ void Missile::RestrictRotation()
 
 void Missile::Update()
 {
+	if (m_enemy->IsDead())
+	{
+		m_moveStage = enPassingBy;
+	}
+
 	switch (m_moveStage)
 	{
 	//ロケット発射直後のランダム方向への展開
@@ -97,31 +114,53 @@ void Missile::Update()
 		if (count >= 1.0f)
 		{
 			//直進モードに切り替え
-			m_moveStage = /*enChaseTarget;*/ enStraightTarget;
+			m_moveStage = enChaseTarget;
 		}
 		//1フレーム前の移動方向として保存
 		m_prevMoveDirection = m_deployDirection;
 		break;
-	//展開後は少しの間敵に直進するように
-	case enStraightTarget:
-		//敵への直進方向を計算
-		m_moveDirection = CalcToTargetVec();
-		//1フレーム前の移動方向として保存
-		m_prevMoveDirection = m_moveDirection;
-		//直進する移動速度を計算
-		m_moveSpeed = m_moveDirection * MISSILE_SPEED;
-		//追跡モードに切り替え
-		m_moveStage = enChaseTarget;
-		break;
+
 	//敵を寿命が尽きるまで追跡する
 	case enChaseTarget:
 		//敵までの距離から移動方向と速度を計算する。
 		m_moveDirection = CalcToTargetVec();
-		//回転の抑制
-		// m_prevMoveDirection = m_moveDirection;					下関数を使うならこの行をけすこと
-		//RestrictRotation();
+
+		if (m_enemy->IsDead())
+		{
+			m_moveSpeed = m_prevMoveDirection * MAX_MISSILE_SPEED;
+			break;
+		}
+
 		//抑制済みの移動方向を用いて速度を計算
-		m_moveSpeed = m_moveDirection * MISSILE_SPEED;
+		m_currentMoveSpeedRate += 0.01f;
+		if (m_currentMoveSpeedRate >= 1.0f)
+		{	
+			m_currentMoveSpeedRate = 1.0f;
+		}
+
+		//展開方向の影響を受けた移動速度
+		{
+			Vector3 directionAffectedDeploy = m_deployDirection * (1.0f - m_currentMoveSpeedRate);
+			Vector3 speedAffectedDeploy = directionAffectedDeploy * DEPLOY_SPEED;
+			//ターゲットへの方向を考慮した移動速度
+			Vector3 directionFallowDirection = m_moveDirection * m_currentMoveSpeedRate;
+			Vector3 speedFallowDirection = directionFallowDirection * MAX_MISSILE_SPEED;
+
+
+			m_moveDirection = directionAffectedDeploy + directionFallowDirection;
+
+
+			//回転の抑制
+			RestrictRotation();
+			m_prevMoveDirection = m_moveDirection;
+
+			//現在の移動速度
+			m_moveSpeed = speedAffectedDeploy + speedFallowDirection;
+		}
+		break;
+
+	case enPassingBy:
+		m_moveSpeed = m_prevMoveDirection * MAX_MISSILE_SPEED;
 		break;
 	}
 
@@ -147,7 +186,7 @@ void Missile::Update()
 
 	//弾の寿命
 	count += GameTime().GetFrameDeltaTime();
-	if (count >= 30.0f)
+	if (count >= 15.0f)
 	{
 		DeleteGO(this);
 	}
@@ -155,4 +194,16 @@ void Missile::Update()
 	//現在の移動方向を用いてミサイルモデルの回転を行う
 	m_rot.SetRotation({ 0.0f,0.0f,-1.0f }, m_moveDirection);
 	m_skinModelRender->SetRotation(m_rot);
+
+	if (m_moveStage != enDeploying)
+	{
+		Effect effect;
+		effect.Init(u"Assets/effect/aa.efk");
+		m_rot.SetRotation({ 0.0f,0.0f,1.0f }, m_moveDirection);
+		effect.SetPosition(m_position);
+		effect.SetRotation(m_rot);
+		effect.SetScale({ 40.0f,40.0f,120.0f });
+		effect.Play();
+		effect.Update();
+	}
 }
