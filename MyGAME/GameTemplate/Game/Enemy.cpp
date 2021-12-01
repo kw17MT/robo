@@ -104,6 +104,13 @@ void Enemy::Update()
 		m_machinGun->SetCanShoot(true);
 	}
 
+	Effect effect;
+	effect.Init(u"Assets/effect/enemyTrack2.efk");
+	effect.SetPosition(m_position);
+	effect.SetScale({ 10.0f,10.0f,10.0f });
+	effect.Play();
+	effect.Update();
+
 	//HP‚ª‚È‚­‚È‚Á‚½‚ç
 	if (m_enemyHP->IsEnemyDead())
 	{

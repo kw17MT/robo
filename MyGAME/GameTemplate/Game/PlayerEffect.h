@@ -13,10 +13,14 @@ private:
 	Vector3 m_boosterRightPos = Vector3::Zero;
 	Vector3 m_boosterLeftPos = Vector3::Zero;
 	Vector3 m_boosterScale = Vector3::Zero;
-	Quaternion m_effectRot = Quaternion::Identity;
+	Vector3 m_shoulderRightPos = Vector3::Zero;
+	Vector3 m_shoulderLeftPos = Vector3::Zero;
+	Quaternion m_boosterEffectRot = Quaternion::Identity;
+	Quaternion m_aircontrailEffectRot = Quaternion::Identity;
 	int m_effectTimer = 0;
 	bool m_isDash = false;
 	bool m_isPlayerDied = false;
+	float m_playerMoveSpeed = 0.0f;
 public:
 	PlayerEffect() {}
 	~PlayerEffect();
@@ -29,6 +33,12 @@ public:
 	{
 		m_boosterRightPos = boosterRPos;
 		m_boosterLeftPos = boosterLPos;
+	}
+
+	void SetBothShoulderPos(Vector3 shoulderRPos, Vector3 shoulderLPos)
+	{
+		m_shoulderRightPos = shoulderRPos;
+		m_shoulderLeftPos = shoulderLPos;
 	}
 
 	void SetIsDash(bool isDash) { m_isDash = isDash; }

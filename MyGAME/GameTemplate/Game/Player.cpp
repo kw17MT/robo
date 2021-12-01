@@ -134,6 +134,10 @@ void Player::Update()
 		m_skinModelRender->GetBonePosition(L"BoosterR") + m_roboMove.GetMoveSpeed(),
 		m_skinModelRender->GetBonePosition(L"BoosterL") + m_roboMove.GetMoveSpeed()
 	);
+	m_playerEffect->SetBothShoulderPos(
+		m_skinModelRender->GetBonePosition(L"Bone044") + m_roboMove.GetMoveSpeed(),
+		m_skinModelRender->GetBonePosition(L"Bone024") + m_roboMove.GetMoveSpeed()
+	);
 	m_playerEffect->CalcRotation(m_roboMove.GetMoveSpeed());
 	m_playerEffect->SetIsDash(m_roboMove.GetIsDash());
 

@@ -21,7 +21,7 @@ sampler Sampler : register(s0);
 
 PSInput VSMain(VSInput In) 
 {
-	PSInput psIn;
+    PSInput psIn = (PSInput)0;
 	psIn.pos = mul( mvp, In.pos );
 	psIn.uv = In.uv;
 	return psIn;
@@ -40,12 +40,7 @@ float4 PSMain( PSInput In ) : SV_Target0
     float2 toCenter = center - In.uv.xy;
     //太陽の方向に戻る線分の長さ
     float2 fetchNearLight = toCenter / 3.0f;
-    
-    //if (texturePos.x >= maxUV || texturePos.x <= minUV
-    //    || texturePos.y >= maxUV || texturePos.y <= minUV)
-    //{
-    //    clip(-1.0f);
-    //}
+   
     
     float4 finalColor = sceneTexture.Sample(Sampler, In.uv);
     //N回分もどるor進んで太陽の色を取得しに行く
