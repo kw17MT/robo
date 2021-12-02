@@ -125,8 +125,8 @@ void PlayerEffect::Update()
 	if (m_playerMoveSpeed > 3.0f)
 	{
 		Effect airContrail[2];
-		airContrail[0].Init(u"Assets/effect/bulletTail2.efk");
-		airContrail[1].Init(u"Assets/effect/bulletTail2.efk");
+		airContrail[0].Init(u"Assets/effect/aircontrail1.efk");
+		airContrail[1].Init(u"Assets/effect/aircontrail1.efk");
 		airContrail[0].SetPosition(m_shoulderRightPos);
 		airContrail[1].SetPosition(m_shoulderLeftPos);
 

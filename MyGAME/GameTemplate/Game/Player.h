@@ -30,7 +30,7 @@ enum EnDeathTypes
 class Player : public IGameObject
 {
 private:
-	Vector3 m_currentPosition = { 0.0f,400.0f,5000.0f };			//プレイヤーの現在の位置
+	Vector3 m_currentPosition = { 0.0f,295.0f,5000.0f };			//プレイヤーの現在の位置
 	Vector3 m_prevHomePosition = Vector3::Zero;			//1フレーム前のホームポジションの位置
 	Vector3 m_currentHomePosition = Vector3::Zero;				//カメラが追いかける位置座標
 
@@ -70,6 +70,9 @@ public:
 	void TakenDamage(EnPlayerDamageTypes damageType);
 
 	Reticle* GetReticleInstance() { return m_reticle; }
+
+	void SetPlayerPosForLaunch(Vector3 pos) { m_skinModelRender->SetPosition(pos); }
+	Vector3 GetPlayerPosForLaunch() { return m_skinModelRender->GetPosition(); }
 private:
 	SkinModelRender* m_skinModelRender = nullptr;		//プレイヤーのモデルインスタンス
 	MachinGun* m_machingun = nullptr;					//プレイヤーが持つマシンガンインスタンス

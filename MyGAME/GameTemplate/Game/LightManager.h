@@ -1,14 +1,15 @@
 #pragma once
 #include "RenderingEngine.h"
 
+const int g_spotLightNum = 8;
+
 struct DirectionalLight
 {
 
 	//ディレクションライト
-	Vector3 directionalDirection = { 0.0f,-1.0f,0.0f };				//ディレクションライトの方向
+	Vector3 directionalDirection = { 0.0f,-1.0f,1.0f };				//ディレクションライトの方向
 	float pad0 = 0;
 	Vector3 directionalColor = { 20.0f, 20.0f, 20.0f };				//ディレクションライトの色
-	//Vector3 directionalColor = { 1.0f, 1.0f, 1.0f };
 	float pad1 = 0;
 	Vector3 eyePos = g_camera3D->GetPosition();						//目の位置（カメラの位置）
 	float specPow = 0.5f;											//反射の度合い
@@ -33,9 +34,9 @@ struct AllLight
 	DirectionalLight directionalLight;
 	//環境光
 	Vector3 ambientLight = { 0.4f, 0.4f, 0.4f };
-	float pad2 = 0;
+	float pad = 0;
 	//スポットライト
-	SpotLight spotLight[2];
+	SpotLight spotLight[g_spotLightNum];
 };
 
 class LightManager : public IGameObject
@@ -90,5 +91,21 @@ public:
 		s_allLight.ViewProjInverseMatrix = g_camera3D->GetViewProjectionMatrix();
 		s_allLight.ViewProjInverseMatrix.Inverse();
 	}
-};
 
+	void TurnOffSpotLight()
+	{
+		for (int i = 0; i < g_spotLightNum; i++)
+		{
+			s_allLight.spotLight[i].spotColor = g_vec3Zero;
+		}
+	}
+
+	void GiveLightForMachinGun(Vector3 pos, Vector3 gunToPlayerDir)
+	{
+		s_allLight.spotLight[0].spotPosition = pos;
+		s_allLight.spotLight[0].spotDirection = gunToPlayerDir;
+		s_allLight.spotLight[0].spotDirection.Normalize();
+		s_allLight.spotLight[0].spotColor = { 0.75f,0.35f,0.25f };
+		s_allLight.spotLight[0].spotRange = 50.0f;
+	}
+};

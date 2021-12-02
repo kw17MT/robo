@@ -105,9 +105,9 @@ void Enemy::Update()
 	}
 
 	Effect effect;
-	effect.Init(u"Assets/effect/enemyTrack2.efk");
+	effect.Init(u"Assets/effect/enemyTrack3.efk");
 	effect.SetPosition(m_position);
-	effect.SetScale({ 10.0f,10.0f,10.0f });
+	effect.SetScale({ 20.0f,20.0f,20.0f });
 	effect.Play();
 	effect.Update();
 

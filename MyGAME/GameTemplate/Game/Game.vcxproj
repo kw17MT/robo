@@ -318,9 +318,12 @@
     <ClCompile Include="ForwardBloom.cpp" />
     <ClCompile Include="FXAA.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameDirector.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="GaussianBlur.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="LaunchPad.cpp" />
+    <ClCompile Include="LaunchScene.cpp" />
     <ClCompile Include="LensGhost.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Level2D.cpp" />
@@ -368,6 +371,7 @@
     <ClCompile Include="Stopwatch.cpp" />
     <ClCompile Include="Sun.cpp" />
     <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="Title.cpp" />
     <ClCompile Include="TklFile.cpp" />
     <ClCompile Include="TResourceBank.cpp" />
     <ClCompile Include="UI.cpp" />
@@ -463,9 +467,12 @@
     <ClInclude Include="ForwardBloom.h" />
     <ClInclude Include="FXAA.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameDirector.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="GaussianBlur.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="LaunchPad.h" />
+    <ClInclude Include="LaunchScene.h" />
     <ClInclude Include="LensGhost.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Level2D.h" />
@@ -505,6 +512,7 @@
     <ClInclude Include="Stopwatch.h" />
     <ClInclude Include="Sun.h" />
     <ClInclude Include="system\system.h" />
+    <ClInclude Include="Title.h" />
     <ClInclude Include="TklFile.h" />
     <ClInclude Include="TResourceBank.h" />
     <ClInclude Include="UI.h" />

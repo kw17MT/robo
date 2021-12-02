@@ -60,6 +60,12 @@ void MachinGun::Update()
 		m_remaining_bullet--;
 		m_ammoGauge->SetRemainingAmmo(m_remaining_bullet);
 		m_shootDelay = 0.15f;
+
+		LightManager::GetInstance().GiveLightForMachinGun(m_position, m_playerPos - m_position);
+	}
+	else
+	{
+		LightManager::GetInstance().TurnOffSpotLight();
 	}
 
 	if(m_ammoGauge->GetIsFinishedReloaded())

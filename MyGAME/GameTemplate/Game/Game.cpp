@@ -7,7 +7,9 @@
 #include "UI.h";
 #include "Sun.h"
 #include "Rader.h"
+#include "LaunchPad.h"
 
+#include "GameDirector.h"
 #include "CaptureStateManager.h"
 
 Game::~Game()
@@ -35,17 +37,18 @@ bool Game::Start()
 {
 	//プレイヤー生成
 	m_player = NewGO<Player>(0,"player");
-	//敵生成器作成
-	m_enemyGenerator = NewGO<EnemyGenerator>(0);
 	//スカイキューブマップ作成
 	m_sky = NewGO<SkyCube>(0);
 	//地面作成
 	m_ground = NewGO<Ground>(0);
-	m_ui = NewGO<UI>(0);
 	//太陽の作成
 	m_sun = NewGO<Sun>(0);
 	//レーダーの作成
 	m_rader = NewGO<Rader>(0, "rader");
+	//UIの作成
+	m_ui = NewGO<UI>(0);
+	//敵生成器作成
+	m_enemyGenerator = NewGO<EnemyGenerator>(0);
 
 	//ステートマネージャーの作成
 	CaptureStateManager::CreateInstance();
@@ -63,5 +66,10 @@ void Game::Update()
 	for (int i = 0; i < m_enemyGenerator->GetEnemyNum(); i++)
 	{
 		m_rader->SaveEnemyPos(i, m_enemyGenerator->GetEnemyPos(i));
+	}
+
+	if (g_pad[0]->IsPress(enButtonSelect))
+	{
+		DeleteGO(this);
 	}
 }

@@ -6,9 +6,12 @@ class Ground;
 class UI;
 class Sun;
 class Rader;
+class LaunchPad;
 
 class Game : public IGameObject
 {
+private:
+	bool m_isCreateAllObject = false;
 public:
 	/**
 	 * @brief コンストラクタ
@@ -38,5 +41,6 @@ private:
 	UI* m_ui = nullptr;								//UIインスタンス
 	Sun* m_sun = nullptr;							//太陽インスタンス
 	Rader* m_rader = nullptr;						//レーダーインスタンス
+	LaunchPad* m_launchPad = nullptr;
 };
 

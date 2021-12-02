@@ -352,7 +352,6 @@
     <ClCompile Include="EnemyMachinGun.cpp">
       <Filter>Object\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="RestrictArea.cpp" />
     <ClCompile Include="AmmoGauge.cpp">
       <Filter>UI,Sprite\NearPlayer</Filter>
     </ClCompile>
@@ -374,6 +373,17 @@
     <ClCompile Include="PlayerEffect.cpp">
       <Filter>Object\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Title.cpp" />
+    <ClCompile Include="LaunchPad.cpp">
+      <Filter>Object\LaunchPad</Filter>
+    </ClCompile>
+    <ClCompile Include="RestrictArea.cpp">
+      <Filter>Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDirector.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="LaunchScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -753,7 +763,6 @@
     <ClInclude Include="EnemyMachinGun.h">
       <Filter>Object\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="RestrictArea.h" />
     <ClInclude Include="AmmoGauge.h">
       <Filter>UI,Sprite\NearPlayer</Filter>
     </ClInclude>
@@ -775,6 +784,17 @@
     <ClInclude Include="PlayerEffect.h">
       <Filter>Object\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Title.h" />
+    <ClInclude Include="LaunchPad.h">
+      <Filter>Object\LaunchPad</Filter>
+    </ClInclude>
+    <ClInclude Include="RestrictArea.h">
+      <Filter>Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDirector.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="LaunchScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">
@@ -833,6 +853,9 @@
     </Filter>
     <Filter Include="UI,Sprite\Rader">
       <UniqueIdentifier>{62e51023-fd33-43ae-b41f-0bf86c5bc824}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\LaunchPad">
+      <UniqueIdentifier>{9502edfb-e869-4759-944c-46c01e8eed20}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

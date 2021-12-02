@@ -10,6 +10,7 @@ class MachinGun : public Weapon
 private:
 	Vector3 m_position = Vector3::Zero;			//マシンガンの位置
 	Vector3 m_targetPos = Vector3::Zero;		//着弾させるターゲット座標
+	Vector3 m_playerPos = Vector3::Zero;
 	int m_remaining_bullet = 100;
 	float m_shootDelay = 0.15f;
 public:
@@ -44,9 +45,10 @@ public:
 		m_targetPos = targetPos;
 	}
 
-	void SetPosition(Vector3 pos)
+	void SetPosition(Vector3 handPos, Vector3 playerPos)
 	{
-		m_position = pos;
+		m_position = handPos;
+		m_playerPos = playerPos;
 	}
 
 private:

@@ -3,7 +3,7 @@
  */
 
 static const float PI = 3.14f;
-static const int SpotLightNum = 2;
+static const int g_spotLightNum = 8;
 
 cbuffer cb : register(b0){
 	float4x4 mvp;		//���[���h�r���[�v���W�F�N�V�����s��B
@@ -40,7 +40,9 @@ cbuffer ShadowCb : register(b1)
 	/**************************/
 
 	/*スポットライト用*********/
-    SpotLight spotLight[2];
+    //bool isSpotLightTurnOn;
+    //float spotLightNum;
+    SpotLight spotLight[g_spotLightNum];
 	/**************************/
 }
 
@@ -201,7 +203,7 @@ float4 PSMain( PSInput In ) : SV_Target0
 	//最終的なスポットライト
     float4 finalSpotLight = { 0.0f, 0.0f, 0.0f, 0.0f };
     
-    for (int i = 0; i < SpotLightNum; i++)
+    for (int i = 0; i < g_spotLightNum; i++)
     {
 		//ポイントライトから物体へのベクトル
         float3 pointLightToSurface = worldPos.xyz - spotLight[i].spotPosition;
