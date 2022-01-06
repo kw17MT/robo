@@ -25,7 +25,7 @@ bool EnemyMachinGun::Start()
 {
 	//ƒ}ƒVƒ“ƒKƒ“‚Ìƒ‚ƒfƒ‹¶¬
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init("Assets/modelData/bullet/bullet.tkm", nullptr, enModelUpAxisY, { 0.0f,0.0f,0.0f }, true);
+	m_skinModelRender->Init("Assets/modelData/bullet/bullet.tkm", nullptr, enModelUpAxisY, true);
 	m_skinModelRender->SetScale(MACHINGUN_SCALE);
 
 	return true;

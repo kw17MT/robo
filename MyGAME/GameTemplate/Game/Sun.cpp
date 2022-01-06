@@ -10,7 +10,7 @@ Sun::~Sun()
 bool Sun::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init("Assets/modelData/sun/sun.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, false);
+	m_skinModelRender->Init("Assets/modelData/sun/sun.tkm", nullptr, enModelUpAxisZ, false);
 	m_skinModelRender->SetPosition(m_position);
 	m_skinModelRender->SetScale(m_scale);
 	m_skinModelRender->SetIsSun();

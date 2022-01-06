@@ -7,9 +7,20 @@
 #include "CaptureStateManager.h"
 #include "EnemyBrain.h"
 #include "EnemyMachinGun.h"
+#include "SoundSource.h"
+
+namespace
+{
+	const float SE_VOLUME = 1.0f;
+}
 
 Enemy::~Enemy()
 {
+	CSoundSource* explodeSE = NewGO<CSoundSource>(0);
+	explodeSE->Init(L"Assets/sound/explode.wav", false);
+	explodeSE->SetVolume(SE_VOLUME);
+	explodeSE->Play(false);
+
 	Effect effect;
 	effect.Init(u"Assets/effect/explosion2.efk");
 	effect.SetScale({ 100.0f,100.0f,100.0f });
@@ -37,7 +48,7 @@ bool Enemy::Start()
 
 	//敵のモデルをインスタンス化
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init("Assets/modelData/enemy/drone.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	m_skinModelRender->Init("Assets/modelData/enemy/drone.tkm", nullptr, enModelUpAxisZ, true);
 	m_skinModelRender->SetScale({ 15.0f, 15.0f, 15.0f});
 
 	//距離（文字）を表示

@@ -298,6 +298,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Calculation.cpp" />
     <ClCompile Include="CameraMove.cpp" />
+    <ClCompile Include="CameraShake.cpp" />
     <ClCompile Include="CaptureStateManager.cpp" />
     <ClCompile Include="CaslFile.cpp" />
     <ClCompile Include="CrossIcon.cpp" />
@@ -314,6 +315,7 @@
     <ClCompile Include="EnemyMove.cpp" />
     <ClCompile Include="EnemyRotation.cpp" />
     <ClCompile Include="EnemyStateIcon.cpp" />
+    <ClCompile Include="Fade.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="ForwardBloom.cpp" />
     <ClCompile Include="FXAA.cpp" />
@@ -447,6 +449,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Calculation.h" />
     <ClInclude Include="CameraMove.h" />
+    <ClInclude Include="CameraShake.h" />
     <ClInclude Include="CaptureStateManager.h" />
     <ClInclude Include="CaslFile.h" />
     <ClInclude Include="CrossIcon.h" />
@@ -463,6 +466,7 @@
     <ClInclude Include="EnemyMove.h" />
     <ClInclude Include="EnemyRotation.h" />
     <ClInclude Include="EnemyStateIcon.h" />
+    <ClInclude Include="Fade.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="ForwardBloom.h" />
     <ClInclude Include="FXAA.h" />

@@ -1,12 +1,14 @@
 #include "stdafx.h"
 #include "Reticle.h"
 #include "CaptureStateManager.h"
+#include "SoundSource.h"
 
 extern void CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);
 
 namespace
 {
 	const Vector3 SCALE_CHANGE_AMOUNT = { 0.1f,0.1f,0.1f };
+	const float SE_VOLUME = 1.0f;
 }
 
 Reticle::~Reticle()
@@ -46,6 +48,11 @@ void Reticle::ChangeTargetStateDependOnButtonLB2()
 			{
 				m_isTarget = true;
 				CaptureStateManager::GetInstance().SetCaptureState(Targeted);
+
+				CSoundSource* selectSE = NewGO<CSoundSource>(0);
+				selectSE->Init(L"Assets/sound/lockOn.wav", false);
+				selectSE->SetVolume(SE_VOLUME);
+				selectSE->Play(false);
 			}
 			//誰かしらをターゲットしている時
 			else if (CaptureStateManager::GetInstance().GetCaptureState() == Targeted)
@@ -71,6 +78,11 @@ void Reticle::ChangeTargetStateDependOnButtonLB2()
 					//ロケットターゲットを開始する時間に戻す
 					m_PressButtonTime = 0.499f;
 					CaptureStateManager::GetInstance().SetMissileTargetState(enNoTarget);
+
+					CSoundSource* selectSE = NewGO<CSoundSource>(0);
+					selectSE->Init(L"Assets/sound/missileLock.wav", false);
+					selectSE->SetVolume(SE_VOLUME);
+					selectSE->Play(false);
 				}
 				else
 				{

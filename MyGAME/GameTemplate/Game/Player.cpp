@@ -30,7 +30,8 @@ bool Player::Start()
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//ƒXƒLƒ“‚Ìî•ñ‚ð‰Šú‰»
 	//m_skinModelRender->Init("Assets/modelData/noWing/roboNoWing.tkm", "Assets/modelData/noWing/roboNoWing.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
-	m_skinModelRender->Init("Assets/modelData/robo/robo3.tkm", "Assets/modelData/robo/robo3.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	//m_skinModelRender->Init("Assets/modelData/robo/robo3.tkm", "Assets/modelData/robo/robo3.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	m_skinModelRender->Init("Assets/modelData/testBox/test4.tkm", "Assets/modelData/testBox/test4.tks", enModelUpAxisZ, true);
 
 	m_animClip[enIdle].Load("Assets/animData/robo/idle1.tka");
 	m_animClip[enIdle].SetLoopFlag(true);
@@ -43,7 +44,6 @@ bool Player::Start()
 	m_animClip[enUp].Load("Assets/animData/robo/up1.tka");
 	m_animClip[enUp].SetLoopFlag(true);
 	m_skinModelRender->InitAnimation(m_animClip, animNum);
-
 
 	m_machingun = NewGO<MachinGun>(0);
 	m_missileGene = NewGO<MissileGenerator>(0,"missileGene");
@@ -150,4 +150,6 @@ void Player::Update()
 		m_deathType = enAwayFromArea;
 		m_cameraMove.SetIsDeadCamera(true);
 	}
+
+	
 }

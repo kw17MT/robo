@@ -3,11 +3,13 @@
 #include "SkinModelRender.h"
 #include "Bullet.h"
 #include "AmmoGauge.h"
+#include "SoundSource.h"
 
 namespace
 {
 	const Vector3 MACHINGUN_SCALE = { 10.0f,10.0f,10.0f };
 	const int MAX_AMMO = 100;
+	const float SE_VOLUME = 1.0f;
 }
 
 MachinGun::~MachinGun()
@@ -29,7 +31,7 @@ bool MachinGun::Start()
 {
 	//É}ÉVÉìÉKÉìÇÃÉÇÉfÉãê∂ê¨
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init("Assets/modelData/Gun/gun3.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	m_skinModelRender->Init("Assets/modelData/Gun/gun3.tkm", nullptr, enModelUpAxisZ, true);
 	m_skinModelRender->SetScale(MACHINGUN_SCALE);
 
 	m_ammoGauge = NewGO<AmmoGauge>(0);
@@ -60,6 +62,11 @@ void MachinGun::Update()
 		m_remaining_bullet--;
 		m_ammoGauge->SetRemainingAmmo(m_remaining_bullet);
 		m_shootDelay = 0.15f;
+
+		CSoundSource* shootSE = NewGO<CSoundSource>(0);
+		shootSE->Init(L"Assets/sound/machingun.wav", false);
+		shootSE->SetVolume(SE_VOLUME);
+		shootSE->Play(false);
 
 		LightManager::GetInstance().GiveLightForMachinGun(m_position, m_playerPos - m_position);
 	}

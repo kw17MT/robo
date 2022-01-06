@@ -7,6 +7,12 @@
 #include "SkyCube.h"
 #include "PlayerEffect.h"
 #include "Sun.h"
+#include "SoundSource.h"
+
+namespace
+{
+	const float SE_VOLUME = 1.0f;
+}
 
 LaunchScene::~LaunchScene()
 {
@@ -30,7 +36,7 @@ bool LaunchScene::Start()
 	m_sun = NewGO<Sun>(0);
 
 	m_robo = NewGO<SkinModelRender>(0);
-	m_robo->Init("Assets/modelData/robo/robo3.tkm", "Assets/modelData/robo/robo3.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	m_robo->Init("Assets/modelData/robo/robo3.tkm", "Assets/modelData/robo/robo3.tks", enModelUpAxisZ, true);
 	m_robo->SetPosition(m_roboPos);
 	Quaternion qRot;
 	qRot.SetRotation({ 0.0f,0.0f,1.0f }, { 0.0f,0.0f,-1.0f });
@@ -39,7 +45,7 @@ bool LaunchScene::Start()
 	for (int i = 0; i < 8; i++)
 	{
 		m_lamp[i] = NewGO<SkinModelRender>(0);
-		m_lamp[i]->Init("Assets/modelData/doc/lamp.tkm", nullptr, enModelUpAxisZ, g_vec3Zero, false);
+		m_lamp[i]->Init("Assets/modelData/doc/lamp.tkm", nullptr, enModelUpAxisZ, false);
 		Vector3 pos = m_lampPos;
 		pos.y -= 65.0f;
 		if (i >= 0 && i < 4)
@@ -56,6 +62,11 @@ bool LaunchScene::Start()
 		}
 	}
 
+	CSoundSource* selectSE = NewGO<CSoundSource>(0);
+	selectSE->Init(L"Assets/sound/gouon.wav", false);
+	selectSE->SetVolume(SE_VOLUME);
+	selectSE->Play(false);
+
 	g_camera3D->SetPosition({ 0.0f,400.0f, 5200.0f });
 	g_camera3D->SetTarget(m_roboPos);
 
@@ -71,17 +82,48 @@ void LaunchScene::Update()
 		Quaternion qRot;
 		qRot.SetRotationY(0.04f);
 		g_camera3D->RotateOriginTarget(qRot);
+
+		if (!m_isFinishedSoundWakeUp)
+		{
+			CSoundSource* wakeSE = NewGO<CSoundSource>(0);
+			wakeSE->Init(L"Assets/sound/wakeUp.wav", false);
+			wakeSE->SetVolume(SE_VOLUME);
+			wakeSE->Play(false);
+
+			m_isFinishedSoundWakeUp = true;
+		}
 	}
 	else if (m_delay > 7.0f)
 	{
-		m_roboPos.z -= 10.0f;
-
+		
+		m_roboPos.z -= m_delay / 100.0f;
 		if (m_delay > 13.0f)
 		{
-			m_roboPos.y += 2.0f;
+			m_roboPos.z -= 80.0f;
+			//m_roboPos.y += 2.0f;
 			m_effect->SetIsDash(true);
-			m_effect->CalcRotation({ 0.0,0.0,-100.0f });
+			m_effect->CalcRotation({ 0.0,0.0,-80.0f });
+
+			if (!m_isFinishedSoundGo)
+			{
+				CSoundSource* goSE = NewGO<CSoundSource>(0);
+				goSE->Init(L"Assets/sound/Go.wav", false);
+				goSE->SetVolume(SE_VOLUME);
+				goSE->Play(false);
+				m_isFinishedSoundGo = true;
+			}
+			
 		}
+	}
+
+	if (m_delay > 6.0f
+		&& !m_isFinishedSoundBooster)
+	{
+		CSoundSource* bootserSE = NewGO<CSoundSource>(0);
+		bootserSE->Init(L"Assets/sound/booster.wav", false);
+		bootserSE->SetVolume(SE_VOLUME);
+		bootserSE->Play(false);
+		m_isFinishedSoundBooster = true;
 	}
 
 	m_effect->SetBothBoosterPos(
@@ -97,14 +139,14 @@ void LaunchScene::Update()
 	m_robo->SetPosition(m_roboPos);
 	g_camera3D->SetTarget(m_roboPos);
 
-	if (m_roboPos.z <= 1000.0f)
+	if (m_roboPos.z <= -2000.0f)
 	{
 		GameDirector::GetInstance().SetGameScene(enInGame);
 		DeleteGO(this);
 
 		LightManager::GetInstance().TurnOffSpotLight();
 		//フェードから遷移すること
-		Game* a = NewGO<Game>(0);
+		Game* game = NewGO<Game>(0, "game");
 
 		//発射処理がすべて終わったためゲームを進行させる。
 		//GameDirector::GetInstance().SetGameScene(enInGame);

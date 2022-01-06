@@ -1,4 +1,5 @@
 #pragma once
+class CSoundSource;
 #include "SpriteRender.h"
 
 enum EnReticleType
@@ -75,4 +76,5 @@ public:
 
 private:
 	std::array< SpriteRender*, 2> m_spriteRender = { nullptr, nullptr };
+	CSoundSource* m_lockOnSE = nullptr;
 };

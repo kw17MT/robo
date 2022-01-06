@@ -7,7 +7,7 @@ SkinModelRender::~SkinModelRender()
 }
 
 //モデルを通常描画するための初期化
-void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, bool isCastShadow)
+void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, EnModelUpAxis UpAxis, bool isCastShadow)
 {
 	//モデルのファイルパス設定
 	m_modelInitData.m_tkmFilePath = modelFilePath;

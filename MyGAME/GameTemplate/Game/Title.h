@@ -1,7 +1,8 @@
 #pragma once
 class SpriteRender;
 class SkinModelRender;
-
+#include "CameraShake.h"
+class SoundSource;
 class Title : public IGameObject
 {
 private:
@@ -17,6 +18,7 @@ private:
 	Vector3 m_screenPos[4] = { Vector3::Zero,Vector3::Zero,Vector3::Zero,Vector3::Zero };
 	float angleX = 0.0f;
 	float angleY = 0.0f;
+	EnSpriteTypes m_enSelectedSpriteType = enPlayButton;
 public:
 	Title() {}
 	~Title();
@@ -25,5 +27,8 @@ public:
 public:
 	SpriteRender* m_sprite[enSpriteNum] = { nullptr };
 	SkinModelRender* m_robo = nullptr;
+	SkinModelRender* m_bunker = nullptr;
+	CameraShake m_cameraShake;
+	CSoundSource* m_bgm = nullptr;
 };
 

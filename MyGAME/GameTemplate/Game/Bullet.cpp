@@ -20,7 +20,7 @@ bool Bullet::Start()
 	//’eƒ‚ƒfƒ‹‚Ì¶¬
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//m_skinModelRender->Init("Assets/modelData/bullet/bullet.tkm", nullptr, enModelUpAxisY, { 0.0f,0.0f,0.0f }, true);
-	m_skinModelRender->Init("Assets/modelData/bullet/a.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	m_skinModelRender->Init("Assets/modelData/bullet/a.tkm", nullptr, enModelUpAxisZ, true);
 
 
 	m_effect = NewGO<Effect>(0);

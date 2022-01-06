@@ -80,7 +80,7 @@ public:
 	 * @param UpAxis ‚Ç‚Ì²‚ğã‚É‚·‚é‚©
 	 * @param pos ƒ‚ƒfƒ‹‚ğoŒ»‚³‚¹‚éÅ‰‚ÌˆÊ’u
 	*/
-	void Init(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, Vector3 pos, bool isCastShadow);
+	void Init(const char* filePath, const char* skeletonPath, EnModelUpAxis UpAxis, bool isCastShadow);
 	
 	void InitCharaCon(float radius, float height, Vector3& position);
 

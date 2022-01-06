@@ -31,7 +31,7 @@ Missile::~Missile()
 bool Missile::Start()
 {
 	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->Init("Assets/modelData/missile/missile.tkm", nullptr, enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
+	m_skinModelRender->Init("Assets/modelData/missile/missile.tkm", nullptr, enModelUpAxisZ, true);
 	m_skinModelRender->SetScale({ 15.0f,15.0f,15.0f });
 
 	m_deployDirection = CalcDeployDirection();

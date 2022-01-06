@@ -4,6 +4,7 @@ class LaunchPad;
 class SkinModelRender;
 class PlayerEffect;
 class Sun;
+class LaunchPad;
 
 class LaunchScene : public IGameObject
 {
@@ -12,6 +13,9 @@ private:
 	Vector3 m_lampPos = m_roboPos;
 	float m_delay = 0.0f;
 	float m_angle = 0.0f;
+	bool m_isFinishedSoundBooster = false;
+	bool m_isFinishedSoundWakeUp = false;
+	bool m_isFinishedSoundGo = false;
 public:
 	LaunchScene() {}
 	~LaunchScene();

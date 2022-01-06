@@ -8,9 +8,15 @@
 #include "Sun.h"
 #include "Rader.h"
 #include "LaunchPad.h"
+#include "SoundSource.h"
 
 #include "GameDirector.h"
 #include "CaptureStateManager.h"
+
+namespace f
+{
+	const float BGM_VOLUME = 0.5f;
+}
 
 Game::~Game()
 {
@@ -49,6 +55,11 @@ bool Game::Start()
 	m_ui = NewGO<UI>(0);
 	//敵生成器作成
 	m_enemyGenerator = NewGO<EnemyGenerator>(0);
+	//BGM作成
+	/*m_bgm = NewGO<CSoundSource>(0);
+	m_bgm->Init(L"Assets/sound/bgm1.wav", false);
+	m_bgm->SetVolume(f::BGM_VOLUME);
+	m_bgm->Play(true);*/
 
 	//ステートマネージャーの作成
 	CaptureStateManager::CreateInstance();

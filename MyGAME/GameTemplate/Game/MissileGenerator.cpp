@@ -4,6 +4,12 @@
 #include "CaptureStateManager.h"
 #include "AmmoGauge.h"
 #include "Enemy.h"
+#include "SoundSource.h"
+
+namespace
+{
+	const float SE_VOLUME = 1.0f;
+}
 
 namespace
 {
@@ -61,6 +67,8 @@ bool MissileGenerator::Start()
 
 void MissileGenerator::Update()
 {
+	//LightManager::GetInstance().TurnOffSpotLight();
+
 	//初期ではアイコンを消さないように設定
 	m_deleteMissileIcon = false;
 
@@ -107,6 +115,21 @@ void MissileGenerator::Update()
 
 			//何もロックオンしていない状態にする
 			CaptureStateManager::GetInstance().SetMissileTargetState(enNoTarget);
+
+			//要調整
+			/*if (LaunchNumInThisFrame)
+			{
+				LightManager::GetInstance().GiveLightForMissile(m_launchPos + g_camera3D->GetForward() * 1000.0f, g_camera3D->GetForward() * -1.0f);
+			}*/
+
+			//1つ以上ミサイルを発射したら音を1回出す
+			if (LaunchNumInThisFrame > 0)
+			{
+				CSoundSource* launchSE = NewGO<CSoundSource>(0);
+				launchSE->Init(L"Assets/sound/launch.wav", false);
+				launchSE->SetVolume(SE_VOLUME);
+				launchSE->Play(false);
+			}
 		}
 	}
 	//残弾数がなくなったら

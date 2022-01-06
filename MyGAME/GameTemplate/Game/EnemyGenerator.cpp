@@ -4,7 +4,7 @@
 
 namespace
 {
-	const int MAX_ENEMY_NUM = 3;
+	const int MAX_ENEMY_NUM = 0;
 	const float ENEMY_SPACE = 1000.0f;
 }
 

@@ -48,22 +48,22 @@ bool PlayerHP::Start()
 	//画像の位置を固定
 	m_spriteRender->SetPosition(m_screenPos);
 
-	//文字インスタンス生成
-	m_fontRender = NewGO<FontRender>(0);
-	//空初期化
-	m_fontRender->SetText(L"");
-	//大きさ設定
-	m_fontRender->SetScale(FONT_SIZE);
-	//位置設定
-	m_fontRender->SetPosition({ m_screenPos.x, m_screenPos.y });
+	////文字インスタンス生成
+	//m_fontRender = NewGO<FontRender>(0);
+	////空初期化
+	//m_fontRender->SetText(L"");
+	////大きさ設定
+	//m_fontRender->SetScale(FONT_SIZE);
+	////位置設定
+	//m_fontRender->SetPosition({ m_screenPos.x, m_screenPos.y });
 	return true;
 }
 
 void PlayerHP::Update()
 {
 	//プレイヤーの残りHPを文字列に変換
-	std::wstring playerHp = std::to_wstring((int)m_playerHp);
-	m_fontRender->SetText(playerHp.c_str());
+	//std::wstring playerHp = std::to_wstring((int)m_playerHp);
+	//m_fontRender->SetText(playerHp.c_str());
 
 	//HPがなくなったら
 	if (m_playerHp <= 0.0f)

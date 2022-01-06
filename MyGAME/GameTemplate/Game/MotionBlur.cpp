@@ -79,12 +79,9 @@ void MotionBlur::Render(RenderContext& rc, Sprite& mainSprite, RenderTarget& tar
 	m_gaussian[2].ExecuteOnGPU(rc, 15);
 	m_gaussian[3].ExecuteOnGPU(rc, 15);
 
-	//m_finalGaussian.Draw(rc);
-
 	//モーションブラー画像をメインレンダーターゲットに加算
 	rc.WaitUntilToPossibleSetRenderTarget(targetToApply);
 	rc.SetRenderTargetAndViewport(targetToApply);
 	m_motionBlurSprite.Draw(rc);
-	
 	rc.WaitUntilFinishDrawingToRenderTarget(targetToApply);
 }

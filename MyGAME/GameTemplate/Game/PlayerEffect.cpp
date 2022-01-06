@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "PlayerEffect.h"
 #include "effect/Effect.h"
+#include "GameDirector.h"
 
 namespace
 {
-	const Vector3 BOOSTER_EFFECT_SCALE = { 0.4f,0.4f,0.4f };
+	const Vector3 BOOSTER_EFFECT_SCALE = { 0.4f,0.6f,0.4f };
 }
 
 PlayerEffect::~PlayerEffect()
@@ -57,7 +58,8 @@ void PlayerEffect::CalcRotation(Vector3 playerMoveDirection)
 	m_boosterEffectRot.SetRotation(g_vec3AxisY, moveDir * -1.0f);
 	m_aircontrailEffectRot.SetRotation(g_vec3AxisZ, moveDir);
 
-	if (!g_pad[0]->GetLStickXF())
+	if (!g_pad[0]->GetLStickXF()
+		&& GameDirector::GetInstance().GetGameScene() != enLaunchingPlayer)
 	{
 		m_boosterEffectRot.SetRotation(g_camera3D->GetRight(), 180.0f);
 	}
@@ -85,9 +87,6 @@ void PlayerEffect::Update()
 		m_boosterScale = BOOSTER_EFFECT_SCALE * 1.5f;
 		m_isDash = false;
 	}
-
-
-
 
 	m_boosterScale.x -= GameTime().GetFrameDeltaTime() / 2.0f;
 	m_boosterScale.y -= GameTime().GetFrameDeltaTime() / 2.0f;
@@ -130,14 +129,14 @@ void PlayerEffect::Update()
 		airContrail[0].SetPosition(m_shoulderRightPos);
 		airContrail[1].SetPosition(m_shoulderLeftPos);
 
-		airContrail[0].SetScale({ 1.0f,2.0f,2.0f });
-		airContrail[1].SetScale({ 1.0f,2.0f,2.0f });
+		airContrail[0].SetScale({ 1.0f,1.0f,2.0f });
+		airContrail[1].SetScale({ 1.0f,1.0f,2.0f });
 		airContrail[0].SetRotation(m_aircontrailEffectRot);
 		airContrail[1].SetRotation(m_aircontrailEffectRot);
 
-		airContrail[0].Play();
+		/*airContrail[0].Play();
 		airContrail[1].Play();
 		airContrail[0].Update();
-		airContrail[1].Update();
+		airContrail[1].Update();*/
 	}
 }

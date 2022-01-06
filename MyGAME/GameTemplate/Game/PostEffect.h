@@ -18,6 +18,7 @@ public:
 
 	void Render(RenderContext& rc, Sprite& mainSprite, RenderTarget& mainTarget);
 private:
+	DepthInView m_depthInView;
 	Bloom m_bloom;
 	FXAA m_fxaa;
 	MotionBlur m_motionBlur;

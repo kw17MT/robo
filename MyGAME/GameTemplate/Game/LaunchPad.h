@@ -9,6 +9,7 @@ private:
 		enTunnel,
 		enWireAndTube,
 		enWay,
+		enBase,
 		enPartsNum
 	};
 
@@ -21,6 +22,9 @@ public:
 	bool Start();
 	void Update();
 private:
-	SkinModelRender* m_model[3] = { nullptr };
+	SkinModelRender* m_docParts[4] = { nullptr };
+	SkinModelRender* m_robo[2] = { nullptr };
+	SkinModelRender* m_man[2] = { nullptr };
+	AnimationClip m_anim[2];
 };
 

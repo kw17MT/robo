@@ -6,7 +6,7 @@ public:
 	 * @brief 被写界深度作成の初期化を行う
 	 * @param rt 被写界深度をするレンダリングターゲット
 	*/
-	void Init(RenderTarget& rt);
+	void Init(RenderTarget& mainTarget, RenderTarget& depthTarget);
 
 	/**
 	 * @brief 被写界深度の作成

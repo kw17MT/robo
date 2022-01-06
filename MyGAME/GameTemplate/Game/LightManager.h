@@ -106,6 +106,15 @@ public:
 		s_allLight.spotLight[0].spotDirection = gunToPlayerDir;
 		s_allLight.spotLight[0].spotDirection.Normalize();
 		s_allLight.spotLight[0].spotColor = { 0.75f,0.35f,0.25f };
-		s_allLight.spotLight[0].spotRange = 50.0f;
+		s_allLight.spotLight[0].spotRange = 80.0f;
+	}
+
+	void GiveLightForMissile(Vector3 pos, Vector3 missileToPlayerDir)
+	{
+		s_allLight.spotLight[0].spotPosition = pos;
+		s_allLight.spotLight[0].spotDirection = missileToPlayerDir;
+		s_allLight.spotLight[0].spotDirection.Normalize();
+		s_allLight.spotLight[0].spotColor = { 0.75f,0.35f,0.25f };
+		s_allLight.spotLight[0].spotRange = 1500.0f;
 	}
 };
