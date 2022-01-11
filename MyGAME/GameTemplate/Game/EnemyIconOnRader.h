@@ -8,6 +8,8 @@ private:
 	Vector3 m_scale = Vector3::Zero;
 	Quaternion m_rot = Quaternion::Identity;
 public:
+	EnemyIconOnRader() {}
+	~EnemyIconOnRader();
 	bool Start();
 	void Update();
 	void SetScale(Vector3 scale) { m_scale = scale; }

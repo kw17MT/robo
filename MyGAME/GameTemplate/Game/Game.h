@@ -8,6 +8,7 @@ class Sun;
 class Rader;
 class LaunchPad;
 class SCoundSource;
+class EliminateTelop;
 
 class Game : public IGameObject
 {
@@ -44,5 +45,6 @@ private:
 	Rader* m_rader = nullptr;						//レーダーインスタンス
 	LaunchPad* m_launchPad = nullptr;
 	CSoundSource* m_bgm = nullptr;
+	EliminateTelop* m_eliminateTelop = nullptr;
 };
 

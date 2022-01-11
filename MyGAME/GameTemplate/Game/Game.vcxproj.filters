@@ -386,6 +386,7 @@
     <ClCompile Include="LaunchScene.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="CameraShake.cpp" />
+    <ClCompile Include="EliminateTelop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -799,6 +800,7 @@
     <ClInclude Include="LaunchScene.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="CameraShake.h" />
+    <ClInclude Include="EliminateTelop.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">

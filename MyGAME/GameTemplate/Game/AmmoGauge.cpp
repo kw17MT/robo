@@ -18,6 +18,7 @@ AmmoGauge::~AmmoGauge()
 {
 	//‰æ‘œ‚Ìíœ
 	DeleteGO(m_spriteRender);
+	DeleteGO(m_fontRender);
 }
 
 bool AmmoGauge::Start()

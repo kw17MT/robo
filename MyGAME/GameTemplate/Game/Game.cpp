@@ -9,11 +9,12 @@
 #include "Rader.h"
 #include "LaunchPad.h"
 #include "SoundSource.h"
+#include "EliminateTelop.h"
 
 #include "GameDirector.h"
 #include "CaptureStateManager.h"
 
-namespace f
+namespace
 {
 	const float BGM_VOLUME = 0.5f;
 }
@@ -53,12 +54,14 @@ bool Game::Start()
 	m_rader = NewGO<Rader>(0, "rader");
 	//UIの作成
 	m_ui = NewGO<UI>(0);
+	//全滅させよのテロップ
+	m_eliminateTelop = NewGO<EliminateTelop>(0);
 	//敵生成器作成
 	m_enemyGenerator = NewGO<EnemyGenerator>(0);
 	//BGM作成
 	m_bgm = NewGO<CSoundSource>(0);
 	m_bgm->Init(L"Assets/sound/bgm1.wav", false);
-	m_bgm->SetVolume(f::BGM_VOLUME);
+	m_bgm->SetVolume(BGM_VOLUME);
 	m_bgm->Play(true);
 
 	//ステートマネージャーの作成

@@ -7,6 +7,11 @@ namespace
 	const int ICON_SIZE = 12;
 }
 
+EnemyIconOnRader::~EnemyIconOnRader()
+{
+	DeleteGO(m_spriteRender);
+}
+
 bool EnemyIconOnRader::Start()
 {
 	m_spriteRender = NewGO<SpriteRender>(0);

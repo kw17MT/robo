@@ -305,6 +305,7 @@
     <ClCompile Include="DefferedLighting.cpp" />
     <ClCompile Include="DepthInView.cpp" />
     <ClCompile Include="DisplayDistance.cpp" />
+    <ClCompile Include="EliminateTelop.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAtack.cpp" />
     <ClCompile Include="EnemyBrain.cpp" />
@@ -456,6 +457,7 @@
     <ClInclude Include="DefferedLighting.h" />
     <ClInclude Include="DepthInView.h" />
     <ClInclude Include="DisplayDistance.h" />
+    <ClInclude Include="EliminateTelop.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAtack.h" />
     <ClInclude Include="EnemyBrain.h" />

@@ -21,10 +21,10 @@ MachinGun::~MachinGun()
 		m_bullets.pop_back();
 	}
 	m_bullets.clear();
+	//’e”ƒQ[ƒW‚ğíœ
+	DeleteGO(m_ammoGauge);
 	//ƒ‚ƒfƒ‹‚Ìíœ
 	DeleteGO(m_skinModelRender);
-
-	DeleteGO(m_ammoGauge);
 }
 
 bool MachinGun::Start()

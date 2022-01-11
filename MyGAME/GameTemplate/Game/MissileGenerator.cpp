@@ -26,6 +26,8 @@ MissileGenerator::~MissileGenerator()
 		m_missiles.pop_back();
 	}
 	m_missiles.clear();
+	//’e”ƒQ[ƒW‚ğíœ
+	DeleteGO(m_ammoGauge);
 }
 
 void MissileGenerator::SaveTargetedEnemy(Enemy* enemy)

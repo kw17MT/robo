@@ -21,7 +21,9 @@ bool RestrictArea::Start()
 
 void RestrictArea::JudgeInArea(Vector3 playerPos)
 {
-	float distance = CalcMethods::CalcDistance({ 0.0f,0.0f,0.0f }, playerPos);
+	Vector3 posXZ = playerPos;
+	posXZ.y = 0.0f;
+	float distance = CalcMethods::CalcDistance({ 0.0f,0.0f,0.0f }, posXZ);
 
 	if (distance <= 50000.0f)
 	{
