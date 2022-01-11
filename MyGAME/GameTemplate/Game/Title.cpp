@@ -67,10 +67,10 @@ bool Title::Start()
 
 	//m_cameraShake.SetParam(10.0f, 0.1f, true);
 
-	/*m_bgm = NewGO<CSoundSource>(0);
+	m_bgm = NewGO<CSoundSource>(0);
 	m_bgm->Init(L"Assets/sound/title.wav", false);
 	m_bgm->SetVolume(BGM_VOLUME);
-	m_bgm->Play(true);*/
+	m_bgm->Play(true);
 	
 
 

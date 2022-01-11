@@ -56,10 +56,10 @@ bool Game::Start()
 	//敵生成器作成
 	m_enemyGenerator = NewGO<EnemyGenerator>(0);
 	//BGM作成
-	/*m_bgm = NewGO<CSoundSource>(0);
+	m_bgm = NewGO<CSoundSource>(0);
 	m_bgm->Init(L"Assets/sound/bgm1.wav", false);
 	m_bgm->SetVolume(f::BGM_VOLUME);
-	m_bgm->Play(true);*/
+	m_bgm->Play(true);
 
 	//ステートマネージャーの作成
 	CaptureStateManager::CreateInstance();

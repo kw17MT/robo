@@ -84,7 +84,14 @@ void PlayerEffect::Update()
 
 	if (m_isDash)
 	{
-		m_boosterScale = BOOSTER_EFFECT_SCALE * 1.5f;
+		if (GameDirector::GetInstance().GetGameScene() == enLaunchingPlayer)
+		{
+			m_boosterScale = BOOSTER_EFFECT_SCALE * 3.0f;
+		}
+		else
+		{
+			m_boosterScale = BOOSTER_EFFECT_SCALE * 1.5f;
+		}
 		m_isDash = false;
 	}
 

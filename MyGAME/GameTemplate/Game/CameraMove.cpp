@@ -9,7 +9,7 @@ namespace
 void CameraMove::UpdateCameraTarget(Vector3 currentHomePos)
 {
 	Quaternion rotY;
-	rotY.SetRotationDegY(g_pad[0]->GetRStickXF() * 1.2f);
+	rotY.SetRotationDegY(g_pad[0]->GetRStickXF() * 2.0f);
 	g_camera3D->RotateOriginTarget(rotY);
 
 	//プレイヤーからカメラへのベクトルを求める
@@ -17,7 +17,7 @@ void CameraMove::UpdateCameraTarget(Vector3 currentHomePos)
 
 	//Y軸周りの回転
 	Quaternion qRot;
-	qRot.SetRotationDeg(Vector3::AxisY, g_pad[0]->GetRStickXF() * 1.2f);
+	qRot.SetRotationDeg(Vector3::AxisY, g_pad[0]->GetRStickXF() * 2.0f);
 	//ベクトルにY軸における回転を与える。
 	qRot.Apply(playerPosToCamera);
 
@@ -31,7 +31,7 @@ void CameraMove::UpdateCameraTarget(Vector3 currentHomePos)
 	axisX.Cross(Vector3::AxisY, playerPosToCamera);
 	axisX.Normalize();
 	//X軸周りに回転させる。
-	qRot.SetRotationDeg(axisX, -g_pad[0]->GetRStickYF() * 1.2f);
+	qRot.SetRotationDeg(axisX, -g_pad[0]->GetRStickYF() * 2.0f);
 	//ベクトルに適用する。
 	qRot.Apply(playerPosToCamera);
 

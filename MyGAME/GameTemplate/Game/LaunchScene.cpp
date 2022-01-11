@@ -76,6 +76,7 @@ bool LaunchScene::Start()
 void LaunchScene::Update()
 {
 	m_delay += GameTime().GetFrameDeltaTime();
+	m_effect->SetIsDash(true);
 	if (m_delay >= 3.0f
 		&& m_delay <= 5.0f)
 	{
@@ -100,8 +101,6 @@ void LaunchScene::Update()
 		if (m_delay > 13.0f)
 		{
 			m_roboPos.z -= 80.0f;
-			//m_roboPos.y += 2.0f;
-			m_effect->SetIsDash(true);
 			m_effect->CalcRotation({ 0.0,0.0,-80.0f });
 
 			if (!m_isFinishedSoundGo)

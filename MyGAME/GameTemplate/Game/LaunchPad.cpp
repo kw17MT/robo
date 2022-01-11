@@ -15,9 +15,11 @@ LaunchPad::~LaunchPad()
 	{
 		DeleteGO(m_docParts[i]);
 	}
-
-	DeleteGO(m_man[0]);
-	DeleteGO(m_man[1]);
+	for (int i = 0; i < 2; i++)
+	{
+		DeleteGO(m_man[i]);
+		DeleteGO(m_robo[i]);
+	}
 }
 
 bool LaunchPad::Start()

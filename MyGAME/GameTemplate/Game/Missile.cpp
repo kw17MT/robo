@@ -202,7 +202,7 @@ void Missile::Update()
 		m_rot.SetRotation({ 0.0f,0.0f,1.0f }, m_moveDirection);
 		effect.SetPosition(m_position);
 		effect.SetRotation(m_rot);
-		effect.SetScale({ 40.0f,40.0f,120.0f });
+		effect.SetScale({ 20.0f,20.0f,120.0f });
 		effect.Play();
 		effect.Update();
 	}
