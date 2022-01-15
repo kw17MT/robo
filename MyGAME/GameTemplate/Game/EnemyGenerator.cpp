@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "EnemyGenerator.h"
 #include "Enemy.h"
+#include "GameDirector.h"
 
 namespace
 {
@@ -26,7 +27,7 @@ bool EnemyGenerator::Start()
 	for (int i = 0; i < MAX_ENEMY_NUM; i++)
 	{
 		m_enemys.push_back(NewGO<Enemy>(0, "enemy"));
-		Vector3 enemyPos = m_firstEnemyPos;
+		Vector3 enemyPos = m_spawnPoint.GetNorthPosition();
 		//¶¬‚³‚ê‚½”Ô†‚ÅˆÊ’u‚ğ‚¸‚ç‚·
 		enemyPos.x += ENEMY_SPACE * (i + 1);
 		m_enemys.back()->SetPosition(enemyPos);
@@ -52,14 +53,17 @@ void EnemyGenerator::CleanUpArray()
 
 void EnemyGenerator::GenerateEnemy()
 {
-	//“G‚ğÅ‘å”ì¬
-	for (int i = 0; i < MAX_ENEMY_NUM; i++)
+	if (GameDirector::GetInstance().GetGameScene() == enInGame)
 	{
-		m_enemys.push_back(NewGO<Enemy>(0, "enemy"));
-		Vector3 enemyPos = m_firstEnemyPos;
-		//¶¬‚³‚ê‚½”Ô†‚ÅˆÊ’u‚ğ‚¸‚ç‚·
-		enemyPos.x += ENEMY_SPACE * (i + 1);
-		m_enemys.back()->SetPosition(enemyPos);
+		Vector3 enemyPos = m_spawnPoint.DecideSpawnPoint();
+		//“G‚ğÅ‘å”ì¬
+		for (int i = 0; i < MAX_ENEMY_NUM; i++)
+		{
+			m_enemys.push_back(NewGO<Enemy>(0, "enemy"));
+			//¶¬‚³‚ê‚½”Ô†‚ÅˆÊ’u‚ğ‚¸‚ç‚·
+			enemyPos.x += ENEMY_SPACE * (i + 1);
+			m_enemys.back()->SetPosition(enemyPos);
+		}
 	}
 }
 
@@ -75,7 +79,6 @@ void EnemyGenerator::Update()
 			if (AliveEnemyNum == 0)
 			{
 				CleanUpArray();
-				//m_shouldGenerateEnemy = true;
 				GenerateEnemy();
 			}
 		}

@@ -64,8 +64,15 @@ float4 PSMain( PSInput In ) : SV_Target0
 	//UVスクロールの対象の加算する画像テクスチャ
     float4 anotherTexture = additionalTexture.Sample(Sampler, In.uv) / 5.0f;
 	//加算して返す
-	
     albedoColor.xyz += anotherTexture.xyz;
+	
+	//HPの減り具合に応じて色を変化させる。
+	if(barRate >= 0.7f)
+    {
+        albedoColor.x *= (1.0f + barRate);
+        albedoColor.y *= 0.3f;
+        albedoColor.z *= 0.6f;
+    }
 
     return albedoColor;
 }

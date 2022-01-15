@@ -1,5 +1,6 @@
 #pragma once
 class Enemy;
+#include "EnemySpawnPoint.h"
 
 class EnemyGenerator : public IGameObject
 {
@@ -52,5 +53,6 @@ public:
 	void GenerateEnemy();
 private:
 	std::vector<Enemy*> m_enemys = { nullptr };				//敵インスタンス
+	EnemySpawnPoint m_spawnPoint;
 };
 

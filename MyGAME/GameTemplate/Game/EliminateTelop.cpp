@@ -15,7 +15,7 @@ bool EliminateTelop::Start()
 {
 	for (int i = 0; i < 2; i++)
 	{
-		m_sprite[i] = NewGO<SpriteRender>(0);
+		m_sprite[i] = NewGO<SpriteRender>(10);
 		m_sprite[i]->SetPosition(m_position);
 		m_sprite[i]->SetScale(m_scale);
 	}

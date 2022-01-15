@@ -4,6 +4,7 @@
 #include "SkinModelRender.h"
 #include "GameDirector.h"
 #include "SoundSource.h"
+#include "StageManager.h"
 
 #include "Game.h"
 #include "LaunchScene.h"
@@ -31,15 +32,16 @@ Title::~Title()
 bool Title::Start()
 {
 	GameDirector::CreateInstance();
+	GameDirector::GetInstance().SetGameScene(enTitle);
 
 	for (int i = 0; i < enSpriteNum; i++)
 	{
 		m_sprite[i] = NewGO<SpriteRender>(0);
 	}
 
-	m_sprite[enTitle]->Init("Assets/Image/Title/titleRogo.dds", 450, 250);
-	m_sprite[enTitle]->SetPosition({ 400.0f, 220.0f,0.0f });
-	m_sprite[enTitle]->SetSpriteAlpha(0.0f);
+	m_sprite[enTitleRogo]->Init("Assets/Image/Title/titleRogo.dds", 450, 250);
+	m_sprite[enTitleRogo]->SetPosition({ 400.0f, 220.0f,0.0f });
+	m_sprite[enTitleRogo]->SetSpriteAlpha(0.0f);
 	m_sprite[enPlayButton]->Init("Assets/Image/Title/Play.dds", BUTTON_SIZE_X, BUTTON_SIZE_Y, "PSWarningSign");
 	m_sprite[enPlayButton]->SetPosition({ -460.0f, -100.0f,0.0f });
 	m_sprite[enPlayButton]->SetSpriteAlpha(0.0f);
@@ -72,7 +74,8 @@ bool Title::Start()
 	m_bgm->SetVolume(BGM_VOLUME);
 	m_bgm->Play(true);
 	
-
+	//ステージを設定する
+	StageManager::GetInstance().SetStage(en1_1);
 
 	return true;
 }
@@ -115,21 +118,32 @@ void Title::Update()
 		angleY = 0.0f;
 	}
 
-	if (g_pad[0]->IsPress(enButtonA)
-		&& m_enSelectedSpriteType == enPlayButton)
+	if (g_pad[0]->IsPress(enButtonA))
 	{
-		CSoundSource* selectSE = NewGO<CSoundSource>(0);
-		selectSE->Init(L"Assets/sound/decide2.wav", false);
-		selectSE->SetVolume(2.0f);
-		selectSE->Play(false);
+		if (m_enSelectedSpriteType == enPlayButton)
+		{
 
-		CSoundSource* selectSE2 = NewGO<CSoundSource>(0);
-		selectSE2->Init(L"Assets/sound/decide.wav", false);
-		selectSE2->SetVolume(SE_VOLUME / 2.0f);
-		selectSE2->Play(false);
+			CSoundSource* selectSE = NewGO<CSoundSource>(0);
+			selectSE->Init(L"Assets/sound/decide2.wav", false);
+			selectSE->SetVolume(2.0f);
+			selectSE->Play(false);
 
-		DeleteGO(this);
-		NewGO<LaunchScene>(0);
+			CSoundSource* selectSE2 = NewGO<CSoundSource>(0);
+			selectSE2->Init(L"Assets/sound/decide.wav", false);
+			selectSE2->SetVolume(SE_VOLUME / 2.0f);
+			selectSE2->Play(false);
+
+			DeleteGO(this);
+			NewGO<LaunchScene>(0);
+		}
+		else if (m_enSelectedSpriteType == enHowToButton)
+		{
+
+		}
+		else if (m_enSelectedSpriteType == enExitButton)
+		{
+			GameDirector::GetInstance().SetGameScene(enExit);
+		}
 	}
 
 	if (g_pad[0]->IsTrigger(enButtonUp))

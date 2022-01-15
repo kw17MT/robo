@@ -1,5 +1,6 @@
 #pragma once
 class SpriteRender;
+class Effect;
 
 enum EnAreaTypes
 {
@@ -25,5 +26,6 @@ public:
 	EnAreaTypes GetAreaType() { return m_areaType; }
 private:
 	SpriteRender* m_spriteRender = nullptr;
+	Effect* m_effect = nullptr;
 };
 

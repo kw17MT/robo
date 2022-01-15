@@ -8,6 +8,7 @@
 #include "EnemyBrain.h"
 #include "EnemyMachinGun.h"
 #include "SoundSource.h"
+#include "ObjectiveEnemyNum.h"
 
 namespace
 {
@@ -21,9 +22,15 @@ Enemy::~Enemy()
 	explodeSE->SetVolume(SE_VOLUME);
 	explodeSE->Play(false);
 
+	ObjectiveEnemyNum* objEne = FindGO<ObjectiveEnemyNum>("objective");
+	if (objEne != nullptr)
+	{
+		objEne->AddKilledEnemyNum();
+	}
+
 	Effect effect;
 	effect.Init(u"Assets/effect/explosion2.efk");
-	effect.SetScale({ 100.0f,100.0f,100.0f });
+	effect.SetScale({ 200.0f,200.0f,200.0f });
 	effect.SetPosition(m_position);
 	effect.Play();
 	effect.Update();
@@ -75,6 +82,13 @@ bool Enemy::Start()
 	m_enemyBrain.SetMoveSpeed(moveSpeed);
 
 	m_machinGun = NewGO<EnemyMachinGun>(0);
+
+	Effect effect;
+	effect.Init(u"Assets/effect/popEnemy.efk");
+	effect.SetScale({ 300.0f,300.0f,300.0f });
+	effect.SetPosition(m_position);
+	effect.Play();
+	effect.Update();
 
 	//ƒ‚ƒfƒ‹‚ÌˆÊ’u‚ðÝ’è
 	m_skinModelRender->SetPosition(m_position);

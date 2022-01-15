@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PlayerEN.h"
 #include "SpriteRender.h"
+#include "SoundSource.h"
 
 namespace
 {
@@ -37,7 +38,16 @@ void PlayerEN::Update()
 			if (m_playerEN <= 0.0f)
 			{
 				m_playerEN = 0.0f;
+				//エネルギーがない
+				m_isPlayerEnRemain = false;
+
+				CSoundSource* downSE = NewGO<CSoundSource>(0);
+				downSE->Init(L"Assets/sound/EnDown.wav", false);
+				downSE->SetVolume(0.5f);
+				downSE->Play(false);
 			}
+
+			m_blinkingTime = 0.0f;
 		}
 		//一度すべてのENを使い切っているならば（オーバーヒート中）
 		else
@@ -55,19 +65,12 @@ void PlayerEN::Update()
 	{
 		//定数ずつ回復
 		m_playerEN += 0.5f;
-		if (m_playerEN >= 100.0f)
+		if (m_playerEN >= MAX_EN)
 		{
-			m_playerEN = 100.0f;
+			m_playerEN = MAX_EN;
 		}
 	}
 
-	//エネルギーをすべて使い切ったら
-	if (m_playerEN <= 0.0f)
-	{
-		m_playerEN = 0.0f;
-		//エネルギーがない
-		m_isPlayerEnRemain = false;
-	}
 	//回復しきったら
 	if (m_playerEN >= MAX_EN)
 	{
@@ -77,4 +80,22 @@ void PlayerEN::Update()
 
 	//エネルギーの残量に従って画像の大きさを設定する。
 	m_spriteRender->SetSpriteSizeRate(1.0f - m_playerEN / MAX_EN);
+
+	//ENがなくなってオーバーヒートしている時
+	if (!m_isPlayerEnRemain)
+	{
+		//点滅する時間をデルタタイムで増やす
+		m_blinkingTime += GameTime().GetFrameDeltaTime();
+		if (m_blinkingTime >= 0.4f)
+		{
+			//元に戻す
+			m_blinkingTime = 0.0f;
+		}
+		//ENゲージがついて消えたら（1サイクルしたら）
+		if (m_blinkingTime >= 0.2f)
+		{
+			//点滅させるためにゲージを全部表示させないようにする
+			m_spriteRender->SetSpriteSizeRate(1.0f);
+		}
+	}
 }

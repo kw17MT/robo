@@ -10,13 +10,15 @@
 #include "LaunchPad.h"
 #include "SoundSource.h"
 #include "EliminateTelop.h"
+#include "ObjectiveEnemyNum.h"
+#include "Title.h"
 
 #include "GameDirector.h"
 #include "CaptureStateManager.h"
 
 namespace
 {
-	const float BGM_VOLUME = 0.5f;
+
 }
 
 Game::~Game()
@@ -35,6 +37,8 @@ Game::~Game()
 	DeleteGO(m_sun); m_sun = nullptr;
 	//レーダーインスタンス削除
 	DeleteGO(m_rader); m_rader = nullptr;
+	DeleteGO(m_objectiveEnemyNum);
+	DeleteGO(m_bgm);
 
 	//フラグ管理インスタンス削除
 	CaptureStateManager::DeleteInstance();
@@ -58,12 +62,16 @@ bool Game::Start()
 	m_eliminateTelop = NewGO<EliminateTelop>(0);
 	//敵生成器作成
 	m_enemyGenerator = NewGO<EnemyGenerator>(0);
+	//残り敵数を表示する
+	m_objectiveEnemyNum = NewGO<ObjectiveEnemyNum>(0, "objective");
+	m_objectiveEnemyNum->SetObjectiveNum(10);
 	//BGM作成
 	m_bgm = NewGO<CSoundSource>(0);
 	m_bgm->Init(L"Assets/sound/bgm1.wav", false);
-	m_bgm->SetVolume(BGM_VOLUME);
+	m_bgm->SetVolume(m_bgmVolume);
 	m_bgm->Play(true);
 
+	GameDirector::GetInstance().SetGameScene(enInGame);
 	//ステートマネージャーの作成
 	CaptureStateManager::CreateInstance();
 
@@ -80,6 +88,33 @@ void Game::Update()
 	for (int i = 0; i < m_enemyGenerator->GetEnemyNum(); i++)
 	{
 		m_rader->SaveEnemyPos(i, m_enemyGenerator->GetEnemyPos(i));
+	}
+
+	if (GameDirector::GetInstance().GetGameScene() == enGameClear)
+	{
+		m_colapsedTimeAfterClear += GameTime().GetFrameDeltaTime();
+
+		m_bgmVolume -= 0.01f;
+		if (m_bgmVolume < 0.0f)
+		{
+			m_bgmVolume = 0.0f;
+		}
+		m_bgm->SetVolume(m_bgmVolume);
+
+		if (!m_isSoundClear)
+		{
+			CSoundSource* clearSE = NewGO<CSoundSource>(0);
+			clearSE->Init(L"Assets/sound/clear.wav", false);
+			clearSE->SetVolume(1.0f);
+			clearSE->Play(false);
+			m_isSoundClear = true;
+		}
+
+		if (m_colapsedTimeAfterClear >= 24.0f)
+		{
+			Title* title = NewGO<Title>(0);
+			DeleteGO(this);
+		}
 	}
 
 	if (g_pad[0]->IsPress(enButtonSelect))

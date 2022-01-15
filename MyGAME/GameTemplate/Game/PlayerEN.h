@@ -8,6 +8,7 @@ private:
 
 	float m_playerEN = 100.0f;									//プレイヤーの最大エネルギー
 	bool m_isPlayerEnRemain = true;								//プレイヤーのエネルギーは残っているか
+	float m_blinkingTime = 0.0f;
 public:
 	/**
 	 * @brief コンストラクタ

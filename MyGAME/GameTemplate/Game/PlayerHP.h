@@ -15,7 +15,9 @@ private:
 	Vector3 m_screenPos = { 0.0f, -300.0f, 0.0f };			//固定位置
 
 	float m_playerHp = 100.0f;								//プレイヤーの初期HP
+	float m_hpSize = m_playerHp;
 	bool m_isPlayerAlive = true;							//プレイヤーは生きているか
+	bool m_isSoundBuzzer = false;
 public:
 	/**
 	 * @brief コンストラクタ

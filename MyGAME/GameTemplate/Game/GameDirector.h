@@ -3,8 +3,11 @@
 enum EnGameScene
 {
 	enTitle,
+	enExit,
 	enLaunchingPlayer,
-	enInGame
+	enInGame,
+	enGameClear,
+	enToTitle
 };
 
 class GameDirector

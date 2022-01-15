@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "RestrictArea.h"
 #include "SpriteRender.h"
+#include "effect/Effect.h"
 
 extern float CalcMethods::CalcDistance(Vector3 v1, Vector3 v2);
 
@@ -15,6 +16,12 @@ bool RestrictArea::Start()
 	m_spriteRender->Init("Assets/Image/warning/AreaWarn1.dds", 250, 150, "PSWarningSign");
 	m_spriteRender->SetScale(m_scale);
 	m_spriteRender->SetPosition({ 0.0f,200.0f,0.0f });
+
+	m_effect = NewGO<Effect>(0);
+	m_effect->Init(u"Assets/effect/burst_red.efk");
+	m_effect->SetScale({ 10000.0f,10000.0f,100.0f });
+	m_effect->Update();
+	//m_effect->Play(false);
 
 	return true;
 }
@@ -34,6 +41,7 @@ void RestrictArea::JudgeInArea(Vector3 playerPos)
 	{
 		m_areaType = enSemiDangerArea;
 		m_scale = Vector3::One;
+		m_effect->Play(false);
 	}
 	else
 	{

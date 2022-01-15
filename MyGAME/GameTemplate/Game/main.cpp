@@ -14,12 +14,13 @@
 #include "Game.h"
 
 #include "Title.h"
+#include "GameDirector.h"
 
 // ウィンドウプログラムのメイン関数。
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
 	//ゲームの初期化。
-	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, TEXT("Game"));
+	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, TEXT("SkySentinel"));
 
 	//////////////////////////////////////
 	// ここから初期化を行うコードを記述する。
@@ -42,8 +43,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ゲームタイムを測るもの
 	CStopwatch stopWatch;
 
-	/*Title* title;
-	title = NewGO<Title>(0);*/
+	//Title* title;
+	//title = NewGO<Title>(0);
 	Game* a = NewGO<Game>(0);
 
 	g_camera3D->SetPosition({ 0.0f, 0.0f, 3000.0f });
@@ -99,6 +100,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
 	{
+		if (GameDirector::GetInstance().GetGameScene() == enExit)
+		{
+			break;
+		}
 		//レンダリング開始。
 		g_engine->BeginFrame();
 		//////////////////////////////////////

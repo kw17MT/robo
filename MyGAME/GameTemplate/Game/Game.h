@@ -9,11 +9,15 @@ class Rader;
 class LaunchPad;
 class SCoundSource;
 class EliminateTelop;
+class ObjectiveEnemyNum;
 
 class Game : public IGameObject
 {
 private:
-	bool m_isCreateAllObject = false;
+	int m_killedEnemyNum = 0;
+	bool m_isSoundClear = false;
+	float m_colapsedTimeAfterClear = 0.0f;
+	float m_bgmVolume = 0.5f;
 public:
 	/**
 	 * @brief コンストラクタ
@@ -46,5 +50,6 @@ private:
 	LaunchPad* m_launchPad = nullptr;
 	CSoundSource* m_bgm = nullptr;
 	EliminateTelop* m_eliminateTelop = nullptr;
+	ObjectiveEnemyNum* m_objectiveEnemyNum = nullptr;
 };
 

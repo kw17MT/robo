@@ -14,7 +14,7 @@ extern void CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);
 
 namespace
 {
-	const float FAR_DISTANCE = 80000.0f;					//ロックオン可能な距離。四角の画像を出すタイミングの距離
+	const float FAR_DISTANCE = 15000.0f;					//ロックオン可能な距離。四角の画像を出すタイミングの距離
 	const Vector3 SHRINK_RATE = { 0.1f,0.1f,0.1f };			//捕捉レティクルの収縮率
 	const Vector3 APPEAR_RATE = { 2.0f,2.0f,2.0f };			//捕捉レティクルの初期拡大率
 	const float CAPTURE_HEIGHT = 80.0f;						//捕捉できる画面上の高さ

@@ -8,7 +8,7 @@ class Title : public IGameObject
 private:
 	enum EnSpriteTypes
 	{
-		enTitle,
+		enTitleRogo,
 		enPlayButton,
 		enHowToButton,
 		enExitButton,
