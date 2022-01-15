@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "PlayerMove.h"
+#include "SoundSource.h"
 
 namespace 
 {
@@ -16,6 +17,20 @@ const void PlayerMove::Dash()
 		if (m_canDash) {
 			//ダッシュしている状態にする
 			m_isDash = true;
+			if (!m_isSoundDash)
+			{
+				CSoundSource* dashSE = NewGO<CSoundSource>(0);
+				dashSE->Init(L"Assets/sound/dash.wav", false);
+				dashSE->SetVolume(1.0f);
+				dashSE->Play(false);
+
+				CSoundSource* dashKeepSE = NewGO<CSoundSource>(0, "dashKeep");
+				dashKeepSE->Init(L"Assets/sound/dashKeep.wav", false);
+				dashKeepSE->SetVolume(1.0f);
+				dashKeepSE->Play(false);
+
+				m_isSoundDash = true;
+			}
 
 			//以前のダッシュのスピードを消して計算しなおし
 			m_dashSpeed = Vector3::Zero;
@@ -44,6 +59,15 @@ const void PlayerMove::Dash()
 		{
 			m_isDash = false;			
 			m_isDecayDash = false;
+		}
+	}
+	else
+	{
+		m_isSoundDash = false;
+		CSoundSource* keepSE = FindGO<CSoundSource>("dashKeep");
+		if (keepSE != nullptr)
+		{
+			DeleteGO(keepSE);
 		}
 	}
 	

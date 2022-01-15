@@ -74,6 +74,13 @@ void PlayerEN::Update()
 	//‰ñ•œ‚µ‚«‚Á‚½‚ç
 	if (m_playerEN >= MAX_EN)
 	{
+		if (!m_isPlayerEnRemain)
+		{
+			CSoundSource* chargedSE = NewGO<CSoundSource>(0);
+			chargedSE->Init(L"Assets/sound/EnCharged.wav", false);
+			chargedSE->SetVolume(0.5f);
+			chargedSE->Play(false);
+		}
 		//ƒGƒlƒ‹ƒM[‚ª‚ ‚é
 		m_isPlayerEnRemain = true;
 	}

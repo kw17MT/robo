@@ -150,6 +150,4 @@ void Player::Update()
 		m_deathType = enAwayFromArea;
 		m_cameraMove.SetIsDeadCamera(true);
 	}
-
-	
 }

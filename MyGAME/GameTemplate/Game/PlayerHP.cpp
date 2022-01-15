@@ -12,6 +12,7 @@ namespace
 	const float MAX_HP = 100.0f;				//最大HP 
 	const float FONT_SIZE = 0.5f;				//文字サイズ
 	const float DECREASE_RATE = 3.0f;
+	const float SE_VOLUME = 0.4f;
 }
 
 PlayerHP::~PlayerHP()
@@ -40,6 +41,8 @@ void PlayerHP::ApplyDamage(EnPlayerDamageTypes enemyDamageType)
 		m_playerHp -= RASER_DAMAGE;
 		break;
 	}
+
+	SoundDamagedSE(rand() % 2);
 }
 
 bool PlayerHP::Start()
@@ -59,6 +62,24 @@ bool PlayerHP::Start()
 	////位置設定
 	//m_fontRender->SetPosition({ m_screenPos.x, m_screenPos.y });
 	return true;
+}
+
+void PlayerHP::SoundDamagedSE(int soundNo)
+{
+	CSoundSource* damaged = NewGO<CSoundSource>(0);
+	switch (soundNo)
+	{
+	case 0:
+		damaged->Init(L"Assets/sound/damaged.wav", false);
+
+		break;
+	case 1:
+		damaged->Init(L"Assets/sound/damaged1.wav", false);
+
+		break;
+	}
+	damaged->SetVolume(SE_VOLUME);
+	damaged->Play(false);
 }
 
 void PlayerHP::Update()
@@ -101,7 +122,4 @@ void PlayerHP::Update()
 		m_isSoundBuzzer = true;
 	}
 	m_spriteRender->SetSpriteSizeRate(HpSize);
-
-	//残りHP量に従って画像の大きさを変更する
-	//m_spriteRender->SetSpriteSizeRate(1.0f - m_playerHp / MAX_HP);
 }

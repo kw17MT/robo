@@ -19,6 +19,7 @@ private:
 	Vector3 m_prevPlusSpeed = Vector3::Zero;
 
 	float m_afterDeathTime = 0.0f;
+	bool m_isSoundDash = false;
 public:
 	/**
 	 * @brief R1ボタン入力によるダッシュスピードの計算関数

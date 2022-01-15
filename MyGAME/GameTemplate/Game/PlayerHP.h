@@ -18,6 +18,8 @@ private:
 	float m_hpSize = m_playerHp;
 	bool m_isPlayerAlive = true;							//プレイヤーは生きているか
 	bool m_isSoundBuzzer = false;
+	bool m_isSoundDamagedSE1 = false;
+	bool m_isSoundDamagedSE2 = false;
 public:
 	/**
 	 * @brief コンストラクタ
@@ -56,8 +58,10 @@ public:
 	 * @brief プレイヤーのHPを一気に減らす
 	*/
 	void SetHPZero() { m_playerHp = 0.0f; }
+
+	void SoundDamagedSE(int soundNo);
 private:
 	SpriteRender* m_spriteRender = nullptr;				//HP表示用画像
-	FontRender* m_fontRender = nullptr;					//HP表示用文字
+	//FontRender* m_fontRender = nullptr;					//HP表示用文字
 };
 
