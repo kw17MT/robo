@@ -86,6 +86,17 @@ void Player::Update()
 	//プレイヤーのHPがなく、倒されていたら
 	if (m_playerHp->GetIsPlayerAlive() == false)
 	{
+		m_playerEffect->SetBothBoosterPos(
+			m_skinModelRender->GetBonePosition(L"BoosterR") + m_roboMove.GetMoveSpeed(),
+			m_skinModelRender->GetBonePosition(L"BoosterL") + m_roboMove.GetMoveSpeed()
+		);
+		m_playerEffect->SetBothShoulderPos(
+			m_skinModelRender->GetBonePosition(L"Bone044") + m_roboMove.GetMoveSpeed(),
+			m_skinModelRender->GetBonePosition(L"Bone024") + m_roboMove.GetMoveSpeed()
+		);
+
+		GameDirector::GetInstance().SetGameScene(enGameOver);
+
 		if (m_deathType == enAwayFromArea)
 		{
 			//一度だけ、エリア外に出た場所の斜め上にセットする
@@ -93,7 +104,9 @@ void Player::Update()
 			//倒れた瞬間の1フレーム前の移動速度を用いて、そのまま移動させながら落ちる
 			m_currentPosition = m_roboMove.DeadMove(m_currentPosition);
 			m_skinModelRender->SetPosition(m_currentPosition);
-			m_machingun->SetPosition(m_skinModelRender->GetBonePosition(L"Bone046"),m_currentPosition);
+			m_machingun->SetPosition(m_skinModelRender->GetBonePosition(L"Bone046"),
+				m_currentPosition,
+				m_skinModelRender->GetBonePosition(L"Bone046") - m_skinModelRender->GetBonePosition(L"Bone045"));
 			return;
 		}
 		else
@@ -102,7 +115,14 @@ void Player::Update()
 			m_cameraMove.SetIsDeadCamera(true);
 			//倒された時、俯瞰気味でロボを見る
 			m_cameraMove.SetDeadCamera(m_roboMove.GetMoveSpeed());
-			m_machingun->SetPosition(m_skinModelRender->GetBonePosition(L"Bone046"), m_currentPosition);
+
+			m_currentPosition = m_roboMove.DeadMove(m_currentPosition);
+			m_skinModelRender->SetPosition(m_currentPosition);
+			g_camera3D->SetTarget(m_currentPosition);
+
+			m_machingun->SetPosition(m_skinModelRender->GetBonePosition(L"Bone046"),
+				m_currentPosition,
+				m_skinModelRender->GetBonePosition(L"Bone046") - m_skinModelRender->GetBonePosition(L"Bone045"));
 			m_playerEffect->SetIsDied(true);
 			return;
 		}
@@ -124,7 +144,9 @@ void Player::Update()
 	m_prevHomePosition = m_currentHomePosition;
 
 	//プレイヤーの手の位置にマシンガンをセット
-	m_machingun->SetPosition(m_skinModelRender->GetBonePosition(L"Bone046") + m_roboMove.GetMoveSpeed(), m_currentPosition);
+	m_machingun->SetPosition(m_skinModelRender->GetBonePosition(L"Bone046") + m_roboMove.GetMoveSpeed(),
+		m_currentPosition,
+		m_skinModelRender->GetBonePosition(L"Bone046") - m_skinModelRender->GetBonePosition(L"Bone045"));
 	//マシンガンにターゲット位置とプレイヤーの現在の位置を与える
 	if (m_reticle->GetIsTargeted()) {
 		m_machingun->SetTargetPos(m_reticle->GetTargetingEnemyPos());

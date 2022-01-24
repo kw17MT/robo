@@ -62,10 +62,12 @@ public:
 	void Update();
 
 	/**
-	 * @brief プレイヤーの現在位置を取得する
+	 * @brief プレイヤーの現在のホームポジションを取得する
 	 * @return プレイヤーの現在位置
 	*/
-	Vector3 GetPosition() { return m_currentHomePosition; }
+	Vector3 GetHomePosition() { return m_currentHomePosition; }
+
+	Vector3 GetRoboPosition() { return m_currentPosition; }
 
 	void TakenDamage(EnPlayerDamageTypes damageType);
 

@@ -11,6 +11,8 @@ private:
 	Vector3 m_position = Vector3::Zero;			//マシンガンの位置
 	Vector3 m_targetPos = Vector3::Zero;		//着弾させるターゲット座標
 	Vector3 m_playerPos = Vector3::Zero;
+	Vector3 m_armDirection = Vector3::Zero;
+	Quaternion m_qRot = Quaternion::Identity;
 	int m_remaining_bullet = 100;
 	float m_shootDelay = 0.15f;
 public:
@@ -45,10 +47,11 @@ public:
 		m_targetPos = targetPos;
 	}
 
-	void SetPosition(Vector3 handPos, Vector3 playerPos)
+	void SetPosition(Vector3 handPos, Vector3 playerPos, Vector3 armDirection)
 	{
 		m_position = handPos;
 		m_playerPos = playerPos;
+		m_armDirection = armDirection;
 	}
 
 private:

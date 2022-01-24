@@ -400,6 +400,7 @@
     </ClCompile>
     <ClCompile Include="ObjectiveEnemyNum.cpp" />
     <ClCompile Include="EnemySpawnPoint.cpp" />
+    <ClCompile Include="ClearTelop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -827,6 +828,7 @@
     </ClInclude>
     <ClInclude Include="ObjectiveEnemyNum.h" />
     <ClInclude Include="EnemySpawnPoint.h" />
+    <ClInclude Include="ClearTelop.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">

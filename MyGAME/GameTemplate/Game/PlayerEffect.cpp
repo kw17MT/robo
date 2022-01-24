@@ -2,6 +2,7 @@
 #include "PlayerEffect.h"
 #include "effect/Effect.h"
 #include "GameDirector.h"
+#include "SoundSource.h"
 
 namespace
 {
@@ -14,7 +15,6 @@ PlayerEffect::~PlayerEffect()
 	{
 		DeleteGO(m_effects[i]);
 	}
-	DeleteGO(m_dieEffect);
 }
 
 bool PlayerEffect::Start()
@@ -41,12 +41,6 @@ bool PlayerEffect::Start()
 	m_effects[3]->Init(u"Assets/effect/boost2.efk");
 	m_effects[3]->SetRotation(m_boosterEffectRot);
 	m_effects[3]->SetScale(m_boosterScale);
-
-	m_dieEffect = NewGO<Effect>(0);
-	m_dieEffect->Init(u"Assets/effect/explosion2.efk");
-	m_dieEffect->SetScale({ 100.0f,100.0f,100.0f });
-
-
 	return true;
 }
 
@@ -106,11 +100,59 @@ void PlayerEffect::Update()
 
 	if (m_isPlayerDied)
 	{
-		m_dieEffect->Play();
-		m_dieEffect->Update();
-		m_dieEffect->SetPosition(m_boosterLeftPos);
-	}
+		m_timeFromDeath += GameTime().GetFrameDeltaTime();
+		if (!m_isExplodeNear)
+		{
+			CSoundSource* explodeNear = NewGO<CSoundSource>(0);
+			explodeNear->Init(L"Assets/sound/roboExplodeNear.wav", false);
+			explodeNear->SetVolume(1.0f);
+			explodeNear->Play(false);
 
+			Effect* explode = NewGO<Effect>(0);
+			explode->Init(u"Assets/effect/roboExplode.efk");
+			explode->SetPosition(m_boosterLeftPos);
+			explode->SetScale({ 100.0f,100.0f,100.0f });
+			explode->Play(false);
+
+			Effect* dieEffect = NewGO<Effect>(0);
+			dieEffect->Init(u"Assets/effect/explosion2.efk");
+			dieEffect->SetScale({ 100.0f,100.0f,100.0f });
+			dieEffect->Play();
+			dieEffect->Update();
+			dieEffect->SetPosition(m_boosterLeftPos);
+			m_isExplodeNear = true;
+		}
+
+		if (m_timeFromDeath > 15.0f)
+		{
+			if (!m_isExplodeFar)
+			{
+				CSoundSource* explodeFar = NewGO<CSoundSource>(0);
+				explodeFar->Init(L"Assets/sound/roboExplodeFar.wav", false);
+				explodeFar->SetVolume(1.0f);
+				explodeFar->Play(false);
+
+				Effect* explode = NewGO<Effect>(0);
+				explode->Init(u"Assets/effect/roboExplode.efk");
+				explode->SetPosition(m_boosterLeftPos);
+				explode->SetScale({ 100.0f,100.0f,100.0f });
+				explode->Play(false);
+
+				m_isExplodeFar = true;
+			}
+
+			if (m_timeFromDeath > 16.5f)
+			{
+				CSoundSource* explodeFar = NewGO<CSoundSource>(0);
+				explodeFar->Init(L"Assets/sound/GameOver.wav", false);
+				explodeFar->SetVolume(1.0f);
+				explodeFar->Play(false);
+
+				m_timeFromDeath = 0.0f;
+			}
+		}
+
+	}
 
 	for (int i = 0; i < EFFECT_NUM; i++)
 	{

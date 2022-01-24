@@ -20,7 +20,10 @@ private:
 	int m_effectTimer = 0;
 	bool m_isDash = false;
 	bool m_isPlayerDied = false;
+	bool m_isExplodeNear = false;
+	bool m_isExplodeFar = false;
 	float m_playerMoveSpeed = 0.0f;
+	float m_timeFromDeath = 0.0f;
 public:
 	PlayerEffect() {}
 	~PlayerEffect();
@@ -46,6 +49,5 @@ public:
 	void SetIsDied(bool isDied) { m_isPlayerDied = isDied; }
 private:
 	Effect* m_effects[EFFECT_NUM] = { nullptr };
-	Effect* m_dieEffect = nullptr;
 };
 

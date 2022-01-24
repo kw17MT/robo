@@ -80,6 +80,15 @@ void MachinGun::Update()
 		m_remaining_bullet = MAX_AMMO;
 	}
 
+	m_armDirection.Normalize();
+	m_qRot.SetRotation({ -1.0f,0.0f,0.0f }, m_armDirection);
+
+	Quaternion rotBasedY;
+	rotBasedY.SetRotation({ -1.0f,0.0f,0.0f }, g_camera3D->GetForward());
+	m_qRot.Apply(rotBasedY);
+
+	m_position += m_armDirection * 20.0f;
 	//モデルの位置を更新する
 	m_skinModelRender->SetPosition(m_position);
+	m_skinModelRender->SetRotation(m_qRot);
 }

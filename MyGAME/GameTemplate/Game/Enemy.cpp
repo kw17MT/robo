@@ -17,10 +17,13 @@ namespace
 
 Enemy::~Enemy()
 {
-	CSoundSource* explodeSE = NewGO<CSoundSource>(0);
-	explodeSE->Init(L"Assets/sound/explode.wav", false);
-	explodeSE->SetVolume(SE_VOLUME);
-	explodeSE->Play(false);
+	if (m_enemyHP->IsEnemyDead())
+	{
+		CSoundSource* explodeSE = NewGO<CSoundSource>(0);
+		explodeSE->Init(L"Assets/sound/explode.wav", false);
+		explodeSE->SetVolume(SE_VOLUME);
+		explodeSE->Play(false);
+	}
 
 	ObjectiveEnemyNum* objEne = FindGO<ObjectiveEnemyNum>("objective");
 	if (objEne != nullptr)
@@ -98,7 +101,7 @@ bool Enemy::Start()
 void Enemy::Update()
 {
 	// 座標関係 //////////////////////////////////////////////////////////////////////////////////////
-	m_enemyBrain.MemoryPlayerPos(m_player->GetPosition());
+	m_enemyBrain.MemoryPlayerPos(m_player->GetRoboPosition());
 	m_enemyBrain.MemoryEnemyPos(m_position);
 	m_enemyBrain.Work();
 	//計算した次の位置座標を取得
@@ -109,7 +112,7 @@ void Enemy::Update()
 
 	// UI関係 ////////////////////////////////////////////////////////////////////////////////////////
 	//プレイヤーと自分（敵）の距離を計測し、自分にもその情報を保存
-	m_distance = m_displayDistance->CalcDistance(m_position, m_player->GetPosition());
+	m_distance = m_displayDistance->CalcDistance(m_position, m_player->GetRoboPosition());
 	//自分についてくるレティクルに位置座標を与える
 	m_enemyStateIcon->SetEnemyPos(m_position);
 	//プレイヤーと自分の距離を与えてレティクルの状態を更新する。
@@ -125,7 +128,7 @@ void Enemy::Update()
 	m_machinGun->SetPosition(m_position);
 	if (m_enemyBrain.JudgeCanShoot())
 	{
-		m_machinGun->SetTargetPos(m_player->GetPosition());
+		m_machinGun->SetTargetPos(m_player->GetRoboPosition());
 		m_machinGun->SetCanShoot(true);
 	}
 

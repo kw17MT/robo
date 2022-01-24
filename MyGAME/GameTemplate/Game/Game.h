@@ -10,6 +10,7 @@ class LaunchPad;
 class SCoundSource;
 class EliminateTelop;
 class ObjectiveEnemyNum;
+class ClearTelop;
 
 class Game : public IGameObject
 {
@@ -18,6 +19,7 @@ private:
 	bool m_isSoundClear = false;
 	float m_colapsedTimeAfterClear = 0.0f;
 	float m_bgmVolume = 0.5f;
+	bool m_isPopedClearTelop = false;
 public:
 	/**
 	 * @brief コンストラクタ
@@ -51,5 +53,6 @@ private:
 	CSoundSource* m_bgm = nullptr;
 	EliminateTelop* m_eliminateTelop = nullptr;
 	ObjectiveEnemyNum* m_objectiveEnemyNum = nullptr;
+	ClearTelop* m_clear = nullptr;
 };
 

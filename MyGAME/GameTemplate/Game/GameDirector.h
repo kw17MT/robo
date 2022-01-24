@@ -7,6 +7,7 @@ enum EnGameScene
 	enLaunchingPlayer,
 	enInGame,
 	enGameClear,
+	enGameOver,
 	enToTitle
 };
 

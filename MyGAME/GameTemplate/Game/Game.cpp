@@ -12,6 +12,7 @@
 #include "EliminateTelop.h"
 #include "ObjectiveEnemyNum.h"
 #include "Title.h"
+#include "ClearTelop.h"
 
 #include "GameDirector.h"
 #include "CaptureStateManager.h"
@@ -39,7 +40,7 @@ Game::~Game()
 	DeleteGO(m_rader); m_rader = nullptr;
 	DeleteGO(m_objectiveEnemyNum);
 	DeleteGO(m_bgm);
-
+	DeleteGO(m_clear);
 	//フラグ管理インスタンス削除
 	CaptureStateManager::DeleteInstance();
 }
@@ -64,7 +65,8 @@ bool Game::Start()
 	m_enemyGenerator = NewGO<EnemyGenerator>(0);
 	//残り敵数を表示する
 	m_objectiveEnemyNum = NewGO<ObjectiveEnemyNum>(0, "objective");
-	m_objectiveEnemyNum->SetObjectiveNum(10);
+	//ゲームクリアとなる撃破数の設定
+	m_objectiveEnemyNum->SetObjectiveNum(1);
 	//BGM作成
 	m_bgm = NewGO<CSoundSource>(0);
 	m_bgm->Init(L"Assets/sound/bgm1.wav", false);
@@ -81,7 +83,7 @@ bool Game::Start()
 void Game::Update()
 {
 	//レーダーにプレイヤーの位置を与える
-	m_rader->SetPlayerPos(m_player->GetPosition());
+	m_rader->SetPlayerPos(m_player->GetRoboPosition());
 	//レーダーに生成した敵の数
 	m_rader->SetEnemyNum(m_enemyGenerator->GetEnemyNum());
 	//敵の数分その位置座標を保存、更新
@@ -109,12 +111,27 @@ void Game::Update()
 			clearSE->Play(false);
 			m_isSoundClear = true;
 		}
+		if (!m_isPopedClearTelop)
+		{
+			m_clear = NewGO<ClearTelop>(0);
+			m_isPopedClearTelop = true;
+		}
 
 		if (m_colapsedTimeAfterClear >= 24.0f)
 		{
 			Title* title = NewGO<Title>(0);
 			DeleteGO(this);
 		}
+	}
+
+	if (GameDirector::GetInstance().GetGameScene() == enGameOver)
+	{
+		m_bgmVolume -= 0.001f;
+		if (m_bgmVolume < 0.0f)
+		{
+			m_bgmVolume = 0.0f;
+		}
+		m_bgm->SetVolume(m_bgmVolume);
 	}
 
 	if (g_pad[0]->IsPress(enButtonSelect))

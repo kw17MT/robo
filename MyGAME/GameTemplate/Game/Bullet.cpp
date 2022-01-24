@@ -67,7 +67,7 @@ void Bullet::BehaveChangedByOwner()
 		//更新した位置座標とすべての敵との距離を求める
 		QueryGOs<Player>("player", [&](Player* player) {
 			//敵と弾の距離を計算する。
-			Vector3 diff = player->GetPosition() - m_position;
+			Vector3 diff = player->GetRoboPosition() - m_position;
 			if (diff.Length() < 200.0f) {
 				//マシンガンの弾からダメージを受けたことを知らせる
 				player->TakenDamage(enEnemyBullet);
