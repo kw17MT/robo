@@ -3,6 +3,8 @@ class SpriteRender;
 class SkinModelRender;
 #include "CameraShake.h"
 class SoundSource;
+class Fade;
+
 class Title : public IGameObject
 {
 private:
@@ -30,5 +32,6 @@ public:
 	SkinModelRender* m_bunker = nullptr;
 	CameraShake m_cameraShake;
 	CSoundSource* m_bgm = nullptr;
+	Fade* m_fade = nullptr;
 };
 

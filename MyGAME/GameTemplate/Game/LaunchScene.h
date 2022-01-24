@@ -5,6 +5,7 @@ class SkinModelRender;
 class PlayerEffect;
 class Sun;
 class LaunchPad;
+class Fade;
 
 class LaunchScene : public IGameObject
 {
@@ -28,5 +29,6 @@ private:
 	PlayerEffect* m_effect;
 	Sun* m_sun = nullptr;
 	SkinModelRender* m_lamp[8] = { nullptr };
+	Fade* m_fade = nullptr;
 };
 

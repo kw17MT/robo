@@ -11,6 +11,7 @@ class SCoundSource;
 class EliminateTelop;
 class ObjectiveEnemyNum;
 class ClearTelop;
+class Fade;
 
 class Game : public IGameObject
 {
@@ -54,5 +55,6 @@ private:
 	EliminateTelop* m_eliminateTelop = nullptr;
 	ObjectiveEnemyNum* m_objectiveEnemyNum = nullptr;
 	ClearTelop* m_clear = nullptr;
+	Fade* m_fade = nullptr;
 };
 

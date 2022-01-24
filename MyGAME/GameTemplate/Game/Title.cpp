@@ -5,7 +5,7 @@
 #include "GameDirector.h"
 #include "SoundSource.h"
 #include "StageManager.h"
-
+#include "Fade.h"
 #include "Game.h"
 #include "LaunchScene.h"
 
@@ -82,6 +82,17 @@ bool Title::Start()
 
 void Title::Update()
 {
+	if (m_fade != nullptr)
+	{
+		if (m_fade->GetFadePhase() == enWait)
+		{
+			DeleteGO(this);
+			NewGO<LaunchScene>(0);
+			m_fade->SetFadeOut();
+		}
+		return;
+	}
+
 	if (float dir = g_pad[0]->GetRStickXF())
 	{
 		angleX += -0.0007f * dir;
@@ -122,7 +133,6 @@ void Title::Update()
 	{
 		if (m_enSelectedSpriteType == enPlayButton)
 		{
-
 			CSoundSource* selectSE = NewGO<CSoundSource>(0);
 			selectSE->Init(L"Assets/sound/decide2.wav", false);
 			selectSE->SetVolume(2.0f);
@@ -133,8 +143,10 @@ void Title::Update()
 			selectSE2->SetVolume(SE_VOLUME / 2.0f);
 			selectSE2->Play(false);
 
-			DeleteGO(this);
-			NewGO<LaunchScene>(0);
+			m_fade = NewGO<Fade>(0);
+
+			//DeleteGO(this);
+			//NewGO<LaunchScene>(0);
 		}
 		else if (m_enSelectedSpriteType == enHowToButton)
 		{

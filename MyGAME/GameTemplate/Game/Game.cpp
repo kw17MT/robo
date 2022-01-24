@@ -13,7 +13,7 @@
 #include "ObjectiveEnemyNum.h"
 #include "Title.h"
 #include "ClearTelop.h"
-
+#include "Fade.h"
 #include "GameDirector.h"
 #include "CaptureStateManager.h"
 
@@ -119,8 +119,17 @@ void Game::Update()
 
 		if (m_colapsedTimeAfterClear >= 24.0f)
 		{
-			Title* title = NewGO<Title>(0);
-			DeleteGO(this);
+			if (m_fade == nullptr)
+			{
+				m_fade = NewGO<Fade>(0);
+			}
+
+			if (m_fade->GetFadePhase() == enWait)
+			{
+				Title* title = NewGO<Title>(0);
+				DeleteGO(this);
+				m_fade->SetFadeOut();
+			}
 		}
 	}
 

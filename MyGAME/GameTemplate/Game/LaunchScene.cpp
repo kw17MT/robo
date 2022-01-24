@@ -8,6 +8,7 @@
 #include "PlayerEffect.h"
 #include "Sun.h"
 #include "SoundSource.h"
+#include "Fade.h"
 
 namespace
 {
@@ -140,14 +141,32 @@ void LaunchScene::Update()
 
 	if (m_roboPos.z <= -2000.0f)
 	{
+		if (m_fade == nullptr)
+		{
+			m_fade = NewGO<Fade>(0);
+		}
+
+
+
+		//GameDirector::GetInstance().SetGameScene(enInGame);
+		//DeleteGO(this);
+
+		//LightManager::GetInstance().TurnOffSpotLight();
+		////フェードから遷移すること
+		//Game* game = NewGO<Game>(0, "game");
+
+		//発射処理がすべて終わったためゲームを進行させる。
+		//GameDirector::GetInstance().SetGameScene(enInGame);
+	}
+	
+	if (m_fade != nullptr && m_fade->GetFadePhase() == enWait)
+	{
 		GameDirector::GetInstance().SetGameScene(enInGame);
 		DeleteGO(this);
 
 		LightManager::GetInstance().TurnOffSpotLight();
 		//フェードから遷移すること
 		Game* game = NewGO<Game>(0, "game");
-
-		//発射処理がすべて終わったためゲームを進行させる。
-		//GameDirector::GetInstance().SetGameScene(enInGame);
+		m_fade->SetFadeOut();
 	}
 }
