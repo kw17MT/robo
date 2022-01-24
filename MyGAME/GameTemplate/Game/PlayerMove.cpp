@@ -215,7 +215,10 @@ Vector3 PlayerMove::DeadMove(Vector3 currentPos)
 	m_afterDeathTime += GameTime().GetFrameDeltaTime();
 	float dropAmount = 0.5f * m_afterDeathTime * m_afterDeathTime;
 
-
-	currentPos.y -= dropAmount;
+	//プレイヤーのワールド座標を一定以下にしないようにする
+	if (currentPos.y >= -10000.0f)
+	{
+		currentPos.y -= dropAmount;
+	}
 	return currentPos;
 }

@@ -149,6 +149,9 @@ void PlayerEffect::Update()
 				explodeFar->Play(false);
 
 				m_timeFromDeath = 0.0f;
+
+				//最後の爆発を見せたのでシーンをゲームオーバー後にする
+				GameDirector::GetInstance().SetGameScene(enAfterGameOver);
 			}
 		}
 

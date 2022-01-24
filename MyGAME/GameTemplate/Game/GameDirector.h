@@ -8,6 +8,7 @@ enum EnGameScene
 	enInGame,
 	enGameClear,
 	enGameOver,
+	enAfterGameOver,
 	enToTitle
 };
 

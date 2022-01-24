@@ -43,9 +43,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ÉQÅ[ÉÄÉ^ÉCÉÄÇë™ÇÈÇ‡ÇÃ
 	CStopwatch stopWatch;
 
-	Title* title;
-	title = NewGO<Title>(0);
-	//Game* a = NewGO<Game>(0);
+	//Title* title;
+	//title = NewGO<Title>(0);
+	Game* a = NewGO<Game>(0, "game");
 
 	g_camera3D->SetPosition({ 0.0f, 0.0f, 3000.0f });
 	g_camera3D->SetTarget({ 0.0f, 0.0f, 0.0f });

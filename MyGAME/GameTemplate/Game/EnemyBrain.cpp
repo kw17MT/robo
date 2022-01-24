@@ -2,6 +2,7 @@
 #include "EnemyBrain.h"
 
 #include "Calculation.h"
+#include "GameDirector.h"
 
 extern float CalcMethods::CalcDistance(Vector3 v1, Vector3 v2);
 
@@ -32,5 +33,9 @@ void EnemyBrain::Work()
 	m_enemyRotation.SetMoveDirection(m_enemyMove.GetEnemyMoveDireciton(), m_playerPos - m_enemyPos);
 	m_rot = m_enemyRotation.GetCalcedRotation();
 
-	m_canShoot = m_enemyAtack.Execute();
+	//ÉQÅ[ÉÄíÜÇæÇØíeÇèoÇ∑ÇÊÇ§Ç…Ç∑ÇÈ
+	if (GameDirector::GetInstance().GetGameScene() == enInGame)
+	{
+		m_canShoot = m_enemyAtack.Execute();
+	}
 }

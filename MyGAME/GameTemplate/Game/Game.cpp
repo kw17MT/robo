@@ -7,7 +7,6 @@
 #include "UI.h";
 #include "Sun.h"
 #include "Rader.h"
-#include "LaunchPad.h"
 #include "SoundSource.h"
 #include "EliminateTelop.h"
 #include "ObjectiveEnemyNum.h"
@@ -16,6 +15,7 @@
 #include "Fade.h"
 #include "GameDirector.h"
 #include "CaptureStateManager.h"
+#include "AfterGameOverScene.h"
 
 namespace
 {
@@ -38,8 +38,11 @@ Game::~Game()
 	DeleteGO(m_sun); m_sun = nullptr;
 	//レーダーインスタンス削除
 	DeleteGO(m_rader); m_rader = nullptr;
+	//目標撃破数表示インスタンス削除
 	DeleteGO(m_objectiveEnemyNum);
+	//BGMインスタンス削除
 	DeleteGO(m_bgm);
+	//クリア表示インスタンス削除
 	DeleteGO(m_clear);
 	//フラグ管理インスタンス削除
 	CaptureStateManager::DeleteInstance();
@@ -73,6 +76,7 @@ bool Game::Start()
 	m_bgm->SetVolume(m_bgmVolume);
 	m_bgm->Play(true);
 
+	//ゲーム中シーンに遷移する
 	GameDirector::GetInstance().SetGameScene(enInGame);
 	//ステートマネージャーの作成
 	CaptureStateManager::CreateInstance();
@@ -92,59 +96,75 @@ void Game::Update()
 		m_rader->SaveEnemyPos(i, m_enemyGenerator->GetEnemyPos(i));
 	}
 
+	//ゲームクリアシーンの時
 	if (GameDirector::GetInstance().GetGameScene() == enGameClear)
 	{
+		//クリア後の経過時間を測定
 		m_colapsedTimeAfterClear += GameTime().GetFrameDeltaTime();
-
+		//徐々にBGMの大きさを減らす
 		m_bgmVolume -= 0.01f;
+		//0未満にならないようにする
 		if (m_bgmVolume < 0.0f)
 		{
 			m_bgmVolume = 0.0f;
 		}
+		//BGM音量を設定
 		m_bgm->SetVolume(m_bgmVolume);
 
+		//クリアサウンドを鳴らしていなかったら
 		if (!m_isSoundClear)
 		{
+			//クリアサウンドを鳴らす
 			CSoundSource* clearSE = NewGO<CSoundSource>(0);
 			clearSE->Init(L"Assets/sound/clear.wav", false);
 			clearSE->SetVolume(1.0f);
 			clearSE->Play(false);
 			m_isSoundClear = true;
 		}
-		if (!m_isPopedClearTelop)
+		//クリアテロップを出していなかったら
+		if (m_clear == nullptr)
 		{
+			//クリアテロップインスタンスの生成
 			m_clear = NewGO<ClearTelop>(0);
-			m_isPopedClearTelop = true;
 		}
-
+		//クリア後の経過時間が一定以上になれば
 		if (m_colapsedTimeAfterClear >= 24.0f)
 		{
+			//フェードを開始する
 			if (m_fade == nullptr)
 			{
 				m_fade = NewGO<Fade>(0);
 			}
-
+			//フェードの段階が待機状態ならば
 			if (m_fade->GetFadePhase() == enWait)
 			{
+				//タイトル画面を作成
 				Title* title = NewGO<Title>(0);
+				//プレイしたゲームシーンを削除
 				DeleteGO(this);
+				//フェードアウトする命令を出す
 				m_fade->SetFadeOut();
 			}
 		}
 	}
 
+	//ゲームオーバーシーンならば
 	if (GameDirector::GetInstance().GetGameScene() == enGameOver)
 	{
+		//BGM音量を下げていく
 		m_bgmVolume -= 0.001f;
+		//0未満にならないようにする
 		if (m_bgmVolume < 0.0f)
 		{
 			m_bgmVolume = 0.0f;
 		}
+		//BGM音量を設定する
 		m_bgm->SetVolume(m_bgmVolume);
 	}
-
-	if (g_pad[0]->IsPress(enButtonSelect))
+	//ゲームオーバー演出が終わっていたら
+	if(GameDirector::GetInstance().GetGameScene() == enAfterGameOver)
 	{
-		DeleteGO(this);
+		//遷移誘導インスタンスを作成する
+		m_afterGOScene = NewGO<AfterGameOverScene>(0);
 	}
 }

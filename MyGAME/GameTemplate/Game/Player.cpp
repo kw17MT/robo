@@ -172,4 +172,11 @@ void Player::Update()
 		m_deathType = enAwayFromArea;
 		m_cameraMove.SetIsDeadCamera(true);
 	}
+
+	//何らかの形でプレイヤーが死亡していたら
+	if (m_deathType >= 1)
+	{
+		//レティクルだけ削除
+		DeleteGO(m_reticle);
+	}
 }
