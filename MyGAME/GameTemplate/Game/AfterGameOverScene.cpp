@@ -31,12 +31,12 @@ bool AfterGameOverScene::Start()
 		m_sprite[i] = NewGO<SpriteRender>(10);
 	}
 	//Replay画像で初期化
-	m_sprite[enRePlayButton]->Init("Assets/image/Title/Play.dds", 100, 100, "PSWarningSign");
+	m_sprite[enRePlayButton]->Init("Assets/image/GameOver/PlayAgain.dds", 400, 130, "PSWarningSign");
 	//ToTitle画像で初期化
-	m_sprite[enToTitleButton]->Init("Assets/image/Title/Exit.dds", 100, 100, "PSWarningSign");
+	m_sprite[enToTitleButton]->Init("Assets/image/GameOver/ReturnToTitle.dds", 400, 130, "PSWarningSign");
 	//画像の位置を初期化
-	m_sprite[enRePlayButton]->SetPosition(m_position);
-	m_sprite[enToTitleButton]->SetPosition({ 0.0f,100.0f,0.0f });
+	m_sprite[enRePlayButton]->SetPosition({ 0.0f,100.0f,0.0f });
+	m_sprite[enToTitleButton]->SetPosition({ 0.0f,-100.0f,0.0f });
 	
 
 
@@ -46,7 +46,7 @@ bool AfterGameOverScene::Start()
 void AfterGameOverScene::SelectButton()
 {
 	//次のシーンに遷移しないときだけ、ボタン操作できるようにする
-	if (!m_shouldStartNextScene)
+	if (m_canSelectButton)
 	{
 		//上ボタンが押されていて
 		if (g_pad[0]->IsTrigger(enButtonUp))
@@ -137,6 +137,8 @@ void AfterGameOverScene::Update()
 	{
 		//フェードインする
 		m_fade = NewGO<Fade>(0);
+		//ボタンを動かせないようにする
+		m_canSelectButton = false;
 	}
 
 	//フェードインが終わって待機状態ならば

@@ -12,6 +12,7 @@ private:
 	Vector3 m_scale = Vector3::One;
 
 	bool m_shouldStartNextScene = false;
+	bool m_canSelectButton = true;
 	float m_alpha = 0.0f;
 
 	enum EnSelectedSpriteTypes

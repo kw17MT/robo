@@ -13,6 +13,8 @@ namespace
 {
 	const float MAX_MISSILE_SPEED = 150.0f;
 	const float DEPLOY_SPEED = 40.0f;
+	const Vector3 MISSILE_TRACK_EFFECT_SIZE = { 40.0f,40.0f,120.0f };
+	const Vector3 EXPLOSION_EFFECT_SIZE = { 400.0f,400.0f,400.0f };
 }
 
 Missile::~Missile()
@@ -23,7 +25,7 @@ Missile::~Missile()
 	m_rot.SetRotation({ 0.0f,0.0f,1.0f }, m_moveDirection);
 	effect.SetPosition(m_position);
 	effect.SetRotation(m_rot);
-	effect.SetScale({ 400.0f,400.0f,400.0f });
+	effect.SetScale(EXPLOSION_EFFECT_SIZE);
 	effect.Play();
 	effect.Update();
 }
@@ -203,7 +205,7 @@ void Missile::Update()
 		m_rot.SetRotation({ 0.0f,0.0f,1.0f }, m_moveDirection);
 		effect.SetPosition(m_position);
 		effect.SetRotation(m_rot);
-		effect.SetScale({ 40.0f,40.0f,120.0f });
+		effect.SetScale(MISSILE_TRACK_EFFECT_SIZE);
 		effect.Play();
 		effect.Update();
 	}
