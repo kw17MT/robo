@@ -41,7 +41,7 @@ void RestrictArea::JudgeInArea(Vector3 playerPos)
 	{
 		m_areaType = enSemiDangerArea;
 		m_scale = Vector3::One;
-		m_effect->Play(false);
+		//m_effect->Play(false);
 	}
 	else
 	{

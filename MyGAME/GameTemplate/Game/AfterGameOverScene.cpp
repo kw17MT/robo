@@ -6,6 +6,13 @@
 #include "Title.h"
 #include "Fade.h"
 
+namespace
+{
+	const Vector4 BLACK = { 0.0f,0.0f,0.0f,0.0f };
+	const float SE_VOLUME = 0.5f;
+	const float BACKGROUND_DARKNESS = 0.7f;
+}
+
 AfterGameOverScene::~AfterGameOverScene()
 {
 	//選択肢の画像を削除する
@@ -13,6 +20,7 @@ AfterGameOverScene::~AfterGameOverScene()
 	{
 		DeleteGO(m_sprite[i]);
 	}
+	DeleteGO(m_blackSprite);
 }
 
 bool AfterGameOverScene::Start()
@@ -20,7 +28,7 @@ bool AfterGameOverScene::Start()
 	//選択肢の画像分生成
 	for (int i = 0; i < enSpriteNum; i++)
 	{
-		m_sprite[i] = NewGO<SpriteRender>(0);
+		m_sprite[i] = NewGO<SpriteRender>(10);
 	}
 	//Replay画像で初期化
 	m_sprite[enRePlayButton]->Init("Assets/image/Title/Play.dds", 100, 100, "PSWarningSign");
@@ -29,6 +37,8 @@ bool AfterGameOverScene::Start()
 	//画像の位置を初期化
 	m_sprite[enRePlayButton]->SetPosition(m_position);
 	m_sprite[enToTitleButton]->SetPosition({ 0.0f,100.0f,0.0f });
+	
+
 
 	return true;
 }
@@ -56,7 +66,7 @@ void AfterGameOverScene::SelectButton()
 			//セレクトする音を出す
 			CSoundSource* selectSE = NewGO<CSoundSource>(0);
 			selectSE->Init(L"Assets/sound/select.wav", false);
-			selectSE->SetVolume(1.0);
+			selectSE->SetVolume(SE_VOLUME);
 			selectSE->Play(false);
 		}
 		//下ボタンが押されていて
@@ -76,7 +86,7 @@ void AfterGameOverScene::SelectButton()
 			//セレクトする音を出す
 			CSoundSource* selectSE = NewGO<CSoundSource>(0);
 			selectSE->Init(L"Assets/sound/select.wav", false);
-			selectSE->SetVolume(1.0f);
+			selectSE->SetVolume(SE_VOLUME);
 			selectSE->Play(false);
 		}
 	}
@@ -84,6 +94,24 @@ void AfterGameOverScene::SelectButton()
 
 void AfterGameOverScene::Update()
 {
+	if (m_blackSprite == nullptr)
+	{
+		m_blackSprite = NewGO<SpriteRender>(0);
+		m_blackSprite->Init("Assets/image/fade/black.dds", 1280, 720);
+		m_blackSprite->SetColor(BLACK);
+	}
+	else
+	{
+		m_alpha += GameTime().GetFrameDeltaTime();
+		if (m_alpha >= BACKGROUND_DARKNESS)
+		{
+			m_alpha = BACKGROUND_DARKNESS;
+		}
+		Vector4 color = BLACK;
+		color.w = m_alpha;
+		m_blackSprite->SetColor(color);
+	}
+
 	//上下ボタンで画面上ボタンを選択する
 	SelectButton();
 

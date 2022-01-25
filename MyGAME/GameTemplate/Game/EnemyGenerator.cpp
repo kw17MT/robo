@@ -2,6 +2,7 @@
 #include "EnemyGenerator.h"
 #include "Enemy.h"
 #include "GameDirector.h"
+#include "EnemyRepopManager.h"
 
 namespace
 {
@@ -31,6 +32,8 @@ bool EnemyGenerator::Start()
 		enemyPos.x += ENEMY_SPACE * (i + 1);
 		m_enemys.back()->SetPosition(enemyPos);
 	}
+	EnemyRepopManager::GetInstance().SetPopedEnemyNum(MAX_ENEMY_NUM);
+
 	return true;
 }
 
@@ -76,23 +79,30 @@ void EnemyGenerator::GenerateEnemy()
 			enemyPos.x += ENEMY_SPACE * (i + 1);
 			m_enemys.back()->SetPosition(enemyPos);
 		}
+		EnemyRepopManager::GetInstance().SetPopedEnemyNum(MAX_ENEMY_NUM);
 	}
 }
 
 void EnemyGenerator::Update()
 {
-	int AliveEnemyNum = m_enemys.size() - 1;
+	//int AliveEnemyNum = m_enemys.size() - 1;
 
-	for (auto enemy : m_enemys)
+	//for (auto enemy : m_enemys)
+	//{
+	//	if (enemy != nullptr && enemy->IsDead())
+	//	{
+	//		AliveEnemyNum--;
+	//		if (AliveEnemyNum == 0)
+	//		{
+	//			CleanUpArray();
+	//			GenerateEnemy();
+	//		}
+	//	}
+	//}
+
+	if (EnemyRepopManager::GetInstance().ShouldRepopEnemy())
 	{
-		if (enemy != nullptr && enemy->IsDead())
-		{
-			AliveEnemyNum--;
-			if (AliveEnemyNum == 0)
-			{
-				CleanUpArray();
-				GenerateEnemy();
-			}
-		}
+		CleanUpArray();
+		GenerateEnemy();
 	}
 }

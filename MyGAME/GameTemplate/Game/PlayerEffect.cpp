@@ -146,14 +146,15 @@ void PlayerEffect::Update()
 				m_isExplodeFar = true;
 			}
 
-			if (m_timeFromDeath > START_NEXT_SCENE_TIME)
+			if (m_timeFromDeath > START_NEXT_SCENE_TIME
+				&& m_timeFromDeath < START_NEXT_SCENE_TIME + 1)
 			{
 				CSoundSource* explodeFar = NewGO<CSoundSource>(0);
 				explodeFar->Init(L"Assets/sound/GameOver.wav", false);
 				explodeFar->SetVolume(SE_VOLUME);
 				explodeFar->Play(false);
 
-				m_timeFromDeath = 0.0f;
+				m_timeFromDeath += 2.0f;
 
 				//最後の爆発を見せたのでシーンをゲームオーバー後にする
 				GameDirector::GetInstance().SetGameScene(enAfterGameOver);

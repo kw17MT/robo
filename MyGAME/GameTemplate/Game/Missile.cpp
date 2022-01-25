@@ -19,7 +19,7 @@ Missile::~Missile()
 {
 	DeleteGO(m_skinModelRender);
 	Effect effect;
-	effect.Init(u"Assets/effect/aa.efk");
+	effect.Init(u"Assets/effect/enemyTrack3.efk");
 	m_rot.SetRotation({ 0.0f,0.0f,1.0f }, m_moveDirection);
 	effect.SetPosition(m_position);
 	effect.SetRotation(m_rot);
@@ -99,7 +99,8 @@ void Missile::RestrictRotation()
 
 void Missile::Update()
 {
-	if (m_enemy->IsDead())
+	if (m_enemy != nullptr
+		&& m_enemy->IsDead())
 	{
 		m_moveStage = enPassingBy;
 	}
@@ -198,11 +199,11 @@ void Missile::Update()
 	if (m_moveStage != enDeploying)
 	{
 		Effect effect;
-		effect.Init(u"Assets/effect/aa.efk");
+		effect.Init(u"Assets/effect/missileTrack.efk");
 		m_rot.SetRotation({ 0.0f,0.0f,1.0f }, m_moveDirection);
 		effect.SetPosition(m_position);
 		effect.SetRotation(m_rot);
-		effect.SetScale({ 30.0f,30.0f,120.0f });
+		effect.SetScale({ 40.0f,40.0f,120.0f });
 		effect.Play();
 		effect.Update();
 	}

@@ -104,6 +104,9 @@ void Player::Update()
 
 		GameDirector::GetInstance().SetGameScene(enGameOver);
 
+		//レティクルだけ削除
+		DeleteGO(m_reticle);
+
 		if (m_deathType == enAwayFromArea)
 		{
 			//一度だけ、エリア外に出た場所の斜め上にセットする
@@ -180,10 +183,5 @@ void Player::Update()
 		m_cameraMove.SetIsDeadCamera(true);
 	}
 
-	//何らかの形でプレイヤーが死亡していたら
-	if (m_deathType >= 1)
-	{
-		//レティクルだけ削除
-		DeleteGO(m_reticle);
-	}
+
 }

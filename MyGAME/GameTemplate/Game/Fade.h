@@ -19,6 +19,8 @@ class Fade : public IGameObject
 private:
 	EnFadePhase m_fadePhase = enFadeIn;
 	float m_alpha = 0.0f;
+	bool m_stopFadeInProgress = false;
+	float m_stopAlpha = 1.0f;
 public:
 	/**
 	 * @brief コンストラクタ
@@ -42,6 +44,15 @@ public:
 	void Update();
 
 	/**
+	 * @brief 現在のフェードで適用しているアルファ値を取得する
+	 * @return 現在のアルファ値
+	*/
+	float GetFadeAlpha() const
+	{
+		return m_alpha;
+	}
+
+	/**
 	 * @brief 現在のフェードの段階を取得する
 	 * @return 現在のフェードの段階
 	*/
@@ -51,6 +62,12 @@ public:
 	 * @brief フェードアウトするように設定する
 	*/
 	void SetFadeOut() { m_fadePhase = enFadeOut; }
+
+	/**
+	 * @brief フェードを途中で止める
+	 * @param alpha 止めたい画像の濃さ
+	*/
+	void SetStopFadeInProgress(bool isStopInProgress, float alpha = 1.0f);
 private:
 	SpriteRender* m_sprite = nullptr;
 };

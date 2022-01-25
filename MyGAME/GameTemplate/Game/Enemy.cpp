@@ -9,6 +9,7 @@
 #include "EnemyMachinGun.h"
 #include "SoundSource.h"
 #include "ObjectiveEnemyNum.h"
+#include "EnemyRepopManager.h"
 
 namespace
 {
@@ -49,6 +50,7 @@ Enemy::~Enemy()
 
 	//このインスタンスは死亡している
 	this->Dead();
+	EnemyRepopManager::GetInstance().AddKilledEnemyNum();
 
 	DeleteGO(m_skinModelRender);
 	DeleteGO(m_displayDistance);

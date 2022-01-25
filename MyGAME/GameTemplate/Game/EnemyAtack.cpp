@@ -4,7 +4,7 @@
 
 namespace
 {
-	const float SHOOT_TIME = 9.0f;
+	const float SHOOT_TIME = 3.0f;
 }
 
 bool EnemyAtack::Execute()

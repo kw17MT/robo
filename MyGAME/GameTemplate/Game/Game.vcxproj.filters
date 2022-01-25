@@ -398,12 +398,20 @@
     <ClCompile Include="StageManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectiveEnemyNum.cpp" />
-    <ClCompile Include="EnemySpawnPoint.cpp" />
-    <ClCompile Include="ClearTelop.cpp" />
-    <ClCompile Include="AfterGameOverScene.cpp" />
     <ClCompile Include="EnemyRepopManager.cpp">
       <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySpawnPoint.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectiveEnemyNum.cpp">
+      <Filter>UI,Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="ClearTelop.cpp">
+      <Filter>UI,Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="AfterGameOverScene.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -830,12 +838,20 @@
     <ClInclude Include="StageManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectiveEnemyNum.h" />
-    <ClInclude Include="EnemySpawnPoint.h" />
-    <ClInclude Include="ClearTelop.h" />
-    <ClInclude Include="AfterGameOverScene.h" />
     <ClInclude Include="EnemyRepopManager.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawnPoint.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectiveEnemyNum.h">
+      <Filter>UI,Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="ClearTelop.h">
+      <Filter>UI,Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="AfterGameOverScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

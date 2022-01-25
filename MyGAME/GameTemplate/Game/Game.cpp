@@ -54,6 +54,10 @@ Game::~Game()
 
 bool Game::Start()
 {
+	//敵再生成マネージャーの作成
+	EnemyRepopManager::CreateInstance();
+	EnemyRepopManager::GetInstance().ResetParam();
+
 	//プレイヤー生成
 	m_player = NewGO<Player>(0,"player");
 	//スカイキューブマップ作成
@@ -68,12 +72,12 @@ bool Game::Start()
 	m_ui = NewGO<UI>(0);
 	//全滅させよのテロップ
 	m_eliminateTelop = NewGO<EliminateTelop>(0);
-	//敵生成器作成
-	m_enemyGenerator = NewGO<EnemyGenerator>(0);
 	//残り敵数を表示する
 	m_objectiveEnemyNum = NewGO<ObjectiveEnemyNum>(0, "objective");
 	//ゲームクリアとなる撃破数の設定
 	m_objectiveEnemyNum->SetObjectiveNum(OBJECTIVE_NUM);
+	//敵生成器作成
+	m_enemyGenerator = NewGO<EnemyGenerator>(0);
 	//BGM作成
 	m_bgm = NewGO<CSoundSource>(0);
 	m_bgm->Init(L"Assets/sound/bgm1.wav", false);
@@ -84,8 +88,7 @@ bool Game::Start()
 	GameDirector::GetInstance().SetGameScene(enInGame);
 	//ステートマネージャーの作成
 	CaptureStateManager::CreateInstance();
-	//敵再生成マネージャーの作成
-	EnemyRepopManager::CreateInstance();
+
 
 	return true;
 }

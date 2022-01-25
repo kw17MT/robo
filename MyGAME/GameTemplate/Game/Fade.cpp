@@ -12,9 +12,15 @@ Fade::~Fade()
 	DeleteGO(m_sprite);
 }
 
+void Fade::SetStopFadeInProgress(bool isStopInProgress, float alpha)
+{
+	m_stopFadeInProgress = isStopInProgress;
+	m_stopAlpha = alpha;
+}
+
 bool Fade::Start()
 {
-	m_sprite = NewGO<SpriteRender>(0);
+	m_sprite = NewGO<SpriteRender>(10);
 	m_sprite->Init("Assets/image/fade/black.dds", 1280, 720);
 	m_sprite->SetColor(BLACK);
 	m_fadePhase = enFadeIn;
@@ -28,6 +34,15 @@ void Fade::Update()
 	{
 	case enFadeIn:
 		m_alpha += GameTime().GetFrameDeltaTime();
+
+		if (m_stopFadeInProgress)
+		{
+			if (m_alpha > m_stopAlpha)
+			{
+				m_alpha = m_stopAlpha;
+			}
+		}
+
 		if (m_alpha > 1.0f)
 		{
 			m_alpha = 1.0f;

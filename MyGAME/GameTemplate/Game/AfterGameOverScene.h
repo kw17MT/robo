@@ -12,6 +12,7 @@ private:
 	Vector3 m_scale = Vector3::One;
 
 	bool m_shouldStartNextScene = false;
+	float m_alpha = 0.0f;
 
 	enum EnSelectedSpriteTypes
 	{
@@ -50,5 +51,7 @@ public:
 private:
 	SpriteRender* m_sprite[enSpriteNum] = { nullptr };				//画像インスタンス用配列
 	Fade* m_fade = nullptr;											//フェードインスタンス
+
+	SpriteRender* m_blackSprite = nullptr;
 };
 
