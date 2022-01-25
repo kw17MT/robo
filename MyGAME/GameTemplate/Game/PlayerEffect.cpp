@@ -7,6 +7,11 @@
 namespace
 {
 	const Vector3 BOOSTER_EFFECT_SCALE = { 0.4f,0.6f,0.4f };
+	const Vector3 EFFECT_SCALE = { 100.0f,100.0f,100.0f };
+	const float SECOND_EXPLODE_TIME = 15.0f;
+	const float START_NEXT_SCENE_TIME = 16.5f;
+	const float SE_VOLUME = 1.0f;
+	const float FIRST_ADJUST_ROTATION_DEGREE = 90.0f;
 }
 
 PlayerEffect::~PlayerEffect()
@@ -23,7 +28,7 @@ bool PlayerEffect::Start()
 
 	m_effects[0] = NewGO<Effect>(0);
 	m_effects[0]->Init(u"Assets/effect/boost2.efk");
-	m_boosterEffectRot.SetRotationX(90.0f);
+	m_boosterEffectRot.SetRotationX(FIRST_ADJUST_ROTATION_DEGREE);
 	m_effects[0]->SetRotation(m_boosterEffectRot);
 	m_effects[0]->SetScale(m_boosterScale);
 
@@ -105,47 +110,47 @@ void PlayerEffect::Update()
 		{
 			CSoundSource* explodeNear = NewGO<CSoundSource>(0);
 			explodeNear->Init(L"Assets/sound/roboExplodeNear.wav", false);
-			explodeNear->SetVolume(1.0f);
+			explodeNear->SetVolume(SE_VOLUME);
 			explodeNear->Play(false);
 
 			Effect* explode = NewGO<Effect>(0);
 			explode->Init(u"Assets/effect/roboExplode.efk");
 			explode->SetPosition(m_boosterLeftPos);
-			explode->SetScale({ 100.0f,100.0f,100.0f });
+			explode->SetScale(EFFECT_SCALE);
 			explode->Play(false);
 
 			Effect* dieEffect = NewGO<Effect>(0);
 			dieEffect->Init(u"Assets/effect/explosion2.efk");
-			dieEffect->SetScale({ 100.0f,100.0f,100.0f });
+			dieEffect->SetScale(EFFECT_SCALE);
 			dieEffect->Play();
 			dieEffect->Update();
 			dieEffect->SetPosition(m_boosterLeftPos);
 			m_isExplodeNear = true;
 		}
 
-		if (m_timeFromDeath > 15.0f)
+		if (m_timeFromDeath > SECOND_EXPLODE_TIME)
 		{
 			if (!m_isExplodeFar)
 			{
 				CSoundSource* explodeFar = NewGO<CSoundSource>(0);
 				explodeFar->Init(L"Assets/sound/roboExplodeFar.wav", false);
-				explodeFar->SetVolume(1.0f);
+				explodeFar->SetVolume(SE_VOLUME);
 				explodeFar->Play(false);
 
 				Effect* explode = NewGO<Effect>(0);
 				explode->Init(u"Assets/effect/roboExplode.efk");
 				explode->SetPosition(m_boosterLeftPos);
-				explode->SetScale({ 100.0f,100.0f,100.0f });
+				explode->SetScale(EFFECT_SCALE);
 				explode->Play(false);
 
 				m_isExplodeFar = true;
 			}
 
-			if (m_timeFromDeath > 16.5f)
+			if (m_timeFromDeath > START_NEXT_SCENE_TIME)
 			{
 				CSoundSource* explodeFar = NewGO<CSoundSource>(0);
 				explodeFar->Init(L"Assets/sound/GameOver.wav", false);
-				explodeFar->SetVolume(1.0f);
+				explodeFar->SetVolume(SE_VOLUME);
 				explodeFar->Play(false);
 
 				m_timeFromDeath = 0.0f;

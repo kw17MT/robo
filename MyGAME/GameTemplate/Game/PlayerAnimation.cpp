@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "PlayerAnimation.h"
 
+namespace
+{
+	const float INPUT_STICK_Y_VOLUME_TO_START = -0.7f;
+}
+
 void PlayerAnimation::UpdateAnimState()
 {
 	//マシンガンアニメーション
@@ -27,7 +32,7 @@ void PlayerAnimation::UpdateAnimState()
 			m_animState = enFlying;
 			return;
 		}
-		else if (g_pad[0]->GetLStickYF() < -0.7f)
+		else if (g_pad[0]->GetLStickYF() < INPUT_STICK_Y_VOLUME_TO_START)
 		{
 			m_animState = enBacking;
 			return;

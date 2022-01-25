@@ -402,6 +402,9 @@
     <ClCompile Include="EnemySpawnPoint.cpp" />
     <ClCompile Include="ClearTelop.cpp" />
     <ClCompile Include="AfterGameOverScene.cpp" />
+    <ClCompile Include="EnemyRepopManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -831,6 +834,9 @@
     <ClInclude Include="EnemySpawnPoint.h" />
     <ClInclude Include="ClearTelop.h" />
     <ClInclude Include="AfterGameOverScene.h" />
+    <ClInclude Include="EnemyRepopManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">

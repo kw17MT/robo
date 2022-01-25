@@ -2,12 +2,17 @@
 #include "EnemyAtack.h"
 #include "SkinModelRender.h"
 
+namespace
+{
+	const float SHOOT_TIME = 9.0f;
+}
+
 bool EnemyAtack::Execute()
 {
-	counter++;
-	if (counter >= 100)
+	counter += GameTime().GetFrameDeltaTime();
+	if (counter >= SHOOT_TIME)
 	{
-		counter = 0;
+		counter = 0.0f;
 		return true;
 	}
 	return false;

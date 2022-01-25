@@ -129,7 +129,7 @@ void Title::Update()
 		angleY = 0.0f;
 	}
 
-	if (g_pad[0]->IsPress(enButtonA))
+	if (g_pad[0]->IsTrigger(enButtonA))
 	{
 		if (m_enSelectedSpriteType == enPlayButton)
 		{
@@ -144,9 +144,6 @@ void Title::Update()
 			selectSE2->Play(false);
 
 			m_fade = NewGO<Fade>(0);
-
-			//DeleteGO(this);
-			//NewGO<LaunchScene>(0);
 		}
 		else if (m_enSelectedSpriteType == enHowToButton)
 		{

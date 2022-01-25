@@ -51,6 +51,6 @@ public:
 private:
 	EnemyAtack m_enemyAtack;			//UŒ‚‚·‚é‚©‚Ç‚¤‚©‚Ì”»’f
 	EnemyMove m_enemyMove;				//ˆÚ“®æ‚ğl‚¦‚é
-	EnemyRotation m_enemyRotation;
+	EnemyRotation m_enemyRotation;		//“G‚Ì‰ñ“]‚ğŒvZ‚·‚é
 };
 

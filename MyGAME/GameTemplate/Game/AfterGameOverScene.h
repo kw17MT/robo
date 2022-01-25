@@ -11,6 +11,8 @@ private:
 	Vector3 m_position = Vector3::Zero;
 	Vector3 m_scale = Vector3::One;
 
+	bool m_shouldStartNextScene = false;
+
 	enum EnSelectedSpriteTypes
 	{
 		enRePlayButton,
@@ -40,6 +42,11 @@ public:
 	 * @brief 毎フレーム呼ばれる関数
 	*/
 	void Update();
+
+	/**
+	 * @brief 上下ボタンで画面上ボタンを選択する関数
+	*/
+	void SelectButton();
 private:
 	SpriteRender* m_sprite[enSpriteNum] = { nullptr };				//画像インスタンス用配列
 	Fade* m_fade = nullptr;											//フェードインスタンス

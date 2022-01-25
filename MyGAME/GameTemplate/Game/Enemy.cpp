@@ -13,30 +13,42 @@
 namespace
 {
 	const float SE_VOLUME = 1.0f;
+	const Vector3 EXPLOSION_EFFECT_SCALE = { 200.0f,200.0f,200.0f };
+	const Vector3 ENEMY_MODEL_SCALE = { 15.0f, 15.0f, 15.0f };
+	const Vector3 ENEMY_POP_EFFECT_SCALE = { 300.0f,300.0f,300.0f };
+	const Vector3 ENEMY_TRACK_EFFECT_SCALE = { 20.0f,20.0f,20.0f };
 }
 
 Enemy::~Enemy()
 {
+	//敵のHPが０で死亡していたら
 	if (m_enemyHP->IsEnemyDead())
 	{
+		//音を出す
 		CSoundSource* explodeSE = NewGO<CSoundSource>(0);
 		explodeSE->Init(L"Assets/sound/explode.wav", false);
 		explodeSE->SetVolume(SE_VOLUME);
 		explodeSE->Play(false);
 	}
 
+	//目標撃破数表示インスタンスを探して
 	ObjectiveEnemyNum* objEne = FindGO<ObjectiveEnemyNum>("objective");
 	if (objEne != nullptr)
 	{
+		//倒された敵の数を1増やす
 		objEne->AddKilledEnemyNum();
 	}
 
+	//爆破エフェクトを出す
 	Effect effect;
 	effect.Init(u"Assets/effect/explosion2.efk");
-	effect.SetScale({ 200.0f,200.0f,200.0f });
+	effect.SetScale(EXPLOSION_EFFECT_SCALE);
 	effect.SetPosition(m_position);
 	effect.Play();
 	effect.Update();
+
+	//このインスタンスは死亡している
+	this->Dead();
 
 	DeleteGO(m_skinModelRender);
 	DeleteGO(m_displayDistance);
@@ -59,7 +71,7 @@ bool Enemy::Start()
 	//敵のモデルをインスタンス化
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	m_skinModelRender->Init("Assets/modelData/enemy/drone.tkm", nullptr, enModelUpAxisZ, true);
-	m_skinModelRender->SetScale({ 15.0f, 15.0f, 15.0f});
+	m_skinModelRender->SetScale(ENEMY_MODEL_SCALE);
 
 	//距離（文字）を表示
 	m_displayDistance = NewGO<DisplayDistance>(0);
@@ -88,7 +100,7 @@ bool Enemy::Start()
 
 	Effect effect;
 	effect.Init(u"Assets/effect/popEnemy.efk");
-	effect.SetScale({ 300.0f,300.0f,300.0f });
+	effect.SetScale(ENEMY_POP_EFFECT_SCALE);
 	effect.SetPosition(m_position);
 	effect.Play();
 	effect.Update();
@@ -135,7 +147,7 @@ void Enemy::Update()
 	Effect effect;
 	effect.Init(u"Assets/effect/enemyTrack3.efk");
 	effect.SetPosition(m_position);
-	effect.SetScale({ 20.0f,20.0f,20.0f });
+	effect.SetScale(ENEMY_TRACK_EFFECT_SCALE);
 	effect.Play();
 	effect.Update();
 

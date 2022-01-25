@@ -34,12 +34,16 @@ bool ObjectiveEnemyNum::Start()
 	m_sprite->Init("Assets/image/playerUI/objective.dds", 250, 100);
 	m_sprite->SetPosition(SPRITE_POS);
 
-
 	return true;
 }
 
 void ObjectiveEnemyNum::Update()
 {
+	if (m_killedEnemyNum == m_objectiveNum)
+	{
+		GameDirector::GetInstance().SetGameScene(enGameClear);
+	}
+
 	std::wstring num = std::to_wstring(m_killedEnemyNum);
 	m_font[enKilledEnemyNum]->SetText(num.c_str());
 
@@ -47,9 +51,4 @@ void ObjectiveEnemyNum::Update()
 	std::wstring slash = L" / ";
 	slash += num;
 	m_font[enObjectiveNum]->SetText(slash.c_str());
-
-	if (m_killedEnemyNum == m_objectiveNum)
-	{
-		GameDirector::GetInstance().SetGameScene(enGameClear);
-	}
 }

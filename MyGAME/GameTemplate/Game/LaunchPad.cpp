@@ -7,6 +7,12 @@ namespace
 {
 	const Vector3 HUMAN_SCALE = { 0.3f,0.3f,0.3f };
 	const Vector3 HUMAN_POS = { -125.0f,235.0f,5300.0f };
+	const float EACH_MAN_SPACE = 10.0f;
+	const Vector3 ROBO1_POSITION = { 0.0f, 295.0f, 5800.0f };
+	const Vector3 ROBO2_POSITION = { -200.0f, 295.0f, 5600.0f };
+	const float ROBO1_ROT_DEGREE = 135.0f;
+	const float ROBO2_ROT_DEGREE = 90.0f;
+
 }
 
 LaunchPad::~LaunchPad()
@@ -48,7 +54,7 @@ bool LaunchPad::Start()
 		m_man[i] = NewGO<SkinModelRender>(0);
 
 		Vector3 pos = HUMAN_POS;
-		pos.z += i * 10.0f;
+		pos.z += i * EACH_MAN_SPACE;
 		m_man[i]->SetPosition(pos);
 		m_man[i]->SetScale(HUMAN_SCALE);
 		m_man[i]->SetRotation(rot);
@@ -69,11 +75,11 @@ bool LaunchPad::Start()
 		m_robo[i]->Init("Assets/modelData/testBox/test4.tkm", "Assets/modelData/testBox/test4.tks", enModelUpAxisZ, true);
 	}
 	Quaternion roboRot;
-	roboRot.SetRotationY(135.0f);
-	m_robo[0]->SetPosition({ 0.0f, 295.0f, 5800.0f });
+	roboRot.SetRotationY(ROBO1_ROT_DEGREE);
+	m_robo[0]->SetPosition(ROBO1_POSITION);
 	m_robo[0]->SetRotation(roboRot);
-	roboRot.SetRotationY(90.0f);
-	m_robo[1]->SetPosition({ -200.0f, 295.0f, 5600.0f });
+	roboRot.SetRotationY(ROBO2_ROT_DEGREE);
+	m_robo[1]->SetPosition(ROBO2_POSITION);
 	m_robo[1]->SetRotation(roboRot);
 
 	return true;

@@ -316,6 +316,7 @@
     <ClCompile Include="EnemyIconOnRader.cpp" />
     <ClCompile Include="EnemyMachinGun.cpp" />
     <ClCompile Include="EnemyMove.cpp" />
+    <ClCompile Include="EnemyRepopManager.cpp" />
     <ClCompile Include="EnemyRotation.cpp" />
     <ClCompile Include="EnemySpawnPoint.cpp" />
     <ClCompile Include="EnemyStateIcon.cpp" />
@@ -473,6 +474,7 @@
     <ClInclude Include="EnemyIconOnRader.h" />
     <ClInclude Include="EnemyMachinGun.h" />
     <ClInclude Include="EnemyMove.h" />
+    <ClInclude Include="EnemyRepopManager.h" />
     <ClInclude Include="EnemyRotation.h" />
     <ClInclude Include="EnemySpawnPoint.h" />
     <ClInclude Include="EnemyStateIcon.h" />

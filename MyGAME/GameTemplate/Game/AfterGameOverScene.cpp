@@ -33,49 +33,59 @@ bool AfterGameOverScene::Start()
 	return true;
 }
 
+void AfterGameOverScene::SelectButton()
+{
+	//次のシーンに遷移しないときだけ、ボタン操作できるようにする
+	if (!m_shouldStartNextScene)
+	{
+		//上ボタンが押されていて
+		if (g_pad[0]->IsTrigger(enButtonUp))
+		{
+			//現在選んでいる画像の種類に応じて反応する
+			switch (m_selectedSpriteType)
+			{
+			case enRePlayButton:
+				//選択しているボタンをタイトルへ戻るボタンにする
+				m_selectedSpriteType = enToTitleButton;
+				break;
+			case enToTitleButton:
+				//選択しているボタンをリプレイボタンにする
+				m_selectedSpriteType = enRePlayButton;
+				break;
+			}
+			//セレクトする音を出す
+			CSoundSource* selectSE = NewGO<CSoundSource>(0);
+			selectSE->Init(L"Assets/sound/select.wav", false);
+			selectSE->SetVolume(1.0);
+			selectSE->Play(false);
+		}
+		//下ボタンが押されていて
+		if (g_pad[0]->IsTrigger(enButtonDown))
+		{
+			switch (m_selectedSpriteType)
+			{
+			case enRePlayButton:
+				//選択しているボタンをタイトルへ戻るボタンにする
+				m_selectedSpriteType = enToTitleButton;
+				break;
+			case enToTitleButton:
+				//選択しているボタンをリプレイボタンにする
+				m_selectedSpriteType = enRePlayButton;
+				break;
+			}
+			//セレクトする音を出す
+			CSoundSource* selectSE = NewGO<CSoundSource>(0);
+			selectSE->Init(L"Assets/sound/select.wav", false);
+			selectSE->SetVolume(1.0f);
+			selectSE->Play(false);
+		}
+	}
+}
+
 void AfterGameOverScene::Update()
 {
-	//上ボタンが押されていて
-	if (g_pad[0]->IsTrigger(enButtonUp))
-	{
-		//現在選んでいる画像の種類に応じて反応する
-		switch (m_selectedSpriteType)
-		{
-		case enRePlayButton:
-			//選択しているボタンをタイトルへ戻るボタンにする
-			m_selectedSpriteType = enToTitleButton;
-			break;
-		case enToTitleButton:
-			//選択しているボタンをリプレイボタンにする
-			m_selectedSpriteType = enRePlayButton;
-			break;
-		}
-		//セレクトする音を出す
-		CSoundSource* selectSE = NewGO<CSoundSource>(0);
-		selectSE->Init(L"Assets/sound/select.wav", false);
-		selectSE->SetVolume(1.0);
-		selectSE->Play(false);
-	}
-	//下ボタンが押されていて
-	if (g_pad[0]->IsTrigger(enButtonDown))
-	{
-		switch (m_selectedSpriteType)
-		{
-		case enRePlayButton:
-			//選択しているボタンをタイトルへ戻るボタンにする
-			m_selectedSpriteType = enToTitleButton;
-			break;
-		case enToTitleButton:
-			//選択しているボタンをリプレイボタンにする
-			m_selectedSpriteType = enRePlayButton;
-			break;
-		}
-		//セレクトする音を出す
-		CSoundSource* selectSE = NewGO<CSoundSource>(0);
-		selectSE->Init(L"Assets/sound/select.wav", false);
-		selectSE->SetVolume(1.0f);
-		selectSE->Play(false);
-	}
+	//上下ボタンで画面上ボタンを選択する
+	SelectButton();
 
 	//現在選択しているボタン画像を黄色くする
 	for (int i = 0; i < enSpriteNum; i++)
@@ -94,20 +104,29 @@ void AfterGameOverScene::Update()
 	}
 
 	//Aボタンを押したら
-	if (g_pad[0]->IsTrigger(enButtonA))
+	if (g_pad[0]->IsTrigger(enButtonA)
+		&& m_fade == nullptr)
 	{
 		//フェードインする
 		m_fade = NewGO<Fade>(0);
-		//フェードインが終わって待機状態ならば
-		if (m_fade->GetFadePhase() == enWait)
-		{
-			//さっきまでしていたゲームを検索して
-			Game* pastGame = FindGO<Game>("game");
-			//破棄する
-			DeleteGO(pastGame);
-			//フェードアウトするように伝える
-			m_fade->SetFadeOut();
-		}
+	}
+
+	//フェードインが終わって待機状態ならば
+	if (m_fade != nullptr && m_fade->GetFadePhase() == enWait)
+	{
+		//さっきまでしていたゲームを検索して
+		Game* pastGame = FindGO<Game>("game");
+		//破棄する
+		DeleteGO(pastGame);
+		//フェードアウトするように伝える
+		m_fade->SetFadeOut();
+		//次のシーンに遷移する
+		m_shouldStartNextScene = true;
+		//この画像群を消す
+		DeleteGO(this);
+	}
+	if (m_shouldStartNextScene)
+	{
 		//押されたボタンがリプレイボタンならば
 		if (m_selectedSpriteType == enRePlayButton)
 		{
@@ -120,7 +139,5 @@ void AfterGameOverScene::Update()
 			//タイトルを作成
 			Title* newTitle = NewGO<Title>(0, "title");
 		}
-		//この画像群を消す
-		DeleteGO(this);
 	}
 }

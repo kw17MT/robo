@@ -12,6 +12,13 @@
 #include "PlayerEN.h"
 #include "RestrictArea.h"
 
+namespace
+{
+	const float CAMERA_POSITION_ADJUST_Y = 50.0f;
+	const float CAMERA_POSITION_ADJUST_Z = 230.0f;
+
+}
+
 Player::~Player()
 {
 	DeleteGO(m_machingun);
@@ -64,9 +71,9 @@ bool Player::Start()
 
 	//カメラの位置、ターゲットを初期化
 	Vector3 cameraPos = m_currentHomePosition;
-	cameraPos.y += 50.0f;
+	cameraPos.y += CAMERA_POSITION_ADJUST_Y;
 	g_camera3D->SetTarget(cameraPos);
-	cameraPos.z += 230.0f;
+	cameraPos.z += CAMERA_POSITION_ADJUST_Z;
 	g_camera3D->SetPosition(cameraPos);
 
 	return true;

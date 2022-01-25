@@ -43,6 +43,13 @@ public:
 	Vector3 GetEnemyPos(int no);
 
 	/**
+	 * @brief 指定配列番号の敵インスタンスは生きているか
+	 * @param no 指定する要素番号
+	 * @return TRUE＝生きている　FALSE＝死んでいる
+	*/
+	bool GetIsEnemyAlive(int no);
+
+	/**
 	 * @brief 敵インスタンスを保存する配列をさらにする
 	*/
 	void CleanUpArray();
@@ -53,6 +60,6 @@ public:
 	void GenerateEnemy();
 private:
 	std::vector<Enemy*> m_enemys = { nullptr };				//敵インスタンス
-	EnemySpawnPoint m_spawnPoint;
+	EnemySpawnPoint m_spawnPoint;							//敵のスポーンポイントを決定する
 };
 

@@ -20,7 +20,6 @@ EnemyGenerator::~EnemyGenerator()
 	m_enemys.clear();
 }
 
-
 bool EnemyGenerator::Start()
 {
 	//“G‚ðÅ‘å”ì¬
@@ -38,6 +37,19 @@ bool EnemyGenerator::Start()
 Vector3 EnemyGenerator::GetEnemyPos(int no)
 {
 	return  m_enemys[no + 1]->GetPosition(); 
+}
+
+bool EnemyGenerator::GetIsEnemyAlive(int no)
+{
+	if (m_enemys[no + 1] == nullptr
+		|| m_enemys[no + 1]->IsDead())
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 
 void EnemyGenerator::CleanUpArray()

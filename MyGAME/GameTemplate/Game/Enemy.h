@@ -16,7 +16,7 @@ class Enemy : public IGameObject
 private:
 	Vector3 m_position = Vector3::Zero;			//位置座標
 	Quaternion m_rot = Quaternion::Identity;	//回転
-	float m_distance = 0;						//敵とプレイヤーの距離		
+	float m_distance = 0.0f;					//敵とプレイヤーの距離		
 public:
 	/**
 	 * @brief コンストラクタ
@@ -66,6 +66,6 @@ private:
 
 	EnemyBrain m_enemyBrain;								//敵の行動をまとめて管理する
 	EnemyHP* m_enemyHP = nullptr;							//敵のHPとHPバーを表示する
-	EnemyMachinGun* m_machinGun = nullptr;
+	EnemyMachinGun* m_machinGun = nullptr;					//敵が持つマシンガンインスタンス
 };
 

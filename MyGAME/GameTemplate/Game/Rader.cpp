@@ -49,10 +49,10 @@ bool Rader::Start()
 	return true;
 }
 
-void Rader::SaveEnemyPos(int no, Vector3 enemyPos)
+void Rader::SaveEnemyPosAndIsAlive(int no, Vector4 enemyPos)
 {
 	//no番目の配列に敵の座標を代入
-	m_enemyPos[no] = enemyPos;
+	m_enemyPosAndIsAlive[no] = enemyPos;
 }
 
 void Rader::Update()
@@ -61,6 +61,17 @@ void Rader::Update()
 
 	for (int i = 0; i < m_enemyNum; i++)
 	{
+		if (m_enemyPosAndIsAlive[i].w == false)
+		{
+			m_scale = { 0.0f,0.0f,0.0f };
+			m_enemyIcon[i]->SetScale(m_scale);
+			continue;
+		}
+
+		//敵の位置をXYZ座標系に入れ直す
+		Vector3 enemyPos;
+		enemyPos.x = m_enemyPosAndIsAlive[i].x; enemyPos.y = m_enemyPosAndIsAlive[i].y; enemyPos.z = m_enemyPosAndIsAlive[i].z;
+
 		Quaternion qRot;
 		//現在のプレイヤーの向きからワールドのZ方向への回転を作成
 		Vector3 ForwardWithoutY = g_camera3D->GetForward();
@@ -68,7 +79,7 @@ void Rader::Update()
 		qRot.SetRotation(ForwardWithoutY, DIRECTION_Z);
 
 		//プレイヤーから敵に向かうベクトル
-		Vector3 playerToEnemyVec = m_enemyPos[i] - m_playerPos;
+		Vector3 playerToEnemyVec = enemyPos - m_playerPos;
 		//正規化
 		playerToEnemyVec.Normalize();
 		//y座標は不要
@@ -82,8 +93,9 @@ void Rader::Update()
 		//zは不要
 		playerToEnemyVec.z = 0.0f;
 		
+		
 		//プレイヤーと敵の距離を測定
-		float distance = CalcMethods::CalcDistance(m_enemyPos[i], m_playerPos);
+		float distance = CalcMethods::CalcDistance(enemyPos, m_playerPos);
 		//レーダーにちょうどいい具合に調整
 		distance /= 100.0f;
 		//値を制限
@@ -92,7 +104,7 @@ void Rader::Update()
 		m_screenPos = playerToEnemyVec * distance;
 
 		//1フレーム前の位置と現在の位置から移動速度を求める
-		Vector3 speed = m_enemyPos[i] - m_prevEnemyPos[i];
+		Vector3 speed = enemyPos - m_prevEnemyPos[i];
 		////画像座標に変換したいため、値を入れかえ
 		std::swap(speed.y, speed.z);
 		speed.Normalize();
@@ -117,7 +129,7 @@ void Rader::Update()
 		m_enemyIcon[i]->SetRotation(moveDirectionRot);
 
 		//1フレーム前の座標として設定
-		m_prevEnemyPos[i] = m_enemyPos[i];
+		m_prevEnemyPos[i] = enemyPos;
 
 		//画像の位置を設定
 		m_screenPos += BASE_SPRITE_POSITION;

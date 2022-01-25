@@ -9,6 +9,9 @@ namespace
 	const int RASER_DAMAGE_AMOUNT = 33;				//レールガンのダメージ量
 
 	const float MAX_ENEMY_HP = 100.0f;
+	const int ENEMY_HPBAR_X = 128;
+	const int ENEMY_HPBAR_Y = 32;
+	const Vector2 ENEMY_HPBAR_PIVOT = { 1.0f, 1.5f };
 }
 
 extern void CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);
@@ -23,8 +26,8 @@ bool EnemyHP::Start()
 {
 	//HPバーのモデル生成
 	m_spriteRender = NewGO<SpriteRender>(0);
-	m_spriteRender->Init("Assets/Image/HPBar/HPBar.dds",128,32);
-	m_spriteRender->SetPivot({ 1.0f,1.5f });
+	m_spriteRender->Init("Assets/Image/HPBar/HPBar.dds", ENEMY_HPBAR_X, ENEMY_HPBAR_Y);
+	m_spriteRender->SetPivot(ENEMY_HPBAR_PIVOT);
 
 	return true;
 }

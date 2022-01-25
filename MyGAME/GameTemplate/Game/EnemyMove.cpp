@@ -13,6 +13,8 @@ namespace
 	const float LIMIT_ENEMY_CAN_APPROACH = 2000.0f;						//敵が近づこうとする限度
 	const float LIMIT_ENEMY_RECOGNIZE_PLAYER = 7000.0f;					//敵がプレイヤーを認識できる限界距離
 	const int MAX_ROTATION_DEGREE = 60;
+	const int MOVE_STATE_NUM = 5;
+	const float SPEED_DECAY_RATE = 10.0f;
 }
 
 void EnemyMove::JudgeMoveType(float distanceBetweenEnemyToPlayer)
@@ -22,9 +24,7 @@ void EnemyMove::JudgeMoveType(float distanceBetweenEnemyToPlayer)
 	{
 		//移動タイプをランダムに選択
 		srand((unsigned int)time(NULL));
-		int nextMoveState = rand() % 5;
-
-		//nextMoveState = enAround;
+		int nextMoveState = rand() % MOVE_STATE_NUM;
 
 		//敵を向いて前後に動く
 		if (nextMoveState == enFrontAndBehind) {
@@ -213,7 +213,7 @@ void EnemyMove::EnemyStayDirection(Vector3 toTargetVec)
 	//敵の横方向を計算する。
 	Vector3 sideVec = toTargetVec.CalcCross(g_vec3AxisY);
 	//前の移動方向を加味した漂う方向を計算する。
-	m_currentMoveDirection = m_currentMoveDirection * (1.0f - m_acceralation) + sideVec * m_acceralation / 10.0f;
+	m_currentMoveDirection = m_currentMoveDirection * (1.0f - m_acceralation) + sideVec * m_acceralation / SPEED_DECAY_RATE;
 }
 
 Vector3 EnemyMove::Execute(Vector3 enemyPos, Vector3 targetPos)

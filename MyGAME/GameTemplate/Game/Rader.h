@@ -34,11 +34,11 @@ public:
 	void Update();
 
 	/**
-	 * @brief 指定の要素番号に敵の位置座標を保存する
-	 * @param no 要素番号
-	 * @param enemyPos 敵の位置座標
+	 * @brief 指定配列番号に敵の位置と生存状態を保存する
+	 * @param no 指定要素番号
+	 * @param enemyPos 敵の位置
 	*/
-	void SaveEnemyPos(int no, Vector3 enemyPos);
+	void SaveEnemyPosAndIsAlive(int no, Vector4 enemyPos);
 
 	/**
 	 * @brief 生成されている敵の数を保存する
@@ -52,9 +52,9 @@ public:
 	*/
 	void SetPlayerPos(Vector3 pos) { m_playerPos = pos; }
 private:
-	Vector3 m_enemyPos[10];										//敵の位置
-	Vector3 m_prevEnemyPos[10];
-	EnemyIconOnRader* m_enemyIcon[10] = { nullptr };				//レーダーの敵
+	Vector4 m_enemyPosAndIsAlive[10];							//敵の位置と生存状況
+	Vector3 m_prevEnemyPos[10];									//1フレーム前の敵の位置
+	EnemyIconOnRader* m_enemyIcon[10] = { nullptr };			//レーダーの敵
 	SpriteRender* m_playerIcon = nullptr;						//プレイヤー
 	SpriteRender* m_rader = nullptr;
 };

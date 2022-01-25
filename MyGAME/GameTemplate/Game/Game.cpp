@@ -16,10 +16,13 @@
 #include "GameDirector.h"
 #include "CaptureStateManager.h"
 #include "AfterGameOverScene.h"
+#include "EnemyRepopManager.h"
 
 namespace
 {
-
+	const int OBJECTIVE_NUM = 30;
+	const float BGM_DECREASE_VOLUME = 0.001f;
+	const float FADE_START_VOLUME = 24.0f;
 }
 
 Game::~Game()
@@ -46,6 +49,7 @@ Game::~Game()
 	DeleteGO(m_clear);
 	//フラグ管理インスタンス削除
 	CaptureStateManager::DeleteInstance();
+	EnemyRepopManager::DeleteInstance();
 }
 
 bool Game::Start()
@@ -69,7 +73,7 @@ bool Game::Start()
 	//残り敵数を表示する
 	m_objectiveEnemyNum = NewGO<ObjectiveEnemyNum>(0, "objective");
 	//ゲームクリアとなる撃破数の設定
-	m_objectiveEnemyNum->SetObjectiveNum(1);
+	m_objectiveEnemyNum->SetObjectiveNum(OBJECTIVE_NUM);
 	//BGM作成
 	m_bgm = NewGO<CSoundSource>(0);
 	m_bgm->Init(L"Assets/sound/bgm1.wav", false);
@@ -80,6 +84,8 @@ bool Game::Start()
 	GameDirector::GetInstance().SetGameScene(enInGame);
 	//ステートマネージャーの作成
 	CaptureStateManager::CreateInstance();
+	//敵再生成マネージャーの作成
+	EnemyRepopManager::CreateInstance();
 
 	return true;
 }
@@ -93,7 +99,12 @@ void Game::Update()
 	//敵の数分その位置座標を保存、更新
 	for (int i = 0; i < m_enemyGenerator->GetEnemyNum(); i++)
 	{
-		m_rader->SaveEnemyPos(i, m_enemyGenerator->GetEnemyPos(i));
+		//敵の位置座標を設定
+		Vector4 enemyInfo = m_enemyGenerator->GetEnemyPos(i);
+		//敵が生きているかどうかをwに入れる
+		enemyInfo.w = m_enemyGenerator->GetIsEnemyAlive(i);
+		//上記情報をレーダーに渡す
+		m_rader->SaveEnemyPosAndIsAlive(i, enemyInfo);
 	}
 
 	//ゲームクリアシーンの時
@@ -102,7 +113,7 @@ void Game::Update()
 		//クリア後の経過時間を測定
 		m_colapsedTimeAfterClear += GameTime().GetFrameDeltaTime();
 		//徐々にBGMの大きさを減らす
-		m_bgmVolume -= 0.01f;
+		m_bgmVolume -= BGM_DECREASE_VOLUME;
 		//0未満にならないようにする
 		if (m_bgmVolume < 0.0f)
 		{
@@ -128,7 +139,7 @@ void Game::Update()
 			m_clear = NewGO<ClearTelop>(0);
 		}
 		//クリア後の経過時間が一定以上になれば
-		if (m_colapsedTimeAfterClear >= 24.0f)
+		if (m_colapsedTimeAfterClear >= FADE_START_VOLUME)
 		{
 			//フェードを開始する
 			if (m_fade == nullptr)
@@ -138,12 +149,12 @@ void Game::Update()
 			//フェードの段階が待機状態ならば
 			if (m_fade->GetFadePhase() == enWait)
 			{
+				//フェードアウトする命令を出す
+				m_fade->SetFadeOut();
 				//タイトル画面を作成
 				Title* title = NewGO<Title>(0);
 				//プレイしたゲームシーンを削除
 				DeleteGO(this);
-				//フェードアウトする命令を出す
-				m_fade->SetFadeOut();
 			}
 		}
 	}
@@ -152,7 +163,7 @@ void Game::Update()
 	if (GameDirector::GetInstance().GetGameScene() == enGameOver)
 	{
 		//BGM音量を下げていく
-		m_bgmVolume -= 0.001f;
+		m_bgmVolume -= BGM_DECREASE_VOLUME;
 		//0未満にならないようにする
 		if (m_bgmVolume < 0.0f)
 		{
