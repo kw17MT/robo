@@ -4,6 +4,7 @@
 #include "Bullet.h"
 #include "AmmoGauge.h"
 #include "SoundSource.h"
+#include "GameDirector.h"
 
 namespace
 {
@@ -45,6 +46,11 @@ bool MachinGun::Start()
 
 void MachinGun::Update()
 {
+	if (GameDirector::GetInstance().GetGameScene() != enInGame)
+	{
+		m_skinModelRender->SetPosition(m_position);
+		return;
+	}
 	m_shootDelay -= GameTime().GetFrameDeltaTime();
 
 	//to do ステートメントで管理する事

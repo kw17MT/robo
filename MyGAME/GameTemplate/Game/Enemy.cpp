@@ -49,14 +49,14 @@ Enemy::~Enemy()
 	effect.Update();
 
 	//このインスタンスは死亡している
-	this->Dead();
+	Dead();
 	EnemyRepopManager::GetInstance().AddKilledEnemyNum();
-
+	
+	DeleteGO(m_machinGun);
 	DeleteGO(m_skinModelRender);
 	DeleteGO(m_displayDistance);
 	DeleteGO(m_enemyStateIcon);
 	DeleteGO(m_enemyHP);
-	DeleteGO(m_machinGun);
 }
 
 void Enemy::TakenDamage(EnDamageTypes damageType)

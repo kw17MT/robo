@@ -24,11 +24,16 @@ Player::~Player()
 	DeleteGO(m_machingun);
 	DeleteGO(m_skinModelRender);
 	DeleteGO(m_missileGene);
-	DeleteGO(m_reticle);
 	DeleteGO(m_playerHp);
 	DeleteGO(m_playerEn);
 	DeleteGO(m_area);
 	DeleteGO(m_playerEffect);
+
+	//個別で消す可能性があるためnullcheck
+	if (m_reticle != nullptr)
+	{
+		DeleteGO(m_reticle);
+	}
 }
 
 bool Player::Start()
@@ -160,6 +165,10 @@ void Player::Update()
 	//マシンガンにターゲット位置とプレイヤーの現在の位置を与える
 	if (m_reticle->GetIsTargeted()) {
 		m_machingun->SetTargetPos(m_reticle->GetTargetingEnemyPos());
+	}
+	else
+	{
+		m_machingun->SetTargetPos(m_currentPosition + g_camera3D->GetForward() * 1000.0f);
 	}
 	m_missileGene->SetLaunchPos(m_currentPosition);
 

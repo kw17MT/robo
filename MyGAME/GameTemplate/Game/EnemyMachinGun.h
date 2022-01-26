@@ -1,5 +1,4 @@
 #pragma once
-class Bullet;
 class SkinModelRender;
 
 class EnemyMachinGun : public IGameObject
@@ -7,7 +6,7 @@ class EnemyMachinGun : public IGameObject
 private:
 	Vector3 m_position = Vector3::Zero;			//マシンガンの位置
 	Vector3 m_targetPos = Vector3::Zero;		//着弾させるターゲット座標
-	bool m_canShoot = false;
+	bool m_canShoot = false;					//現在弾を撃てるかどうか
 public:
 	/**
 	 * @brief コンストラクタ
@@ -36,12 +35,19 @@ public:
 	*/
 	void SetTargetPos(Vector3 targetPos) { m_targetPos = targetPos; }
 
+	/**
+	 * @brief 自分が発射された位置を設定する
+	 * @param pos 発射された位置
+	*/
 	void SetPosition(Vector3 pos) { m_position = pos; }
 
+	/**
+	 * @brief 発射できるかどうかを設定する
+	 * @param canShoot 発射できるかどうか
+	*/
 	void SetCanShoot(bool canShoot) { m_canShoot = canShoot; }
 
 private:
 	SkinModelRender* m_skinModelRender = nullptr;	//マシンガンのモデル
-	std::vector<Bullet*> m_bullets = { nullptr };	//発射される弾のインスタンス
 };
 

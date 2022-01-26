@@ -10,13 +10,6 @@ namespace
 
 EnemyMachinGun::~EnemyMachinGun()
 {
-	//現在生きている弾の削除
-	for (auto i : m_bullets)
-	{
-		DeleteGO(m_bullets.back());
-		m_bullets.pop_back();
-	}
-	m_bullets.clear();
 	//モデルの削除
 	DeleteGO(m_skinModelRender);
 }
@@ -35,14 +28,17 @@ void EnemyMachinGun::Update()
 {
 	if (m_canShoot)
 	{
-		//弾を生成
-		m_bullets.push_back(NewGO<Bullet>(0));
-		//弾の初期座標系を設定
-		m_bullets.back()->SetTargetAndCurrentPos(m_targetPos, m_position);
-		m_bullets.back()->SetOwner(enEnemy);
+		//弾を生成（時間で自分で消える）
+		Bullet* bullet = NewGO<Bullet>(0);
+		//ターゲットの位置と自分の位置を与える
+		bullet->SetTargetAndCurrentPos(m_targetPos, m_position);
+		//弾を発射したのは誰かを記録する
+		bullet->SetOwner(enEnemy);
 		Quaternion rot;
+		//モデルが初期で向いている方向からターゲットへの方向へ回転させる
 		rot.SetRotation({ 0.0f,0.0f,-1.0f }, m_targetPos - m_position);
-		m_bullets.back()->SetRotation(rot);
+		bullet->SetRotation(rot);
+		//連続で撃てないようにする
 		m_canShoot = false;
 	}
 	//モデルの位置を更新する

@@ -63,8 +63,7 @@ void Rader::Update()
 	{
 		if (m_enemyPosAndIsAlive[i].w == false)
 		{
-			m_scale = { 0.0f,0.0f,0.0f };
-			m_enemyIcon[i]->SetScale(m_scale);
+			m_enemyIcon[i]->SetScale({ 0.0f,0.0f,0.0f });
 			continue;
 		}
 

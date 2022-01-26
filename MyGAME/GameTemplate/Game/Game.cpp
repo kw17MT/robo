@@ -97,7 +97,7 @@ void Game::Update()
 {
 	//レーダーにプレイヤーの位置を与える
 	m_rader->SetPlayerPos(m_player->GetRoboPosition());
-	//レーダーに生成した敵の数
+	//レーダーに生成した敵の数を与える
 	m_rader->SetEnemyNum(m_enemyGenerator->GetEnemyNum());
 	//敵の数分その位置座標を保存、更新
 	for (int i = 0; i < m_enemyGenerator->GetEnemyNum(); i++)

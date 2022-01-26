@@ -10,9 +10,9 @@ namespace
 	const float MISSILE_DAMAGE = 10.0f;			//ミサイルのダメージ量
 	const float RASER_DAMAGE = 20.0f;			//レールガンのダメージ量
 	const float MAX_HP = 100.0f;				//最大HP 
-	const float FONT_SIZE = 0.5f;				//文字サイズ
 	const float DECREASE_RATE = 3.0f;
 	const float SE_VOLUME = 0.4f;
+	const float HPBAR_DANGER_SIZE = 0.7f;
 }
 
 PlayerHP::~PlayerHP()
@@ -53,14 +53,6 @@ bool PlayerHP::Start()
 	//画像の位置を固定
 	m_spriteRender->SetPosition(m_screenPos);
 
-	////文字インスタンス生成
-	//m_fontRender = NewGO<FontRender>(0);
-	////空初期化
-	//m_fontRender->SetText(L"");
-	////大きさ設定
-	//m_fontRender->SetScale(FONT_SIZE);
-	////位置設定
-	//m_fontRender->SetPosition({ m_screenPos.x, m_screenPos.y });
 	return true;
 }
 
@@ -84,10 +76,6 @@ void PlayerHP::SoundDamagedSE(int soundNo)
 
 void PlayerHP::Update()
 {
-	//プレイヤーの残りHPを文字列に変換
-	//std::wstring playerHp = std::to_wstring((int)m_playerHp);
-	//m_fontRender->SetText(playerHp.c_str());
-
 	//HPがなくなったら
 	if (m_playerHp <= 0.0f)
 	{
@@ -110,13 +98,14 @@ void PlayerHP::Update()
 		}
 	}
 
+	//残りHPからゲージの大きさを計算する
 	float HpSize = 1.0f - m_hpSize / MAX_HP;
-	if (HpSize >= 0.7f
+	if (HpSize >= HPBAR_DANGER_SIZE
 		&& !m_isSoundBuzzer)
 	{
 		CSoundSource* buzzerSE = NewGO<CSoundSource>(0);
 		buzzerSE->Init(L"Assets/sound/HpBuzzer.wav", false);
-		buzzerSE->SetVolume(0.5f);
+		buzzerSE->SetVolume(SE_VOLUME);
 		buzzerSE->Play(false);
 
 		m_isSoundBuzzer = true;

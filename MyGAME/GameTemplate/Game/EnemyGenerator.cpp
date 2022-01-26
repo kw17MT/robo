@@ -45,7 +45,7 @@ Vector3 EnemyGenerator::GetEnemyPos(int no)
 bool EnemyGenerator::GetIsEnemyAlive(int no)
 {
 	if (m_enemys[no + 1] == nullptr
-		|| m_enemys[no + 1]->IsDead())
+		|| (m_enemys[no + 1] != nullptr && m_enemys[no + 1]->IsDead()))
 	{
 		return false;
 	}
