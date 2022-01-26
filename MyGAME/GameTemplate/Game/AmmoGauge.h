@@ -93,6 +93,7 @@ public:
 	void SetPosition(Vector3 pos) { m_screenPos = pos; }
 private:
 	SpriteRender* m_spriteRender = nullptr;				//ゲージ画像インスタンス
+	SpriteRender* m_gaugeFrame = nullptr;
 	FontRender* m_fontRender = nullptr;					//残弾数インスタンス
 };
 

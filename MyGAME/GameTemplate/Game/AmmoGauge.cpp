@@ -18,11 +18,16 @@ AmmoGauge::~AmmoGauge()
 {
 	//画像の削除
 	DeleteGO(m_spriteRender);
+	DeleteGO(m_gaugeFrame);
 	DeleteGO(m_fontRender);
 }
 
 bool AmmoGauge::Start()
 {
+	m_gaugeFrame = NewGO<SpriteRender>(0);
+	m_gaugeFrame->InitGauge("Assets/Image/gaugeTexture/ammoGaugeOut.dds", GAUGE_SCALE_X, GAUGE_SCALE_Y);
+	m_gaugeFrame->SetPivot(m_pivot);
+
 	//ゲージの生成
 	m_spriteRender = NewGO<SpriteRender>(0);
 	m_spriteRender->InitGauge("Assets/Image/gaugeTexture/ammoGauge.dds", GAUGE_SCALE_X, GAUGE_SCALE_Y);
@@ -110,4 +115,5 @@ void AmmoGauge::Update()
 	m_spriteRender->SetSpriteSizeRate(1.0f - m_gaugeScaleX);
 	//画像の位置更新
 	m_spriteRender->SetPosition(m_screenPos);
+	m_gaugeFrame->SetPosition(m_screenPos);
 }
