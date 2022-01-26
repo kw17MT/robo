@@ -10,8 +10,12 @@ namespace
 {
 	const Vector4 BLACK = { 0.0f,0.0f,0.0f,0.0f };
 	const float SE_VOLUME = 0.5f;
+	const float DECIDE_SE_VOLUME = 2.0f;
 	const float BACKGROUND_DARKNESS = 0.7f;
+	const Vector3 PLAY_AGAIN_BUTTON_POSITION = { 0.0f,100.0f,0.0f };
+	const Vector3 RETURN_BUTTON_POSITION = { 0.0f, -100.0f,0.0f };
 }
+
 
 AfterGameOverScene::~AfterGameOverScene()
 {
@@ -35,10 +39,8 @@ bool AfterGameOverScene::Start()
 	//ToTitle画像で初期化
 	m_sprite[enToTitleButton]->Init("Assets/image/GameOver/ReturnToTitle.dds", 400, 130, "PSWarningSign");
 	//画像の位置を初期化
-	m_sprite[enRePlayButton]->SetPosition({ 0.0f,100.0f,0.0f });
-	m_sprite[enToTitleButton]->SetPosition({ 0.0f,-100.0f,0.0f });
-	
-
+	m_sprite[enRePlayButton]->SetPosition(PLAY_AGAIN_BUTTON_POSITION);
+	m_sprite[enToTitleButton]->SetPosition(RETURN_BUTTON_POSITION);
 
 	return true;
 }
@@ -139,6 +141,11 @@ void AfterGameOverScene::Update()
 		m_fade = NewGO<Fade>(0);
 		//ボタンを動かせないようにする
 		m_canSelectButton = false;
+
+		CSoundSource* selectSE = NewGO<CSoundSource>(0);
+		selectSE->Init(L"Assets/sound/decide2.wav", false);
+		selectSE->SetVolume(DECIDE_SE_VOLUME);
+		selectSE->Play(false);
 	}
 
 	//フェードインが終わって待機状態ならば

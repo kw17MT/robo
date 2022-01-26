@@ -27,40 +27,48 @@ PSInput VSMain(VSInput In)
 	return psIn;
 }
 
-static const float ghostNum = 8.0f;
+static const float SearchBehindNum = 4.0f;
+static const float SearchForwardNum = 16.0f;
 static const float maxUV = 1.0f;
 static const float minUV = 0.0f;
 
 float4 PSMain( PSInput In ) : SV_Target0
 {
     float4 outColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
+    //UV座標での中心座標
     float2 center = { 0.5f, 0.5f };
 
     //センターまでの線分
     float2 toCenter = center - In.uv.xy;
-    //太陽の方向に戻る線分の長さ
-    float2 fetchNearLight = toCenter / 3.0f;
+    //太陽を探しに行く長さ
+    float2 fetchNearLight = toCenter / 8.0f;
    
     
     float4 finalColor = sceneTexture.Sample(Sampler, In.uv);
-    //N回分もどるor進んで太陽の色を取得しに行く
-    for (int i = 0; i < ghostNum; i++)
+    //N回分進んで太陽の色を取得しに行く
+    for (int i = 0; i < SearchForwardNum; i++)
     {
+        //太陽の位置が中心位置から点対照の位置にあると仮定した場合
         float2 AddedUV = In.uv + (fetchNearLight * i);
-        //if (AddedUV.x >= maxUV || AddedUV.x <= minUV
-        //|| AddedUV.y >= maxUV || AddedUV.y <= minUV)
-        //{
-        //    continue;
-        //}
+        if (AddedUV.x > maxUV || AddedUV.x < minUV
+            || AddedUV.y > maxUV || AddedUV.y < minUV)
+        {
+            continue;
+        }
+        finalColor += sceneTexture.Sample(Sampler, AddedUV);
+    }
         
-        float2 SubtractedUV = In.uv - (fetchNearLight * i);
-        //if (SubtractedUV.x >= maxUV || SubtractedUV.x <= minUV
-        //|| SubtractedUV.y >= maxUV || SubtractedUV.y <= minUV)
-        //{
-        //    continue;
-        //}
-        
-        finalColor += sceneTexture.Sample(Sampler, AddedUV );
+    //太陽を探しに行く長さ
+    float2 fetchNearLighta = toCenter / 2.0f;
+    for (int i = 0; i < SearchBehindNum; i++)
+    {
+        //UV中心座標からみて太陽の位置が該当ピクセルと点対照の位置にあるとき
+        float2 SubtractedUV = In.uv - (fetchNearLighta * i);
+        if (SubtractedUV.x > maxUV || SubtractedUV.x < minUV
+            || SubtractedUV.y > maxUV || SubtractedUV.y < minUV)
+        {
+            continue;
+        }
         finalColor += sceneTexture.Sample(Sampler, SubtractedUV);
     }
     //ゴーストの色を調整

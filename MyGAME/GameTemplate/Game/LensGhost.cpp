@@ -10,7 +10,7 @@ void LensGhost::Init()
 	m_lensGhostData.m_width = 1280;
 	m_lensGhostData.m_height = 720;
 	m_lensGhostData.m_fxFilePath = "Assets/shader/LensGhost.fx";
-	m_lensGhostData.m_textures[0] = &m_gaussianBlur.GetBokeTexture();
+	m_lensGhostData.m_textures[0] = &m_gaussianBlur.GetBokeTexture();	//&m_ghostTarget.GetRenderTargetTexture(); 
 	m_lensGhostData.m_alphaBlendMode = AlphaBlendMode_Add;
 	m_lensGhostData.m_colorBufferFormat[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
@@ -30,7 +30,7 @@ void LensGhost::Render(RenderContext& rc, RenderTarget& target)
 	//通常描画モードに直す
 	RenderingEngine::GetInstance()->SetRenderTypes(RenderingEngine::EnRenderTypes::normal);
 
-	m_gaussianBlur.ExecuteOnGPU(rc, 20);
+	m_gaussianBlur.ExecuteOnGPU(rc, 100);
 
 	//メインとなるターゲットにレンズゴーストを上書きする。
 	rc.WaitUntilToPossibleSetRenderTarget(target);

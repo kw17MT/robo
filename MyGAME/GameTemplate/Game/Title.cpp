@@ -13,8 +13,11 @@ namespace
 {
 	const int BUTTON_SIZE_X = 150;
 	const int BUTTON_SIZE_Y = 80;
+	const float SELECT_SE_VOLUME = 0.5f;
 	const float BGM_VOLUME = 0.5f;
-	const float SE_VOLUME = 0.5f;
+	const float SE1_VOLUME = 2.0f;
+	const float SE2_VOLUME = 0.25f;
+
 }
 
 Title::~Title()
@@ -135,12 +138,12 @@ void Title::Update()
 		{
 			CSoundSource* selectSE = NewGO<CSoundSource>(0);
 			selectSE->Init(L"Assets/sound/decide2.wav", false);
-			selectSE->SetVolume(2.0f);
+			selectSE->SetVolume(SE1_VOLUME);
 			selectSE->Play(false);
 
 			CSoundSource* selectSE2 = NewGO<CSoundSource>(0);
 			selectSE2->Init(L"Assets/sound/decide.wav", false);
-			selectSE2->SetVolume(SE_VOLUME / 2.0f);
+			selectSE2->SetVolume(SE2_VOLUME);
 			selectSE2->Play(false);
 
 			m_fade = NewGO<Fade>(0);
@@ -171,7 +174,7 @@ void Title::Update()
 		}
 		CSoundSource* selectSE = NewGO<CSoundSource>(0);
 		selectSE->Init(L"Assets/sound/select.wav", false);
-		selectSE->SetVolume(SE_VOLUME);
+		selectSE->SetVolume(SELECT_SE_VOLUME);
 		selectSE->Play(false);
 	}
 	if (g_pad[0]->IsTrigger(enButtonDown))
@@ -190,7 +193,7 @@ void Title::Update()
 		}
 		CSoundSource* selectSE = NewGO<CSoundSource>(0);
 		selectSE->Init(L"Assets/sound/select.wav", false);
-		selectSE->SetVolume(SE_VOLUME);
+		selectSE->SetVolume(SELECT_SE_VOLUME);
 		selectSE->Play(false);
 	}
 
