@@ -2,6 +2,7 @@
 #include "PlayerEN.h"
 #include "SpriteRender.h"
 #include "SoundSource.h"
+#include "GameDirector.h"
 
 namespace
 {
@@ -28,6 +29,11 @@ bool PlayerEN::Start()
 
 void PlayerEN::Update()
 {
+	if (GameDirector::GetInstance().GetGameScene() == enGameOver)
+	{
+		return;
+	}
+
 	//RB1ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚ç
 	if (g_pad[0]->IsPress(enButtonRB1))
 	{

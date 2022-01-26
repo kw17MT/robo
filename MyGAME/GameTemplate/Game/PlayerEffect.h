@@ -16,13 +16,12 @@ private:
 	Vector3 m_shoulderRightPos = Vector3::Zero;
 	Vector3 m_shoulderLeftPos = Vector3::Zero;
 	Quaternion m_boosterEffectRot = Quaternion::Identity;
-	Quaternion m_aircontrailEffectRot = Quaternion::Identity;
 	int m_effectTimer = 0;
 	bool m_isDash = false;
 	bool m_isPlayerDied = false;
 	bool m_isExplodeNear = false;
 	bool m_isExplodeFar = false;
-	float m_playerMoveSpeed = 0.0f;
+	bool m_isEmmitDashEffect = false;
 	float m_timeFromDeath = 0.0f;
 public:
 	PlayerEffect() {}
@@ -49,5 +48,6 @@ public:
 	void SetIsDied(bool isDied) { m_isPlayerDied = isDied; }
 private:
 	Effect* m_effects[EFFECT_NUM] = { nullptr };
+	Effect* m_hunsha = nullptr;
 };
 

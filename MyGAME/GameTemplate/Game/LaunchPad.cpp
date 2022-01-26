@@ -72,7 +72,7 @@ bool LaunchPad::Start()
 	for (int i = 0; i < 2; i++)
 	{
 		m_robo[i] = NewGO<SkinModelRender>(0);
-		m_robo[i]->Init("Assets/modelData/testBox/test4.tkm", "Assets/modelData/testBox/test4.tks", enModelUpAxisZ, true);
+		m_robo[i]->Init("Assets/modelData/robo/robo.tkm", "Assets/modelData/robo/robo.tks", enModelUpAxisZ, true);
 	}
 	Quaternion roboRot;
 	roboRot.SetRotationY(ROBO1_ROT_DEGREE);

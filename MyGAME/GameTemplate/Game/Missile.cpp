@@ -21,7 +21,7 @@ Missile::~Missile()
 {
 	DeleteGO(m_skinModelRender);
 	Effect effect;
-	effect.Init(u"Assets/effect/enemyTrack3.efk");
+	effect.Init(u"Assets/effect/enemyTrack.efk");
 	m_rot.SetRotation({ 0.0f,0.0f,1.0f }, m_moveDirection);
 	effect.SetPosition(m_position);
 	effect.SetRotation(m_rot);

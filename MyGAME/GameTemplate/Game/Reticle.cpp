@@ -24,7 +24,7 @@ bool Reticle::Start()
 	m_spriteRender[enNormalReticle]->SetPosition(m_homePosition);
 
 	m_spriteRender[enTargetReticle] = NewGO<SpriteRender>(0);
-	m_spriteRender[enTargetReticle]->Init("Assets/Image/reticle/reticle_target1.dds", 96, 96);
+	m_spriteRender[enTargetReticle]->Init("Assets/Image/reticle/reticle_target.dds", 96, 96);
 	m_spriteRender[enTargetReticle]->SetPosition(m_homePosition);
 
 	return true;

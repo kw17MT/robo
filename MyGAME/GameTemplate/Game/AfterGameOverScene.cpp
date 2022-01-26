@@ -37,7 +37,7 @@ bool AfterGameOverScene::Start()
 	//Replay‰æ‘œ‚Å‰Šú‰»
 	m_sprite[enRePlayButton]->Init("Assets/image/GameOver/PlayAgain.dds", 400, 130, "PSWarningSign");
 	//ToTitle‰æ‘œ‚Å‰Šú‰»
-	m_sprite[enToTitleButton]->Init("Assets/image/GameOver/ReturnToTitle.dds", 400, 130, "PSWarningSign");
+	m_sprite[enToTitleButton]->Init("Assets/image/GameOver/ReturnToTitle.dds", 600, 130, "PSWarningSign");
 	//‰æ‘œ‚ÌˆÊ’u‚ð‰Šú‰»
 	m_sprite[enRePlayButton]->SetPosition(PLAY_AGAIN_BUTTON_POSITION);
 	m_sprite[enToTitleButton]->SetPosition(RETURN_BUTTON_POSITION);

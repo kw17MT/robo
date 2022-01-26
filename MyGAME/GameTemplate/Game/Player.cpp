@@ -8,6 +8,7 @@
 #include "Reticle.h"
 #include "PlayerEffect.h"
 #include "GameDirector.h"
+#include "SoundSource.h"
 
 #include "PlayerEN.h"
 #include "RestrictArea.h"
@@ -41,9 +42,7 @@ bool Player::Start()
 	//スキンを作成
 	m_skinModelRender = NewGO<SkinModelRender>(0);
 	//スキンの情報を初期化
-	//m_skinModelRender->Init("Assets/modelData/noWing/roboNoWing.tkm", "Assets/modelData/noWing/roboNoWing.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
-	//m_skinModelRender->Init("Assets/modelData/robo/robo3.tkm", "Assets/modelData/robo/robo3.tks", enModelUpAxisZ, { 0.0f,0.0f,0.0f }, true);
-	m_skinModelRender->Init("Assets/modelData/testBox/test4.tkm", "Assets/modelData/testBox/test4.tks", enModelUpAxisZ, true);
+	m_skinModelRender->Init("Assets/modelData/robo/robo.tkm", "Assets/modelData/robo/robo.tks", enModelUpAxisZ, true);
 
 	m_animClip[enIdle].Load("Assets/animData/robo/idle1.tka");
 	m_animClip[enIdle].SetLoopFlag(true);
@@ -112,6 +111,14 @@ void Player::Update()
 		//レティクルだけ削除
 		DeleteGO(m_reticle);
 
+
+			CSoundSource* keepSE = FindGO<CSoundSource>("dashKeep");
+			if (keepSE != nullptr)
+			{
+				DeleteGO(keepSE);
+			}
+
+
 		if (m_deathType == enAwayFromArea)
 		{
 			//一度だけ、エリア外に出た場所の斜め上にセットする
@@ -119,9 +126,11 @@ void Player::Update()
 			//倒れた瞬間の1フレーム前の移動速度を用いて、そのまま移動させながら落ちる
 			m_currentPosition = m_roboMove.DeadMove(m_currentPosition);
 			m_skinModelRender->SetPosition(m_currentPosition);
+			g_camera3D->SetTarget(m_currentPosition);
 			m_machingun->SetPosition(m_skinModelRender->GetBonePosition(L"Bone046"),
 				m_currentPosition,
 				m_skinModelRender->GetBonePosition(L"Bone046") - m_skinModelRender->GetBonePosition(L"Bone045"));
+			m_playerEffect->SetIsDied(true);
 			return;
 		}
 		else
@@ -190,7 +199,6 @@ void Player::Update()
 		m_playerHp->SetHPZero();
 		m_deathType = enAwayFromArea;
 		m_cameraMove.SetIsDeadCamera(true);
+		GameDirector::GetInstance().SetGameScene(enGameOver);
 	}
-
-
 }

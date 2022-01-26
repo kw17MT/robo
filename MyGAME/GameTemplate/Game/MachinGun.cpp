@@ -15,13 +15,6 @@ namespace
 
 MachinGun::~MachinGun()
 {
-	//Œ»Ý¶‚«‚Ä‚¢‚é’e‚Ìíœ
-	for (auto i : m_bullets)
-	{
-		DeleteGO(m_bullets.back());
-		m_bullets.pop_back();
-	}
-	m_bullets.clear();
 	//’e”ƒQ[ƒW‚ðíœ
 	DeleteGO(m_ammoGauge);
 	//ƒ‚ƒfƒ‹‚Ìíœ
@@ -46,7 +39,7 @@ bool MachinGun::Start()
 
 void MachinGun::Update()
 {
-	if (GameDirector::GetInstance().GetGameScene() != enInGame)
+	if (GameDirector::GetInstance().GetGameScene() == enGameOver)
 	{
 		m_skinModelRender->SetPosition(m_position);
 		return;
@@ -56,14 +49,12 @@ void MachinGun::Update()
 	//to do ƒXƒe[ƒgƒƒ“ƒg‚ÅŠÇ—‚·‚éŽ–
 	if (g_pad[0]->IsPress(enButtonRB2) && m_remaining_bullet > 0 && m_shootDelay <= 0.0f)
 	{
-		//’e‚ð¶¬
-		m_bullets.push_back(NewGO<Bullet>(0));
-		//’e‚Ì‰ŠúÀ•WŒn‚ðÝ’è
-		m_bullets.back()->SetTargetAndCurrentPos(m_targetPos, m_position);
-		m_bullets.back()->SetOwner(enPlayer);
+		Bullet* bullet = NewGO<Bullet>(0);
+		bullet->SetTargetAndCurrentPos(m_targetPos, m_position);
+		bullet->SetOwner(enPlayer);
 		Quaternion rot;
 		rot.SetRotation({ 0.0f,0.0f,-1.0f }, m_targetPos - m_position);
-		m_bullets.back()->SetRotation(rot);
+		bullet->SetRotation(rot);
 		//Žc‚è’e”‚ð1‚Âƒ}ƒCƒiƒX
 		m_remaining_bullet--;
 		m_ammoGauge->SetRemainingAmmo(m_remaining_bullet);

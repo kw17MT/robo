@@ -84,7 +84,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//);
 
 	//ModelInitData modelData;
-	//modelData.m_tkmFilePath = "Assets/modelData/testBox/a12.tkm";
+	//modelData.m_tkmFilePath = "Assets/modelData/robo/robo.tkm";
 	//modelData.m_fxFilePath = "Assets/shader/sample3DInstancing.fx";
 
 	//modelData.m_expandShaderResoruceView[0] = &worldMatrixSB;
@@ -112,7 +112,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//オブジェクトのアップデート関数を一気に行う
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 
-
 		// インスタンシングテスト
 		//Quaternion qRot = Quaternion::Identity;
 
@@ -130,11 +129,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//オブジェクトのドローを行う
 		RenderingEngine::GetInstance()->Render(renderContext);
 		LightManager::GetInstance().UpdateEyePos();
-
-		////ゲームタイムを用いてエフェクトの再生進行度の更新
-		//EffectEngine::GetInstance()->Update(GameTime().GetFrameDeltaTime());
-		////エフェクトの描画
-		//EffectEngine::GetInstance()->Draw();
 
 		//スピンロックを行う。
 		int restTime = 0;

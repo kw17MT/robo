@@ -56,12 +56,12 @@ bool Title::Start()
 	m_sprite[enExitButton]->SetSpriteAlpha(0.0f);
 
 	m_robo = NewGO<SkinModelRender>(0);
-	m_robo->Init("Assets/modelData/testBox/test4.tkm", "Assets/modelData/testBox/test4.tks", enModelUpAxisZ, true);
+	m_robo->Init("Assets/modelData/robo/robo.tkm", "Assets/modelData/robo/robo.tks", enModelUpAxisZ, true);
 	m_robo->SetPosition({ -50.0f, 100.0f,0.0f });
 	m_robo->SetScale({ 5.0f,5.0f,5.0f });
 
 	m_bunker = NewGO<SkinModelRender>(0);
-	m_bunker->Init("Assets/modelData/Bunker/testO.tkm", nullptr, enModelUpAxisZ, false);
+	m_bunker->Init("Assets/modelData/Bunker/bunker.tkm", nullptr, enModelUpAxisZ, false);
 	m_bunker->SetScale({ 10.0f,10.0f,10.0f });
 
 	g_camera3D->SetPosition({ 0.0f,300.0f,500.0f });

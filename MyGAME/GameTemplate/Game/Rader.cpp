@@ -30,7 +30,7 @@ bool Rader::Start()
 {
 	//レーダー作成
 	m_rader = NewGO<SpriteRender>(0);
-	m_rader->Init("Assets/Image/rader/rader2.dds", 200, 200);
+	m_rader->Init("Assets/Image/rader/rader.dds", 200, 200);
 	m_rader->SetPosition(BASE_SPRITE_POSITION);
 
 	//レーダー上の敵のアイコンを最大数作成

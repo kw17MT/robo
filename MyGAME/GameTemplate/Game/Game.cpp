@@ -20,7 +20,7 @@
 
 namespace
 {
-	const int OBJECTIVE_NUM = 30;
+	const int OBJECTIVE_NUM = 1;
 	const float BGM_DECREASE_VOLUME = 0.001f;
 	const float FADE_START_VOLUME = 24.0f;
 }

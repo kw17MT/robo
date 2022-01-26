@@ -37,7 +37,7 @@ bool LaunchScene::Start()
 	m_sun = NewGO<Sun>(0);
 
 	m_robo = NewGO<SkinModelRender>(0);
-	m_robo->Init("Assets/modelData/robo/robo3.tkm", "Assets/modelData/robo/robo3.tks", enModelUpAxisZ, true);
+	m_robo->Init("Assets/modelData/robo/robo.tkm", "Assets/modelData/robo/robo.tks", enModelUpAxisZ, true);
 	m_robo->SetPosition(m_roboPos);
 	Quaternion qRot;
 	qRot.SetRotation({ 0.0f,0.0f,1.0f }, { 0.0f,0.0f,-1.0f });

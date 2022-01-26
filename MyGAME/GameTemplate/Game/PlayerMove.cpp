@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PlayerMove.h"
 #include "SoundSource.h"
+#include "GameDirector.h"
 
 namespace 
 {
@@ -59,6 +60,11 @@ const void PlayerMove::Dash()
 		{
 			m_isDash = false;			
 			m_isDecayDash = false;
+			CSoundSource* keepSE = FindGO<CSoundSource>("dashKeep");
+			if (keepSE != nullptr)
+			{
+				DeleteGO(keepSE);
+			}
 		}
 	}
 	else

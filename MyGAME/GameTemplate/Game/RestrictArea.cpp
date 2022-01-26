@@ -2,8 +2,14 @@
 #include "RestrictArea.h"
 #include "SpriteRender.h"
 #include "effect/Effect.h"
+#include "SoundSource.h"
 
 extern float CalcMethods::CalcDistance(Vector3 v1, Vector3 v2);
+
+namespace
+{
+	const float SE_VOLUME = 1.0f;
+}
 
 RestrictArea::~RestrictArea()
 {
@@ -13,15 +19,21 @@ RestrictArea::~RestrictArea()
 bool RestrictArea::Start()
 {
 	m_spriteRender = NewGO<SpriteRender>(0);
-	m_spriteRender->Init("Assets/Image/warning/AreaWarn1.dds", 250, 150, "PSWarningSign");
+	m_spriteRender->Init("Assets/Image/warning/AreaWarn.dds", 250, 150, "PSWarningSign");
 	m_spriteRender->SetScale(m_scale);
 	m_spriteRender->SetPosition({ 0.0f,200.0f,0.0f });
 
 	m_effect = NewGO<Effect>(0);
-	m_effect->Init(u"Assets/effect/burst_red.efk");
-	m_effect->SetScale({ 10000.0f,10000.0f,100.0f });
+	m_effect->Init(u"Assets/effect/areaResNear.efk");
+	m_effect->SetPosition(Vector3::Zero);
+	m_effect->SetScale({ 8000.0f,5000.0f,8000.0f });
 	m_effect->Update();
-	//m_effect->Play(false);
+
+	m = NewGO<Effect>(0);
+	m->Init(u"Assets/effect/areaResFar.efk");
+	m->SetPosition(Vector3::Zero);
+	m->SetScale({ 11500.0f,5000.0f,11500.0f });
+	m->Update();
 
 	return true;
 }
@@ -41,7 +53,15 @@ void RestrictArea::JudgeInArea(Vector3 playerPos)
 	{
 		m_areaType = enSemiDangerArea;
 		m_scale = Vector3::One;
-		//m_effect->Play(false);
+
+		m_areaRestrictTimer += GameTime().GetFrameDeltaTime();
+
+		if (m_areaRestrictTimer >= 1.0f)
+		{
+			m_effect->Play(false);
+			m->Play(false);
+			m_areaRestrictTimer = 0.0f;
+		}
 	}
 	else
 	{

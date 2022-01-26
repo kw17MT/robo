@@ -1,5 +1,4 @@
 #pragma once
-class Bullet;
 class SkinModelRender;
 class AmmoGauge;
 
@@ -56,7 +55,6 @@ public:
 
 private:
 	SkinModelRender* m_skinModelRender = nullptr;	//マシンガンのモデル
-	std::vector<Bullet*> m_bullets = { nullptr };	//発射される弾のインスタンス
 	AmmoGauge* m_ammoGauge = nullptr;
 };
 
