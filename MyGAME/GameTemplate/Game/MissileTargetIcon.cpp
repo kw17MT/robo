@@ -22,7 +22,7 @@ MissileTargetIcon::~MissileTargetIcon()
 bool MissileTargetIcon::Start()
 {
 	//ÉAÉCÉRÉìê∂ê¨
-	m_spriteRender = NewGO<SpriteRender>(0);
+	m_spriteRender = NewGO<SpriteRender>(1);
 	m_spriteRender->Init("Assets/Image/reticle/reticle_missile.dds", ICON_SIZE, ICON_SIZE);
 
 	return true;

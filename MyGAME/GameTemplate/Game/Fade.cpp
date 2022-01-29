@@ -22,7 +22,8 @@ bool Fade::Start()
 {
 	m_sprite = NewGO<SpriteRender>(10);
 	m_sprite->Init("Assets/image/fade/black.dds", 1280, 720);
-	m_sprite->SetColor(BLACK);
+	//m_sprite->SetColor(BLACK);
+	m_sprite->SetAlpha(m_alpha);
 	m_fadePhase = enFadeIn;
 
 	return true;
@@ -62,9 +63,10 @@ void Fade::Update()
 		break;
 	}
 
-	Vector4 color = BLACK;
-	color.w = m_alpha;
-	m_sprite->SetColor(color);
+	//Vector4 color = BLACK;
+	//color.w = m_alpha;
+	//m_sprite->SetColor(color);
+	m_sprite->SetAlpha(m_alpha);
 
 	if (m_fadePhase == enFadeOut && m_alpha <= 0.0f)
 	{

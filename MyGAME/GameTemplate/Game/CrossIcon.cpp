@@ -9,7 +9,7 @@ CrossIcon::~CrossIcon()
 
 bool CrossIcon::Start()
 {
-	m_spriteRender = NewGO<SpriteRender>(0);
+	m_spriteRender = NewGO<SpriteRender>(1);
 	m_spriteRender->Init("Assets/Image/reticle/reticleNear.dds", 16, 16);
 
 	return true;

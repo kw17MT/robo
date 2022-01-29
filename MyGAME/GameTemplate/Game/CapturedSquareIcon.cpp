@@ -9,7 +9,7 @@ CapturedSquareIcon::~CapturedSquareIcon()
 
 bool CapturedSquareIcon::Start()
 {
-	m_spriteRender = NewGO<SpriteRender>(0);
+	m_spriteRender = NewGO<SpriteRender>(1);
 	m_spriteRender->Init("Assets/Image/reticle/reticleNearSquare.dds", 48, 48);
 
 	return true;

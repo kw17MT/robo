@@ -249,6 +249,11 @@
 		m_color.w = color.w;
 	}
 
+	void Sprite::SetAlpha(const float alpha)
+	{
+		m_color.w = alpha;
+	}
+
 	void Sprite::ColorUpdate(const float& r,const float& g,const float& b,const float& a)
 	{
 		m_color.x = r;

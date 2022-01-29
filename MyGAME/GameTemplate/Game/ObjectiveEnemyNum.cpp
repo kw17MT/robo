@@ -30,7 +30,7 @@ bool ObjectiveEnemyNum::Start()
 	m_font[enKilledEnemyNum]->SetPosition(KILLED_ENEMY_FONT_POS);
 	m_font[enKilledEnemyNum]->SetScale(m_scale);
 
-	m_sprite = NewGO<SpriteRender>(0);
+	m_sprite = NewGO<SpriteRender>(1);
 	m_sprite->Init("Assets/image/playerUI/objective.dds", 250, 100);
 	m_sprite->SetPosition(SPRITE_POS);
 

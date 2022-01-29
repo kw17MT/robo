@@ -16,6 +16,7 @@ private:
 
 	float m_playerHp = 100.0f;								//プレイヤーの初期HP
 	float m_hpSize = m_playerHp;
+	float m_damagedSpriteAlpha = 0.0f;
 	bool m_isPlayerAlive = true;							//プレイヤーは生きているか
 	bool m_isSoundBuzzer = false;
 	bool m_isSoundDamagedSE1 = false;
@@ -68,6 +69,6 @@ public:
 	float GetHPBarAmountInDanger();
 private:
 	SpriteRender* m_spriteRender = nullptr;				//HP表示用画像
-	//FontRender* m_fontRender = nullptr;					//HP表示用文字
+	SpriteRender* m_damagedSprite = nullptr;			//ダメージを受けたときの周りに出る画像
 };
 

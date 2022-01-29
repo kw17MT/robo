@@ -27,7 +27,7 @@ bool UI::Start()
 {
 	for (int i = 0; i < FIXED_UI_NUM; i++)
 	{
-		m_sprite[i] = NewGO<SpriteRender>(0);
+		m_sprite[i] = NewGO<SpriteRender>(1);
 	}
 
 	//残弾数用フレーム

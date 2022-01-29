@@ -81,6 +81,7 @@ public:
 	/// </summary>
 	/// <param name="color"></param>カラー</param>
 	void ColorUpdate(const Vector4 color);
+	void SetAlpha(const float alpha);
 	/// <summary>
 	/// カラー変更用(RGBA値指定版)
 	/// <param name="r"></param>赤</param>

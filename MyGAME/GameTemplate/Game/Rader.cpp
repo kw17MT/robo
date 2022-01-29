@@ -29,7 +29,7 @@ Rader::~Rader()
 bool Rader::Start()
 {
 	//レーダー作成
-	m_rader = NewGO<SpriteRender>(0);
+	m_rader = NewGO<SpriteRender>(1);
 	m_rader->Init("Assets/Image/rader/rader.dds", 200, 200);
 	m_rader->SetPosition(BASE_SPRITE_POSITION);
 
@@ -40,7 +40,7 @@ bool Rader::Start()
 	}
 
 	//レーダー上のプレイヤーのアイコンを生成
-	m_playerIcon = NewGO<SpriteRender>(0);
+	m_playerIcon = NewGO<SpriteRender>(1);
 	m_playerIcon->Init("Assets/Image/rader/playerIcon.dds", ICON_SIZE, ICON_SIZE);
 	//画像が画面の左下くらいに来るように設定
 	m_playerIcon->SetScale(Vector3::One);

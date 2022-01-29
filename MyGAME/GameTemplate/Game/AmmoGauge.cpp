@@ -24,12 +24,12 @@ AmmoGauge::~AmmoGauge()
 
 bool AmmoGauge::Start()
 {
-	m_gaugeFrame = NewGO<SpriteRender>(0);
+	m_gaugeFrame = NewGO<SpriteRender>(1);
 	m_gaugeFrame->InitGauge("Assets/Image/gaugeTexture/ammoGaugeOut.dds", GAUGE_SCALE_X, GAUGE_SCALE_Y);
 	m_gaugeFrame->SetPivot(m_pivot);
 
 	//ÉQÅ[ÉWÇÃê∂ê¨
-	m_spriteRender = NewGO<SpriteRender>(0);
+	m_spriteRender = NewGO<SpriteRender>(1);
 	m_spriteRender->InitGauge("Assets/Image/gaugeTexture/ammoGauge.dds", GAUGE_SCALE_X, GAUGE_SCALE_Y);
 	m_spriteRender->SetPivot(m_pivot);
 

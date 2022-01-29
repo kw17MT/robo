@@ -83,6 +83,11 @@ public:
 	void SetColor(const Vector4 color) { m_sprite.ColorUpdate(color); }
 
 	/**
+	 * @brief 画像のアルファを変更する
+	 * @param alpha アルファ値
+	*/
+	void SetAlpha(const float alpha) {	m_sprite.SetAlpha(alpha);}
+	/**
 	 * @brief カラー変更(float版)
 	 * @param r 赤色成分
 	 * @param g 緑色成分

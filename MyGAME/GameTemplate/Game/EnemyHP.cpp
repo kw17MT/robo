@@ -25,7 +25,7 @@ EnemyHP::~EnemyHP()
 bool EnemyHP::Start()
 {
 	//HPƒo[‚Ìƒ‚ƒfƒ‹¶¬
-	m_spriteRender = NewGO<SpriteRender>(0);
+	m_spriteRender = NewGO<SpriteRender>(1);
 	m_spriteRender->Init("Assets/Image/HPBar/HPBar.dds", ENEMY_HPBAR_X, ENEMY_HPBAR_Y);
 	m_spriteRender->SetPivot(ENEMY_HPBAR_PIVOT);
 

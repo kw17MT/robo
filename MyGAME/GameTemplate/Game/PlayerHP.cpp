@@ -13,12 +13,14 @@ namespace
 	const float DECREASE_RATE = 3.0f;
 	const float SE_VOLUME = 0.4f;
 	const float HPBAR_DANGER_SIZE = 0.7f;
+	const float DISAPPEAR_RATE = 0.01f;
 }
 
 PlayerHP::~PlayerHP()
 {
 	//画像インスタンスの削除
 	DeleteGO(m_spriteRender);
+	DeleteGO(m_damagedSprite);
 }
 
 void PlayerHP::ApplyDamage(EnPlayerDamageTypes enemyDamageType)
@@ -41,17 +43,22 @@ void PlayerHP::ApplyDamage(EnPlayerDamageTypes enemyDamageType)
 		m_playerHp -= RASER_DAMAGE;
 		break;
 	}
-
+	m_damagedSpriteAlpha = 0.7f;
 	SoundDamagedSE(rand() % 2);
 }
 
 bool PlayerHP::Start()
 {
 	//画像インスタンス生成
-	m_spriteRender = NewGO<SpriteRender>(0);
+	m_spriteRender = NewGO<SpriteRender>(1);
 	m_spriteRender->InitGauge("Assets/Image/PlayerUI/HP.dds", 500, 100);
 	//画像の位置を固定
 	m_spriteRender->SetPosition(m_screenPos);
+
+	m_damagedSprite = NewGO<SpriteRender>(0);
+	m_damagedSprite->Init("Assets/Image/Damaged/damaged.dds", 1280, 720);
+	m_damagedSprite->SetScale(Vector3::One);
+	m_damagedSprite->SetAlpha(m_damagedSpriteAlpha);
 
 	return true;
 }
@@ -139,5 +146,11 @@ void PlayerHP::Update()
 		//}
 	}
 
+	m_damagedSpriteAlpha -= DISAPPEAR_RATE;
+	if (m_damagedSpriteAlpha <= 0.0f)
+	{
+		m_damagedSpriteAlpha = 0.0f;
+	}
+	m_damagedSprite->SetAlpha(m_damagedSpriteAlpha);
 	m_spriteRender->SetSpriteSizeRate(HpSize);
 }

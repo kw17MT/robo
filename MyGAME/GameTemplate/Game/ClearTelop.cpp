@@ -19,7 +19,7 @@ bool ClearTelop::Start()
 {
 	for (int i = 0; i < 3; i++)
 	{
-		m_sprite[i] = NewGO<SpriteRender>(0);
+		m_sprite[i] = NewGO<SpriteRender>(1);
 	}
 	m_sprite[0]->Init("Assets/image/Clear/clearSurround.dds", 500, 500);
 	m_sprite[1]->Init("Assets/image/Clear/clearButtom.dds", 500, 500);

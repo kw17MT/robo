@@ -39,7 +39,7 @@ bool Title::Start()
 
 	for (int i = 0; i < enSpriteNum; i++)
 	{
-		m_sprite[i] = NewGO<SpriteRender>(0);
+		m_sprite[i] = NewGO<SpriteRender>(1);
 	}
 
 	m_sprite[enTitleRogo]->Init("Assets/Image/Title/titleRogo.dds", 450, 250);

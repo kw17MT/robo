@@ -19,7 +19,7 @@ PlayerEN::~PlayerEN()
 bool PlayerEN::Start()
 {
 	//画像インスタンスの生成
-	m_spriteRender = NewGO<SpriteRender>(0);
+	m_spriteRender = NewGO<SpriteRender>(1);
 	m_spriteRender->InitGauge("Assets/Image/PlayerUI/EN.dds", 500, 100);
 	//位置設定
 	m_spriteRender->SetPosition(m_screenPos);

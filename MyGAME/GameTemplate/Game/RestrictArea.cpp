@@ -19,7 +19,7 @@ RestrictArea::~RestrictArea()
 
 bool RestrictArea::Start()
 {
-	m_spriteRender = NewGO<SpriteRender>(0);
+	m_spriteRender = NewGO<SpriteRender>(1);
 	m_spriteRender->Init("Assets/Image/warning/AreaWarn.dds", 250, 150, "PSWarningSign");
 	m_spriteRender->SetScale(m_scale);
 	m_spriteRender->SetPosition({ 0.0f,200.0f,0.0f });
