@@ -11,7 +11,7 @@ void SkinModelRender::Init(const char* modelFilePath, const char* skeletonPath, 
 {
 	//モデルのファイルパス設定
 	m_modelInitData.m_tkmFilePath = modelFilePath;
-	//モデルが使用するシェーダー（下はPBRのみ）
+	//モデルが使用するシェーダー
 	m_modelInitData.m_fxFilePath = "Assets/shader/deffered/defferedmodel.fx";
 	//頂点シェーダー設定
 	m_modelInitData.m_vsEntryPointFunc = "VSMain";

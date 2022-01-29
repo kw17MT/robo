@@ -44,19 +44,18 @@ sampler Sampler : register(s0);
 const int depthInViewStart = 800;
 const int depthInViewEnd = 2000;
 
-
 /*!
  * @brief 被写界深度のピクセルシェーダー
  */
 float4 PSMain(PSInput psIn) : SV_Target0
 {
-    float depth = depthTexture.Sample(Sampler, psIn.uv).a;
+    float4 depth = depthTexture.Sample(Sampler, psIn.uv);
 
-    float4 worldPos;
+    float4 worldPos = (0.0f,0.0f,0.0f,0.0f);
 
     // まず正規化スクリーン座標系での座標を計算する。
     // z座標は深度テクスチャから引っ張ってくる。
-    worldPos.z = depth;
+    worldPos.z = depth.w;
     // xy座標はUV座標から計算する。
     worldPos.xy = psIn.uv * float2(2.0f, -2.0f) + float2(-1.0f, 1.0f);
     worldPos.w = 1.0f;

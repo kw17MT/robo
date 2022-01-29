@@ -60,6 +60,12 @@ public:
 	void SetHPZero() { m_playerHp = 0.0f; }
 
 	void SoundDamagedSE(int soundNo);
+
+	/**
+	 * @brief HPが7割減った状態をMAXとしたときの残りHPバーの大きさ
+	 * @return 残りHPサイズ / 危険状態とする量
+	*/
+	float GetHPBarAmountInDanger();
 private:
 	SpriteRender* m_spriteRender = nullptr;				//HP表示用画像
 	//FontRender* m_fontRender = nullptr;					//HP表示用文字

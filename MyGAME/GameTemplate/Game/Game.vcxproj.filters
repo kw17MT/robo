@@ -413,6 +413,7 @@
     <ClCompile Include="AfterGameOverScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Monochrome.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -853,6 +854,7 @@
     <ClInclude Include="AfterGameOverScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Monochrome.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">

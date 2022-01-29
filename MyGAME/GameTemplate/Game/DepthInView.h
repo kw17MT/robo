@@ -17,10 +17,6 @@ public:
 
 private:
 	GaussianBlur m_depthGaussian;		//ブラー作成用
-	RenderTarget m_depthInViewMap;		//被写界深度を適用する
-	Sprite m_main;
 	Sprite m_finalSprite;				//適用した画像
-
-	RenderTarget* m_depthTargets[2];		//Init関数で初期化
 };
 

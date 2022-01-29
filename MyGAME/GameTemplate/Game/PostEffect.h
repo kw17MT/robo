@@ -5,6 +5,7 @@
 #include "SSR.h"
 #include "MotionBlur.h"
 #include "LensGhost.h"
+#include "Monochrome.h"
 
 class PostEffect
 {
@@ -23,4 +24,5 @@ private:
 	FXAA m_fxaa;
 	MotionBlur m_motionBlur;
 	LensGhost m_lensGhost;
+	Monochrome m_monochrome;
 };

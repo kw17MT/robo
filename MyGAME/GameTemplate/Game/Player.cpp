@@ -201,4 +201,26 @@ void Player::Update()
 		m_cameraMove.SetIsDeadCamera(true);
 		GameDirector::GetInstance().SetGameScene(enGameOver);
 	}
+
+
+
+	if (m_area->GetAreaType() != enSafeArea)
+	{
+		if (m_playerHp->GetHPBarAmountInDanger() < m_area->GetMonochromeRateDependOnDistance())
+		{
+			RenderingEngine::GetInstance()->SetMonochromeRate(m_area->GetMonochromeRateDependOnDistance());
+		}
+		else
+		{
+			RenderingEngine::GetInstance()->SetMonochromeRate(m_playerHp->GetHPBarAmountInDanger() + 0.7f);
+		}
+	}
+	else if(m_playerHp->GetHPBarAmountInDanger() != 0.0f)
+	{
+		RenderingEngine::GetInstance()->SetMonochromeRate(m_playerHp->GetHPBarAmountInDanger() + 0.7f);
+	}
+	else
+	{
+		RenderingEngine::GetInstance()->SetMonochromeRate(0.0f);
+	}
 }

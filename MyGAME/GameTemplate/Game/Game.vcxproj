@@ -326,6 +326,7 @@
     <ClCompile Include="FXAA.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameDirector.cpp" />
+    <ClCompile Include="Monochrome.cpp" />
     <ClCompile Include="ObjectiveEnemyNum.cpp" />
     <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="GameTime.cpp" />
@@ -484,6 +485,7 @@
     <ClInclude Include="FXAA.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameDirector.h" />
+    <ClInclude Include="Monochrome.h" />
     <ClInclude Include="ObjectiveEnemyNum.h" />
     <ClInclude Include="StageManager.h" />
     <ClInclude Include="GameTime.h" />

@@ -58,8 +58,6 @@ public:
 	*/
 	void InitLightCamera();
 
-
-
 	/**
 	 * @brief シャドウ作成に必要なライトカメラを取得する。
 	*/
@@ -100,18 +98,19 @@ public:
 	void GetDefferedSprite(RenderContext& rc)
 	{
 		m_defferedLighting.Draw(rc);
-		//m_effectedDeffered.Draw(rc);
 	}
 
 	RenderTarget& GetShadowMap() {
 		return m_shadow.GetShadowMap();
 	}
 
-	//void StartForwardRendering(RenderContext& rc);
-
 	void DrawInMainRenderTarget(RenderContext& rc);
 
 	void DrawUI(RenderContext& rc);
+
+	void SetMonochromeRate(float rate) { m_monochromeRate = rate; }
+
+	float& GetMonochromeRate() { return m_monochromeRate; }
 
 private:
 	//最終表示するオフスクリーン画像
@@ -146,5 +145,6 @@ private:
 	SpriteInitData m_forwardData;
 	Sprite m_forward;
 	RenderTarget m_sky;
+	float m_monochromeRate = 0.0f;
 };
 

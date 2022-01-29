@@ -13,6 +13,7 @@ void PostEffect::Init(RenderTarget& mainRenderTarget,
 	m_fxaa.Init(mainRenderTarget);
 	m_motionBlur.InitSprite(mainRenderTarget, normalMap, specDepthMap, velocityMap);
 	m_lensGhost.Init();
+	m_monochrome.Init();
 }
 
 void PostEffect::Render(RenderContext& rc, Sprite& mainSprite, RenderTarget& mainTarget)
@@ -28,4 +29,8 @@ void PostEffect::Render(RenderContext& rc, Sprite& mainSprite, RenderTarget& mai
 	m_bloom.Render(rc, mainTarget);
 	m_fxaa.Render(rc, mainTarget);
 	m_lensGhost.Render(rc, mainTarget);
+	if (RenderingEngine::GetInstance()->GetMonochromeRate() != 0.0f)
+	{
+		m_monochrome.Render(rc, mainSprite, mainTarget);
+	}
 }

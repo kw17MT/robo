@@ -222,7 +222,7 @@ Vector3 PlayerMove::DeadMove(Vector3 currentPos)
 	float dropAmount = 0.5f * m_afterDeathTime * m_afterDeathTime;
 
 	//プレイヤーのワールド座標を一定以下にしないようにする
-	if (currentPos.y >= -10000.0f)
+	if (currentPos.y >= -50000.0f)
 	{
 		currentPos.y -= dropAmount;
 	}

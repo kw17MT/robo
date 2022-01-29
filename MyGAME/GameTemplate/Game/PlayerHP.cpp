@@ -6,7 +6,7 @@
 
 namespace
 {
-	const float BULLET_DAMAGE = 100.0f;			//弾丸のダメージ量
+	const float BULLET_DAMAGE = 3.0f;			//弾丸のダメージ量
 	const float MISSILE_DAMAGE = 10.0f;			//ミサイルのダメージ量
 	const float RASER_DAMAGE = 20.0f;			//レールガンのダメージ量
 	const float MAX_HP = 100.0f;				//最大HP 
@@ -74,6 +74,21 @@ void PlayerHP::SoundDamagedSE(int soundNo)
 	damaged->Play(false);
 }
 
+float PlayerHP::GetHPBarAmountInDanger()
+{
+	float HpSize = 1.0f - m_hpSize / MAX_HP;
+	if (HpSize >= HPBAR_DANGER_SIZE)
+	{
+		//残りHPバーは危険状態のHPバーの何割か
+		float remainAmount = 1.0f - (1.0f - HpSize) / (1.0f - HPBAR_DANGER_SIZE);
+		return remainAmount;
+	}
+	else
+	{
+		return 0.0f;
+	}
+}
+
 void PlayerHP::Update()
 {
 	//HPがなくなったら
@@ -100,15 +115,29 @@ void PlayerHP::Update()
 
 	//残りHPからゲージの大きさを計算する
 	float HpSize = 1.0f - m_hpSize / MAX_HP;
-	if (HpSize >= HPBAR_DANGER_SIZE
-		&& !m_isSoundBuzzer)
+	if (HpSize >= HPBAR_DANGER_SIZE)
 	{
-		CSoundSource* buzzerSE = NewGO<CSoundSource>(0);
-		buzzerSE->Init(L"Assets/sound/HpBuzzer.wav", false);
-		buzzerSE->SetVolume(SE_VOLUME);
-		buzzerSE->Play(false);
+		//ブザーを鳴らしていなかったら
+		if (!m_isSoundBuzzer)
+		{
+			//音を鳴らす
+			CSoundSource* buzzerSE = NewGO<CSoundSource>(0);
+			buzzerSE->Init(L"Assets/sound/HpBuzzer.wav", false);
+			buzzerSE->SetVolume(SE_VOLUME);
+			buzzerSE->Play(false);
 
-		m_isSoundBuzzer = true;
+			m_isSoundBuzzer = true;
+		}
+
+		////残りHPバーは危険状態のHPバーの何割か
+		//float remainAmount = 1.0f - (1.0f - HpSize) / (1.0f - HPBAR_DANGER_SIZE);
+		////設定されているモノクロ率より、今回計算した残り割合が大きければ
+		//if (remainAmount > RenderingEngine::GetInstance()->GetMonochromeRate())
+		//{
+		//	//モノクロ率をセット
+		//	RenderingEngine::GetInstance()->SetMonochromeRate(remainAmount);
+		//}
 	}
+
 	m_spriteRender->SetSpriteSizeRate(HpSize);
 }

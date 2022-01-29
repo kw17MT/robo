@@ -262,10 +262,6 @@ float4 PSMain( PSInput In ) : SV_Target0
 	//最終的に適用する拡散反射光を計算
     float3 diffuse = albedoColor.xyz * diffuseFromFresnel * lambertDiffuse;
     
-    //float4 a = 1.0f;
-    //a.xyz = diffuseFromFresnel;
-    //return a;
-    
     //反射の具合を取得
     float specPower = normalTexture.Sample(Sampler, In.uv).w;
     //反射光の取得

@@ -9,6 +9,7 @@ extern float CalcMethods::CalcDistance(Vector3 v1, Vector3 v2);
 namespace
 {
 	const float SE_VOLUME = 1.0f;
+	const float FAR_DISTANCE = 70000.0f;
 }
 
 RestrictArea::~RestrictArea()
@@ -42,18 +43,26 @@ void RestrictArea::JudgeInArea(Vector3 playerPos)
 {
 	Vector3 posXZ = playerPos;
 	posXZ.y = 0.0f;
-	float distance = CalcMethods::CalcDistance({ 0.0f,0.0f,0.0f }, posXZ);
+	m_distance = CalcMethods::CalcDistance({ 0.0f,0.0f,0.0f }, posXZ);
 
-	if (distance <= 50000.0f)
+	if (m_distance <= 50000.0f)
 	{
 		m_areaType = enSafeArea;
 		m_scale = Vector3::Zero;
 	}
-	else if (distance <= 70000.0f)
+	else if (m_distance <= 70000.0f)
 	{
 		m_areaType = enSemiDangerArea;
 		m_scale = Vector3::One;
+	}
+	else
+	{
+		m_areaType = enDanger;
+		DeleteGO(this);
+	}
 
+	if (m_distance >= 42000.0f)
+	{
 		m_areaRestrictTimer += GameTime().GetFrameDeltaTime();
 
 		if (m_areaRestrictTimer >= 1.0f)
@@ -63,11 +72,12 @@ void RestrictArea::JudgeInArea(Vector3 playerPos)
 			m_areaRestrictTimer = 0.0f;
 		}
 	}
-	else
-	{
-		m_areaType = enDanger;
-		DeleteGO(this);
-	}
+}
+
+float RestrictArea::GetMonochromeRateDependOnDistance()
+{
+	float monochromeRate = m_distance / FAR_DISTANCE;
+	return 	monochromeRate;
 }
 
 void RestrictArea::Update()
