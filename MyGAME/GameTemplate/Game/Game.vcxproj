@@ -346,7 +346,6 @@
     <ClCompile Include="MissileGenerator.cpp" />
     <ClCompile Include="MotionBlur.cpp" />
     <ClCompile Include="NameKey.cpp" />
-    <ClCompile Include="PlanarReflection.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAnimation.cpp" />
     <ClCompile Include="PlayerEffect.cpp" />
@@ -369,7 +368,6 @@
     <ClCompile Include="SoundSource.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="CapturedSquareIcon.cpp" />
-    <ClCompile Include="SSR.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -504,7 +502,6 @@
     <ClInclude Include="MissileGenerator.h" />
     <ClInclude Include="MotionBlur.h" />
     <ClInclude Include="NameKey.h" />
-    <ClInclude Include="PlanarReflection.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAnimation.h" />
     <ClInclude Include="PlayerEffect.h" />
@@ -527,7 +524,6 @@
     <ClInclude Include="SoundSource.h" />
     <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="CapturedSquareIcon.h" />
-    <ClInclude Include="SSR.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Stopwatch.h" />
     <ClInclude Include="Sun.h" />

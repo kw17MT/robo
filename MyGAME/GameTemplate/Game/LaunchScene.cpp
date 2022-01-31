@@ -71,6 +71,11 @@ bool LaunchScene::Start()
 	g_camera3D->SetPosition({ 0.0f,400.0f, 5200.0f });
 	g_camera3D->SetTarget(m_roboPos);
 
+	//ゲームシーンをプレイヤー射出中にする。
+	GameDirector::GetInstance().SetGameScene(enLaunchingPlayer);
+
+	LightManager::GetInstance().TurnOnSpotLight();
+
 	return true;
 }
 
@@ -145,18 +150,6 @@ void LaunchScene::Update()
 		{
 			m_fade = NewGO<Fade>(0);
 		}
-
-
-
-		//GameDirector::GetInstance().SetGameScene(enInGame);
-		//DeleteGO(this);
-
-		//LightManager::GetInstance().TurnOffSpotLight();
-		////フェードから遷移すること
-		//Game* game = NewGO<Game>(0, "game");
-
-		//発射処理がすべて終わったためゲームを進行させる。
-		//GameDirector::GetInstance().SetGameScene(enInGame);
 	}
 	
 	if (m_fade != nullptr && m_fade->GetFadePhase() == enWait)

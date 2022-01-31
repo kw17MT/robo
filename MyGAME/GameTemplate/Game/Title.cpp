@@ -17,7 +17,6 @@ namespace
 	const float BGM_VOLUME = 0.5f;
 	const float SE1_VOLUME = 2.0f;
 	const float SE2_VOLUME = 0.25f;
-
 }
 
 Title::~Title()
@@ -28,8 +27,10 @@ Title::~Title()
 	}
 
 	DeleteGO(m_robo);
-	DeleteGO(m_bunker);
+	DeleteGO(m_bunker[0]);
+	DeleteGO(m_bunker[1]);
 	DeleteGO(m_bgm);
+	DeleteGO(m_man);
 }
 
 bool Title::Start()
@@ -60,9 +61,25 @@ bool Title::Start()
 	m_robo->SetPosition({ -50.0f, 100.0f,0.0f });
 	m_robo->SetScale({ 5.0f,5.0f,5.0f });
 
-	m_bunker = NewGO<SkinModelRender>(0);
-	m_bunker->Init("Assets/modelData/Bunker/bunker.tkm", nullptr, enModelUpAxisZ, false);
-	m_bunker->SetScale({ 10.0f,10.0f,10.0f });
+	m_bunker[0] = NewGO<SkinModelRender>(0);
+	m_bunker[0]->Init("Assets/modelData/Bunker/bunker.tkm", nullptr, enModelUpAxisZ, false);
+	m_bunker[0]->SetScale({ 10.0f,10.0f,10.0f });
+
+	m_bunker[1] = NewGO<SkinModelRender>(0);
+	m_bunker[1]->Init("Assets/modelData/doc/doc_base.tkm", nullptr, enModelUpAxisZ, false);
+	m_bunker[1]->SetScale({ 1.5f,1.5f,1.5f });
+	m_bunker[1]->SetPosition({ 0.0f,-1570.0f,-3700.0f });
+
+	m_man = NewGO<SkinModelRender>(0);
+	m_man->Init("Assets/modelData/Man/clapMan.tkm", "Assets/modelData/Man/clapMan.tks", enModelUpAxisZ, false);
+	m_man->SetPosition({ 800.0f, 130.0f, 0.0f });
+	Quaternion rot;
+	rot.SetRotationDegY(-90.0f);
+	m_man->SetRotation(rot);
+	anim[0].Load("Assets/modelData/Man/clap.tka");
+	anim[0].SetLoopFlag(true);
+	m_man->InitAnimation(anim, 1);
+	m_man->PlayAnimation(1);
 
 	g_camera3D->SetPosition({ 0.0f,300.0f,500.0f });
 	g_camera3D->SetTarget(Vector3::Zero);	
@@ -79,6 +96,8 @@ bool Title::Start()
 	
 	//ステージを設定する
 	StageManager::GetInstance().SetStage(en1_1);
+	//ゲーム遷移でタイトルに帰ってきた時用に0でモノクロ度を初期化
+	RenderingEngine::GetInstance()->SetMonochromeRate(0.0f);
 
 	return true;
 }

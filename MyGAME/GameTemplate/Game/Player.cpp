@@ -90,10 +90,6 @@ void Player::TakenDamage(EnPlayerDamageTypes damageType)
 
 void Player::Update()
 {
-	//プレイヤーのアニメーションを行う
-	m_playerAnim.UpdateAnimState();
-	m_skinModelRender->PlayAnimation(m_playerAnim.GetPlayerState(), 1.0f);
-
 	//プレイヤーのHPがなく、倒されていたら
 	if (m_playerHp->GetIsPlayerAlive() == false)
 	{
@@ -106,7 +102,10 @@ void Player::Update()
 			m_skinModelRender->GetBonePosition(L"Bone024") + m_roboMove.GetMoveSpeed()
 		);
 
-		GameDirector::GetInstance().SetGameScene(enGameOver);
+		if (GameDirector::GetInstance().GetGameScene() != enGameClear)
+		{
+			GameDirector::GetInstance().SetGameScene(enGameOver);
+		}
 
 		//レティクルだけ削除
 		DeleteGO(m_reticle);
@@ -151,6 +150,10 @@ void Player::Update()
 			return;
 		}
 	}
+
+	//プレイヤーのアニメーションを行う
+	m_playerAnim.UpdateAnimState();
+	m_skinModelRender->PlayAnimation(m_playerAnim.GetPlayerState(), 1.0f);
 
 	m_roboMove.SetCanDash(m_playerEn->GetIsPlayerENRemain());
 
@@ -199,7 +202,6 @@ void Player::Update()
 		m_playerHp->SetHPZero();
 		m_deathType = enAwayFromArea;
 		m_cameraMove.SetIsDeadCamera(true);
-		GameDirector::GetInstance().SetGameScene(enGameOver);
 	}
 
 

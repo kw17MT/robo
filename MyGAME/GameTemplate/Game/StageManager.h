@@ -1,5 +1,8 @@
 #pragma once
 
+/**
+ * @brief ステージの種類
+*/
 enum EnStage
 {
 	en1_1,
@@ -7,6 +10,10 @@ enum EnStage
 	enStageNum
 };
 
+/**
+ * @brief ステージのマネージャー
+ * 現在は未使用
+*/
 class StageManager : public IGameObject
 {
 private:

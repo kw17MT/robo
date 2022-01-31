@@ -5,24 +5,35 @@ RenderingEngine* RenderingEngine::instance = nullptr;
 
 void RenderingEngine::PrepareRendering()
 {
+	//レンダーターゲットをすべて作成する
 	InitRenderTargets();
+	//スプライトの初期化
 	InitSprites();
+	//ライトカメラの初期化
 	InitLightCamera();
+	//ポストエフェクトで使うレンダーターゲットの送信
 	m_postEffect.Init(m_mainRenderTarget, m_albedoTarget, m_normalTarget, m_specAndDepthTarget, m_velocityTarget);
 }
 
 void RenderingEngine::InitRenderTargets()
 {
+	//メインゲームの画面となるターゲット
 	m_mainRenderTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D32_FLOAT);
+	//アルベドマップ書き込みのターゲット
 	m_albedoTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D32_FLOAT);
+	//法線マップ書き込みのターゲット
 	m_normalTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_D32_FLOAT);
+	//鏡面反射率と深度値書き込みのターゲット
 	m_specAndDepthTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D32_FLOAT);
+	//ベロシティマップ書き込みのターゲット
 	m_velocityTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D32_FLOAT);
+	//シャドウ書き込みのターゲットの初期化
 	m_shadow.InitShadowTarget();
 };
 
 void RenderingEngine::InitSprites()
 {
+	//メインレンダーターゲットを使った画像の初期化
 	m_mainSpriteData.m_textures[0] = &m_mainRenderTarget.GetRenderTargetTexture();
 	m_mainSpriteData.m_width = 1280;
 	m_mainSpriteData.m_height = 720;
@@ -30,26 +41,29 @@ void RenderingEngine::InitSprites()
 	m_mainSpriteData.m_colorBufferFormat[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
 	m_mainSprite.Init(m_mainSpriteData);
 
+	//ディファードレンダリングでそれぞれのターゲットにマップを書き込む
 	m_defferedLighting.InitSprite(m_albedoTarget, m_normalTarget, m_specAndDepthTarget, m_shadow.GetShadowMap(), m_velocityTarget);
 	m_shadow.InitCascade(m_mainRenderTarget, m_normalTarget, m_specAndDepthTarget);
 }
 
 void RenderingEngine::InitLightCamera()
 {
+	//ライトカメラの座標設定
 	m_lightCamera.SetPosition(0.0f, 10000.0f, 0.0f);
+	//ライトカメラの映す限界
 	m_lightCamera.SetFar(100000.0f);
+	//ライトカメラのターゲット
 	m_lightCamera.SetTarget(0.0f, 0.0f, 0.0f);
-	m_lightCamera.SetUp({ 1, 0, 0 });							//カメラの上をX座標にしておく
+	//カメラの上をX座標にしておく
+	m_lightCamera.SetUp({ 1, 0, 0 });							
+	//ライトカメラを180度回転させて地面を見るようにする
 	m_lightCamera.SetViewAngle(Math::DegToRad(180.0f));
-
-	//平行投影にする場合
-	
+	//平行投影にする
 	m_lightCamera.SetUpdateProjMatrixFunc(Camera::enUpdateProjMatrixFunc_Ortho);
-	m_lightCamera.SetWidth(500000);
-	m_lightCamera.SetHeight(40000);
-	
-
-
+	//ライトカメラが作る影の範囲設定
+	m_lightCamera.SetWidth(500);
+	m_lightCamera.SetHeight(400);
+	//設定を更新する
 	m_lightCamera.Update();
 }
 
@@ -66,6 +80,7 @@ void RenderingEngine::DrawInMainRenderTarget(RenderContext& rc)
 
 void RenderingEngine::DrawUI(RenderContext& rc)
 {
+	//メインのゲーム画面にUIを書き込む
 	rc.WaitUntilToPossibleSetRenderTarget(m_mainRenderTarget);
 	rc.SetRenderTargetAndViewport(m_mainRenderTarget);
 	SetRenderTypes(RenderingEngine::EnRenderTypes::ui);
@@ -81,8 +96,6 @@ void RenderingEngine::Render(RenderContext& rc)
 
 	//影を作成する
 	m_shadow.Render(rc);
-
-	//m_shadow.RenderCascade(rc);
 
 	//ディファードライティングを行う。
 	m_defferedLighting.Render(rc);

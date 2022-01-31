@@ -4,7 +4,6 @@
 
 namespace
 {
-	const Vector4 BLACK = { 0.0f,0.0f,0.0f, 0.0f };
 }
 
 Fade::~Fade()
@@ -22,7 +21,6 @@ bool Fade::Start()
 {
 	m_sprite = NewGO<SpriteRender>(10);
 	m_sprite->Init("Assets/image/fade/black.dds", 1280, 720);
-	//m_sprite->SetColor(BLACK);
 	m_sprite->SetAlpha(m_alpha);
 	m_fadePhase = enFadeIn;
 
@@ -44,9 +42,9 @@ void Fade::Update()
 			}
 		}
 
-		if (m_alpha > 1.0f)
+		if (m_alpha > 1.0f + GameTime().GetFrameDeltaTime())
 		{
-			m_alpha = 1.0f;
+			m_alpha = 1.2f;
 			m_fadePhase = enWait;
 		}
 		break;
@@ -63,9 +61,6 @@ void Fade::Update()
 		break;
 	}
 
-	//Vector4 color = BLACK;
-	//color.w = m_alpha;
-	//m_sprite->SetColor(color);
 	m_sprite->SetAlpha(m_alpha);
 
 	if (m_fadePhase == enFadeOut && m_alpha <= 0.0f)

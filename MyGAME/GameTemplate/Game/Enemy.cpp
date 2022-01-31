@@ -42,7 +42,7 @@ Enemy::~Enemy()
 
 	//爆破エフェクトを出す
 	Effect effect;
-	effect.Init(u"Assets/effect/explosion2.efk");
+	effect.Init(u"Assets/effect/explosion.efk");
 	effect.SetScale(EXPLOSION_EFFECT_SCALE);
 	effect.SetPosition(m_position);
 	effect.Play();

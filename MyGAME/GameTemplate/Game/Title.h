@@ -29,9 +29,11 @@ public:
 public:
 	SpriteRender* m_sprite[enSpriteNum] = { nullptr };
 	SkinModelRender* m_robo = nullptr;
-	SkinModelRender* m_bunker = nullptr;
+	SkinModelRender* m_man = nullptr;
+	SkinModelRender* m_bunker[2] = { nullptr };
 	CameraShake m_cameraShake;
 	CSoundSource* m_bgm = nullptr;
 	Fade* m_fade = nullptr;
+	AnimationClip anim[1];
 };
 

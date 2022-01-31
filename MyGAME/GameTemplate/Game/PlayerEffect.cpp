@@ -91,7 +91,7 @@ void PlayerEffect::Update()
 	{
 		if (GameDirector::GetInstance().GetGameScene() == enLaunchingPlayer)
 		{
-			m_boosterScale = BOOSTER_EFFECT_SCALE * 3.0f;
+			m_boosterScale = BOOSTER_EFFECT_SCALE * 2.0f;
 		}
 		else
 		{
@@ -168,18 +168,19 @@ void PlayerEffect::Update()
 			if (m_timeFromDeath > START_NEXT_SCENE_TIME
 				&& m_timeFromDeath < START_NEXT_SCENE_TIME + 1)
 			{
-				CSoundSource* explodeFar = NewGO<CSoundSource>(0);
-				explodeFar->Init(L"Assets/sound/GameOver.wav", false);
-				explodeFar->SetVolume(SE_VOLUME);
-				explodeFar->Play(false);
-
 				m_timeFromDeath += 2.0f;
 
-				//最後の爆発を見せたのでシーンをゲームオーバー後にする
-				GameDirector::GetInstance().SetGameScene(enAfterGameOver);
+				if (GameDirector::GetInstance().GetGameScene() != enGameClear)
+				{
+					CSoundSource* explodeFar = NewGO<CSoundSource>(0);
+					explodeFar->Init(L"Assets/sound/GameOver.wav", false);
+					explodeFar->SetVolume(SE_VOLUME);
+					explodeFar->Play(false);
+					//最後の爆発を見せたのでシーンをゲームオーバー後にする
+					GameDirector::GetInstance().SetGameScene(enAfterGameOver);
+				}
 			}
 		}
-
 	}
 
 	for (int i = 0; i < EFFECT_NUM; i++)

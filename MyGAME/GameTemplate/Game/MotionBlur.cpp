@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "MotionBlur.h"
 
-void MotionBlur::InitSprite(RenderTarget& mainRenderTarget, RenderTarget& normalTarget, RenderTarget& specAndDepthTarget, RenderTarget& velocityTarget)
+void MotionBlur::InitSprite(RenderTarget& mainRenderTarget, RenderTarget& normalTarget, RenderTarget& velocityTarget)
 {
 	//ベロシティマップにガウシアンブラーを適用
 	m_gaussian[0].Init(&velocityTarget.GetRenderTargetTexture());
@@ -23,25 +23,6 @@ void MotionBlur::InitSprite(RenderTarget& mainRenderTarget, RenderTarget& normal
 	motionBlurData.m_colorBufferFormat[2] = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	motionBlurData.m_colorBufferFormat[3] = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	m_motionBlurSprite.Init(motionBlurData);
-
-	//最終表示用の画像の初期化
-	SpriteInitData finalSpriteData;
-	finalSpriteData.m_textures[0] = &m_gaussian[0].GetBokeTexture();
-	finalSpriteData.m_textures[1] = &m_gaussian[1].GetBokeTexture();
-	finalSpriteData.m_textures[2] = &m_gaussian[2].GetBokeTexture();
-	finalSpriteData.m_textures[3] = &m_gaussian[3].GetBokeTexture();
-	finalSpriteData.m_width = mainRenderTarget.GetWidth();
-	finalSpriteData.m_height = mainRenderTarget.GetHeight();
-	finalSpriteData.m_fxFilePath = "Assets/shader/blur/bloom.fx";
-	finalSpriteData.m_vsEntryPointFunc = "VSMain";
-	finalSpriteData.m_psEntryPoinFunc = "PSCalcBloom";
-	finalSpriteData.m_alphaBlendMode = AlphaBlendMode_Add;
-	finalSpriteData.m_colorBufferFormat[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	finalSpriteData.m_colorBufferFormat[1] = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	finalSpriteData.m_colorBufferFormat[2] = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	finalSpriteData.m_colorBufferFormat[3] = DXGI_FORMAT_R32G32B32A32_FLOAT;
-
-	m_finalGaussian.Init(finalSpriteData);
 }
 
 void MotionBlur::Render(RenderContext& rc, Sprite& mainSprite, RenderTarget& targetToApply)

@@ -222,9 +222,6 @@
     <ClCompile Include="ForwardBloom.cpp">
       <Filter>AboutRendering\ForwardRendering</Filter>
     </ClCompile>
-    <ClCompile Include="SSR.cpp">
-      <Filter>AboutRendering\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="Shadow.cpp">
       <Filter>AboutRendering</Filter>
     </ClCompile>
@@ -238,9 +235,6 @@
       <Filter>AboutRendering\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="MotionBlur.cpp">
-      <Filter>AboutRendering\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="PlanarReflection.cpp">
       <Filter>AboutRendering\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
@@ -665,9 +659,6 @@
     <ClInclude Include="ForwardBloom.h">
       <Filter>AboutRendering\ForwardRendering</Filter>
     </ClInclude>
-    <ClInclude Include="SSR.h">
-      <Filter>AboutRendering\PostEffect</Filter>
-    </ClInclude>
     <ClInclude Include="Shadow.h">
       <Filter>AboutRendering</Filter>
     </ClInclude>
@@ -681,9 +672,6 @@
       <Filter>AboutRendering\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="MotionBlur.h">
-      <Filter>AboutRendering\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="PlanarReflection.h">
       <Filter>AboutRendering\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">

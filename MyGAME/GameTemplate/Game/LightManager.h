@@ -42,10 +42,14 @@ struct AllLight
 class LightManager : public IGameObject
 {
 private:
-	static LightManager* instance;
-	AllLight s_allLight;
+	static LightManager* instance;			//シングルトンインスタンス
+	AllLight s_allLight;					//全てのライトの情報
 public:
+	/**
+	 * @brief コンストラクタ
+	*/
 	LightManager();
+
 	/**
 	 * @brief インスタンスを作る
 	*/
@@ -92,6 +96,9 @@ public:
 		s_allLight.ViewProjInverseMatrix.Inverse();
 	}
 
+	/**
+	 * @brief 全てのスポットライトを消す
+	*/
 	void TurnOffSpotLight()
 	{
 		for (int i = 0; i < g_spotLightNum; i++)
@@ -100,6 +107,16 @@ public:
 		}
 	}
 
+	/**
+	 * @brief 全てのスポットライトを付ける
+	*/
+	void TurnOnSpotLight();
+
+	/**
+	 * @brief マシンガンにスポットライトを与える
+	 * @param pos マシンガン
+	 * @param gunToPlayerDir マシンガンからプレイヤーへの方向
+	*/
 	void GiveLightForMachinGun(Vector3 pos, Vector3 gunToPlayerDir)
 	{
 		s_allLight.spotLight[0].spotPosition = pos;

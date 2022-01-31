@@ -50,8 +50,6 @@ const int depthInViewEnd = 2000;
 float4 PSMain(PSInput psIn) : SV_Target0
 {
     float4 depth = depthTexture.Sample(Sampler, psIn.uv);
-    //サンプリングの場所を変えること
-    float4 boke = bokeTexture.Sample(Sampler, psIn.uv);
 
     float4 worldPos = (0.0f,0.0f,0.0f,0.0f);
 
@@ -66,15 +64,15 @@ float4 PSMain(PSInput psIn) : SV_Target0
     worldPos = mul(viewProjInverseMatrix, worldPos);
     worldPos.xyz /= worldPos.w;
     worldPos.w = 1.0f;
-	
-	//深度値800以下のものはピクセルキル
-	//800以下は被写界深度しない
-    clip(worldPos.w - 2000.0f);
-	
-
-	
-	//2000でボケ度最高値に
-    boke.a = min(1.0f, (worldPos.w - 2000) / 10);
+    
+    float dis = distance(worldPos.xyz, (0.0f, 0.0f, 0.0f));
+    //深度値以下のものはピクセルキル
+    clip(dis - 600.0f);
+    
+    float4 boke = bokeTexture.Sample(Sampler, psIn.uv);
+	    
+    //2500より遠いと被写界深度マックス
+    boke.a = min(1.0f, (dis - 600) / 1200);
 	
     return boke;
 }

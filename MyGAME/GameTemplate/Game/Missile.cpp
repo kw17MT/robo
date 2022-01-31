@@ -14,14 +14,14 @@ namespace
 	const float MAX_MISSILE_SPEED = 150.0f;
 	const float DEPLOY_SPEED = 40.0f;
 	const Vector3 MISSILE_TRACK_EFFECT_SIZE = { 40.0f,40.0f,120.0f };
-	const Vector3 EXPLOSION_EFFECT_SIZE = { 400.0f,400.0f,400.0f };
+	const Vector3 EXPLOSION_EFFECT_SIZE = { 200.0f,200.0f,200.0f };
 }
 
 Missile::~Missile()
 {
 	DeleteGO(m_skinModelRender);
 	Effect effect;
-	effect.Init(u"Assets/effect/enemyTrack.efk");
+	effect.Init(u"Assets/effect/explosion.efk");
 	m_rot.SetRotation({ 0.0f,0.0f,1.0f }, m_moveDirection);
 	effect.SetPosition(m_position);
 	effect.SetRotation(m_rot);
