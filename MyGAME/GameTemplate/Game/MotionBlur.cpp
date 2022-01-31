@@ -3,52 +3,35 @@
 
 void MotionBlur::InitSprite(RenderTarget& mainRenderTarget, RenderTarget& normalTarget, RenderTarget& specAndDepthTarget, RenderTarget& velocityTarget)
 {
-	//ガウシアンブラーの初期化
+	//ベロシティマップにガウシアンブラーを適用
 	m_gaussian[0].Init(&velocityTarget.GetRenderTargetTexture());
 	m_gaussian[1].Init(&m_gaussian[0].GetBokeTexture());
 	m_gaussian[2].Init(&m_gaussian[1].GetBokeTexture());
 	m_gaussian[3].Init(&m_gaussian[2].GetBokeTexture());
 
-
+	//モーションブラーで使うレンダーターゲットの初期化
 	m_motionBlurTarget.Create(1280, 720, 1, 1, DXGI_FORMAT_R32G32B32A32_FLOAT, DXGI_FORMAT_D32_FLOAT);
 
-	m_motionBlurData.m_width = 1280;
-	m_motionBlurData.m_height = 720;
-	m_motionBlurData.m_textures[0] = &m_motionBlurTarget.GetRenderTargetTexture();
-	m_motionBlurData.m_textures[1] = &velocityTarget.GetRenderTargetTexture();
-
-	m_motionBlurData.m_fxFilePath = "Assets/shader/MotionBlur.fx";
-	//m_motionBlurData.m_alphaBlendMode = AlphaBlendMode_Add;
-	m_motionBlurData.m_colorBufferFormat[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	m_motionBlurData.m_colorBufferFormat[1] = DXGI_FORMAT_R8G8B8A8_UNORM;
-	m_motionBlurData.m_colorBufferFormat[2] = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	m_motionBlurData.m_colorBufferFormat[3] = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	m_motionBlurSprite.Init(m_motionBlurData);
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-
-	//m_gaussianData.m_fxFilePath = "Assets/shader/blur/bloom.fx";
-	//m_gaussianData.m_vsEntryPointFunc = "VSMain";
-	//m_gaussianData.m_psEntryPoinFunc = "PSLuminance";
-	//m_gaussianData.m_width = 1280;
-	//m_gaussianData.m_height = 720;
-	////輝度を抽出したい場面を取得
-	//m_gaussianData.m_textures[0] = &mainRenderTarget.GetRenderTargetTexture();
-	//m_gaussianData.m_colorBufferFormat[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
-
-	//m_gaussian.Init(m_gaussianData);
-
-	
-	SpriteInitData finalSpriteData;
+	SpriteInitData motionBlurData;
+	motionBlurData.m_width = 1280;
+	motionBlurData.m_height = 720;
+	motionBlurData.m_textures[0] = &m_motionBlurTarget.GetRenderTargetTexture();
+	motionBlurData.m_textures[1] = &velocityTarget.GetRenderTargetTexture();
+	motionBlurData.m_fxFilePath = "Assets/shader/MotionBlur.fx";
+	motionBlurData.m_colorBufferFormat[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	motionBlurData.m_colorBufferFormat[1] = DXGI_FORMAT_R8G8B8A8_UNORM;
+	motionBlurData.m_colorBufferFormat[2] = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	motionBlurData.m_colorBufferFormat[3] = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	m_motionBlurSprite.Init(motionBlurData);
 
 	//最終表示用の画像の初期化
+	SpriteInitData finalSpriteData;
 	finalSpriteData.m_textures[0] = &m_gaussian[0].GetBokeTexture();
 	finalSpriteData.m_textures[1] = &m_gaussian[1].GetBokeTexture();
 	finalSpriteData.m_textures[2] = &m_gaussian[2].GetBokeTexture();
 	finalSpriteData.m_textures[3] = &m_gaussian[3].GetBokeTexture();
 	finalSpriteData.m_width = mainRenderTarget.GetWidth();
 	finalSpriteData.m_height = mainRenderTarget.GetHeight();
-
 	finalSpriteData.m_fxFilePath = "Assets/shader/blur/bloom.fx";
 	finalSpriteData.m_vsEntryPointFunc = "VSMain";
 	finalSpriteData.m_psEntryPoinFunc = "PSCalcBloom";
@@ -70,7 +53,6 @@ void MotionBlur::Render(RenderContext& rc, Sprite& mainSprite, RenderTarget& tar
 	// メインレンダリングターゲットのテクスチャを使って
 	// 2Dを全画面に書くだけに変更する。
 	mainSprite.Draw(rc);
-	//RenderingEngine::GetInstance()->GetDefferedSprite(rc);
 	rc.WaitUntilFinishDrawingToRenderTarget(m_motionBlurTarget);
 
 	//メインレンダーターゲットの画面にガウシアンブラーを掛ける

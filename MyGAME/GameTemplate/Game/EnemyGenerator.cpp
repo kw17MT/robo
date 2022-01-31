@@ -27,9 +27,14 @@ bool EnemyGenerator::Start()
 	for (int i = 0; i < MAX_ENEMY_NUM; i++)
 	{
 		m_enemys.push_back(NewGO<Enemy>(0, "enemy"));
+
 		Vector3 enemyPos = m_spawnPoint.GetNorthPosition();
+		Vector3 toEnemyPos = enemyPos - Vector3::Zero;
+		toEnemyPos.Normalize();
+		toEnemyPos.Cross({ 0.0f,1.0f,0.0f });
+
 		//生成された番号で位置をずらす
-		enemyPos.x += ENEMY_SPACE * (i + 1);
+		enemyPos += (toEnemyPos * ENEMY_SPACE) * (i - 5);
 		m_enemys.back()->SetPosition(enemyPos);
 	}
 	EnemyRepopManager::GetInstance().SetPopedEnemyNum(MAX_ENEMY_NUM);
@@ -68,17 +73,30 @@ void EnemyGenerator::CleanUpArray()
 
 void EnemyGenerator::GenerateEnemy()
 {
+	//ゲーム中だったら
 	if (GameDirector::GetInstance().GetGameScene() == enInGame)
 	{
-		Vector3 enemyPos = m_spawnPoint.DecideSpawnPoint();
+		//ベースとなる敵のポップ位置を決定する
+		Vector3 baseEnemyPos = m_spawnPoint.DecideSpawnPoint();
+		//原点からベースのポップ位置への方向ベクトルを計算する
+		Vector3 toEnemyPos = baseEnemyPos - Vector3::Zero;
+		//正規化する
+		toEnemyPos.Normalize();
+		//正規化ベクトルとワールドの上方向との外積を求めて横ベクトルを計算する
+		toEnemyPos.Cross({ 0.0f,1.0f,0.0f });
 		//敵を最大数作成
 		for (int i = 0; i < MAX_ENEMY_NUM; i++)
 		{
+			//最大数まで敵をポップ
 			m_enemys.push_back(NewGO<Enemy>(0, "enemy"));
-			//生成された番号で位置をずらす
-			enemyPos.x += ENEMY_SPACE * (i + 1);
+			//実際に敵にセットする座標
+			Vector3 enemyPos = baseEnemyPos;
+			//基準位置をもとに位置をずらす
+			enemyPos += (toEnemyPos * ENEMY_SPACE) * (i - 5);
+			//敵にポップ位置を伝える
 			m_enemys.back()->SetPosition(enemyPos);
 		}
+		//ポップした敵の数を保存する
 		EnemyRepopManager::GetInstance().SetPopedEnemyNum(MAX_ENEMY_NUM);
 	}
 }

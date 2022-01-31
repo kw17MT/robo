@@ -34,9 +34,6 @@ PSInput VSMain(VSInput In)
 	return psIn;
 }
 
-static const float offSetX = 0.4f / 1280.0f;
-static const float offSetY = 0.4f / 720.0f;
-
 float4 PSMain( PSInput In ) : SV_Target0
 {  
     //定数バッファに載せる
@@ -54,7 +51,6 @@ float4 PSMain( PSInput In ) : SV_Target0
     {
         weights[i] /= total;
     }
-
     
     //ピクセルの速度を取得
     float4 velocity = velocityMap.Sample(Sampler, In.uv);

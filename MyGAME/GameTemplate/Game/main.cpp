@@ -1,18 +1,11 @@
 #include "stdafx.h"
 #include "system/system.h"
-#include "effect/Effect.h"
-
-#include "SkinModelRender.h"
 #include "RenderingEngine.h"
-#include "Player.h"
-#include "Ground.h"
-#include "SkyCube.h"
-#include "Enemy.h"
-#include "UI.h"
 #include "CaptureStateManager.h"
 
-#include "Game.h"
+#include "effect/Effect.h"
 
+#include "Game.h"
 #include "Title.h"
 #include "GameDirector.h"
 
@@ -43,8 +36,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ゲームタイムを測るもの
 	CStopwatch stopWatch;
 
-	Title* title = NewGO<Title>(0);
-	//Game* game = NewGO<Game>(0, "game");
+	//Title* title = NewGO<Title>(0);
+	Game* game = NewGO<Game>(0, "game");
 
 	g_camera3D->SetPosition({ 0.0f, 0.0f, 3000.0f });
 	g_camera3D->SetTarget({ 0.0f, 0.0f, 0.0f });
@@ -52,7 +45,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//////////////////////////////////////
 	// インスタンシングテスト
 	//////////////////////////////////////
-
 
 	//const int width = 50;
 	//const int height = 10;
@@ -89,8 +81,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//modelData.m_expandShaderResoruceView[0] = &worldMatrixSB;
 	//Model model;
 	//model.Init(modelData);
-
-	float a = 0.0f;
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -129,9 +119,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//オブジェクトのドローを行う
 		RenderingEngine::GetInstance()->Render(renderContext);
 		LightManager::GetInstance().UpdateEyePos();
-
-		//a += 0.01f;
-		//RenderingEngine::GetInstance()->SetMonochromeRate(a);
 
 		//スピンロックを行う。
 		int restTime = 0;

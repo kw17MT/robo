@@ -8,7 +8,7 @@ cbuffer cb : register(b0)
 	float4 mulColor;    // 乗算カラー
 };
 
-cbuffer cb : register(b1)
+cbuffer cb1 : register(b1)
 {
     float4x4 viewProjInverseMatrix;
 }
@@ -25,6 +25,11 @@ struct PSInput
 	float2 uv  : TEXCOORD0;
 };
 
+Texture2D<float4> bokeTexture : register(t0);   //メイン画面のボケテクスチャ
+Texture2D<float4> depthTexture : register(t1);  //深度値を持ったレンダリングターゲット
+
+sampler Sampler : register(s0);
+
 /*!
  * @brief 頂点シェーダー
  */
@@ -36,11 +41,6 @@ PSInput VSMain(VSInput In)
 	return psIn;
 }
 
-Texture2D<float4> bokeTexture : register(t0); // メインレンダリングターゲットのテクスチャ
-Texture2D<float4> depthTexture : register(t1);
-
-sampler Sampler : register(s0);
-
 const int depthInViewStart = 800;
 const int depthInViewEnd = 2000;
 
@@ -50,6 +50,8 @@ const int depthInViewEnd = 2000;
 float4 PSMain(PSInput psIn) : SV_Target0
 {
     float4 depth = depthTexture.Sample(Sampler, psIn.uv);
+    //サンプリングの場所を変えること
+    float4 boke = bokeTexture.Sample(Sampler, psIn.uv);
 
     float4 worldPos = (0.0f,0.0f,0.0f,0.0f);
 
@@ -69,7 +71,7 @@ float4 PSMain(PSInput psIn) : SV_Target0
 	//800以下は被写界深度しない
     clip(worldPos.w - 2000.0f);
 	
-    float4 boke = bokeTexture.Sample(Sampler, psIn.uv);
+
 	
 	//2000でボケ度最高値に
     boke.a = min(1.0f, (worldPos.w - 2000) / 10);

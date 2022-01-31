@@ -413,7 +413,9 @@
     <ClCompile Include="AfterGameOverScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Monochrome.cpp" />
+    <ClCompile Include="Monochrome.cpp">
+      <Filter>AboutRendering\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -854,7 +856,9 @@
     <ClInclude Include="AfterGameOverScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Monochrome.h" />
+    <ClInclude Include="Monochrome.h">
+      <Filter>AboutRendering\PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">

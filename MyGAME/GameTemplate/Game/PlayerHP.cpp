@@ -6,7 +6,7 @@
 
 namespace
 {
-	const float BULLET_DAMAGE = 3.0f;			//弾丸のダメージ量
+	const float BULLET_DAMAGE = 100.0f;			//弾丸のダメージ量
 	const float MISSILE_DAMAGE = 10.0f;			//ミサイルのダメージ量
 	const float RASER_DAMAGE = 20.0f;			//レールガンのダメージ量
 	const float MAX_HP = 100.0f;				//最大HP 
@@ -135,15 +135,6 @@ void PlayerHP::Update()
 
 			m_isSoundBuzzer = true;
 		}
-
-		////残りHPバーは危険状態のHPバーの何割か
-		//float remainAmount = 1.0f - (1.0f - HpSize) / (1.0f - HPBAR_DANGER_SIZE);
-		////設定されているモノクロ率より、今回計算した残り割合が大きければ
-		//if (remainAmount > RenderingEngine::GetInstance()->GetMonochromeRate())
-		//{
-		//	//モノクロ率をセット
-		//	RenderingEngine::GetInstance()->SetMonochromeRate(remainAmount);
-		//}
 	}
 
 	m_damagedSpriteAlpha -= DISAPPEAR_RATE;

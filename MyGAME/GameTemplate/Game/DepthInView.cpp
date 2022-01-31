@@ -15,14 +15,13 @@ void DepthInView::Init(RenderTarget& mainTarget, RenderTarget& depthTarget)
 	finalSpriteData.m_expandConstantBuffer = (void*)&LightManager::GetInstance().GetLightData().ViewProjInverseMatrix;
 	finalSpriteData.m_expandConstantBufferSize = sizeof(LightManager::GetInstance().GetLightData().ViewProjInverseMatrix);
 	finalSpriteData.m_fxFilePath = "Assets/shader/blur/depthInView.fx";
-
 	finalSpriteData.m_alphaBlendMode = AlphaBlendMode_Trans;
 	m_finalSprite.Init(finalSpriteData);
 }
 
 void DepthInView::Render(RenderContext& rc, RenderTarget& TargetToApply)
 {
-	m_depthGaussian.ExecuteOnGPU(rc, 120);
+	m_depthGaussian.ExecuteOnGPU(rc, 20);
 
 	rc.WaitUntilToPossibleSetRenderTarget(TargetToApply);
 	rc.SetRenderTargetAndViewport(TargetToApply);

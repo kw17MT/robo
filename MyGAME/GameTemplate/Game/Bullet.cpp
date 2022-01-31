@@ -3,6 +3,7 @@
 #include "SkinModelRender.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "GameDirector.h"
 
 namespace
 {
@@ -40,47 +41,48 @@ Vector3 Bullet::CalcToTargetVec()
 
 void Bullet::BehaveChangedByOwner()
 {
-	switch (m_owner)
+	if (GameDirector::GetInstance().GetGameScene() == enInGame)
 	{
-	case enPlayer:
-		//更新した位置座標とすべての敵との距離を求める
-		QueryGOs<Enemy>("enemy", [&](Enemy* enemy) {
-			//敵と弾の距離を計算する。
-			Vector3 diff = enemy->GetPosition() - m_position;
-			if (diff.Length() < 200.0f) {
-				if (!enemy->IsDead()) {
-					//マシンガンの弾からダメージを受けたことを知らせる
-					enemy->TakenDamage(enBullet);
+		switch (m_owner)
+		{
+		case enPlayer:
+			//更新した位置座標とすべての敵との距離を求める
+			QueryGOs<Enemy>("enemy", [&](Enemy* enemy) {
+				//敵と弾の距離を計算する。
+				Vector3 diff = enemy->GetPosition() - m_position;
+				if (diff.Length() < 200.0f) {
+					if (!enemy->IsDead()) {
+						//マシンガンの弾からダメージを受けたことを知らせる
+						enemy->TakenDamage(enBullet);
+					}
+					//死亡。
+					DeleteGO(this);
+					//終了。
+					return false;
 				}
-				//死亡。
-				DeleteGO(this);
-				//終了。
-				return false;
-			}
-			//クエリは継続。
-			return true;
-			});
-		break;
-
-	case enEnemy:
-		//更新した位置座標とすべての敵との距離を求める
-		QueryGOs<Player>("player", [&](Player* player) {
-			//敵と弾の距離を計算する。
-			Vector3 diff = player->GetRoboPosition() - m_position;
-			if (diff.Length() < 200.0f) {
-				//マシンガンの弾からダメージを受けたことを知らせる
-				player->TakenDamage(enEnemyBullet);
-				//死亡。
-				DeleteGO(this);
-				//終了。
-				return false;
-			}
-			//クエリは継続。
-			return true;
-			});
-		break;
+				//クエリは継続。
+				return true;
+				});
+			break;
+		case enEnemy:
+			//更新した位置座標とすべての敵との距離を求める
+			QueryGOs<Player>("player", [&](Player* player) {
+				//敵と弾の距離を計算する。
+				Vector3 diff = player->GetRoboPosition() - m_position;
+				if (diff.Length() < 200.0f) {
+					//マシンガンの弾からダメージを受けたことを知らせる
+					player->TakenDamage(enEnemyBullet);
+					//死亡。
+					DeleteGO(this);
+					//終了。
+					return false;
+				}
+				//クエリは継続。
+				return true;
+				});
+			break;
+		}
 	}
-	
 }
 
 void Bullet::SetRotation(Quaternion rot)
