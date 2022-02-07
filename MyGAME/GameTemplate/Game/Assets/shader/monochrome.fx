@@ -42,8 +42,9 @@ float4 PSMonochrome(PSInput In) : SV_Target0
 {
     float4 finalColor = colorTexture.Sample(Sampler, In.uv);
 	
+    //ITU - R Rec BT.601規格
     float Y = (0.299f * finalColor.r * monochromeRate) 
-		+ (0.587f * finalColor.b * monochromeRate)
+		+ (0.587f * finalColor.g * monochromeRate)
 		+ (0.114f * finalColor.b * monochromeRate);
 	
     finalColor.r = Y;

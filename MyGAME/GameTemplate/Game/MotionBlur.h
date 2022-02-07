@@ -21,6 +21,5 @@ public:
 private:
 	RenderTarget m_motionBlurTarget;		//モーションブラーを作成するターゲット
 	Sprite m_motionBlurSprite;				//作成したモーションブラー画像
-	GaussianBlur m_gaussian[4];				//ガウシアンブラー
 };
 

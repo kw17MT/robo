@@ -1,15 +1,9 @@
+//モーションブラー用シェーダー
 
 cbuffer cb : register(b0){
 	float4x4 mvp;		
 	float4 mulColor;	
 };
-
-//ライトビュープロジェクション行列にアクセスする定数バッファを定義。
-cbuffer constantBuffer : register(b1)
-{
-    float4x4 currentViewProjMatrix;
-    float4x4 prevViewProjectionMatrix;
-}
 
 struct VSInput{
 	float4 pos : POSITION;
@@ -21,8 +15,8 @@ struct PSInput{
 	float2 uv  : TEXCOORD0;
 };
 
-Texture2D<float4> sceneMap : register(t0);
-Texture2D<float4> velocityMap : register(t1);
+Texture2D<float4> sceneMap : register(t0);              //ブラー済みゲームシーンのテクスチャ
+Texture2D<float4> velocityMap : register(t1);           //ベロシティマップ
 
 sampler Sampler : register(s0);
 
@@ -36,7 +30,6 @@ PSInput VSMain(VSInput In)
 
 float4 PSMain( PSInput In ) : SV_Target0
 {  
-    //定数バッファに載せる
     const int NUM_WEIGHT = 16;
     float weights[NUM_WEIGHT];
     float total = 0;
@@ -44,7 +37,6 @@ float4 PSMain( PSInput In ) : SV_Target0
     {
         weights[i] = exp(-0.5f * (float) (i * i) / 30.0f);
         total += weights[i];
-
     }
 	// 規格化
     for (int i = 0; i < NUM_WEIGHT; i++)
