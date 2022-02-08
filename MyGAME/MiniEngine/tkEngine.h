@@ -6,6 +6,7 @@
 #include "Shader.h"
 
 class GraphicsEngine;
+class Texture;
 
 class TkEngine {
 public:
@@ -69,6 +70,44 @@ public:
 		m_shaderBank.Regist(programName.c_str(), shader);
 	}
 
+	/// <summary>
+/// バンクからテクスチャの生データを取得
+/// </summary>
+/// <param name="filePath">ファイルパス</param>
+/// <returns></returns>
+	LowTexture* GetLowTextureFromBank(const char* filePath)
+	{
+		return m_lowTextureBank.Get(filePath);
+	}
+	/// <summary>
+	/// テクスチャの生データをバンクに登録。
+	/// </summary>
+	/// <param name="filePath">ファイルパス。</param>
+	/// <param name="texture">テクスチャ。</param>
+	void RegistLowTextureToBank(const char* filePath, LowTexture* textureLow)
+	{
+		m_lowTextureBank.Regist(filePath, textureLow);
+	}
+
+	/// <summary>
+/// テクスチャをバンクに登録。
+/// </summary>
+/// <param name="filePath">ファイルパス。</param>
+/// <param name="texture">テクスチャ。</param>
+	void RegistTextureToBank(const char* filePath, Texture* texture)
+	{
+		m_textureBank.Regist(filePath, texture);
+	}
+	/// <summary>
+/// バンクからテクスチャを取得。
+/// </summary>
+/// <param name="filePath">ファイルパス。</param>
+/// <returns>テクスチャ。</returns>
+	Texture* GetTextureFromBank(const char* filePath)
+	{
+		return m_textureBank.Get(filePath);
+	}
+
 private:
 	GraphicsEngine* m_graphicsEngine = nullptr;		//グラフィックエンジン。
 	GamePad m_pad[GamePad::CONNECT_PAD_MAX];		//ゲームパッド。
@@ -76,6 +115,8 @@ private:
 	TResourceBank<TkmFile> m_tkmFileBank;			//tkmファイルバンク。
 	TResourceBank<Shader> m_shaderBank;				//シェーダーバンク
 	
+	TResourceBank<Texture> m_textureBank;
+	TResourceBank<LowTexture> m_lowTextureBank;
 };
 
 extern TkEngine* g_engine;	//TKエンジン。

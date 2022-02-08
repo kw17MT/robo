@@ -1,5 +1,6 @@
 #pragma once
-
+class GraphicsEngine;
+extern GraphicsEngine* g_graphicsEngine;	//グラフィックスエンジン
 
 class Texture  : public IShaderResource{
 public:
@@ -85,6 +86,25 @@ private:
 	/// <param name="device">D3Dデバイス</param>
 	void LoadTextureFromMemory(const char* memory, unsigned int size );
 		
+	/// <summary>
+	/// D3D12オブジェクトを解放。
+	/// </summary>
+	/// <param name="obj">開放したいオブジェクト</param>
+	//static inline void ReleaseD3D12Object(IUnknown* obj)
+	//{
+	//	if (obj == nullptr) {
+	//		return;
+	//	}
+	//	if (g_graphicsEngine) {
+	//		g_graphicsEngine->ReleaseD3D12Object(obj);
+	//	}
+	//	else {
+	//		obj->Release();
+	//	}
+	//}
+
+	//void Release();
+
 private:
 	ID3D12Resource*	m_texture = nullptr;	//テクスチャ。
 	D3D12_RESOURCE_DESC m_textureDesc;	//テクスチャ情報

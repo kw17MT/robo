@@ -10,6 +10,7 @@ Texture::~Texture()
 	if (m_texture) {
 		m_texture->Release();
 	}
+	//Release();
 }
 void Texture::InitFromDDSFile(const wchar_t* filePath)
 {
@@ -107,3 +108,8 @@ void Texture::RegistShaderResourceView(D3D12_CPU_DESCRIPTOR_HANDLE descriptorHan
 		device->CreateShaderResourceView(m_texture, &srvDesc, descriptorHandle);
 	}
 }
+
+//void Texture::Release()
+//{
+//	ReleaseD3D12Object(m_texture);
+//}

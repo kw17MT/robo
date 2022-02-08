@@ -36,7 +36,7 @@ void Model::Init(const ModelInitData& initData)
 	//–¢“o˜^‚¾‚Á‚½Žž
 	if (tkmFile == nullptr) {
 		tkmFile = new TkmFile;
-		tkmFile->Load(initData.m_tkmFilePath);
+		tkmFile->Load(initData.m_tkmFilePath, false);
 		g_engine->RegistTkmFileToBank(initData.m_tkmFilePath, tkmFile);
 	}
 

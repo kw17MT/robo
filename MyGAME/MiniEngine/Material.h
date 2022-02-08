@@ -35,7 +35,7 @@ public:
 	/// <returns></returns>
 	Texture& GetAlbedoMap()
 	{
-		return m_albedoMap;
+		return *m_albedoMap;
 	}
 	/// <summary>
 	/// 法線マップを取得。
@@ -43,7 +43,7 @@ public:
 	/// <returns></returns>
 	Texture& GetNormalMap()
 	{
-		return m_normalMap;
+		return *m_normalMap;
 	}
 	/// <summary>
 	/// スペキュラマップを取得。
@@ -51,7 +51,7 @@ public:
 	/// <returns></returns>
 	Texture& GetSpecularMap()
 	{
-		return m_specularMap;
+		return *m_specularMap;
 	}
 	/// <summary>
 	/// 反射マップを取得。
@@ -59,7 +59,7 @@ public:
 	/// <returns></returns>
 	Texture& GetReflectionMap()
 	{
-		return m_reflectionMap;
+		return *m_reflectionMap;
 	}
 	/// <summary>
 	/// 屈折マップを取得。
@@ -67,7 +67,7 @@ public:
 	/// <returns></returns>
 	Texture& GetRefractionMap()
 	{
-		return m_refractionMap;
+		return *m_refractionMap;
 	}
 	/// <summary>
 	/// 定数バッファを取得。
@@ -107,11 +107,11 @@ private:
 		int hasNormalMap;	//法線マップを保持しているかどうかのフラグ。
 		int hasSpecMap;		//スペキュラマップを保持しているかどうかのフラグ。
 	};
-	Texture	m_albedoMap;							//アルベドマップ。
-	Texture	m_normalMap;							//法線マップ。
-	Texture	m_specularMap;							//スペキュラマップ。
-	Texture m_reflectionMap;						//リフレクションマップ。
-	Texture m_refractionMap;						//屈折マップ。
+	Texture*	m_albedoMap;							//アルベドマップ。
+	Texture*	m_normalMap;							//法線マップ。
+	Texture*	m_specularMap;							//スペキュラマップ。
+	Texture* m_reflectionMap;						//リフレクションマップ。
+	Texture* m_refractionMap;						//屈折マップ。
 
 	ConstantBuffer m_constantBuffer;				//定数バッファ。
 	RootSignature m_rootSignature;					//ルートシグネチャ。
