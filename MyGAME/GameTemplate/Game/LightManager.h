@@ -5,7 +5,6 @@ const int g_spotLightNum = 8;
 
 struct DirectionalLight
 {
-
 	//ディレクションライト
 	Vector3 directionalDirection = { 0.0f,-1.0f,1.0f };				//ディレクションライトの方向
 	float pad0 = 0;

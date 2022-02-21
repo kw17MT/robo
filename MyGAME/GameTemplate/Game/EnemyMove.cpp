@@ -168,7 +168,7 @@ void EnemyMove::EnemyDashDirection(Vector3 toTargetVec)
 		//上方向ベクトルの計算
 		Vector3 axisUp = toTargetVec.CalcCross(axisSide);
 
-		//1~90の数値を得る
+		//1~60の数値を得る
 		float degreeZ = rand() % MAX_ROTATION_DEGREE + 1;
 		float degreeY = rand() % MAX_ROTATION_DEGREE + 1;
 		//数値を-29~30に調節する

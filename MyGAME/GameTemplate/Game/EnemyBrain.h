@@ -8,7 +8,7 @@ class EnemyBrain
 private:
 	Vector3 m_playerPos = Vector3::Zero;		//プレイヤーの位置
 	Vector3 m_enemyPos = Vector3::Zero;			//敵（自分）の位置
-	Quaternion m_rot = Quaternion::Identity;
+	Quaternion m_rot = Quaternion::Identity;	//敵の回転
 
 	bool m_canShoot = false;
 public:
@@ -35,14 +35,17 @@ public:
 	*/
 	Vector3 GetNextEnemyPos() { return m_enemyPos; }
 
+	/**
+	 * @brief 敵の回転を返す
+	 * @return 敵の回転クォータニオン
+	*/
 	Quaternion GetEnemyRotation() { return m_rot; }
 
 	/**
-	 * @brief 移動モードを判断する。
+	 * @brief マシンガンを撃てるかを返す
+	 * @return TRUE＝打てる　FALSE＝打てない
 	*/
-	//void JudgeMoveType();
-
-	bool JudgeCanShoot();
+	bool GetCanShoot() { return m_canShoot; }
 
 	/**
 	 * @brief 頭を働かす。すべての判断を一気に行う

@@ -4,14 +4,14 @@
 
 namespace
 {
-	const int BULLET_DAMAGE_AMOUNT = 10;			//マシンガンの弾のダメージ量
-	const int MISSILE_DAMAGE_AMOUNT = 100;			//ミサイルのダメージ量
-	const int RASER_DAMAGE_AMOUNT = 33;				//レールガンのダメージ量
+	const int BULLET_DAMAGE_AMOUNT = 10;				//マシンガンの弾のダメージ量
+	const int MISSILE_DAMAGE_AMOUNT = 100;				//ミサイルのダメージ量
+	const int RASER_DAMAGE_AMOUNT = 33;					//レールガンのダメージ量
 
-	const float MAX_ENEMY_HP = 100.0f;
-	const int ENEMY_HPBAR_X = 128;
-	const int ENEMY_HPBAR_Y = 32;
-	const Vector2 ENEMY_HPBAR_PIVOT = { 1.0f, 1.5f };
+	const float MAX_ENEMY_HP = 100.0f;					//敵の最大HP
+	const int ENEMY_HPBAR_X = 128;						//HPバーの横幅
+	const int ENEMY_HPBAR_Y = 32;						//HPバーの縦幅
+	const Vector2 ENEMY_HPBAR_PIVOT = { 1.0f, 1.5f };	//HPバーの基点（画像の関係上すこし横幅基点を大きくとった）
 }
 
 extern void CalcMethods::CalcScreenPos(Vector3& screenPos, Vector3 pos);

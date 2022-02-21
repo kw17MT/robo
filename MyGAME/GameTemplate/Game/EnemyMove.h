@@ -2,7 +2,7 @@
 
 enum EnEnemyMoveTypes
 {
-	enApproach = -1,					//プレイヤーにじわじわ接近する
+	enApproach = -1,			//プレイヤーにじわじわ接近する
 	enFrontAndBehind,			//接近後、前後に移動する
 	enPlayerBehind,				//プレイヤーの後ろを取るように通過と前後を繰り返す
 	enAround,					//プレイヤーの周りを接近後ダッシュでいったん遠くに

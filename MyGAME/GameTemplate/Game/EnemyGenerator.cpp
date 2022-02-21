@@ -6,8 +6,8 @@
 
 namespace
 {
-	const int MAX_ENEMY_NUM = 10;
-	const float ENEMY_SPACE = 1000.0f;
+	const int MAX_ENEMY_NUM = 10;				//一度に生成する敵の数
+	const float ENEMY_SPACE = 1000.0f;			//生成する際の敵の間隔
 }
 
 EnemyGenerator::~EnemyGenerator()
@@ -18,6 +18,7 @@ EnemyGenerator::~EnemyGenerator()
 		DeleteGO(m_enemys.back());
 		m_enemys.pop_back();
 	}
+	//敵配列を全消去
 	m_enemys.clear();
 }
 
@@ -28,12 +29,15 @@ bool EnemyGenerator::Start()
 	{
 		m_enemys.push_back(NewGO<Enemy>(0, "enemy"));
 
+		//最初に生成するときだけ北に生成
 		Vector3 enemyPos = m_spawnPoint.GetNorthPosition();
+		//ゲームの中心座標であるゼロから敵への方向
 		Vector3 toEnemyPos = enemyPos - Vector3::Zero;
 		toEnemyPos.Normalize();
+		//最初に生成された敵の横方向を外積を用いて求める
 		toEnemyPos.Cross({ 0.0f,1.0f,0.0f });
 
-		//生成された番号で位置をずらす
+		//生成された番号で横方向に位置をずらす
 		enemyPos += (toEnemyPos * ENEMY_SPACE) * (i - 5);
 		m_enemys.back()->SetPosition(enemyPos);
 	}
@@ -103,21 +107,7 @@ void EnemyGenerator::GenerateEnemy()
 
 void EnemyGenerator::Update()
 {
-	//int AliveEnemyNum = m_enemys.size() - 1;
-
-	//for (auto enemy : m_enemys)
-	//{
-	//	if (enemy != nullptr && enemy->IsDead())
-	//	{
-	//		AliveEnemyNum--;
-	//		if (AliveEnemyNum == 0)
-	//		{
-	//			CleanUpArray();
-	//			GenerateEnemy();
-	//		}
-	//	}
-	//}
-
+	//敵をリポップするならば、敵の配列をクリアして再生成
 	if (EnemyRepopManager::GetInstance().ShouldRepopEnemy())
 	{
 		CleanUpArray();

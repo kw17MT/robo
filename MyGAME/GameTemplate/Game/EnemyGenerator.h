@@ -6,7 +6,6 @@ class EnemyGenerator : public IGameObject
 {
 private:
 	Vector3 m_firstEnemyPos = Vector3::Zero;			//一番最初に出す敵の位置
-	bool m_shouldGenerateEnemy = false;
 public:
 	/**
 	 * @brief コンストラクタ

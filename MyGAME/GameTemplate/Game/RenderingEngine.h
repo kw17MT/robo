@@ -8,6 +8,9 @@ struct EnMatrixes {
 	Matrix currentVPMatrix = g_camera3D->GetViewProjectionMatrix();				//現在のビュープロジェクション行列
 };
 
+/**
+ * @brief レンダリングを一括して行うシングルトンクラス
+*/
 class RenderingEngine
 {
 private:

@@ -4,6 +4,7 @@
 #include "Enemy.h"
 #include "CaptureStateManager.h"
 #include "effect/Effect.h"
+#include "MissileBallistic.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,6 +41,10 @@ bool Missile::Start()
 	m_prevMoveDirection = m_deployDirection;
 
 	m_currentMoveSpeedRate = DEPLOY_SPEED / MAX_MISSILE_SPEED;
+
+	//m_ballistic = NewGO<MissileBallistic>(0);
+	//m_ballistic->SetCameraForward(g_camera3D->GetForward());
+	//m_ballistic->DecideBallisticType();
 
 	return true;
 }
@@ -83,11 +88,7 @@ void Missile::RestrictRotation()
 	else
 	{
 		//進行していた方向＝現在のミサイルの前方向とターゲットへのベクトル内積を求める。
-		if (float a = m_moveDirection.Dot(m_prevMoveDirection) > 0.8f)
-		{
-			a;
-		}
-		else
+		if (m_moveDirection.Dot(m_prevMoveDirection) <= 0.8f)
 		{
 			//ターゲットへのベクトルとミサイルの前方向の上方向を計算
 			Vector3 up = m_moveDirection.CalcCross(m_prevMoveDirection);
@@ -114,7 +115,7 @@ void Missile::Update()
 		//最初に計算した展開方向を使用してミサイルを展開
 		m_moveSpeed = m_deployDirection * DEPLOY_SPEED;
 		//1秒くらいたったら
-		if (count >= 1.0f)
+		if (m_lifeSpan >= 1.0f)
 		{
 			//直進モードに切り替え
 			m_moveStage = enChaseTarget;
@@ -149,9 +150,7 @@ void Missile::Update()
 			Vector3 directionFallowDirection = m_moveDirection * m_currentMoveSpeedRate;
 			Vector3 speedFallowDirection = directionFallowDirection * MAX_MISSILE_SPEED;
 
-
 			m_moveDirection = directionAffectedDeploy + directionFallowDirection;
-
 
 			//回転の抑制
 			RestrictRotation();
@@ -166,6 +165,8 @@ void Missile::Update()
 		m_moveSpeed = m_prevMoveDirection * MAX_MISSILE_SPEED;
 		break;
 	}
+
+	//m_position += m_ballistic->GetBallisticDirection() * 100.0f;
 
 	//速度を考慮した位置座標を設定する。
 	m_position += m_moveSpeed;
@@ -188,8 +189,8 @@ void Missile::Update()
 		});
 
 	//弾の寿命
-	count += GameTime().GetFrameDeltaTime();
-	if (count >= 15.0f)
+	m_lifeSpan += GameTime().GetFrameDeltaTime();
+	if (m_lifeSpan >= 15.0f)
 	{
 		DeleteGO(this);
 	}

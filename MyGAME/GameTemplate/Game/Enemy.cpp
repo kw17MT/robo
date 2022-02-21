@@ -13,11 +13,11 @@
 
 namespace
 {
-	const float SE_VOLUME = 1.0f;
-	const Vector3 EXPLOSION_EFFECT_SCALE = { 200.0f,200.0f,200.0f };
-	const Vector3 ENEMY_MODEL_SCALE = { 15.0f, 15.0f, 15.0f };
-	const Vector3 ENEMY_POP_EFFECT_SCALE = { 300.0f,300.0f,300.0f };
-	const Vector3 ENEMY_TRACK_EFFECT_SCALE = { 20.0f,20.0f,20.0f };
+	const float SE_VOLUME = 1.0f;										//サウンドの音量
+	const Vector3 EXPLOSION_EFFECT_SCALE = { 200.0f,200.0f,200.0f };	//爆発エフェクトの大きさ
+	const Vector3 ENEMY_MODEL_SCALE = { 15.0f, 15.0f, 15.0f };			//敵のモデルの大きさ
+	const Vector3 ENEMY_POP_EFFECT_SCALE = { 300.0f,300.0f,300.0f };	//敵出現時のエフェクトの大きさ
+	const Vector3 ENEMY_TRACK_EFFECT_SCALE = { 20.0f,20.0f,20.0f };		//敵の軌道のエフェクトの大きさ
 }
 
 Enemy::~Enemy()
@@ -48,8 +48,7 @@ Enemy::~Enemy()
 	effect.Play();
 	effect.Update();
 
-	//このインスタンスは死亡している
-	Dead();
+	//敵インスタンスが死亡したことを伝える
 	EnemyRepopManager::GetInstance().AddKilledEnemyNum();
 	
 	DeleteGO(m_machinGun);
@@ -139,13 +138,18 @@ void Enemy::Update()
 	m_enemyStateIcon->SetEnemyObject(this);
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
+	//マシンガンに敵の位置を設定する
 	m_machinGun->SetPosition(m_position);
-	if (m_enemyBrain.JudgeCanShoot())
+	//マシンガンが打てる状態ならば
+	if (m_enemyBrain.GetCanShoot())
 	{
+		//マシンガンに一度だけプレイヤーの位置を設定する
 		m_machinGun->SetTargetPos(m_player->GetRoboPosition());
+		//プレイヤーの位置を設定して撃つ準備を完了させたことを伝える
 		m_machinGun->SetCanShoot(true);
 	}
-
+	
+	//敵の軌道エフェクトを生成する。
 	Effect effect;
 	effect.Init(u"Assets/effect/enemyTrack.efk");
 	effect.SetPosition(m_position);
@@ -160,5 +164,6 @@ void Enemy::Update()
 		DeleteGO(this);
 	}
 
+	//モデルに回転を適用する。
 	m_skinModelRender->SetRotation(m_enemyBrain.GetEnemyRotation());
 }

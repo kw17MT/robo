@@ -219,9 +219,6 @@
     <ClCompile Include="PostEffect.cpp">
       <Filter>AboutRendering\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="ForwardBloom.cpp">
-      <Filter>AboutRendering\ForwardRendering</Filter>
-    </ClCompile>
     <ClCompile Include="Shadow.cpp">
       <Filter>AboutRendering</Filter>
     </ClCompile>
@@ -410,6 +407,7 @@
     <ClCompile Include="Monochrome.cpp">
       <Filter>AboutRendering\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="MissileBallistic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -656,9 +654,6 @@
     <ClInclude Include="PostEffect.h">
       <Filter>AboutRendering\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="ForwardBloom.h">
-      <Filter>AboutRendering\ForwardRendering</Filter>
-    </ClInclude>
     <ClInclude Include="Shadow.h">
       <Filter>AboutRendering</Filter>
     </ClInclude>
@@ -847,6 +842,7 @@
     <ClInclude Include="Monochrome.h">
       <Filter>AboutRendering\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="MissileBallistic.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">
@@ -863,9 +859,6 @@
     </Filter>
     <Filter Include="AboutRendering\PostEffect">
       <UniqueIdentifier>{480137df-009c-4758-86d9-89b969cbe51a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="AboutRendering\ForwardRendering">
-      <UniqueIdentifier>{10e06494-3d58-4106-af20-99c7e9eb0130}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object">
       <UniqueIdentifier>{c96edd8f-9482-4a90-b885-5096a41e9f3c}</UniqueIdentifier>

@@ -4,11 +4,14 @@ class SpriteRender;
 //与えられたダメージの種類
 enum EnDamageTypes
 {
-	enBullet,
-	enMissile,
-	enRaser
+	enBullet,		//弾丸ダメージ
+	enMissile,		//ミサイルダメージ
+	enRaser			//レーザーダメージ（未実装武器種）
 };
 
+/**
+ * @brief 敵のHPを管理、HPバーを生成するクラス
+*/
 class EnemyHP : public IGameObject
 {
 private:
@@ -18,7 +21,7 @@ private:
 
 	int m_enemyHP = 100;					//敵のHP
 	bool m_isTargeted = false;				//ターゲットされている時だけHPバーをだす
-	bool m_isEnemyDead = false;					//この敵は倒されたか
+	bool m_isEnemyDead = false;				//この敵は倒されたか
 public:
 	/**
 	 * @brief コンストラクタ
