@@ -1,0 +1,7 @@
+ゲーム全体のソリューション
+	GameTemplate内のGame.sln
+
+ゲームに関するソースコード
+	GameTemplate/Game内
+
+	→ExEngineとMiniEngineは学校内製ゲームエンジンです。

@@ -1,0 +1,1 @@
+MakeSpriteFont.exe "マキナス 4 Square" testfont.spritefont /FontSize:32

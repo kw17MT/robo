@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyPortfolio.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<Title>私のポートフォリオ_SkySentinel</Title>
+<h1 id="%E8%87%AA%E5%B7%B1%E7%B4%B9%E4%BB%8B">自己紹介</h1>
+<ul>
+<li>
+<h3 id="%E6%B0%8F%E5%90%8D">氏名</h3>
+<p>黒川　聖人（くろかわ　まさと）</p>
+</li>
+<li>
+<h3 id="%E6%89%80%E5%B1%9E">所属</h3>
+<p>河原電子ビジネス専門学校　ゲームクリエイター科　2年</p>
+</li>
+</ul>
+<br>
+<h1 id="%E5%88%B6%E4%BD%9C%E3%82%BF%E3%82%A4%E3%83%88%E3%83%AB">制作タイトル</h1>
+<ul>
+<li>
+<h3 id="skysentinel"><strong>SkySentinel</strong></h3>
+  <br>
+</li>
+</ul>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9GFbv9-XOCE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<br>
+<h1 id="%E7%9B%AE%E6%AC%A1">目次</h1>
+<ol>
+<li>
+<h3 id="%E3%82%B2%E3%83%BC%E3%83%A0%E6%A6%82%E8%A6%81"><a href="#Summary"><strong>ゲーム概要</strong></a></h3>
+</li>
+<li>
+<h3 id="%E6%8B%85%E5%BD%93%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89"><a href="#SourceCode"><strong>担当ソースコード</strong></a></h3>
+</li>
+<li>
+<h3 id="%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E6%94%B9%E9%80%A0%E7%AE%87%E6%89%80"><a href="#Modify"><strong>ゲームエンジンの改造箇所</strong></a></h3>
+</li>
+<li>
+<h3 id="%E6%93%8D%E4%BD%9C%E8%AA%AC%E6%98%8E"><a href="#Operation"><strong>操作説明</strong></a></h3>
+</li>
+<li>
+<h3 id="%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F%E5%86%85%E5%AE%B9%E3%83%BB%E6%8A%80%E8%A1%93"><a href="#Implement"><strong>実装した内容・技術</strong></a></h3>
+<ol>
+<li>
+<h3 id="%E8%A2%AB%E5%86%99%E7%95%8C%E6%B7%B1%E5%BA%A6"><a href="#DepthInView"><strong>被写界深度</strong></a></h3>
+</li>
+<li>
+<h3 id="%E3%83%AC%E3%83%B3%E3%82%BA%E3%82%B4%E3%83%BC%E3%82%B9%E3%83%88"><a href="#LensGhost"><strong>レンズゴースト</strong></a></h3>
+</li>
+<li>
+<h3 id="%E3%82%B9%E3%83%97%E3%83%A9%E3%83%83%E3%83%88%E3%83%9E%E3%83%83%E3%83%97"><a href="#SplatMap"><strong>スプラットマップ</strong></a></h3>
+</li>
+<li>
+<h3 id="%E3%83%A2%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%96%E3%83%A9%E3%83%BC"><a href="#MotionBlur"><strong>モーションブラー</strong></a></h3>
+</li>
+<li>
+<h3 id="%E3%83%A2%E3%83%8E%E3%82%AF%E3%83%AD%E5%8C%96"><a href="#Monochrome"><strong>モノクロ化</strong></a></h3>
+</li>
+</ol>
+</li>
+<li>
+<h3 id="%E3%81%93%E3%81%A0%E3%82%8F%E3%81%A3%E3%81%9F%E7%82%B9%E3%83%BB%E8%8B%A6%E5%8A%B4%E3%81%97%E3%81%9F%E7%82%B9"><a href="#Point"><strong>こだわった点・苦労した点</strong></a></h3>
+</li>
+</ol>
+<br>
+<p><a id = 'Summary'></a></p>
+<h1 id="1-%E3%82%B2%E3%83%BC%E3%83%A0%E6%A6%82%E8%A6%81">1. ゲーム概要</h1>
+<ul>
+<li>DaemonXMachina、ProjectNimbusを参考にした、ロボットフライトシューティングゲームです。<br>
+飛行するロボットを操り、迫りくる敵を撃ち倒していくゲームです。<br>
+ゲームクリア条件は敵を目標数倒すことです。<br>
+ゲームオーバー条件はプレイヤーのHPがなくなるか、戦闘エリア外にでてしまうことです。</li>
+<li>作品のGithubページ<br>
+https://github.com/kw17MT/robo</li>
+<li>
+<h3 id="%E4%BD%BF%E7%94%A8%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3">使用ゲームエンジン</h3>
+改造した学校ゲームエンジン</li>
+<li>
+<h3 id="%E4%BD%BF%E7%94%A8%E8%A8%80%E8%AA%9E">使用言語</h3>
+C++</li>
+<li>
+<h3 id="%E4%BD%BF%E7%94%A8%E3%83%84%E3%83%BC%E3%83%AB">使用ツール</h3>
+Visual Studio 2019<br>
+Effekseer<br>
+3DSMax<br>
+Adobe Photoshop Elements<br>
+RenderDoc</li>
+<li>
+<h3 id="%E4%BD%BF%E7%94%A8%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA">使用ライブラリ</h3>
+DirectXTK</li>
+<li>
+<h3 id="%E7%92%B0%E5%A2%83">環境</h3>
+Windows10<br>
+DirectX12</li>
+<li>
+<h3 id="%E5%88%B6%E4%BD%9C%E4%BA%BA%E6%95%B0">制作人数</h3>
+1人</li>
+<li>
+<h3 id="%E5%88%B6%E4%BD%9C%E6%9C%9F%E9%96%93">制作期間</h3>
+2021年9月中旬～現在
+<br><br></li>
+</ul>
+<p><a id = 'SourceCode'></a></p>
+<h1 id="2-%E6%8B%85%E5%BD%93%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89">2. 担当ソースコード</h1>
+<details><summary>ゲーム部分</summary><div>
+<ul>
+<li>
+<h4 id="aftergameoversceneh">AfterGameOverScene.h</h4>
+</li>
+<li>
+<h4 id="aftergameoverscenecpp">AfterGameOverScene.cpp</h4>
+</li>
+<li>
+<h4 id="ammogaugeh">AmmoGauge.h</h4>
+</li>
+<li>
+<h4 id="ammogaugecpp">AmmoGauge.cpp</h4>
+</li>
+<li>
+<h4 id="bulleth">Bullet.h</h4>
+</li>
+<li>
+<h4 id="bulletcpp">Bullet.cpp</h4>
+</li>
+<li>
+<h4 id="calculationh">Calculation.h</h4>
+</li>
+<li>
+<h4 id="calculationcpp">Calculation.cpp</h4>
+</li>
+<li>
+<h4 id="cameramoveh">CameraMove.h</h4>
+</li>
+<li>
+<h4 id="cameramovecpp">CameraMove.cpp</h4>
+</li>
+<li>
+<h4 id="capturedsquareiconh">CapturedSquareIcon.h</h4>
+</li>
+<li>
+<h4 id="capturedsquareiconcpp">CapturedSquareIcon.cpp</h4>
+</li>
+<li>
+<h4 id="capturestatemanagerh">CaptureStateManager.h</h4>
+</li>
+<li>
+<h4 id="capturestatemanagercpp">CaptureStateManager.cpp</h4>
+</li>
+<li>
+<h4 id="clearteloph">ClearTelop.h</h4>
+</li>
+<li>
+<h4 id="cleartelopcpp">ClearTelop.cpp</h4>
+</li>
+<li>
+<h4 id="crossiconh">CrossIcon.h</h4>
+</li>
+<li>
+<h4 id="crossiconcpp">CrossIcon.cpp</h4>
+</li>
+<li>
+<h4 id="displaydistanceh">DisplayDistance.h</h4>
+</li>
+<li>
+<h4 id="displaydistancecpp">DisplayDistance.cpp</h4>
+</li>
+<li>
+<h4 id="eliminateteloph">EliminateTelop.h</h4>
+</li>
+<li>
+<h4 id="eliminatetelopcpp">EliminateTelop.cpp</h4>
+</li>
+<li>
+<h4 id="enemyh">Enemy.h</h4>
+</li>
+<li>
+<h4 id="enemycpp">Enemy.cpp</h4>
+</li>
+<li>
+<h4 id="enemyattackh">EnemyAttack.h</h4>
+</li>
+<li>
+<h4 id="enemyattackcpp">EnemyAttack.cpp</h4>
+</li>
+<li>
+<h4 id="enemybrainh">EnemyBrain.h</h4>
+</li>
+<li>
+<h4 id="enemybraincpp">EnemyBrain.cpp</h4>
+</li>
+<li>
+<h4 id="enemygeneratorh">EnemyGenerator.h</h4>
+</li>
+<li>
+<h4 id="enemygeneratorcpp">EnemyGenerator.cpp</h4>
+</li>
+<li>
+<h4 id="enemyhph">EnemyHP.h</h4>
+</li>
+<li>
+<h4 id="enemyhpcpp">EnemyHP.cpp</h4>
+</li>
+<li>
+<h4 id="enemyicononraderh">EnemyIconOnRader.h</h4>
+</li>
+<li>
+<h4 id="enemyicononradercpp">EnemyIconOnRader.cpp</h4>
+</li>
+<li>
+<h4 id="enemymachingunh">EnemyMachingun.h</h4>
+</li>
+<li>
+<h4 id="enemymachinguncpp">EnemyMachingun.cpp</h4>
+</li>
+<li>
+<h4 id="enemymoveh">EnemyMove.h</h4>
+</li>
+<li>
+<h4 id="enemymovecpp">EnemyMove.cpp</h4>
+</li>
+<li>
+<h4 id="enemyrepopmanagerh">EnemyRepopManager.h</h4>
+</li>
+<li>
+<h4 id="enemyrepopmanagercpp">EnemyRepopManager.cpp</h4>
+</li>
+<li>
+<h4 id="enemyrotationh">EnemyRotation.h</h4>
+</li>
+<li>
+<h4 id="enemyrotationcpp">EnemyRotation.cpp</h4>
+</li>
+<li>
+<h4 id="enemyspawnpointh">EnemySpawnPoint.h</h4>
+</li>
+<li>
+<h4 id="enemyspawnpointcpp">EnemySpawnPoint.cpp</h4>
+</li>
+<li>
+<h4 id="enemystateiconh">EnemyStateIcon.h</h4>
+</li>
+<li>
+<h4 id="enemystateiconcpp">EnemyStateIcon.cpp</h4>
+</li>
+<li>
+<h4 id="fadeh">Fade.h</h4>
+</li>
+<li>
+<h4 id="fadecpp">Fade.cpp</h4>
+</li>
+<li>
+<h4 id="fontrenderh">FontRender.h</h4>
+</li>
+<li>
+<h4 id="fontrendercpp">FontRender.cpp</h4>
+</li>
+<li>
+<h4 id="gameh">Game.h</h4>
+</li>
+<li>
+<h4 id="gamecpp">Game.cpp</h4>
+</li>
+<li>
+<h4 id="gamedirectorh">GameDirector.h</h4>
+</li>
+<li>
+<h4 id="gamedirectorcpp">GameDirector.cpp</h4>
+</li>
+<li>
+<h4 id="groundh">Ground.h</h4>
+</li>
+<li>
+<h4 id="groundcpp">Ground.cpp</h4>
+</li>
+<li>
+<h4 id="launchpadh">LaunchPad.h</h4>
+</li>
+<li>
+<h4 id="launchpadcpp">LaunchPad.cpp</h4>
+</li>
+<li>
+<h4 id="launchsceneh">LaunchScene.h</h4>
+</li>
+<li>
+<h4 id="launchscenecpp">LaunchScene.cpp</h4>
+</li>
+<li>
+<h4 id="lightmanagerh">LightManager.h</h4>
+</li>
+<li>
+<h4 id="lightmanagercpp">LightManager.cpp</h4>
+</li>
+<li>
+<h4 id="machingunh">Machingun.h</h4>
+</li>
+<li>
+<h4 id="machinguncpp">Machingun.cpp</h4>
+</li>
+<li>
+<h4 id="maincpp">main.cpp</h4>
+</li>
+<li>
+<h4 id="missileh">Missile.h</h4>
+</li>
+<li>
+<h4 id="missilecpp">Missile.cpp</h4>
+</li>
+<li>
+<h4 id="missilegeneratorh">MissileGenerator.h</h4>
+</li>
+<li>
+<h4 id="missilegeneratorcpp">MissileGenerator.cpp</h4>
+</li>
+<li>
+<h4 id="missiletargeticonh">MissileTargetIcon.h</h4>
+</li>
+<li>
+<h4 id="missiletargeticoncpp">MissileTargetIcon.cpp</h4>
+</li>
+<li>
+<h4 id="objectiveenemynumh">ObjectiveEnemyNum.h</h4>
+</li>
+<li>
+<h4 id="objectiveenemynumcpp">ObjectiveEnemyNum.cpp</h4>
+</li>
+<li>
+<h4 id="playerh">Player.h</h4>
+</li>
+<li>
+<h4 id="playercpp">Player.cpp</h4>
+</li>
+<li>
+<h4 id="playeranimationh">PlayerAnimation.h</h4>
+</li>
+<li>
+<h4 id="playeranimationcpp">PlayerAnimation.cpp</h4>
+</li>
+<li>
+<h4 id="playereffecth">PlayerEffect.h</h4>
+</li>
+<li>
+<h4 id="playereffectcpp">PlayerEffect.cpp</h4>
+</li>
+<li>
+<h4 id="playerenh">PlayerEN.h</h4>
+</li>
+<li>
+<h4 id="playerencpp">PlayerEN.cpp</h4>
+</li>
+<li>
+<h4 id="playerhph">PlayerHP.h</h4>
+</li>
+<li>
+<h4 id="playerhpcpp">PlayerHP.cpp</h4>
+</li>
+<li>
+<h4 id="playermoveh">PlayerMove.h</h4>
+</li>
+<li>
+<h4 id="playermovecpp">PlayerMove.cpp</h4>
+</li>
+<li>
+<h4 id="playerrotationh">PlayerRotation.h</h4>
+</li>
+<li>
+<h4 id="playerrotationcpp">PlayerRotation.cpp</h4>
+</li>
+<li>
+<h4 id="raderh">Rader.h</h4>
+</li>
+<li>
+<h4 id="radercpp">Rader.cpp</h4>
+</li>
+<li>
+<h4 id="restrictareah">RestrictArea.h</h4>
+</li>
+<li>
+<h4 id="restrictareacpp">RestrictArea.cpp</h4>
+</li>
+<li>
+<h4 id="reticleh">Reticle.h</h4>
+</li>
+<li>
+<h4 id="reticlecpp">Reticle.cpp</h4>
+</li>
+<li>
+<h4 id="skinmodelrenderh">SkinModelRender.h</h4>
+</li>
+<li>
+<h4 id="skinmodelrendercpp">SkinModelRender.cpp</h4>
+</li>
+<li>
+<h4 id="skycubeh">SkyCube.h</h4>
+</li>
+<li>
+<h4 id="skycubecpp">SkyCube.cpp</h4>
+</li>
+<li>
+<h4 id="spriterenderh">SpriteRender.h</h4>
+</li>
+<li>
+<h4 id="spriterendercpp">SpriteRender.cpp</h4>
+</li>
+<li>
+<h4 id="sunh">Sun.h</h4>
+</li>
+<li>
+<h4 id="suncpp">Sun.cpp</h4>
+</li>
+<li>
+<h4 id="titleh">Title.h</h4>
+</li>
+<li>
+<h4 id="titlecpp">Title.cpp</h4>
+</li>
+<li>
+<h4 id="uih">UI.h</h4>
+</li>
+<li>
+<h4 id="uicpp">UI.cpp</h4>
+</li>
+</ul>
+</div></details>
+<details><summary>ゲームエンジン関係</summary><div>
+<ul>
+<li>
+<h4 id="bloomh">Bloom.h</h4>
+</li>
+<li>
+<h4 id="bloomcpp">Bloom.cpp</h4>
+</li>
+<li>
+<h4 id="defferedlightingh">DefferedLighting.h</h4>
+</li>
+<li>
+<h4 id="defferedlightingcpp">DefferedLighting.cpp</h4>
+</li>
+<li>
+<h4 id="depthinviewh">DepthInView.h</h4>
+</li>
+<li>
+<h4 id="depthinviewcpp">DepthInView.cpp</h4>
+</li>
+<li>
+<h4 id="forwardbloomh">ForwardBloom.h</h4>
+</li>
+<li>
+<h4 id="forwardbloomcpp">ForwardBloom.cpp</h4>
+</li>
+<li>
+<h4 id="fxaah">FXAA.h</h4>
+</li>
+<li>
+<h4 id="fxaacpp">FXAA.cpp</h4>
+</li>
+<li>
+<h4 id="lensghosth">LensGhost.h</h4>
+</li>
+<li>
+<h4 id="lensghostcpp">LensGhost.cpp</h4>
+</li>
+<li>
+<h4 id="monochromeh">Monochrome.h</h4>
+</li>
+<li>
+<h4 id="monochromecpp">Monochrome.cpp</h4>
+</li>
+<li>
+<h4 id="motionblurh">MotionBlur.h</h4>
+</li>
+<li>
+<h4 id="motionblurcpp">MotionBlur.cpp</h4>
+</li>
+<li>
+<h4 id="posteffecth">PostEffect.h</h4>
+</li>
+<li>
+<h4 id="posteffectcpp">PostEffect.cpp</h4>
+</li>
+<li>
+<h4 id="renderingengineh">RenderingEngine.h</h4>
+</li>
+<li>
+<h4 id="renderingenginecpp">RenderingEngine.cpp</h4>
+</li>
+<li>
+<h4 id="shadowh">Shadow.h</h4>
+</li>
+<li>
+<h4 id="shadowcpp">Shadow.cpp</h4>
+</li>
+<li>
+<h4 id="defferedlightingh">DefferedLighting.h</h4>
+</li>
+<li>
+<h4 id="defferedlightingcpp">DefferedLighting.cpp</h4>
+</li>
+<li>
+<h4 id="depthinviewh">DepthInView.h</h4>
+</li>
+<li>
+<h4 id="depthinviewcpp">DepthInView.cpp</h4>
+</li>
+</ul>
+</div></details>
+<details><summary>シェーダー関係</summary><div>
+<ul>
+<li>
+<h4 id="depthinviewfx">depthInView.fx</h4>
+</li>
+<li>
+<h4 id="defferedmodelfx">defferedModel.fx</h4>
+</li>
+<li>
+<h4 id="defferedspritefx">defferedSprite.fx</h4>
+</li>
+<li>
+<h4 id="depthinviewfx">DepthInView.fx</h4>
+</li>
+<li>
+<h4 id="depthshadowrecieverfx">depthShadowReciever.fx</h4>
+</li>
+<li>
+<h4 id="drawdepthshadowfx">drawDepthShadow.fx</h4>
+</li>
+<li>
+<h4 id="forwardbloomfx">forwardBloom.fx</h4>
+</li>
+<li>
+<h4 id="gaugespritefx">gaugeSprite.fx</h4>
+</li>
+<li>
+<h4 id="groundfx">ground.fx</h4>
+</li>
+<li>
+<h4 id="lensghostfx">LensGhost.fx</h4>
+</li>
+<li>
+<h4 id="monochromefx">monochrome.fx</h4>
+</li>
+<li>
+<h4 id="motionblurfx">MotionBlur.fx</h4>
+</li>
+<li>
+<h4 id="spritefx">sprite.fx</h4>
+</li>
+</ul>
+</div></details>
+<br>
+<p><a id = 'Modify'></a></p>
+<h1 id="3-%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%B3%E3%81%AE%E6%94%B9%E9%80%A0%E7%AE%87%E6%89%80">3. ゲームエンジンの改造箇所</h1>
+<ul>
+<li>レンダリングを管理するクラスを作成し、モデルやエフェクト、UI描画、シャドウ作成、ポストエフェクトの管理を行うようにしました。ディファードレンダリングによるオフスクリーンへの描画を同じインスタンスで行うため、オフスクリーン画像を再利用することで不必要な描画処理を無くすことができました。</li>
+<li>また、フォワードライティングとディファードライティングの両方もここで行っています。<br>
+該当クラス：RenderingEngine.h<br>
+　　　　　：RenderingEngine.cpp<br>
+<br></li>
+</ul>
+<p><a id = 'Operation'></a></p>
+<h1 id="4-%E6%93%8D%E4%BD%9C%E8%AA%AC%E6%98%8E">4. 操作説明</h1>
+<p><img src="https://user-images.githubusercontent.com/54493763/152295506-572d1c9d-6501-4b31-951c-71dbbcef1542.png" alt="Operation"></p>
+<br>
+<p><a id = 'Implement'></a></p>
+<h1 id="5-%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F%E5%86%85%E5%AE%B9%E3%83%BB%E6%8A%80%E8%A1%93">5. <strong>実装した内容・技術</strong></h1>
+<p><a id = 'DepthInView'></a></p>
+<h2 id="i-%E8%A2%AB%E5%86%99%E7%95%8C%E6%B7%B1%E5%BA%A6">i. <strong>被写界深度</strong></h2>
+<p>私のゲームでは、タイトルに被写界深度を適用しています。<br>
+背景にぼかしをいれることで、ロボットに注目させるとともに、アセットの作成とインスタンス生成を削減させることができました。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/152264886-18c869cb-c20e-44e7-93c3-4266d12e4c76.png" alt="Title">
+<br></p>
+<p>今回は、カメラの注視点となるロボットから一定距離離れた場所に被写界深度を掛けるようにしています。<br>
+ディファードレンダリング実行時に得た深度値マップとゲーム画面全体にブラーを掛けたテクスチャを用いて表現します。<br>
+作成過程を以下に記します。</p>
+<p>1.ゲーム画面となるテクスチャにブラーを掛けたテクスチャを作成する。<br>
+メインのゲーム画面を取得し、X座標方向、Y座標方向にガウシアンブラーを掛けます。<br>
+以降の過程でブラーを適用したテクスチャを選択的にゲーム画面に適用していきます。</p>
+<img src="https://user-images.githubusercontent.com/54493763/152267116-489d799a-3a16-4c63-9103-36b8507fdcb3.png" width="49.5%">  
+<img src="https://user-images.githubusercontent.com/54493763/152267114-94815f76-7441-4863-8b4c-b1ffafc36fd0.png" width="49.5%">  
+<br><br><br>
+<p>2.深度値マップから深度値を取得。<br>
+モデル描画時に計算するワールド座標系のZ値を深度値とします。その深度値をこの深度値マップに保存しています。<br>
+<img src="https://user-images.githubusercontent.com/54493763/152264702-55cb1bf0-07cd-41a6-bd81-7c80523a95aa.png" alt="Title_depth"></p>
+<p>このテクスチャから深度値をサンプリングし、正規化デバイス座標のzとして利用します。</p>
+<pre class="hljs"><code><div>NormalizedDeviceCoord.z = Sample(sampler, In.uv).z;  
+</div></code></pre>
+<p>正規化デバイス座標のxy座標について0～1の範囲で書き込まれるUV座標系から、-1～1の範囲で書き込まれる正規化デバイス座標系に変換する。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/152273706-e11399ec-edbf-4615-ab05-27ee93871dc2.png" alt="toNoralizedDevice"></p>
+<pre class="hljs"><code><div>NormalizedDeviceCoord.xy = float2 (uv) * float2(2.0f, -2.0f) + float2(-1.0f, 1.0f);  
+</div></code></pre>
+<p>3.正規化デバイス座標系をワールド座標に変換する。<br>
+定めたxyz座標にプロジェクション逆行列とビュー逆行列を乗算する。<br>
+プロジェクションビュー行列は学校内製エンジンのカメラクラスにあるため、その逆行列を利用します。<br>
+<img src="https://user-images.githubusercontent.com/54493763/152270973-799d6d6e-cde9-4c71-9b94-0c6ddccdc7f5.png" alt="conversion"></p>
+<pre class="hljs"><code><div>NormalizedDeviceCoord.w = 1.0f;
+worldPos = float4x4(ProjectionInverseMatrix) * float4x4(ViewInverseMatrix) * NormalizedDeviceCoord;
+</div></code></pre>
+<p>計算結果のxyz座標をw座標で除算して透視除算を行う。<br>
+透視除算を行うことでカメラに写っていないワールド座標を除外する。</p>
+<pre class="hljs"><code><div>worldPos.xyz = worldPos.w;
+</div></code></pre>
+<p>4.求めたワールド座標からカメラ注視点の座標までの距離を計算する。<br>
+被写界深度を適用したい距離未満のピクセルには被写界深度を起こさないようにする。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/152264704-f520741a-a85f-4dfa-ae15-453d99fdd6dc.png" alt="Title_depthInView"></p>
+<hr>
+<p>参考URL<br>
+深度値と座標系の関係<br>
+https://wgld.org/d/webgl/w069.html<br>
+スクリーン座標からワールド座標に変換する流れ<br>
+https://spphire9.wordpress.com/2013/12/24/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E5%BA%A7%E6%A8%99%E3%81%8B%E3%82%89%E6%8C%87%E5%AE%9A%E3%81%AE%E8%B7%9D%E9%9B%A2%E9%9B%A2%E3%82%8C%E3%81%9F%E3%83%AF%E3%83%BC%E3%83%AB%E3%83%89%E5%BA%A7/<br>
+透視除算<br>
+http://kanamori.cs.tsukuba.ac.jp/lecture/old2017/cg_basics/03/03_slides.pdf
+<br></br></p>
+<p><a id = 'LensGhost'></a></p>
+<h2 id="ii-%E3%83%AC%E3%83%B3%E3%82%BA%E3%82%B4%E3%83%BC%E3%82%B9%E3%83%88">ii. <strong>レンズゴースト</strong></h2>
+<p>このゲームの舞台は夕焼けの山地です。太陽が引き起こすレンズゴーストを表現することで少しでもグラフィック面での強化やゲームの雰囲気がでたらと考え実装しました。
+レンズゴーストが起こる条件を簡単にしらべ、実装のアイデアを下記URLを参考にし、記載されていた実装方法を自分なりに解釈し自分のコードで表現しました。<br>
+作成過程を以下に記します。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/152274446-789f161d-ce82-4db6-aba8-59d7675ac950.png" alt="Exist_Ghost"></p>
+<p>1.レンズゴーストの元となる太陽のみ描画する。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/152274443-d12191c5-c973-4639-9cd0-df3ccbe08df7.png" alt="Sun_low"></p>
+<p>2.ゴースト表現のためにブラーを掛ける。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/152274450-c45db659-7d0c-49d8-bcef-63e0e9c2b8f6.png" alt="Sun_blur"></p>
+<p>レンズゴーストが発生する場所の条件が以下の画像です。<br>
+輝度の高い物体（太陽）から画像の中心へ向かうように発生します。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/152492646-c6ee86ff-32c1-4090-bdfc-5fa15c66057b.png" alt="explain"></p>
+<p>3.全てのピクセルに対して以下の処理をおこなう。<br>
+i)対象ピクセルからUV座標の中心(0.5f,0.5f)へ向かう線分ベクトルを作成する。（P.1)<br>
+ii)線分を短くする。（今回は1/8）<br>
+iii)ピクセルの色をサンプリングする。<br>
+iv)ピクセルから、UV座標中心に向かって短くした線分先の色を取得する。（今回は16回行った。）(P.2)<br>
+v)(i)の線分を半分にする。(P.3)<br>
+vi)ピクセルから、UV座標中心の逆に向かって短くした線分先の色を取得する。（今回は4回行った。）<br>
+vii)UV座標の外まで色を取りに行こうとしたとき、サンプリングは行わない。(P.4)</p>
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQabxLmAW9PY2JeV8s2VVI-TVVJ9WnUsfTl2H5wtNblPWPED4doPYaBP9ibZr5GjKebyQa_pDj6cXZE/embed?start=false&loop=false&delayms=60000" frameborder="0" width="800" height="600" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+<br><br>
+<p>4.ゲーム画面に加算合成する。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/152281935-74ad3468-4ddb-455f-b0cc-ecb2cf1b3cbb.png" alt="Add"></p>
+<hr>
+<p>参考URL
+レンズゴースト　実装アイデアの参考<br>
+https://hikita12312.hatenablog.com/entry/2017/12/09/191556<br>
+レンズゴーストが起きる条件<br>
+http://nijikarasu.cocolog-nifty.com/blog/2014/10/post-b840.html</p>
+<p><br></br></p>
+<p><a id = 'SplatMap'></a></p>
+<h2 id="iii-%E3%82%B9%E3%83%97%E3%83%A9%E3%83%83%E3%83%88%E3%83%9E%E3%83%83%E3%83%97">iii. <strong>スプラットマップ</strong></h2>
+<p>このゲームの地面は、スプラットマップを利用してテクスチャを局所的に変更しています。<br>
+まず、起伏生成には1枚のノイズ画像と3dsMaxの機能のディスプレイスメントマッピングを利用しています。<br>
+<img src="https://user-images.githubusercontent.com/54493763/152283903-4286630f-3528-4880-a0a1-cb6160756e6d.gif" alt="SplatMap">
+<br></p>
+<p>使用したノイズ画像の上に起伏が高く出そうな部分、そうでない部分で赤、緑、青で色分けしたスプラットマップを用意します。</p>
+<img src="https://user-images.githubusercontent.com/54493763/152285516-9c170f62-5469-482b-9c0a-a8c6bff9c67e.png" width="49.5%">  
+<img src="https://user-images.githubusercontent.com/54493763/152285510-80c1d0e0-aafc-4c25-9609-d5fc9f589807.png" width="49.5%">  
+<p>スプラットマップをシェーダー上で参照して、そのテクセルが赤色ならば砂地、緑色ならば草地、青色ならば雪原をピクセルに適用し、使用するテクスチャを切り替えています。</p>
+<pre class="hljs"><code><div>float4 returnColor = SplatMap.r * SandTexture + SplatMap.g * GrassTexture + SplatMap.b * SnowTexture;
+</div></code></pre>
+<p><img src="https://user-images.githubusercontent.com/54493763/152290059-f433da82-d564-4702-a808-aa7654f91dfb.png" alt="result"></p>
+<p><br></br></p>
+<p><a id = 'MotionBlur'></a></p>
+<h2 id="iv-%E3%83%A2%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%96%E3%83%A9%E3%83%BC">iv. <strong>モーションブラー</strong></h2>
+<p>ゲーム画面にスピード感を持たせたかったため、モーションブラーを実装しました。特にカメラを振った時や、プレイヤーと敵がすれ違う時に現れます。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/152328131-55bff12e-8d70-47da-902b-b4e71d9da723.png" alt="MotionBlur"></p>
+<p>モデル描画時にベロシティマップを作成します。1フレーム前のビュープロジェクション行列と現在のビュープロジェクション行列、1フレーム前のワールド座標行列をもちいて、シェーダー内で1フレーム前のスクリーン座標と現在のスクリーン座標を計算し、その差をテクスチャとして書き出します。<br>
+作成過程を以下に記します。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/152345978-35314055-c35c-4e32-a350-4b7d43e0cb38.png" alt="intro"></p>
+<p>1.ベロシティマップの作成<br>
+i)モデル定数バッファにワールド座標の逆行列、1フレーム前のプロジェクションビュー行列、同行列の逆行列、1フレーム前のワールド座標の行列を設定する。<br>
+ii)頂点シェーダー内で現在のスクリーン座標と1フレーム前のスクリーン座標を計算する。<br>
+iii)ピクセルシェーダー内でモデルのスクリーン上の1フレーム前の座標と現在の座標を計算する。</p>
+<pre class="hljs"><code><div>float4 prevPosInScreen = mul(prevViewProjMatrix, float4(psIn.prevWorldPos, 1.0f));  
+float4 currentPosInScreen = mul(currentViewProjMatrix,float4(psIn.worldPos.xyz, 1.0f));  
+</div></code></pre>
+<p>iv).両方の座標の差を計算し、速度を求めベロシティマップに書き込む。</p>
+<pre class="hljs"><code><div>float4 Velocity = currentPosInScreen - prevPosInScreen;  
+</div></code></pre>
+<p><img src="https://user-images.githubusercontent.com/54493763/152345979-d609e75f-d186-4055-883e-193887ba5dec.png" alt="conversion"><br>
+<br><br></p>
+<p>実際に作成したベロシティマップの各要素が下記の通り確認できました。<br>
+<img src="https://user-images.githubusercontent.com/54493763/152353358-8c55a8b6-b8fb-421f-89d3-d2af01dd36c5.png" alt="compare"></p>
+<p>2.速度とその向き応じてピクセルに色を加算する<br>
+作成したベロシティマップを参照し、速度をサンプリングします。<br>
+速度がある場合、その向きに向かってサンプリングする際のUV座標をずらして色を取得します。</p>
+<pre class="hljs"><code><div>float4 velocity = velocityMap.Sample(Sampler, uv);
+for (int i = 0; i &lt; SamplingNum; i++)
+{        
+    returnColor += gameTexture.Sample(Sampler, In.uv + (velocity.xy) * i) * weight;
+}    
+finalColor.w = 1.0f;
+</div></code></pre>
+<img src="https://user-images.githubusercontent.com/54493763/152354516-6ddff47d-8a00-4425-a983-33e9c42994b6.png" width="49.5%">   
+<img src="https://user-images.githubusercontent.com/54493763/152354528-86bd7265-46ee-4193-9114-3c2a7abe3015.png" width="49.5%">   
+<hr>
+<p>参考URL<br>
+https://hikita12312.hatenablog.com/entry/2017/12/21/212641</p>
+<p><br></br></p>
+<p><a id = 'Monochrome'></a></p>
+<h2 id="v-%E3%83%A2%E3%83%8E%E3%82%AF%E3%83%AD%E5%8C%96">v. <strong>モノクロ化</strong></h2>
+<p>プレイヤーのHPが低下した時、戦闘エリアの外に出ようとしている時、UI以外のゲーム画面にモノクロ化を施しています。<br>
+プレイヤーに危険が迫っている事を知らせる役割をしています。
+エリアでの判定では、エリア圏内にいるかどうかでモノクロ化の制御を行っています。
+HPでの判定では、プレイヤーの残りHP割合に応じて段々とモノクロ化するようにしています。
+実装に関しては、UIが入っていないゲーム画面テクスチャを対象に色要素RGBにITU-R Rec BT.601規格のグレースケールを使用しています。<br>
+残りHPの割合に応じてモノクロ化させたい度合いに変化を持たせたいため各色にC++側で指定したモノクロ率を掛け合わせています。</p>
+<pre class="hljs"><code><div>float Color = (0.299f * R * monochromeRate) + (0.587f * G * monochromeRate)+ (0.114f * B * monochromeRate);
+</div></code></pre>
+<img src="https://user-images.githubusercontent.com/54493763/152290677-ea5aa3b2-d73b-43bb-ac28-744a80dea214.png" width="49.5%">  
+<img src="https://user-images.githubusercontent.com/54493763/152290683-3b4fa367-02b5-48f3-8c38-6364e3e3b3ec.png" width="49.5%">  
+<hr>
+<p>参考URL<br>
+グレースケール<br>
+https://qiita.com/yoya/items/96c36b069e74398796f3</p>
+<p><br></br></p>
+<p><a id = 'Point'></a></p>
+<h1 id="6-%E3%81%93%E3%81%A0%E3%82%8F%E3%81%A3%E3%81%9F%E7%82%B9%E3%83%BB%E8%8B%A6%E5%8A%B4%E3%81%97%E3%81%9F%E7%82%B9">6. こだわった点・苦労した点</h1>
+<h2 id="i-%E3%82%BF%E3%82%A4%E3%83%88%E3%83%AB%E7%94%BB%E9%9D%A2%E4%B8%AD%E3%81%AE%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88%E8%A6%B3%E8%A6%A7">i. タイトル画面中のロボット観覧</h2>
+<p>タイトル画面は画像ではなく、ドックにロボットが待機している状態にし、コントローラー入力で角度を変えてロボットを見ることができます。自分が操作する機体をじっくりと観察することで愛着がわくのではないかと考えました。<br>
+おまけ要素ではありますが、整備員をあまり目立たないところに立たせてみました。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/152270489-fd688067-de21-4d5f-a9a6-bb8b9c8ceea5.gif" alt="Title"></p>
+<h2 id="ii-%E5%87%BA%E6%92%83%E6%99%82%E3%81%AE%E6%BC%94%E5%87%BA">ii. 出撃時の演出</h2>
+<p>待機していたドックからの出撃をイメージして制作しました。<br>
+カメラの位置を変え、射出口をプレイヤーに見せるシーン。ロボットのエンジン起動（バーニア噴射）シーン。出撃シーンと遷移していくように制作しました。<br>
+エンジン起動シーンではバーニアエフェクトをわざと大きくさせて目立たせ、噴射の影響でじわじわと前進してしまう様子を表現しています。<br>
+出撃シーンではロボットを一気に射出させるとともに、太陽光も相まってすぐさま遠くに行ってしまうように見せています。</p>
+<h2 id="iii-%E7%A7%BB%E5%8B%95%E6%99%82%E3%81%AE%E3%83%97%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%81%A8%E3%82%AB%E3%83%A1%E3%83%A9%E3%81%AE%E4%BD%8D%E7%BD%AE%E9%96%A2%E4%BF%82">iii. 移動時のプレイヤーとカメラの位置関係</h2>
+<p>プレイヤーが右に移動すると、画面上でも右に寄らせたり、上昇したならば、上方向にずらして描画したりしています。<br>
+特にダッシュを行った直後は著しく画面端によせてスピード感がでるように工夫を施しました。<br>
+単純にプレイヤーの背後を追いかけるカメラと比べると、どちらに移動しているのか分かりやすい効果が生まれていると思います。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/152270475-6733f499-5c4d-4c3d-95bc-c62f969ee9f5.gif" alt="Dash"></p>
+<h2 id="iv-uv%E3%82%B9%E3%82%AF%E3%83%AD%E3%83%BC%E3%83%AB">iv. uvスクロール</h2>
+<p>プレイヤーのHPバー、エネルギーバーに半透明な画像を走らせて装飾を施しています。<br>
+シェーダーに装飾用画像を送り、UV座標をサンプリングする際のオフセット値をC++側から送り制御できるようにしています。<br>
+バーを直置きしている時と比較すると存在感が増し、デザインも向上したのではないかと感じています。</p>
+<h2 id="v-%E5%B0%84%E6%92%83%E6%99%82%E3%81%AE%E3%83%A9%E3%82%A4%E3%83%88">v. 射撃時のライト</h2>
+<p>マシンガンを打つ際、マシンガンからプレイヤーに向けてオレンジ色のスポットライトを点滅させるようにしています。<br>
+銃口のノズルフラッシュの影響を受けているイメージで実装しました。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/152269460-5537e1cd-c109-4704-b94a-4df02c47ee0d.gif" alt="MuzzleFlash"></p>
+<h2 id="vi-%E6%95%B5%E3%81%AE%E7%A7%BB%E5%8B%95">vi. 敵の移動</h2>
+<p>敵の移動を実装するにあたり、不自然さがなくかつ単調になり過ぎないように心がけて実装しました。<br>
+このゲームの参考にした作品を観察し、コードに落とし込みました。<br>
+敵の基本的な動き方としてはプレイヤーに迫ってくるように移動します。プレイヤーに十分に接近後、または近づきすぎている状況下でプレイヤーの背後をとるか、そのまま攻撃し続けるか、いったん距離を離すかの行動をとります。</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/YGS_vvFTOBE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h2 id="vii-%E3%82%B9%E3%83%97%E3%83%A9%E3%82%A4%E3%83%88%E3%81%AE%E8%89%B2%E5%A4%89%E5%8C%96">vii. スプライトの色変化</h2>
+<p>プレイヤーが場外に出てしまいそうなとき、戦闘エリアに戻るように促す画像に工夫を加えました。<br>
+極力目立つように生成していますが、事の重大さを伝えるために、シェーダー側で画像の色を周期的に変化させています。こちらもC++側で色の変化の度合いを送り、色を変更させるような作りにしています。</p>
+<p><img src="https://user-images.githubusercontent.com/54493763/152269465-dd640313-decf-458f-921e-95e811a6400c.gif" alt="Notice"></p>
+
+</body>
+</html>
