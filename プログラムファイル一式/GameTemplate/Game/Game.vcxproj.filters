@@ -408,6 +408,30 @@
       <Filter>AboutRendering\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="MissileBallistic.cpp" />
+    <ClCompile Include="EnemyStateParam.cpp">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMoveState.cpp">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyApproachState.cpp">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyStayState.cpp">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyDashState.cpp">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAroundState.cpp">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBehindState.cpp">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBackState.cpp">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -843,6 +867,30 @@
       <Filter>AboutRendering\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="MissileBallistic.h" />
+    <ClInclude Include="EnemyStateParam.h">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMoveState.h">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyApproachState.h">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyStayState.h">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDashState.h">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAroundState.h">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBehindState.h">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBackState.h">
+      <Filter>Object\Enemy\MoveStateMachine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI,Sprite">
@@ -904,6 +952,9 @@
     </Filter>
     <Filter Include="Scene">
       <UniqueIdentifier>{df6155a5-33b5-490d-a030-60723b5f9316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Enemy\MoveStateMachine">
+      <UniqueIdentifier>{33210e2f-4744-405e-8df4-859122ca250e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
